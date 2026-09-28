@@ -30,7 +30,7 @@ from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from reboot.aio.headers import TRACEPARENT_HEADER, TRACESTATE_HEADER, Headers
 from reboot.aio.once import Once
-from reboot.aio.signals import install_cleanup
+from reboot.aio.signals import install_cleanup_handler
 from reboot.run_environments import application_name
 from reboot.settings import ENVVAR_REBOOT_NODEJS, ENVVAR_REBOOT_TRACE_LEVEL
 from typing import Any, AsyncIterator, Callable, Optional
@@ -145,7 +145,7 @@ def _start(process_name: str):
 
     # Servers while being shut down (e.g. at the end of tests)
     # should flush their traces.
-    install_cleanup([signal.SIGTERM], force_flush_and_shutdown)
+    install_cleanup_handler([signal.SIGTERM], force_flush)
 
 
 # We're using a global here because we only want to initialize the

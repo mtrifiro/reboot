@@ -197,7 +197,7 @@ class DockerLocalEnvoy(LocalEnvoy):
                     stderr=subprocess.DEVNULL,
                 )
 
-        with signals.cleanup_on_raise(
+        with signals.cleanup_handler_installed(
             [signal.SIGTERM, signal.SIGQUIT],
             handler=stop_on_sigterm_sigquit_exception,
         ):

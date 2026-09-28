@@ -12,30 +12,16 @@ def main():
         import os
         import platform
         import reboot.aio.tracing
-        import signal
         import sys
+        from reboot.aio.signals import (
+            TERMINATING_SIGNALS,
+            initialize,
+            install_cleanup_handler,
+            raise_with_default_action,
+            raised_signal,
+        )
         from reboot.cli.common.cli import cli
 
-        reboot.aio.tracing.start("reboot cli")
-
-        handling_keyboard_interrupt = False
-
-        def signal_handler(sig, frame):
-            nonlocal handling_keyboard_interrupt
-            if handling_keyboard_interrupt:
-                try:
-                    # Don't print an exception and stack trace if the user does
-                    # another Ctrl-C.
-                    sys.exit(sig)
-                except SystemExit:
-                    pass
-            else:
-                handling_keyboard_interrupt = True
-                asyncio.get_event_loop().stop()
-
-                raise KeyboardInterrupt
-
-        signal.signal(signal.SIGINT, signal_handler)
         # We ignore _known_ warnings from
         # `multiprocessing.resource_tracker` that we know are harmless so
         # that we don't spam stdout. See #2793.
@@ -63,11 +49,41 @@ def main():
                 "is important for you!"
             )
             sys.exit(1)
-        returncode = asyncio.run(cli())
+
+        async def cancellable_cli() -> int:
+            # Reboot's signal handler runs the cleanup handlers of the
+            # first signal that would kill us without re-raising it, and
+            # ours cancels `cli()`, so that its cleanup context managers
+            # terminate the subprocesses it started.
+            initialize(TERMINATING_SIGNALS, reraise=False)
+
+            # Only now, since tracing installs a cleanup handler, which
+            # would otherwise fix Reboot's signal handler to re-raise.
+            reboot.aio.tracing.start("reboot cli")
+
+            task = asyncio.current_task()
+            assert task is not None
+
+            def cancel_cli() -> None:
+                task.cancel()
+
+            install_cleanup_handler(TERMINATING_SIGNALS, cancel_cli)
+            return await cli()
+
+        try:
+            returncode = asyncio.run(cancellable_cli())
+        finally:
+            # Only now that `cli()` has finished, however it finished,
+            # does the signal that cancelled it take its default action.
+            # A cancellation without a signal behind it is a bug, which
+            # propagates as a traceback.
+            signum = raised_signal()
+            if signum is not None:
+                raise_with_default_action(signum)
         sys.exit(returncode)
     except KeyboardInterrupt:
-        # Don't print an exception and stack trace if the user does a
-        # Ctrl-C.
+        # A Ctrl-C before `initialize()` took over SIGINT, i.e., during
+        # the imports above: exit without a stack trace.
         import sys
         sys.exit(2)
 
