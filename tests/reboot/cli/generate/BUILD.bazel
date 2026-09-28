@@ -101,6 +101,13 @@ py_test(
 )
 
 py_test(
+    name = "pydantic_shared_models_tests_py",
+    srcs = ["pydantic_shared_models.py"],
+    main = "pydantic_shared_models.py",
+    deps = [":tests_helper"],
+)
+
+py_test(
     name = "wrong_package_specified_tests_py",
     srcs = ["wrong_package_specified.py"],
     main = "wrong_package_specified.py",
