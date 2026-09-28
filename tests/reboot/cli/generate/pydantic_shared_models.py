@@ -91,6 +91,21 @@ class RbtGenerateTestCase(RbtGenerateBaseTestCase):
                 working_directory=root,
             )
 
+            # The generated Python code names each error by its module
+            # and class, e.g., `shared.errors.NotFoundError`, so it
+            # must import the module defining a shared error. (Under
+            # Bazel every module shares the top-level `tests` package,
+            # which the `_pb2` imports bind, hiding a missing import.)
+            for api_rbt in ['bank/v1/bank_rbt.py', 'store/v1/store_rbt.py']:
+                async with aiofiles.open(
+                    os.path.join(root, 'backend_out', api_rbt)
+                ) as file:
+                    python = await file.read()
+                self.assertIn('shared.errors.NotFoundError', python)
+                self.assertIn('\nimport shared.errors\n', python)
+                # A file without any `Model` is never imported.
+                self.assertNotIn('shared.helper', python)
+
             for output_directory in ['web_out', 'react_out']:
                 output_directory = os.path.join(root, output_directory)
 

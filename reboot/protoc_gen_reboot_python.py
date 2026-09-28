@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import ast
 import os
 import re
 import reboot.aio.tracing
@@ -206,7 +207,8 @@ class PythonRebootProtocPlugin(RebootProtocPlugin):
                 ) for client in file.clients
             ],
             reboot_version=file.reboot_version,
-            imports=self._analyze_imports(file.proto._descriptor),
+            imports=self._analyze_imports(file.proto._descriptor) |
+            self._analyze_pydantic_imports(file.proto._descriptor),
             pb2_name=self._pb2_module_name(file.proto._descriptor),
         )
 
@@ -443,6 +445,56 @@ class PythonRebootProtocPlugin(RebootProtocPlugin):
             imports = imports.union(cls._analyze_imports(dependency))
 
         return imports
+
+    @classmethod
+    def _analyze_pydantic_imports(cls, file: FileDescriptor) -> set[str]:
+        """Return the set of modules that define the Pydantic models
+        which the file's `pydantic_type` field options name.
+
+        Those options spell a model by its module and class, e.g.,
+        `shared.errors.NotFoundError`, and the generated code uses them
+        verbatim as Python expressions. A model defined in a file other
+        than the API file, e.g., an error type shared between APIs, is
+        only reachable that way once its module is imported.
+
+        Used only when generating from Pydantic APIs.
+        """
+        modules: set[str] = set()
+
+        def collect(node: ast.AST) -> None:
+            if isinstance(node, ast.Attribute):
+                # Take the whole dotted name, e.g.,
+                # `shared.errors.NotFoundError`, rather than also
+                # each of its prefixes.
+                parts = [node.attr]
+                value = node.value
+                while isinstance(value, ast.Attribute):
+                    parts.append(value.attr)
+                    value = value.value
+                if (
+                    isinstance(value, ast.Name) and
+                    # Our own imports, e.g., `IMPORT_typing`, are
+                    # already in place.
+                    not value.id.startswith('IMPORT_')
+                ):
+                    parts.append(value.id)
+                    modules.add('.'.join(reversed(parts[1:])))
+                return
+            for child in ast.iter_child_nodes(node):
+                collect(child)
+
+        def visit(message: Descriptor) -> None:
+            for field in message.fields:
+                pydantic_type = get_field_options(field).pydantic_type
+                if pydantic_type:
+                    collect(ast.parse(pydantic_type, mode='eval'))
+            for nested_message in message.nested_types:
+                visit(nested_message)
+
+        for message in file.message_types_by_name.values():
+            visit(message)
+
+        return modules
 
     @classmethod
     def _analyze_has_non_none_request_or_response(
