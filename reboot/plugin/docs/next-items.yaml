@@ -251,6 +251,20 @@ layers:
         fork: [skills/web-app/SKILL.md]
         target: [skills/web-app/SKILL.md, skills/mcp-ui/SKILL.md]
         status: to do
+      - id: provider-at-deploy
+        title: Ask for the production sign-in provider at deploy, not at design
+        why: >-
+          hotel-7 on main asked for the production provider in its first
+          round of questions, a fourth question hotel-6 never asked. Main's
+          skills say to choose it before real users exist, and the build read
+          that as before the design. In development the provider is always
+          the built-in account picker, and main's own setup is prod=None until
+          one is chosen, so the choice belongs to the deploy skill. The design
+          says prod=None and names the choice in one line, as hotel-6 did.
+          Noted 2026-10-12, to do after hotel-7.
+        fork: []
+        target: [skills/web-app/SKILL.md, skills/mcp-ui/SKILL.md, skills/deploy/SKILL.md]
+        status: to do
       - id: vite-pins
         title: Version pins for the frontend shell
         why: npm create vite now emits React 19 and TypeScript 6.
