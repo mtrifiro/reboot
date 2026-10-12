@@ -25,6 +25,7 @@ ceilings:
 # The Next page's two boxes, in plain English: what this project is, and
 # where it stands. Blocks in `about` are separated by a blank line: a
 # heading (`## ` or `### `), a list (lines starting `- `), or a paragraph.
+# `strategy` is the side column beside About, in the same blocks.
 # Keep `done` and `next` current, and `updated` with them. Each next
 # step says why it comes now.
 updated: 2026-10-12
@@ -32,19 +33,19 @@ updated: 2026-10-12
 about: |
   ## What this is
 
-  The Reboot plugin teaches Claude how to build an app on Reboot: what to ask, how to design the domain model, which Reboot rules to follow, and how to test and run the result. Upstream ships it as part of Reboot. For several weeks a fork of it, the `ia-restructure` branch of reboot-plugin, gathered what real builds taught: hundreds of findings, corrections to what the skills say about Reboot, templates, guard hooks, checks, and a much more scripted conversation.
+  The Reboot plugin teaches Claude how to build an app on Reboot: what to ask, how to design the domain model, which Reboot rules to follow, and how to test and run the result. Upstream ships it as part of Reboot. For several weeks a fork of it, the [`ia-restructure`](https://github.com/mtrifiro/reboot-plugin/tree/ia-restructure) branch of reboot-plugin, gathered what real builds taught: [hundreds of findings](/kind/finding), corrections to what the skills say about Reboot, templates, guard hooks, checks, and a much more scripted conversation.
 
   ## Why it is being rebuilt
 
-  A full build on the shipped plugin, 1.6.0 (hotel-6, in the Claude app), showed what the fork had lost. 1.6.0 asked 3 questions, showed the whole design in plain language 49 seconds after the last answer, proposed the features instead of asking for them, and had a scenario passing in about 10 minutes. The fork's welcome, framed reports, step lines and the hooks that enforce them made each build slower and heavier, and its reading path grew from 37,127 to 46,687 words. Most of what the fork got right is knowledge, not conversation.
+  A full build on the shipped plugin, 1.6.0 ([hotel-6](/builds/94861fa0-b0c3-40af-bcc9-6f644670cd79), in the Claude app), showed what the fork had lost. 1.6.0 asked 3 questions, showed the whole design in plain language 49 seconds after the last answer, proposed the features instead of asking for them, and had a scenario passing in about 10 minutes. The fork's welcome, framed reports, step lines and the hooks that enforce them made each build slower and heavier, and its reading path grew from 37,127 to 46,687 words. Most of what the fork got right is knowledge, not conversation.
 
   ## How the rebuild works
 
-  The rebuild starts from upstream as it is now, reboot main after reboot#186, which had already taken in several of the fork's findings. What the fork learned is ported in underneath, in seven layers: measurement, corrections, knowledge read only when needed, mechanisms that cost no reading, two changes to the experience, deploy, and packaging for the Claude app. Ten parts of the fork are left out until a build shows they help.
+  The rebuild starts from upstream as it is now, reboot main after [reboot#186](https://github.com/reboot-dev/reboot/pull/186), which had already taken in several of the fork's findings. What the fork learned is ported in underneath, in seven layers: measurement, corrections, knowledge read only when needed, mechanisms that cost no reading, two changes to the experience, deploy, and packaging for the Claude app. Ten parts of the fork are left out until a build shows they help.
 
   ## How each layer is judged
 
-  A hotel build on the plugin with that layer in must be no worse than the baseline on the four numbers that matter to the person waiting: questions before code, and the active time to the design, to the API file and to the first passing scenario. The time spent answering questions doesn't count against a build. The words a build reads before writing code are capped at main's count and may only go down.
+  A [hotel build](/builds) on the plugin with that layer in must be no worse than the baseline on the four numbers that matter to the person waiting: questions before code, and the active time to the design, to the API file and to the first passing scenario. The time spent answering questions doesn't count against a build. The words a build reads before writing code are capped at main's count and may only go down.
 
   ## The repositories and branches
 
@@ -52,23 +53,23 @@ about: |
 
   ### Based on: upstream
 
-  - `reboot-dev/reboot`, branch `main`. The Reboot monorepo, and the plugin's real source in `reboot/plugin/`. Upstream merges skill changes here, as it did reboot#186. next starts from main at `8b87909`. Your clone of it is `~/projects/reboot`, whose `origin` is reboot-dev and `fork` is `mtrifiro/reboot`. Its own `main` is left untouched.
-  - `reboot-dev/reboot-plugin`, branch `main`. Only a mirror: upstream copies `reboot/plugin/` into it at each release. Its `1f4f7bf` is 1.6.0, the plugin hotel-6 ran. Nothing is based on it anymore.
+  - [`reboot-dev/reboot`](https://github.com/reboot-dev/reboot), branch `main`. The Reboot monorepo, and the plugin's real source in [`reboot/plugin/`](https://github.com/reboot-dev/reboot/tree/main/reboot/plugin). Upstream merges skill changes here, as it did [reboot#186](https://github.com/reboot-dev/reboot/pull/186). next starts from main at [`8b87909`](https://github.com/reboot-dev/reboot/commit/8b879091). Your clone of it is `~/projects/reboot`, whose `origin` is reboot-dev and `fork` is [`mtrifiro/reboot`](https://github.com/mtrifiro/reboot). Its own `main` is left untouched.
+  - [`reboot-dev/reboot-plugin`](https://github.com/reboot-dev/reboot-plugin), branch `main`. Only a mirror: upstream copies `reboot/plugin/` into it at each release. Its [`1f4f7bf`](https://github.com/reboot-dev/reboot-plugin/commit/1f4f7bf) is 1.6.0, the plugin hotel-6 ran. Nothing is based on it anymore.
 
   ### Worked in: next and its layer branches
 
   - `next`, in `~/projects/reboot-next`. A worktree of `~/projects/reboot` with only `reboot/plugin/` checked out. It holds main plus every finished layer, the local marketplace name `reboot-next`, and the plan and this record in `reboot/plugin/docs/`. It is the plugin `~/projects/next-test` loads and the Claude app upload is built from. It never goes upstream as it is.
-  - `next-l<N>-<name>`, one per layer, such as `next-l0-measurement`. Each starts from reboot main and holds only that layer's commits, never `docs/` or the marketplace name. Pushed to `mtrifiro/reboot`, each becomes a pull request to reboot-dev/reboot. None is pushed yet.
+  - `next-l<N>-<name>`, one per layer, such as `next-l0-measurement`. Each starts from reboot main and holds only that layer's commits, never `docs/` or the marketplace name. Pushed to [`mtrifiro/reboot`](https://github.com/mtrifiro/reboot), each becomes a [pull request to reboot-dev/reboot](https://github.com/reboot-dev/reboot/pulls). None is pushed yet.
 
   ### Worked from: the fork
 
-  - `mtrifiro/reboot-plugin`, branch `ia-restructure`, in `~/projects/reboot-plugin`. 248 commits on 1.6.0, open as pull request 2 on the fork. It is the source of the learnings: findings, corrections, references, templates, guards and tools. Items are ported from it by hand, one at a time, and never merged. It stays as it is, and the Plugin Browser browses it.
+  - [`mtrifiro/reboot-plugin`](https://github.com/mtrifiro/reboot-plugin), branch [`ia-restructure`](https://github.com/mtrifiro/reboot-plugin/tree/ia-restructure), in `~/projects/reboot-plugin`. [248 commits](/changes) on 1.6.0, open as [pull request 2](https://github.com/mtrifiro/reboot-plugin/pull/2) on the fork. It is the source of the learnings: [findings](/kind/finding), corrections, [references](/kind/reference), [templates](/kind/template), guards and [tools](/kind/tool). Items are ported from it by hand, one at a time, and never merged. It stays as it is, and the [Plugin Browser browses it](/).
 
   ### Reference points and this tracker
 
-  - `~/projects/reboot-plugin-main`, a clone of reboot-dev/reboot-plugin at 1.6.0 on the branch `local-marketplace-name`, installed as `reboot-main` in `~/projects/main-test`. It is how hotel-6's plugin can be run again.
+  - `~/projects/reboot-plugin-main`, a clone of reboot-dev/reboot-plugin at 1.6.0 on the branch `local-marketplace-name`, installed as `reboot-main` in `~/projects/main-test`. It is how [hotel-6](/builds/94861fa0-b0c3-40af-bcc9-6f644670cd79)'s plugin can be run again.
   - `~/projects/reboot-next-1.6.0`, the first draft of next on 1.6.0, before reboot#186 moved the base. Nothing in it is committed, and it can be deleted.
-  - `mtrifiro/plugin-browser`, branch `master`, in `~/projects/plugin-browser`. This tracker, on ports 9600 and 4600. It reads the other checkouts and never writes them.
+  - [`mtrifiro/plugin-browser`](https://github.com/mtrifiro/plugin-browser), branch `master`, in `~/projects/plugin-browser`. This tracker, on ports 9600 and 4600. It reads the other checkouts and never writes them.
 
   ### Which plugin runs where
 
@@ -77,10 +78,37 @@ about: |
   - `~/projects/next-test`: next, `reboot@reboot-next`, read live from the worktree.
   - The Claude app: whatever was uploaded last. For hotel-7 that is `~/Downloads/reboot-next-main.plugin`, built from next at `ff5ce080`, main plus the marketplace name.
 
+strategy: |
+  ## The strategy, in plain English
+
+  ### Keep what already worked
+
+  The shipped plugin talks to you well. It asks few questions, shows the whole design in plain words before any code, and offers recommendations you can simply accept. That stays exactly as it is.
+
+  ### Put the lessons underneath
+
+  The fork learned real things about Reboot: where the skills were wrong, which errors builds hit and how to fix them, and checks that catch mistakes early. Those go where a build only meets them when it needs them. A correction goes into the file that was wrong. Error fixes go into a list a build searches. Checks and guards run by themselves.
+
+  ### Prove every change with a real build
+
+  Nothing comes back on a hunch. After each layer, the same hotel prompt is built again and compared with the baseline. If the build asks more questions or takes longer to reach the design, the API or a passing scenario, the layer is not done.
+
+  ### Spend no extra reading
+
+  Every word a build reads costs time on every turn after it. The total is capped at what main reads today, and it can only go down. A layer that adds words has to cut as many somewhere else.
+
+  ### Send it upstream in small pieces
+
+  Each layer becomes its own small pull request to Reboot, the same shape as the fixes upstream already took in reboot#186. The Reboot team can take what helps and leave the rest, and nothing depends on one large merge.
+
+  ### Leave the ceremony out until it earns its place
+
+  The welcome, the framed reports, the step lines and the progress band stay out. Any of them can come back, but only when a build shows it helps you.
+
 done:
-  - Measured the baseline. hotel-6, the hotel prompt on 1.6.0 in the Claude app, asked 3 questions, showed the design after 49 s, wrote the API file after 5 m 31 s, had its first scenario passing after 10 m 03 s, and reached 39 passing scenarios.
+  - Measured the baseline. [hotel-6](/builds/94861fa0-b0c3-40af-bcc9-6f644670cd79), the hotel prompt on 1.6.0 in the Claude app, asked 3 questions, showed the design after 49 s, wrote the API file after 5 m 31 s, had its first scenario passing after 10 m 03 s, and reached 39 passing scenarios.
   - Wrote the plan, `docs/next-plan.md`, and this record. They list the seven layers, 29 items to port from the fork, 10 parts left out, and the decisions with their reasons.
-  - Read reboot#186 against the plan, and moved next onto reboot main. The plugin's source is `reboot/plugin/` in the reboot monorepo, so `~/projects/reboot-next` is now a worktree of `~/projects/reboot` on the branch `next`. Two L1 items were already fixed there and are skipped. The `OAuth` import, the reserved method names and the frontend version pins are still open.
+  - Read [reboot#186](https://github.com/reboot-dev/reboot/pull/186) against the plan, and moved next onto reboot main. The plugin's source is `reboot/plugin/` in the reboot monorepo, so `~/projects/reboot-next` is now a worktree of `~/projects/reboot` on the branch `next`. Two L1 items were already fixed there and are skipped. The `OAuth` import, the reserved method names and the frontend version pins are still open.
   - Built L0's tools on `next`, and cut `next-l0-measurement` from main with only them. `tools/budget.py --check` holds the reading path under main's 38,116 and 48,769 words. `tools/check-transcript.py` reads a build's numbers and compares them with a baseline. `tools/check.sh` runs both checks plus the manifests.
   - Checked the measures against known numbers. The budget reproduces 1.6.0's 37,127 and 48,306 words exactly. The transcript checker reproduces hotel-6's numbers.
   - Prepared hotel-7. Claude Code loads next's 10 skills and hooks in `~/projects/next-test`, with the fork and 1.6.0 turned off there. The upload for the Claude app is built at `~/Downloads/reboot-next-main.plugin`, the same way the 1.6.0 upload was.
@@ -93,8 +121,8 @@ next:
     why: Every later layer is judged against the baseline, so it must be the plugin next actually starts from. L0 changes nothing a build reads, so hotel-7 tests it too.
   - step: Port the evals that test substance, the design, correctness and accepting a design. Leave the graders for reports and voice behind.
     why: A hotel build is one run of one prompt. The evals run many prompts with and without the plugin, so a layer's effect can be told from chance. That finishes L0.
-  - step: Open L0 as a pull request to reboot-dev/reboot from `next-l0-measurement`.
-    why: The measurement is useful upstream on its own and changes nothing a build reads, so it is the easiest first pull request. It also starts the conversation with the Reboot team before any change to the skills.
+  - step: Open L0 as a pull request to reboot-dev/reboot. Push the branch `next-l0-measurement` to your fork, [`mtrifiro/reboot`](https://github.com/mtrifiro/reboot), and open a pull request from it into reboot main. It adds three files under `reboot/plugin/tools/` and changes nothing else. They are the reading-budget check, the transcript checker and `check.sh`. The description shows hotel-7's numbers as the first use.
+    why: It is the safest first contribution. It changes no skill, so no build behaves any differently, and the review is about tools, not about how the plugin should talk. It gives upstream and this project one shared way to measure a change, so every later pull request can come with numbers, the words read and a hotel build's times, instead of opinions. And it opens the conversation early. The fork made hundreds of changes upstream never saw, so starting with something small and useful lets the Reboot team see the approach before larger changes arrive. It waits for hotel-7 so the description can show real numbers on main.
   - step: L1, the corrections still open on main. The `OAuth` import, the reserved method names said before the API is written, the API facts, and the frontend version pins. Then a hotel build to test it.
     why: These are places where the skills are wrong or silent about Reboot today. hotel-6 lost a retry to the reserved name `schedule`. A correction costs few words and saves a failed step, so it should make builds faster, and the budget shows its cost.
   - step: L2, `errors.md` first. It holds about 258 Reboot error strings, each with its cause and fix, grepped by a build and never read whole.
