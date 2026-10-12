@@ -116,14 +116,18 @@ done:
 
   - Ran hotel-7, the same prompt on main's plugin in the Claude app, and made it the baseline. Against hotel-6 on 1.6.0 it asked 4 questions instead of 3, wrote the API file after 6 m 30 s instead of 5 m 31 s, and had its first scenario passing after 14 m 26 s instead of 10 m 03 s. It read fewer words before the API, 34,671 against 46,179. The fourth question was the production sign-in provider, noted as L1's `provider-at-deploy`.
   - Rebuilt L0 the way upstream tests the plugin, after a senior-engineer review of the first version. `next-l0-budget` is a Bazel test that the reading lists name real files and the reading path stays under a ceiling. `next-l0-build-metrics` reads a build's numbers from Claude Code or Codex transcripts. Both live under `tests/`, so nothing ships to users.
-  - Wrote the `agents-md` skill Ben asked for: every Reboot app gets an `AGENTS.md` and a `CLAUDE.md` that imports it, for new apps, changes and existing apps through `run`. Tested on copies of hotel-6, and measuring now what it saves, with Claude Code and with Codex.
+  - Wrote the `agents-md` skill Ben asked for: every Reboot app gets an `AGENTS.md` and a `CLAUDE.md` that imports it, for new apps, changes and existing apps through `run`. Tested on copies of hotel-6.
+  - Ran L0's two Bazel tests for the first time. Both passed, but Bazel's mypy check failed on their bare imports. They now import by full path, as upstream's tests do, and pass the pinned yapf and isort. Merged into next.
+  - Measured the map. Eight sessions did the same follow-up task with and without `AGENTS.md`, in Claude Code and in Codex. Every one passed its suite, and time and tool calls were the same either way. Four more sessions had a deliberately stale map: they passed in the same time, each wrong path cost one failed lookup, and three of the four repaired the map unasked.
+  - Found that main and next hang in tests on Apple Silicon. Reboot's Envoy keeps LuaJIT on, which pins a CPU after a restart. The fork's `uv` shim turns it off, and main has nothing that does.
+  - Opened [reboot#235](https://github.com/reboot-dev/reboot/pull/235), the `agents-md` skill, with the measurements in its description, and [reboot#241](https://github.com/reboot-dev/reboot/pull/241), the reading budget, as a draft.
 next:
-  - step: Finish the AGENTS.md experiment, one more session without the map in Claude Code and a pair in Codex, and put the results in the agents-md pull request.
-    why: Ben asked for the change, and the pull request should show what it saves, not only what the fork found. Codex reads `AGENTS.md` natively, so it is the most direct test.
-  - step: Open the agents-md pull request to reboot-dev/reboot, on your go.
-    why: It changes no Reboot guidance and collides with no open pull request, so it can land on its own.
-  - step: Run L0's two Bazel tests once locally, then open them as two pull requests, the reading budget first.
-    why: Their Bazel wiring has only run under plain unittest. A red first CI run on a first pull request to the team is worth avoiding. Two pull requests means a no to the build measure doesn't hold up the budget.
+  - step: Retitle reboot#241 and mark it ready for review.
+    why: It is tests only and ships nothing to users, so it can land on its own.
+  - step: Open the build measure, `next-l0-build-metrics`, as a pull request once reboot#235 has a first review.
+    why: Its numbers are what reboot#235 shows, so that pull request is its first use. Its test transcripts are made-up samples, safe to publish.
+  - step: Fix the Envoy LuaJIT hang upstream, in `reboot/routing/envoy_config.py`.
+    why: With only main installed, every test run on Apple Silicon can hang. The fix helps every Reboot user, not only plugin builds.
   - step: Port the evals that test substance. That finishes L0.
     why: A hotel build is one run of one prompt. Evals run many prompts with and without the plugin, so a layer's effect can be told from chance.
   - step: L1, the corrections still open on main. The `OAuth` import, the reserved method names, the API facts, the production provider asked at deploy, and the frontend version pins. Then a hotel build against hotel-7.
