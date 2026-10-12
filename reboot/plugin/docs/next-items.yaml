@@ -332,6 +332,7 @@ layers:
         fork: [skills/python/references/lifecycle-seeding.md]
         target: [skills/python/references/lifecycle-seeding.md]
         status: to do
+        evals: [design-ready-for-both/demo-data, design-roles/demo-data]
       - id: auth-roles
         title: Staff roles reference
         why: Roles on one roster, checked by a custom predicate.
