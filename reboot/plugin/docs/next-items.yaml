@@ -1,0 +1,346 @@
+# The record of the reboot-next rebuild: every layer, every item to
+# port from the fork, and which builds tested each layer. The plan's
+# reasons are in docs/next-plan.md. The Plugin Browser reads this file
+# (its Next page) and never writes it; edit it here and commit it with
+# the work it records. It lives only on the next branch: layer branches
+# start from reboot main and carry none of docs/.
+#
+# status: "to do", "ported", "skipped" or "left out"
+# fork:   paths in the fork, ~/projects/reboot-plugin (ia-restructure)
+# target: paths in this checkout the item lands in, under reboot/plugin/
+# builds: session ids of hotel builds that tested a layer; a layer is
+#         done only when every item is ported or skipped and one of
+#         these builds is no worse than the baseline.
+
+# hotel-6, 1.6.0 in the Claude app, until a hotel build on reboot main
+# (8b87909) replaces it.
+baseline: 94861fa0-b0c3-40af-bcc9-6f644670cd79
+
+# Words on the minimal reading path of reboot main at 8b87909, where next
+# starts (1.6.0 was 37,127 and 48,306). They only move down.
+ceilings:
+  web-app: 38116
+  mcp-ui: 48769
+
+decisions:
+  - date: 2026-10-11
+    title: Start from upstream 1.6.0 on branch next
+    why: >-
+      hotel-6 showed 1.6.0 faster, with a fuller plain-language design and
+      fewer questions. The fork's gains are in correctness and mechanisms,
+      which port underneath without the conversation layer. Each layer is a
+      branch off next, so it can become an upstream PR.
+  - date: 2026-10-11
+    title: The Flywheel brand, light
+    why: >-
+      A stage heading on the design message and on the handoff only. No
+      reports, step lines or progress band.
+  - date: 2026-10-11
+    title: 1.6.0's own voice, no voice rules for now
+    why: >-
+      hotel-6's design read well without them. Revisit once the layers are in.
+  - date: 2026-10-11
+    title: Next lives in the reboot monorepo, from main after reboot#186
+    why: >-
+      The plugin's source is reboot/plugin/ in reboot-dev/reboot; the
+      reboot-plugin repo only mirrors releases. reboot#186 had already
+      landed several of the fork's findings there. next is a worktree of
+      ~/projects/reboot from main 8b87909, so each layer becomes a PR to
+      reboot-dev/reboot, shaped like #186.
+  - date: 2026-10-11
+    title: Track the rebuild in the Plugin Browser
+    why: >-
+      Its Builds, Compare to main and Ask Claude already cover most of what
+      tracking needs. This file is the record, so git keeps the history.
+
+layers:
+  - id: L0
+    title: Measurement
+    goal: Measure every later layer against hotel-6, with no change for the user.
+    branch: next-l0-measurement
+    # A hotel build on next once L0 is in; hotel-7 is the first.
+    builds: []
+    items:
+      - id: budget
+        title: Reading budget with 1.6.0's ceilings
+        why: >-
+          The fork's path grew from 37,127 to 46,687 words. Hard ceilings at
+          1.6.0's counts, only moving down, make every addition pay for itself.
+        fork: [tools/budget.py, tools/reflib.py]
+        target: [tools/budget.py]
+        status: ported
+        commit: 6e19bdb7
+      - id: evals
+        title: Evals that test substance
+        why: >-
+          Design, correctness and accept cases, with and without the plugin.
+          The graders for reports, welcome and voice stay behind.
+        fork: [tools/run-evals.sh, evals/README.md]
+        target: [tools/run-evals.sh, evals/]
+        status: to do
+      - id: check-transcript
+        title: Transcript checker, cut to the hotel metrics
+        why: Measures a real build the same way every time.
+        fork: [tools/check-transcript.py]
+        target: [tools/check-transcript.py]
+        status: ported
+        commit: 6e19bdb7
+      - id: checks
+        title: Lint and unit checks, with shellcheck
+        why: CI went red while local checks were green. One command runs what CI runs.
+        fork: [tools/check.sh, tools/check.py]
+        target: [tools/check.sh]
+        status: ported
+        commit: 6e19bdb7
+      - id: marketplace-name
+        title: A local marketplace named reboot-next
+        why: Installs beside the fork and 1.6.0. Never upstreamed.
+        fork: []
+        target: [.claude-plugin/marketplace.json]
+        status: ported
+        commit: ff5ce080
+
+  - id: L1
+    title: Corrections
+    goal: Fix what 1.6.0 says that is wrong, in the files that say it.
+    branch: next-l1-corrections
+    builds: []
+    items:
+      - id: authorizers
+        title: Real authorizers from the first stub
+        why: >-
+          1.6.0 says omit authorizer(), but its Reboot() test harness denies
+          those calls with PermissionDenied.
+        fork: [skills/python/references/servicer-authorizer.md]
+        target: [skills/web-app/SKILL.md, skills/python/references/servicer-authorizer.md]
+        status: skipped
+        commit: reboot#186
+      - id: oauth-import
+        title: The missing OAuth import
+        why: The web-app auth example uses OAuth without importing it from reboot.aio.auth.oauth.
+        fork: [skills/build/SKILL.md]
+        target: [skills/web-app/SKILL.md]
+        status: to do
+      - id: allowed-origins
+        title: allowed_origins outside rbt dev run
+        why: Dev auto-allows localhost and hides the gap until the first deploy.
+        fork: [skills/build/SKILL.md]
+        target: [skills/web-app/SKILL.md]
+        status: skipped
+        commit: reboot#186
+      - id: reserved-names
+        title: Reserved method names
+        why: hotel-6 hit schedule at rbt generate. Said before the API is written, it costs no retry.
+        fork: [skills/python/references/rpc-refs.md]
+        target: [skills/python/references/rpc-refs.md]
+        status: to do
+      - id: api-facts
+        title: The API facts
+        why: >-
+          Non-zero Field defaults are refused, mcp= is required, no
+          list[Entity] on a parent, self.ref().state_id, no state in
+          __init__, writers can't call writers, reader changes are discarded,
+          initialize runs once per lifetime, .rbtrc is line-based, allow_if
+          takes all or any.
+        fork: [skills/web-app/SKILL.md]
+        target: [skills/web-app/SKILL.md, skills/mcp-ui/SKILL.md]
+        status: to do
+      - id: vite-pins
+        title: Version pins for the frontend shell
+        why: npm create vite now emits React 19 and TypeScript 6.
+        fork: [skills/build/SKILL.md]
+        target: [skills/web-app/SKILL.md]
+        status: to do
+
+  - id: L2
+    title: Knowledge
+    goal: What a build reads only when it needs it.
+    branch: next-l2-knowledge
+    builds: []
+    items:
+      - id: errors-md
+        title: errors.md, about 258 error strings with cause and fix
+        why: The highest-value single file to port. Grepped, never read whole.
+        fork: [skills/python/references/errors.md]
+        target: [skills/python/references/errors.md]
+        status: to do
+      - id: lifecycle-seeding
+        title: Seeding reference
+        why: Concurrent or one-per-record seeding hangs. Sequential batched transactions with stable aliases.
+        fork: [skills/python/references/lifecycle-seeding.md]
+        target: [skills/python/references/lifecycle-seeding.md]
+        status: to do
+      - id: auth-roles
+        title: Staff roles reference
+        why: Roles on one roster, checked by a custom predicate.
+        fork: [skills/python/references/auth-roles.md]
+        target: [skills/python/references/auth-roles.md]
+        status: to do
+      - id: auth-claims
+        title: Claims reference
+        why: Without claims=[...] the app gets only an opaque user id.
+        fork: [skills/python/references/auth-claims.md]
+        target: [skills/python/references/auth-claims.md]
+        status: to do
+      - id: cross-actor-reads
+        title: Cross-object reads reference
+        why: A page waiting on a reader that fans out too far is the usual slow load.
+        fork: [skills/python/references/patterns-cross-actor-reads.md]
+        target: [skills/python/references/patterns-cross-actor-reads.md]
+        status: to do
+      - id: known-issues
+        title: KNOWN-ISSUES.md
+        why: >-
+          Version-specific Reboot defects and their workarounds in one place,
+          without project citations, instead of inline in the skills.
+        fork: [lib/known-defects.json, docs/findings-ingestion.md]
+        target: [KNOWN-ISSUES.md]
+        status: to do
+
+  - id: L3
+    title: Mechanisms
+    goal: Fixes that cost no reading.
+    branch: next-l3-mechanisms
+    builds: []
+    items:
+      - id: patch-reboot
+        title: Reboot patches for Envoy and rbt generate
+        why: LuaJIT pins Envoy on arm64 Macs, and rbt generate dies with ENOBUFS on large APIs.
+        fork: [lib/patch_reboot.py, lib/known-defects.json]
+        target: [lib/patch_reboot.py, lib/known-defects.json]
+        status: to do
+      - id: pinned-installers
+        title: Installers pinned by SHA-256
+        why: The shims install the same tools every time.
+        fork: [lib/install_envoy.sh, lib/install_node.sh, lib/install_uv.sh]
+        target: [lib/]
+        status: to do
+      - id: schema-guard
+        title: schema-guard hook
+        why: Refuses an API edit that persisted state can't boot over.
+        fork: [hooks/schema-guard.sh]
+        target: [hooks/schema-guard.sh]
+        status: to do
+      - id: suite-guard
+        title: suite-guard hook
+        why: Editing while the suite runs causes failures that look like framework flakes.
+        fork: [hooks/suite-guard.sh]
+        target: [hooks/suite-guard.sh]
+        status: to do
+      - id: orphans
+        title: Orphaned dev processes
+        why: Dashboards and Envoys outlive their sessions, one for 20 hours.
+        fork: [hooks-handlers/orphans.sh]
+        target: [hooks-handlers/orphans.sh]
+        status: to do
+      - id: slim-template
+        title: A slim project template, under 15 files
+        why: >-
+          registry.py, api_lint.py, feature_lint.py, step_order.py, test.sh,
+          pinned versions, styles.css and per-project ports. The fork's
+          template is about 50 files.
+        fork: [skills/build/templates/web-app/scripts/api_lint.py, skills/build/templates/web-app/scripts/test.sh]
+        target: [skills/build/templates/]
+        status: to do
+
+  - id: L4
+    title: Experience
+    goal: The two changes to what the user sees that earned their place.
+    branch: next-l4-experience
+    builds: []
+    items:
+      - id: ui-design
+        title: Highly visual and interactive by default
+        why: 1.6.0 has no design guidance. Trimmed to fit the budget.
+        fork: [skills/web-app/references/ui-design.md]
+        target: [skills/web-app/references/ui-design.md]
+        status: to do
+      - id: flywheel-headings
+        title: Flywheel stage headings on the design and the handoff
+        why: The brand, without reports or step lines.
+        fork: [skills/build/references/flywheel.md]
+        target: [skills/web-app/SKILL.md, skills/run/SKILL.md]
+        status: to do
+      - id: proposed-wording
+        title: The design is proposed until accepted
+        why: hotel-6 said Design is set without the user's acceptance.
+        fork: [skills/build/SKILL.md]
+        target: [skills/web-app/SKILL.md]
+        status: to do
+
+  - id: L5
+    title: Deploy
+    goal: A deploy that works the first time.
+    branch: next-l5-deploy
+    builds: []
+    items:
+      - id: deploy-script
+        title: deploy.sh with backup and restore
+        why: One command, and a way back.
+        fork: [skills/build/templates/web-app/scripts/deploy.sh, skills/build/templates/web-app/scripts/backup.sh]
+        target: [skills/deploy/]
+        status: to do
+      - id: cloud-facts
+        title: The cloud facts
+        why: >-
+          --organization on every command, secrets only after the first up,
+          up exits before the app serves, production denies methods without
+          an authorizer, DOCKER_HOST for Docker Desktop.
+        fork: [skills/deploy/SKILL.md]
+        target: [skills/deploy/SKILL.md]
+        status: to do
+
+  - id: L6
+    title: Packaging
+    goal: An upload the Claude app accepts.
+    branch: next-l6-packaging
+    builds: []
+    items:
+      - id: package-plugin
+        title: package-plugin.sh, by the app's rules
+        why: No top-level bin/, skill descriptions of at most 1024 characters, and .claude-plugin/plugin.json.
+        fork: [tools/package-plugin.sh]
+        target: [tools/package-plugin.sh]
+        status: to do
+
+left_out:
+  - id: welcome
+    title: The verbatim welcome
+    why: Replaced 1.6.0's one-sentence start and needed two hooks to show.
+    fork: [skills/app/SKILL.md, hooks-handlers/welcome.sh]
+  - id: framed-reports
+    title: The six framed reports and design/reports/
+    why: Spread the one design message over several reports and many minutes.
+    fork: [skills/build/SKILL.md, hooks-handlers/reports.sh]
+  - id: step-lines
+    title: Step lines and reboot-now
+    why: Ceremony between the work. quiet.sh repeated the rule every 12 calls.
+    fork: [hooks-handlers/quiet.sh]
+  - id: progress-band
+    title: The progress-band mod
+    why: About 28k lines, Claude Code only.
+    fork: [mods/reboot-progress]
+  - id: remind-long
+    title: The long remind.sh
+    why: Its welcome, voice and report rules came before "don't guess Reboot".
+    fork: [hooks-handlers/remind.sh]
+  - id: voice-bans
+    title: The banned-word lists
+    why: Decision 3, no voice rules for now.
+    fork: [skills/build/SKILL.md]
+  - id: design-ceremony
+    title: The design.md, review.md, decisions.md and accepted.json ceremony on a first build
+    why: Records before the user has seen the app.
+    fork: [skills/build/references/flywheel.md]
+  - id: red-run
+    title: The full red suite before any code
+    why: Useful but slow, minutes before any servicer exists.
+    fork: [skills/build/SKILL.md]
+  - id: screens-timing
+    title: The screenshot and page-timing passes
+    why: Come with a later update, if at all.
+    fork: [skills/build/templates/web-app/scripts/screenshots.py, skills/build/templates/web-app/scripts/page_timing.py]
+  - id: long-handoff
+    title: The nine-item handoff
+    why: 1.6.0's handoff is a URL and a first thing to try.
+    fork: [skills/build/SKILL.md]
