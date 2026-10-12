@@ -119,15 +119,9 @@ done:
   - Wrote the `agents-md` skill Ben asked for: every Reboot app gets an `AGENTS.md` and a `CLAUDE.md` that imports it, for new apps, changes and existing apps through `run`. Tested on copies of hotel-6.
   - Ran L0's two Bazel tests for the first time. Both passed, but Bazel's mypy check failed on their bare imports. They now import by full path, as upstream's tests do, and pass the pinned yapf and isort. Merged into next.
   - Measured the map. Eight sessions did the same follow-up task with and without `AGENTS.md`, in Claude Code and in Codex. Every one passed its suite, and time and tool calls were the same either way. Four more sessions had a deliberately stale map: they passed in the same time, each wrong path cost one failed lookup, and three of the four repaired the map unasked.
-  - Found that main and next hang in tests on Apple Silicon. Reboot's Envoy keeps LuaJIT on, which pins a CPU after a restart. The fork's `uv` shim turns it off, and main has nothing that does.
-  - Opened [reboot#235](https://github.com/reboot-dev/reboot/pull/235), the `agents-md` skill, with the measurements in its description, and [reboot#241](https://github.com/reboot-dev/reboot/pull/241), the reading budget, as a draft.
+  - Found that builds made with main's or next's plugin hang in tests on Apple Silicon. Their apps install the released `reboot==1.6.0`, whose Envoy keeps LuaJIT on, which pins a CPU after a restart. Upstream fixed it in `envoy_config.py` ([e1b8ee9f](https://github.com/reboot-dev/reboot/commit/e1b8ee9f), [reboot#189](https://github.com/reboot-dev/reboot/pull/189), merged 2026-10-09), and next's tree already has it, but no release carries it yet. The fork's `uv` shim patches the installed wheel; until a release, measured runs patch the venv.
+  - Opened [reboot#235](https://github.com/reboot-dev/reboot/pull/235), the `agents-md` skill, with the measurements in its description, [reboot#241](https://github.com/reboot-dev/reboot/pull/241), the reading budget, and [reboot#242](https://github.com/reboot-dev/reboot/pull/242), the build measure. All three are ready for review; none has a review yet.
 next:
-  - step: Retitle reboot#241 and mark it ready for review.
-    why: It is tests only and ships nothing to users, so it can land on its own.
-  - step: Open the build measure, `next-l0-build-metrics`, as a pull request once reboot#235 has a first review.
-    why: Its numbers are what reboot#235 shows, so that pull request is its first use. Its test transcripts are made-up samples, safe to publish.
-  - step: Fix the Envoy LuaJIT hang upstream, in `reboot/routing/envoy_config.py`.
-    why: With only main installed, every test run on Apple Silicon can hang. The fix helps every Reboot user, not only plugin builds.
   - step: Port the evals that test substance. That finishes L0.
     why: A hotel build is one run of one prompt. Evals run many prompts with and without the plugin, so a layer's effect can be told from chance.
   - step: L1, the corrections still open on main. The `OAuth` import, the reserved method names, the API facts, the production provider asked at deploy, and the frontend version pins. Then a hotel build against hotel-7.
@@ -280,6 +274,46 @@ layers:
         target: [skills/web-app/SKILL.md]
         status: to do
 
+  - id: L1b
+    title: Both front doors
+    goal: >-
+      Every backend is ready for an MCP UI and a web app, so a build with
+      no front door named starts without asking which.
+    branch: next-l1b-both-front-doors
+    builds: []
+    items:
+      - id: web-first
+        title: The web app first when the prompt names no front door, the MCP UI offered at handoff
+        why: >-
+          Main asks which kind of app when the prompt names none. hotel-7 asked
+          it first, one of its four questions. With every backend ready for
+          both, the wrong guess no longer costs a rebuild, only the other
+          front door added later.
+        fork: [skills/app/SKILL.md]
+        target: [skills/app/SKILL.md]
+        evals: [route-default-todo/web-first, route-default-crm/web-first, route-default-todo/mcp-ready, route-default-crm/mcp-ready, route-mcp/web-ready]
+        status: to do
+      - id: user-type
+        title: A User type in every design
+        why: >-
+          Main's web-app declares a User type only for per-user state, so an
+          MCP UI added later means reworking the backend. One User per
+          identity serves both front doors.
+        fork: [skills/build/SKILL.md, skills/web-app/SKILL.md]
+        target: [skills/web-app/SKILL.md]
+        evals: [design-ready-for-both/user-type]
+        status: to do
+      - id: ai-roles
+        title: Each method's AI role, and descriptions written for an AI caller
+        why: >-
+          A method's description is schema and can't be reworded after
+          deploy; its mcp= exposure can change. Writing descriptions for an
+          AI from the start keeps the MCP UI a later addition, not a migration.
+        fork: [skills/build/SKILL.md]
+        target: [skills/web-app/SKILL.md, skills/mcp-ui/SKILL.md]
+        evals: [design-ready-for-both/ai-roles, design-ready-for-both/ai-descriptions]
+        status: to do
+
   - id: L2
     title: Knowledge
     goal: What a build reads only when it needs it.
@@ -333,7 +367,7 @@ layers:
     items:
       - id: patch-reboot
         title: Reboot patches for Envoy and rbt generate
-        why: LuaJIT pins Envoy on arm64 Macs, and rbt generate dies with ENOBUFS on large APIs.
+        why: LuaJIT pins Envoy on arm64 Macs, and rbt generate dies with ENOBUFS on large APIs. Both are fixed upstream but not released (LuaJIT in reboot#189, merged; ENOBUFS in reboot#232, open), so the patches are needed only until apps can pin a release that has them.
         fork: [lib/patch_reboot.py, lib/known-defects.json]
         target: [lib/patch_reboot.py, lib/known-defects.json]
         status: to do
