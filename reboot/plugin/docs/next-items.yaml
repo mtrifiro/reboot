@@ -22,6 +22,36 @@ ceilings:
   web-app: 38116
   mcp-ui: 48769
 
+# The Next page's two boxes, in plain English: what this project is, and
+# where it stands. Paragraphs in `about` are separated by a blank line.
+# Keep `tested` and `next` current, and `updated` with them.
+updated: 2026-10-12
+
+about: |
+  The Reboot plugin teaches Claude how to build an app on Reboot: what to ask, how to design the domain model, which Reboot rules to follow, and how to test and run the result. Upstream ships it as part of Reboot. For several weeks a fork of it, the `ia-restructure` branch of reboot-plugin, gathered what real builds taught: hundreds of findings, corrections to what the skills say about Reboot, templates, guard hooks, checks, and a much more scripted conversation.
+
+  A full build on the shipped plugin, 1.6.0 (hotel-6, in the Claude app), showed what the fork had lost. 1.6.0 asked 3 questions, showed the whole design in plain language 49 seconds after the last answer, proposed the features instead of asking for them, and had a scenario passing in about 10 minutes. The fork's welcome, framed reports, step lines and the hooks that enforce them made each build slower and heavier, and its reading path grew from 37,127 to 46,687 words. Most of what the fork got right is knowledge, not conversation.
+
+  So the plugin is being rebuilt. It starts from upstream as it is now, reboot main after reboot#186, which had already taken in several of the fork's findings. What the fork learned is ported in underneath, in seven layers: measurement, corrections, knowledge read only when needed, mechanisms that cost no reading, two changes to the experience, deploy, and packaging for the Claude app. Ten parts of the fork are left out until a build shows they help.
+
+  Every layer is judged the same way. A hotel build on the plugin with that layer in must be no worse than the baseline on the four numbers that matter to the person waiting: questions before code, and the active time to the design, to the API file and to the first passing scenario. The time spent answering questions doesn't count against a build. The words a build reads before writing code are capped at main's count and may only go down.
+
+  The work lives in `~/projects/reboot-next`, a worktree of the reboot monorepo on the branch `next`, since the plugin's source is `reboot/plugin/` there. `next` holds every layer plus this record. Each layer also gets its own branch from reboot main, so it can go upstream as a small pull request, the way #186 did. This page reads the record on every visit and never writes it.
+
+tested:
+  - hotel-6, the same hotel prompt on 1.6.0 in the Claude app, is the baseline for now. It asked 3 questions, showed the design after 49 s, wrote the API file after 5 m 31 s, had its first scenario passing after 10 m 03 s, and reached 39 passing scenarios.
+  - The measures are checked against known numbers. The reading budget reproduces 1.6.0's 37,127 and 48,306 words exactly, and gives main 38,116 and 48,769. The transcript checker reproduces hotel-6's numbers.
+  - reboot#186 was read against the plan. Authorizers from day one and `allowed_origins` outside dev are already fixed on main, so those two items are skipped. The missing `OAuth` import, the reserved method names and the frontend version pins are still open on main.
+  - The next plugin installs and loads. In `~/projects/next-test` Claude Code loads its 10 skills and hooks from the worktree, with the fork and 1.6.0 turned off. An upload for the Claude app is built at `~/Downloads/reboot-next-main.plugin`.
+  - L0's tools pass their own check on main. The budget is exactly at its ceilings. No build has run on next yet.
+
+next:
+  - Run hotel-7, the same prompt on main's plugin in the Claude app, and make it the baseline in place of hotel-6. It shows what moving from 1.6.0 to main changed, and becomes L0's test build.
+  - Port the evals that test substance, the design, correctness and accepting a design, leaving the graders for reports and voice behind. That finishes L0.
+  - Open L0 as a pull request to reboot-dev/reboot from `next-l0-measurement`, once hotel-7 confirms the numbers.
+  - L1, the corrections still open on main. The `OAuth` import, the reserved method names said before the API is written, the API facts, and the frontend version pins. Then a hotel build to test it.
+  - L2, `errors.md` first. It holds about 258 Reboot error strings, each with its cause and fix, grepped by a build and never read whole.
+
 decisions:
   - date: 2026-10-11
     title: Start from upstream 1.6.0 on branch next
