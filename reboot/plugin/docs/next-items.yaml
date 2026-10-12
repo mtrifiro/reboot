@@ -115,7 +115,7 @@ done:
   - Added this Next page to the Plugin Browser. It reads the record on every visit and never writes it. It judges each build against the baseline from its transcript, and shows any plugin file in upstream main, next and the fork.
 
 next:
-  - step: Run hotel-7, the same prompt on main's plugin in the Claude app, answering Both and the recommendations. Add "Use backend port 9992 and Vite port 4445" while the Plugin Browser holds the usual ports.
+  - step: Run hotel-7, the same prompt on main's plugin in the Claude app, answering Both and the recommendations. The prompt is word for word hotel-6's, since the Plugin Browser now runs on its own ports.
     why: hotel-6 measured 1.6.0, but next starts from main, and reboot#186 changed 23 skill files on the way. A layer has to be compared with the plugin it changes, or a gain or a loss gets credited to the wrong thing. hotel-7 also shows what reboot#186 alone did to a build.
   - step: Make hotel-7 the baseline, and list it as L0's test build.
     why: Every later layer is judged against the baseline, so it must be the plugin next actually starts from. L0 changes nothing a build reads, so hotel-7 tests it too.
