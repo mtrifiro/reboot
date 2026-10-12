@@ -66,3 +66,12 @@ done when backend scenarios and mypy pass. A = copy with AGENTS.md, B = without.
 - Commit or push only when asked; nothing is pushed. Opening a PR is outward-facing: ask first.
 - Ben (Reboot) asked for the AGENTS.md PR; the user wants all evidence in the PR or its comments.
 - The Plugin Browser runs on 9600/4600 so hotel builds keep 9991/4444; a change that adds an API field restarts it (wait until it serves before saying done); removing a response field stops `rbt dev run`.
+
+## Update 2026-10-12 ~10:30: tests hang on this Mac; restart before resuming
+
+- B1 (without map) finished at its 50 min limit, stuck in the test run like A1. Before-the-tests numbers stand: A1 53 s / 8 calls to first edit, B1 96 s / 19 calls. Total time and pass counts are not usable from A1/B1.
+- An untouched hotel-6 copy (scratch `exp/D`) hangs too, even 2 scenarios (`-k "massage_during or date_outside"`), with every Reboot app, proxy and Docker container stopped. Stack dump: the step waits on the scenario's Reboot server; its envoy was seen at 100–180% CPU. Memory was swapping heavily (~5.8M swapouts). Earlier the same day 10 scenarios ran in 28 s.
+- The user was asked to restart the Mac. After it: recreate the copies (scratch is gone), check 2 scenarios pass in under a minute, then run A1/B1 suites for pass counts (or rerun the arms) and the Codex pair with run-codex.sh (CA1 had started and was stopped at 10 s; no edits).
+- The Codex queue was stopped on purpose; nothing is running.
+- Plugin Browser, hotel-7 and findings-board servers were stopped (hotel-7's restarted from Claude-app run tabs until the user stopped them there). Restart the Plugin Browser with `uv run rbt dev run` + `npm run dev` in `~/projects/plugin-browser` (ports 9600/4600).
+- A finding was written to `~/projects/hotel-7/FINDINGS.md` (new file): the `.rbtrc` reference doesn't say `rbt dev run` restarts on API changes via `--generate-watch`. hotel-7 is not yet in the plugin corpus's `sources.md`.
