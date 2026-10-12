@@ -12,9 +12,9 @@
 #         done only when every item is ported or skipped and one of
 #         these builds is no worse than the baseline.
 
-# hotel-6, 1.6.0 in the Claude app, until a hotel build on reboot main
-# (8b87909) replaces it.
-baseline: 94861fa0-b0c3-40af-bcc9-6f644670cd79
+# hotel-7: the hotel prompt on reboot main (8b87909) in the Claude app,
+# 2026-10-12. It replaced hotel-6 (1.6.0, 94861fa0-b0c3-40af-bcc9-6f644670cd79).
+baseline: 9672c2aa-fa35-4516-b7f5-f6c0d95f7d1f
 
 # Words on the minimal reading path of reboot main at 8b87909, where next
 # starts (1.6.0 was 37,127 and 48,306). They only move down.
@@ -114,19 +114,20 @@ done:
   - Prepared hotel-7. Claude Code loads next's 10 skills and hooks in `~/projects/next-test`, with the fork and 1.6.0 turned off there. The upload for the Claude app is built at `~/Downloads/reboot-next-main.plugin`, the same way the 1.6.0 upload was.
   - Added this Next page to the Plugin Browser. It reads the record on every visit and never writes it. It judges each build against the baseline from its transcript, and shows any plugin file in upstream main, next and the fork.
 
+  - Ran hotel-7, the same prompt on main's plugin in the Claude app, and made it the baseline. Against hotel-6 on 1.6.0 it asked 4 questions instead of 3, wrote the API file after 6 m 30 s instead of 5 m 31 s, and had its first scenario passing after 14 m 26 s instead of 10 m 03 s. It read fewer words before the API, 34,671 against 46,179. The fourth question was the production sign-in provider, noted as L1's `provider-at-deploy`.
+  - Rebuilt L0 the way upstream tests the plugin, after a senior-engineer review of the first version. `next-l0-budget` is a Bazel test that the reading lists name real files and the reading path stays under a ceiling. `next-l0-build-metrics` reads a build's numbers from Claude Code or Codex transcripts. Both live under `tests/`, so nothing ships to users.
+  - Wrote the `agents-md` skill Ben asked for: every Reboot app gets an `AGENTS.md` and a `CLAUDE.md` that imports it, for new apps, changes and existing apps through `run`. Tested on copies of hotel-6, and measuring now what it saves, with Claude Code and with Codex.
 next:
-  - step: Run hotel-7, the same prompt on main's plugin in the Claude app, answering Both and the recommendations. The prompt is word for word hotel-6's, since the Plugin Browser now runs on its own ports.
-    why: hotel-6 measured 1.6.0, but next starts from main, and reboot#186 changed 23 skill files on the way. A layer has to be compared with the plugin it changes, or a gain or a loss gets credited to the wrong thing. hotel-7 also shows what reboot#186 alone did to a build.
-  - step: Make hotel-7 the baseline, and list it as L0's test build.
-    why: Every later layer is judged against the baseline, so it must be the plugin next actually starts from. L0 changes nothing a build reads, so hotel-7 tests it too.
-  - step: Port the evals that test substance, the design, correctness and accepting a design. Leave the graders for reports and voice behind.
-    why: A hotel build is one run of one prompt. The evals run many prompts with and without the plugin, so a layer's effect can be told from chance. That finishes L0.
-  - step: Open L0 as a pull request to reboot-dev/reboot. Push the branch `next-l0-measurement` to your fork, [`mtrifiro/reboot`](https://github.com/mtrifiro/reboot), and open a pull request from it into reboot main. It adds three files under `reboot/plugin/tools/` and changes nothing else. They are the reading-budget check, the transcript checker and `check.sh`. The description shows hotel-7's numbers as the first use.
-    why: It is the safest first contribution. It changes no skill, so no build behaves any differently, and the review is about tools, not about how the plugin should talk. It gives upstream and this project one shared way to measure a change, so every later pull request can come with numbers, the words read and a hotel build's times, instead of opinions. And it opens the conversation early. The fork made hundreds of changes upstream never saw, so starting with something small and useful lets the Reboot team see the approach before larger changes arrive. It waits for hotel-7 so the description can show real numbers on main.
-  - step: L1, the corrections still open on main. The `OAuth` import, the reserved method names said before the API is written, the API facts, and the frontend version pins. Then a hotel build to test it.
-    why: These are places where the skills are wrong or silent about Reboot today. hotel-6 lost a retry to the reserved name `schedule`. A correction costs few words and saves a failed step, so it should make builds faster, and the budget shows its cost.
-  - step: L2, `errors.md` first. It holds about 258 Reboot error strings, each with its cause and fix, grepped by a build and never read whole.
-    why: It is the fork's most useful single file. A build that hits an error finds the fix in one grep instead of guessing, and it adds nothing to the reading path.
+  - step: Finish the AGENTS.md experiment, one more session without the map in Claude Code and a pair in Codex, and put the results in the agents-md pull request.
+    why: Ben asked for the change, and the pull request should show what it saves, not only what the fork found. Codex reads `AGENTS.md` natively, so it is the most direct test.
+  - step: Open the agents-md pull request to reboot-dev/reboot, on your go.
+    why: It changes no Reboot guidance and collides with no open pull request, so it can land on its own.
+  - step: Run L0's two Bazel tests once locally, then open them as two pull requests, the reading budget first.
+    why: Their Bazel wiring has only run under plain unittest. A red first CI run on a first pull request to the team is worth avoiding. Two pull requests means a no to the build measure doesn't hold up the budget.
+  - step: Port the evals that test substance. That finishes L0.
+    why: A hotel build is one run of one prompt. Evals run many prompts with and without the plugin, so a layer's effect can be told from chance.
+  - step: L1, the corrections still open on main. The `OAuth` import, the reserved method names, the API facts, the production provider asked at deploy, and the frontend version pins. Then a hotel build against hotel-7.
+    why: hotel-7 asked one more question than 1.6.0 and took longer to its first passing scenario. These corrections target exactly those costs.
 
 decisions:
   - date: 2026-10-11
@@ -163,19 +164,19 @@ layers:
   - id: L0
     title: Measurement
     goal: Measure every later layer against hotel-6, with no change for the user.
-    branch: next-l0-measurement
-    # A hotel build on next once L0 is in; hotel-7 is the first.
-    builds: []
+    branch: next-l0-budget
+    # L0 changes nothing a build reads, so hotel-7, on main, tests it.
+    builds: [9672c2aa-fa35-4516-b7f5-f6c0d95f7d1f]
     items:
       - id: budget
-        title: Reading budget with 1.6.0's ceilings
+        title: Reading budget as a Bazel test, with ceilings
         why: >-
           The fork's path grew from 37,127 to 46,687 words. Hard ceilings at
           1.6.0's counts, only moving down, make every addition pay for itself.
         fork: [tools/budget.py, tools/reflib.py]
-        target: [tools/budget.py]
+        target: [tests/reboot/plugin/reading_budget/]
         status: ported
-        commit: 6e19bdb7
+        commit: 8879b7f4
       - id: evals
         title: Evals that test substance
         why: >-
@@ -185,19 +186,22 @@ layers:
         target: [tools/run-evals.sh, evals/]
         status: to do
       - id: check-transcript
-        title: Transcript checker, cut to the hotel metrics
+        title: Build measure from Claude Code and Codex transcripts
         why: Measures a real build the same way every time.
         fork: [tools/check-transcript.py]
-        target: [tools/check-transcript.py]
+        target: [tests/reboot/plugin/build_metrics/]
         status: ported
-        commit: 6e19bdb7
+        commit: 6d1f3dd2
       - id: checks
         title: Lint and unit checks, with shellcheck
-        why: CI went red while local checks were green. One command runs what CI runs.
+        why: >-
+          Skipped: upstream CI runs `bazel test` and its own linters, so a
+          parallel check script would be a second CI. L0's checks are Bazel
+          tests instead.
         fork: [tools/check.sh, tools/check.py]
         target: [tools/check.sh]
-        status: ported
-        commit: 6e19bdb7
+        status: skipped
+        commit: none
       - id: marketplace-name
         title: A local marketplace named reboot-next
         why: Installs beside the fork and 1.6.0. Never upstreamed.
