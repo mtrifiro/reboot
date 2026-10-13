@@ -395,7 +395,11 @@ handoff, with the running app in front of them.
    change most, such as the feature set and who signs in with which
    roles. Give each question two to four options, the simplest first
    and marked as recommended, so accepting every recommendation is
-   one answer. Don't ask what the design can decide well on its own.
+   one answer. When the user named no brand, one of them is the
+   look: two or three pairings of an accent and typefaces that suit
+   the domain, the design's own first, plus "use my brand" for a
+   site or tokens to read. Don't ask what the design can decide well
+   on its own.
    Fold the answers into the design, say what changed in one line,
    and ask nothing more until the handoff.
 4. Then execute the Step-by-Step Build Flow.
