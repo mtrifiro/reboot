@@ -361,8 +361,8 @@ wrong means regenerating everything across the project.
 The design is a proposal until the user accepts it: call it, and
 every part of it such as the data model, proposed, never settled, set
 or final, in the design and in every status line. Ask one round of
-scope questions with it (step 3 below), then build without waiting
-again. The user accepts the design, or says what to change, at the
+scope questions with the brief (step 3 below), then build without
+waiting again. The user accepts the design, or says what to change, at the
 handoff, with the running app in front of them.
 
 ### Design Phase
@@ -374,8 +374,26 @@ handoff, with the running app in front of them.
    those features.
 1. Analyze the user's description using the State Model Assessment
    below.
-2. Show the user the design you propose, in the chat, before
-   writing the API:
+2. Show the user the brief and the proposed features first, from
+   the prompt alone, before reading any reference: who uses the app
+   and on what screen, the task, the one question its main page
+   answers, and each feature in a sentence. Ask the scope questions
+   (step 3) in the same turn, so the user answers while the build
+   reads on.
+3. Ask one round of scope questions, in one question dialog
+   (`AskUserQuestion` where available): at most three, on what the
+   prompt left open and an answer would change most, such as the
+   feature set and who signs in with which roles. Give each question
+   two to four options, the simplest first and marked as
+   recommended, so accepting every recommendation is one answer.
+   When the user named no brand, one of them is the accent: two or
+   three of teal, cyan, blue, indigo, violet, purple, plum and rose
+   that suit the domain, plus "use my brand" for a site or tokens to
+   read. Don't ask what the design can decide well on its own. Ask
+   nothing more until the handoff.
+4. Then read the references for the API and show the rest of the
+   proposed design, with the answers folded in, before writing the
+   API:
    - Application types: state shape (fields, types, tags).
    - Method map, one line per method: its method type
      (Reader/Writer/Transaction/Workflow) and its role for an AI
@@ -392,19 +410,7 @@ handoff, with the running app in front of them.
      an AI caller from the start. A web app keeps `mcp=None` until an
      MCP UI is added; then only `mcp=` changes, which a deployed app
      allows (`python/references/api-schema-evolution.md`).
-3. Ask one round of scope questions, in one question dialog
-   (`AskUserQuestion` where available), right after the design: at
-   most three, on what the prompt left open and an answer would
-   change most, such as the feature set and who signs in with which
-   roles. Give each question two to four options, the simplest first
-   and marked as recommended, so accepting every recommendation is
-   one answer. When the user named no brand, one of them is the
-   accent: two or three that suit the domain, the design's own first,
-   plus "use my brand" for a site or tokens to read. Don't ask what
-   the design can decide well on its own.
-   Fold the answers into the design, say what changed in one line,
-   and ask nothing more until the handoff.
-4. Then execute the Step-by-Step Build Flow.
+5. Then execute the Step-by-Step Build Flow.
 
 For updates to existing apps, still work the design first: read
 current state, state the changes, then modify.
