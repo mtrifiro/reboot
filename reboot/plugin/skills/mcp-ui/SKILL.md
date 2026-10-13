@@ -80,7 +80,7 @@ exactly one of them — the step that needs it.
 > [`references/react-scaffolding.md`](references/react-scaffolding.md)
 > and [`references/react-app-tsx.md`](references/react-app-tsx.md).
 > The single exception is `web-app/references/ui-design.md`, whose
-> brief and primary view apply to `UI()` views too.
+> primary views and accent apply to `UI()` views too.
 
 **Before the project shell** (`.python-version`, `pyproject.toml`,
 `.rbtrc`, `.mypy.ini`, `main.py`):
@@ -95,10 +95,6 @@ exactly one of them — the step that needs it.
 
 **Before the API definition:**
 
-- `web-app/references/ui-design.md` — the design brief and each
-  `UI()` view's primary view (highly visual and interactive unless
-  the user asks for plain), which the design states and the readers
-  serve, and the accent the brief names.
 - `python/references/patterns-common-gotchas.md` — recurring trips
   (`self.ref().state_id`, kwargs convention, a `ref()` belongs to
   one context, the auto-constructed `User` type, `--name` vs.
@@ -214,6 +210,9 @@ under Key Framework Concepts):
 
 **Before the frontend:**
 
+- `web-app/references/ui-design.md` — the primary view for each
+  `UI()` view's task and the accent's place in it; the rest is the
+  web app's.
 - [`references/react-scaffolding.md`](references/react-scaffolding.md)
   — the `frontend/` shell: `package.json` (`npm run build` runs
   `build.mjs`, which auto-discovers and builds every UI),
@@ -291,7 +290,8 @@ wrong means regenerating everything across 12+ files.
    - Application types: state shape (fields, types, tags).
    - Method map: which operations, which method type
      (Reader/Writer/Transaction/Workflow), which get `UI()`, and
-     each `UI()` view's primary view.
+     each `UI()` view's primary view (the domain's own shape, such as
+     a board or a calendar; a filtered list for lookup).
    - Tool surface: what the AI will see as callable tools.
    - Example prompts: the ~3 named chat scenarios the root-page
      wizard will offer, each a sequence of messages exercising a
