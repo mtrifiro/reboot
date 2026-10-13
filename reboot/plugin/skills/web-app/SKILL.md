@@ -598,8 +598,11 @@ order.
 6. Write a thin servicer (`backend/src/servicers/<name>.py`),
    context-type patterns in `python/references/servicer-*.md`.
    Readers return real state; writers and transactions store what
-   they are given, without the feature files' rules yet (no overlap
-   or capacity checks): the rules come with each feature below.
+   they are given. Leave out every rule from the feature files (no
+   overlap, stock or capacity checks, no role checks beyond sign-in)
+   even when one is quick to write: the rules come with each
+   feature below, with their scenarios, and a prototype that waits
+   for them reaches the user later.
    Write the real `authorizer()` rules now: they are short and the
    prototype needs sign-in to work.
 7. Write `main.py` (`python/references/lifecycle-application-entry.md`)
@@ -627,7 +630,10 @@ order.
     thousands of lines that then ride along on every later turn.
 12. `cd frontend && npm run build` (sanity check the bundle).
 13. Start the app with the [`run` skill](../run/SKILL.md), then
-    check it is ready before telling the user anything about it:
+    check it is ready before telling the user anything about it,
+    in a real browser: Playwright, installed as
+    `python/references/testing-web-app.md` says (the web app
+    scenarios need it anyway), or the browser tool the agent has:
     - the demo data has finished loading: under `rbt dev run` each
       `initialize` call runs twice to validate it, so wait until a
       page shows the whole set, not part of it;
