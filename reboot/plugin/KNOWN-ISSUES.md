@@ -105,6 +105,25 @@ Workaround: define the models each API file uses in that file.
 
 Fixed on main, not yet released.
 
+### `mypy` reports hundreds of errors in the generated `*_rbt.py`
+
+Affects: 1.6.0. Fixed on main by cb0aba22, not yet released.
+
+The generated Python for a Pydantic API fails `mypy` with hundreds of
+`arg-type`, `assignment` and `attr-defined` errors (268 for a
+three-type API), none of them in your code.
+
+Workaround: skip errors in each generated module, one section per API
+file in `.mypy.ini`. Never `<pkg>.v1.*`, which would also hide errors
+in the hand-written API module:
+
+```ini
+[mypy-<pkg>.v1.<name>_rbt]
+ignore_errors = True
+```
+
+Remove the sections after upgrading past 1.6.0.
+
 ## Schema changes
 
 ### Rewording a method's `description=` is refused as backwards-incompatible
