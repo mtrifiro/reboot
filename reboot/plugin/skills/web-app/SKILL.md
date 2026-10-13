@@ -636,7 +636,10 @@ works as it will in the finished app.
 6. Write `main.py` (`python/references/lifecycle-application-entry.md`)
    with believable demo data for this feature's objects from
    `initialize`, only under `rbt dev run`, seeded as
-   `python/references/lifecycle-seeding.md` says.
+   `python/references/lifecycle-seeding.md` says. Then write the
+   feature's scenarios in the built-in steps of
+   `python/references/testing-features.md`, run `uv run pytest` and
+   `uv run mypy backend/ tests/`, and fix what fails before any page.
 7. Scaffold the frontend at `frontend/`
    (`npm create vite@latest frontend -- --template react-ts`), shape
    it as [`references/react-client.md`](references/react-client.md)
@@ -648,12 +651,10 @@ works as it will in the finished app.
    view in the house look, with sign-in. Write the calls from the
    reference and do **not** open `frontend/api/**/*_rbt_react.ts`.
    `cd frontend && npm run build`.
-9. Write the feature's scenarios: the actions the user can do, in
-   the built-in steps of `python/references/testing-features.md`,
-   and one web app scenario for the page per
+9. Add one web app scenario for the page per
    `python/references/testing-web-app.md` (it installs Playwright).
-   Run `uv run pytest` and `uv run mypy backend/ tests/` and fix
-   what fails.
+   Every feature file then runs from the one test module that
+   starts the frontend. Run `uv run pytest` again.
 10. Start the app with the [`run` skill](../run/SKILL.md) and check
     the page in a real browser (Playwright, or the agent's browser
     tool): signed in, it shows the whole demo data, its main action
@@ -663,34 +664,40 @@ works as it will in the finished app.
     decide whether it is what they want to ship. In their nouns,
     short and plain:
     - **What it keeps track of:** each object built so far, what it
-      holds, and why it is its own object or lives inside another.
+      holds, and why it is its own object or lives inside another,
+      its name a link to it on the dashboard (`dashboard` skill,
+      "Links to an Object or a Rule").
     - **What it does:** each action in a sentence, who may do it,
-      and each rule it keeps, with the scenario that proves the rule
-      (passing).
-    - **How to check it:** the dashboard's Models page for the API,
-      its Features page for the rules, scenarios, the methods each
-      uses and the browser recording; and on the page itself, one
-      thing to try that a rule refuses.
+      and each rule it keeps, linked to its section of the
+      dashboard's Features page, with the scenario that proves it
+      (passing) and the browser recording.
+    - **How to check it:** on the page itself, one thing to try that
+      a rule refuses.
     - **Not built yet:** the remaining features, in order.
 
     Then the URL, with a screenshot of the page. Then ask one
-    question: build the recommended next feature (name it, and why
-    it comes next), another from the list, or change something
-    first.
+    question: accept this feature (its `@wip` comes off) and build
+    the recommended next one (name it, and why it comes next),
+    another from the list, or change something first. Last, any
+    workaround the build needed, one line each.
 
 **Each next feature**, when the user chooses it:
 
 12. Agree it in plain English and write its `@wip` feature file
     ([`feature` skill](../feature/SKILL.md)), and show the part of
-    the domain model it adds.
+    the domain model it adds. If it changes the shape of existing
+    data, say the demo data will be reset, and why.
 13. Add its types and methods to the API (additive only, per
     `python/references/api-schema-evolution.md`), `rbt generate`,
     then its servicer with its rules, its demo data, its page or the
-    change to an existing page, and its scenarios.
+    change to an existing page, and its scenarios. Before a change
+    that isn't additive, stop the app with the `run` skill; start it
+    again once the scenarios pass.
 14. Run `uv run pytest` and `uv run mypy backend/ tests/`, check the
     page in the browser as in step 10, and show what this feature
-    changed as in step 11: the objects it added or changed, its
-    actions and rules with their scenarios, what changed in the API
+    changed as in step 11, with the same links: the objects it added
+    or changed, its actions and rules with their scenarios, what
+    changed in the API
     (the dashboard's changelog), and what is still to come; then the
     next question.
 
@@ -699,35 +706,8 @@ When the user says the app is done, offer an MCP UI in one line
 
 ## Update Flow
 
-When modifying an existing app:
-
-1. Read `.rbtrc`, the API definition, servicer, `main.py`, and
-   `frontend/web/src/App.tsx`.
-2. Assess state model changes. If the app has persisted state or
-   has been deployed, read
-   `python/references/api-schema-evolution.md` to understand the
-   rules you must follow for API schema evolution.
-3. Agree on the changed or new feature in English and write it
-   down first, per the [`feature` skill](../feature/SKILL.md):
-   the feature file, tagged `@wip`, before the API changes.
-4. Update the API definition (every new property with a
-   `description=`) → re-run `uv run rbt generate`.
-5. Update servicer methods.
-6. Update React components and routes, keeping the markup
-   accessible (labels paired with inputs, buttons that say what
-   they do) so scenarios can drive the new page.
-7. Update the scenarios: the feature file's, and a web app
-   scenario for a flow a person clicks through. Re-verify the
-   backend: run `uv run mypy backend/ tests/` from the project root and
-   `uv run pytest`; fix every error and failure
-   before handing back, and ask before removing `@wip`.
-8. If the app isn't already running, bring it up with the
-   [`run` skill](../run/SKILL.md). If it is already running under
-   `rbt dev run`, the `--watch` globs reload it automatically — no
-   restart needed. Editing `.env` likewise triggers a restart, so
-   a new or changed secret is re-read by `--env-file` without a
-   manual relaunch.
-
-Specific patterns and file shapes live in the `python` skill's
-references and the table above — read them on demand based on
-what's changing.
+To change an existing app, read `.rbtrc`, the API, the servicers,
+`main.py` and `frontend/web/src/App.tsx`, then follow steps 12 to 14.
+An app with persisted or deployed state follows
+`python/references/api-schema-evolution.md`. Under `rbt dev run`,
+edits (and `.env`) reload it; no restart.

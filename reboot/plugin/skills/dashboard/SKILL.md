@@ -11,17 +11,11 @@ allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 > newer Reboot is available, the [upgrade skill](../upgrade/SKILL.md)
 > says how and when to react.
 
-The developer dashboard is a browser page, served by
-`rbt dashboard`, that shows a Reboot application's API (the Models
-page), its features as the `.feature` files under `tests/`
-specify them (the Features page, with each feature's rules and
-scenarios, the methods it uses, its `@wip` and `@blocked` marks, and
-the recordings of its browser scenarios), and a changelog of how the
-API has evolved. It reads the API and feature **files**, not a
-running application, so it works from before the first API file is
-written — which is exactly when to start it: bring the dashboard up
-early in a build and the developer watches the API take shape while
-you write it.
+The developer dashboard, served by `rbt dashboard`, shows an
+application's API and call graph (Models), its `.feature` files with
+their rules, scenarios and browser recordings (Features), and a
+changelog of the API. It reads files, not a running app, so start it
+early and the developer watches the API take shape.
 
 Use this skill when a build flow directs you here (the `mcp-ui`
 and `web-app` skills do, right before the API is written) or when
@@ -128,9 +122,20 @@ browser once it is serving, unless a tab is already showing it or
 the developer chose "Don't reopen automatically"; opening it as well
 gives the developer two tabs.
 
-Tell the user the dashboard is up and what it is for — e.g.
-"Developer dashboard (watch the API as I build it) at
-http://127.0.0.1:9871/" — and get on with the build.
+Tell the user the dashboard is up and what it is for, with a link to
+each object the API declares so far, and get on with the build.
 
 If the developer expected a window and none appeared, give them the
 URL; that always works.
+
+### Links to an Object or a Rule
+
+The dashboard opens on the exact thing a link names, so link each
+object and rule wherever you name it, on the port it started on:
+
+- An object: `http://127.0.0.1:9871/#/models?type=<package>.<Type>`,
+  such as `#/models?type=hotel.v1.Room`; a method appends
+  `.<method>` (`hotel.v1.Room.check_in`).
+- A feature: `#/features/<path from the project root>`, such as
+  `#/features/tests/room_status.feature`; its rules add `/rules/<n>`,
+  counted from 1 in file order.
