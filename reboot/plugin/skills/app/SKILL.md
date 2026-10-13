@@ -1,6 +1,6 @@
 ---
 name: app
-description: Build a Reboot application from a user description. Every backend is designed ready for both front doors, an MCP UI (ChatGPT, Claude, VSCode, Goose) and a standalone web app, with one `User` per identity via `oauth=...`. Builds the front door the prompt names (MCP/Claude/ChatGPT → `mcp-ui`; a URL/SPA/"website" → `web-app`; both named → both); otherwise builds the web app first without asking, and offers the other front door at handoff.
+description: Build a Reboot application from a user description. Every backend is designed ready for both front doors, an MCP UI (ChatGPT, Claude, VSCode, Goose) and a standalone web app, with one `User` per identity via `oauth=...`. Builds the front door the prompt names (MCP/Claude/ChatGPT → `mcp-ui`; a URL/SPA/"website" → `web-app`; both named → both; an API or backend for the user's own frontend, mobile app or service → a backend only, with a generated client); otherwise builds the web app first without asking, and offers the other front door at handoff.
 argument-hint: [<app-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 ---
@@ -19,7 +19,7 @@ A wrong first front door costs no rebuild, only the other one added
 later, so routing never has to ask. What varies is which front door is
 built first.
 
-### The two destinations
+### The destinations
 
 - **`mcp-ui`** — an MCP UI: the app is exposed through an
   MCP host (ChatGPT, Claude, VSCode, Goose, etc.) via MCP tools, and
@@ -27,6 +27,10 @@ built first.
 - **`web-app`** — a standalone web app: the app is served at a URL
   and used in a normal browser, with the Reboot backend behind a
   React (or similar) frontend.
+- **A backend only** — the API without a frontend of ours: the
+  user's own frontend, mobile app or service calls it through a
+  generated client. Follow
+  [`references/backend-only.md`](references/backend-only.md).
 
 ### Triggers (verbatim in the prompt)
 
@@ -53,6 +57,13 @@ inference, no synonyms:
   the browser", "served at <url>".
 - A standard browser-auth phrase: "log in via email", "OAuth login",
   "cookie session", "sign up form".
+
+**Commit to a backend only if the prompt contains any of:**
+
+- "an API", "a backend", "back end", "API only", "backend only",
+  "headless".
+- "for my mobile app", "React Native", "for my existing app",
+  "for my frontend", or a Node.js service named as the caller.
 
 **Commit to BOTH (load mcp-ui + web-app together) only if the
 prompt contains an explicit conjunction:** e.g. "and also a
@@ -90,11 +101,15 @@ used. A prompt with no trigger takes the default, step 3 below.
    [`web-app` skill](../web-app/SKILL.md) and follow it from the top,
    with the user's description as input. Don't ask which kind of app:
    the web app is the default first front door.
-4. **"Just", "only" or "no …"** ("just a website", "only an MCP
+4. **Only a backend trigger** → say one sentence ("Building this as
+   a Reboot backend; its API is ready for a web app or an MCP UI
+   too."), then follow
+   [`references/backend-only.md`](references/backend-only.md).
+5. **"Just", "only" or "no …"** ("just a website", "only an MCP
    tool", "no web UI") → build that one front door, and skip the
    offer at handoff.
 
-**At handoff**, unless step 4 applied, offer the other front door in
+**At handoff**, unless step 5 applied, offer the other front door in
 one line: "Want this in Claude and ChatGPT too? The backend is ready;
 it adds an MCP UI beside the web app." (or the reverse). On a yes, load
 that front door's skill and follow its Update Flow.
@@ -108,6 +123,7 @@ that front door's skill and follow its Update Flow.
 | "a dashboard for our team's metrics, served at metrics.example.com"      | `web-app`, offer MCP UI | Explicit URL.                    |
 | "a tool I can use from Claude to track my reading list"                  | `mcp-ui`, offer web app | "from Claude" names the runtime. |
 | "just a simple website for event signups"                                | `web-app`, no offer     | "just" scopes it to one.         |
+| "a backend API for my React Native workout app"                          | Backend only            | "backend API", "React Native".   |
 | "expose a CRM as an MCP server, and also a dashboard at crm.example.com" | Both, load both skills  | Explicit conjunction.            |
 
 ## Note
