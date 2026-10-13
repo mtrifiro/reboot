@@ -269,17 +269,21 @@ targeted `grep -n … | head -40`, or `sed -n '<start>,<end>p'` over
 a known range. Never a whole generated file, never an unbounded
 recursive grep.
 
-## Workflow: Settle the Design, Then Build
+## Workflow: Propose the Design, Then Build
 
-**Always settle the design before writing code.** The state model
+**Always work out the design before writing code.** The state model
 is the foundation — getting entities, field types, or method types
 wrong means regenerating everything across 12+ files.
+The design is a proposal until the user accepts it: call it proposed,
+never settled, set or final, and build on it without waiting. The
+user accepts it, or says what to change, at the handoff, with the
+running app in front of them.
 
 ### Design Phase
 
 1. Analyze the user's description using the State Model Assessment
    below.
-2. State the design you are about to build:
+2. Propose the design you are about to build:
    - `User` type and its methods (the MCP front door for creating new
      application-type instances and locating existing ones).
    - Application types: state shape (fields, types, tags).
@@ -780,7 +784,9 @@ a worked set are in
     **setup wizard at its root (`http://localhost:9991`)** — the
     page that connects an MCP client (Claude, ChatGPT, MCPJam, …)
     and completes OAuth. As the run skill directs, surface that
-    URL to the user and open it once at first startup. Do **not**
+    URL to the user and open it once at first startup, and ask
+    the user to accept the design as built or say what to change.
+    Do **not**
     start the MCPJam inspector as part of running the app — it
     launches on demand, only if the user picks it in the wizard.
     Don't bypass the run skill by invoking `rbt dev run` /
