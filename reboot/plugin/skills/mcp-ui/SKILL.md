@@ -287,9 +287,10 @@ is the foundation — getting entities, field types, or method types
 wrong means regenerating everything across 12+ files.
 The design is a proposal until the user accepts it: call it, and
 every part of it such as the data model, proposed, never settled, set
-or final, in the design and in every status line. Build on it without
-waiting. The user accepts it, or says what to change, at the handoff,
-with the running app in front of them.
+or final, in the design and in every status line. Ask one round of
+scope questions with it (step 3 below), then build without waiting
+again. The user accepts the design, or says what to change, at the
+handoff, with the running app in front of them.
 
 ### Design Phase
 
@@ -312,7 +313,16 @@ with the running app in front of them.
      main user story — and most of them ending on a turn that
      renders a `UI()` component, not just a tool call (see
      "Example Prompts" under Key Framework Concepts).
-3. Then execute the Step-by-Step Build Flow.
+3. Ask one round of scope questions, in one question dialog
+   (`AskUserQuestion` where available), right after the design: at
+   most three, on what the prompt left open and an answer would
+   change most, such as the feature set and who signs in with which
+   roles. Give each question two to four options, the simplest first
+   and marked as recommended, so accepting every recommendation is
+   one answer. Don't ask what the design can decide well on its own.
+   Fold the answers into the design, say what changed in one line,
+   and ask nothing more until the handoff.
+4. Then execute the Step-by-Step Build Flow.
 
 For updates to existing apps, still work the design first: read
 current state, state the changes, then modify.
