@@ -122,9 +122,12 @@ Saturated green, amber and red encode exactly one data dimension
 neutral pill with text. The accent is never green, amber or red. Keep
 contrast high: body text 7:1 or better, secondary text 4.5:1.
 
-Design light and dark, and give the first build a theme toggle in the
-top bar: the OS setting until the user chooses, then remembered per
-browser.
+Design light and dark, and give the first build a theme toggle: the
+OS setting until the user chooses, then remembered per browser. In
+the bar it is a small icon button (a sun or a moon for the scheme it
+switches to) with an accessible label such as "Switch to dark mode",
+never a text button. Inside a menu it is a labeled item, "Dark mode"
+or "Light mode".
 
 ### Type
 
