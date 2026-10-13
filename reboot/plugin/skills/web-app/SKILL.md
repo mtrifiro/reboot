@@ -661,9 +661,10 @@ order.
     don't check phone width or the dark scheme yet. The scenarios
     test the flows, and the look is checked as the features are
     finished. Fix what fails and check again. Only then give the user
-    the URL and a first thing to try, say that the pages and data are
-    real and the rules are not enforced yet, and ask them to try it
-    and say what to change. Don't wait for an answer; go on to the
+    the URL and a first thing to try, with a screenshot of the main
+    page taken during the check, so the look is in the message; say
+    that the pages and data are real and the rules are not enforced
+    yet, and ask them to try it and say what to change. Don't wait for an answer; go on to the
     features.
 
 **The features, one at a time**, in the order of the design. The
