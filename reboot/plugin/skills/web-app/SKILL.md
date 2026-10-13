@@ -346,8 +346,8 @@ wrong means regenerating everything across the project.
 The design is a proposal until the user accepts it: call it, and
 every part of it such as the data model, proposed, never settled, set
 or final, in the design and in every status line. Ask one round of
-scope questions with the brief (step 3 below), then build without
-waiting again. The user accepts the design, or says what to change, at the
+scope questions before it (step 2 below), then build without waiting
+again. The user accepts the design, or says what to change, at the
 handoff, with the running app in front of them.
 
 ### Design Phase
@@ -359,26 +359,23 @@ handoff, with the running app in front of them.
    those features.
 1. Analyze the user's description using the State Model Assessment
    below.
-2. Show the user the brief and the proposed features first, from
-   the prompt alone, before reading any reference: who uses the app
-   and on what screen, the task, the one question its main page
-   answers, and each feature in a sentence. Ask the scope questions
-   (step 3) in the same turn, so the user answers while the build
-   reads on.
-3. Ask one round of scope questions, in one question dialog
-   (`AskUserQuestion` where available): at most three, on what the
-   prompt left open and an answer would change most, such as the
-   feature set and who signs in with which roles. Give each question
-   two to four options, the simplest first and marked as
-   recommended, so accepting every recommendation is one answer.
-   When the user named no brand, one of them is the accent: two or
-   three of teal, cyan, blue, indigo, violet, purple, plum and rose
-   that suit the domain, plus "use my brand" for a site or tokens to
-   read. Don't ask what the design can decide well on its own. Ask
-   nothing more until the handoff.
-4. Then read the references for the API and show the rest of the
-   proposed design, with the answers folded in, before writing the
-   API:
+2. Ask one round of scope questions first, from the prompt alone,
+   before reading any reference or showing a design: one question
+   dialog (`AskUserQuestion` where available) with at most three
+   questions, on what the prompt left open and an answer would change
+   most, such as who signs in with which roles and what the app keeps
+   track of. Give each question two to four options, the simplest
+   first and marked as recommended, so accepting every
+   recommendation is one answer. When the user named no brand, one of
+   them is the accent: two or three of teal, cyan, blue, indigo,
+   violet, purple, plum and rose that suit the domain, plus "use my
+   brand" for a site or tokens to read. Don't ask what the design can
+   decide well on its own. Ask nothing more until the handoff.
+3. Read the references for the API, then show the proposed design
+   with the answers in it, before writing the API: the brief (who
+   uses the app and on what screen, the task, the one question its
+   main page answers, the accent), the features in a sentence each,
+   and:
    - Application types: state shape (fields, types, tags).
    - Method map: which operations, which method type
      (Reader/Writer/Transaction/Workflow).
@@ -386,7 +383,7 @@ handoff, with the running app in front of them.
      each page calls.
    - Auth: anonymous, logged-in, or per-user state? If per-user,
      declare a `User` type for owned data and route through it.
-5. Then execute the Step-by-Step Build Flow.
+4. Then execute the Step-by-Step Build Flow.
 
 For updates to existing apps, still work the design first: read
 current state, state the changes, then modify.
