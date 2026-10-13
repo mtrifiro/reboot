@@ -590,9 +590,33 @@ MCP frontend keeps this tree, adds `frontend/mcp/<name>/` beside
 5. `uv run rbt generate`. Don't read what it wrote: the signature
    your servicer must match is in `python/references/api-methods.md`
    ("The Servicer Signature Each Declaration Obliges").
-6. Write the servicer (`backend/src/servicers/<name>.py`) —
+   The build reaches a working prototype first, then finishes the app
+   one feature at a time. The prototype runs on the real API and the
+   real generated hooks, so the user's changes and the finished app
+   converge on the same code. The user sees it only once it works.
+
+**The prototype, built in two parts at once.** Where sub-agents are
+available (Claude Code's Agent tool), start one for the frontend
+(steps 8 to 12) right after step 5 and do steps 6 and 7 yourself
+meanwhile. Give it the proposed design with its brief, the API file,
+and this skill's frontend references; tell it to work only under
+`frontend/`, never to run `rbt generate`, change the API or start
+the app, and to report back when `npm run build` passes or when the
+API lacks something a page needs. Without sub-agents, do the steps in
+order.
+
+6. Write a thin servicer (`backend/src/servicers/<name>.py`),
    context-type patterns in `python/references/servicer-*.md`.
-7. Write `main.py` — `python/references/lifecycle-application-entry.md`.
+   Readers return real state; writers and transactions store what
+   they are given, without the feature files' rules yet (no overlap
+   or capacity checks): the rules come with each feature below.
+   Write the real `authorizer()` rules now: they are short and the
+   prototype needs sign-in to work.
+7. Write `main.py` (`python/references/lifecycle-application-entry.md`)
+   with believable demo data from `initialize`, only under
+   `rbt dev run`, seeded as `python/references/lifecycle-seeding.md`
+   says: a few bulk transactions, not one call per record, and a
+   small set, enough that every page shows something.
 8. Scaffold the frontend at `frontend/`
    (`npm create vite@latest frontend -- --template react-ts`) and
    shape it as [`references/react-client.md`](references/react-client.md)
@@ -602,8 +626,9 @@ MCP frontend keeps this tree, adds `frontend/mcp/<name>/` beside
    `frontend/web/.env.development` with `VITE_REBOOT_URL`.
 9. `cd frontend && npm install`.
 10. `uv run rbt generate` again — the React bindings need
-    `node_modules` to resolve types correctly.
-11. Build the frontend from
+    `node_modules` to resolve types correctly. (A frontend sub-agent
+    asks the main agent to run it.)
+11. Build every page of the design from
     [`references/react-client.md`](references/react-client.md): the
     provider and its `url`, the generated hook/mutator/error
     declarations, sign-in, and typed errors are all written out
@@ -611,45 +636,60 @@ MCP frontend keeps this tree, adds `frontend/mcp/<name>/` beside
     `frontend/api/**/*_rbt_react.ts` to check them — it is tens of
     thousands of lines that then ride along on every later turn.
 12. `cd frontend && npm run build` (sanity check the bundle).
-13. **Write and run the scenarios of every feature before handing
-    the app off.** Each feature file from the design phase gets its
-    scenarios now: every action the user should be able to _do_ in
-    the UI ("sign up and see my profile", "submit the form and see
-    the result", "delete an item and have it disappear") is a
-    scenario in the built-in steps of
+13. Start the app with the [`run` skill](../run/SKILL.md), then
+    check it is ready before telling the user anything about it:
+    - the demo data has finished loading: under `rbt dev run` each
+      `initialize` call runs twice to validate it, so wait until a
+      page shows the whole set, not part of it;
+    - every page of the design opens as a signed-in user and shows
+      the demo data, with no errors in the browser console;
+    - the main action of each page works once.
+
+    That is the whole check: don't test flows end to end by hand, and
+    don't check phone width or the dark scheme yet. The scenarios
+    test the flows, and the look is checked as the features are
+    finished. Fix what fails and check again. Only then give the user
+    the URL and a first thing to try, say that the pages and data are
+    real and the rules are not enforced yet, and ask them to try it
+    and say what to change. Don't wait for an answer; go on to the
+    features.
+
+**The features, one at a time**, in the order of the design. The
+app keeps running; `rbt dev run` reloads on each change. For each
+feature:
+
+14. Write its scenarios: every action the user should be able to
+    _do_ is a scenario in the built-in steps of
     `python/references/testing-features.md`, and the flows a person
     clicks through are web app scenarios per
     `python/references/testing-web-app.md` (they need `playwright`,
     `pytest-playwright`, `uv run playwright install chromium`, and
-    the page's accessible markup from step 11). Every step names
-    who calls; a user who must be signed in is declared with
-    `"alice" is an authenticated user`, which is how the real
-    authorizers get exercised: register the **real** servicers and
-    never subclass one to weaken its `authorizer()`. Let factories
-    make ids up. Tag what cannot pass yet `@blocked` with its
-    reason; leave `@wip` where work continues. When a scenario
-    fails for a reason that looks like it is inside the framework,
-    check `python/references/patterns-idempotency.md` and
+    the page's accessible markup). Every step names who calls; a
+    user who must be signed in is declared with
+    `"alice" is an authenticated user`, so the real authorizers are
+    exercised: register the **real** servicers and never subclass
+    one to weaken its `authorizer()`. Let factories make ids up.
+15. Add the feature's rules to the servicer and adjust its pages,
+    until its scenarios pass. When a scenario fails for a reason
+    that looks like it is inside the framework, check
+    `python/references/patterns-idempotency.md` and
     `patterns-common-gotchas.md` before reading `site-packages`.
-    Run `uv run pytest` and fix anything that fails.
-    Then type-check: run `uv run mypy backend/ tests/` from the project
-    root and fix every error (config and rationale in
-    `python/references/lifecycle-project-setup.md`). Do not
-    proceed to the next step until every scenario passes (or is
-    `@blocked` with a reason) and mypy is green — together they
-    are what catches contract bugs before the user opens the
-    browser. Point the user at the dashboard's Features page to
-    review the features, and at the recordings of the browser
-    scenarios.
-14. Run the app — load the [`run` skill](../run/SKILL.md) and
-    follow it. It is the single canonical "start the app"
-    procedure: it makes sure dependencies and secrets are in
-    place, starts the backend and frontend dev server, waits for
-    them to come up, and hands the user the URLs plus a first page
-    to open. With them, ask the user to accept the design as built
-    or say what to change. Unless the user asked for only a web app,
-    end with the one-line offer of an MCP UI (`app` skill, "At
-    handoff").
+16. Fold in what the user asked to change, if anything: a change to
+    the design goes back to the proposed design, then into the
+    feature it touches.
+17. Run `uv run pytest` and `uv run mypy backend/ tests/` from the
+    project root and fix what fails, then say in one line which
+    feature is now finished.
+
+**The handoff**, when every feature is done:
+
+18. Every scenario passes (or is `@blocked` with its reason) and
+    mypy is green — together they are what catches contract bugs.
+    Point the user at the dashboard's Features page and at the
+    recordings of the browser scenarios, ask them to accept the
+    design as built or say what to change, and, unless they asked
+    for only a web app, end with the one-line offer of an MCP UI
+    (`app` skill, "At handoff").
 
 ## Update Flow
 
