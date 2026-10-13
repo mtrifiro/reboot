@@ -10,7 +10,9 @@ tags: ui, design, layout, visual, interactive, brand, color, contrast, dark mode
 The aim is a UI a person can scan and operate. The user's words come
 first, then an existing design system (their brand site, a tokens
 file), then this file. Wiring and accessible markup are in
-[`react-client.md`](react-client.md).
+[`react-client.md`](react-client.md). An MCP UI view shown inside a
+host follows the brief, the primary view, color and live data; the
+top bar, theme toggle, fonts, logo and favicon are the web app's.
 
 ### Highly Visual and Interactive by Default
 
