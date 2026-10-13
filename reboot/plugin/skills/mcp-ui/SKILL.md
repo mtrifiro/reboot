@@ -103,7 +103,7 @@ exactly one of them — the step that needs it.
 - `web-app/references/ui-design.md` — the design brief and each
   `UI()` view's primary view (highly visual and interactive unless
   the user asks for plain), which the design states and the readers
-  serve. The rest of it applies when the app also has a web app.
+  serve, and the accent the brief names.
 - `python/references/patterns-common-gotchas.md` — recurring trips
   (`self.ref().state_id`, kwargs convention, a `ref()` belongs to
   one context, the auto-constructed `User` type, `--name` vs.
