@@ -352,11 +352,16 @@ targeted `grep -n … | head -40`, or `sed -n '<start>,<end>p'` over
 a known range. Never a whole generated file, never an unbounded
 recursive grep.
 
-## Workflow: Settle the Design, Then Build
+## Workflow: Propose the Design, Then Build
 
-**Always settle the design before writing code.** The state model
+**Always work out the design before writing code.** The state model
 is the foundation — getting entities, field types, or method types
 wrong means regenerating everything across the project.
+The design is a proposal until the user accepts it: call it, and
+every part of it such as the data model, proposed, never settled, set
+or final, in the design and in every status line. Build on it without
+waiting. The user accepts it, or says what to change, at the handoff,
+with the running app in front of them.
 
 ### Design Phase
 
@@ -367,7 +372,8 @@ wrong means regenerating everything across the project.
    those features.
 1. Analyze the user's description using the State Model Assessment
    below.
-2. State the design you are about to build:
+2. Show the user the design you propose, in the chat, before
+   writing the API:
    - Application types: state shape (fields, types, tags).
    - Method map, one line per method: its method type
      (Reader/Writer/Transaction/Workflow) and its role for an AI
@@ -640,8 +646,10 @@ MCP frontend keeps this tree, adds `frontend/mcp/<name>/` beside
     procedure: it makes sure dependencies and secrets are in
     place, starts the backend and frontend dev server, waits for
     them to come up, and hands the user the URLs plus a first page
-    to open. Unless the user asked for only a web app, end with the
-    one-line offer of an MCP UI (`app` skill, "At handoff").
+    to open. With them, ask the user to accept the design as built
+    or say what to change. Unless the user asked for only a web app,
+    end with the one-line offer of an MCP UI (`app` skill, "At
+    handoff").
 
 ## Update Flow
 
