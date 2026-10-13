@@ -394,8 +394,10 @@ is accepted or changed piece by piece, with the app in front of them.
    per type, saying what it is and how it relates to the others; the
    features in build order, the first marked and why it comes first.
    The first feature is the one that shows the app's central object
-   and its main behavior on one page (for a hotel, the rooms and
-   their status on a floor plan). For the first feature only:
+   and its main behavior on one page, with at least one rule the
+   user can see it keep (for a hotel, the rooms and their status on
+   a floor plan, where a room can't be checked into until it's
+   clean). For the first feature only:
    - Application types: state shape (fields, types, tags).
    - Method map, one line per method: its method type
      (Reader/Writer/Transaction/Workflow) and its role for an AI
