@@ -225,7 +225,7 @@ exactly one of them — the step that needs it.
 - [`references/ui-design.md`](references/ui-design.md) — the design
   brief and each page's primary view (highly visual and interactive
   unless the user asks for plain), which the design states and the
-  readers serve; then layout, color and contrast for the pages.
+  readers serve, and the look the brief names.
 - `python/references/patterns-common-gotchas.md` — recurring trips
   (`self.ref().state_id`, kwargs convention, a `ref()` belongs to
   one context, the auto-constructed `User` type, `--name` vs.
@@ -291,6 +291,10 @@ above for the dev-vs-prod sequence):
 
 **Before the frontend:**
 
+- [`references/ui-look.md`](references/ui-look.md) — the values
+  behind the look the brief names: palette, typefaces, layout,
+  density and style, logo and favicon, and the checks at phone width
+  and in both schemes.
 - [`references/react-client.md`](references/react-client.md) — the
   `frontend/` shell (the stock Vite config rooted at `web/`,
   including the `server.host` the browser needs), the backend URL
