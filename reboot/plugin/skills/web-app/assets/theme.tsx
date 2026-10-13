@@ -18,7 +18,9 @@ function saved(): Theme | null {
 function current(): Theme {
   return (
     saved() ??
-    (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+    (window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light")
   );
 }
 
