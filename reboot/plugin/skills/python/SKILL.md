@@ -320,6 +320,9 @@ The `Agent` runs only inside a `WorkflowContext`, so also read the
   modifying an API that has already been deployed or run with
   persisted state**: the rules you must follow for API schema
   evolution
+- `references/patterns-cross-actor-reads.md` — when a page reads
+  many states: summary and detail readers, one fan-out reader on
+  the parent, and keeping items that change together inline
 
 ### Implementing a Servicer
 
@@ -385,6 +388,10 @@ with "unknown actor type."
 - `references/auth-allow-if.md` and `references/auth-built-in-predicates.md`
   — composition patterns
 - `references/auth-custom-predicates.md` — for app-specific rules
+- `references/auth-claims.md` — when the app needs the user's email
+  or name: requesting claims and overriding `User.set_claims`
+- `references/auth-roles.md` — when staff sign in and what each may
+  do depends on a role: one roster, invitations, the first admin
 - `references/auth-context-propagation.md` — **always read when a
   method calls another servicer or records who acted**: a nested call
   carries the caller's `context.auth` and stays app-internal (so
@@ -465,6 +472,9 @@ optional extra:
   including the pydantic zero-default rule, `self.state_id`
   non-existence, and `--name` vs. `--application-name`. Read it once
   per task.
+- `references/errors.md` — holding an error string, grep a
+  distinctive fragment of it here first; each row gives the cause,
+  the fix and the reference that explains it. Never read it whole.
 
 ## Available Reference Files
 
@@ -479,6 +489,8 @@ above lists the right ones grouped by task type. The full catalog:
 - `references/lifecycle-rbtrc.md`
 - `references/lifecycle-application-entry.md`
 - `references/lifecycle-initialize-hook.md`
+- `references/lifecycle-seeding.md` — loading a catalog or demo
+  data from `initialize` and tests
 - `references/lifecycle-secrets.md`
 - `references/lifecycle-dockerfile.md`
 - `references/lifecycle-reboot-cloud.md`
@@ -537,6 +549,8 @@ above lists the right ones grouped by task type. The full catalog:
 - `references/auth-allow-if.md`
 - `references/auth-built-in-predicates.md`
 - `references/auth-custom-predicates.md`
+- `references/auth-claims.md`
+- `references/auth-roles.md`
 - `references/auth-context-propagation.md` — `context.auth` follows a
   call through the application; audit in writers, never in readers
 - `references/auth-external-api-calls.md`
@@ -574,6 +588,11 @@ above lists the right ones grouped by task type. The full catalog:
 - `references/patterns-error-handling.md`
 - `references/patterns-idempotency.md`
 - `references/patterns-common-gotchas.md`
+- `references/patterns-cross-actor-reads.md`
+
+**Errors**:
+
+- `references/errors.md` — error strings with cause and fix; grep it
 
 ## External References
 
