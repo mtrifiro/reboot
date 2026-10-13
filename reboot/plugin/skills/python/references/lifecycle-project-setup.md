@@ -177,7 +177,6 @@ ignore_missing_imports = True
 ignore_missing_imports = True
 [mypy-grpc_status.*]
 ignore_missing_imports = True
-
 ```
 
 **The project-root `api/` entry in `mypy_path` is required.** It is
