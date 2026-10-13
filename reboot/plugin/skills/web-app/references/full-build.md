@@ -7,9 +7,11 @@ tags: build flow, full build, prototype, sub-agent, readiness check
 
 ## Build the Whole App at Once
 
-Use this instead of the one-feature flow in `SKILL.md` only when the
-user asks for the whole app in one go ("build the whole thing",
-"build everything", "the complete app"). The design phase is the same.
+Use this instead of the one-feature flow in `SKILL.md` when the user
+chose a full prototype in the scope questions, or asked for the whole
+app in one go ("build the whole thing", "the complete app"). The
+design phase is the same, with every feature's methods and pages
+spelled out.
 
 ### The Steps
 

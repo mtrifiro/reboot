@@ -361,10 +361,11 @@ wrong means regenerating everything across the project.
 The design is a proposal until the user accepts it: call it, and
 every part of it such as the data model, proposed, never settled, set
 or final, in the design and in every status line. Ask one round of
-scope questions before it (step 2 below), then build the first
-feature without waiting. The app grows one feature at a time: after
-each, the user sees it running and chooses the next, so the design
-is accepted or changed piece by piece, with the app in front of them.
+scope questions before it (step 2 below), then build without
+waiting. The first question is how to build: one feature at a time,
+where after each the user sees it running, understands it and
+chooses the next, so the design is accepted piece by piece; or a
+full prototype first, accepted at its handoff.
 
 ### Design Phase
 
@@ -377,10 +378,13 @@ is accepted or changed piece by piece, with the app in front of them.
    below.
 2. Ask one round of scope questions first, from the prompt alone,
    before reading any reference or showing a design: one question
-   dialog (`AskUserQuestion` where available) with at most three
-   questions, on what the prompt left open and an answer would change
-   most, such as who signs in with which roles and what the app keeps
-   track of. Give each question two to four options, the simplest
+   dialog (`AskUserQuestion` where available). The first question is
+   always how to build it, unless the prompt already says: "One
+   feature at a time, so you understand each part as it's built"
+   (recommended) or "A full working prototype first, then finished
+   feature by feature". Then at most three more, on what the prompt
+   left open and an answer would change most, such as who signs in
+   with which roles and what the app keeps track of. Give each question two to four options, the simplest
    first and marked as recommended, so accepting every
    recommendation is one answer. When the user named no brand, one of
    them is the accent: two or three of teal, cyan, blue, indigo,
@@ -397,7 +401,8 @@ is accepted or changed piece by piece, with the app in front of them.
    and its main behavior on one page, with at least one rule the
    user can see it keep (for a hotel, the rooms and their status on
    a floor plan, where a room can't be checked into until it's
-   clean). For the first feature only:
+   clean). For the first feature only, or for every feature when the
+   user chose a full prototype:
    - Application types: state shape (fields, types, tags).
    - Method map, one line per method: its method type
      (Reader/Writer/Transaction/Workflow) and its role for an AI
@@ -414,10 +419,9 @@ is accepted or changed piece by piece, with the app in front of them.
      an AI caller from the start. A web app keeps `mcp=None` until an
      MCP UI is added; then only `mcp=` changes, which a deployed app
      allows (`python/references/api-schema-evolution.md`).
-4. Then execute the Step-by-Step Build Flow, which builds the first
-   feature. When the user asked for the whole app at once ("build
-   the whole thing", "everything"), follow
-   [`references/full-build.md`](references/full-build.md) instead.
+4. Then build it the way the user chose: one feature at a time, by
+   the Step-by-Step Build Flow below, or the full prototype, by
+   [`references/full-build.md`](references/full-build.md).
 
 For updates to existing apps, still work the design first: read
 current state, state the changes, then modify.
