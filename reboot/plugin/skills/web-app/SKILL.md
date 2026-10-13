@@ -361,17 +361,18 @@ wrong means regenerating everything across the project.
 The design is a proposal until the user accepts it: call it, and
 every part of it such as the data model, proposed, never settled, set
 or final, in the design and in every status line. Ask one round of
-scope questions before it (step 2 below), then build without waiting
-again. The user accepts the design, or says what to change, at the
-handoff, with the running app in front of them.
+scope questions before it (step 2 below), then build the first
+feature without waiting. The app grows one feature at a time: after
+each, the user sees it running and chooses the next, so the design
+is accepted or changed piece by piece, with the app in front of them.
 
 ### Design Phase
 
-0. For each capability the app has, follow the
-   [`feature` skill](../feature/SKILL.md): agree on it in plain
-   English with the user, and write it down as a `@wip` feature
-   file before the API exists. The design below is derived from
-   those features.
+0. List the app's features, one sentence each, in the order they
+   will be built. Each is agreed in plain English and written down as
+   a `@wip` feature file by the
+   [`feature` skill](../feature/SKILL.md) when its turn comes, before
+   its part of the API exists.
 1. Analyze the user's description using the State Model Assessment
    below.
 2. Ask one round of scope questions first, from the prompt alone,
@@ -389,8 +390,12 @@ handoff, with the running app in front of them.
 3. Read the references for the API, then show the proposed design
    with the answers in it, before writing the API: the brief (who
    uses the app and on what screen, the task, the one question its
-   main page answers, the accent), the features in a sentence each,
-   and:
+   main page answers, the accent); the whole domain model, one line
+   per type, saying what it is and how it relates to the others; the
+   features in build order, the first marked and why it comes first.
+   The first feature is the one that shows the app's central object
+   and its main behavior on one page (for a hotel, the rooms and
+   their status on a floor plan). For the first feature only:
    - Application types: state shape (fields, types, tags).
    - Method map, one line per method: its method type
      (Reader/Writer/Transaction/Workflow) and its role for an AI
@@ -407,7 +412,10 @@ handoff, with the running app in front of them.
      an AI caller from the start. A web app keeps `mcp=None` until an
      MCP UI is added; then only `mcp=` changes, which a deployed app
      allows (`python/references/api-schema-evolution.md`).
-4. Then execute the Step-by-Step Build Flow.
+4. Then execute the Step-by-Step Build Flow, which builds the first
+   feature. When the user asked for the whole app at once ("build
+   the whole thing", "everything"), follow
+   [`references/full-build.md`](references/full-build.md) instead.
 
 For updates to existing apps, still work the design first: read
 current state, state the changes, then modify.
@@ -584,7 +592,13 @@ MCP frontend keeps this tree, adds `frontend/mcp/<name>/` beside
 
 ## Step-by-Step Build Flow
 
-**All commands run from the application directory.**
+**All commands run from the application directory.** The build
+finishes one feature, with one page, and shows it; then the user
+chooses the next feature, and the loop below adds it. Each feature is
+built whole, with its rules and scenarios, so what the user sees
+works as it will in the finished app.
+
+**The first feature:**
 
 1. Create `.python-version`, `pyproject.toml`, `.rbtrc`, and
    `.mypy.ini` — same shape as in
@@ -594,130 +608,71 @@ MCP frontend keeps this tree, adds `frontend/mcp/<name>/` beside
    generate --react=frontend/api
    ```
 2. `uv sync`.
-3. Don't start the developer dashboard yet: it starts after step 5,
-   once there is an API for it to show.
-4. Write the API definition (`api/<pkg>/v1/<name>.py`). Pydantic
-   rules live in `python/references/api-pydantic.md`; method
-   marker → context-type rules in
-   `python/references/api-methods.md`. Every `Reader`, `Writer`,
-   `Transaction` and `Workflow` still requires the `mcp=` argument:
-   write `mcp=None` on each one. Do **not** add `mcp=Tool()` or
-   `UI()`; those are MCP-UI only.
-5. `uv run rbt generate`. Don't read what it wrote: the signature
+3. Write the first feature's `@wip` feature file with the
+   [`feature` skill](../feature/SKILL.md), then the API for that
+   feature only (`api/<pkg>/v1/<name>.py`): the types and methods it
+   needs, plus `User`. Later features add to it. Pydantic rules live
+   in `python/references/api-pydantic.md`; method marker →
+   context-type rules in `python/references/api-methods.md`. Every
+   `Reader`, `Writer`, `Transaction` and `Workflow` still requires
+   the `mcp=` argument: write `mcp=None` on each one.
+4. `uv run rbt generate`. Don't read what it wrote: the signature
    your servicer must match is in `python/references/api-methods.md`
    ("The Servicer Signature Each Declaration Obliges"). Then start
    the developer dashboard — load the
-   [`dashboard` skill](../dashboard/SKILL.md) and follow it — so the
-   user can watch the app come together, and go on without waiting
-   for it. If it fails to come up, say so in one sentence and keep
-   building; do not stop to debug it.
-   The build reaches a working prototype first, then finishes the app
-   one feature at a time. The prototype runs on the real API and the
-   real generated hooks, so the user's changes and the finished app
-   converge on the same code. The user sees it only once it works.
+   [`dashboard` skill](../dashboard/SKILL.md) and follow it — and go
+   on without waiting for it. If it fails to come up, say so in one
+   sentence and keep building.
+5. Write the servicer for the feature, with its rules and its real
+   `authorizer()`, context-type patterns in
+   `python/references/servicer-*.md`.
+6. Write `main.py` (`python/references/lifecycle-application-entry.md`)
+   with believable demo data for this feature's objects from
+   `initialize`, only under `rbt dev run`, seeded as
+   `python/references/lifecycle-seeding.md` says.
+7. Scaffold the frontend at `frontend/`
+   (`npm create vite@latest frontend -- --template react-ts`), shape
+   it as [`references/react-client.md`](references/react-client.md)
+   shows, `cd frontend && npm install`, and run `uv run rbt generate`
+   again for the React bindings.
+8. Build the feature's one page from
+   [`references/react-client.md`](references/react-client.md) and
+   [`references/ui-design.md`](references/ui-design.md): its primary
+   view in the house look, with sign-in. Write the calls from the
+   reference and do **not** open `frontend/api/**/*_rbt_react.ts`.
+   `cd frontend && npm run build`.
+9. Write the feature's scenarios: the actions the user can do, in
+   the built-in steps of `python/references/testing-features.md`,
+   and one web app scenario for the page per
+   `python/references/testing-web-app.md` (it installs Playwright).
+   Run `uv run pytest` and `uv run mypy backend/ tests/` and fix
+   what fails.
+10. Start the app with the [`run` skill](../run/SKILL.md) and check
+    the page in a real browser (Playwright, or the agent's browser
+    tool): signed in, it shows the whole demo data, its main action
+    works, no console errors.
+11. Show it: the URL and a first thing to try, with a screenshot of
+    the page; one line on what the feature does and the rule it
+    keeps; where to see the domain model and the feature's
+    scenarios on the dashboard. Then ask one question: build the
+    recommended next feature (name it, and why it comes next),
+    another from the list, or change something first.
 
-**The prototype, built in two parts at once.** Where sub-agents are
-available (Claude Code's Agent tool), start one for the frontend
-(steps 8 to 12) right after step 5 and do steps 6 and 7 yourself
-meanwhile. Give it the proposed design with its brief, the API file,
-and this skill's frontend references; tell it to work only under
-`frontend/`, never to run `rbt generate`, change the API or start
-the app, and to report back when `npm run build` passes or when the
-API lacks something a page needs. Without sub-agents, do the steps in
-order.
+**Each next feature**, when the user chooses it:
 
-6. Write a thin servicer (`backend/src/servicers/<name>.py`),
-   context-type patterns in `python/references/servicer-*.md`.
-   Readers return real state; writers and transactions store what
-   they are given. Leave out every rule from the feature files (no
-   overlap, stock or capacity checks, no role checks beyond sign-in)
-   even when one is quick to write: the rules come with each
-   feature below, with their scenarios, and a prototype that waits
-   for them reaches the user later.
-   Write the real `authorizer()` rules now: they are short and the
-   prototype needs sign-in to work.
-7. Write `main.py` (`python/references/lifecycle-application-entry.md`)
-   with believable demo data from `initialize`, only under
-   `rbt dev run`, seeded as `python/references/lifecycle-seeding.md`
-   says: a few bulk transactions, not one call per record, and a
-   small set, enough that every page shows something.
-8. Scaffold the frontend at `frontend/`
-   (`npm create vite@latest frontend -- --template react-ts`) and
-   shape it as [`references/react-client.md`](references/react-client.md)
-   shows: the SPA's `index.html`, `src/`, and `public/` under
-   `frontend/web/`, the config rooted there with the `dedupe` and
-   `server.host` entries, the Reboot packages in `package.json`, and
-   `frontend/web/.env.development` with `VITE_REBOOT_URL`.
-9. `cd frontend && npm install`.
-10. `uv run rbt generate` again — the React bindings need
-    `node_modules` to resolve types correctly. (A frontend sub-agent
-    asks the main agent to run it.)
-11. Build every page of the design from
-    [`references/react-client.md`](references/react-client.md): the
-    provider and its `url`, the generated hook/mutator/error
-    declarations, sign-in, and typed errors are all written out
-    there. Write the calls from that reference and do **not** open
-    `frontend/api/**/*_rbt_react.ts` to check them — it is tens of
-    thousands of lines that then ride along on every later turn.
-12. `cd frontend && npm run build` (sanity check the bundle).
-13. Start the app with the [`run` skill](../run/SKILL.md), then
-    check it is ready before telling the user anything about it,
-    in a real browser: Playwright, installed as
-    `python/references/testing-web-app.md` says (the web app
-    scenarios need it anyway), or the browser tool the agent has:
-    - the demo data has finished loading: under `rbt dev run` each
-      `initialize` call runs twice to validate it, so wait until a
-      page shows the whole set, not part of it;
-    - every page of the design opens as a signed-in user and shows
-      the demo data, with no errors in the browser console;
-    - the main action of each page works once.
+12. Agree it in plain English and write its `@wip` feature file
+    ([`feature` skill](../feature/SKILL.md)), and show the part of
+    the domain model it adds.
+13. Add its types and methods to the API (additive only, per
+    `python/references/api-schema-evolution.md`), `rbt generate`,
+    then its servicer with its rules, its demo data, its page or the
+    change to an existing page, and its scenarios.
+14. Run `uv run pytest` and `uv run mypy backend/ tests/`, check the
+    page in the browser as in step 10, and show it as in step 11,
+    with the next question.
 
-    That is the whole check: don't test flows end to end by hand, and
-    don't check phone width or the dark scheme yet. The scenarios
-    test the flows, and the look is checked as the features are
-    finished. Fix what fails and check again. Only then give the user
-    the URL and a first thing to try, with a screenshot of the main
-    page taken during the check, so the look is in the message; say
-    that the pages and data are real and the rules are not enforced
-    yet, and ask them to try it and say what to change. Don't wait for an answer; go on to the
-    features.
-
-**The features, one at a time**, in the order of the design. The
-app keeps running; `rbt dev run` reloads on each change. For each
-feature:
-
-14. Write its scenarios: every action the user should be able to
-    _do_ is a scenario in the built-in steps of
-    `python/references/testing-features.md`, and the flows a person
-    clicks through are web app scenarios per
-    `python/references/testing-web-app.md` (they need `playwright`,
-    `pytest-playwright`, `uv run playwright install chromium`, and
-    the page's accessible markup). Every step names who calls; a
-    user who must be signed in is declared with
-    `"alice" is an authenticated user`, so the real authorizers are
-    exercised: register the **real** servicers and never subclass
-    one to weaken its `authorizer()`. Let factories make ids up.
-15. Add the feature's rules to the servicer and adjust its pages,
-    until its scenarios pass. When a scenario fails for a reason
-    that looks like it is inside the framework, check
-    `python/references/patterns-idempotency.md` and
-    `patterns-common-gotchas.md` before reading `site-packages`.
-16. Fold in what the user asked to change, if anything: a change to
-    the design goes back to the proposed design, then into the
-    feature it touches.
-17. Run `uv run pytest` and `uv run mypy backend/ tests/` from the
-    project root and fix what fails, then say in one line which
-    feature is now finished.
-
-**The handoff**, when every feature is done:
-
-18. Every scenario passes (or is `@blocked` with its reason) and
-    mypy is green — together they are what catches contract bugs.
-    Point the user at the dashboard's Features page and at the
-    recordings of the browser scenarios, ask them to accept the
-    design as built or say what to change, and, unless they asked
-    for only a web app, end with the one-line offer of an MCP UI
-    (`app` skill, "At handoff").
+When the user says the app is done, offer an MCP UI in one line
+(`app` skill, "At handoff"), unless they asked for only a web app.
 
 ## Update Flow
 
