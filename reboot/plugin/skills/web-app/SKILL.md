@@ -343,10 +343,11 @@ recursive grep.
 **Always work out the design before writing code.** The state model
 is the foundation — getting entities, field types, or method types
 wrong means regenerating everything across the project.
-The design is a proposal until the user accepts it: call it proposed,
-never settled, set or final, and build on it without waiting. The
-user accepts it, or says what to change, at the handoff, with the
-running app in front of them.
+The design is a proposal until the user accepts it: call it, and
+every part of it such as the data model, proposed, never settled, set
+or final, in the design and in every status line. Build on it without
+waiting. The user accepts it, or says what to change, at the handoff,
+with the running app in front of them.
 
 ### Design Phase
 
@@ -357,7 +358,8 @@ running app in front of them.
    those features.
 1. Analyze the user's description using the State Model Assessment
    below.
-2. Propose the design you are about to build:
+2. Show the user the design you propose, in the chat, before
+   writing the API:
    - Application types: state shape (fields, types, tags).
    - Method map: which operations, which method type
      (Reader/Writer/Transaction/Workflow).
