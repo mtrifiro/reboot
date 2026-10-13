@@ -1,5 +1,5 @@
 /* The app's one stylesheet: tokens, base elements, and the classes the
-   page anatomy is built from (web-app/references/ui-look.md). It ships
+   page anatomy is built from (web-app/references/ui-design.md). It ships
    in the house look; set the accent with accent.py. To rebrand, change the token VALUES in :root and both
    dark blocks; never append a later block that re-pins them. Keep the
    names. Components never carry raw hex.

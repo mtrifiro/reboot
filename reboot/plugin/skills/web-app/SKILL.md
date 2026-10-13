@@ -232,10 +232,6 @@ exactly one of them — the step that needs it.
 
 **Before the API definition:**
 
-- [`references/ui-design.md`](references/ui-design.md) — the design
-  brief and each page's primary view (highly visual and interactive
-  unless the user asks for plain), which the design states and the
-  readers serve, and the look the brief names.
 - `python/references/patterns-common-gotchas.md` — recurring trips
   (`self.ref().state_id`, kwargs convention, a `ref()` belongs to
   one context, the auto-constructed `User` type, `--name` vs.
@@ -301,10 +297,11 @@ above for the dev-vs-prod sequence):
 
 **Before the frontend:**
 
-- [`references/ui-look.md`](references/ui-look.md) — the house
-  look: copy the stylesheet and theme toggle, set the brief's accent,
-  build the pages from its classes; the sidebar layout, a brand,
-  logo and favicon, and the checks.
+- [`references/ui-design.md`](references/ui-design.md) — the
+  primary view for each task, and the house look: copy the
+  stylesheet and theme toggle, set the design's accent, build the
+  pages from its classes; the sidebar layout, a brand, logo and
+  favicon, and the checks.
 - [`references/react-client.md`](references/react-client.md) — the
   `frontend/` shell (the stock Vite config rooted at `web/`,
   including the `server.host` the browser needs), the backend URL
@@ -385,7 +382,9 @@ handoff, with the running app in front of them.
      caller (a tool the AI calls, a `UI()` view, or for people only),
      even though the MCP UI comes later.
    - Route surface: which pages does the SPA need, each page's
-     primary view, and which methods each page calls.
+     primary view (the domain's own shape, such as a floor plan, a
+     board, a timeline or a calendar, worked on directly; a filtered
+     list for lookup), and which methods each page calls.
    - `User` type: always. It owns per-user state and routes creation,
      and it is the MCP front door if an MCP UI is added later.
    - Auth: who signs in, and what an anonymous visitor may read.
