@@ -222,6 +222,10 @@ exactly one of them — the step that needs it.
 
 **Before the API definition:**
 
+- [`references/ui-design.md`](references/ui-design.md) — the design
+  brief and each page's primary view (highly visual and interactive
+  unless the user asks for plain), which the design states and the
+  readers serve; then layout, color and contrast for the pages.
 - `python/references/patterns-common-gotchas.md` — recurring trips
   (`self.ref().state_id`, kwargs convention, a `ref()` belongs to
   one context, the auto-constructed `User` type, `--name` vs.
@@ -357,8 +361,8 @@ wrong means regenerating everything across the project.
    - Application types: state shape (fields, types, tags).
    - Method map: which operations, which method type
      (Reader/Writer/Transaction/Workflow).
-   - Route surface: which pages does the SPA need; which methods
-     each page calls.
+   - Route surface: which pages does the SPA need, each page's
+     primary view, and which methods each page calls.
    - Auth: anonymous, logged-in, or per-user state? If per-user,
      declare a `User` type for owned data and route through it.
 3. Then execute the Step-by-Step Build Flow.
