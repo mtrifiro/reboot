@@ -35,9 +35,7 @@ Write these lines into the design before any page:
 Who: front-desk staff, on a desktop at the desk, between guests
 Task: see which rooms are ready and assign arriving guests
 Question: which rooms can take a guest right now?
-Accent: teal #0f8a8a, from the hotel's site (or: none supplied, a neutral default)
-Type: Editorial pair, for a warm, hospitable feel (or: the brand's typefaces)
-Look: top bar, comfortable, soft
+Accent: plum, warm and quiet for a boutique hotel (or: the brand's, from its site)
 ```
 
 Look for a brand first: the user's words, a tokens file, the
@@ -61,19 +59,12 @@ snaps a refused drop back; keep a button for keyboard users. A
 record's detail opens in a drawer or on its own route, never
 reflowing the list.
 
-### Name the Look in the Brief
+### Name the Accent in the Brief
 
-With no brand, the brief names one choice of each from
-[`ui-look.md`](ui-look.md), which holds their values:
-
-- **Accent:** Plum, Indigo, Teal, Ink, Slate or Violet.
-- **Type:** Friendly, Neutral, Editorial, Technical or Warm.
-- **Layout:** a top bar (the default, up to about six pages) or a
-  sidebar.
-- **Density:** comfortable (the default) or compact, for dense tables
-  watched all day.
-- **Style:** soft, crisp or bold.
-
-Pick what suits the domain and the people in the brief, and say why
-in a few words. A brand's own colors and typefaces replace the accent
-and type.
+Every web app uses the house look ([`ui-look.md`](ui-look.md)), so
+the look's one choice is the accent: teal, cyan, blue, indigo, violet,
+purple, plum or rose. Pick one that suits the domain and say why in a
+few words; keep it off green, amber and red, which mean status. A
+brand's own colors and typefaces replace the house look. Name the
+layout too when it isn't the default top bar: a sidebar for seven or
+more pages or a tool kept open all day.

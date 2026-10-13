@@ -301,10 +301,10 @@ above for the dev-vs-prod sequence):
 
 **Before the frontend:**
 
-- [`references/ui-look.md`](references/ui-look.md) — the values
-  behind the look the brief names: palette, typefaces, layout,
-  density and style, logo and favicon, and the checks at phone width
-  and in both schemes.
+- [`references/ui-look.md`](references/ui-look.md) — the house
+  look: copy the stylesheet and theme toggle, set the brief's accent,
+  build the pages from its classes; the sidebar layout, a brand,
+  logo and favicon, and the checks.
 - [`references/react-client.md`](references/react-client.md) — the
   `frontend/` shell (the stock Vite config rooted at `web/`,
   including the `server.host` the browser needs), the backend URL
