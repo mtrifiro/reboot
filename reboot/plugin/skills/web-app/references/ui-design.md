@@ -28,7 +28,7 @@ no gradient or glow.
 
 ### Start with a Brief
 
-Write five lines into the design before any page:
+Write these lines into the design before any page:
 
 ```
 Who: front-desk staff, on a desktop at the desk, between guests
@@ -36,6 +36,7 @@ Task: see which rooms are ready and assign arriving guests
 Question: which rooms can take a guest right now?
 Accent: teal #0f8a8a, from the hotel's site (or: none supplied, a neutral default)
 Type: Editorial pair, for a warm, hospitable feel (or: the brand's typefaces)
+Look: top bar, comfortable, soft
 ```
 
 Look for a brand first: the user's words, a tokens file, the
@@ -59,9 +60,33 @@ snaps a refused drop back; keep a button for keyboard users. A
 record's detail opens in a drawer or on its own route, never
 reflowing the list.
 
+### Layout, Density and Style
+
+Pick one of each from the brief and name them on its Look line.
+
+| Layout  | When                                                                       |
+| ------- | -------------------------------------------------------------------------- |
+| Top bar | The default: up to about six pages; the links sit in the bar               |
+| Sidebar | Seven or more pages, or a tool people keep open all day and move around in |
+
+| Density     | Rows     | When                                                    |
+| ----------- | -------- | ------------------------------------------------------- |
+| Comfortable | 44–56 px | The default; touch screens and occasional use           |
+| Compact     | 32–40 px | Dense tables watched all day: operations, finance, logs |
+
+| Style | Radius  | Surfaces                                  | Suits                             |
+| ----- | ------- | ----------------------------------------- | --------------------------------- |
+| Soft  | 10–14px | Gentle shadow, generous padding           | Hospitality, consumer, community  |
+| Crisp | 4–6px   | Hairline borders, no shadow               | Business tools, admin, finance    |
+| Bold  | 0–2px   | Strong borders, high contrast, flat fills | Operations, technical, data-heavy |
+
+Each is a few tokens (`--radius`, `--shadow`, `--row-h`, `--pad`), so
+a later change of mind is a change of values.
+
 ### Lay Out Each Page the Same Way
 
-Top bar (product name, account, theme toggle), then a page head (a
+The navigation (a top bar or a sidebar, with the product name,
+account and theme toggle), then a page head (a
 headline saying what the page is for, a line on what to do here, the
 main action on its right), then the summary, then the controls, then
 the content. Data never starts above the page head.
@@ -69,7 +94,7 @@ the content. Data never starts above the page head.
 - **Summary:** counts as tiles, label and big number; a tile that
   filters is a button.
 - **Controls** on one labeled surface: search, filters, view and sort.
-- **Rows** about 44 to 56 px; the main text wraps, never cut off;
+- **Rows** at the density's height; the main text wraps, never cut off;
   identifiers never uppercased.
 - **Containment by role:** border and shadow mark separate objects,
   not every block. One type scale, one radius, one shadow.
@@ -80,6 +105,17 @@ Define colors as CSS custom properties (tokens) and use them
 everywhere; no raw hex in components. One accent marks primary
 actions, selection and a highlighted tile. A brand replaces the whole
 family: accent, page, ink, muted text and lines, in both schemes.
+With no brand, pick an accent from this palette; each has a shade
+for the light scheme and one for the dark, both checked for contrast:
+
+| Accent | Light     | Dark      | Suits                           |
+| ------ | --------- | --------- | ------------------------------- |
+| Plum   | `#6b3a63` | `#d9a3cd` | Hospitality, beauty, wine       |
+| Indigo | `#3346c8` | `#9fb0ff` | Productivity, education         |
+| Teal   | `#0e6f72` | `#5fcfcf` | Health, outdoors, sport         |
+| Ink    | `#1f4e79` | `#8fbbe6` | Finance, legal, public services |
+| Slate  | `#45556b` | `#b0bfd2` | Operations, internal tools      |
+| Violet | `#6440c8` | `#b9a6f5` | Creative, community, events     |
 
 Saturated green, amber and red encode exactly one data dimension
 (severity, health), as a dot or a pill; every other status is a
