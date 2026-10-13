@@ -752,11 +752,8 @@ a worked set are in
    the `.mypy.ini` template lives in
    `python/references/lifecycle-project-setup.md`.
 2. `uv sync`.
-3. Start the developer dashboard — load the
-   [`dashboard` skill](../dashboard/SKILL.md) and follow it — so
-   the user can watch the API take shape while you write it. If it
-   fails to come up, say so in one sentence and keep building; do
-   not stop to debug it.
+3. Don't start the developer dashboard yet: it starts after step 5,
+   once there is an API for it to show.
 4. Write API definition (`api/<pkg>/v1/<name>.py`) — see
    [`references/api-method-types.md`](references/api-method-types.md)
    and [`references/api-state-shapes.md`](references/api-state-shapes.md);
@@ -764,7 +761,12 @@ a worked set are in
    `python/references/api-pydantic.md`.
 5. `uv run rbt generate`. Don't read what it wrote: the signature
    your servicer must match is in `python/references/api-methods.md`
-   ("The Servicer Signature Each Declaration Obliges").
+   ("The Servicer Signature Each Declaration Obliges"). Then start
+   the developer dashboard — load the
+   [`dashboard` skill](../dashboard/SKILL.md) and follow it — so the
+   user can watch the app come together, and go on without waiting
+   for it. If it fails to come up, say so in one sentence and keep
+   building; do not stop to debug it.
 6. Write servicer (`backend/src/servicers/<name>.py`) — see
    [`references/servicer-patterns.md`](references/servicer-patterns.md);
    context-type rules in `python/references/servicer-*.md`.

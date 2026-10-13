@@ -585,11 +585,8 @@ MCP frontend keeps this tree, adds `frontend/mcp/<name>/` beside
    generate --react=frontend/api
    ```
 2. `uv sync`.
-3. Start the developer dashboard — load the
-   [`dashboard` skill](../dashboard/SKILL.md) and follow it — so
-   the user can watch the API take shape while you write it. If it
-   fails to come up, say so in one sentence and keep building; do
-   not stop to debug it.
+3. Don't start the developer dashboard yet: it starts after step 5,
+   once there is an API for it to show.
 4. Write the API definition (`api/<pkg>/v1/<name>.py`). Pydantic
    rules live in `python/references/api-pydantic.md`; method
    marker → context-type rules in
@@ -599,7 +596,12 @@ MCP frontend keeps this tree, adds `frontend/mcp/<name>/` beside
    `UI()`; those are MCP-UI only.
 5. `uv run rbt generate`. Don't read what it wrote: the signature
    your servicer must match is in `python/references/api-methods.md`
-   ("The Servicer Signature Each Declaration Obliges").
+   ("The Servicer Signature Each Declaration Obliges"). Then start
+   the developer dashboard — load the
+   [`dashboard` skill](../dashboard/SKILL.md) and follow it — so the
+   user can watch the app come together, and go on without waiting
+   for it. If it fails to come up, say so in one sentence and keep
+   building; do not stop to debug it.
    The build reaches a working prototype first, then finishes the app
    one feature at a time. The prototype runs on the real API and the
    real generated hooks, so the user's changes and the finished app
