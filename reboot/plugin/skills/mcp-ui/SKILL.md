@@ -305,8 +305,8 @@ handoff, with the running app in front of them.
    roles. Give each question two to four options, the simplest first
    and marked as recommended, so accepting every recommendation is
    one answer. When the user named no brand, one of them is the
-   look: two or three pairings of an accent and typefaces that suit
-   the domain, the design's own first, plus "use my brand" for a
+   look: two or three looks that suit the domain (each an accent,
+   typefaces and a style), the design's own first, plus "use my brand" for a
    site or tokens to read. Don't ask what the design can decide well
    on its own.
    Fold the answers into the design, say what changed in one line,
