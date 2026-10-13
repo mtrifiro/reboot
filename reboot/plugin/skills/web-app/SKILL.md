@@ -411,7 +411,8 @@ full prototype first, accepted at its handoff.
    - Route surface: which pages does the SPA need, each page's
      primary view (the domain's own shape, such as a floor plan, a
      board, a timeline or a calendar, worked on directly; a filtered
-     list for lookup), and which methods each page calls.
+     list for lookup), and which methods each page calls. A page of
+     many records reads them all through one reader on their parent.
    - `User` type: always. It owns per-user state and routes creation,
      and it is the MCP front door if an MCP UI is added later.
    - Auth: who signs in, and what an anonymous visitor may read.

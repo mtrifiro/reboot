@@ -197,6 +197,13 @@ What is web-app-specific: the client is created by the
 handle comes from the no-argument `useUser()` (see "Sign-in and
 Sign-out" below).
 
+**One reader per page, not per record.** A page that shows many
+records (rooms on a floor plan, cards on a board, rows in a list)
+subscribes once, to a reader on their parent that returns them all.
+One subscription per tile, card or row paints the page one record at a
+time, and its totals change until the last arrives
+([`patterns-cross-actor-reads.md`](../../python/references/patterns-cross-actor-reads.md)).
+
 ## Surfacing a Typed Error to the User
 
 `aborted.error` is a discriminated union — the errors the method
