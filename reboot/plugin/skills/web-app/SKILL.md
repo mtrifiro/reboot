@@ -651,12 +651,25 @@ works as it will in the finished app.
     the page in a real browser (Playwright, or the agent's browser
     tool): signed in, it shows the whole demo data, its main action
     works, no console errors.
-11. Show it: the URL and a first thing to try, with a screenshot of
-    the page; one line on what the feature does and the rule it
-    keeps; where to see the domain model and the feature's
-    scenarios on the dashboard. Then ask one question: build the
-    recommended next feature (name it, and why it comes next),
-    another from the list, or change something first.
+11. Show what was built so the user can judge it, not admire it:
+    the aim is that they understand what the app now is and can
+    decide whether it is what they want to ship. In their nouns,
+    short and plain:
+    - **What it keeps track of:** each object built so far, what it
+      holds, and why it is its own object or lives inside another.
+    - **What it does:** each action in a sentence, who may do it,
+      and each rule it keeps, with the scenario that proves the rule
+      (passing).
+    - **How to check it:** the dashboard's Models page for the API,
+      its Features page for the rules, scenarios, the methods each
+      uses and the browser recording; and on the page itself, one
+      thing to try that a rule refuses.
+    - **Not built yet:** the remaining features, in order.
+
+    Then the URL, with a screenshot of the page. Then ask one
+    question: build the recommended next feature (name it, and why
+    it comes next), another from the list, or change something
+    first.
 
 **Each next feature**, when the user chooses it:
 
@@ -668,8 +681,11 @@ works as it will in the finished app.
     then its servicer with its rules, its demo data, its page or the
     change to an existing page, and its scenarios.
 14. Run `uv run pytest` and `uv run mypy backend/ tests/`, check the
-    page in the browser as in step 10, and show it as in step 11,
-    with the next question.
+    page in the browser as in step 10, and show what this feature
+    changed as in step 11: the objects it added or changed, its
+    actions and rules with their scenarios, what changed in the API
+    (the dashboard's changelog), and what is still to come; then the
+    next question.
 
 When the user says the app is done, offer an MCP UI in one line
 (`app` skill, "At handoff"), unless they asked for only a web app.
