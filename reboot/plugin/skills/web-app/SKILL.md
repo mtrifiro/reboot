@@ -222,6 +222,10 @@ exactly one of them — the step that needs it.
 
 **Before the API definition:**
 
+- [`references/ui-design.md`](references/ui-design.md) — the design
+  brief and each page's primary view (highly visual and interactive
+  unless the user asks for plain), which the design states and the
+  readers serve; then layout, color and contrast for the pages.
 - `python/references/patterns-common-gotchas.md` — recurring trips
   (`self.ref().state_id`, kwargs convention, a `ref()` belongs to
   one context, the auto-constructed `User` type, `--name` vs.
@@ -359,8 +363,8 @@ wrong means regenerating everything across the project.
      (Reader/Writer/Transaction/Workflow) and its role for an AI
      caller (a tool the AI calls, a `UI()` view, or for people only),
      even though the MCP UI comes later.
-   - Route surface: which pages does the SPA need; which methods
-     each page calls.
+   - Route surface: which pages does the SPA need, each page's
+     primary view, and which methods each page calls.
    - `User` type: always. It owns per-user state and routes creation,
      and it is the MCP front door if an MCP UI is added later.
    - Auth: who signs in, and what an anonymous visitor may read.
