@@ -1092,9 +1092,12 @@ tr:hover td {
    the one data dimension here, so it gets its own colors, mixed from the
    tokens above so they follow the scheme: ready is good, dirty is bad,
    the cleaning steps warm, occupied the accent, out of order muted. */
-.st-clean { --st: var(--good); }
+.st-inspected { --st: var(--good); }
 .st-occupied { --st: var(--accent); }
-.st-dirty { --st: var(--bad); }
+.st-vacant_dirty { --st: var(--bad); }
+.st-cleaning { --st: var(--warn); }
+.st-vacant_clean { --st: color-mix(in srgb, var(--good) 55%, var(--warn)); }
+.st-out_of_order { --st: var(--muted); }
 
 .swatch {
   display: inline-block;
@@ -1187,6 +1190,13 @@ tr:hover td {
   outline: 2px solid var(--accent);
   outline-offset: 1px;
 }
+.room-tile.st-out_of_order {
+  background: repeating-linear-gradient(
+    -45deg,
+    color-mix(in srgb, var(--muted) 10%, var(--panel)) 0 6px,
+    var(--panel) 6px 12px
+  );
+}
 .room-tile.dim {
   opacity: 0.28;
 }
@@ -1253,4 +1263,58 @@ tr:hover td {
   .floor-rooms {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
+}
+
+/* Front desk: two panels side by side, the rooms-left calendar */
+.desk-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  gap: var(--space-4);
+  align-items: start;
+}
+.day-picker {
+  align-items: center;
+}
+.day-picker input {
+  background: var(--panel);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  font: inherit;
+}
+.inline-action {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  flex-wrap: wrap;
+}
+.bad-text {
+  color: var(--bad);
+}
+.availability th.night,
+.availability td.left {
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  min-width: 52px;
+}
+.availability td.left {
+  font-weight: 600;
+  background: color-mix(in srgb, var(--good) 10%, var(--panel));
+}
+.availability td.left.low {
+  background: color-mix(in srgb, var(--warn) 18%, var(--panel));
+}
+.availability td.left.full {
+  background: color-mix(in srgb, var(--bad) 16%, var(--panel));
+  color: var(--bad);
+}
+.notice.toast.bad {
+  border-left-color: var(--bad);
+}
+.good-text {
+  color: var(--good);
+}
+.warn-text {
+  color: var(--warn);
 }

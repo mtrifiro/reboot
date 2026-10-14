@@ -1,18 +1,33 @@
-import { useHotel, useRoom } from "@api/hotel/v1/hotel_rbt_react";
+import { useHotel } from "@api/hotel/v1/hotel_rbt_react";
+import { useRoom } from "@api/rooms/v1/rooms_rbt_react";
 import { useEffect, useMemo, useState } from "react";
 import { HOTEL_ID } from "../App";
 import { friendlyError } from "../errors";
-import { STATUSES, STATUS_LABEL, type Status } from "../rooms";
+import {
+  STATUSES,
+  STATUS_LABEL,
+  STATUS_SHORT,
+  can,
+  sinceText,
+  type Role,
+  type Status,
+} from "../rooms";
 
 type RoomRow = {
   number: string;
   floor: number;
   roomType: string;
+  features: string[];
   status: string;
   guestName: string;
+  cleanedByName: string;
+  outOfOrderReason: string;
+  lastChangedByName: string;
+  lastChangedAt: string;
+  reservationId: string;
 };
 
-export default function FloorPlanPage() {
+export default function FloorPlanPage({ role }: { role: Role }) {
   const hotel = useHotel({ id: HOTEL_ID });
   const { response, aborted } = hotel.useFloorPlan();
   const [status, setStatus] = useState<Status | "">("");
@@ -20,13 +35,20 @@ export default function FloorPlanPage() {
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState<string | null>(null);
 
-  const rooms = (response?.rooms ?? []) as RoomRow[];
+  // In room-number order: 201 first, floor by floor.
+  const rooms = useMemo(
+    () =>
+      [...((response?.rooms ?? []) as RoomRow[])].sort((a, b) =>
+        a.number.localeCompare(b.number, undefined, { numeric: true }),
+      ),
+    [response],
+  );
   const types = useMemo(
     () => [...new Set(rooms.map((r) => r.roomType))],
     [rooms],
   );
   const floors = useMemo(
-    () => [...new Set(rooms.map((r) => r.floor))].sort((a, b) => b - a),
+    () => [...new Set(rooms.map((r) => r.floor))].sort((a, b) => a - b),
     [rooms],
   );
   const counts = useMemo(() => {
@@ -57,7 +79,7 @@ export default function FloorPlanPage() {
       <section className="brand-band">
         <div className="page-head">
           <div>
-            <p className="eyebrow">{response?.hotelName ?? "Halcyon House"}</p>
+            <p className="eyebrow">{response?.hotelName ?? "Maison Desk"}</p>
             <h1>Floor plan</h1>
             <p className="lede">
               Which rooms can be sold or checked into right now, and which
@@ -167,7 +189,7 @@ export default function FloorPlanPage() {
                 {STATUSES.map((s) => (
                   <li key={s}>
                     <span className={`swatch st-${s}`} aria-hidden="true" />
-                    {STATUS_LABEL[s]}
+                    {STATUS_SHORT[s]}
                   </li>
                 ))}
               </ul>
@@ -193,7 +215,7 @@ export default function FloorPlanPage() {
                           <span className="room-status">
                             {r.status === "occupied"
                               ? r.guestName
-                              : STATUS_LABEL[r.status]}
+                              : STATUS_SHORT[r.status]}
                           </span>
                         </button>
                       </li>
@@ -208,6 +230,7 @@ export default function FloorPlanPage() {
         <RoomDrawer
           key={openRoom.number}
           room={openRoom}
+          role={role}
           onClose={() => setOpen(null)}
         />
       )}
@@ -217,13 +240,17 @@ export default function FloorPlanPage() {
 
 function RoomDrawer({
   room,
+  role,
   onClose,
 }: {
   room: RoomRow;
+  role: Role;
   onClose: () => void;
 }) {
   const handle = useRoom({ id: room.number });
+  const hotel = useHotel({ id: HOTEL_ID });
   const [guestName, setGuestName] = useState("");
+  const [reason, setReason] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -251,10 +278,12 @@ function RoomDrawer({
     } else {
       setDone(label);
       setGuestName("");
+      setReason("");
     }
   };
 
   const s = room.status as Status;
+  const vacant = s !== "occupied" && s !== "out_of_order";
 
   return (
     <>
@@ -277,12 +306,51 @@ function RoomDrawer({
           </button>
         </div>
         <div className="drawer-body">
-          {room.guestName && (
-            <dl className="kv">
-              <dt>Guest</dt>
-              <dd>{room.guestName}</dd>
-            </dl>
-          )}
+          <dl className="kv">
+            {room.guestName && (
+              <>
+                <dt>Guest</dt>
+                <dd>
+                  {room.guestName}
+                  {room.reservationId ? (
+                    <span className="muted mono small"> · {room.reservationId}</span>
+                  ) : (
+                    <span className="muted small"> · walk-in</span>
+                  )}
+                </dd>
+              </>
+            )}
+            {room.outOfOrderReason && (
+              <>
+                <dt>Out of order</dt>
+                <dd>{room.outOfOrderReason}</dd>
+              </>
+            )}
+            {room.cleanedByName && (
+              <>
+                <dt>Cleaned by</dt>
+                <dd>{room.cleanedByName}</dd>
+              </>
+            )}
+            <dt>Last change</dt>
+            <dd>
+              {room.lastChangedByName}
+              {room.lastChangedAt && (
+                <span className="muted">
+                  {" "}
+                  · {sinceText(room.lastChangedAt)}
+                </span>
+              )}
+            </dd>
+            <dt>Amenities</dt>
+            <dd>
+              <ul className="amenities">
+                {room.features.map((f) => (
+                  <li key={f}>{f}</li>
+                ))}
+              </ul>
+            </dd>
+          </dl>
 
           {error && (
             <div className="error" role="alert">
@@ -296,12 +364,23 @@ function RoomDrawer({
           )}
 
           <div className="room-actions">
-            {s === "dirty" && (
+            {can.clean(role) && s === "vacant_dirty" && (
               <button
                 className="primary"
                 disabled={busy}
                 onClick={() =>
-                  act("Marked clean. It can take a guest.", () =>
+                  act("Cleaning started.", () => handle.startCleaning())
+                }
+              >
+                Start cleaning
+              </button>
+            )}
+            {can.clean(role) && (s === "cleaning" || s === "vacant_dirty") && (
+              <button
+                className={s === "cleaning" ? "primary" : undefined}
+                disabled={busy}
+                onClick={() =>
+                  act("Marked clean. It needs a second person to inspect it.", () =>
                     handle.markClean(),
                   )
                 }
@@ -309,22 +388,48 @@ function RoomDrawer({
                 Mark clean
               </button>
             )}
-            {s === "occupied" && (
+            {can.clean(role) && s === "vacant_clean" && (
+              <button
+                className="primary"
+                disabled={busy}
+                onClick={() =>
+                  act("Inspected. The room is ready to sell.", () =>
+                    handle.inspectRoom(),
+                  )
+                }
+              >
+                Inspect and approve
+              </button>
+            )}
+            {can.frontDesk(role) && s === "occupied" && (
               <button
                 className="primary"
                 disabled={busy}
                 onClick={() =>
                   act("Checked out. Housekeeping will see it as dirty.", () =>
-                    handle.checkOut(),
+                    hotel.checkOutRoom({ roomNumber: room.number }),
                   )
                 }
               >
                 Check out
               </button>
             )}
+            {can.manage(role) && s === "out_of_order" && (
+              <button
+                className="primary"
+                disabled={busy}
+                onClick={() =>
+                  act("Back in service. It goes to housekeeping first.", () =>
+                    handle.returnToService(),
+                  )
+                }
+              >
+                Return to service
+              </button>
+            )}
           </div>
 
-          {s !== "occupied" && (
+          {can.frontDesk(role) && vacant && (
             <form
               className="panel drawer-form"
               aria-labelledby="check-in-title"
@@ -335,10 +440,16 @@ function RoomDrawer({
                 );
               }}
             >
-              <h3 id="check-in-title">Check a guest in</h3>
-              {s !== "clean" && (
+              <h3 id="check-in-title">Check in a walk-in guest</h3>
+              {!can.manage(role) && (
                 <p className="small muted">
-                  Only a clean room can take a guest.
+                  Before 3 pm hotel time, only a manager can check in a walk-in.
+                </p>
+              )}
+              {s !== "inspected" && (
+                <p className="small muted">
+                  Only an inspected room can take a guest. Booked guests are
+                  checked in from the Front desk.
                 </p>
               )}
               <div className="field">
@@ -353,6 +464,41 @@ function RoomDrawer({
                 Check in
               </button>
             </form>
+          )}
+
+          {can.manage(role) && s !== "occupied" && (
+            <form
+              className="panel drawer-form"
+              aria-labelledby="ooo-title"
+              onSubmit={(e) => {
+                e.preventDefault();
+                act("Taken out of order.", () =>
+                  handle.takeOutOfOrder({ reason }),
+                );
+              }}
+            >
+              <h3 id="ooo-title">
+                {s === "out_of_order" ? "Update the reason" : "Take out of order"}
+              </h3>
+              <div className="field">
+                <label htmlFor="ooo-reason">Reason</label>
+                <input
+                  id="ooo-reason"
+                  value={reason}
+                  onChange={(e) => setReason(e.target.value)}
+                />
+              </div>
+              <button type="submit" className="danger" disabled={busy}>
+                {s === "out_of_order" ? "Update reason" : "Take out of order"}
+              </button>
+            </form>
+          )}
+
+          {role === "" && (
+            <p className="muted small">
+              You can see the floor plan, but a manager has to give you a role
+              before you can change a room.
+            </p>
           )}
         </div>
         <div className="drawer-foot">

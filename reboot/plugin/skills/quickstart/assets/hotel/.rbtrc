@@ -13,8 +13,8 @@ dev run --watch=backend/src/**/*.py
 dev run --python
 
 # Save state between `rbt dev run` restarts.
-dev run --application-name=quickstart-hotel
-dev expunge --application-name=quickstart-hotel
+dev run --application-name=maison-desk
+dev expunge --application-name=maison-desk
 
 # Load secrets from a git-ignored env file.
 dev run --env-file=.env

@@ -5,11 +5,26 @@ the end of each corridor; floors 6-7 are Junior Suites and Suites; the
 eighth floor holds the top suites and the Penthouse, 808.
 """
 
-from hotel.v1.hotel import RoomCreateRequest
+from rooms.v1.rooms import RoomCreateRequest
 
-HOTEL_NAME = "Halcyon House"
-HOTEL_ID = "hotel"
+HOTEL_NAME = "Maison Vingt-Trois"
 FLOORS = range(2, 9)
+
+FEATURES: dict[str, list[str]] = {
+    "Deluxe King": ["King bed", "Rain shower", "Frette linens"],
+    "Deluxe Twin": ["Two queen beds", "Rain shower", "Frette linens"],
+    "Junior Suite": ["Soaking tub", "Separate lounge", "Espresso bar"],
+    "Suite": ["Soaking tub", "Terrace", "Butler pantry", "Dining for six"],
+    "Penthouse": [
+        "Private terrace with plunge pool",
+        "Fireplace",
+        "Steinway grand",
+        "Dedicated butler",
+    ],
+}
+
+# The order the front desk lists room types in.
+ROOM_TYPES = list(FEATURES)
 
 
 def _room_type(floor: int, n: int) -> str:
@@ -29,11 +44,26 @@ def _room_type(floor: int, n: int) -> str:
 
 
 def floor_rooms(floor: int) -> list[RoomCreateRequest]:
-    return [
-        RoomCreateRequest(
-            number=f"{floor}{n:02d}",
-            floor=floor,
-            room_type=_room_type(floor, n),
+    rooms = []
+    for n in range(1, 9):
+        room_type = _room_type(floor, n)
+        features = list(FEATURES[room_type])
+        if n in (1, 8) and room_type != "Penthouse":
+            features.append("Corner, two exposures")
+        rooms.append(
+            RoomCreateRequest(
+                number=f"{floor}{n:02d}",
+                floor=floor,
+                room_type=room_type,
+                features=features,
+            )
         )
-        for n in range(1, 9)
-    ]
+    return rooms
+
+
+def room_counts() -> dict[str, int]:
+    counts = {room_type: 0 for room_type in ROOM_TYPES}
+    for floor in FLOORS:
+        for room in floor_rooms(floor):
+            counts[room.room_type] += 1
+    return counts
