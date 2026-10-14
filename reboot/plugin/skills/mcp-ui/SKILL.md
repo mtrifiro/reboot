@@ -314,7 +314,9 @@ running app in front of them.
    the brief that it was picked for them and is easy to change later,
    to another color or to their brand. Name the app too, unless the
    prompt gives a name, and say the same of it. Don't ask what the design can
-   decide well on its own. Ask nothing more until the handoff.
+   decide well on its own. Never ask about time zones: every date
+   and time is in the user's own time zone unless they say otherwise,
+   and the design says so among what it assumed. Ask nothing more until the handoff.
 3. Read the references for the API, then show the proposed design
    with the answers in it, before writing the API: the brief (who
    uses the app and on what screen, the task, the one question its
