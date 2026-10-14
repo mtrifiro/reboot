@@ -1,0 +1,10 @@
+{
+  "at": "2026-10-14T16:12:13-05:00",
+  "fingerprint": "b23a72b861b97dd4ef53753e79ddec30a71c5f4cab39891340712ab2049a99fe",
+  "api": [
+    "api/hotel/v1/hotel.py"
+  ],
+  "features": [
+    "tests/rooms.feature"
+  ]
+}
