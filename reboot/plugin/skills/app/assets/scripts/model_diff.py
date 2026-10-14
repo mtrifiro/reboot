@@ -15,7 +15,8 @@ files are `tests/*.feature`: their features, rules and scenarios. All
 three are read at the two revisions and compared, so the list is short
 and exact where `git diff` is long and noisy.
 
-Each change is sorted by whether the user must accept it again:
+Each change is sorted by the Reboot Flywheel's routing rule
+(the plugin's `app/references/flywheel.md`):
 
 - **Design**: any change to the domain model or to who may call a
   method; a feature, rule or

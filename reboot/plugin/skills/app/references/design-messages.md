@@ -2,13 +2,14 @@
 title: The Proposed Design and the Handoff, Word for Word
 impact: HIGH
 impactDescription: Without a fixed shape each build presents its design differently, and the user has to learn a new layout before judging the app
-tags: design, proposed design, handoff, template, review
+tags: flywheel, design, proposed design, handoff, template, review
 ---
 
 ## The Proposed Design and the Handoff
 
-Two messages carry the design to the user: the proposed design,
-before any code, and the handoff, when a part is running. Write each in exactly this
+Two messages carry the Reboot Flywheel's Design stage
+([`flywheel.md`](flywheel.md)): the proposed design, before any code,
+and the handoff, when a part is running. Write each in exactly this
 shape: the same headings, in this order, with nothing before the
 heading. Fill the `<…>` from the design, in the user's nouns. A
 heading with nothing to say is left out, never filled.
@@ -19,7 +20,7 @@ About 600 words. The example is a hotel; keep the shape, not the
 nouns.
 
 ```markdown
-## <App name>: the proposed design
+## Reboot Design · <App name>, the proposed design
 
 **Brief.** <Who uses <app name> and on what screen.> <Their main job, as a
 cycle or flow when there is one: *occupied → dirty → cleaned →
@@ -76,7 +77,7 @@ About 500 words. The first handoff shows everything built; a later one
 shows only what that part adds, under the same headings.
 
 ```markdown
-**Ready for your review**
+**Reboot Design · ready for your review**
 
 <One sentence: what is running, in the user's nouns.>
 
@@ -115,13 +116,13 @@ question below decides>. [Open the app](<URL>) ·
 [the dashboard](<dashboard URL>) · [the design](design/design.md)
 ```
 
-**In short** is always last, right above the question: the message is
+**In short** is always last, right above the ask: the message is
 long, and the user reads its end while answering, after **Open it**
 has scrolled away. Its links are the same as above.
 
-Then the one question, as [`accept-design.md`](accept-design.md) says:
-accept this and build the next part (named, with why), another, or
-change something first.
+Then the ask, as [`accept-design.md`](accept-design.md) says: the
+first time, the **How are we doing?** dialog; after it, and at every
+later handoff, one plain closing line naming the next part and why.
 The full review table goes to `design/design.md`, not into this
 message.
 
