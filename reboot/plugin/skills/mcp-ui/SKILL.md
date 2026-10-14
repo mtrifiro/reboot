@@ -823,7 +823,8 @@ a worked set are in
     servicers and never subclass one to weaken its `authorizer()`.
     Let factories make ids up. Tag what cannot pass yet `@blocked`
     with its reason; leave `@wip` where work continues. Run
-    `uv run pytest` and fix anything that fails.
+    `uv run pytest` with `rbt dev run` stopped (`run` skill, "Stopping
+    the App") and fix anything that fails.
     Then type-check: run `uv run mypy backend/ tests/` from the project
     root and fix every error (config and rationale in
     `python/references/lifecycle-project-setup.md`). Do not
@@ -869,7 +870,7 @@ When modifying an existing app:
    an example prompt in `backend/src/example_prompts.py` so the
    wizard surfaces the new flow.
 7. Re-verify the backend: run `uv run mypy backend/ tests/` from the
-   project root and `uv run pytest`; fix every
+   project root and `uv run pytest`, with `rbt dev run` stopped; fix every
    error and failure before handing back.
 8. If the app isn't already running, bring it up with the
    [`run` skill](../run/SKILL.md). If it is already running under

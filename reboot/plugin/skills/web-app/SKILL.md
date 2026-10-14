@@ -643,7 +643,8 @@ works as it will in the finished app.
    `python/references/lifecycle-seeding.md` says. Then write the
    feature's scenarios in the built-in steps of
    `python/references/testing-features.md`, run `uv run pytest` and
-   `uv run mypy backend/ tests/`, and fix what fails before any page.
+   `uv run mypy backend/ tests/` with `rbt dev run` stopped (`run`
+   skill, "Stopping the App"), and fix what fails before any page.
 7. Scaffold the frontend at `frontend/`
    (`npm create vite@latest frontend -- --template react-ts`), shape
    it as [`references/react-client.md`](references/react-client.md)
@@ -698,7 +699,8 @@ works as it will in the finished app.
     change to an existing page, and its scenarios. Before a change
     that isn't additive, stop the app with the `run` skill; start it
     again once the scenarios pass.
-14. Run `uv run pytest` and `uv run mypy backend/ tests/`, check the
+14. Stop `rbt dev run` (`run` skill, "Stopping the App"), run
+    `uv run pytest` and `uv run mypy backend/ tests/`, start it again, check the
     page in the browser as in step 10, and show what this feature
     changed as in step 11, with the same links: the objects it added
     or changed, its actions and rules with their scenarios, what
