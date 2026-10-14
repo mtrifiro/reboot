@@ -52,10 +52,10 @@ link to the dashboard, on the port it started on (`dashboard` skill,
 
 ## Stop 1: what Reboot is (about 2 minutes)
 
-Before any setup, tell the user what Reboot is and what they are about
-to see, so they know what to look for. Start the downloads of stop 2
-(its step 2) silently in the background as this message is sent; say
-so in its last line, nothing more.
+**This message is the quickstart's first output, before any tool call:
+no reading, no copying, no installing first.** It tells the user what
+Reboot is and what they are about to see, so they know what to look
+for. Only once it is sent does setup (stop 2) begin.
 
 Say it in this shape, in plain words, under about 200 words:
 
@@ -84,15 +84,17 @@ comment. It is Ben Hindman's own note, Reboot's founder; never write,
 reword or add to it.
 
 Ask nothing: the user asked for the quickstart, so go straight on to
-stop 2. Last line: the downloads it needs have started, and the hotel
-opens next.
+stop 2. Last line: setting up the hotel now, which takes a few
+minutes the first time.
 
 ## Stop 2: set up (about 3 minutes)
 
-The downloads started with stop 1; finish the rest while they run.
+Start the slow part first.
 
 1. Copy `assets/hotel/` from this skill to `./maison-desk` in the
-   current folder (`./maison-desk-2` if that exists), then from the `app`
+   current folder. If that already exists, use `./maison-desk-2`, then
+   `-3`, and so on: never move, rename, overwrite or delete anything
+   already in the user's folder. Then from the `app`
    skill's `assets/`: `scripts/model_diff.py`, `scripts/test.sh`,
    `scripts/release_record.py` and `tests/last_run.py`;
    `chmod +x scripts/test.sh`. Create an empty `.env`.
