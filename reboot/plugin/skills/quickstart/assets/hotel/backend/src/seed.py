@@ -103,7 +103,7 @@ class DemoDay:
                     departure=self._day(leaves),
                     status="checked_in",
                     room_number=room.number,
-                    booked_by_name="Ben",
+                    booked_by_name="Esi",
                 ),
                 force=True,
             )
@@ -121,7 +121,7 @@ class DemoDay:
                     room_type=ROOM_TYPES[n % len(ROOM_TYPES)],
                     arrival=self._day(0),
                     departure=self._day(2 + n % 3),
-                    booked_by_name="Ben",
+                    booked_by_name="Esi",
                 )
             )
         for n, guest in enumerate(LATER):
@@ -132,7 +132,7 @@ class DemoDay:
                     room_type=ROOM_TYPES[(n * 3) % len(ROOM_TYPES)],
                     arrival=self._day(start),
                     departure=self._day(start + 1 + n % 4),
-                    booked_by_name="Alice" if n % 3 == 0 else "Ben",
+                    booked_by_name="Alice" if n % 3 == 0 else "Esi",
                 )
             )
 
@@ -179,11 +179,11 @@ async def seed_hotel(
 
 
 # The Development sign-in's five people, invited so each arrives with a
-# role to try: Alice manages, Ben is on the front desk, Carlos and Dani
-# are housekeeping, and Esi arrives with no role yet.
+# role to try: Alice manages, Esi is on the front desk, Carlos and Dani
+# are housekeeping, and Ben arrives with no role yet.
 DEMO_STAFF: list[tuple[str, StaffRole]] = [
     ("alice@example.com", "manager"),
-    ("ben@example.com", "front_desk"),
+    ("esi@example.com", "front_desk"),
     ("carlos@example.com", "housekeeping"),
     ("dani@example.com", "housekeeping"),
 ]

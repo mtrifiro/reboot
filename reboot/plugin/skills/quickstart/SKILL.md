@@ -1,10 +1,10 @@
 ---
 name: quickstart
-description: A guided first run of Reboot, about twenty-five minutes, on a finished boutique-hotel app. Tours its architecture, rules and tests on the developer dashboard through deep links, then makes one code change and one rule change. Teaches domain objects, packages, method kinds, rules in feature files and the scenarios that prove them, who may call, the design record, and reading stored state with rbt inspect. Use only when the user asks for it by name ("/reboot:quickstart", "the Reboot quickstart", "show me how Reboot works"); never offer it, and never use it to build the user's own app, which is the app skill's job.
+description: A guided first run of Reboot, about half an hour, on a finished boutique-hotel app. Tours its architecture, rules and tests on the developer dashboard through deep links, then makes one code change and one rule change. Teaches domain objects, packages, method kinds, rules in feature files and the scenarios that prove them, who may call, the design record, and reading stored state with rbt inspect. Use only when the user asks for it by name ("/reboot:quickstart", "the Reboot quickstart", "show me how Reboot works"); never offer it, and never use it to build the user's own app, which is the app skill's job.
 allowed-tools: Bash, Read, Write, Edit, Glob, Grep, AskUserQuestion
 ---
 
-# quickstart: the First Twenty-Five Minutes with Reboot
+# quickstart: the First Half Hour with Reboot
 
 > **Version notices:** if `rbt` reports a version mismatch or that a
 > newer Reboot is available, the [upgrade skill](../upgrade/SKILL.md)
@@ -22,9 +22,9 @@ The hotel is the same every time:
 | | |
 | --- | --- |
 | Packages | `rooms.v1` (Room), `reservations.v1` (Reservation, Inventory), `staff.v1` (Team, User), and `hotel.v1` (Hotel) on top |
-| Features | `room_status.feature`, `reservations.feature`, `staff_roles.feature`: 14 rules, 41 scenarios, one with a browser video |
+| Features | `room_status.feature`, `reservations.feature`, `staff_roles.feature`: 14 rules, 41 scenarios, two with browser videos (shipped with the hotel) |
 | Pages | the floor plan, the front desk, the staff roster |
-| Accounts | Alice (manager), Ben (front desk), Carlos and Dani (housekeeping), from the development sign-in |
+| Accounts | Alice (manager), Esi (front desk), Carlos and Dani (housekeeping); Ben has no role. These are the development sign-in's five built-in people |
 | Record | `design/`: the design, the decisions log, and the accepted design |
 
 Keep to the stops: a tutorial that wanders teaches nothing. Each stop
@@ -41,9 +41,46 @@ link to the dashboard, on the port it started on (`dashboard` skill,
 "Links to an Object or a Rule"). `<dash>` below is that address,
 `http://127.0.0.1:9871` by default.
 
-## Stop 1: set up (about 3 minutes)
+## Stop 1: what Reboot is (about 2 minutes)
 
-Start the slow part first, then explain while it runs.
+Before any setup, tell the user what Reboot is and what they are about
+to see, so they know what to look for. Start the downloads of stop 2
+(its step 2) silently in the background as this message is sent; say
+so in its last line, nothing more.
+
+Say it in this shape, in plain words, under about 200 words:
+
+1. **What Reboot is.** You describe your app as **domain objects**
+   (a room, a reservation) and the **rules** they keep. Reboot keeps
+   each object's state safe on its own, with no database to set up;
+   runs one object's changes one at a time, so two people can't break
+   a rule by acting at once; makes a change across several objects
+   all-or-nothing; and pushes every change to every open page, live.
+2. **What you'll see.** A finished app for a 56-room boutique hotel:
+   the floor plan, the front desk and the staff roster, with real
+   rules such as "a room is never booked twice". Then its whole
+   architecture, drawn on a dashboard from the code, and every rule
+   with the tests that prove it, including a video of one test driving
+   the real page.
+3. **What you'll do.** Make two changes: one to the code, which the
+   tests prove, and one to a rule, which waits for your yes and is
+   recorded with its reason.
+4. **What to watch for,** three moments: two people can't take the
+   last room; a rule, written in plain English, runs as a test; and a
+   rule change needs your yes before any code.
+
+Then show [`assets/note-from-ben.md`](assets/note-from-ben.md) word
+for word, under the heading **A note from Ben**, without its HTML
+comment. It is Ben Hindman's own note, Reboot's founder; never write,
+reword or add to it.
+
+End with one question: **Ready to open the hotel?** ("Yes, let's go"
+recommended, or "Tell me more first", which answers in a few lines and
+asks again). Last line: the downloads it needs have started.
+
+## Stop 2: set up (about 3 minutes)
+
+The downloads started with stop 1; finish the rest while they run.
 
 1. Copy `assets/hotel/` from this skill to `./maison-desk` in the
    current folder (or a folder the user names), then from the `app`
@@ -51,31 +88,31 @@ Start the slow part first, then explain while it runs.
    `scripts/release_record.py` and `tests/last_run.py`;
    `chmod +x scripts/test.sh`. Create an empty `.env`.
 2. In the background, in order: `uv sync`, `uv run rbt generate`,
-   `npm ci` in `frontend/`, then `scripts/test.sh full` once, so the
-   dashboard shows every scenario's result and the browser video.
+   `npm ci` in `frontend/`. Don't run the suite here: the hotel ships
+   with its last run's browser recordings (`tests/*.recordings/`), so
+   the dashboard shows the videos from the start. The suite runs where
+   it teaches something, after each change.
 3. Start the dashboard with the [`dashboard` skill](../dashboard/SKILL.md)
    as soon as `rbt generate` is done, and the app with the
-   [`run` skill](../run/SKILL.md) once the suite has finished. If port
+   [`run` skill](../run/SKILL.md) once `npm ci` has finished. If port
    9991 or 5173 is taken by another app, don't stop that app: start
    this one with `rbt dev run --port=9781 --dashboard-port=9782` and
    the frontend with `PORT=5281 VITE_REBOOT_URL=http://localhost:9781`,
    and use those ports below.
-4. While they run, say in three lines what the next twenty-five
-   minutes cover: a finished hotel app, its architecture and rules on
-   the dashboard, one change to its code and one to its rules. Name
-   what is downloading and that it is the slowest part.
+4. While they run, say in one line what is still downloading and
+   that it is the slowest part.
 
-## Stop 2: the app (about 3 minutes)
+## Stop 3: the app (about 3 minutes)
 
 Open the floor plan (http://localhost:5173). *Your turn:* sign in as
-**Ben** (front desk), open a room marked Dirty, and try to check a
+**Esi** (front desk), open a room marked Dirty, and try to check a
 guest in. It's refused: the room hasn't been cleaned and inspected.
 Then open the **Front desk** page: today's arrivals and departures, and
 what's left to sell.
 
 *Taught:* this is a working app with real rules; next, where they live.
 
-## Stop 3: the architecture (about 4 minutes)
+## Stop 4: the architecture (about 4 minutes)
 
 Open [Models](<dash>/#/models). It draws the whole API from the code.
 
@@ -104,7 +141,7 @@ lines.
 
 *Taught:* objects, packages and method kinds, drawn from the code.
 
-## Stop 4: the rules and their proof (about 4 minutes)
+## Stop 5: the rules and their proof (about 4 minutes)
 
 Open [Features](<dash>/#/features/tests/reservations.feature). Each
 feature file is a set of rules in plain English, and each rule has the
@@ -115,15 +152,16 @@ scenarios that prove it, run as tests.
   its steps.
 - [The person who cleaned a room cannot be the one who inspects it](<dash>/#/features/tests/room_status.feature/rules/3).
 - [The hotel always keeps at least one manager](<dash>/#/features/tests/staff_roles.feature/rules/3).
-- The scenario with a **VIDEO** badge, "The front desk books a stay and
-  checks the guest in on the day", drove the real page in a browser.
+- The scenarios with a **VIDEO** badge drove the real page in a
+  browser: "The front desk books a stay and checks the guest in on the
+  day", and "The front desk checks a guest in from the floor plan".
 
 *Your turn:* play the video.
 
 *Taught:* rules are the app's specification, and the scenarios under
 each rule are its proof.
 
-## Stop 5: who may call (about 2 minutes)
+## Stop 6: who may call (about 2 minutes)
 
 *Your turn:* sign out, sign in as **Carlos** (housekeeping), and open
 a room that's ready. There's no **Check in** for him: housekeeping
@@ -140,7 +178,7 @@ on the Team, so nobody can promote themselves.
 *Taught:* who may call each method is part of the design, enforced on
 every call.
 
-## Stop 6: a code change (about 3 minutes)
+## Stop 7: a code change (about 3 minutes)
 
 *Your turn:* ask for "Show the floor plan with the top floor first,
 like the building."
@@ -160,7 +198,7 @@ nothing new: the API didn't change.
 *Taught:* a change no rule notices is just code; the same scenarios
 prove every promise still holds.
 
-## Stop 7: a rule change (about 5 minutes)
+## Stop 8: a rule change (about 5 minutes)
 
 *Your turn:* ask for "A stay can't be booked for a night that has
 already passed."
@@ -196,7 +234,7 @@ already passed."
 *Taught:* a rule changes only with the user's yes; the scenarios prove
 it, and the decisions log keeps why.
 
-## Stop 8: look inside (about 2 minutes)
+## Stop 9: look inside (about 2 minutes)
 
 Run:
 
@@ -213,7 +251,7 @@ in the API.)
 *Taught:* the state is real and inspectable; a question about
 production starts here.
 
-## Stop 9: your app
+## Stop 10: your app
 
 Recap in three lines:
 - domain objects hold their own state and run their own changes,
