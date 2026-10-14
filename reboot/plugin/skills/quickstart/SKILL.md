@@ -25,7 +25,7 @@ The hotel is the same every time:
 | Features | `room_status.feature`, `reservations.feature`, `staff_roles.feature`: 14 rules, 41 scenarios, two with browser videos (shipped with the hotel) |
 | Pages | the floor plan, the front desk, the staff roster |
 | Accounts | Alice (manager), Esi (front desk), Carlos and Dani (housekeeping); Ben has no role. These are the development sign-in's five built-in people |
-| Record | `design/`: the design, the decisions log, and the accepted design |
+| Record | `design/`: the design document (every object, method and rule a dashboard link), the decisions log, and the accepted design |
 
 Keep to the stops: a tutorial that wanders teaches nothing. Each stop
 ends with something the user does and says in one sentence what it
@@ -113,7 +113,21 @@ Start the slow part first.
 4. While they run, say in one line what is still downloading and
    that it is the slowest part.
 
-## Stop 3: the app (about 3 minutes)
+## Stop 3: the design (about 3 minutes)
+
+Show the hotel's design document, `design/design.md` in the copied
+hotel, in the chat as it is, with its links. If the dashboard started
+on a port other than 9871, rewrite `127.0.0.1:9871` in the links to its
+port as you show it. Then say in two lines how to read it: every object,
+method, feature and rule is a link that opens the dashboard on exactly
+that thing, and the next stops walk through it.
+
+*Your turn:* open two links, an object and a rule.
+
+*Taught:* the design is the app's map: what it keeps, what it does, the
+rules it keeps, and who may do what.
+
+## Stop 4: the app (about 3 minutes)
 
 Open the floor plan (http://localhost:5173). *Your turn:* sign in as
 **Esi** (front desk), open a room marked Dirty, and try to check a
@@ -123,7 +137,7 @@ what's left to sell.
 
 *Taught:* this is a working app with real rules; next, where they live.
 
-## Stop 4: the architecture (about 4 minutes)
+## Stop 5: the architecture (about 4 minutes)
 
 Open [Models](<dash>/#/models). It draws the whole API from the code.
 
@@ -152,7 +166,7 @@ lines.
 
 *Taught:* objects, packages and method kinds, drawn from the code.
 
-## Stop 5: the rules and their proof (about 4 minutes)
+## Stop 6: the rules and their proof (about 4 minutes)
 
 Open [Features](<dash>/#/features/tests/reservations.feature). Each
 feature file is a set of rules in plain English, and each rule has the
@@ -172,7 +186,7 @@ scenarios that prove it, run as tests.
 *Taught:* rules are the app's specification, and the scenarios under
 each rule are its proof.
 
-## Stop 6: who may call (about 2 minutes)
+## Stop 7: who may call (about 2 minutes)
 
 *Your turn:* sign out, sign in as **Carlos** (housekeeping), and open
 a room that's ready. There's no **Check in** for him: housekeeping
@@ -189,7 +203,7 @@ on the Team, so nobody can promote themselves.
 *Taught:* who may call each method is part of the design, enforced on
 every call.
 
-## Stop 7: a code change (about 3 minutes)
+## Stop 8: a code change (about 3 minutes)
 
 *Your turn:* ask for "Show the floor plan with the top floor first,
 like the building."
@@ -209,7 +223,7 @@ nothing new: the API didn't change.
 *Taught:* a change no rule notices is just code; the same scenarios
 prove every promise still holds.
 
-## Stop 8: a rule change (about 5 minutes)
+## Stop 9: a rule change (about 5 minutes)
 
 *Your turn:* ask for "A stay can't be booked for a night that has
 already passed."
@@ -235,7 +249,9 @@ already passed."
    listed as needing the user's yes, and no change to the API. Record
    the acceptance as
    [`app/references/accept-design.md`](../app/references/accept-design.md)
-   says: `design/design.md` gains the rule, `design/decisions.md` an
+   says: `design/design.md` gains the rule under its feature, linked to
+   `reservations.feature/rules/2` (renumber the links of the rules after
+   it), `design/decisions.md` an
    entry with the user's words, and `model_diff.py --accept` updates
    `design/accepted.json` and `design/accepted/`.
 5. Show the new rule on the dashboard,
@@ -245,7 +261,7 @@ already passed."
 *Taught:* a rule changes only with the user's yes; the scenarios prove
 it, and the decisions log keeps why.
 
-## Stop 9: look inside (about 2 minutes)
+## Stop 10: look inside (about 2 minutes)
 
 Run:
 
@@ -262,7 +278,7 @@ in the API.)
 *Taught:* the state is real and inspectable; a question about
 production starts here.
 
-## Stop 10: your app
+## Stop 11: your app
 
 Recap in three lines:
 - domain objects hold their own state and run their own changes,
