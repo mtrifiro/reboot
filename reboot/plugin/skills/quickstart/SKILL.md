@@ -35,7 +35,10 @@ taught, in the hotel's nouns.
 the introduction through setup and the tours, install, start and open
 everything without a question, confirmation or choice (not where to
 put the hotel, not which port, not "ready?"). Say what was done, then
-the next stop. The quickstart asks the user two things in all: the yes
+the next stop. A stop with a *Your turn* ends with one plain line,
+**Try it, then say next.**, never a question or a dialog ("Did it get
+refused?", "Ready for the architecture?"); whatever the user says next
+starts the next stop, and anything they ask is answered first. The quickstart asks the user two things in all: the yes
 for the rule change in the rule-change stop, which is that stop's
 lesson, and what to do at the end. If a stop fails (the app won't start, a scenario
 fails), say what failed in one line and offer to go straight to the
