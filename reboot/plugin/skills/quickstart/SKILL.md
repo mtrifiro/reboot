@@ -29,9 +29,15 @@ The hotel is the same every time:
 
 Keep to the stops: a tutorial that wanders teaches nothing. Each stop
 ends with something the user does and says in one sentence what it
-taught, in the hotel's nouns. Ask at a stop's end in a question dialog
-(`AskUserQuestion` where available; elsewhere, one plain line as the
-message's last). If a stop fails (the app won't start, a scenario
+taught, in the hotel's nouns.
+
+**Ask nothing to get going.** The user asked for the quickstart: from
+the introduction through setup and the tours, install, start and open
+everything without a question, confirmation or choice (not where to
+put the hotel, not which port, not "ready?"). Say what was done, then
+the next stop. The quickstart asks the user two things in all: the yes
+for the rule change in the rule-change stop, which is that stop's
+lesson, and what to do at the end. If a stop fails (the app won't start, a scenario
 fails), say what failed in one line and offer to go straight to the
 user's own app with the [`app` skill](../app/SKILL.md). Never offer
 this skill unprompted.
@@ -83,7 +89,7 @@ opens next.
 The downloads started with stop 1; finish the rest while they run.
 
 1. Copy `assets/hotel/` from this skill to `./maison-desk` in the
-   current folder (or a folder the user names), then from the `app`
+   current folder (`./maison-desk-2` if that exists), then from the `app`
    skill's `assets/`: `scripts/model_diff.py`, `scripts/test.sh`,
    `scripts/release_record.py` and `tests/last_run.py`;
    `chmod +x scripts/test.sh`. Create an empty `.env`.
