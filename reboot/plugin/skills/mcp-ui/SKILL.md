@@ -307,8 +307,11 @@ handoff, with the running app in front of them.
    violet, purple, plum and rose that suit the domain, plus "use my
    brand" for a site or tokens to read. Don't ask what the design can
    decide well on its own. Ask nothing more until the handoff.
-3. Read the references for the API, then show the proposed design
-   with the answers in it, before writing the API: the brief (who
+3. Read the references for the API, then show the proposed design,
+   word for word in the shape of
+   [`app/references/design-messages.md`](../app/references/design-messages.md)
+   (its Pages section names the `UI()` views instead),
+   with the answers in it, before writing the API. What it decides: the brief (who
    uses the app and on what screen, the task, the one question its
    main page answers, the accent), the features in a sentence each,
    and:
@@ -825,6 +828,11 @@ a worked set are in
     and completes OAuth. As the run skill directs, surface that
     URL to the user and open it once at first startup, and ask
     the user to accept the design as built or say what to change.
+    Write the handoff in the shape of
+    [`app/references/design-messages.md`](../app/references/design-messages.md),
+    with the wizard's URL under **Open it**; acceptance is recorded as
+    `app/references/accept-design.md` says
+    ([`app/references/accept-design.md`](../app/references/accept-design.md)).
     Do **not**
     start the MCPJam inspector as part of running the app — it
     launches on demand, only if the user picks it in the wizard.
