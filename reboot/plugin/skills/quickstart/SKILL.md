@@ -74,9 +74,9 @@ for word, under the heading **A note from Ben**, without its HTML
 comment. It is Ben Hindman's own note, Reboot's founder; never write,
 reword or add to it.
 
-End with one question: **Ready to open the hotel?** ("Yes, let's go"
-recommended, or "Tell me more first", which answers in a few lines and
-asks again). Last line: the downloads it needs have started.
+Ask nothing: the user asked for the quickstart, so go straight on to
+stop 2. Last line: the downloads it needs have started, and the hotel
+opens next.
 
 ## Stop 2: set up (about 3 minutes)
 
