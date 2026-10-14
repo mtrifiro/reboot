@@ -386,10 +386,12 @@ full prototype first, accepted at its handoff.
    left open and an answer would change most, such as who signs in
    with which roles and what the app keeps track of. Give each question two to four options, the simplest
    first and marked as recommended, so accepting every
-   recommendation is one answer. When the user named no brand, one of
-   them is the accent: two or three of teal, cyan, blue, indigo,
-   violet, purple, plum and rose that suit the domain, plus "use my
-   brand" for a site or tokens to read. Don't ask what the design can
+   recommendation is one answer. Don't ask about the look: when the
+   user named no brand, pick the accent that suits the domain from
+   teal, cyan, blue, indigo, violet, purple, plum and rose, and say in
+   the brief that it was picked for them and is easy to change later,
+   to another color or to their brand. Name the app too, unless the
+   prompt gives a name, and say the same of it. Don't ask what the design can
    decide well on its own. Ask nothing more until the handoff.
 3. Read the references for the API, then show the proposed design
    with the answers in it, before writing the API: the brief (who
