@@ -40,16 +40,19 @@ Flow:
 
 1. Propose the design for <app>
 2. Get your go-ahead on the design
-3. Build the <feature>'s domain model and rules
+3. Backend: build the <feature>'s domain model and rules
 4. Your turn: check the domain model on the dashboard
-5. Build and prove the <feature>
-6. Your turn: try the app and decide what to do next
+5. Backend: build and prove the <feature>
+6. Frontend: build the <feature>'s page and check it in a browser
+7. Your turn: try the app and decide what to do next
 
 Item 3 covers the scaffold, the rules as scenarios, the domain model
 and starting the dashboard. Item 5 covers the actions, who may do
-each, demo data, the proof (scenarios pass, types check), the page
-with its browser scenario, and starting the app; it ends with the line
-linking the app and the dashboard. Items 2 and 4 are the `app` skill's
+each, demo data and the proof (scenarios pass, types check). Item 6
+covers the page, its browser scenario and starting the app; it ends
+with the line linking the app and the dashboard. "Backend:" and
+"Frontend:" open the items that build one or the other, so the user
+always knows which half is being worked on. Items 2 and 4 are the `app` skill's
 two questions before any code (`app/references/design-first.md`); a
 front door's skill used on its own, which doesn't ask them, leaves
 them off.
@@ -58,17 +61,19 @@ For the hotel's first feature, the list reads:
 
 1. Propose the design for Maison Desk
 2. Get your go-ahead on the design
-3. Build the room status floor plan's domain model and rules
+3. Backend: build the room status floor plan's domain model and rules
 4. Your turn: check the domain model on the dashboard
-5. Build and prove the room status floor plan
-6. Your turn: try the app and decide what to do next
+5. Backend: build and prove the room status floor plan
+6. Frontend: build the room status floor plan's page and check it in a browser
+7. Your turn: try the app and decide what to do next
 
 Each next feature, when the user chooses it (the app keeps running):
 
 1. Show what the <feature> adds to the design
-2. Add the <feature>'s domain model and rules
-3. Build and prove the <feature>
-4. Your turn: try the app and decide what to do next
+2. Backend: add the <feature>'s domain model and rules
+3. Backend: build and prove the <feature>
+4. Frontend: build the <feature>'s page and check it in a browser
+5. Your turn: try the app and decide what to do next
 
 ## The whole app first
 
@@ -77,23 +82,25 @@ built whole (`mcp-ui`, Step-by-Step Build Flow):
 
 1. Propose the design for <app>
 2. Get your go-ahead on the design
-3. Build the domain model and rules
-4. Build every page of the design
-5. Build and prove every feature
+3. Backend: build the domain model and rules
+4. Frontend: build every page of the design
+5. Backend: build and prove every feature
 6. Your turn: try the app and decide what to do next
 
-Item 2 is left off where no go-ahead is asked (`one-shot`). Item 4
+Item 2 is left off where no go-ahead is asked (`one-shot`). Item 3
 covers the scaffold, the dashboard, the actions without their rules
-yet, demo data, and starting the app; item 5 covers each feature's
-rules as scenarios and their proof, then the whole suite and types.
-For an MCP UI, item 4 is "Build every UI of the design".
+yet and demo data; item 4 the pages and starting the app; item 5 each
+feature's rules as scenarios and their proof, then the whole suite and
+types. For an MCP UI, item 4 is "Frontend: build every UI of the
+design".
 
 ## A backend only
 
-As one feature at a time (`app/references/backend-only.md`), with
-item 5 "Build and prove the <feature>, with the backend running", the
-last item "Your turn: decide what to do next" (no app to try), and
-"Generate the <platform> client" after the first feature's proof.
+As one feature at a time (`app/references/backend-only.md`), without
+the Frontend item, with item 5 "Backend: build and prove the
+<feature>, with the backend running", the last item "Your turn: decide
+what to do next" (no app to try), and "Generate the <platform> client"
+after the first feature's proof.
 
 ## A change to a built app
 
