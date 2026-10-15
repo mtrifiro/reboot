@@ -48,7 +48,8 @@ For the hotel:
 >   then.
 > - After your go-ahead, once the domain model is written, the Reboot
 >   dashboard opens with its link: the app's domain model and rules,
->   updated as they're built.
+>   updated as they're built. You check the model there before the
+>   rest is built on it.
 > - The floor plan, working, in about 15 minutes, with its rules
 >   proven by scenarios, for you to try.
 > - Then each next feature, about 15 to 20 minutes, as you choose it.
@@ -63,11 +64,12 @@ rules, where the plugin has it). For one feature at a time:
 4. Write the <feature>'s rules as scenarios
 5. Build the <feature>'s domain model
 6. Start the Reboot dashboard to show the domain model
-7. Build the <feature>'s actions, who may do each, and demo data
-8. Prove the <feature>'s rules (scenarios pass, types check)
-9. Build the <feature>'s page, with a browser scenario
-10. Start the app for you to see, and check it in a browser
-11. Your turn: review the <feature>
+7. Your turn: check the domain model on the dashboard
+8. Build the <feature>'s actions, who may do each, and demo data
+9. Prove the <feature>'s rules (scenarios pass, types check)
+10. Build the <feature>'s page, with a browser scenario
+11. Start the app for you to see, and check it in a browser
+12. Your turn: review the <feature>
 
 Every item starts with a verb; `<feature>` is the first feature's full
 name ("the room status floor plan"), lowercase inside an item.

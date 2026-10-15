@@ -94,8 +94,32 @@ The task list's "Wait for your go-ahead on the design" stays in
 progress until the user answers, and is done on the yes; a change
 leaves it in progress while the design is updated.
 
+## 4. The domain model, once
+
+In the first feature only, once the front door has started the
+dashboard on the new domain model, and before any servicer code, end
+the turn with one line linking each domain object on the dashboard
+(`dashboard` skill, "Links to an Object or a Rule"), then one dialog:
+
+> The room status floor plan's domain model is on the dashboard:
+> [Room](<link>), [Floor](<link>), [Hotel](<link>).
+
+- Title: **Build on this model?**
+- "Build on it" (recommended): "Build its actions, rules and page on
+  this model."
+- "Not yet": "I want to look at it more. Ask me again later."
+
+When the model differs from the proposed design, one line before the
+dialog says how, in the user's nouns. A change is typed as the
+dialog's free answer: change the API, `rbt generate`, say what
+changed, and ask again. The task list's "Your turn: check the domain
+model on the dashboard" stays in progress until the yes. If the
+dashboard didn't come up, don't ask: say so in one sentence and go on;
+the model is checked at the first handoff. Each next feature doesn't
+ask, and `one-shot` never does.
+
 From the first feature on, the build follows the front door
-unchanged.
+unchanged, but for this one question.
 
 ## Never
 

@@ -631,7 +631,10 @@ works as it will in the finished app.
    the developer dashboard — load the
    [`dashboard` skill](../dashboard/SKILL.md) and follow it — and go
    on without waiting for it. If it fails to come up, say so in one
-   sentence and keep building.
+   sentence and keep building. Built from the `app` skill, the first
+   feature instead waits for it and asks "Build on this model?"
+   ([`app/references/design-first.md`](../app/references/design-first.md),
+   "The domain model, once") before step 5.
 5. Write the servicer for the feature, with its rules and its real
    `authorizer()`, context-type patterns in
    `python/references/servicer-*.md`.
