@@ -100,8 +100,9 @@ before any code, that one the feature as built.
   says, and **Assumed** moves into the first decisions entry.
 - **Not yet:** no tool call; one short reply that links the design
   document so the user can open it and read it whole:
-  "The whole design is in [design/design.md](design/design.md). Tell
-  me to continue when you're ready, or what to change." Then stop: no
+  "The whole design is in design/design.md." with that path as a
+  Markdown link to the file in the user's project, then "Tell me to
+  continue when you're ready, or what to change." Then stop: no
   dialog now. A "continue" (or "go", "build it") is the go-ahead; a
   change updates the design and asks **Ready to build?** again.
 - **A change:** update the document and the design, show what
