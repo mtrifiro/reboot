@@ -167,6 +167,15 @@ The URL is in that line every time, with the port it started on, even
 when the browser opened it: a terminal session may have no window,
 and the line is where the user finds it again later.
 
+**In a build that checks the model next** (the `app` skill's "Does
+this look right?", `app/references/design-first.md`), this line is
+not written on its own: the model check's lead line is the hand-over,
+and the dashboard is named once. A port other than 9871 is said there
+in a few words ("on 9874, since other projects hold 9871 to 9873").
+Never a second line listing the same objects, and never the URL line,
+the objects line and the Models · Features · Changelog line one after
+another.
+
 ### Links to an Object or a Rule
 
 The dashboard opens on the exact thing a link names, so link each
