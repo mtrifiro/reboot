@@ -98,38 +98,12 @@ before any code, that one the feature as built.
   it by the front door's one-feature flow. At the first handoff,
   `design/design.md` becomes the accepted design as `accept-design.md`
   says, and **Assumed** moves into the first decisions entry.
-- **Not yet:** first say so in one line, before any tool call:
-  "Making the whole design into a page you can read in your browser.
-  It opens in a moment. Tell me to continue when you're ready, or
-  what to change." Then turn `design/design.md` into one readable
-  page, `design/design.html`, and open it:
-  - **In the app's Browser pane, where the host has one** (the Claude
-    app's `preview_start`): it opens http(s) only, so serve the
-    folder. Add to `.claude/launch.json` (create it if missing) a
-    configuration named `design` running `python3 -m http.server
-    8723 --directory design`, port 8723 (the next free one if taken),
-    start it by name, then navigate to `/design.html`.
-  - **Otherwise in the user's browser:** `open` on macOS, `xdg-open`
-    on Linux, `start` on Windows.
-
-  Give its path (and the pane's URL) on a line of its own, and stop:
-  no dialog now. A "continue" (or
-  "go", "build it") is the go-ahead; a change updates the design, the
-  page with it, and asks **Ready to build?** again.
-  The page is self-contained and made for reading, not a dump of the Markdown: the
-  app's name as its title, a short contents list from the headings,
-  the text at a comfortable width, and tables as plain tables. Its own
-  short stylesheet, inline: a system font, the text about 70
-  characters wide, table cells with padding and a rule between rows,
-  headers in the table's first row. Never the web app's stylesheet,
-  whose sticky headers and app layout break a document. Before the
-  app is built nothing in the design exists on the dashboard yet, so
-  every dashboard link becomes plain text (names in code style), never
-  a link that leads nowhere; once the dashboard shows the model, a
-  regenerated page keeps them as links. It is regenerated from `design/design.md` whenever the user
-  asks for it again; `design/design.md` stays the design, and the page
-  is never edited by hand.
-
+- **Not yet:** no tool call; one short reply that links the design
+  document so the user can open it and read it whole:
+  "The whole design is in [design/design.md](design/design.md). Tell
+  me to continue when you're ready, or what to change." Then stop: no
+  dialog now. A "continue" (or "go", "build it") is the go-ahead; a
+  change updates the design and asks **Ready to build?** again.
 - **A change:** update the document and the design, show what
   changed, and ask the same dialog again.
 - **No answer** is not a yes.
