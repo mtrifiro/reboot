@@ -75,6 +75,8 @@ same as one plain line), the build's second and last question before any code:
   working version of <the first feature> to try, then change what you
   like."; on the whole app at once, "Build every feature in the design
   without stopping, an hour or more, then review the whole app."
+- "Read the design in full": "Open the whole design as a page in your
+  browser, then ask again."
 - "Not yet": "I want to study the design more. Ask me again later."
 
 The path was chosen before the design, in the opening's dialog
@@ -94,6 +96,19 @@ before any code, that one the feature as built.
   it by the front door's one-feature flow. At the first handoff,
   `design/design.md` becomes the accepted design as `accept-design.md`
   says, and **Assumed** moves into the first decisions entry.
+- **Read the design in full:** turn `design/design.md` into one
+  readable page, `design/design.html`, and open it in the user's
+  browser (`open` on macOS, `xdg-open` on Linux, `start` on Windows),
+  then give its path on a line of its own and ask the same dialog
+  again, without "Read the design in full" this time. The page is
+  self-contained and made for reading, not a dump of the Markdown: the
+  app's name as its title, a short contents list from the headings,
+  the text at a comfortable width, tables as tables, and every
+  dashboard link kept as a link. Style it with the web app's house
+  stylesheet (`web-app/assets/styles.css`, inlined) where the plugin
+  has it. It is regenerated from `design/design.md` whenever the user
+  asks for it again; `design/design.md` stays the design, and the page
+  is never edited by hand.
 - **Not yet:** wait; when the user comes back, ask the same dialog
   again.
 - **A change:** update the document and the design, show what
