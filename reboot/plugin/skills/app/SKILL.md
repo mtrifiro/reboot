@@ -136,6 +136,15 @@ name, then navigate to the page the turn links (the domain model, a
 feature's rules). The link line stays as well, for a host without a
 pane and for later. Never start a second dashboard for the pane.
 
+**The app, the same way.** When the app first runs for the user to
+try, and at each review, open it in the pane too (a `launch.json`
+configuration named `app` with only its URL, e.g.
+`"url": "http://localhost:5173"`, started by name). In the Claude app
+nothing opens in the user's external browser: not the app, not the
+dashboard (`dashboard` skill, Step 4, starts it with `BROWSER=true`),
+not an MCP UI's setup wizard. Outside the Claude app, the skills'
+usual behaviour stands.
+
 **5. After every answer, say what comes next.** Whenever the user
 answers a dialog or a question (how to build, the go-ahead, the model
 check, a feature's review, what to build next), the first thing after
