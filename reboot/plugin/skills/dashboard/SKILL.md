@@ -182,5 +182,12 @@ object and rule wherever you name it, on the port it started on:
   `#/features` (each feature with its rules and scenarios) and
   `#/changelog` (every change to the model and the rules, newest
   first). Once a feature file exists, every line that links the
-  dashboard links all three: "Dashboard: [Models](…/#/models) ·
-  [Features](…/#/features) · [Changelog](…/#/changelog)".
+  dashboard links all three, as "Dashboard: Models · Features ·
+  Changelog", each word a link to its page on the port the dashboard
+  started on.
+- **When the call graph appears.** The models page draws lines
+  between methods for the Reboot calls it finds in the servicers'
+  code (one object's method calling another's). Those lines appear
+  only once servicer code exists, so the first time a servicer calling
+  another object is written, link the models page again in one line:
+  the call graph now shows which actions reach which objects.
