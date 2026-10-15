@@ -23,13 +23,15 @@ domain model"), unless it is a proper noun. Make the list once the
 design is proposed; mark each item done as it finishes; a step that
 fails stays in progress, never done.
 
-**The review comes last.** Every item stays on the list, in order:
-none is dropped. Before the handoff's question, every item above
-"Your turn: review …" is done (a step that couldn't be is named in
-the handoff's **Notes**), and the review item is in progress while
-the user answers: it is what tells the user the build is waiting for
-them. The question never comes while an earlier item is still in
-progress.
+**Short, and the user's turn last.** The list says where the build
+is and where the user comes in, not every step inside it: scaffolding,
+scenarios, proof, pages and the browser check all sit inside "Build and
+prove". Every item stays on the list, in order: none is dropped. Before
+the handoff's question, every item above "Your turn: decide what to do
+next" is done (a step that couldn't be is named in the handoff's
+**Notes**), and that item is in progress while the user answers: it is
+what tells the user the build is waiting for them. The question never
+comes while an earlier item is still in progress.
 
 ## One feature at a time
 
@@ -38,50 +40,35 @@ Flow:
 
 1. Propose the design for <app>
 2. Get your go-ahead on the design
-3. Scaffold the project
-4. Write the <feature>'s rules as scenarios
-5. Build the <feature>'s domain model
-6. Start the Reboot dashboard to show the domain model
-7. Your turn: check the domain model on the dashboard
-8. Build the <feature>'s actions, who may do each, and demo data
-9. Prove the <feature>'s rules (scenarios pass, types check)
-10. Build the <feature>'s page, with a browser scenario
-11. Start the app for you to see, and check it in a browser
-12. Your turn: review the <feature>
+3. Build the <feature>'s domain model and rules
+4. Your turn: check the domain model on the dashboard
+5. Build and prove the <feature>
+6. Your turn: decide what to do next
 
-Items 2 and 7 are the `app` skill's two questions before any code
-(`app/references/design-first.md`); a front door's skill used on its
-own, which doesn't ask them, leaves them off. Item 11 ends with the
-line linking the app and the dashboard.
+Item 3 covers the scaffold, the rules as scenarios, the domain model
+and starting the dashboard. Item 5 covers the actions, who may do
+each, demo data, the proof (scenarios pass, types check), the page
+with its browser scenario, and starting the app; it ends with the line
+linking the app and the dashboard. Items 2 and 4 are the `app` skill's
+two questions before any code (`app/references/design-first.md`); a
+front door's skill used on its own, which doesn't ask them, leaves
+them off.
 
 For the hotel's first feature, the list reads:
 
 1. Propose the design for Maison Desk
 2. Get your go-ahead on the design
-3. Scaffold the project
-4. Write the room status floor plan's rules as scenarios
-5. Build the room status floor plan's domain model
-6. Start the Reboot dashboard to show the domain model
-7. Your turn: check the domain model on the dashboard
-8. Build the room status floor plan's actions, who may do each, and demo data
-9. Prove the room status floor plan's rules (scenarios pass, types check)
-10. Build the room status floor plan's page, with a browser scenario
-11. Start the app for you to see, and check it in a browser
-12. Your turn: review the room status floor plan
+3. Build the room status floor plan's domain model and rules
+4. Your turn: check the domain model on the dashboard
+5. Build and prove the room status floor plan
+6. Your turn: decide what to do next
 
 Each next feature, when the user chooses it (the app keeps running):
 
 1. Show what the <feature> adds to the design
-2. Write the <feature>'s rules as scenarios
-3. Add the <feature> to the domain model
-4. Build the <feature>'s actions, who may do each, and demo data
-5. Prove the <feature>'s rules (scenarios pass, types check)
-6. Build the <feature>'s page, with a browser scenario
-7. Check the <feature> in a browser
-8. Your turn: review the <feature>
-
-A feature that changes an existing page says "Change the <page> page
-for the <feature>" at item 6; one with no page drops items 6 and 7.
+2. Add the <feature>'s domain model and rules
+3. Build and prove the <feature>
+4. Your turn: decide what to do next
 
 ## The whole app first
 
@@ -89,29 +76,23 @@ The full prototype (`web-app/references/full-build.md`) and an MCP UI
 built whole (`mcp-ui`, Step-by-Step Build Flow):
 
 1. Propose the design for <app>
-2. Scaffold the project
-3. Build the domain model
-4. Start the Reboot dashboard to show the domain model
-5. Build the actions, without their rules yet, and demo data
-6. Build every page of the design
-7. Start the app for you to see, and check it in a browser
-8. Write the <feature>'s rules as scenarios
-9. Prove the <feature>'s rules in the code
-10. Prove every rule (all scenarios pass, types check)
-11. Your turn: review <app>
+2. Get your go-ahead on the design
+3. Build the domain model and rules
+4. Build every page of the design
+5. Build and prove every feature
+6. Your turn: decide what to do next
 
-Items 8 and 9 come once for each feature, in the design's order.
-
-For an MCP UI, item 6 is "Build every UI of the design" and item 7
-"Start the app and check it in its AI client". An MCP UI built one
-feature at a time follows the lists above, with the same two changes.
+Item 2 is left off where no go-ahead is asked (`one-shot`). Item 4
+covers the scaffold, the dashboard, the actions without their rules
+yet, demo data, and starting the app; item 5 covers each feature's
+rules as scenarios and their proof, then the whole suite and types.
+For an MCP UI, item 4 is "Build every UI of the design".
 
 ## A backend only
 
-As one feature at a time (`app/references/backend-only.md`), without
-the page and browser items, with "Start the backend" in place of item
-11, and with "Generate the <platform> client" after the first
-feature's proof.
+As one feature at a time (`app/references/backend-only.md`), with
+item 5 "Build and prove the <feature>, with the backend running", and
+"Generate the <platform> client" after the first feature's proof.
 
 ## A change to a built app
 
@@ -119,11 +100,8 @@ feature's proof.
 check-in").
 
 1. Show what <change> changes in the design (only when it does)
-2. Write <change>'s scenarios
-3. Change the code for <change>
-4. Prove every rule (all scenarios pass, types check)
-5. Check the <page> page in a browser (when a page changed)
-6. Your turn: review <change>
+2. Make and prove <change>
+3. Your turn: decide what to do next
 
 ## Never
 
