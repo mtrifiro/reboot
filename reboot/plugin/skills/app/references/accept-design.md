@@ -32,12 +32,11 @@ changes from what the user asked for, with its reason. Then the
 close, never a question: a handoff asks nothing (no dialog, no
 next-step box question).
 
-**Every handoff** says what is running, for the user to try, and ends
-with one plain closing line: the recommended next part and why, up to
-two others, and that the user asks for one when ready. For example:
-"The day board is running for you to try. When you want more, ask for
-the client book next (clients and their dogs, about 15 to 20
-minutes), or the reminders."
+**Every handoff** ends with its **Your turn** section
+([`design-messages.md`](design-messages.md)): what to try first, the
+dashboard's pages and the design, and the parts to build next, the
+recommended one first with why and its time, and that the user asks
+for one when ready.
 
 What the user says next decides: asking for a next part, or saying to
 keep this one, accepts what was reviewed, recorded as below before

@@ -111,18 +111,34 @@ refuses it. <A second thing to try, when there is one.>
 - <A workaround, one line: what it is and what undoes it.>
 - <What waits for deploy: the sign-in provider, who may sign in.>
 
-**In short:** <one or two sentences: what now runs and what the
-question below decides>. [Open the app](<URL>) ·
-[the dashboard](<dashboard URL>) · [the design](design/design.md)
+---
+
+## Your turn
+
+**Try it:** [open the app](<URL>) and sign in as <who>. <The one thing
+to try first, in a sentence: the action and the rule that holds.>
+
+**Look closer:** dashboard [Models](<URL>/#/models) ·
+[Features](<URL>/#/features) · [Changelog](<URL>/#/changelog) ·
+[the design](design/design.md)
+
+**Build next, when you're ready** (ask for one):
+1. **<The recommended part>:** <what it adds, and why it comes next>.
+   About 15 to 20 minutes.
+2. **<Another part>:** <what it adds, in one line>.
+3. **<Another part>:** <what it adds, in one line>.
+
+Or ask for a change to what's here. <When the other front door isn't
+built: "Want it in Claude and ChatGPT too? The backend is ready for an
+MCP UI beside the web app.">
 ```
 
-**In short** is always last, right above the ask: the message is
-long, and the user reads its end while answering, after **Open it**
-has scrolled away. Its links are the same as above.
-
-Then the close, as [`accept-design.md`](accept-design.md) says: no
-question at any handoff, one plain closing line naming the next part
-and why, and that the user asks for it when ready.
+**Your turn** is always last, set apart by the rule and its heading:
+the message is long, and it is what the user acts on, after **Open
+it** has scrolled away. It asks nothing, as
+[`accept-design.md`](accept-design.md) says: it lists, and the user
+asks. Nothing follows it but the link line (`app` skill, step 4) when
+the turn has one to give, and no other line repeats what it says.
 The full review table goes to `design/design.md`, not into this
 message.
 
