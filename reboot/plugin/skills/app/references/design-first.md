@@ -99,14 +99,14 @@ before any code, that one the feature as built.
   `design/design.md` becomes the accepted design as `accept-design.md`
   says, and **Assumed** moves into the first decisions entry.
 - **Not yet:** first say so in one line, before any tool call:
-  "Making the whole design into a page you can read in your browser;
-  it opens in a moment, and the same question comes back when you're
-  ready." Then turn
-  `design/design.md` into one readable page, `design/design.html`, and
-  open it in the user's browser (`open` on macOS, `xdg-open` on Linux,
-  `start` on Windows); give its path on a line of its own and ask the
-  same dialog again. If they say "Not yet" again, wait; the page is
-  already open.
+  "Making the whole design into a page you can read in your browser.
+  It opens in a moment. Tell me to continue when you're ready, or
+  what to change." Then turn `design/design.md` into one readable
+  page, `design/design.html`, and open it in the user's browser
+  (`open` on macOS, `xdg-open` on Linux, `start` on Windows), give its
+  path on a line of its own, and stop: no dialog now. A "continue" (or
+  "go", "build it") is the go-ahead; a change updates the design, the
+  page with it, and asks **Ready to build?** again.
   The page is self-contained and made for reading, not a dump of the Markdown: the
   app's name as its title, a short contents list from the headings,
   the text at a comfortable width, and tables as plain tables. Its own
