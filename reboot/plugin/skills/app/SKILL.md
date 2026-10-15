@@ -113,7 +113,7 @@ time:
 3. Backend: build the <feature>'s domain model and rules
 4. Your turn: check the domain model on the dashboard
 5. Backend: build the <feature>'s actions and test them against its rules
-6. Your turn: check the backend, then say to build the page
+6. Your turn: check the backend, then say to build the frontend
 7. Frontend: build the <feature>'s page and check it in a browser
 8. Your turn: try the app and decide what to do next
 
@@ -206,7 +206,7 @@ recap, one question, reply buttons), and that box also checks off the
 whole task list. So:
 
 - **Questions inside the build** (how to build, Ready to build?, Build
-  on this model?, Build the page?) are dialogs (`AskUserQuestion`) asked while the
+  on this model?, Build the frontend?) are dialogs (`AskUserQuestion`) asked while the
   turn goes on, never the box: the box would tick every item on the
   list before anything is built, and the list would then have to be
   made again.

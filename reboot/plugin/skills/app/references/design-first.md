@@ -147,9 +147,10 @@ result: one line per rule, ✓ with its scenario count, linked to the
 rule on the dashboard's Features page, and the line linking Models ·
 Features · Changelog. Then one dialog:
 
-- Title: **Build the page?**
-- "Build the page" (recommended): "The <feature>'s page, on the
-  backend you just saw, about <n> minutes."
+- Title: **Build the frontend?**
+- "Build the frontend" (recommended): "The <feature>'s page, the
+  screen <its users> will use, built on the backend you just saw,
+  about <n> minutes."
 - "Not yet": "I want to look at the backend first."
 
 The backend is the half the rules live in, so the user sees it work,
@@ -157,7 +158,8 @@ on the dashboard, before any time goes into the page. A change typed
 as the free answer goes back to the rules or the actions, which are
 tested again, and the same dialog follows. "Not yet" does nothing
 more: one line says the dashboard stays up and what to say to go on.
-The task list's "Your turn: build the page?" stays in progress until
+The task list's "Your turn: check the backend, then say to build the
+frontend" stays in progress until
 the answer. A backend only (no front door) and `one-shot` skip it.
 
 From the first feature on, the build follows the front door
