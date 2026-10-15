@@ -10,8 +10,7 @@ tags: progress, waiting, narration, reboot capabilities
 Before a step that usually takes more than about 20 seconds, send one
 note, one or two sentences, before the tool call that starts it. Pick
 the fact below that fits the step; each is said at most once in a
-build, and a fact already said at a stage's start (`app` skill, "At
-every stage") is not said again here.
+build, and a fact already said at a stage's start ([`conversation.md`](conversation.md), "At every stage") is not said again here.
 
 The tone is a good release note: plain, specific, true. No exclamation
 marks, no "Did you know", no comparison by name with another product,

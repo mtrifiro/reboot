@@ -10,15 +10,9 @@ allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 Decide which front door to build first and defer to the matching
 skill. The backend is always ready for both.
 
-**A new app asks one thing before its design: how to build it.** Say
-what will be built in one paragraph, then ask a feature at a time or
-the whole app at once, each with its time; then say what to expect on
-that path, take the recommended answer to every scope question, and
-write the whole proposed design to `design/design.md`, as
-[`references/design-first.md`](references/design-first.md) says. It
-overrides the front door's round of scope questions. The whole app at
-once builds every feature in the proposed design by the
-[`one-shot` skill](../one-shot/SKILL.md)'s steps, without stopping.
+**A new app asks one thing before its design: how to build it,**
+then follows [`references/design-first.md`](references/design-first.md),
+which overrides the front door's round of scope questions.
 
 ## First, Before Reading Anything
 
@@ -36,31 +30,19 @@ It replaces the decision flow's one sentence. No heading.
   gave none, says so the first time it appears: "Chore Chart (working
   name)". Not one sentence that runs the three together, and not a
   description of the method: that is the next paragraph's job.
-- **A first feature seen from both sides.** When the app has two
-  sides, the people who run the service and the customers who use it
-  (a hotel's staff and its guests, an airline's dispatchers and its
-  passengers, a theater's box office and its patrons, a restaurant
-  and its diners, a clinic and its patients), the first feature is
-  one interaction from both sides: the customer acts on a page of
-  their own, and the staff see it land on theirs, live, held to the
-  same rules. It is the business's core transaction, the thing it
-  sells, never a side service: a hotel's guest books a room and the
-  front desk sees the reservation land on the room board (not an
-  amenity or the spa); an airline's passenger books a seat on a
-  flight; a theater's patron buys a seat at a show; a restaurant's
-  diner reserves a table; a clinic's patient books an appointment. One domain model and one set of rules, with two pages.
-  It is the moment that shows what Reboot does: the page updating on
-  its own, the transaction that keeps the rule, and who may see and
-  do what. The intent's third sentence names both views: "The first
-  feature is booking a seat, from both sides: passengers book on their
-  own page, and dispatchers see each booking land on the flight
-  board, which refuses one past the seats or the weight limit." An
-  app with one side (an internal tool, a family chore chart, a CRM)
-  keeps a one-page first feature. Its handoff's **How to check it**
-  starts with the two pages side by side: "Open the booking page as
-  Carlos and the flight board as Alice, side by side. Book a seat as
-  Carlos and watch it land on the board, with no refresh." In the
-  Claude app, open both in the Browser pane, one tab each.
+- **A first feature seen from both sides.** When the app has a staff
+  side and a customer side (a hotel and its guests, an airline and its
+  passengers, a theater and its patrons, a restaurant and its diners,
+  a clinic and its patients), the first feature is the business's core
+  transaction, the thing it sells, from both sides: the customer acts
+  on a page of their own and the staff see it land on theirs, live,
+  under the same rules. A hotel's guest books a room and the front desk
+  sees the reservation on the room board (never an amenity first); an
+  airline's passenger books a seat; a theater's patron buys a ticket; a
+  diner reserves a table; a patient books an appointment. One domain
+  model, two pages. An app with one side (an internal tool, a chore
+  chart, a CRM) keeps a one-page first feature. Its handoff starts with
+  the two pages side by side (`references/conversation.md`).
 - **How Reboot builds,** a second paragraph of its own, the same for
   every app and either path, these words exactly, as plain text like
   the first paragraph (never merged into it, never paraphrased, never
@@ -158,226 +140,33 @@ On **Hands-off**:
 >   page tested in a browser. An hour or more; the whole app to try at
 >   the end.
 
-**2. Make the task list,** where the agent keeps one, with every item
-now, filled in from the paragraph (`references/task-list.md` has the
-rules, where the plugin has it), after the answer. The question is the
-only tool call in its response: no task list beside it, since the list
-depends on the answer. If a list is made before the answer at all, it
-has one item, "Propose the design for <app>", and the rest is filled
-in after the answer, for the path chosen. A build is in two
-parts and the list shows one part at a time: the backend list, then,
-once the user says to build the frontend, the frontend list in its
-place. For one feature at a time, the backend:
+**2. Then read [`references/conversation.md`](references/conversation.md)**
+once, right after saying what to expect: what the build says, links,
+opens and asks at every stage from here on (links at every turn, the
+Browser pane, a line after every answer, research, backend and
+frontend named apart, the questions inside the build, narration, the
+first feature's rules in plain words). Each path's further steps are
+read when they start: the design ([`references/design-first.md`](references/design-first.md)),
+the task list (`references/task-list.md`, where the plugin has it),
+and, for Automatically and Hands-off, the [`one-shot` skill](../one-shot/SKILL.md).
 
-1. Propose the design for <app>
-2. Get your go-ahead on the design
-3. Build the <feature>'s domain model and rules
-4. Your turn: check the domain model on the dashboard
-5. Build the <feature>'s actions and test them against its rules
-6. Your turn: check the backend, then say to build the frontend
+**3. The task list** is made after the answer, never beside the
+question: the question is the only tool call in its response. A list
+made before the answer at all has one item, "Propose the design for
+<app>". The lists, one per part (the backend, then the frontend), are
+in `references/task-list.md`, where the plugin has it.
 
-and the frontend:
-
-1. Build the <feature>'s page
-2. Test it in a browser
-3. Your turn: try the app and decide what to do next
-
-Each part reads only its own references: the backend part the Python
-ones, the frontend part the React, stylesheet and browser-testing ones,
-read when it starts.
-
-Every item starts with a verb; `<feature>` is the first feature's full
-name ("the room status floor plan"), lowercase inside an item.
-
-**3. Time estimates,** from measured builds, always "about", only in
-the opening's dialog and list, never a guess of the build's own: the proposed
-design, a few minutes; the first feature after the go-ahead, about 15
-minutes, or about 25 to 30 for a first feature seen from both sides
-(an estimate from the one-page time, 2026-10-15, until a build
-measures it); each next feature, about 15 to 20 minutes; the whole app
-at once (`one-shot`), an hour or more.
-
-**4. Links at every major turn.** Once the app has started, every
-major turn ends with one line linking both, on the ports they started
-on, so the user never scrolls back for them:
-
-> App: http://localhost:5173/ · Dashboard: http://127.0.0.1:9871/
-
-Once a feature file exists, the dashboard part names its three pages
-(`dashboard` skill, "Links to an Object or a Rule"):
-
-> App: http://localhost:5173/ · Dashboard: [Models](http://127.0.0.1:9871/#/models) · [Features](http://127.0.0.1:9871/#/features) · [Changelog](http://127.0.0.1:9871/#/changelog)
-
-The major turns: the app's first start (the `run` skill), each
-handoff (in its **Your turn**), each feature finished, each change
-made, and the build's last message. Before the app runs, the line has
-the dashboard alone, once it is up.
-
-**Open the dashboard in the app's Browser pane** where the host has
-one (the Claude app's `preview_start`), the first time it is up and
-whenever the build links into it at a turn the user acts on (the
-model check, each review). The dashboard is already running, so
-attach to it: a configuration in `.claude/launch.json` named
-`dashboard` with only `"url": "http://127.0.0.1:<port>"`, the port it
-started on, and no command (the origin only, no path); start it by
-name, then navigate to the page the turn is about, as a whole: the
-model check opens `#/models` with no object selected (no `?type=`), so
-the user sees every object and how they connect and opens one by
-clicking it; the backend check opens `#/features`. A single object's
-or rule's link is for the chat's own links, never the pane. The link line stays as well, for a host without a
-pane and for later. Never start a second dashboard for the pane.
-
-**The app, once it is ready to try.** The pane is for the user, not
-for the build's own testing: the build tests the app in a headless
-browser (the browser scenarios, and the checks in
-`web-app/references/ui-design.md`, run with Playwright), never in the
-pane, so no card for an app still being tested appears in the chat.
-The app opens in the pane once, at the handoff's **Your turn**, ready
-to try (a `launch.json` configuration named `app` with only its URL,
-e.g. `"url": "http://localhost:5173"`, started by name), and for a
-feature seen from both sides, in two tabs, one per side. In the Claude app
-nothing opens in the user's external browser: not the app, not the
-dashboard (`dashboard` skill, Step 4, starts it with `BROWSER=true`),
-not an MCP UI's setup wizard. Outside the Claude app, the skills'
-usual behaviour stands.
-
-**5. After every answer, say what comes next.** Whenever the user
-answers a dialog or asks for something (how to build, the go-ahead,
-the model check, the page, the next feature), the first thing after
-it, before any tool call, is one or two sentences in plain words: what
-will be done now, in the user's nouns, and what they'll see next, with
-the time when the opening's estimates give one. Short: no list of
-internal steps, no promise of further updates. For the go-ahead on a feature at a
-time:
-
-> Building the room status floor plan's domain model and rules now.
-> The Reboot dashboard's link comes once the model is written, for you
-> to check it before the rest is built on it.
-
-Never a silent start after an answer, and never only a task list
-update.
-
-**Looking things up.** When the prompt asks for research (a real
-company, a place, a regulation), say what is being looked up in one
-line before the first search ("Looking up Kenmore Air's fleet, bases
-and routes."), and after it, one line on what was found that the
-design uses. When the research corrects the prompt (a name spelled
-differently, a fact the prompt got wrong), say so in one line before
-the design, and keep the user's own spelling nowhere it was wrong:
-"Kenwood Air appears to be Kenmore Air, the floatplane airline out of
-Lake Union; the design uses that name, easy to change."
-
-**Backend and frontend, named apart.** Every message about building
-says which half it is about: the backend (the domain model, the
-rules, the actions, who may do each, the tests) or the frontend (the
-page and the browser tests). The task list shows one part at a time,
-and the messages open with "Backend:" or "Frontend:" ("Backend:
-running the floor plan's 9 scenarios." "Frontend: building the floor
-plan page."), so the user always knows which half is being worked on
-and which is done.
-
-**Each question asked once, in the right place.** The Claude app
-ends a working turn with a next-step box of its own (`wrap_up`: a
-recap, one question, reply buttons), and that box also checks off the
-whole task list. So:
-
-- **Questions inside the build** (how to build, Ready to build?, Does this
-  look right? (the model check), Build the frontend?) are dialogs (`AskUserQuestion`) asked while the
-  turn goes on, never the box: the box would tick every item on the
-  list before anything is built, and the list would then have to be
-  made again.
-- **The end of a feature asks nothing.** The box gets the recap
-  only, with no `ask` and no buttons: the feature is running for the
-  user to try, and the closing line names the recommended next one
-  and says to ask for it when ready (`references/accept-design.md`).
-- A dialog the user skipped is not a reason to ask again in the box:
-  end with the recap alone.
-
-**Keeping a feature is recorded when the user asks for more.** When
-the user asks for the next feature, or says to keep this one, the
-build records it as kept (`references/accept-design.md`) and says
-so in a few words, as tidying up, with what it means in parentheses,
-then what's next: "Tidying up the chore board first (its rules are
-locked in, so later features won't change them without asking you).
-Next, recurring chores: their backend first, about 15 to 20 minutes."
-Never the mechanics: "kept", "recording", work-in-progress tags, the
-accepted design or the decisions log.
-Nothing
-is recorded while the user only tries the app.
-
-**At every stage, say what is being done and what Reboot brings to
-it.** Each task-list item that starts gets two or three sentences
-before its work: what the build is doing now, in the user's nouns, and
-the part Reboot does that a usual stack leaves to the developer. Plain
-and specific, never a sales line, and each point said once in a build,
-not repeated at every feature or in a wait note
-(`references/while-you-wait.md`) later. What to draw on, at the stage it fits:
-
-- **The design:** the app is described as domain objects and the rules
-  they keep, before any code, so what's proposed is what gets built
-  and checked.
-- **The domain model:** each domain object is its own durable actor
-  with its state kept by Reboot; there is no database to set up, no
-  tables or migrations, and no cache to keep in sync.
-- **The rules:** each rule is written as a scenario in plain words
-  before the code, and the build isn't done until every scenario
-  passes; a rule the code breaks shows up as a failing scenario, not
-  a bug report.
-- **Who may do what:** every action declares who may call it, checked
-  by Reboot on each call, so a page can't reach what its user isn't
-  allowed to.
-- **Actions across objects:** a transaction changes several objects
-  all or nothing, so a check-in can't half happen.
-- **The dashboard:** the Reboot dashboard draws the domain model and
-  the rules from the code itself, so what the user checks is what
-  runs.
-- **The page:** the page subscribes to its data and updates on its own
-  when anything changes, with no refresh and no polling code.
-
-**Show the first feature's rules, the first time, in plain words.**
-Once the first feature file is written, list its rules in the chat,
-one line each in the user's nouns, each a link to the rule on the
-dashboard's Features page, with how many scenarios test it; then one
-or two sentences on what they are: each rule is something the app
-must keep true, and each is tested by scenarios, examples of someone
-acting and what must hold after, written in plain words in the
-feature file; the feature isn't done until every scenario passes.
-Never the file's text or a code block of it: the user reads the rules,
-and opens the file on the dashboard if they want the scenarios. Once
-per build; later features name their rules the same way.
-
-For the hotel:
-
-> Room booking's rules, each tested by its scenarios:
-> - [A room can't be booked twice for the same night](<link>) (3 scenarios)
-> - [A stay needs at least one night](<link>) (2 scenarios)
-> - [Only the front desk can cancel a guest's booking](<link>) (2 scenarios)
->
-> Each rule is something the app must keep true. Its scenarios are
-> examples in plain words, someone acting and what must hold after,
-> and the backend isn't done until every one passes.
-
-**Fixes stay in the user's terms.** A fix while proving a feature is
-said as what it changes for the user, in one sentence, or not at all
-when it changes nothing they'd see ("A scenario was phrased in a way
-the test steps don't accept; reworded, same rule."). Never the
-mechanics: step libraries, `Given` restrictions, response paths,
-field names.
-
-For the go-ahead's next stage on the hotel:
-
-> Building the room status floor plan's domain model and rules now.
-> Each room is its own durable object in Reboot, its status kept for
-> it, so there is no database to set up. Each rule, such as a room
-> can't be checked into until it's clean, is written first as a
-> scenario in plain words; the floor plan isn't done until every one
-> passes.
+**4. Time estimates,** from measured builds, always "about", only in
+the opening's dialog and list: the design, a few minutes; the first
+feature, about 15 minutes, or 25 to 30 seen from both sides (an
+estimate until a build measures it); each next feature, 15 to 20
+minutes; the whole app, an hour or more.
 
 **While a slow step runs,** a short true fact about Reboot that fits
 it goes out first, once per build each:
 [`references/while-you-wait.md`](references/while-you-wait.md).
 
-**6. Read with the file tools.** This plugin's skills and references
+**5. Read with the file tools.** This plugin's skills and references
 are read with the Read, Grep and Glob tools, never `cat`, `grep`,
 `ls` or `cd` in a shell: a host's auto mode can block a shell command
 in the plugin's install folder, and after a few blocks it asks the
