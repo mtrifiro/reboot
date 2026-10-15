@@ -43,7 +43,7 @@ Flow:
 3. Backend: build the <feature>'s domain model and rules
 4. Your turn: check the domain model on the dashboard
 5. Backend: build the <feature>'s actions and test them against its rules
-6. Your turn: check the backend, then say to build the page
+6. Your turn: check the backend, then say to build the frontend
 7. Frontend: build the <feature>'s page and check it in a browser
 8. Your turn: try the app and decide what to do next
 
@@ -65,7 +65,7 @@ For the hotel's first feature, the list reads:
 3. Backend: build the room status floor plan's domain model and rules
 4. Your turn: check the domain model on the dashboard
 5. Backend: build the room status floor plan's actions and test them against its rules
-6. Your turn: check the backend, then say to build the page
+6. Your turn: check the backend, then say to build the frontend
 7. Frontend: build the room status floor plan's page and check it in a browser
 8. Your turn: try the app and decide what to do next
 
@@ -74,7 +74,7 @@ Each next feature, when the user chooses it (the app keeps running):
 1. Show what the <feature> adds to the design
 2. Backend: add the <feature>'s domain model and rules
 3. Backend: build the <feature>'s actions and test them against its rules
-4. Your turn: check the backend, then say to build the page
+4. Your turn: check the backend, then say to build the frontend
 5. Frontend: build the <feature>'s page and check it in a browser
 6. Your turn: try the app and decide what to do next
 
