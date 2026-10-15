@@ -16,15 +16,33 @@ not apply: nothing stops the build until the end.
 
 ## 0. Say what will be built, first
 
-The first text, right after routing and before reading anything else:
-one paragraph of at most four sentences, from the prompt alone, in
-the user's nouns: the complete app, who uses it, its features in one
-sentence, and which front door, then "The full design comes next, in
-`design/design.md`, and the build goes straight on; nothing to answer
-until it's done." No heading, no list, no question.
+The `app` skill's "First, Before Reading Anything" applies, before any
+tool call, with three differences:
 
-Then make the task list with the front door's items for the whole app
-first (`app/references/task-list.md`, where the plugin has it).
+- **The paragraph** describes the complete app: who uses it, its
+  features in one sentence, and which front door, ending word for
+  word "The full design comes next, in `design/design.md`, and the
+  build goes straight on; nothing to answer until it's done."
+- **The task list** has the whole-app items, with no go-ahead:
+
+  1. Propose the design for <app>
+  2. Set up the project
+  3. Build the domain model
+  4. Start the developer dashboard to display the domain model
+  5. Build the actions, without their rules yet
+  6. Add demo data
+  7. Set up the frontend
+  8. Build every page of the design
+  9. Check the app in a browser
+  10. <feature>: write its rules as scenarios
+  11. <feature>: put its rules in the code and run its scenarios
+  12. Run all the scenarios and check the types
+  13. Show <app> for your review
+
+  Items 10 and 11 come once for each feature, in the design's order,
+  each named in full; for an MCP UI, item 8 is "Build every UI of the
+  design" and item 9 "Check the app in its AI client".
+- **`app/references/design-first.md` does not apply:** no go-ahead.
 
 ## 1. Ambitious scope
 

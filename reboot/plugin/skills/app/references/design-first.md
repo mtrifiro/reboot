@@ -12,24 +12,8 @@ way. It replaces the front door's round of scope questions.
 
 ## 0. Say what will be built, first
 
-The first text, right after routing and before reading anything else:
-one paragraph of at most four sentences, from the prompt alone, in
-the user's nouns. What the app is and who uses it, what it will keep
-track of, the first feature it will build, and which front door, then
-"The full design comes next, in `design/design.md`; nothing to answer
-yet." It replaces the decision flow's one sentence. No heading, no
-list, no question. For the hotel:
-
-> Maison Desk will run a 56-room boutique hotel for its staff: the
-> rooms and their status, the guests' stays, and who on the staff may
-> do what. The first feature is a floor plan of every room, where a
-> room can't be checked into until it's clean. It's a web app, with
-> the backend ready for an MCP UI too. The full design comes next, in
-> `design/design.md`; nothing to answer yet.
-
-Then make the task list, with the front door's items for one feature
-at a time (`app/references/task-list.md`, where the plugin has it),
-and "Wait for your go-ahead on the design" as the second item.
+Done already, as the `app` skill's "First, Before Reading Anything"
+says: the paragraph, then the task list, before any reading.
 
 ## 1. No scope questions
 
@@ -93,7 +77,8 @@ unchanged.
 ## Never
 
 - Reading a reference, or listing the folder, before the paragraph
-  that says what will be built.
+  that says what will be built; reading this plugin's files with a
+  shell command instead of the file tools.
 - `AskUserQuestion`, or a question in plain text, before the design
   document is written.
 - An answer taken in step 1 without its line under **Assumed**.
