@@ -120,6 +120,11 @@ on, so the user never scrolls back for them:
 
 > App: http://localhost:5173/ · Dashboard: http://127.0.0.1:9871/
 
+Once a feature file exists, the dashboard part names its three pages
+(`dashboard` skill, "Links to an Object or a Rule"):
+
+> App: http://localhost:5173/ · Dashboard: [Models](http://127.0.0.1:9871/#/models) · [Features](http://127.0.0.1:9871/#/features) · [Changelog](http://127.0.0.1:9871/#/changelog)
+
 The major turns: the app's first start (the `run` skill), each
 handoff (in its **In short**), each feature finished, each change
 made, and the build's last message. Before the app runs, the line has
