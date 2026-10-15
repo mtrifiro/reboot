@@ -52,7 +52,8 @@ It replaces the decision flow's one sentence. No heading.
   - "The whole app at once": "Every feature in the design, each with
     its rules proven, built without stopping: an hour or more."
 - **What to expect,** after the answer, the list for that path, word
-  for word but for the angle brackets.
+  for word but for the angle brackets: a list, never folded into a
+  paragraph, in the build's voice, never "I'll" or "I'll send".
 
 For the hotel (the `>` marks the example here; the build writes plain
 text):
@@ -74,8 +75,10 @@ Then the dialog. On **a feature at a time**:
 > What to expect:
 > - The proposed design, in a few minutes. Nothing to answer until
 >   then.
-> - After your go-ahead, the Reboot dashboard's link, to check the
->   domain model before the rest is built on it.
+> - After your go-ahead, the project is set up, the floor plan's rules
+>   written as scenarios and its domain model built. Then the Reboot
+>   dashboard's link, to check the model before the rest is built on
+>   it.
 > - The floor plan, working, in about 15 minutes, with its rules
 >   proven by scenarios, for you to try.
 > - Then each next feature, as you choose it, about 15 to 20 minutes.
@@ -96,7 +99,7 @@ rules, where the plugin has it), after the answer. For one feature at a
 time:
 
 1. Propose the design for <app>
-2. Wait for your go-ahead on the design
+2. Get your go-ahead on the design
 3. Scaffold the project
 4. Write the <feature>'s rules as scenarios
 5. Build the <feature>'s domain model

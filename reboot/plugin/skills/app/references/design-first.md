@@ -115,7 +115,7 @@ before any code, that one the feature as built.
   changed, and ask the same dialog again.
 - **No answer** is not a yes.
 
-The task list's "Wait for your go-ahead on the design" stays in
+The task list's "Get your go-ahead on the design" stays in
 progress until the user answers, and is done on the yes; a change
 leaves it in progress while the design is updated.
 
