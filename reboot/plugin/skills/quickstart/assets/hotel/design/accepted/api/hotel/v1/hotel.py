@@ -142,18 +142,6 @@ class CheckInBookingRequest(Model):
     )
 
 
-class RushRoomRequest(Model):
-    reservation_id: str = Field(
-        tag=1, default="", description="The booked stay that will wait."
-    )
-    room_number: str = Field(
-        tag=2,
-        default="",
-        description="A vacant room of the booked type still being turned "
-        "over, to rush for them.",
-    )
-
-
 class RoomNumberRequest(Model):
     room_number: str = Field(
         tag=1, default="", description="The room to act on."
@@ -208,13 +196,6 @@ class FrontDeskResponse(Model):
         tag=8,
         default="",
         description="When check-in opens on arrival day, HH:MM hotel time.",
-    )
-    rushable_rooms: list[RoomView] = Field(
-        tag=9,
-        default_factory=list,
-        description="Vacant rooms still being turned over (dirty, being "
-        "cleaned, or awaiting inspection) and not rushed for anyone, any "
-        "of which can be rushed for a waiting guest.",
     )
 
 
@@ -304,25 +285,6 @@ class RoomNotReadyError(Model):
     )
 
 
-
-class RoomHeldError(Model):
-    guest_name: str = Field(
-        tag=1,
-        default="",
-        description="The waiting guest the room is rushed for, and so held "
-        "for.",
-    )
-
-
-class RoomNotRushableError(Model):
-    status: RoomStatus = Field(
-        tag=1,
-        default="vacant_dirty",
-        description="The status the room was in: only a vacant room still "
-        "being turned over (dirty, being cleaned, or awaiting inspection) "
-        "can be rushed.",
-    )
-
 HotelMethods = Methods(
     create=Writer(
         request=HotelCreateRequest,
@@ -396,7 +358,6 @@ HotelMethods = Methods(
             WrongRoomTypeError,
             BookingStateError,
             EarlyCheckInError,
-            RoomHeldError,
         ],
         description="Give an arriving guest a room and check them in. "
         "Raises `RoomNotReadyError` unless the room is inspected, "
@@ -405,36 +366,6 @@ HotelMethods = Methods(
         "`EarlyCheckInError` before 3 pm hotel time on arrival day unless "
         "a manager approved it or is the one checking in (which records "
         "their approval). Front desk or managers only.",
-        mcp=None,
-    ),
-    rush_room=Transaction(
-        mode=Shared(),
-        request=RushRoomRequest,
-        response=None,
-        errors=[
-            RoomNotRushableError,
-            RoomHeldError,
-            WrongRoomTypeError,
-            BookingStateError,
-        ],
-        description="Ask housekeeping to turn a room over first for a "
-        "booked guest who will wait, and hold it for them until they check "
-        "in or the rush is cancelled. A guest has one rushed room at a "
-        "time; rushing another moves the rush. Raises "
-        "`RoomNotRushableError` unless the room is dirty, being cleaned or "
-        "awaiting inspection, `RoomHeldError` if it is rushed for another "
-        "guest, `WrongRoomTypeError` unless it is the type they booked, "
-        "and `BookingStateError` unless the stay is booked. Front desk or "
-        "managers only.",
-        mcp=None,
-    ),
-    cancel_rush=Transaction(
-        mode=Shared(),
-        request=ReservationIdRequest,
-        response=None,
-        description="Stop rushing the room held for a guest, which frees it "
-        "for anyone. Does nothing if none is rushed. Front desk or "
-        "managers only.",
         mcp=None,
     ),
     check_out_room=Transaction(

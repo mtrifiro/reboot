@@ -10,9 +10,7 @@ from hotel.v1.hotel import (
     InvalidDatesError,
     InvalidTransitionError,
     MissingDetailError,
-    RoomHeldError,
     RoomNotReadyError,
-    RoomNotRushableError,
     SoldOutError,
     WrongRoomTypeError,
 )
@@ -58,8 +56,6 @@ class HotelServicer(Hotel.Servicer):
             cancel_booking=by_role,
             check_in_booking=by_role,
             check_out_room=by_role,
-            rush_room=by_role,
-            cancel_rush=by_role,
         )
 
     async def _rooms(self, context: ReaderContext) -> list[RoomView]:
@@ -260,7 +256,6 @@ class HotelServicer(Hotel.Servicer):
         await Inventory.ref(self.state.inventory_ids[stay.room_type]).release(
             context, arrival=stay.arrival, departure=stay.departure
         )
-        await self._release_rush(context, stay)
         await Reservation.ref(request.reservation_id).mark_cancelled(context)
 
     async def check_in_booking(
@@ -286,13 +281,6 @@ class HotelServicer(Hotel.Servicer):
                     booked=stay.room_type, room_type=room.room_type
                 )
             )
-        if (
-            room.rush_reservation_id
-            and room.rush_reservation_id != request.reservation_id
-        ):
-            raise Hotel.CheckInBookingAborted(
-                RoomHeldError(guest_name=room.rush_guest_name)
-            )
         approved_by = ""
         if (
             not stay.early_check_in_approved_by_name
@@ -311,10 +299,6 @@ class HotelServicer(Hotel.Servicer):
                 context, user_id=context.auth.user_id
             )
             approved_by = member.name or "Manager"
-        # A guest given another room than the one rushed for them frees
-        # the rushed one.
-        if stay.rush_room_number != request.room_number:
-            await self._release_rush(context, stay)
         await Room.ref(request.room_number).check_in(
             context,
             guest_name=stay.guest_name,
@@ -324,74 +308,6 @@ class HotelServicer(Hotel.Servicer):
             context,
             room_number=request.room_number,
             early_check_in_approved_by_name=approved_by,
-        )
-
-    async def _release_rush(
-        self, context: TransactionContext, stay: ReservationView
-    ) -> None:
-        """Free the room rushed for a stay, if one is."""
-        if not stay.rush_room_number:
-            return
-        room = await self._room(context, stay.rush_room_number)
-        if room.rush_reservation_id == stay.reservation_id:
-            await Room.ref(stay.rush_room_number).clear_rush(context)
-        await Reservation.ref(stay.reservation_id).mark_rush_room(
-            context, room_number=""
-        )
-
-    async def rush_room(
-        self,
-        context: TransactionContext,
-        request: Hotel.RushRoomRequest,
-    ) -> None:
-        stay = await self._reservation(context, request.reservation_id)
-        if stay.status != "booked":
-            raise Hotel.RushRoomAborted(BookingStateError(status=stay.status))
-        room = await self._room(context, request.room_number)
-        if room.status not in ("vacant_dirty", "cleaning", "vacant_clean"):
-            raise Hotel.RushRoomAborted(
-                RoomNotRushableError(status=room.status)
-            )
-        if room.room_type != stay.room_type:
-            raise Hotel.RushRoomAborted(
-                WrongRoomTypeError(
-                    booked=stay.room_type, room_type=room.room_type
-                )
-            )
-        if (
-            room.rush_reservation_id
-            and room.rush_reservation_id != request.reservation_id
-        ):
-            raise Hotel.RushRoomAborted(
-                RoomHeldError(guest_name=room.rush_guest_name)
-            )
-        # One rushed room per guest: rushing another moves the rush.
-        if stay.rush_room_number not in ("", request.room_number):
-            await self._release_rush(context, stay)
-
-        requested_by = ""
-        if context.auth is not None and context.auth.user_id is not None:
-            member = await Team.ref(TEAM_ID).member_of(
-                context, user_id=context.auth.user_id
-            )
-            requested_by = member.name
-        await Room.ref(request.room_number).mark_rush(
-            context,
-            reservation_id=request.reservation_id,
-            guest_name=stay.guest_name,
-            requested_by_name=requested_by,
-        )
-        await Reservation.ref(request.reservation_id).mark_rush_room(
-            context, room_number=request.room_number
-        )
-
-    async def cancel_rush(
-        self,
-        context: TransactionContext,
-        request: Hotel.CancelRushRequest,
-    ) -> None:
-        await self._release_rush(
-            context, await self._reservation(context, request.reservation_id)
         )
 
     async def check_out_room(
@@ -462,12 +378,6 @@ class HotelServicer(Hotel.Servicer):
             ],
             availability=list(availability),
             ready_rooms=[r for r in rooms if r.status == "inspected"],
-            rushable_rooms=[
-                r
-                for r in rooms
-                if r.status in ("vacant_dirty", "cleaning", "vacant_clean")
-                and not r.rush_reservation_id
-            ],
             in_house=len(in_house),
             time_zone=clock.HOTEL_TIME_ZONE,
             check_in_time=clock.CHECK_IN_TIME.strftime("%H:%M"),

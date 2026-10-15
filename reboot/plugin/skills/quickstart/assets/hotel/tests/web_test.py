@@ -50,8 +50,5 @@ def application(frontend: Frontend) -> Application:
 
 
 scenarios(
-    "room_status.feature",
-    "staff_roles.feature",
-    "reservations.feature",
-    "rush_cleaning.feature",
+    "room_status.feature", "staff_roles.feature", "reservations.feature"
 )

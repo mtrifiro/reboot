@@ -1319,26 +1319,3 @@ tr:hover td {
 .warn-text {
   color: var(--warn);
 }
-
-/* Rush cleaning: a room the front desk asked housekeeping to turn over
-   first for a waiting guest. */
-.room-tile.rush {
-  box-shadow: 0 0 0 2px var(--warn);
-}
-.room-rush {
-  font-size: 12px;
-  line-height: 1.25;
-  font-weight: 600;
-  color: var(--warn);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.rush-panel {
-  margin-bottom: var(--space-4);
-  border-left: 4px solid var(--warn);
-}
-.rush-offer {
-  display: grid;
-  gap: var(--space-1);
-}

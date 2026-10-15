@@ -1,10 +1,9 @@
 import { useHotel } from "@api/hotel/v1/hotel_rbt_react";
 import { useReservation } from "@api/reservations/v1/reservations_rbt_react";
-import { useRoom } from "@api/rooms/v1/rooms_rbt_react";
 import { useEffect, useMemo, useState } from "react";
 import { HOTEL_ID } from "../App";
 import { friendlyError } from "../errors";
-import { STATUS_SHORT, can, type Role } from "../rooms";
+import { can, type Role } from "../rooms";
 
 type Aborted = {
   error: { type: string } & Record<string, unknown>;
@@ -99,52 +98,16 @@ export default function FrontDeskPage({ role }: { role: Role }) {
     return aborted === undefined;
   };
 
-  // Ready rooms by type, each with the stay it is rushed for, if any.
   const readyByType = useMemo(() => {
-    const m: Record<string, { number: string; heldFor: string }[]> = {};
+    const m: Record<string, string[]> = {};
     for (const r of response?.readyRooms ?? []) {
-      (m[r.roomType] ??= []).push({
-        number: r.number,
-        heldFor: r.rushReservationId,
-      });
+      (m[r.roomType] ??= []).push(r.number);
     }
-    for (const rooms of Object.values(m)) {
-      rooms.sort((a, b) =>
-        a.number.localeCompare(b.number, undefined, { numeric: true }),
-      );
+    for (const numbers of Object.values(m)) {
+      numbers.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
     }
     return m;
   }, [response]);
-
-  const rushableByType = useMemo(() => {
-    const m: Record<string, { number: string; status: string }[]> = {};
-    for (const r of response?.rushableRooms ?? []) {
-      (m[r.roomType] ??= []).push({ number: r.number, status: r.status });
-    }
-    for (const rooms of Object.values(m)) {
-      rooms.sort((a, b) =>
-        a.number.localeCompare(b.number, undefined, { numeric: true }),
-      );
-    }
-    return m;
-  }, [response]);
-
-  // The ready rooms a guest may be given: none rushed for someone else.
-  const optionsFor = (a: ArrivalView): string[] =>
-    (readyByType[a.roomType] ?? [])
-      .filter((r) => !r.heldFor || r.heldFor === a.reservationId)
-      .map((r) => r.number);
-
-  // The room rushed for the guest, once ready; else the first one.
-  const pickFor = (a: ArrivalView): string => {
-    const options = optionsFor(a);
-    const chosenRoom = chosen[a.reservationId];
-    if (chosenRoom && options.includes(chosenRoom)) return chosenRoom;
-    if (a.rushRoomNumber && options.includes(a.rushRoomNumber)) {
-      return a.rushRoomNumber;
-    }
-    return options[0] ?? "";
-  };
 
   const arrivals = response?.arrivals ?? [];
   const departures = response?.departures ?? [];
@@ -249,9 +212,12 @@ export default function FrontDeskPage({ role }: { role: Role }) {
                           <ArrivalRow
                             key={a.reservationId}
                             arrival={a}
-                            options={optionsFor(a)}
-                            pick={pickFor(a)}
-                            rushable={rushableByType[a.roomType] ?? []}
+                            options={readyByType[a.roomType] ?? []}
+                            pick={
+                              chosen[a.reservationId] ??
+                              readyByType[a.roomType]?.[0] ??
+                              ""
+                            }
                             onPick={(n) =>
                               setChosen({ ...chosen, [a.reservationId]: n })
                             }
@@ -270,18 +236,10 @@ export default function FrontDeskPage({ role }: { role: Role }) {
                             checkIn={() =>
                               hotel.checkInBooking({
                                 reservationId: a.reservationId,
-                                roomNumber: pickFor(a),
-                              })
-                            }
-                            rush={(roomNumber) =>
-                              hotel.rushRoom({
-                                reservationId: a.reservationId,
-                                roomNumber,
-                              })
-                            }
-                            cancelRush={() =>
-                              hotel.cancelRush({
-                                reservationId: a.reservationId,
+                                roomNumber:
+                                  chosen[a.reservationId] ??
+                                  readyByType[a.roomType]?.[0] ??
+                                  "",
                               })
                             }
                           />
@@ -543,14 +501,12 @@ type ArrivalView = {
   status: string;
   roomNumber: string;
   earlyCheckInApprovedByName: string;
-  rushRoomNumber: string;
 };
 
 function ArrivalRow({
   arrival: a,
   options,
   pick,
-  rushable,
   onPick,
   role,
   busy,
@@ -558,13 +514,10 @@ function ArrivalRow({
   checkInTime,
   act,
   checkIn,
-  rush,
-  cancelRush,
 }: {
   arrival: ArrivalView;
   options: string[];
   pick: string;
-  rushable: { number: string; status: string }[];
   onPick: (room: string) => void;
   role: Role;
   busy: boolean;
@@ -575,18 +528,11 @@ function ArrivalRow({
     call: () => Promise<{ aborted?: Aborted }>,
   ) => Promise<boolean>;
   checkIn: () => Promise<{ aborted?: Aborted }>;
-  rush: (roomNumber: string) => Promise<{ aborted?: Aborted }>;
-  cancelRush: () => Promise<{ aborted?: Aborted }>;
 }) {
   const reservation = useReservation({ id: a.reservationId });
   const desk = can.frontDesk(role);
   const approved = a.earlyCheckInApprovedByName;
   const booked = a.status === "booked";
-  const rushed = booked ? a.rushRoomNumber : "";
-  const [toRush, setToRush] = useState("");
-  const rushPick = rushable.some((r) => r.number === toRush)
-    ? toRush
-    : (rushable[0]?.number ?? "");
   return (
     <tr>
       <td>
@@ -613,61 +559,8 @@ function ArrivalRow({
           <span className="pill">Booked</span>
         ) : (
           <div className="inline-action">
-            {options.length === 0 && rushed ? (
-              <>
-                <RushWait roomNumber={rushed} />
-                <button
-                  className="ghost"
-                  disabled={busy}
-                  aria-label={`Cancel rush for ${a.guestName}`}
-                  onClick={() =>
-                    act(`Stopped rushing ${rushed}.`, cancelRush)
-                  }
-                >
-                  Cancel rush
-                </button>
-              </>
-            ) : options.length === 0 ? (
-              <div className="rush-offer">
-                <span className="small muted">
-                  No {a.roomType} inspected yet
-                </span>
-                {rushable.length > 0 && (
-                  <div className="inline-action">
-                    <label
-                      className="visually-hidden"
-                      htmlFor={`rush-${a.reservationId}`}
-                    >
-                      Room to rush for {a.guestName}
-                    </label>
-                    <select
-                      id={`rush-${a.reservationId}`}
-                      className="inline-select"
-                      value={rushPick}
-                      onChange={(e) => setToRush(e.target.value)}
-                    >
-                      {rushable.map((r) => (
-                        <option key={r.number} value={r.number}>
-                          {r.number} · {STATUS_SHORT[r.status]}
-                        </option>
-                      ))}
-                    </select>
-                    <button
-                      className="ghost"
-                      disabled={busy}
-                      aria-label={`Rush room for ${a.guestName}`}
-                      onClick={() =>
-                        act(
-                          `Housekeeping will turn ${rushPick} over first for ${a.guestName}.`,
-                          () => rush(rushPick),
-                        )
-                      }
-                    >
-                      Rush room
-                    </button>
-                  </div>
-                )}
-              </div>
+            {options.length === 0 ? (
+              <span className="small muted">No {a.roomType} inspected yet</span>
             ) : (
               <>
                 <label
@@ -698,9 +591,6 @@ function ArrivalRow({
                 >
                   Check in
                 </button>
-                {rushed && rushed === pick && (
-                  <span className="small good-text">{rushed} is ready</span>
-                )}
               </>
             )}
             {early && !approved && can.manage(role) && (
@@ -721,17 +611,5 @@ function ArrivalRow({
         )}
       </td>
     </tr>
-  );
-}
-
-// The room being rushed for a waiting guest, and how far along it is.
-function RushWait({ roomNumber }: { roomNumber: string }) {
-  const { response } = useRoom({ id: roomNumber }).useGet();
-  const status = response?.room?.status;
-  return (
-    <span className="pill warn">
-      Waiting on {roomNumber}
-      {status ? ` · ${STATUS_SHORT[status]}` : ""}
-    </span>
   );
 }

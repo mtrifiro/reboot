@@ -70,11 +70,7 @@ and reservations for the floor plan and the front desk.
 - [Only a manager gives out roles](http://127.0.0.1:9871/#/features/tests/staff_roles.feature/rules/2)
 - [The hotel always keeps at least one manager](http://127.0.0.1:9871/#/features/tests/staff_roles.feature/rules/3)
 
-[The front desk asks housekeeping to rush a room for a guest who will wait](http://127.0.0.1:9871/#/features/tests/rush_cleaning.feature)
-- [A rush skips no step](http://127.0.0.1:9871/#/features/tests/rush_cleaning.feature/rules/1)
-- [A rushed room is held for its guest](http://127.0.0.1:9871/#/features/tests/rush_cleaning.feature/rules/2)
-
-Each rule's scenarios run as the test suite: 57 in all, five of them
+Each rule's scenarios run as the test suite: 41 in all, three of them
 driving the real page in a browser, with videos on the dashboard.
 
 ## Methods
@@ -95,8 +91,6 @@ objects, all or nothing.
 | [`book`](http://127.0.0.1:9871/#/models?type=hotel.v1.Hotel.book) | Transaction | front desk, managers |
 | [`cancel_booking`](http://127.0.0.1:9871/#/models?type=hotel.v1.Hotel.cancel_booking) | Transaction | front desk, managers |
 | [`check_in_booking`](http://127.0.0.1:9871/#/models?type=hotel.v1.Hotel.check_in_booking) | Transaction | front desk, managers |
-| [`rush_room`](http://127.0.0.1:9871/#/models?type=hotel.v1.Hotel.rush_room) | Transaction | front desk, managers |
-| [`cancel_rush`](http://127.0.0.1:9871/#/models?type=hotel.v1.Hotel.cancel_rush) | Transaction | front desk, managers |
 | [`check_out_room`](http://127.0.0.1:9871/#/models?type=hotel.v1.Hotel.check_out_room) | Transaction | front desk, managers |
 | [`front_desk`](http://127.0.0.1:9871/#/models?type=hotel.v1.Hotel.front_desk) | Reader | staff |
 
@@ -113,8 +107,6 @@ objects, all or nothing.
 | [`check_out`](http://127.0.0.1:9871/#/models?type=rooms.v1.Room.check_out) | Writer | front desk, managers |
 | [`take_out_of_order`](http://127.0.0.1:9871/#/models?type=rooms.v1.Room.take_out_of_order) | Writer | managers |
 | [`return_to_service`](http://127.0.0.1:9871/#/models?type=rooms.v1.Room.return_to_service) | Writer | managers |
-| [`mark_rush`](http://127.0.0.1:9871/#/models?type=rooms.v1.Room.mark_rush) | Writer | the app |
-| [`clear_rush`](http://127.0.0.1:9871/#/models?type=rooms.v1.Room.clear_rush) | Writer | the app |
 
 **[Reservation](http://127.0.0.1:9871/#/models?type=reservations.v1.Reservation)** and **[Inventory](http://127.0.0.1:9871/#/models?type=reservations.v1.Inventory)**
 
@@ -124,7 +116,6 @@ objects, all or nothing.
 | [`get`](http://127.0.0.1:9871/#/models?type=reservations.v1.Reservation.get) | Reader | staff |
 | [`mark_checked_in`](http://127.0.0.1:9871/#/models?type=reservations.v1.Reservation.mark_checked_in) | Writer | the app |
 | [`approve_early_check_in`](http://127.0.0.1:9871/#/models?type=reservations.v1.Reservation.approve_early_check_in) | Writer | managers |
-| [`mark_rush_room`](http://127.0.0.1:9871/#/models?type=reservations.v1.Reservation.mark_rush_room) | Writer | the app |
 | [`mark_checked_out`](http://127.0.0.1:9871/#/models?type=reservations.v1.Reservation.mark_checked_out) | Writer | the app |
 | [`mark_cancelled`](http://127.0.0.1:9871/#/models?type=reservations.v1.Reservation.mark_cancelled) | Writer | the app |
 

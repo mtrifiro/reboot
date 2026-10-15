@@ -144,3 +144,21 @@
 - **Left open:** nothing new.
 - **The user's words:** "accept the design" (2026-10-15).
 - **Replaces:** nothing; adds to "Reservations & front desk".
+
+## 2026-10-15: Design accepted: Rush cleaning backed out
+
+- **Decided by you:** take rush cleaning out of the app entirely.
+- **Why:** it made the call graph harder to read: 5 more methods and 15
+  more calls between objects (34 to 49), most of them the same three
+  calls repeated wherever a rush ends, because the rush was recorded on
+  both the Room and the Reservation.
+- **Decided by the build:** a revert of the feature's code and its part
+  of `design.md`; the floor plan keeps printing each room's status on
+  its card, with the guest on a line of its own, which came in with the
+  same commit but was asked for separately.
+- **Why:** that change is about the floor plan, not the rush.
+- **Assumed:** nothing.
+- **Left open:** a rush done again, if wanted, recorded only on the
+  Room so ending one is a single call.
+- **The user's words:** "back out the rush functionality" (2026-10-15).
+- **Replaces:** "Rush cleaning".

@@ -24,7 +24,7 @@ edited here; change the hotel in its own repository and sync).
 | | |
 | --- | --- |
 | Packages | `rooms.v1` (Room), `reservations.v1` (Reservation, Inventory), `staff.v1` (Team, User), and `hotel.v1` (Hotel) on top |
-| Features | `room_status.feature`, `reservations.feature`, `staff_roles.feature`, `rush_cleaning.feature`: 15 rules, 57 scenarios, five with browser videos (shipped with the hotel) |
+| Features | `room_status.feature`, `reservations.feature`, `staff_roles.feature`: 13 rules, 41 scenarios, three with browser videos (shipped with the hotel) |
 | Pages | the floor plan, the front desk, the staff roster |
 | Accounts | Alice (manager), Esi (front desk), Carlos and Dani (housekeeping); Ben has no role. These are the development sign-in's five built-in people |
 | Record | `design/`: the design document (every object, method and rule a dashboard link), the decisions log, and the accepted design |
@@ -179,14 +179,10 @@ scenarios that prove it, run as tests.
   its steps.
 - [The person who cleaned a room cannot be the one who inspects it](<dash>/#/features/tests/room_status.feature/rules/3).
 - [The hotel always keeps at least one manager](<dash>/#/features/tests/staff_roles.feature/rules/3).
-- [Rush cleaning](<dash>/#/features/tests/rush_cleaning.feature), the
-  newest feature: the front desk rushes a room for a guest who will
-  wait, and [a rushed room is held for its guest](<dash>/#/features/tests/rush_cleaning.feature/rules/2).
-- The five scenarios with a **VIDEO** badge drove the real page in a
-  browser. Start with "The front desk rushes a room on the front desk
-  page and checks the guest in once it is ready", or "A manager
-  approves an early check-in on the front desk page", where a manager
-  and the front desk are recorded side by side.
+- The three scenarios with a **VIDEO** badge drove the real page in a
+  browser. Start with "A manager approves an early check-in on the
+  front desk page", where a manager and the front desk are recorded
+  side by side.
 
 *Your turn:* play the video.
 
@@ -250,7 +246,7 @@ already passed."
    after the check that departure is after arrival, refuse an arrival
    before `clock.today()` with
    `InvalidDatesError(reason="Arrival can't be in the past.")`. Stop
-   the dev loop, run `scripts/test.sh full` (59 pass), take `@wip` off,
+   the dev loop, run `scripts/test.sh full` (43 pass), take `@wip` off,
    start it again.
 4. Run `python3 scripts/model_diff.py`: one change, the new rule,
    listed as needing the user's yes, and no change to the API. Record

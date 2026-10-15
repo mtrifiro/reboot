@@ -99,29 +99,6 @@ class RoomState(Model):
         description="The Reservation of the stay in the room; empty when "
         "vacant, or for a walk-in checked in from the floor plan.",
     )
-    rush_reservation_id: str = Field(
-        tag=13,
-        default="",
-        description="The booked stay this room is rushed for: housekeeping "
-        "turns it over first, and no other guest is checked into it. Empty "
-        "unless the front desk rushed it.",
-    )
-    rush_guest_name: str = Field(
-        tag=14,
-        default="",
-        description="The waiting guest the room is rushed for, for the "
-        "floor plan.",
-    )
-    rush_requested_by_name: str = Field(
-        tag=15,
-        default="",
-        description="Who at the front desk asked for the rush.",
-    )
-    rush_requested_at: str = Field(
-        tag=16,
-        default="",
-        description="When the rush was asked for, ISO 8601 UTC.",
-    )
 
 
 class RoomView(Model):
@@ -166,24 +143,6 @@ class RoomView(Model):
         tag=11,
         default="",
         description="The Reservation of the stay in the room, if any.",
-    )
-    rush_reservation_id: str = Field(
-        tag=12,
-        default="",
-        description="The booked stay the room is rushed for, if any.",
-    )
-    rush_guest_name: str = Field(
-        tag=13,
-        default="",
-        description="The waiting guest the room is rushed for, if any.",
-    )
-    rush_requested_by_name: str = Field(
-        tag=14, default="", description="Who asked for the rush."
-    )
-    rush_requested_at: str = Field(
-        tag=15,
-        default="",
-        description="When the rush was asked for, ISO 8601 UTC.",
     )
 
 
@@ -309,37 +268,6 @@ class MissingDetailError(Model):
     )
 
 
-class RoomHeldError(Model):
-    guest_name: str = Field(
-        tag=1,
-        default="",
-        description="The waiting guest the room is rushed for, and so held "
-        "for.",
-    )
-
-
-class RoomNotRushableError(Model):
-    status: RoomStatus = Field(
-        tag=1,
-        default="vacant_dirty",
-        description="The status the room was in: only a vacant room still "
-        "being turned over (dirty, being cleaned, or awaiting inspection) "
-        "can be rushed.",
-    )
-
-
-class MarkRushRequest(Model):
-    reservation_id: str = Field(
-        tag=1, default="", description="The booked stay to hold it for."
-    )
-    guest_name: str = Field(
-        tag=2, default="", description="That stay's guest."
-    )
-    requested_by_name: str = Field(
-        tag=3, default="", description="Who asked for the rush."
-    )
-
-
 RoomMethods = Methods(
     create=Writer(
         request=RoomCreateRequest,
@@ -389,12 +317,7 @@ RoomMethods = Methods(
     check_in=Writer(
         request=CheckInRequest,
         response=None,
-        errors=[
-            RoomNotReadyError,
-            MissingDetailError,
-            EarlyCheckInError,
-            RoomHeldError,
-        ],
+        errors=[RoomNotReadyError, MissingDetailError, EarlyCheckInError],
         description="Put a walk-in guest into an inspected room. Raises "
         "`RoomNotReadyError` if the room is not inspected, "
         "`MissingDetailError` without a guest name, and "
@@ -428,24 +351,6 @@ RoomMethods = Methods(
         description="Put an out-of-order room back into the cycle as "
         "vacant dirty, so housekeeping cleans it before it is sold. "
         "Managers only.",
-        mcp=None,
-    ),
-    mark_rush=Writer(
-        request=MarkRushRequest,
-        response=None,
-        errors=[RoomNotRushableError, RoomHeldError],
-        description="Hold a vacant room still being turned over for a "
-        "waiting guest, so housekeeping does it first. Raises "
-        "`RoomNotRushableError` unless it is dirty, being cleaned or "
-        "awaiting inspection, and `RoomHeldError` if it is rushed for "
-        "another guest. Called only by the hotel's `rush_room`.",
-        mcp=None,
-    ),
-    clear_rush=Writer(
-        request=None,
-        response=None,
-        description="Stop holding the room for a waiting guest. Called "
-        "only by the hotel.",
         mcp=None,
     ),
 )
