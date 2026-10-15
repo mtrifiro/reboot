@@ -183,17 +183,22 @@ page and the browser check). The task list's items open with
 the floor plan page."), so the user always knows which half is being
 worked on and which is done.
 
-**One question per turn end, in one place.** Where the host ends
-each turn with a next-step box of its own (the Claude app's
-`wrap_up`: a recap, one question and reply buttons), a question that
-ends the turn (the go-ahead, the model check, a feature's review,
-what to build next) is asked in that box and only there: its question
-in the box's `ask`, its options as the buttons, the recommended one
-first. Never a dialog (`AskUserQuestion`) as well, which asks the same
-thing twice. A dialog stays for a question in the middle of a turn
-(how to build, before the opening's What to expect) and for hosts
-without the box. A dialog the user skipped is not a reason to ask
-again: the turn ends with the recap and the question in the box.
+**Each question asked once, in the right place.** The Claude app
+ends a working turn with a next-step box of its own (`wrap_up`: a
+recap, one question, reply buttons), and that box also checks off the
+whole task list. So:
+
+- **Questions inside the build** (how to build, Ready to build?, Build
+  on this model?) are dialogs (`AskUserQuestion`) asked while the
+  turn goes on, never the box: the box would tick every item on the
+  list before anything is built, and the list would then have to be
+  made again.
+- **The question at the end of a feature** (its review and what to
+  build next), when the list's work is done, goes in the box only:
+  its question in `ask`, its options as the buttons, the recommended
+  one first. Never a dialog as well, which asks the same thing twice.
+- A dialog the user skipped is not a reason to ask again in the box:
+  end with the recap alone.
 
 **"Not yet" means nothing happens.** At a feature's review the
 options are "Yes, build <the next feature>" (record this one as kept,
