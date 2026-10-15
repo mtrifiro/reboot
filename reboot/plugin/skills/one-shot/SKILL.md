@@ -24,7 +24,7 @@ tool call, with three differences:
   is three lines:
 
   > What to expect:
-  > - The proposed design, in a few minutes, in `design/design.md`.
+  > - The proposed design, in a few minutes.
   > - Then the whole app, every feature with its rules proven by
   >   scenarios, in an hour or more, without stopping.
   > - Nothing to answer until it's done; then one question: accept it

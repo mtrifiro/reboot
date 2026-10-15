@@ -44,7 +44,7 @@ For the hotel:
 > backend ready for an MCP UI too.
 >
 > What to expect:
-> - The proposed design, in a few minutes, in `design/design.md`.
+> - The proposed design, in a few minutes.
 >   Nothing to answer until then.
 > - One question: build the floor plan, or change something first.
 > - The floor plan, working, in about 15 minutes, with its rules
