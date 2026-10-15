@@ -78,7 +78,18 @@ design, a few minutes; the first feature after the go-ahead, about 15
 minutes; each next feature, about 15 to 20 minutes; the whole app at
 once (`one-shot`), an hour or more.
 
-**4. Read with the file tools.** This plugin's skills and references
+**4. Links at every major turn.** Once the app has started, every
+major turn ends with one line linking both, on the ports they started
+on, so the user never scrolls back for them:
+
+> App: http://localhost:5173/ · Dashboard: http://127.0.0.1:9871/
+
+The major turns: the app's first start (the `run` skill), each
+handoff (in its **In short**), each feature finished, each change
+made, and the build's last message. Before the app runs, the line has
+the dashboard alone, once it is up.
+
+**5. Read with the file tools.** This plugin's skills and references
 are read with the Read, Grep and Glob tools, never `cat`, `grep`,
 `ls` or `cd` in a shell: a host's auto mode can block a shell command
 in the plugin's install folder, and after a few blocks it asks the
