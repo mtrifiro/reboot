@@ -32,8 +32,17 @@ It replaces the decision flow's one sentence. No heading.
   first feature it will build, and which front door. A name the build
   picked, because the prompt gave none, says so the first time it
   appears: "Partner Loop (working name)".
-- **Then one dialog,** only once the paragraph is out as text of its
-  own: the user reads the intent first, then answers. Never the
+- **How Reboot builds,** a second paragraph, word for word, the same
+  for either path:
+
+  > Reboot builds an app from its design: the domain objects it keeps
+  > and the rules they follow, each rule written as a scenario that
+  > proves it. The code is built until every scenario passes, and the
+  > Reboot dashboard shows the domain model and its rules as they're
+  > built.
+
+- **Then one dialog,** only once the two paragraphs are out as text of
+  their own: the user reads the intent and how it's built first, then answers. Never the
   paragraph inside the dialog, and never the dialog alone. The dialog
   (`AskUserQuestion` where available; otherwise the same as one plain
   line), word for word but for the angle brackets:
@@ -53,6 +62,12 @@ For the hotel:
 > do what. The first feature is a floor plan of every room, where a
 > room can't be checked into until it's clean, in a web app with the
 > backend ready for an MCP UI too.
+>
+> Reboot builds an app from its design: the domain objects it keeps
+> and the rules they follow, each rule written as a scenario that
+> proves it. The code is built until every scenario passes, and the
+> Reboot dashboard shows the domain model and its rules as they're
+> built.
 
 Then the dialog. On **a feature at a time**:
 
