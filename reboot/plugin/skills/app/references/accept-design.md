@@ -37,7 +37,8 @@ A yes, or the next part named, is the acceptance. A change is made,
 shown, and the question asked again. No answer is not acceptance.
 
 Later handoffs show only the slice the feature adds, under the same
-headings, and `design/design.md` gains its rows of the table.
+headings, and `design/design.md` gains its objects, methods, rules
+and rows of the table, each a link.
 
 ### After the review
 
@@ -50,9 +51,12 @@ before the next part is built.
 
 ### Once accepted
 
-1. Write or update `design/design.md`: the design as accepted, with the
-   review table, its status
-   "accepted on <date>".
+1. Write or update `design/design.md`, the design document, in the
+   shape [`design-document.md`](design-document.md) gives: the design
+   as accepted, with the review table, its status "accepted on
+   <date>", and every package, domain object, method, feature and rule
+   a dashboard link. Run `python3 scripts/design_links.py` and fix
+   what it lists until it lists nothing.
 2. Append an entry to `design/decisions.md` (below).
 3. Run `python3 scripts/model_diff.py --accept`. It writes
    `design/accepted.json` (the date and a fingerprint of `api/` and the
@@ -60,8 +64,8 @@ before the next part is built.
    the base every later `model_diff.py` measures from, with or without
    git.
 
-The first handoff copies `scripts/model_diff.py` from this skill's
-`assets/`. After acceptance, `python3 scripts/model_diff.py` lists
+The first handoff copies `scripts/model_diff.py` and
+`scripts/design_links.py` from this skill's `assets/`. After acceptance, `python3 scripts/model_diff.py` lists
 what has changed in the domain model, who may call each method and
 the feature files since then: read it before a change, and say which
 of its lines the user has not yet accepted.
