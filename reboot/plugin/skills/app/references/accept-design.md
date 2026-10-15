@@ -28,46 +28,25 @@ record of the same rules, one row per rule, written to
 Every rule in a feature file gets a row. A rule with no owner, method
 or scenario is a gap to name in the handoff's **Notes**, not to fill
 silently, as is each interaction, rule or status the design adds to or
-changes from what the user asked for, with its reason. Then the ask. A question dialog (`AskUserQuestion` where
-available; elsewhere, one plain line as the message's last) comes
-only at the first handoff: each dialog costs the user a stop.
+changes from what the user asked for, with its reason. Then the
+close, never a question: a handoff asks nothing (no dialog, no
+next-step box question).
 
-**The first handoff** asks **Keep <what was reviewed> as it is?**,
-in the app's own nouns, for example "Keep the day board as it is?".
-The question is about what the user just saw, never a verdict on it
-("works", "done", "ready"): whether it's right is theirs to say.
+**Every handoff** says what is running, for the user to try, and ends
+with one plain closing line: the recommended next part and why, up to
+two others, and that the user asks for one when ready. For example:
+"The day board is running for you to try. When you want more, ask for
+the client book next (clients and their dogs, about 15 to 20
+minutes), or the reminders."
 
-- "Yes, build <the next part> next" (recommended): "<What was
-  reviewed> stays as built, its <n> rules proven by <n> scenarios.
-  Next: <what it is>, about 15 to 20 minutes." For example, "Yes,
-  build the client book next": "The day board stays as built, its 3
-  rules proven by 8 scenarios. Next: clients and their dogs, about 15
-  to 20 minutes."
-- "Yes, and stop here": "<What was reviewed> stays as built. Nothing
-  more is built until you say."
-
-A change is the dialog's own typed answer. After the next part is
-chosen, what's next is plain text, never a dialog: the same closing
-line as every later handoff.
-
-**Every later handoff** asks no dialog at all. It ends with one plain
-line: the recommended next part and why, and the others. For example: "Next is
-amenity bookings, because guests book the spa and dining before they
-arrive; guest profiles and concierge requests come after. Say go, pick
-another, or say what to change." When nothing is left to build, the
-line says so and asks whether anything should change.
-
-The user's reply decides. "Go", or naming a next part, is the
-acceptance of what was just shown. A change is made, shown, and the
-line asked again. No reply is not acceptance.
-
-In the dialog, what to change goes in the free answer ("Other", with
-its text box), so no option only says "say what". After a free answer,
-make the change, show it, and ask again. "Yes, and stop here" is the
-acceptance too: record it, build nothing, and end with the plain
-closing line naming the recommended next part. Never put "feature",
-"@wip", "design" or "accept" in a question or its answers: the user
-judges what they see, and the build records what that means.
+What the user says next decides: asking for a next part, or saying to
+keep this one, accepts what was reviewed, recorded as below before
+the next part starts; a change goes back into the build. Nothing is
+recorded while the user only tries the app. When nothing is left to
+build, the closing line says so and that the user can ask for changes.
+No reply is not acceptance. Never put "feature", "@wip", "design" or
+"accept" in the closing line: the user judges what they see, and the
+build records what that means.
 
 **No question before building** a part the user chose, or a change
 they asked for in their own words: the choice is the agreement. Say in

@@ -120,10 +120,9 @@ question below decides>. [Open the app](<URL>) ·
 long, and the user reads its end while answering, after **Open it**
 has scrolled away. Its links are the same as above.
 
-Then the ask, as [`accept-design.md`](accept-design.md) says: the
-first time, the **Keep <what was reviewed> as it is?** dialog;
-after it, and at every
-later handoff, one plain closing line naming the next part and why.
+Then the close, as [`accept-design.md`](accept-design.md) says: no
+question at any handoff, one plain closing line naming the next part
+and why, and that the user asks for it when ready.
 The full review table goes to `design/design.md`, not into this
 message.
 

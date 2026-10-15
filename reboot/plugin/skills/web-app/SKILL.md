@@ -678,11 +678,12 @@ works as it will in the finished app.
     (`AskUserQuestion` where available; elsewhere, one plain line as
     the message's last), as
     [`app/references/accept-design.md`](../app/references/accept-design.md)
-    says: the first time only, **Keep <feature> as it is?** (either
-    yes accepts this one, and its `@wip` comes off). What's next is
-    never a dialog: one plain closing line names the recommended next
-    feature and why, and up to two others. After later features, that
-    line is the whole ask: the user's "go" or choice accepts this one. Open it with the
+    says, with no question: it says the <feature> is running for the
+    user to try, then one plain closing line names the recommended next
+    feature and why, and up to two others, and says to ask for one when
+    ready. No dialog, at any handoff. The user's asking for a next
+    feature (or saying to keep this one) accepts this one, and its
+    `@wip` comes off then. Open it with the
     Flywheel heading **Reboot Design · ready for your review**; the
     first time, record it as `app/references/accept-design.md` says; each
     acceptance is recorded the same way
