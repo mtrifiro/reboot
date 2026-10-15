@@ -70,7 +70,7 @@ and reservations for the floor plan and the front desk.
 - [Only a manager gives out roles](http://127.0.0.1:9871/#/features/tests/staff_roles.feature/rules/2)
 - [The hotel always keeps at least one manager](http://127.0.0.1:9871/#/features/tests/staff_roles.feature/rules/3)
 
-Each rule's scenarios run as the test suite: 41 in all, two of them
+Each rule's scenarios run as the test suite: 41 in all, three of them
 driving the real page in a browser, with videos on the dashboard.
 
 ## Methods

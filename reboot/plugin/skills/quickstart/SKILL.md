@@ -17,12 +17,14 @@ architecture, its rules, and the tests that prove them, each through a
 deep link that opens on exactly the thing being explained. Then the
 user changes it twice.
 
-The hotel is the same every time:
+The hotel is the same every time: hotel-23 at the commit named in
+`assets/hotel/SOURCE`, copied by `dev/sync-quickstart-hotel.sh` (never
+edited here; change the hotel in its own repository and sync).
 
 | | |
 | --- | --- |
 | Packages | `rooms.v1` (Room), `reservations.v1` (Reservation, Inventory), `staff.v1` (Team, User), and `hotel.v1` (Hotel) on top |
-| Features | `room_status.feature`, `reservations.feature`, `staff_roles.feature`: 14 rules, 41 scenarios, two with browser videos (shipped with the hotel) |
+| Features | `room_status.feature`, `reservations.feature`, `staff_roles.feature`: 13 rules, 41 scenarios, three with browser videos (shipped with the hotel) |
 | Pages | the floor plan, the front desk, the staff roster |
 | Accounts | Alice (manager), Esi (front desk), Carlos and Dani (housekeeping); Ben has no role. These are the development sign-in's five built-in people |
 | Record | `design/`: the design document (every object, method and rule a dashboard link), the decisions log, and the accepted design |
@@ -179,7 +181,9 @@ scenarios that prove it, run as tests.
 - [The hotel always keeps at least one manager](<dash>/#/features/tests/staff_roles.feature/rules/3).
 - The scenarios with a **VIDEO** badge drove the real page in a
   browser: "The front desk books a stay and checks the guest in on the
-  day", and "The front desk checks a guest in from the floor plan".
+  day", "The front desk checks a guest in from the floor plan", and "A
+  manager approves an early check-in on the front desk page", where two
+  people, a manager and the front desk, are recorded side by side.
 
 *Your turn:* play the video.
 
