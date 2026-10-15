@@ -40,8 +40,10 @@ while nothing is built:
 
 - **Status:** "proposed on <date>; nothing is built yet. The links
   open on the developer dashboard once the first feature runs."
-- **Every feature** is in it, in build order, the first marked and why
-  it comes first, each with its rules in plain words. The links are
+- **Every feature** is in it, under **Proposed features, in build
+  order**, with the line "Only the first is built next; the rest, and
+  their order, are yours to change at any point.": the first marked
+  and why it comes first, each with its rules in plain words. The links are
   written now, from the package, type and method names and the
   feature files to come; `scripts/design_links.py` checks them after
   the first feature is built.
