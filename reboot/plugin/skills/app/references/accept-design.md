@@ -32,17 +32,19 @@ changes from what the user asked for, with its reason. Then the ask. A question 
 available; elsewhere, one plain line as the message's last) comes
 only at the first handoff: each dialog costs the user a stop.
 
-**The first handoff** asks **<What was reviewed> works. What next?**,
-in the app's own nouns, for example "The day board works. What
-next?":
+**The first handoff** asks **Keep <what was reviewed> as it is?**,
+in the app's own nouns, for example "Keep the day board as it is?".
+The question is about what the user just saw, never a verdict on it
+("works", "done", "ready"): whether it's right is theirs to say.
 
-- "Build <the next part>" (recommended): "<What it is>, about 15 to 20
-  minutes. <What was reviewed> is accepted as it is, and stays easy to
-  change." For example, "Build the client book": "Clients and their
-  dogs, about 15 to 20 minutes. The day board is accepted as it is, and
-  stays easy to change." The label says what happens next, and the
-  description says what the user accepts.
-- "Not yet": "Ask me again later."
+- "Yes, build <the next part> next" (recommended): "<What was
+  reviewed> stays as built, its <n> rules proven by <n> scenarios.
+  Next: <what it is>, about 15 to 20 minutes." For example, "Yes,
+  build the client book next": "The day board stays as built, its 3
+  rules proven by 8 scenarios. Next: clients and their dogs, about 15
+  to 20 minutes."
+- "Yes, and stop here": "<What was reviewed> stays as built. Nothing
+  more is built until you say."
 
 A change is the dialog's own typed answer. After the next part is
 chosen, what's next is plain text, never a dialog: the same closing
@@ -61,8 +63,9 @@ line asked again. No reply is not acceptance.
 
 In the dialog, what to change goes in the free answer ("Other", with
 its text box), so no option only says "say what". After a free answer,
-make the change, show it, and ask again. After "Not yet", record
-nothing and ask again when the user comes back. Never put "feature",
+make the change, show it, and ask again. "Yes, and stop here" is the
+acceptance too: record it, build nothing, and end with the plain
+closing line naming the recommended next part. Never put "feature",
 "@wip", "design" or "accept" in a question or its answers: the user
 judges what they see, and the build records what that means.
 

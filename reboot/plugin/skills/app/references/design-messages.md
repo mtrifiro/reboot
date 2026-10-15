@@ -121,7 +121,7 @@ long, and the user reads its end while answering, after **Open it**
 has scrolled away. Its links are the same as above.
 
 Then the ask, as [`accept-design.md`](accept-design.md) says: the
-first time, the **<What was reviewed> works. What next?** dialog;
+first time, the **Keep <what was reviewed> as it is?** dialog;
 after it, and at every
 later handoff, one plain closing line naming the next part and why.
 The full review table goes to `design/design.md`, not into this
