@@ -96,12 +96,14 @@ It replaces the decision flow's one sentence. No heading.
 For the hotel (the `>` marks the example here; the build writes plain
 text):
 
-> Maison Desk (working name) is an app for the staff of a 56-room
-> boutique hotel: the front desk, housekeeping and the manager. It
-> keeps track of the rooms and their status, the guests and their
-> stays, the amenities they book, and who on the staff may do what.
-> The first feature is a floor plan of every room, where a room can't
-> be checked into until it's clean, built as a web app with the
+> Maison Desk (working name) is an app for a 56-room boutique hotel,
+> used by its staff (the front desk, housekeeping and the manager) and
+> by its guests. It keeps track of the rooms and their status, the
+> guests and their stays, the amenities they book, and who on the
+> staff may do what. The first feature is booking a room, from both
+> sides: guests book a stay on their own page, and the front desk sees
+> each reservation land on the room board, which refuses a room
+> already taken for any of those nights; built as a web app with the
 > backend ready for an MCP UI too.
 >
 > Reboot builds an app from its domain model, the objects it keeps
@@ -117,12 +119,13 @@ Then the dialog. On **Interactively**:
 >   then.
 > - Each feature in two parts: first its backend, tested against its
 >   rules, then its frontend, tested in a browser.
-> - After your go-ahead, the floor plan's backend: its rules written as
+> - After your go-ahead, room booking's backend: its rules written as
 >   scenarios and its domain model built, with the Reboot dashboard's
 >   link to check the model; then its actions, tested against every
 >   rule, for you to check.
-> - Once you say so, its frontend: the floor plan page, tested in a
->   browser. About 15 minutes in all, for you to try.
+> - Once you say so, its frontend: the guests' booking page and the
+>   front desk's room board, tested side by side in a browser. About
+>   25 to 30 minutes in all, for you to try.
 > - Then each next feature, as you choose it, about 15 to 20 minutes.
 
 On **Automatically**:
