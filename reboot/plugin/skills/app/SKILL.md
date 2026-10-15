@@ -32,7 +32,7 @@ decision flow's one sentence. No heading and no question.
   first feature it will build, and which front door. A name the build
   picked, because the prompt gave none, says so the first time it
   appears: "Partner Loop (working name)".
-- **What to expect,** a list of three lines, word for word but for the
+- **What to expect,** a list of four lines, word for word but for the
   angle brackets, with the time estimates below:
 
 For the hotel:
@@ -46,8 +46,11 @@ For the hotel:
 > What to expect:
 > - The proposed design, in a few minutes. Nothing to answer until
 >   then.
-> - Then, after your go-ahead, the floor plan, working, in about 15
->   minutes, with its rules proven by scenarios, for you to try.
+> - After your go-ahead, once the domain model is written, the Reboot
+>   dashboard opens with its link: the app's domain model and rules,
+>   updated as they're built.
+> - The floor plan, working, in about 15 minutes, with its rules
+>   proven by scenarios, for you to try.
 > - Then each next feature, about 15 to 20 minutes, as you choose it.
 
 **2. Make the task list,** where the agent keeps one, with every item

@@ -21,10 +21,13 @@ tool call, with three differences:
 
 - **The paragraph** describes the complete app: who uses it, its
   features in one sentence, and which front door. **What to expect**
-  is three lines:
+  is four lines:
 
   > What to expect:
   > - The proposed design, in a few minutes.
+  > - Once the domain model is written, the Reboot dashboard opens with
+  >   its link: the app's domain model and rules, updated as they're
+  >   built.
   > - Then the whole app, every feature with its rules proven by
   >   scenarios, in an hour or more, without stopping.
   > - Nothing to answer until it's done; then one question: accept it
