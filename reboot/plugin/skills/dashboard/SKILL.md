@@ -178,3 +178,9 @@ object and rule wherever you name it, on the port it started on:
 - A feature: `#/features/<path from the project root>`, such as
   `#/features/tests/room_status.feature`; its rules add `/rules/<n>`,
   counted from 1 in file order.
+- The dashboard's three pages: `#/models` (the domain model),
+  `#/features` (each feature with its rules and scenarios) and
+  `#/changelog` (every change to the model and the rules, newest
+  first). Once a feature file exists, every line that links the
+  dashboard links all three: "Dashboard: [Models](…/#/models) ·
+  [Features](…/#/features) · [Changelog](…/#/changelog)".
