@@ -189,6 +189,10 @@ For the go-ahead's next stage on the hotel:
 > scenario in plain words; the floor plan isn't done until every one
 > passes.
 
+**While a slow step runs,** a short true fact about Reboot that fits
+it goes out first, once per build each:
+[`references/while-you-wait.md`](references/while-you-wait.md).
+
 **6. Read with the file tools.** This plugin's skills and references
 are read with the Read, Grep and Glob tools, never `cat`, `grep`,
 `ls` or `cd` in a shell: a host's auto mode can block a shell command
