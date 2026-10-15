@@ -138,13 +138,16 @@ the developer chose "Don't reopen automatically"; opening it as well
 gives the developer two tabs.
 
 Tell the user the dashboard is up, in one line that always starts
-with its URL, then what it is for and a link to each object the API
-declares so far, and get on with the build:
+with its URL, then what it is for, a link to each object the API
+declares so far and to each feature file written so far, and get on
+with the build:
 
 > The developer dashboard is at http://127.0.0.1:9871/ (it opens in
 > your browser): it shows the domain model as it's written, starting
 > with [Room](http://127.0.0.1:9871/#/models?type=hotel.v1.Room) and
-> [Hotel](http://127.0.0.1:9871/#/models?type=hotel.v1.Hotel).
+> [Hotel](http://127.0.0.1:9871/#/models?type=hotel.v1.Hotel), and the
+> [Room status floor plan](http://127.0.0.1:9871/#/features/tests/room_status.feature)
+> feature with its rules.
 
 The URL is in that line every time, with the port it started on, even
 when the browser opened it: a terminal session may have no window,
