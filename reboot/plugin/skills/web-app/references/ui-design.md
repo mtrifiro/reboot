@@ -129,10 +129,34 @@ const clipped = [...document.querySelectorAll("main *")].filter((e) =>
 `columnsEven` and `headersEven` must be true (or there is no board);
 `spill` and `clipped` must be empty, each naming what to fix.
 
+Then open every drawer and form the page has, and run this with each
+one open; it lists text and controls that touch or overlap, and must
+come back empty:
+
+```js
+const boxes = [...document.querySelectorAll("label, input, select, textarea, button, h1, h2, h3, p")]
+  .filter((e) => e.offsetParent && !e.closest("label, button"))
+  .map((e) => ({ e, r: e.getBoundingClientRect() }));
+const touching = [];
+for (let i = 0; i < boxes.length; i++)
+  for (let j = i + 1; j < boxes.length; j++) {
+    const a = boxes[i], b = boxes[j];
+    if (a.e.contains(b.e) || b.e.contains(a.e)) continue;
+    const overlapX = Math.min(a.r.right, b.r.right) - Math.max(a.r.left, b.r.left);
+    const gapY = Math.max(a.r.top, b.r.top) - Math.min(a.r.bottom, b.r.bottom);
+    if (overlapX > 0 && gapY < 4)
+      touching.push(`${a.e.tagName} "${a.e.textContent?.trim().slice(0, 20)}" / ${b.e.tagName} "${b.e.textContent?.trim().slice(0, 20)}" (${Math.round(gapY)}px)`);
+  }
+touching;
+```
+
 Never: browser default styling (an unstyled `<button>`, `<select>` or
 `<input>`), `alert()`, `confirm()` or `prompt()` (they block the
 scenarios too), a page broken at phone width or in either scheme, a
 placeholder as a control's only label, or a layout that doesn't line
 up: the columns of a board, and the rows and cells of a grid or floor
 plan, are each the same height, headers too, and a card or cell is
-only as tall as its contents, never stretched to fill spare space.
+only as tall as its contents, never stretched to fill spare space;
+or two pieces of text or controls that touch or overlap: stacked
+fields are a full spacing step apart, and fields side by side in a
+row have their labels on one line.

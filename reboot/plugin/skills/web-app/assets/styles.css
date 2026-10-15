@@ -823,6 +823,16 @@ button:focus-visible {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr));
   gap: var(--space-3);
+  /* Fields side by side keep their labels on one line. */
+  align-items: start;
+}
+/* Stacked fields, rows of fields and a form's message never touch. */
+:is(.field, .field-row, .error) + :is(.field, .field-row, .error) {
+  margin-top: var(--space-4);
+}
+/* Side by side in a row, the row's gap spaces them instead. */
+.field-row > .field + .field {
+  margin-top: 0;
 }
 
 /* Status: neutral pills with text; .good / .warn / .bad for the one
