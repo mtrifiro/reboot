@@ -58,6 +58,11 @@ two questions before any code, and item 6 its question before any page
 (`app/references/design-first.md`); a front door's skill used on its
 own, which doesn't ask them, leaves them off.
 
+A first feature seen from both sides (`app` skill, step 1) names
+both pages in item 7: "Frontend: build the <feature>'s two pages,
+<the customers'> and <the staff's>, and check them side by side in a
+browser".
+
 For the hotel's first feature, the list reads:
 
 1. Propose the design for Maison Desk
