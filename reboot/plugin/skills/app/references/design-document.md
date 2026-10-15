@@ -19,7 +19,9 @@ dashboard link (`dashboard` skill, "Links to an Object or a Rule"):
   counted from 1 in file order.
 
 The package is the folder under `api/`: `api/hotel/v1/` is `hotel.v1`.
-Use the port the dashboard started on.
+Use the port the dashboard started on. A design proposed before anything
+is built names these in code style instead, with no links, since the
+dashboard has nothing to show yet; they become links once it does.
 
 Each choice the decisions log explains links to its entry there,
 `decisions.md#<anchor>`. The anchor is the entry's heading in
