@@ -151,6 +151,21 @@ id"`, then `<account id>`. Give an id only when it means something
   the commit being proposed is the Flywheel's Prove evidence; a
   `-m wip` or `-k` run is not
   ([`app/references/flywheel.md`](../app/references/flywheel.md)).
+- **Report a full run as it goes.** A full run takes minutes, and the
+  host shows a command's output only when it ends. Start it in the
+  background (`scripts/test.sh full`, or `uv run pytest`), then about
+  every 20 seconds read the lines added to `tests/.progress.jsonl`
+  (`tests/last_run.py` writes one per scenario as it finishes) and post
+  what finished since the last look, one line per rule:
+
+  > ✓ A room can be checked into only once it has been inspected (3 scenarios)
+  > ✗ A walk-in is checked in before 3 pm only by a manager: "Esi checks in a walk-in at 2 pm" failed
+
+  A failure is posted as soon as it shows, by its scenario's name; a
+  `@blocked` one with its reason. When the run ends, one line: the
+  scenarios passed, failed and blocked, from `tests/.last-run.json`,
+  then the fix of any failure. A narrow run (`-m wip`, `-k`, one
+  feature file) just reports its result at the end.
 - **Suggest reviewing in the dashboard** after each round: the
   feature's card, its rules, the methods it uses and the ones no
   feature uses, and the recordings.

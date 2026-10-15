@@ -128,6 +128,7 @@ frontend/api/
 # (tests/last_run.py).
 tests/.last-run.json
 tests/.suite-running
+tests/.progress.jsonl
 
 # Python virtual environment and caches.
 .venv/
