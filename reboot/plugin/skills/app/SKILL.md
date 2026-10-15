@@ -72,14 +72,12 @@ It replaces the decision flow's one sentence. No heading.
   (`AskUserQuestion` where available; otherwise the same as one plain
   line), word for word but for the angle brackets:
   - Title: **How should it be built?**
-  - "Interactively, a feature at a time", first, with no
-    "(Recommended)": "<The first feature>, working for you to try in
-    about 15 minutes (25 to 30 when it is seen from both sides). You
-    check each part and choose what comes next, about 15 to 20
-    minutes each."
-  - "Automatically, the whole app at once": "Every feature in the
-    design, each with its rules proven, built without stopping: an
-    hour or more. Nothing to answer until it's done."
+  - "Interactively", first, with no "(Recommended)": "A feature at a
+    time, about 15 minutes each (25 to 30 for the first, seen from both
+    sides). You check each part." (For a one-sided app: "A feature at a
+    time, about 15 minutes each. You check each part.")
+  - "Automatically": "The whole app, every rule tested, without
+    stopping: an hour or more."
 
   Neither option is marked recommended: the two are equal choices,
   and their times say what each trades. A feature at a time is listed
@@ -107,7 +105,7 @@ text):
 > one working for you to try before the next, or automatically, the
 > whole app at once, without stopping.
 
-Then the dialog. On **interactively, a feature at a time**:
+Then the dialog. On **Interactively**:
 
 > What to expect:
 > - The proposed design, in a few minutes. Nothing to answer until
@@ -122,7 +120,7 @@ Then the dialog. On **interactively, a feature at a time**:
 >   browser. About 15 minutes in all, for you to try.
 > - Then each next feature, as you choose it, about 15 to 20 minutes.
 
-On **automatically, the whole app at once**:
+On **Automatically**:
 
 > What to expect:
 > - The proposed design, in a few minutes. Nothing to answer until
