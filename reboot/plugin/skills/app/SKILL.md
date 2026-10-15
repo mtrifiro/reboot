@@ -76,8 +76,8 @@ It replaces the decision flow's one sentence. No heading.
     time, about 15 minutes each (25 to 30 for the first, seen from both
     sides). You check each part." (For a one-sided app: "A feature at a
     time, about 15 minutes each. You check each part.")
-  - "Automatically": "The whole app, every rule tested, without
-    stopping: an hour or more."
+  - "Automatically": "You approve the design; then the whole app is
+    built and tested without stopping: an hour or more."
 
   Neither option is marked recommended: the two are equal choices,
   and their times say what each trades. A feature at a time is listed
