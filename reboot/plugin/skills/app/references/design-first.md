@@ -78,8 +78,8 @@ same as one plain line), the build's second and last question before any code:
   working version of <the first feature> to try, then change what you
   like."; on the whole app at once, "Build every feature in the design
   without stopping, an hour or more, then review the whole app."
-- "Not yet": "I want to read the whole design first. Open it in my
-  browser and ask me again."
+- "Not yet": "Not ready to build yet." Nothing more: what happens
+  next is said after the answer.
 
 The path was chosen before the design, in the opening's dialog
 (`app/SKILL.md` step 1); this one only gives the go-ahead. A change is
@@ -99,8 +99,9 @@ before any code, that one the feature as built.
   `design/design.md` becomes the accepted design as `accept-design.md`
   says, and **Assumed** moves into the first decisions entry.
 - **Not yet:** first say so in one line, before any tool call:
-  "Making the whole design into a page for your browser to read; it
-  opens in a moment, and then the same question again." Then turn
+  "Making the whole design into a page you can read in your browser;
+  it opens in a moment, and the same question comes back when you're
+  ready." Then turn
   `design/design.md` into one readable page, `design/design.html`, and
   open it in the user's browser (`open` on macOS, `xdg-open` on Linux,
   `start` on Windows); give its path on a line of its own and ask the
