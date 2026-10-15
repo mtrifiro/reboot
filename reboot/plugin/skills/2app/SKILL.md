@@ -64,6 +64,11 @@ or change something first. Nothing is built before the answer.
   changed, and ask the same line again.
 - **No answer** is not a yes.
 
+Where the build keeps a task list, its second item, right after the
+one that proposes the design, is "Wait for your go-ahead on the
+design". It stays in progress until the user answers, and is done on
+the yes; a change leaves it in progress while the design is updated.
+
 From the first feature on, the build follows the front door
 unchanged.
 
