@@ -107,7 +107,12 @@ screenshots and open either scheme
 **Measure what can be measured.** A screenshot looked at quickly lets
 uneven layouts through; a check that returns pass or fail doesn't. In
 the browser check (step 10), at desktop and at phone width, run each
-of these in the page and fix whatever it reports before the handoff:
+of these in the page and fix whatever it reports before the handoff.
+Run them in a headless browser, never in a browser the user sees (in
+the Claude app, not the Browser pane): a short Playwright script
+(`uv run python`, `playwright.sync_api`, `page.evaluate(...)`) that
+signs in through the development picker the way the web app's
+scenarios do (`python/references/testing-web-app.md`):
 
 ```js
 // A board's columns and headers line up.
