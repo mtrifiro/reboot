@@ -29,13 +29,15 @@ decision flow's one sentence. No heading and no question.
 
 - **One paragraph** of at most three sentences, from the prompt alone:
   what the app is and who uses it, what it will keep track of, the
-  first feature it will build, and which front door.
+  first feature it will build, and which front door. A name the build
+  picked, because the prompt gave none, says so the first time it
+  appears: "Partner Loop (working name)".
 - **What to expect,** a list of four lines, word for word but for the
   angle brackets, with the time estimates below:
 
 For the hotel:
 
-> Maison Desk will run a 56-room boutique hotel for its staff: the
+> Maison Desk (working name) will run a 56-room boutique hotel for its staff: the
 > rooms and their status, the guests' stays, and who on the staff may
 > do what. The first feature is a floor plan of every room, where a
 > room can't be checked into until it's clean, in a web app with the
