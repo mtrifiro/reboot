@@ -43,19 +43,20 @@ Flow:
 3. Backend: build the <feature>'s domain model and rules
 4. Your turn: check the domain model on the dashboard
 5. Backend: build the <feature>'s actions and test them against its rules
-6. Frontend: build the <feature>'s page and check it in a browser
-7. Your turn: try the app and decide what to do next
+6. Your turn: check the backend, then say to build the page
+7. Frontend: build the <feature>'s page and check it in a browser
+8. Your turn: try the app and decide what to do next
 
 Item 3 covers the scaffold, the rules as scenarios, the domain model
 and starting the dashboard. Item 5 covers the actions, who may do
-each, demo data and the proof (scenarios pass, types check). Item 6
+each, demo data and the tests (scenarios pass, types check). Item 7
 covers the page, its browser scenario and starting the app; it ends
 with the line linking the app and the dashboard. "Backend:" and
 "Frontend:" open the items that build one or the other, so the user
 always knows which half is being worked on. Items 2 and 4 are the `app` skill's
-two questions before any code (`app/references/design-first.md`); a
-front door's skill used on its own, which doesn't ask them, leaves
-them off.
+two questions before any code, and item 6 its question before any page
+(`app/references/design-first.md`); a front door's skill used on its
+own, which doesn't ask them, leaves them off.
 
 For the hotel's first feature, the list reads:
 
@@ -64,16 +65,18 @@ For the hotel's first feature, the list reads:
 3. Backend: build the room status floor plan's domain model and rules
 4. Your turn: check the domain model on the dashboard
 5. Backend: build the room status floor plan's actions and test them against its rules
-6. Frontend: build the room status floor plan's page and check it in a browser
-7. Your turn: try the app and decide what to do next
+6. Your turn: check the backend, then say to build the page
+7. Frontend: build the room status floor plan's page and check it in a browser
+8. Your turn: try the app and decide what to do next
 
 Each next feature, when the user chooses it (the app keeps running):
 
 1. Show what the <feature> adds to the design
 2. Backend: add the <feature>'s domain model and rules
 3. Backend: build the <feature>'s actions and test them against its rules
-4. Frontend: build the <feature>'s page and check it in a browser
-5. Your turn: try the app and decide what to do next
+4. Your turn: check the backend, then say to build the page
+5. Frontend: build the <feature>'s page and check it in a browser
+6. Your turn: try the app and decide what to do next
 
 ## The whole app first
 
