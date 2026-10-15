@@ -43,7 +43,12 @@ It replaces the decision flow's one sentence. No heading.
   and its diners, a clinic and its patients), the first feature is
   one interaction from both sides: the customer acts on a page of
   their own, and the staff see it land on theirs, live, held to the
-  same rules. One domain model and one set of rules, with two pages.
+  same rules. It is the business's core transaction, the thing it
+  sells, never a side service: a hotel's guest books a room and the
+  front desk sees the reservation land on the room board (not an
+  amenity or the spa); an airline's passenger books a seat on a
+  flight; a theater's patron buys a seat at a show; a restaurant's
+  diner reserves a table; a clinic's patient books an appointment. One domain model and one set of rules, with two pages.
   It is the moment that shows what Reboot does: the page updating on
   its own, the transaction that keeps the rule, and who may see and
   do what. The intent's third sentence names both views: "The first
