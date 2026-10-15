@@ -176,7 +176,7 @@ Once a feature file exists, the dashboard part names its three pages
 > App: http://localhost:5173/ · Dashboard: [Models](http://127.0.0.1:9871/#/models) · [Features](http://127.0.0.1:9871/#/features) · [Changelog](http://127.0.0.1:9871/#/changelog)
 
 The major turns: the app's first start (the `run` skill), each
-handoff (in its **In short**), each feature finished, each change
+handoff (in its **Your turn**), each feature finished, each change
 made, and the build's last message. Before the app runs, the line has
 the dashboard alone, once it is up.
 
