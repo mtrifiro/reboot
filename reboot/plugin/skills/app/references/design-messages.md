@@ -42,7 +42,7 @@ floors 2–8 with 8 rooms each, numbered 201–808, …>
 **Proposed features, in build order**
 Only the first is built next; the rest, and their order, are yours to
 change at any point.
-1. **▶ <First feature> (first).** <Why it comes first: the central
+1. **<First feature> (first).** <Why it comes first: the central
    object and a rule the user can see it keep.> Rules:
    - <A rule, one line, the key words in bold.>
    - …
