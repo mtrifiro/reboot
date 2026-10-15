@@ -82,8 +82,11 @@ overturns one adds its own entry naming it.
 
 - **Decided by you:** staff only, one role.
 - **Why:** "Staff only, one role" (scope question: who signs in).
-- **Decided by the build:** each Room is its own domain object, keyed
-  by hotel and room number; `book` is a Writer on Room.
+- **Decided by the build:** each
+  [Room](http://127.0.0.1:9871/#/models?type=hotel.v1.Room) is its own
+  domain object, keyed by hotel and room number;
+  [`book`](http://127.0.0.1:9871/#/models?type=hotel.v1.Room.book) is a
+  Writer on Room.
 - **Why:** a room is booked at most once per night, and one Room's
   Writer is the lock that keeps it so.
 - **Set aside:** rooms as a list on Hotel: every booking would lock
@@ -114,6 +117,13 @@ the question and the answer, or "accepted without comment". **Replaces**
 names the entries overturned, by heading, or "nothing". A build the
 user told to go on without stopping gets its entry, headed "Design not
 accepted: <title>".
+
+Each domain object or method an entry names is its dashboard link,
+as in `design.md`; a rule is its words, linked to its feature file
+(`#/features/<path>.feature`), never to its number: the log is never
+edited, and a rule added later renumbers the rules below it. The
+headings are the anchors `design.md` links to, so each is unique.
+`python3 scripts/design_links.py` checks the newest entry's links.
 
 Before a change, read the log: a change against an entry says so to
 the user first, naming the entry and its why.

@@ -21,6 +21,12 @@ dashboard link (`dashboard` skill, "Links to an Object or a Rule"):
 The package is the folder under `api/`: `api/hotel/v1/` is `hotel.v1`.
 Use the port the dashboard started on.
 
+Each choice the decisions log explains links to its entry there,
+`decisions.md#<anchor>`. The anchor is the entry's heading in
+lowercase, with each space a hyphen and other punctuation dropped:
+"## 2026-10-14: Design accepted: Front desk" is
+`#2026-10-14-design-accepted-front-desk`.
+
 ## The shape
 
 The headings in this order, word for word. Leave out **Architecture**
@@ -40,7 +46,7 @@ answers, and the accent.>
 ## Architecture: <n> packages
 
 <Why it is split, and how the packages layer so none imports another
-in a circle.> ([see them on the dashboard](<#/models link>))
+in a circle, linked to the entry that decided it.> ([see them on the dashboard](<#/models link>))
 
 | Package | Objects | Imports from |
 | --- | --- | --- |
@@ -49,7 +55,8 @@ in a circle.> ([see them on the dashboard](<#/models link>))
 ## Domain model
 
 - **[<Type>](<link>):** one per <what>, keyed by <id>. It holds
-  <fields>. It is its own object because <why>.
+  <fields>. It is its own object because <why>
+  ([decided](decisions.md#<anchor of the entry that decided it>)).
 - …
 
 ## Features and their rules
@@ -73,6 +80,9 @@ objects, all or nothing. <A **Workflow** runs until it is done, if any.>
 | --- | --- | --- |
 | [`<method>`](<method link>) | <Kind> | <roles, in the user's words; "the app" for calls only the app makes> |
 
+<Below each table, any kind or caller a decisions entry explains, one
+line each, with its link: "`book` is a Transaction ([decided](…))".>
+
 ## Pages
 
 - `<path>`: <what it shows and what the viewer can do there>.
@@ -91,7 +101,10 @@ rule and method cells links.>
 ## Decisions
 
 Why the design is what it is, and what was assumed, is in
-[`decisions.md`](decisions.md); the newest entry is "<its heading>".
+[`decisions.md`](decisions.md), one entry per acceptance:
+
+- [<entry heading>](decisions.md#<anchor>): <one line, what it settled>.
+- …
 The design as accepted is copied to `accepted/`;
 `python3 scripts/model_diff.py` lists anything changed since.
 ```
@@ -107,15 +120,21 @@ lists until it lists nothing:
 - **Renumbered:** a rule link whose words are no longer that rule's;
   a rule added above others renumbers them, so a later acceptance
   rewrites their links.
-- **Not linked:** something in the code the document doesn't link.
+- **Not linked:** something in the code the document doesn't link,
+  or a decisions entry it doesn't list.
+- **Decisions:** a link to an entry `decisions.md` doesn't have, and
+  in the newest entry, a link to nothing in the code or to a rule by
+  its number.
 
 When the dashboard runs on another port, `python3
-scripts/design_links.py --port <port>` rewrites every link to it.
+scripts/design_links.py --port <port>` rewrites every link to it, in
+`decisions.md` too (only the port changes).
 
 ## Never
 
 - A name of an object, method, feature or rule in the document without
   its link.
+- A choice the log explains, left without its link to the entry.
 - A rule in other words than the feature file's: the link text is the
   rule's own words, so the check can see a renumbering.
 - The document pasted into the chat: once written, say in one line

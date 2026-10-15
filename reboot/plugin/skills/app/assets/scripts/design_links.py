@@ -2,7 +2,7 @@
 """Check the design document's dashboard links against the code.
 
     scripts/design_links.py                  # check design/design.md
-    scripts/design_links.py --port 9873      # rewrite every link to that port, then check
+    scripts/design_links.py --port 9873      # rewrite every link (and the log's) to that port, then check
 
 `design/design.md` links each package, domain object, method, feature
 and rule to the developer dashboard, which draws them from the code:
@@ -19,7 +19,13 @@ rules count from 1 in file order. This lists:
   When the words are another rule's in the same file, it says which
   number they have now (a rule inserted above renumbers those below).
 - **Not linked:** a domain object, method, feature or rule the code
-  has and the document doesn't link.
+  has and the document doesn't link, or a `design/decisions.md` entry
+  it doesn't link.
+- **Decisions:** a link to `decisions.md#<anchor>` that no entry's
+  heading makes, and in the newest entry (the log is never edited, so
+  older entries keep what was true then) a dashboard link to nothing
+  in the code, or to a rule by its number, which a later rule would
+  shift.
 
 It exits 0 when there is nothing to list, 1 otherwise, and 2 with no
 `design/design.md`.
@@ -36,7 +42,9 @@ import model_diff  # noqa: E402
 
 ROOT = model_diff.ROOT
 DOCUMENT = ROOT / "design" / "design.md"
+DECISIONS = ROOT / "design" / "decisions.md"
 
+ENTRY_LINK = re.compile(r"\]\((?:\./)?decisions\.md#([^)\s]+)\)")
 LINK = re.compile(r"\[([^\]]*)\]\((http://(?:127\.0\.0\.1|localhost):(\d+)/#/([^)\s]*))\)")
 
 
@@ -59,13 +67,64 @@ def code() -> tuple[dict[str, set[str]], dict[str, list[str]]]:
     return objects, features
 
 
+def anchors(log: str) -> list[tuple[str, str]]:
+    """[(anchor, heading)] of the log's entries, as GitHub makes them:
+    lowercase, punctuation dropped, each space a hyphen, a repeat -1."""
+    seen: dict[str, int] = {}
+    out = []
+    for line in log.splitlines():
+        if not line.startswith("## "):
+            continue
+        heading = line[3:].strip()
+        slug = re.sub(r"[^\w\- ]", "", heading.lower()).replace(" ", "-")
+        n = seen.get(slug, 0)
+        seen[slug] = n + 1
+        out.append((f"{slug}-{n}" if n else slug, heading))
+    return out
+
+
+def check_decisions(document: str, objects: dict[str, set[str]],
+                    features: dict[str, list[str]]) -> tuple[list[str], list[str]]:
+    """(problems, entries the document doesn't link)."""
+    if not DECISIONS.exists():
+        return [], []
+    log = DECISIONS.read_text()
+    entries = anchors(log)
+    known = {a for a, _ in entries}
+    problems = [
+        f"line {n}: no entry in decisions.md has the anchor #{a}"
+        for n, line in enumerate(document.splitlines(), 1)
+        for a in ENTRY_LINK.findall(line) if a not in known
+    ]
+    linked = set(ENTRY_LINK.findall(document))
+    unlinked = [f"decisions entry \"{h}\" (#{a})" for a, h in entries if a not in linked]
+    if entries:
+        newest = log[log.rindex("\n## " + entries[-1][1]) + 1:] if log.count("\n## ") else log
+        for text, url, _, route in LINK.findall(newest):
+            page, _, query = route.partition("?")
+            where = f"newest entry: [{text}]({url})"
+            if page == "models" and query.startswith("type="):
+                name = query[len("type="):]
+                owner, _, method = name.rpartition(".")
+                if name not in objects and method not in objects.get(owner, ()):
+                    problems.append(f"{where}: no object or method `{name}` in api/")
+            elif page.startswith("features/"):
+                path, _, rule = page[len("features/"):].partition("/rules/")
+                if path not in features:
+                    problems.append(f"{where}: no feature file `{path}`")
+                elif rule:
+                    problems.append(f"{where}: link the feature file, not rule {rule}; "
+                                    "a rule added later would shift it")
+    return problems, unlinked
+
+
 def words(text: str) -> str:
     return re.sub(r"[\s`*_]+", " ", text).strip().rstrip(".").lower()
 
 
 def check(document: str) -> dict[str, list[str]]:
     objects, features = code()
-    found = {"Broken": [], "Renumbered": [], "Not linked": []}
+    found = {"Broken": [], "Renumbered": [], "Not linked": [], "Decisions": []}
     linked: set[str] = set()
     for n, line in enumerate(document.splitlines(), 1):
         for text, url, _, route in LINK.findall(line):
@@ -117,6 +176,9 @@ def check(document: str) -> dict[str, list[str]]:
             f"rule `{path}/rules/{i}`: {r}" for i, r in enumerate(rules, 1)
             if f"{path}/rules/{i}" not in linked
         ]
+    problems, unlinked = check_decisions(document, objects, features)
+    found["Decisions"] += problems
+    found["Not linked"] += unlinked
     return found
 
 
@@ -125,16 +187,18 @@ def main(argv: list[str]) -> int:
         print(f"No {DOCUMENT.relative_to(ROOT)} to check.")
         return 2
     if argv[:1] == ["--port"] and len(argv) == 2 and argv[1].isdigit():
-        text = re.sub(r"http://(127\.0\.0\.1|localhost):\d+/#/", rf"http://\1:{argv[1]}/#/",
-                      DOCUMENT.read_text())
-        DOCUMENT.write_text(text)
+        # The log too: only the port changes, never an entry's words.
+        for path in (DOCUMENT, DECISIONS):
+            if path.exists():
+                path.write_text(re.sub(r"http://(127\.0\.0\.1|localhost):\d+/#/",
+                                       rf"http://\1:{argv[1]}/#/", path.read_text()))
     elif argv:
         print(__doc__)
         return 2
     found = check(DOCUMENT.read_text())
     if not any(found.values()):
         print("Every dashboard link in design/design.md names something in the code, "
-              "and everything in the code is linked.")
+              "everything in the code is linked, and so is every decisions entry.")
         return 0
     for heading, items in found.items():
         if items:

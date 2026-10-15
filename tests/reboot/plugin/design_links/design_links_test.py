@@ -131,5 +131,66 @@ class DesignLinks(unittest.TestCase):
         self.assertEqual(self.run_it().returncode, 2)
 
 
+LOG = f"""# Decisions
+
+## 2026-10-14: Design accepted: Booking
+
+- **Decided by the build:** [`book`]({D}models?type=hotel.v1.Room.book)
+  is a Writer; see [the rule]({D}features/tests/booking.feature/rules/1).
+
+## 2026-10-15: Design accepted: Cancelling & rebooking
+
+- **Decided by the build:** [Room]({D}models?type=hotel.v1.Room) keeps
+  its nights; [cancelling]({D}features/tests/booking.feature) frees one.
+"""
+
+ENTRIES = """
+- [Booking](decisions.md#2026-10-14-design-accepted-booking): a Writer.
+- [Cancelling](decisions.md#2026-10-15-design-accepted-cancelling--rebooking): frees a night.
+"""
+
+
+class TheDecisionsLog(DesignLinks):
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.write("design/decisions.md", LOG)
+        self.write("design/design.md", DOCUMENT + ENTRIES)
+
+    def test_every_entry_linked(self) -> None:
+        r = self.run_it()
+        self.assertEqual(r.returncode, 0, r.stdout)
+
+    def test_an_entry_left_unlinked(self) -> None:
+        self.write("design/design.md", DOCUMENT + ENTRIES.splitlines()[1])
+        r = self.run_it()
+        self.assertIn('decisions entry "2026-10-15: Design accepted: Cancelling & rebooking"', r.stdout)
+
+    def test_a_link_to_no_entry(self) -> None:
+        self.write("design/design.md", DOCUMENT + ENTRIES + "- [Old](decisions.md#2026-01-01-gone)\n")
+        r = self.run_it()
+        self.assertIn("no entry in decisions.md has the anchor #2026-01-01-gone", r.stdout)
+
+    def test_the_newest_entry_links_rules_by_their_feature(self) -> None:
+        # The older entry's rule-number link is history and is left alone.
+        r = self.run_it()
+        self.assertNotIn("not rule 1", r.stdout)
+        self.write("design/decisions.md", LOG + f"  See [it]({D}features/tests/booking.feature/rules/2).\n")
+        r = self.run_it()
+        self.assertIn("link the feature file, not rule 2", r.stdout)
+
+    def test_port_rewrites_the_log_too(self) -> None:
+        self.run_it("--port", "9873")
+        log = (self.root / "design/decisions.md").read_text()
+        self.assertEqual(log.count(":9873/#/"), 4)
+        self.assertNotIn(":9871/", log)
+
+    def test_the_newest_entry_links_to_nothing(self) -> None:
+        self.write("design/decisions.md", LOG.replace("type=hotel.v1.Room)", "type=hotel.v1.Rooms)"))
+        r = self.run_it()
+        self.assertIn("newest entry: [Room]", r.stdout)
+        self.assertIn("no object or method `hotel.v1.Rooms`", r.stdout)
+
+
 if __name__ == "__main__":
     unittest.main()
