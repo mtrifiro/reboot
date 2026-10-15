@@ -161,12 +161,12 @@ not an MCP UI's setup wizard. Outside the Claude app, the skills'
 usual behaviour stands.
 
 **5. After every answer, say what comes next.** Whenever the user
-answers a dialog or a question (how to build, the go-ahead, the model
-check, a feature's review, what to build next), the first thing after
-the answer, before any tool call, is one or two sentences in the
-plain words: what will be done now, in the user's nouns, and when
-they'll next hear or be asked something, with the time when the
-opening's estimates give one. For the go-ahead on a feature at a
+answers a dialog or asks for something (how to build, the go-ahead,
+the model check, the page, the next feature), the first thing after
+it, before any tool call, is one or two sentences in plain words: what
+will be done now, in the user's nouns, and what they'll see next, with
+the time when the opening's estimates give one. Short: no list of
+internal steps, no promise of further updates. For the go-ahead on a feature at a
 time:
 
 > Building the room status floor plan's domain model and rules now.
@@ -204,10 +204,13 @@ whole task list. So:
 
 **Keeping a feature is recorded when the user asks for more.** When
 the user asks for the next feature, or says to keep this one, the
-build first records it as kept (`references/accept-design.md`) and
-says so in one line: the work-in-progress tags come off, the design
-document becomes the accepted design, and the decisions log gets its
-entry. Nothing is recorded while the user only tries the app.
+build first records it as kept (`references/accept-design.md`), and
+says so in the user's terms only, folded into the line about what
+comes next: "Saving the chore board as it is, then building recurring
+chores: their backend first, about 15 to 20 minutes." Never the
+mechanics (work-in-progress tags, the accepted design, the decisions
+log): they are the build's bookkeeping, not the user's news. Nothing
+is recorded while the user only tries the app.
 
 **At every stage, say what is being done and what Reboot brings to
 it.** Each task-list item that starts gets two or three sentences
