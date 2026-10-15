@@ -18,10 +18,36 @@ word for word, with the angle brackets filled in:
 - `<page>` is the page's name in the user's nouns.
 
 Each item starts with what it belongs to, then what is being done,
-from a verb. Inside an item a name is written as in a sentence ("Show
-room status floor plan for your review"), capitalized only at the
-start. Make the list once the design is proposed; mark each item done
-as it finishes; a step that fails stays in progress, never done.
+from a verb. Inside an item every name is lowercase, as in a sentence
+("Check the floor plan page in a browser", never "the Floor plan
+page"), unless it is a proper noun. A page named after its feature is
+"its page" in the feature's items. Make the list once the design is
+proposed; mark each item done as it finishes; a step that fails stays
+in progress, never done.
+
+**The review comes last.** Every item stays on the list, in order:
+none is dropped or merged. Before the handoff's question, every item
+above "Show <feature> for your review" is done (a step that couldn't
+be is named in the handoff's **Notes**), and the review item is in
+progress while the user answers. The question never comes while an
+earlier item is still in progress.
+
+For the hotel's first feature, the list reads:
+
+1. Propose the design for Maison Desk
+2. Set up the project
+3. Room status floor plan: write its rules as scenarios
+4. Room status floor plan: build the domain model
+5. Start the developer dashboard to display the domain model
+6. Room status floor plan: build the actions, their rules and who may do each
+7. Room status floor plan: add demo data
+8. Room status floor plan: run the scenarios
+9. Room status floor plan: check the types
+10. Set up the frontend
+11. Room status floor plan: build its page
+12. Room status floor plan: add a browser scenario for its page
+13. Check the floor plan page in a browser
+14. Show room status floor plan for your review
 
 ## One feature at a time
 
