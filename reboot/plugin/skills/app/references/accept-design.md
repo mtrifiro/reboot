@@ -32,19 +32,21 @@ changes from what the user asked for, with its reason. Then the ask. A question 
 available; elsewhere, one plain line as the message's last) comes
 only at the first handoff: each dialog costs the user a stop.
 
-**The first handoff** asks **How are we doing?**, with what the user
-just reviewed named in the app's own nouns and its rules counted:
+**The first handoff** asks **<What was reviewed> works. What next?**,
+in the app's own nouns, for example "The day board works. What
+next?":
 
-- "Keep going" (recommended): "<What was reviewed>: <what it keeps
-  track of>, its <n> rules and <its page> look right. Build <the next
-  part> next." For example, "The floor plan: the rooms and their
-  status, its 4 rules and the floor plan page look right. Build
-  reservations next." It names what the user accepts and what comes
-  next, so the dialog reads on its own.
-- "Not yet": "I'll try it first. Ask me again after."
+- "Build <the next part>" (recommended): "<What it is>, about 15 to 20
+  minutes. <What was reviewed> is accepted as it is, and stays easy to
+  change." For example, "Build the client book": "Clients and their
+  dogs, about 15 to 20 minutes. The day board is accepted as it is, and
+  stays easy to change." The label says what happens next, and the
+  description says what the user accepts.
+- "Not yet": "Ask me again later."
 
-After "Keep going", what's next is plain text, never a dialog: the
-same closing line as every later handoff.
+A change is the dialog's own typed answer. After the next part is
+chosen, what's next is plain text, never a dialog: the same closing
+line as every later handoff.
 
 **Every later handoff** asks no dialog at all. It ends with one plain
 line: the recommended next part and why, and the others. For example: "Next is
@@ -80,8 +82,9 @@ A change goes back to its slice, through the `feature` skill or the
 proposed design, then here again. A later part waits for the user's
 reply to the closing line unless they said up front to build on; then
 the record says which slices were not accepted. No answer is not
-acceptance. The acceptance is recorded when the user answers "Keep
-going" or replies with the next part, before that part is built.
+acceptance. The acceptance is recorded when the user chooses the next
+part, in the dialog or in reply to the closing line, before that part
+is built.
 
 ### Once accepted
 

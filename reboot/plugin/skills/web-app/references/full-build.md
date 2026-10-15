@@ -150,9 +150,9 @@ feature:
     [`app/references/design-messages.md`](../../app/references/design-messages.md),
     covering every feature. Point the user at the dashboard's Features page and at the
     recordings of the browser scenarios, ask in a question dialog
-    (`AskUserQuestion` where available): **How are we doing?**, worded
-    as `app/references/accept-design.md` says ("Keep going" accepts
-    the design as built; on acceptance, record it as
+    (`AskUserQuestion` where available): **<The app> works. What
+    next?**, worded as `app/references/accept-design.md` says (its
+    recommended next step accepts the app as built; on acceptance, record it as
     [`app/references/accept-design.md`](../../app/references/accept-design.md)
     says), and, unless they asked
     for only a web app, end with the one-line offer of an MCP UI
