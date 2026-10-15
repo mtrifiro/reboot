@@ -86,12 +86,26 @@ wherever its page is. Probe it:
 curl -sf -o /dev/null --max-time 2 http://127.0.0.1:9871/
 ```
 
-If that succeeds, a dashboard is already up — do not start a second
-one. Surface the URL and stop.
+If that succeeds, something is serving there, but it may be another
+project's dashboard: a project built earlier on the same machine keeps
+its dashboard running, and its links then show that project's model,
+not this one's. Check which folder it runs from, from the project
+root:
 
-(If port 9871 is held by something that is _not_ this project's
-dashboard — rare — start on another port with `--port=<port>` and
-surface that port instead.)
+```sh
+pid=$(lsof -nP -iTCP:9871 -sTCP:LISTEN -t | head -1)
+ps -o command= -p "$(ps -o ppid= -p "$pid")" | grep -F "$PWD/" \
+  && echo "this project's" || echo "another project's"
+```
+
+- **This project's:** do not start a second one. Surface the URL and
+  stop.
+- **Another project's** (or nothing named in the command): leave it
+  running, since it isn't this build's to stop, and start this
+  project's own on the first free port from 9872 up (`lsof -nP
+  -iTCP:<port> -sTCP:LISTEN` prints nothing for a free one), with
+  `--port=<port>` in Step 4. Every dashboard link from then on uses
+  that port, and the hand-over says why it isn't 9871.
 
 ## Step 4 — Start the dashboard
 
@@ -105,9 +119,10 @@ It takes the API directory from the `generate <dir>` line in
 `.rbtrc` (Step 2), spelled relative to the project root — that is how
 file names are shown in the dashboard.
 
-It prints `Your dashboard is at http://127.0.0.1:9871/`
-immediately and keeps running; wait until the probe from Step 3
-succeeds before calling it up. It stays running for the life of the
+It prints `Your dashboard is at http://127.0.0.1:9871/` (or the port
+given) immediately and keeps running, even when it can't take the
+port: wait until the probe from Step 3 succeeds and the check there
+names this project before calling it up. It stays running for the life of the
 session — leave it alone afterwards; it never needs a restart when
 code changes.
 
