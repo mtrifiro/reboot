@@ -660,7 +660,9 @@ works as it will in the finished app.
 10. Start the app with the [`run` skill](../run/SKILL.md) and check
     the page in a real browser (Playwright, or the agent's browser
     tool): signed in, it shows the whole demo data, its main action
-    works, no console errors.
+    works, no console errors, and the main page shows its first
+    record within 2 seconds, timed as
+    [`references/first-paint.md`](references/first-paint.md) says.
 11. Show what was built so the user can judge it, not admire it,
     word for word in the handoff's shape in
     [`app/references/design-messages.md`](../app/references/design-messages.md):
