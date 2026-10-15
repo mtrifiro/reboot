@@ -54,12 +54,16 @@ while nothing is built:
   user sees what to change.
 
 Then show the proposed design in the chat as the front door says, and
-say in one line where the document is, as a link: "The proposed design,
-with every rule for the later features and the choices made for you
-under **Assumed**, is in design/design.md", the path a link to the
-file. In the
-build's voice throughout: "the choices made for you", never "I made"
-or "Should I".
+end with one line that names what was assumed, so nothing feels
+hidden, then where the rest is:
+
+> Assumed, all easy to change: the name Groom Room, opening hours
+> 9:00 to 17:00, and three roles (owner, groomer, front desk). The
+> rest is in design/design.md.
+
+At most five assumptions, the ones that shape the app most (its name,
+counts, hours, roles), in the user's nouns; the path a link to the
+file. In the build's voice throughout, never "I made" or "Should I".
 
 ## 3. One question
 
