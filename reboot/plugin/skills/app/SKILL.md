@@ -100,16 +100,10 @@ time:
 
 1. Propose the design for <app>
 2. Get your go-ahead on the design
-3. Scaffold the project
-4. Write the <feature>'s rules as scenarios
-5. Build the <feature>'s domain model
-6. Start the Reboot dashboard to show the domain model
-7. Your turn: check the domain model on the dashboard
-8. Build the <feature>'s actions, who may do each, and demo data
-9. Prove the <feature>'s rules (scenarios pass, types check)
-10. Build the <feature>'s page, with a browser scenario
-11. Start the app for you to see, and check it in a browser
-12. Your turn: review the <feature>
+3. Build the <feature>'s domain model and rules
+4. Your turn: check the domain model on the dashboard
+5. Build and prove the <feature>
+6. Your turn: decide what to do next
 
 Every item starts with a verb; `<feature>` is the first feature's full
 name ("the room status floor plan"), lowercase inside an item.
@@ -131,7 +125,23 @@ handoff (in its **In short**), each feature finished, each change
 made, and the build's last message. Before the app runs, the line has
 the dashboard alone, once it is up.
 
-**5. Read with the file tools.** This plugin's skills and references
+**5. After every answer, say what comes next.** Whenever the user
+answers a dialog or a question (how to build, the go-ahead, the model
+check, a feature's review, what to build next), the first thing after
+the answer, before any tool call, is one or two sentences in the
+build's voice: what will be done now, in the user's nouns, and when
+they'll next hear or be asked something, with the time when the
+opening's estimates give one. For the go-ahead on a feature at a
+time:
+
+> Building the room status floor plan's domain model and rules now.
+> The Reboot dashboard's link comes once the model is written, for you
+> to check it before the rest is built on it.
+
+Never a silent start after an answer, and never only a task list
+update.
+
+**6. Read with the file tools.** This plugin's skills and references
 are read with the Read, Grep and Glob tools, never `cat`, `grep`,
 `ls` or `cd` in a shell: a host's auto mode can block a shell command
 in the plugin's install folder, and after a few blocks it asks the

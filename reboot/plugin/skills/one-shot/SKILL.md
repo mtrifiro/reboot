@@ -35,21 +35,12 @@ tool call, with three differences:
 - **The task list** has the whole-app items, with no go-ahead:
 
   1. Propose the design for <app>
-  2. Scaffold the project
-  3. Build the domain model
-  4. Start the Reboot dashboard to show the domain model
-  5. Build the actions, without their rules yet, and demo data
-  6. Build every page of the design
-  7. Start the app for you to see, and check it in a browser
-  8. Write the <feature>'s rules as scenarios
-  9. Prove the <feature>'s rules in the code
-  10. Prove every rule (all scenarios pass, types check)
-  11. Your turn: review <app>
+  2. Build the domain model and rules
+  3. Build every page of the design
+  4. Build and prove every feature
+  5. Your turn: decide what to do next
 
-  Items 8 and 9 come once for each feature, in the design's order,
-  each named in full; for an MCP UI, item 6 is "Build every UI of the
-  design" and item 7 "Start the app and check it in its AI client".
-- **`app/references/design-first.md` does not apply:** no go-ahead.
+  For an MCP UI, item 3 is "Build every UI of the design".
 
 ## 1. Ambitious scope
 
