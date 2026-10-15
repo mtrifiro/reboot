@@ -195,25 +195,19 @@ whole task list. So:
   turn goes on, never the box: the box would tick every item on the
   list before anything is built, and the list would then have to be
   made again.
-- **The question at the end of a feature** (its review and what to
-  build next), when the list's work is done, goes in the box only:
-  its question in `ask`, its options as the buttons, the recommended
-  one first. Never a dialog as well, which asks the same thing twice.
+- **The end of a feature asks nothing.** The box gets the recap
+  only, with no `ask` and no buttons: the feature is running for the
+  user to try, and the closing line names the recommended next one
+  and says to ask for it when ready (`references/accept-design.md`).
 - A dialog the user skipped is not a reason to ask again in the box:
   end with the recap alone.
 
-**"Not yet" means nothing happens.** At a feature's review the
-options are "Yes, build <the next feature>" (record this one as kept,
-then build the next) and "Not yet", whose reply is "Leave it as it is
-for now." On "Not yet" the build does nothing more that turn: no
-recording, no tags changed, no commands; one line says the app and
-the dashboard stay up and what to say to go on. Keeping the feature
-is recorded (`app/references/accept-design.md`) only when the user
-says to keep it or to build the next one, and then the build says
-first that recording takes a minute: the work-in-progress tags come
-off, the design document becomes the accepted design, and the
-decisions log gets its entry. Never write a reply button that joins
-two moves ("keep it, but stop here").
+**Keeping a feature is recorded when the user asks for more.** When
+the user asks for the next feature, or says to keep this one, the
+build first records it as kept (`references/accept-design.md`) and
+says so in one line: the work-in-progress tags come off, the design
+document becomes the accepted design, and the decisions log gets its
+entry. Nothing is recorded while the user only tries the app.
 
 **At every stage, say what is being done and what Reboot brings to
 it.** Each task-list item that starts gets two or three sentences
