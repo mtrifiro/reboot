@@ -51,11 +51,15 @@ It replaces the decision flow's one sentence. No heading.
   (`AskUserQuestion` where available; otherwise the same as one plain
   line), word for word but for the angle brackets:
   - Title: **How should it be built?**
-  - "A feature at a time" (recommended): "<The first feature>, working
+  - "A feature at a time", first, with no "(Recommended)": "<The first feature>, working
     to try, in about 15 minutes; then each next feature as you choose
     it, about 15 to 20 minutes each."
   - "The whole app at once": "Every feature in the design, each with
     its rules proven, built without stopping: an hour or more."
+
+  Neither option is marked recommended: the two are equal choices,
+  and their times say what each trades. A feature at a time is listed
+  first only so it is the one preselected.
 - **What to expect,** right after the answer and before any other
   tool call (research, reading references, writing files), the list
   for that path, word
