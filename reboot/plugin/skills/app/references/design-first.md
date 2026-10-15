@@ -65,8 +65,8 @@ End with one dialog (`AskUserQuestion` where available; otherwise the
 same as one plain line), the build's first question:
 
 - Title: **Ready to build?**
-- "Build it" (recommended): "Build <the first feature> now. Anything
-  in the design stays easy to change, even after it's built."
+- "Build it" (recommended): "Build a first working version of <the
+  first feature> to try, then change what you like."
 - "Not yet": "I want to study the design more. Ask me again later."
 
 A change is typed as the dialog's own free answer, so no option only
