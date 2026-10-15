@@ -100,10 +100,11 @@ time:
 
 1. Propose the design for <app>
 2. Get your go-ahead on the design
-3. Build the <feature>'s domain model and rules
+3. Backend: build the <feature>'s domain model and rules
 4. Your turn: check the domain model on the dashboard
-5. Build and prove the <feature>
-6. Your turn: try the app and decide what to do next
+5. Backend: build and prove the <feature>
+6. Frontend: build the <feature>'s page and check it in a browser
+7. Your turn: try the app and decide what to do next
 
 Every item starts with a verb; `<feature>` is the first feature's full
 name ("the room status floor plan"), lowercase inside an item.
@@ -165,6 +166,15 @@ time:
 
 Never a silent start after an answer, and never only a task list
 update.
+
+**Backend and frontend, named apart.** Every message about building
+says which half it is about: the backend (the domain model, the
+rules, the actions, who may do each, the proof) or the frontend (the
+page and the browser check). The task list's items open with
+"Backend:" or "Frontend:", and the messages under them follow suit
+("Backend: running the floor plan's 9 scenarios." "Frontend: building
+the floor plan page."), so the user always knows which half is being
+worked on and which is done.
 
 **At every stage, say what is being done and what Reboot brings to
 it.** Each task-list item that starts gets two or three sentences

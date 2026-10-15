@@ -30,25 +30,25 @@ nothing beyond what the line says. In the build's voice.
 | Building a workflow | Workflows survive a crash: a step that already called a payment or an LLM isn't called again when the work resumes. |
 | Before a deploy | Deploying is `rbt cloud up`: the same app, with nothing to provision. |
 
-## Inside "Build and prove"
+## Inside "Build and prove" and the page
 
 It is the longest item on the list, often ten minutes or more, so it
 never runs silent. As each part inside it starts, one line in the
 user's nouns says where it is, the task list item staying in
 progress, and a fact from the table above goes with the part it fits:
 
-1. The actions: "Writing the room status floor plan's actions:
+1. The actions: "Backend: writing the room status floor plan's actions:
    checking in, marking a room cleaned, inspecting it."
-2. Who may do each: "Now who may do each: only housekeeping marks a
+2. Who may do each: "Backend: now who may do each: only housekeeping marks a
    room cleaned, only the supervisor inspects."
-3. Demo data: "Adding demo data: 56 rooms across seven floors, a few
+3. Demo data: "Backend: adding demo data: 56 rooms across seven floors, a few
    in each state, so the floor plan has something to show."
-4. The proof: "Running the floor plan's 9 scenarios." Then, as they
+4. The proof: "Backend: running the floor plan's 9 scenarios." Then, as they
    pass, the count ("6 of 9 pass; the rest are the check-in rules").
    A failure is said as which rule isn't kept yet, never its stack
    trace, and the fix in one sentence.
-5. The page: "Building the floor plan page."
-6. The browser check: "Checking the page in a browser, as a person
+5. The page, under its own Frontend item: "Frontend: building the floor plan page."
+6. The browser check: "Frontend: checking the page in a browser, as a person
    would use it."
 
 One line each, and a fact only where the table has one that fits and
