@@ -27,14 +27,19 @@ first text of the build, before any tool call and before the front
 door's skill, in the user's nouns.
 It replaces the decision flow's one sentence. No heading.
 
-- **One paragraph** of at most three sentences, from the prompt alone:
-  what the app is and who uses it, what it will keep track of, the
-  first feature it will build, and which front door. A name the build
-  picked, because the prompt gave none, says so the first time it
-  appears: "Partner Loop (working name)".
-- **How Reboot builds,** a second paragraph, the same for either path,
-  these words as plain text like the first paragraph (never a quote
-  block, never broken across lines): "Reboot builds an app from its
+- **What will be built,** a paragraph of three sentences, one for
+  each, from the prompt alone: (1) what the app is, its name, and who
+  uses it; (2) what it will keep track of, as the user's nouns, three
+  to five of them; (3) the first feature it will build and the rule
+  that makes it worth building first, and which front door (a web app,
+  an MCP UI, or both). A name the build picked, because the prompt
+  gave none, says so the first time it appears: "Chore Chart (working
+  name)". Not one sentence that runs the three together, and not a
+  description of the method: that is the next paragraph's job.
+- **How Reboot builds,** a second paragraph of its own, the same for
+  every app and either path, these words exactly, as plain text like
+  the first paragraph (never merged into it, never paraphrased, never
+  a quote block, never broken across lines): "Reboot builds an app from its
   domain model, the objects it keeps and the rules they follow, each
   rule written as a scenario that proves it. It can build a feature at
   a time, each one working for you to try before the next, or the
@@ -58,10 +63,12 @@ It replaces the decision flow's one sentence. No heading.
 For the hotel (the `>` marks the example here; the build writes plain
 text):
 
-> Maison Desk (working name) will run a 56-room boutique hotel for its staff: the
-> rooms and their status, the guests' stays, and who on the staff may
-> do what. The first feature is a floor plan of every room, where a
-> room can't be checked into until it's clean, in a web app with the
+> Maison Desk (working name) is an app for the staff of a 56-room
+> boutique hotel: the front desk, housekeeping and the manager. It
+> keeps track of the rooms and their status, the guests and their
+> stays, the amenities they book, and who on the staff may do what.
+> The first feature is a floor plan of every room, where a room can't
+> be checked into until it's clean, built as a web app with the
 > backend ready for an MCP UI too.
 >
 > Reboot builds an app from its domain model, the objects it keeps
