@@ -9,6 +9,12 @@ import { useEffect, useState, type ReactNode } from "react";
 const DOWN_EVERY_MS = 3_000;
 const UP_EVERY_MS = 10_000;
 
+// Reboot's web library adds its own red "Trouble connecting..." box to
+// the page in development, 10 seconds into a lost connection, with this
+// id. While the page below says what is happening, that box only covers
+// it, so it is hidden then (and only then).
+const REBOOT_WARNING_ID = "localhostWarning";
+
 async function reachable(url: string): Promise<boolean> {
   try {
     await fetch(url, { mode: "no-cors", cache: "no-store" });
@@ -26,6 +32,10 @@ export function BackendCheck({
   children: ReactNode;
 }) {
   const [up, setUp] = useState<boolean | null>(null);
+  // Whether the backend answered since the page loaded: losing it after
+  // that is, in development, nearly always `rbt dev run` restarting it
+  // after a change to the backend's code.
+  const [wasUp, setWasUp] = useState(false);
 
   useEffect(() => {
     let stopped = false;
@@ -34,6 +44,7 @@ export function BackendCheck({
       const ok = await reachable(url);
       if (stopped) return;
       setUp(ok);
+      if (ok) setWasUp(true);
       timer = window.setTimeout(check, ok ? UP_EVERY_MS : DOWN_EVERY_MS);
     };
     check();
@@ -45,12 +56,33 @@ export function BackendCheck({
 
   if (up === null) return null; // the first check, a few milliseconds
   if (up) return <>{children}</>;
-  return <BackendDown url={url} />;
+  return <BackendDown url={url} restarting={wasUp} />;
 }
 
-function BackendDown({ url }: { url: string }) {
+function BackendDown({ url, restarting }: { url: string; restarting: boolean }) {
+  const hideRebootWarning = (
+    <style>{`#${REBOOT_WARNING_ID} { display: none !important; }`}</style>
+  );
+  if (restarting && import.meta.env.DEV) {
+    return (
+      <main className="empty" role="status" aria-live="polite">
+        {hideRebootWarning}
+        <h1>The backend is restarting</h1>
+        <p>
+          It restarts by itself after each change to its code, and keeps
+          its data. This usually takes a few seconds; the app comes back
+          on its own.
+        </p>
+        <p className="small">
+          If it takes more than a minute, the backend may have stopped:
+          ask Claude to check the app.
+        </p>
+      </main>
+    );
+  }
   return (
     <main className="empty" role="status" aria-live="polite">
+      {hideRebootWarning}
       <h1>The app's backend isn't running</h1>
       {import.meta.env.DEV ? (
         <>
