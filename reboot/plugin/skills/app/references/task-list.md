@@ -32,7 +32,7 @@ Flow:
 2. Set up the project
 3. <feature>: write its rules as scenarios
 4. <feature>: build the domain model
-5. Start the developer dashboard
+5. Start the developer dashboard to display the domain model
 6. <feature>: build the actions, their rules and who may do each
 7. <feature>: add demo data
 8. <feature>: run the scenarios
@@ -67,7 +67,7 @@ built whole (`mcp-ui`, Step-by-Step Build Flow):
 1. Propose the design for <app>
 2. Set up the project
 3. Build the domain model
-4. Start the developer dashboard
+4. Start the developer dashboard to display the domain model
 5. Build the actions, without their rules yet
 6. Add demo data
 7. Set up the frontend
