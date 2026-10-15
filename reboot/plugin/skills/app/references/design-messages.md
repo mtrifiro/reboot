@@ -105,7 +105,15 @@ refuses it. <A second thing to try, when there is one.>
 - <What the build added beyond the brief, and why.>
 - <A workaround, one line: what it is and what undoes it.>
 - <What waits for deploy: the sign-in provider, who may sign in.>
+
+**In short:** <one or two sentences: what now runs and what the
+question below decides>. [Open the app](<URL>) ·
+[the dashboard](<dashboard URL>) · [the design](design/design.md)
 ```
+
+**In short** is always last, right above the question: the message is
+long, and the user reads its end while answering, after **Open it**
+has scrolled away. Its links are the same as above.
 
 Then the one question, as [`accept-design.md`](accept-design.md) says:
 accept this and build the next part (named, with why), another, or
