@@ -100,7 +100,8 @@ user's own time zone unless they say otherwise.
 ### At each decision: the stage cards
 
 Each decision's message opens with a heading naming the stage and what
-it asks, in the user's nouns: **Reboot Design · the proposed design**,
+it asks, in the user's nouns: **Reboot Design · <App name>, the
+proposed design**,
 **Reboot Design · ready for your review**, **Reboot Prove · built and
 tested**, **Reboot Prove · ready to deploy**, **Reboot Observe**. The
 heading appears once per decision, never as a label on every message.
