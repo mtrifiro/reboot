@@ -61,9 +61,10 @@ It replaces the decision flow's one sentence. No heading.
   the first paragraph (never merged into it, never paraphrased, never
   a quote block, never broken across lines): "Reboot builds an app from its
   domain model, the objects it keeps and the rules they follow, each
-  rule written as a scenario that proves it. It can build a feature at
-  a time, each one working for you to try before the next, or the
-  whole app at once, without stopping."
+  rule written as a scenario that proves it. It can build
+  interactively, a feature at a time, each one working for you to try
+  before the next, or automatically, the whole app at once, without
+  stopping."
 
 - **Then one dialog,** only once the two paragraphs are out as text of
   their own: the user reads the intent and how it's built first, then answers. Never the
@@ -71,12 +72,14 @@ It replaces the decision flow's one sentence. No heading.
   (`AskUserQuestion` where available; otherwise the same as one plain
   line), word for word but for the angle brackets:
   - Title: **How should it be built?**
-  - "A feature at a time", first, with no "(Recommended)": "<The first feature>, working
-    to try, in about 15 minutes (25 to 30 when it is seen from both
-    sides); then each next feature as you choose it, about 15 to 20
+  - "Interactively, a feature at a time", first, with no
+    "(Recommended)": "<The first feature>, working for you to try in
+    about 15 minutes (25 to 30 when it is seen from both sides). You
+    check each part and choose what comes next, about 15 to 20
     minutes each."
-  - "The whole app at once": "Every feature in the design, each with
-    its rules proven, built without stopping: an hour or more."
+  - "Automatically, the whole app at once": "Every feature in the
+    design, each with its rules proven, built without stopping: an
+    hour or more. Nothing to answer until it's done."
 
   Neither option is marked recommended: the two are equal choices,
   and their times say what each trades. A feature at a time is listed
@@ -100,11 +103,11 @@ text):
 >
 > Reboot builds an app from its domain model, the objects it keeps
 > and the rules they follow, each rule written as a scenario that
-> proves it. It can build a feature at a time, each one working for
-> you to try before the next, or the whole app at once, without
-> stopping.
+> proves it. It can build interactively, a feature at a time, each
+> one working for you to try before the next, or automatically, the
+> whole app at once, without stopping.
 
-Then the dialog. On **a feature at a time**:
+Then the dialog. On **interactively, a feature at a time**:
 
 > What to expect:
 > - The proposed design, in a few minutes. Nothing to answer until
@@ -119,7 +122,7 @@ Then the dialog. On **a feature at a time**:
 >   browser. About 15 minutes in all, for you to try.
 > - Then each next feature, as you choose it, about 15 to 20 minutes.
 
-On **the whole app at once**:
+On **automatically, the whole app at once**:
 
 > What to expect:
 > - The proposed design, in a few minutes. Nothing to answer until
