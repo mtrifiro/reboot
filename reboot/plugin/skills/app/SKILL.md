@@ -141,6 +141,43 @@ time:
 Never a silent start after an answer, and never only a task list
 update.
 
+**At every stage, say what is being done and what Reboot brings to
+it.** Each task-list item that starts gets two or three sentences
+before its work: what the build is doing now, in the user's nouns, and
+the part Reboot does that a usual stack leaves to the developer. Plain
+and specific, never a sales line, and each point said once in a build,
+not repeated at every feature. What to draw on, at the stage it fits:
+
+- **The design:** the app is described as domain objects and the rules
+  they keep, before any code, so what's proposed is what gets built
+  and checked.
+- **The domain model:** each domain object is its own durable actor
+  with its state kept by Reboot; there is no database to set up, no
+  tables or migrations, and no cache to keep in sync.
+- **The rules:** each rule is written as a scenario in plain words
+  before the code, and the build isn't done until every scenario
+  passes; a rule the code breaks shows up as a failing scenario, not
+  a bug report.
+- **Who may do what:** every action declares who may call it, checked
+  by Reboot on each call, so a page can't reach what its user isn't
+  allowed to.
+- **Actions across objects:** a transaction changes several objects
+  all or nothing, so a check-in can't half happen.
+- **The dashboard:** the Reboot dashboard draws the domain model and
+  the rules from the code itself, so what the user checks is what
+  runs.
+- **The page:** the page subscribes to its data and updates on its own
+  when anything changes, with no refresh and no polling code.
+
+For the go-ahead's next stage on the hotel:
+
+> Building the room status floor plan's domain model and rules now.
+> Each room is its own durable object in Reboot, its status kept for
+> it, so there is no database to set up. Each rule, such as a room
+> can't be checked into until it's clean, is written first as a
+> scenario in plain words; the floor plan isn't done until every one
+> passes.
+
 **6. Read with the file tools.** This plugin's skills and references
 are read with the Read, Grep and Glob tools, never `cat`, `grep`,
 `ls` or `cd` in a shell: a host's auto mode can block a shell command
