@@ -37,7 +37,7 @@ The first feature, in the order of the `web-app` Step-by-Step Build
 Flow:
 
 1. Propose the design for <app>
-2. Wait for your go-ahead on the design
+2. Get your go-ahead on the design
 3. Scaffold the project
 4. Write the <feature>'s rules as scenarios
 5. Build the <feature>'s domain model
@@ -57,7 +57,7 @@ line linking the app and the dashboard.
 For the hotel's first feature, the list reads:
 
 1. Propose the design for Maison Desk
-2. Wait for your go-ahead on the design
+2. Get your go-ahead on the design
 3. Scaffold the project
 4. Write the room status floor plan's rules as scenarios
 5. Build the room status floor plan's domain model
