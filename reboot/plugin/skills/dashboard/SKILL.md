@@ -137,11 +137,18 @@ browser once it is serving, unless a tab is already showing it or
 the developer chose "Don't reopen automatically"; opening it as well
 gives the developer two tabs.
 
-Tell the user the dashboard is up and what it is for, with a link to
-each object the API declares so far, and get on with the build.
+Tell the user the dashboard is up, in one line that always starts
+with its URL, then what it is for and a link to each object the API
+declares so far, and get on with the build:
 
-If the developer expected a window and none appeared, give them the
-URL; that always works.
+> The developer dashboard is at http://127.0.0.1:9871/ (it opens in
+> your browser): it shows the domain model as it's written, starting
+> with [Room](http://127.0.0.1:9871/#/models?type=hotel.v1.Room) and
+> [Hotel](http://127.0.0.1:9871/#/models?type=hotel.v1.Hotel).
+
+The URL is in that line every time, with the port it started on, even
+when the browser opened it: a terminal session may have no window,
+and the line is where the user finds it again later.
 
 ### Links to an Object or a Rule
 
