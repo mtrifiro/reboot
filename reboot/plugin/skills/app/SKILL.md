@@ -204,11 +204,13 @@ whole task list. So:
 
 **Keeping a feature is recorded when the user asks for more.** When
 the user asks for the next feature, or says to keep this one, the
-build records it as kept (`references/accept-design.md`) without a
-word about it, and says only what's next: "Next, recurring chores:
-their backend first, about 15 to 20 minutes." Never "kept",
-"recording", work-in-progress tags, the accepted design or the
-decisions log: they are the build's bookkeeping, not the user's news.
+build records it as kept (`references/accept-design.md`) and says
+so in a few words, as tidying up, with what it means in parentheses,
+then what's next: "Tidying up the chore board first (its rules are
+locked in, so later features won't change them without asking you).
+Next, recurring chores: their backend first, about 15 to 20 minutes."
+Never the mechanics: "kept", "recording", work-in-progress tags, the
+accepted design or the decisions log.
 Nothing
 is recorded while the user only tries the app.
 
