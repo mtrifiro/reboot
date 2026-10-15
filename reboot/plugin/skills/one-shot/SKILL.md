@@ -38,7 +38,7 @@ tool call, with three differences:
   2. Build the domain model and rules
   3. Build every page of the design
   4. Build and prove every feature
-  5. Your turn: decide what to do next
+  5. Your turn: try the app and decide what to do next
 
   For an MCP UI, item 3 is "Build every UI of the design".
 

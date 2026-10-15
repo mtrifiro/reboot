@@ -103,7 +103,7 @@ time:
 3. Build the <feature>'s domain model and rules
 4. Your turn: check the domain model on the dashboard
 5. Build and prove the <feature>
-6. Your turn: decide what to do next
+6. Your turn: try the app and decide what to do next
 
 Every item starts with a verb; `<feature>` is the first feature's full
 name ("the room status floor plan"), lowercase inside an item.
