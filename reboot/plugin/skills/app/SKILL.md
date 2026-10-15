@@ -83,10 +83,19 @@ It replaces the decision flow's one sentence. No heading.
     time, about 15 minutes each. You check each part.")
   - "Automatically": "You approve the design; then the whole app is
     built and tested without stopping: an hour or more."
+  - "Hands-off": "No stops at all, not even for the design: every
+    feature a real product needs, built and tested, an hour or more.
+    You see it at the end."
 
-  Neither option is marked recommended: the two are equal choices,
-  and their times say what each trades. A feature at a time is listed
-  first only so it is the one preselected.
+  On "Hands-off", hand the build to the [`one-shot`
+  skill](../one-shot/SKILL.md) from its step 1 (its ambitious scope,
+  no questions, one handoff), after its "What to expect"; the opening
+  already said what will be built, so its step 0 is skipped.
+
+  No option is marked recommended: they are equal choices, each giving
+  up more of the user's involvement for speed, and their times say
+  what each trades. Interactively is listed first only so it is the
+  one preselected.
 - **What to expect,** right after the answer and before any other
   tool call (research, reading references, writing files), the list
   for that path, word
@@ -137,6 +146,17 @@ On **Automatically**:
 >   backend, every feature tested against its rules, then the whole
 >   frontend, every page tested in a browser. An hour or more; nothing
 >   to answer until it's done, then the whole app to try.
+
+On **Hands-off**:
+
+> What to expect:
+> - No questions from here on, not even about the design.
+> - The design, with every feature a real hotel app needs, written to
+>   design/design.md for you to read whenever you like.
+> - Then, in two parts without stopping: the whole backend, every
+>   feature tested against its rules, then the whole frontend, every
+>   page tested in a browser. An hour or more; the whole app to try at
+>   the end.
 
 **2. Make the task list,** where the agent keeps one, with every item
 now, filled in from the paragraph (`references/task-list.md` has the
