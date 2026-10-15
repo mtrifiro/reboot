@@ -25,6 +25,10 @@ type RoomRow = {
   lastChangedByName: string;
   lastChangedAt: string;
   reservationId: string;
+  rushReservationId: string;
+  rushGuestName: string;
+  rushRequestedByName: string;
+  rushRequestedAt: string;
 };
 
 export default function FloorPlanPage({ role }: { role: Role }) {
@@ -73,6 +77,10 @@ export default function FloorPlanPage({ role }: { role: Role }) {
   };
 
   const openRoom = rooms.find((r) => r.number === open);
+  // Rushed rooms, the longest-waiting guest first.
+  const rushed = rooms
+    .filter((r) => r.rushReservationId)
+    .sort((a, b) => a.rushRequestedAt.localeCompare(b.rushRequestedAt));
 
   return (
     <>
@@ -182,6 +190,50 @@ export default function FloorPlanPage({ role }: { role: Role }) {
         ) : response === undefined ? (
           <div className="skeleton" style={{ height: 420 }} />
         ) : (
+          <>
+          {rushed.length > 0 && (
+            <section className="panel rush-panel" aria-labelledby="rush-title">
+              <div className="panel-head">
+                <h2 id="rush-title">Rushed rooms</h2>
+                <span className="small muted">
+                  Guests are waiting: turn these over first
+                </span>
+              </div>
+              <div className="table-wrap">
+                <table aria-labelledby="rush-title">
+                  <thead>
+                    <tr>
+                      <th>Room</th>
+                      <th>Status</th>
+                      <th>Waiting</th>
+                      <th>Asked</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rushed.map((r) => (
+                      <tr key={r.number}>
+                        <td>
+                          <button
+                            className="button-link mono"
+                            aria-label={`Open room ${r.number}`}
+                            onClick={() => setOpen(r.number)}
+                          >
+                            {r.number}
+                          </button>
+                        </td>
+                        <td>{STATUS_LABEL[r.status]}</td>
+                        <td>{r.rushGuestName}</td>
+                        <td className="small muted">
+                          {r.rushRequestedByName || "Front desk"},{" "}
+                          {sinceText(r.rushRequestedAt)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          )}
           <section className="panel floor-plan" aria-labelledby="plan-title">
             <div className="panel-head">
               <h2 id="plan-title">Rooms by floor</h2>
@@ -206,17 +258,23 @@ export default function FloorPlanPage({ role }: { role: Role }) {
                     .map((r) => (
                       <li key={r.number}>
                         <button
-                          className={`room-tile st-${r.status}${matches(r) ? "" : " dim"}${open === r.number ? " open" : ""}`}
-                          aria-label={`Room ${r.number}, ${r.roomType}, ${STATUS_LABEL[r.status]}${r.guestName ? `, ${r.guestName}` : ""}`}
+                          className={`room-tile st-${r.status}${matches(r) ? "" : " dim"}${open === r.number ? " open" : ""}${r.rushReservationId ? " rush" : ""}`}
+                          aria-label={`Room ${r.number}, ${r.roomType}, ${STATUS_LABEL[r.status]}${r.guestName ? `, ${r.guestName}` : ""}${r.rushReservationId ? `, rushed for ${r.rushGuestName}` : ""}`}
                           onClick={() => setOpen(r.number)}
                         >
                           <span className="room-number">{r.number}</span>
                           <span className="room-type">{r.roomType}</span>
                           <span className="room-status">
-                            {r.status === "occupied"
-                              ? r.guestName
-                              : STATUS_SHORT[r.status]}
+                            {STATUS_SHORT[r.status]}
                           </span>
+                          {r.guestName && (
+                            <span className="room-guest">{r.guestName}</span>
+                          )}
+                          {r.rushReservationId && (
+                            <span className="room-rush">
+                              Rush · {r.rushGuestName}
+                            </span>
+                          )}
                         </button>
                       </li>
                     ))}
@@ -224,6 +282,7 @@ export default function FloorPlanPage({ role }: { role: Role }) {
               </div>
             ))}
           </section>
+          </>
         )}
       </main>
       {openRoom !== undefined && (
@@ -317,6 +376,19 @@ function RoomDrawer({
                   ) : (
                     <span className="muted small"> · walk-in</span>
                   )}
+                </dd>
+              </>
+            )}
+            {room.rushReservationId && (
+              <>
+                <dt>Rushed for</dt>
+                <dd>
+                  {room.rushGuestName}
+                  <span className="muted small">
+                    {" "}
+                    · asked by {room.rushRequestedByName || "the front desk"},{" "}
+                    {sinceText(room.rushRequestedAt)}
+                  </span>
                 </dd>
               </>
             )}

@@ -120,3 +120,27 @@
 - **The user's words:** none; prepared for the quickstart.
 - **Replaces:** "Early check-in needs a manager", its "hotel time is
   Europe/Paris" only.
+
+## 2026-10-15: Design accepted: Rush cleaning
+
+- **Decided by you:** the front desk can rush a vacant room of a booked
+  arrival's type that is still dirty or awaiting inspection, so the
+  guest waits briefly instead of taking another type; housekeeping sees
+  it first; it is held for that guest until they check in or the rush
+  is cancelled; front desk and managers only.
+- **Why:** built in the hotel-23 session, then accepted as a whole.
+- **Decided by the build:** the rush lives on the Room (`mark_rush`,
+  `clear_rush`, called only by the app) and is echoed on the
+  Reservation (`mark_rush_room`); `Hotel.rush_room` and `cancel_rush`
+  change both together, as Transactions; a guest has one rushed room at
+  a time, and rushing another moves it.
+- **Why:** the room is what housekeeping and check-in act on; the stay
+  needs to know which room it is waiting for; the two must never
+  disagree.
+- **Decided by the build:** `hotel.v1` keeps its own copies of
+  `RoomHeldError` and `RoomNotRushableError`.
+- **Why:** reboot#258.
+- **Assumed:** a rush never skips cleaning or inspection.
+- **Left open:** nothing new.
+- **The user's words:** "accept the design" (2026-10-15).
+- **Replaces:** nothing; adds to "Reservations & front desk".

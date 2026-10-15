@@ -8,7 +8,9 @@ from rooms.v1.rooms import (
     EarlyCheckInError,
     InvalidTransitionError,
     MissingDetailError,
+    RoomHeldError,
     RoomNotReadyError,
+    RoomNotRushableError,
     RoomView,
     SameInspectorError,
 )
@@ -54,6 +56,8 @@ class RoomServicer(Room.Servicer):
             create=allow_if(all=[is_app_internal]),
             get=allow_if(all=[is_staff]),
             check_in=allow_if(all=[walk_ins_only, has_role_for_method]),
+            mark_rush=allow_if(all=[is_app_internal]),
+            clear_rush=allow_if(all=[is_app_internal]),
             _default=allow_if(all=[has_role_for_method]),
         )
 
@@ -101,8 +105,18 @@ class RoomServicer(Room.Servicer):
                 last_changed_by_name=s.last_changed_by_name,
                 last_changed_at=s.last_changed_at,
                 reservation_id=s.reservation_id,
+                rush_reservation_id=s.rush_reservation_id,
+                rush_guest_name=s.rush_guest_name,
+                rush_requested_by_name=s.rush_requested_by_name,
+                rush_requested_at=s.rush_requested_at,
             )
         )
+
+    def _clear_rush(self) -> None:
+        self.state.rush_reservation_id = ""
+        self.state.rush_guest_name = ""
+        self.state.rush_requested_by_name = ""
+        self.state.rush_requested_at = ""
 
     async def start_cleaning(self, context: WriterContext) -> None:
         if self.state.status != "vacant_dirty":
@@ -154,6 +168,14 @@ class RoomServicer(Room.Servicer):
             raise Room.CheckInAborted(
                 RoomNotReadyError(status=self.state.status)
             )
+        # A rushed room waits for the guest it was rushed for.
+        if (
+            self.state.rush_reservation_id
+            and self.state.rush_reservation_id != request.reservation_id
+        ):
+            raise Room.CheckInAborted(
+                RoomHeldError(guest_name=self.state.rush_guest_name)
+            )
         # A booked guest's check-in comes through the hotel, which has
         # applied the 3 pm rule; a walk-in arrives today.
         if (
@@ -170,6 +192,7 @@ class RoomServicer(Room.Servicer):
         self.state.status = "occupied"
         self.state.guest_name = guest_name
         self.state.reservation_id = request.reservation_id
+        self._clear_rush()
         self._changed((await self._caller(context))[1])
 
     async def check_out(self, context: WriterContext) -> None:
@@ -220,3 +243,27 @@ class RoomServicer(Room.Servicer):
         self.state.cleaned_by_user_id = ""
         self.state.cleaned_by_name = ""
         self._changed((await self._caller(context))[1])
+
+    async def mark_rush(
+        self,
+        context: WriterContext,
+        request: Room.MarkRushRequest,
+    ) -> None:
+        if self.state.status not in ("vacant_dirty", "cleaning", "vacant_clean"):
+            raise Room.MarkRushAborted(
+                RoomNotRushableError(status=self.state.status)
+            )
+        if (
+            self.state.rush_reservation_id
+            and self.state.rush_reservation_id != request.reservation_id
+        ):
+            raise Room.MarkRushAborted(
+                RoomHeldError(guest_name=self.state.rush_guest_name)
+            )
+        self.state.rush_reservation_id = request.reservation_id
+        self.state.rush_guest_name = request.guest_name
+        self.state.rush_requested_by_name = request.requested_by_name
+        self.state.rush_requested_at = _now()
+
+    async def clear_rush(self, context: WriterContext) -> None:
+        self._clear_rush()

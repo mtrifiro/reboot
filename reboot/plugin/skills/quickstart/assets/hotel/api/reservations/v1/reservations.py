@@ -78,6 +78,12 @@ class ReservationState(Model):
         default="",
         description="When the early check-in was approved, ISO 8601 UTC.",
     )
+    rush_room_number: str = Field(
+        tag=11,
+        default="",
+        description="The room being rushed for this guest while they wait; "
+        "empty unless the front desk rushed one.",
+    )
 
 
 class ReservationView(Model):
@@ -109,6 +115,11 @@ class ReservationView(Model):
         tag=9,
         default="",
         description="The manager who approved an early check-in, if any.",
+    )
+    rush_room_number: str = Field(
+        tag=10,
+        default="",
+        description="The room being rushed for this guest, if any.",
     )
 
 
@@ -142,6 +153,15 @@ class ReservationCreateRequest(Model):
 class ReservationGetResponse(Model):
     reservation: Optional[ReservationView] = Field(
         tag=1, default=None, description="The reservation as it is now."
+    )
+
+
+class MarkRushRoomRequest(Model):
+    room_number: str = Field(
+        tag=1,
+        default="",
+        description="The room being rushed for the guest; empty when no "
+        "longer rushed.",
     )
 
 
@@ -187,6 +207,13 @@ ReservationMethods = Methods(
         description="Let a booked guest be checked in before 3 pm on "
         "arrival day, recording who approved it. Raises "
         "`BookingStateError` unless the stay is booked. Managers only.",
+        mcp=None,
+    ),
+    mark_rush_room=Writer(
+        request=MarkRushRoomRequest,
+        response=None,
+        description="Record which room is being rushed for the guest, or "
+        "none. Called only by the hotel.",
         mcp=None,
     ),
     mark_checked_out=Writer(

@@ -30,6 +30,7 @@ class ReservationServicer(Reservation.Servicer):
             room_number=s.room_number,
             booked_by_name=s.booked_by_name,
             early_check_in_approved_by_name=s.early_check_in_approved_by_name,
+            rush_room_number=s.rush_room_number,
         )
 
     async def create(
@@ -56,6 +57,7 @@ class ReservationServicer(Reservation.Servicer):
     ) -> None:
         self.state.status = "checked_in"
         self.state.room_number = request.room_number
+        self.state.rush_room_number = ""
         if request.early_check_in_approved_by_name:
             self.state.early_check_in_approved_by_name = (
                 request.early_check_in_approved_by_name
@@ -80,8 +82,16 @@ class ReservationServicer(Reservation.Servicer):
             timezone.utc
         ).isoformat()
 
+    async def mark_rush_room(
+        self,
+        context: WriterContext,
+        request: Reservation.MarkRushRoomRequest,
+    ) -> None:
+        self.state.rush_room_number = request.room_number
+
     async def mark_checked_out(self, context: WriterContext) -> None:
         self.state.status = "checked_out"
 
     async def mark_cancelled(self, context: WriterContext) -> None:
         self.state.status = "cancelled"
+        self.state.rush_room_number = ""

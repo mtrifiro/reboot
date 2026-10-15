@@ -32,6 +32,8 @@ ROLES: dict[str, set[str]] = {
     "CheckInBooking": {"front_desk", "manager"},
     "CheckOutRoom": {"front_desk", "manager"},
     "ApproveEarlyCheckIn": {"manager"},
+    "RushRoom": {"front_desk", "manager"},
+    "CancelRush": {"front_desk", "manager"},
 }
 
 
