@@ -59,22 +59,18 @@ rules, where the plugin has it). For one feature at a time:
 
 1. Propose the design for <app>
 2. Wait for your go-ahead on the design
-3. Set up the project
-4. <feature>: write its rules as scenarios
-5. <feature>: build the domain model
-6. Start the developer dashboard to display the domain model
-7. <feature>: build the actions, their rules and who may do each
-8. <feature>: add demo data
-9. <feature>: run the scenarios
-10. <feature>: check the types
-11. Set up the frontend
-12. <feature>: build its page
-13. <feature>: add a browser scenario for its page
-14. Check the <page> page in a browser
-15. Show <feature> for your review
+3. Scaffold the project
+4. Write the <feature>'s rules as scenarios
+5. Build the <feature>'s domain model
+6. Start the Reboot dashboard to show the domain model
+7. Build the <feature>'s actions, who may do each, and demo data
+8. Prove the <feature>'s rules (scenarios pass, types check)
+9. Build the <feature>'s page, with a browser scenario
+10. Start the app for you to see, and check it in a browser
+11. Your turn: review the <feature>
 
-`<feature>` is the first feature's full name ("Room status floor
-plan"), lowercase inside an item.
+Every item starts with a verb; `<feature>` is the first feature's full
+name ("the room status floor plan"), lowercase inside an item.
 
 **3. Time estimates,** from measured builds, always "about", only in
 the opening's list, never a guess of the build's own: the proposed
