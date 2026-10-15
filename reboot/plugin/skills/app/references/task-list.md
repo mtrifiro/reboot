@@ -37,30 +37,37 @@ The first feature, in the order of the `web-app` Step-by-Step Build
 Flow:
 
 1. Propose the design for <app>
-2. Scaffold the project
-3. Write the <feature>'s rules as scenarios
-4. Build the <feature>'s domain model
-5. Start the Reboot dashboard to show the domain model
-6. Build the <feature>'s actions, who may do each, and demo data
-7. Prove the <feature>'s rules (scenarios pass, types check)
-8. Build the <feature>'s page, with a browser scenario
-9. Start the app for you to see, and check it in a browser
-10. Your turn: review the <feature>
+2. Wait for your go-ahead on the design
+3. Scaffold the project
+4. Write the <feature>'s rules as scenarios
+5. Build the <feature>'s domain model
+6. Start the Reboot dashboard to show the domain model
+7. Your turn: check the domain model on the dashboard
+8. Build the <feature>'s actions, who may do each, and demo data
+9. Prove the <feature>'s rules (scenarios pass, types check)
+10. Build the <feature>'s page, with a browser scenario
+11. Start the app for you to see, and check it in a browser
+12. Your turn: review the <feature>
 
-Item 9 ends with the line linking the app and the dashboard.
+Items 2 and 7 are the `app` skill's two questions before any code
+(`app/references/design-first.md`); a front door's skill used on its
+own, which doesn't ask them, leaves them off. Item 11 ends with the
+line linking the app and the dashboard.
 
 For the hotel's first feature, the list reads:
 
 1. Propose the design for Maison Desk
-2. Scaffold the project
-3. Write the room status floor plan's rules as scenarios
-4. Build the room status floor plan's domain model
-5. Start the Reboot dashboard to show the domain model
-6. Build the room status floor plan's actions, who may do each, and demo data
-7. Prove the room status floor plan's rules (scenarios pass, types check)
-8. Build the room status floor plan's page, with a browser scenario
-9. Start the app for you to see, and check it in a browser
-10. Your turn: review the room status floor plan
+2. Wait for your go-ahead on the design
+3. Scaffold the project
+4. Write the room status floor plan's rules as scenarios
+5. Build the room status floor plan's domain model
+6. Start the Reboot dashboard to show the domain model
+7. Your turn: check the domain model on the dashboard
+8. Build the room status floor plan's actions, who may do each, and demo data
+9. Prove the room status floor plan's rules (scenarios pass, types check)
+10. Build the room status floor plan's page, with a browser scenario
+11. Start the app for you to see, and check it in a browser
+12. Your turn: review the room status floor plan
 
 Each next feature, when the user chooses it (the app keeps running):
 
@@ -103,7 +110,7 @@ feature at a time follows the lists above, with the same two changes.
 
 As one feature at a time (`app/references/backend-only.md`), without
 the page and browser items, with "Start the backend" in place of item
-9, and with "Generate the <platform> client" after the first
+11, and with "Generate the <platform> client" after the first
 feature's proof.
 
 ## A change to a built app
