@@ -750,6 +750,10 @@ a worked set are in
 
 ## Step-by-Step Build Flow
 
+The build's task list, where the agent keeps one, uses the items in
+[`app/references/task-list.md`](../app/references/task-list.md), word
+for word ("The whole app first").
+
 **All commands run from the application directory.**
 
 1. Create `.python-version`, `pyproject.toml`, `.rbtrc`, and
