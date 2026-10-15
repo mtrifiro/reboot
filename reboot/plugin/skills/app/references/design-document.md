@@ -89,9 +89,9 @@ line each, with its link: "`book` is a Transaction ([decided](…))".>
 
 ## Sign-in
 
-<Who signs in, how in development (the development sign-in's accounts,
-and who each one is) and at deploy, and what someone with no role
-sees.>
+<Who signs in, how in development (the development sign-in's five
+built-in accounts, Alice, Ben, Carlos, Dani and Esi, and the role each
+plays) and at deploy, and what someone with no role sees.>
 
 ## Review table
 
