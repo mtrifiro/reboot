@@ -67,7 +67,7 @@ same as one plain line), the build's first question:
 - Title: **Ready to build?**
 - "Build it" (recommended): "The design looks right. Build <the first
   feature> now."
-- "Not yet": "I'll read the design first. Ask me again after."
+- "Not yet": "I want to study the design more. Ask me again later."
 
 A change is typed as the dialog's own free answer, so no option only
 means "change something". Nothing is built before the answer. It
