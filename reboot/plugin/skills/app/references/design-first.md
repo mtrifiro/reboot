@@ -52,19 +52,36 @@ while nothing is built:
   user sees what to change.
 
 Then show the proposed design in the chat as the front door says, and
-say in one line where the document is, as a link.
+say in one line where the document is, as a link: "The full design,
+with every rule for the later features and the choices made for you
+under **Assumed**, is in design/design.md", the path a link to the
+file. In the
+build's voice throughout: "the choices made for you", never "I made"
+or "Should I".
 
 ## 3. One question
 
-End with one plain line, not a dialog: build <the first feature> now,
-or change something first. Nothing is built before the answer.
+End with one dialog (`AskUserQuestion` where available; otherwise the
+same as one plain line), the build's first question:
+
+- Title: **Ready to build?**
+- "Build it" (recommended): "The design looks right. Build <the first
+  feature> now."
+- "Not yet": "I'll read the design first. Ask me again after."
+
+A change is typed as the dialog's own free answer, so no option only
+means "change something". Nothing is built before the answer. It
+comes in addition to the first handoff's review: this one decides the
+design before any code, that one the feature as built.
 
 - **A yes** (or the first feature named): build it by the front
   door's one-feature flow. At the first handoff, `design/design.md`
   becomes the accepted design as `accept-design.md` says, and
   **Assumed** moves into the first decisions entry.
+- **Not yet:** wait; when the user comes back, ask the same dialog
+  again.
 - **A change:** update the document and the design, show what
-  changed, and ask the same line again.
+  changed, and ask the same dialog again.
 - **No answer** is not a yes.
 
 The task list's "Wait for your go-ahead on the design" stays in
@@ -81,6 +98,8 @@ unchanged.
   shell command instead of the file tools.
 - `AskUserQuestion`, or a question in plain text, before the design
   document is written.
+- "I" or "Should I" in the design or its question: the build speaks
+  as the build.
 - An answer taken in step 1 without its line under **Assumed**.
 - Code, `rbt generate` or a project scaffold before the user's answer
   to the one question.
