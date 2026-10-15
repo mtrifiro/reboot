@@ -37,7 +37,7 @@ tool call, with three differences:
   1. Propose the design for <app>
   2. Backend: build the domain model and rules
   3. Frontend: build every page of the design
-  4. Backend: build and prove every feature
+  4. Backend: build every feature and test it against its rules
   5. Your turn: try the app and decide what to do next
 
   For an MCP UI, item 3 is "Frontend: build every UI of the design".

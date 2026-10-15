@@ -109,7 +109,7 @@ time:
 2. Get your go-ahead on the design
 3. Backend: build the <feature>'s domain model and rules
 4. Your turn: check the domain model on the dashboard
-5. Backend: build and prove the <feature>
+5. Backend: build the <feature>'s actions and test them against its rules
 6. Frontend: build the <feature>'s page and check it in a browser
 7. Your turn: try the app and decide what to do next
 

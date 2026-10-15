@@ -30,7 +30,7 @@ nothing beyond what the line says.
 | Building a workflow | Workflows survive a crash: a step that already called a payment or an LLM isn't called again when the work resumes. |
 | Before a deploy | Deploying is `rbt cloud up`: the same app, with nothing to provision. |
 
-## Inside "Build and prove" and the page
+## Inside the Backend and Frontend items
 
 It is the longest item on the list, often ten minutes or more, so it
 never runs silent. As each part inside it starts, one line in the
