@@ -66,7 +66,7 @@ hidden, then where the rest is:
 
 At most five assumptions, the ones that shape the app most (its name,
 counts, hours, roles), in the user's nouns; the path a link to the
-file. In the build's voice throughout, never "I made" or "Should I".
+file.
 
 ## 3. One question
 

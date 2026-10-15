@@ -24,7 +24,7 @@ once builds every feature in the proposed design by the
 
 **1. Say what will be built, ask how, then say what to expect.** The
 first text of the build, before any tool call and before the front
-door's skill, in the user's nouns and in the build's voice, never "I".
+door's skill, in the user's nouns.
 It replaces the decision flow's one sentence. No heading.
 
 - **One paragraph** of at most three sentences, from the prompt alone:
@@ -53,7 +53,7 @@ It replaces the decision flow's one sentence. No heading.
     its rules proven, built without stopping: an hour or more."
 - **What to expect,** after the answer, the list for that path, word
   for word but for the angle brackets: a list, never folded into a
-  paragraph, in the build's voice, never "I'll" or "I'll send".
+  paragraph.
 
 For the hotel (the `>` marks the example here; the build writes plain
 text):
@@ -155,7 +155,7 @@ usual behaviour stands.
 answers a dialog or a question (how to build, the go-ahead, the model
 check, a feature's review, what to build next), the first thing after
 the answer, before any tool call, is one or two sentences in the
-build's voice: what will be done now, in the user's nouns, and when
+plain words: what will be done now, in the user's nouns, and when
 they'll next hear or be asked something, with the time when the
 opening's estimates give one. For the go-ahead on a feature at a
 time:

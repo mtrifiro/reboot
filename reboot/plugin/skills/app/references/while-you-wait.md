@@ -15,7 +15,7 @@ every stage") is not said again here.
 
 The tone is a good release note: plain, specific, true. No exclamation
 marks, no "Did you know", no comparison by name with another product,
-nothing beyond what the line says. In the build's voice.
+nothing beyond what the line says.
 
 | Step | Fact |
 | --- | --- |
