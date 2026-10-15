@@ -115,6 +115,19 @@ From the project root, in its own background shell:
 uv run rbt dashboard
 ```
 
+**In the Claude app** (or any host with a Browser pane, such as the
+app's `preview_start` tool), start it so it opens nothing outside the
+app, and show it in the pane instead (`app` skill, "Open the dashboard
+in the app's Browser pane"):
+
+```sh
+BROWSER=true uv run rbt dashboard
+```
+
+`rbt dashboard` opens its page through Python's `webbrowser`, which
+runs `$BROWSER` when it is set; `true` does nothing and succeeds, so
+no tab opens in the user's own browser.
+
 It takes the API directory from the `generate <dir>` line in
 `.rbtrc` (Step 2), spelled relative to the project root — that is how
 file names are shown in the dashboard.
@@ -132,8 +145,9 @@ the user in one sentence and continue the build without it.
 
 ## Step 5 — Hand over the URL
 
-Do not open the page yourself. `rbt dashboard` opens it in the
-browser once it is serving, unless a tab is already showing it or
+In the Claude app, the pane is where it opens (Step 4); never also
+in the external browser. Elsewhere, do not open the page yourself:
+`rbt dashboard` opens it in the browser once it is serving, unless a tab is already showing it or
 the developer chose "Don't reopen automatically"; opening it as well
 gives the developer two tabs.
 

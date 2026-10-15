@@ -181,7 +181,10 @@ Once the backend logs show it is serving traffic, do two things:
 
 1. **Tell the user the wizard exists and what it's for** — e.g.
    "Setup wizard (connect an MCP client) at http://localhost:9991".
-2. **Open it once in the browser**, best-effort:
+2. **Open it once**: in the Claude app (or any host with a Browser
+   pane), in the pane, with the pane's tool (`preview_start` with its
+   URL), never in the external browser. Elsewhere, in the browser,
+   best-effort:
 
    ```sh
    "$BROWSER" http://localhost:9991 || xdg-open http://localhost:9991 || \
