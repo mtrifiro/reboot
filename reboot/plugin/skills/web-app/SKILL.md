@@ -674,9 +674,7 @@ works as it will in the finished app.
     what it keeps track of, what it does with each rule linked to the
     dashboard's Features page (`dashboard` skill, "Links to an Object
     or a Rule"), how to check it, what's not built yet, and notes.
-    Last, ask in a question dialog
-    (`AskUserQuestion` where available; elsewhere, one plain line as
-    the message's last), as
+    Last, close as
     [`app/references/accept-design.md`](../app/references/accept-design.md)
     says, with no question: it says the <feature> is running for the
     user to try, then one plain closing line names the recommended next
