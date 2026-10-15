@@ -36,6 +36,26 @@ It replaces the decision flow's one sentence. No heading.
   gave none, says so the first time it appears: "Chore Chart (working
   name)". Not one sentence that runs the three together, and not a
   description of the method: that is the next paragraph's job.
+- **A first feature seen from both sides.** When the app has two
+  sides, the people who run the service and the customers who use it
+  (a hotel's staff and its guests, an airline's dispatchers and its
+  passengers, a theater's box office and its patrons, a restaurant
+  and its diners, a clinic and its patients), the first feature is
+  one interaction from both sides: the customer acts on a page of
+  their own, and the staff see it land on theirs, live, held to the
+  same rules. One domain model and one set of rules, with two pages.
+  It is the moment that shows what Reboot does: the page updating on
+  its own, the transaction that keeps the rule, and who may see and
+  do what. The intent's third sentence names both views: "The first
+  feature is booking a seat, from both sides: passengers book on their
+  own page, and dispatchers see each booking land on the flight
+  board, which refuses one past the seats or the weight limit." An
+  app with one side (an internal tool, a family chore chart, a CRM)
+  keeps a one-page first feature. Its handoff's **How to check it**
+  starts with the two pages side by side: "Open the booking page as
+  Carlos and the flight board as Alice, side by side. Book a seat as
+  Carlos and watch it land on the board, with no refresh." In the
+  Claude app, open both in the Browser pane, one tab each.
 - **How Reboot builds,** a second paragraph of its own, the same for
   every app and either path, these words exactly, as plain text like
   the first paragraph (never merged into it, never paraphrased, never
@@ -52,8 +72,9 @@ It replaces the decision flow's one sentence. No heading.
   line), word for word but for the angle brackets:
   - Title: **How should it be built?**
   - "A feature at a time", first, with no "(Recommended)": "<The first feature>, working
-    to try, in about 15 minutes; then each next feature as you choose
-    it, about 15 to 20 minutes each."
+    to try, in about 15 minutes (25 to 30 when it is seen from both
+    sides); then each next feature as you choose it, about 15 to 20
+    minutes each."
   - "The whole app at once": "Every feature in the design, each with
     its rules proven, built without stopping: an hour or more."
 
@@ -127,8 +148,10 @@ name ("the room status floor plan"), lowercase inside an item.
 **3. Time estimates,** from measured builds, always "about", only in
 the opening's dialog and list, never a guess of the build's own: the proposed
 design, a few minutes; the first feature after the go-ahead, about 15
-minutes; each next feature, about 15 to 20 minutes; the whole app at
-once (`one-shot`), an hour or more.
+minutes, or about 25 to 30 for a first feature seen from both sides
+(an estimate from the one-page time, 2026-10-15, until a build
+measures it); each next feature, about 15 to 20 minutes; the whole app
+at once (`one-shot`), an hour or more.
 
 **4. Links at every major turn.** Once the app has started, every
 major turn ends with one line linking both, on the ports they started

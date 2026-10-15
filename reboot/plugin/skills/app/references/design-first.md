@@ -43,7 +43,12 @@ while nothing is built:
 - **Every feature** is in it, under **Proposed features, in build
   order**, with the line "Only the first is built next; the rest, and
   their order, are yours to change at any point.": the first marked
-  and why it comes first, each with its rules in plain words.
+  and why it comes first, each with its rules in plain words. For an
+  app with two sides, the first is one interaction from both sides
+  (`app` skill, step 1), and **Pages** lists both of its pages; **Sign-in**
+  gives the development accounts to both sides, for example Alice and
+  Ben as staff and Carlos as a customer, and the scenarios prove each
+  side sees and does only its own.
 - **No links yet.** Packages, domain objects, methods, features and
   rules are named in code style (`Room`, `Room.check_in`), never as
   dashboard links: nothing exists on the dashboard before it is built,
@@ -147,7 +152,9 @@ result: one line per rule, ✓ with its scenario count, linked to the
 rule on the dashboard's Features page, and the line linking Models ·
 Features · Changelog. Then one dialog:
 
-- Title: **Build the frontend?**
+- Title: **Build the frontend?** (For a first feature seen from both
+  sides, the option names both pages: "The booking page for passengers
+  and the flight board for dispatchers, ...")
 - "Build the frontend" (recommended): "The <feature>'s page, the
   screen <its users> will use, built on the backend you just saw,
   about <n> minutes."
