@@ -241,7 +241,15 @@ session or an earlier one, so stop it instead of starting a second.
 
 ## Step 6 — Hand off
 
-Confirm every process is up from its logs, then give the user:
+As soon as every process is up, during a build too and before any
+check of the page, say one line with both links, on the ports they
+started on:
+
+> App: http://localhost:5173/ · Dashboard: http://127.0.0.1:9871/
+
+(For an MCP UI, the app link is the setup wizard,
+`http://localhost:9991`.) Then confirm every process is up from its
+logs, and give the user:
 
 - the application's own inspect-page URL (and that `rbt inspect`
   inspects the same state from the CLI — see the
