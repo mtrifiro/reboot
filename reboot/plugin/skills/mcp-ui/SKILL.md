@@ -752,7 +752,7 @@ a worked set are in
 
 The build's task list, where the agent keeps one, uses the items in
 [`app/references/task-list.md`](../app/references/task-list.md), word
-for word ("The whole app first").
+for word: the list for the way the user chose to build.
 
 **All commands run from the application directory.**
 
