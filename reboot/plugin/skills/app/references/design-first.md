@@ -126,8 +126,8 @@ the turn with one line linking each domain object on the dashboard
 > [Room](<link>), [Floor](<link>), [Hotel](<link>).
 
 - Title: **Build on this model?**
-- "Build on it" (recommended): "Build its actions, rules and page on
-  this model."
+- "Build on it" (recommended): "Build its actions on this model and
+  test them against its rules."
 - "Not yet": "I want to look at it more. Ask me again later."
 
 When the model differs from the proposed design, one line before the
@@ -139,18 +139,37 @@ dashboard didn't come up, don't ask: say so in one sentence and go on;
 the model is checked at the first handoff. Each next feature doesn't
 ask, and `one-shot` never does.
 
+## 5. The backend, before the page
+
+In every feature built one at a time, once its actions pass every
+scenario (and types check), and before any page, stop and show the
+result: one line per rule, ✓ with its scenario count, linked to the
+rule on the dashboard's Features page, and the line linking Models ·
+Features · Changelog. Then one dialog:
+
+- Title: **Build the page?**
+- "Build the page" (recommended): "The <feature>'s page, on the
+  backend you just saw, about <n> minutes."
+- "Not yet": "I want to look at the backend first."
+
+The backend is the half the rules live in, so the user sees it work,
+on the dashboard, before any time goes into the page. A change typed
+as the free answer goes back to the rules or the actions, which are
+tested again, and the same dialog follows. "Not yet" does nothing
+more: one line says the dashboard stays up and what to say to go on.
+The task list's "Your turn: build the page?" stays in progress until
+the answer. A backend only (no front door) and `one-shot` skip it.
+
 From the first feature on, the build follows the front door
-unchanged, but for this one question.
+unchanged, but for these questions.
 
 ## Never
 
 - Reading a reference, or listing the folder, before the paragraph
   that says what will be built; reading this plugin's files with a
   shell command instead of the file tools.
-- `AskUserQuestion`, or a question in plain text, before the design
-  document is written.
-- "I" or "Should I" in the design or its question: the build speaks
-  as the build.
+- A question before the design document is written, other than the
+  opening's "How should it be built?".
 - An answer taken in step 1 without its line under **Assumed**.
 - Code, `rbt generate` or a project scaffold before the user's answer
   to the one question.

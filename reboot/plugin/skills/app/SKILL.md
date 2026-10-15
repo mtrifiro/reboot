@@ -86,8 +86,9 @@ Then the dialog. On **a feature at a time**:
 >   written as scenarios and its domain model built. Then the Reboot
 >   dashboard's link, to check the model before the rest is built on
 >   it.
-> - The floor plan, working, in about 15 minutes, with its rules
->   proven by scenarios, for you to try.
+> - The floor plan's backend, its actions tested against every rule,
+>   for you to check on the dashboard; then its page once you say so.
+>   About 15 minutes in all, for you to try.
 > - Then each next feature, as you choose it, about 15 to 20 minutes.
 
 On **the whole app at once**:
@@ -110,8 +111,9 @@ time:
 3. Backend: build the <feature>'s domain model and rules
 4. Your turn: check the domain model on the dashboard
 5. Backend: build the <feature>'s actions and test them against its rules
-6. Frontend: build the <feature>'s page and check it in a browser
-7. Your turn: try the app and decide what to do next
+6. Your turn: check the backend, then say to build the page
+7. Frontend: build the <feature>'s page and check it in a browser
+8. Your turn: try the app and decide what to do next
 
 Every item starts with a verb; `<feature>` is the first feature's full
 name ("the room status floor plan"), lowercase inside an item.
@@ -189,7 +191,7 @@ recap, one question, reply buttons), and that box also checks off the
 whole task list. So:
 
 - **Questions inside the build** (how to build, Ready to build?, Build
-  on this model?) are dialogs (`AskUserQuestion`) asked while the
+  on this model?, Build the page?) are dialogs (`AskUserQuestion`) asked while the
   turn goes on, never the box: the box would tick every item on the
   list before anything is built, and the list would then have to be
   made again.
