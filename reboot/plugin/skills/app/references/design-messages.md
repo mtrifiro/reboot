@@ -19,9 +19,9 @@ About 600 words. The example is a hotel; keep the shape, not the
 nouns.
 
 ```markdown
-## The proposed design
+## <App name>: the proposed design
 
-**Brief.** <Who uses it and on what screen.> <Their main job, as a
+**Brief.** <Who uses <app name> and on what screen.> <Their main job, as a
 cycle or flow when there is one: *occupied → dirty → cleaned →
 inspected → occupied*.> The main page answers one question: **<the
 question>** The name is **<name>** and the accent is **<accent>**
