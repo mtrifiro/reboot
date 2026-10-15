@@ -56,7 +56,9 @@ It replaces the decision flow's one sentence. No heading.
     it, about 15 to 20 minutes each."
   - "The whole app at once": "Every feature in the design, each with
     its rules proven, built without stopping: an hour or more."
-- **What to expect,** after the answer, the list for that path, word
+- **What to expect,** right after the answer and before any other
+  tool call (research, reading references, writing files), the list
+  for that path, word
   for word but for the angle brackets: a list, never folded into a
   paragraph.
 
@@ -147,8 +149,11 @@ model check, each review). The dashboard is already running, so
 attach to it: a configuration in `.claude/launch.json` named
 `dashboard` with only `"url": "http://127.0.0.1:<port>"`, the port it
 started on, and no command (the origin only, no path); start it by
-name, then navigate to the page the turn links (the domain model, a
-feature's rules). The link line stays as well, for a host without a
+name, then navigate to the page the turn is about, as a whole: the
+model check opens `#/models` with no object selected (no `?type=`), so
+the user sees every object and how they connect and opens one by
+clicking it; the backend check opens `#/features`. A single object's
+or rule's link is for the chat's own links, never the pane. The link line stays as well, for a host without a
 pane and for later. Never start a second dashboard for the pane.
 
 **The app, the same way.** When the app first runs for the user to
@@ -175,6 +180,16 @@ time:
 
 Never a silent start after an answer, and never only a task list
 update.
+
+**Looking things up.** When the prompt asks for research (a real
+company, a place, a regulation), say what is being looked up in one
+line before the first search ("Looking up Kenmore Air's fleet, bases
+and routes."), and after it, one line on what was found that the
+design uses. When the research corrects the prompt (a name spelled
+differently, a fact the prompt got wrong), say so in one line before
+the design, and keep the user's own spelling nowhere it was wrong:
+"Kenwood Air appears to be Kenmore Air, the floatplane airline out of
+Lake Union; the design uses that name, easy to change."
 
 **Backend and frontend, named apart.** Every message about building
 says which half it is about: the backend (the domain model, the
