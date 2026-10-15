@@ -199,10 +199,15 @@ clicking it; the backend check opens `#/features`. A single object's
 or rule's link is for the chat's own links, never the pane. The link line stays as well, for a host without a
 pane and for later. Never start a second dashboard for the pane.
 
-**The app, the same way.** When the app first runs for the user to
-try, and at each review, open it in the pane too (a `launch.json`
-configuration named `app` with only its URL, e.g.
-`"url": "http://localhost:5173"`, started by name). In the Claude app
+**The app, once it is ready to try.** The pane is for the user, not
+for the build's own testing: the build tests the app in a headless
+browser (the browser scenarios, and the checks in
+`web-app/references/ui-design.md`, run with Playwright), never in the
+pane, so no card for an app still being tested appears in the chat.
+The app opens in the pane once, at the handoff's **Your turn**, ready
+to try (a `launch.json` configuration named `app` with only its URL,
+e.g. `"url": "http://localhost:5173"`, started by name), and for a
+feature seen from both sides, in two tabs, one per side. In the Claude app
 nothing opens in the user's external browser: not the app, not the
 dashboard (`dashboard` skill, Step 4, starts it with `BROWSER=true`),
 not an MCP UI's setup wizard. Outside the Claude app, the skills'
