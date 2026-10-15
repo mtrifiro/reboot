@@ -104,7 +104,35 @@ page `<title>` to the product name.
 screenshots and open either scheme
 ([`testing-web-app.md`](../../python/references/testing-web-app.md)).
 
+**Measure what can be measured.** A screenshot looked at quickly lets
+uneven layouts through; a check that returns pass or fail doesn't. In
+the browser check (step 10), at desktop and at phone width, run each
+of these in the page and fix whatever it reports before the handoff:
+
+```js
+// A board's columns and headers line up.
+const cols = [...document.querySelectorAll(".board-col")];
+const even = (els) => new Set(els.map((e) => Math.round(e.getBoundingClientRect().height))).size <= 1;
+const heads = cols.map((c) => c.querySelector(".board-col-head")).filter(Boolean);
+// Nothing spills out of its container, and no text is cut off.
+const spill = [...document.querySelectorAll("main *")].filter((e) => {
+  const r = e.getBoundingClientRect(), p = e.parentElement?.getBoundingClientRect();
+  return p && r.width > 0 && (r.right > p.right + 1 || r.left < p.left - 1) &&
+    getComputedStyle(e.parentElement).overflowX === "visible";
+}).map((e) => e.className || e.tagName).slice(0, 5);
+const clipped = [...document.querySelectorAll("main *")].filter((e) =>
+  e.scrollWidth > e.clientWidth + 1 && getComputedStyle(e).overflow === "hidden" &&
+  getComputedStyle(e).textOverflow !== "ellipsis").map((e) => e.className || e.tagName).slice(0, 5);
+({ columnsEven: even(cols), headersEven: even(heads), spill, clipped });
+```
+
+`columnsEven` and `headersEven` must be true (or there is no board);
+`spill` and `clipped` must be empty, each naming what to fix.
+
 Never: browser default styling (an unstyled `<button>`, `<select>` or
 `<input>`), `alert()`, `confirm()` or `prompt()` (they block the
-scenarios too), a page broken at phone width or in either scheme, or a
-placeholder as a control's only label.
+scenarios too), a page broken at phone width or in either scheme, a
+placeholder as a control's only label, or a layout that doesn't line
+up: the columns of a board, and the rows and cells of a grid or floor
+plan, are each the same height, headers too, and a card or cell is
+only as tall as its contents, never stretched to fill spare space.
