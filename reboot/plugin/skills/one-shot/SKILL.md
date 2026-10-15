@@ -20,9 +20,15 @@ The `app` skill's "First, Before Reading Anything" applies, before any
 tool call, with three differences:
 
 - **The paragraph** describes the complete app: who uses it, its
-  features in one sentence, and which front door, ending word for
-  word "The proposed design comes next, in `design/design.md`, and the
-  build goes straight on; nothing to answer until it's done."
+  features in one sentence, and which front door. **What to expect**
+  is three lines:
+
+  > What to expect:
+  > - The proposed design, in a few minutes, in `design/design.md`.
+  > - Then the whole app, every feature with its rules proven by
+  >   scenarios, in an hour or more, without stopping.
+  > - Nothing to answer until it's done; then one question: accept it
+  >   as built, or change something.
 - **The task list** has the whole-app items, with no go-ahead:
 
   1. Propose the design for <app>

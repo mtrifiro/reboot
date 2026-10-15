@@ -22,21 +22,32 @@ at once, with every feature, the user asks for the
 
 ## First, Before Reading Anything
 
-**1. Say what will be built.** The first text of the build, before
-any tool call and before the front door's skill: one paragraph of at
-most four sentences, from the prompt alone, in the user's nouns and in
-the build's voice, never "I": what the app is and who uses it, what it
-will keep track of, the first feature it will build, and which front
-door, ending word for word "The proposed design comes next, in
-`design/design.md`; nothing to answer yet." It replaces the decision
-flow's one sentence. No heading, no list, no question. For the hotel:
+**1. Say what will be built, and what to expect.** The first text of
+the build, before any tool call and before the front door's skill, in
+the user's nouns and in the build's voice, never "I". It replaces the
+decision flow's one sentence. No heading and no question.
+
+- **One paragraph** of at most three sentences, from the prompt alone:
+  what the app is and who uses it, what it will keep track of, the
+  first feature it will build, and which front door.
+- **What to expect,** a list of four lines, word for word but for the
+  angle brackets, with the time estimates below:
+
+For the hotel:
 
 > Maison Desk will run a 56-room boutique hotel for its staff: the
 > rooms and their status, the guests' stays, and who on the staff may
 > do what. The first feature is a floor plan of every room, where a
-> room can't be checked into until it's clean. It's a web app, with
-> the backend ready for an MCP UI too. The proposed design comes next, in
-> `design/design.md`; nothing to answer yet.
+> room can't be checked into until it's clean, in a web app with the
+> backend ready for an MCP UI too.
+>
+> What to expect:
+> - The proposed design, in a few minutes, in `design/design.md`.
+>   Nothing to answer until then.
+> - One question: build the floor plan, or change something first.
+> - The floor plan, working, in about 15 minutes, with its rules
+>   proven by scenarios, for you to try.
+> - Then each next feature, about 15 to 20 minutes, as you choose it.
 
 **2. Make the task list,** where the agent keeps one, with every item
 now, filled in from the paragraph (`references/task-list.md` has the
@@ -61,7 +72,13 @@ rules, where the plugin has it). For one feature at a time:
 `<feature>` is the first feature's full name ("Room status floor
 plan"), lowercase inside an item.
 
-**3. Read with the file tools.** This plugin's skills and references
+**3. Time estimates,** from measured builds, always "about", only in
+the opening's list, never a guess of the build's own: the proposed
+design, a few minutes; the first feature after the go-ahead, about 15
+minutes; each next feature, about 15 to 20 minutes; the whole app at
+once (`one-shot`), an hour or more.
+
+**4. Read with the file tools.** This plugin's skills and references
 are read with the Read, Grep and Glob tools, never `cat`, `grep`,
 `ls` or `cd` in a shell: a host's auto mode can block a shell command
 in the plugin's install folder, and after a few blocks it asks the
