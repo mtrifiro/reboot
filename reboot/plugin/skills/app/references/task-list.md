@@ -25,8 +25,8 @@ fails stays in progress, never done.
 
 **Short, and the user's turn last.** The list says where the build
 is and where the user comes in, not every step inside it: scaffolding,
-scenarios, proof, pages and the browser check all sit inside "Build and
-prove". Every item stays on the list, in order: none is dropped. Before
+scenarios, tests, pages and the browser check all sit inside the
+Backend and Frontend items. Every item stays on the list, in order: none is dropped. Before
 the handoff's question, every item above "Your turn: try the app and
 decide what to do next" is done (a step that couldn't be is named in the handoff's
 **Notes**), and that item is in progress while the user answers: it is
@@ -42,7 +42,7 @@ Flow:
 2. Get your go-ahead on the design
 3. Backend: build the <feature>'s domain model and rules
 4. Your turn: check the domain model on the dashboard
-5. Backend: build and prove the <feature>
+5. Backend: build the <feature>'s actions and test them against its rules
 6. Frontend: build the <feature>'s page and check it in a browser
 7. Your turn: try the app and decide what to do next
 
@@ -63,7 +63,7 @@ For the hotel's first feature, the list reads:
 2. Get your go-ahead on the design
 3. Backend: build the room status floor plan's domain model and rules
 4. Your turn: check the domain model on the dashboard
-5. Backend: build and prove the room status floor plan
+5. Backend: build the room status floor plan's actions and test them against its rules
 6. Frontend: build the room status floor plan's page and check it in a browser
 7. Your turn: try the app and decide what to do next
 
@@ -71,7 +71,7 @@ Each next feature, when the user chooses it (the app keeps running):
 
 1. Show what the <feature> adds to the design
 2. Backend: add the <feature>'s domain model and rules
-3. Backend: build and prove the <feature>
+3. Backend: build the <feature>'s actions and test them against its rules
 4. Frontend: build the <feature>'s page and check it in a browser
 5. Your turn: try the app and decide what to do next
 
@@ -84,7 +84,7 @@ built whole (`mcp-ui`, Step-by-Step Build Flow):
 2. Get your go-ahead on the design
 3. Backend: build the domain model and rules
 4. Frontend: build every page of the design
-5. Backend: build and prove every feature
+5. Backend: build every feature and test it against its rules
 6. Your turn: try the app and decide what to do next
 
 Item 2 is left off where no go-ahead is asked (`one-shot`). Item 3
@@ -97,8 +97,8 @@ design".
 ## A backend only
 
 As one feature at a time (`app/references/backend-only.md`), without
-the Frontend item, with item 5 "Backend: build and prove the
-<feature>, with the backend running", the last item "Your turn: decide
+the Frontend item, with item 5 "Backend: build the <feature>'s
+actions and test them against its rules, with the backend running", the last item "Your turn: decide
 what to do next" (no app to try), and "Generate the <platform> client"
 after the first feature's proof.
 
@@ -108,7 +108,7 @@ after the first feature's proof.
 check-in").
 
 1. Show what <change> changes in the design (only when it does)
-2. Make and prove <change>
+2. Make <change> and test it against the rules
 3. Your turn: try the app and decide what to do next
 
 ## Never
