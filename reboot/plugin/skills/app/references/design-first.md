@@ -127,10 +127,18 @@ dashboard links (the rest stay plain until built), then end
 the turn with one line linking each domain object on the dashboard
 (`dashboard` skill, "Links to an Object or a Rule"), then one dialog:
 
-> The room status floor plan's domain model is open on the dashboard:
-> the things the app keeps track of ([Room](<link>), [Floor](<link>),
-> [Hotel](<link>)) and what each one holds. Everything else is built
-> on top of it, so this is the cheapest moment to change it.
+> The room status floor plan's domain model is open on the dashboard
+> (on 9874, since other projects hold 9871 to 9873): the things the
+> app keeps track of ([Room](<link>), [Floor](<link>), [Hotel](<link>))
+> and what each one holds. Everything else is built on top of it, so
+> this is the cheapest moment to change it.
+>
+> Dashboard: [Models](<link>) · [Features](<link>) · [Changelog](<link>)
+
+This is the dashboard's whole hand-over at this point: the lead line,
+naming the port only when it isn't 9871, then the Models · Features ·
+Changelog line. No separate "the developer dashboard is at …" line
+before it, and no second list of the same objects.
 
 - Title: **Does this look right?**
 - "Looks right, keep going" (recommended): "Build the <feature>'s
