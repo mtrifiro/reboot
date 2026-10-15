@@ -127,13 +127,18 @@ dashboard links (the rest stay plain until built), then end
 the turn with one line linking each domain object on the dashboard
 (`dashboard` skill, "Links to an Object or a Rule"), then one dialog:
 
-> The room status floor plan's domain model is on the dashboard:
-> [Room](<link>), [Floor](<link>), [Hotel](<link>).
+> The room status floor plan's domain model is open on the dashboard:
+> the things the app keeps track of ([Room](<link>), [Floor](<link>),
+> [Hotel](<link>)) and what each one holds. Everything else is built
+> on top of it, so this is the cheapest moment to change it.
 
-- Title: **Build on this model?**
-- "Build on it" (recommended): "Build its actions on this model and
-  test them against its rules."
-- "Not yet": "I want to look at it more. Ask me again later."
+- Title: **Does this look right?**
+- "Looks right, keep going" (recommended): "Build the <feature>'s
+  actions on it and test them against its rules."
+- "Not yet": "I want to look at it more."
+
+A change goes in the free answer ("a booking should also hold the
+guest's room").
 
 When the model differs from the proposed design, one line before the
 dialog says how, in the user's nouns. A change is typed as the
