@@ -10,6 +10,16 @@ allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 Decide which front door to build first and defer to the matching
 skill. The backend is always ready for both.
 
+**A new app asks nothing until its design document is written.** It
+is built one feature at a time, without asking how: say what will be
+built in one paragraph, take the recommended answer to every scope
+question, write the whole proposed design to `design/design.md`, then
+ask one thing, build the first feature or change something first, as
+[`references/design-first.md`](references/design-first.md) says. It
+overrides the front door's round of scope questions. For the whole app
+at once, with every feature, the user asks for the
+[`one-shot` skill](../one-shot/SKILL.md) by name.
+
 ## Routing
 
 Every app gets a backend **ready for both front doors**: a `User`
