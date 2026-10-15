@@ -60,7 +60,9 @@ change at any point.
   click opens>. <The one reader that feeds it.>
 
 **Sign-in.** <Who signs in, how in development and at deploy, and
-what an anonymous visitor sees.>
+what an anonymous visitor sees.> <In development, the picker's five
+accounts and the role each plays: "Alice is the founder, Ben the CTO,
+…".>
 
 Building <first feature> now.
 ```
@@ -122,6 +124,11 @@ accept this and build the next part (named, with why), another, or
 change something first.
 The full review table goes to `design/design.md`, not into this
 message.
+
+The development sign-in's five accounts are built into Reboot and
+always the same: Alice, Ben, Carlos, Dani and Esi
+(`python/references/auth-claims.md`). The design gives each a role
+from the app's own; it never names accounts the picker doesn't show.
 
 ## Never
 
