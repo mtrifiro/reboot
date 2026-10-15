@@ -125,6 +125,17 @@ handoff (in its **In short**), each feature finished, each change
 made, and the build's last message. Before the app runs, the line has
 the dashboard alone, once it is up.
 
+**Open the dashboard in the app's Browser pane** where the host has
+one (the Claude app's `preview_start`), the first time it is up and
+whenever the build links into it at a turn the user acts on (the
+model check, each review). The dashboard is already running, so
+attach to it: a configuration in `.claude/launch.json` named
+`dashboard` with only `"url": "http://127.0.0.1:<port>"`, the port it
+started on, and no command (the origin only, no path); start it by
+name, then navigate to the page the turn links (the domain model, a
+feature's rules). The link line stays as well, for a host without a
+pane and for later. Never start a second dashboard for the pane.
+
 **5. After every answer, say what comes next.** Whenever the user
 answers a dialog or a question (how to build, the go-ahead, the model
 check, a feature's review, what to build next), the first thing after
