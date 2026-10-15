@@ -172,14 +172,24 @@ const REBOOT_URL =
   window.location.origin;
 
 createRoot(document.getElementById("root")!).render(
-  <RebootClientProvider url={REBOOT_URL}>
-    <App />
-  </RebootClientProvider>
+  <BackendCheck url={REBOOT_URL}>
+    <RebootClientProvider url={REBOOT_URL}>
+      <App />
+    </RebootClientProvider>
+  </BackendCheck>
 );
 ```
 
 The `?? window.location.origin` keeps the production build working
 when the backend serves the built assets from one origin.
+
+`BackendCheck` (`import { BackendCheck } from "./backend-check"`,
+copied from the skill's `assets/` with the stylesheet) shows a page
+saying the app's backend isn't running, and how to start it, while
+`REBOOT_URL` doesn't answer, instead of a blank page or a failed call
+per hook; it checks every few seconds and shows the app as soon as the
+backend answers, with no reload. A web app scenario starts the backend
+first, so it never sees the page.
 
 ## The Generated Client
 
