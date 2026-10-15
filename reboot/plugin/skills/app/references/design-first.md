@@ -38,15 +38,18 @@ whole proposed design to `design/design.md`, in the shape of
 [`design-document.md`](design-document.md), with these differences
 while nothing is built:
 
-- **Status:** "proposed on <date>; nothing is built yet. The links
-  open on the developer dashboard once the first feature runs."
+- **Status:** "proposed on <date>; nothing is built yet. Names become
+  links to the developer dashboard once it shows them."
 - **Every feature** is in it, under **Proposed features, in build
   order**, with the line "Only the first is built next; the rest, and
   their order, are yours to change at any point.": the first marked
-  and why it comes first, each with its rules in plain words. The links are
-  written now, from the package, type and method names and the
-  feature files to come; `scripts/design_links.py` checks them after
-  the first feature is built.
+  and why it comes first, each with its rules in plain words.
+- **No links yet.** Packages, domain objects, methods, features and
+  rules are named in code style (`Room`, `Room.check_in`), never as
+  dashboard links: nothing exists on the dashboard before it is built,
+  and a link to nothing reads as broken. The links are added once the
+  dashboard shows the domain model (the first feature's "Build on this
+  model?"), and `scripts/design_links.py` checks them from then on.
 - **No review table** and **no Decisions** section yet: both come at
   the first acceptance.
 - **Assumed**, a section after **Sign-in**: every answer taken in
@@ -96,17 +99,24 @@ before any code, that one the feature as built.
   it by the front door's one-feature flow. At the first handoff,
   `design/design.md` becomes the accepted design as `accept-design.md`
   says, and **Assumed** moves into the first decisions entry.
-- **Read the design in full:** turn `design/design.md` into one
+- **Read the design in full:** first say so in one line, before any
+  tool call: "Making the design into a page for your browser; it opens
+  in a moment." Then turn `design/design.md` into one
   readable page, `design/design.html`, and open it in the user's
   browser (`open` on macOS, `xdg-open` on Linux, `start` on Windows),
   then give its path on a line of its own and ask the same dialog
   again, without "Read the design in full" this time. The page is
   self-contained and made for reading, not a dump of the Markdown: the
   app's name as its title, a short contents list from the headings,
-  the text at a comfortable width, tables as tables, and every
-  dashboard link kept as a link. Style it with the web app's house
-  stylesheet (`web-app/assets/styles.css`, inlined) where the plugin
-  has it. It is regenerated from `design/design.md` whenever the user
+  the text at a comfortable width, and tables as plain tables. Its own
+  short stylesheet, inline: a system font, the text about 70
+  characters wide, table cells with padding and a rule between rows,
+  headers in the table's first row. Never the web app's stylesheet,
+  whose sticky headers and app layout break a document. Before the
+  app is built nothing in the design exists on the dashboard yet, so
+  every dashboard link becomes plain text (names in code style), never
+  a link that leads nowhere; once the dashboard shows the model, a
+  regenerated page keeps them as links. It is regenerated from `design/design.md` whenever the user
   asks for it again; `design/design.md` stays the design, and the page
   is never edited by hand.
 - **Not yet:** wait; when the user comes back, ask the same dialog
@@ -122,7 +132,9 @@ leaves it in progress while the design is updated.
 ## 4. The domain model, once
 
 In the first feature only, once the front door has started the
-dashboard on the new domain model, and before any servicer code, end
+dashboard on the new domain model, and before any servicer code, turn
+the code-style names in `design/design.md` that now exist into
+dashboard links (the rest stay plain until built), then end
 the turn with one line linking each domain object on the dashboard
 (`dashboard` skill, "Links to an Object or a Rule"), then one dialog:
 
