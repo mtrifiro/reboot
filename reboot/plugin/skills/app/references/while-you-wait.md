@@ -44,7 +44,10 @@ progress, and a fact from the table above goes with the part it fits:
 3. Demo data: "Backend: adding demo data: 56 rooms across seven floors, a few
    in each state, so the floor plan has something to show."
 4. The proof: "Backend: running the floor plan's 9 scenarios." Then, as they
-   pass, the count ("6 of 9 pass; the rest are the check-in rules").
+   pass, the count ("6 of 9 pass; the rest are the check-in rules"),
+   read from `tests/.progress.jsonl` while the run goes on in the
+   background (`feature` skill, "Report a full run as it goes"), never
+   only at the end.
    A failure is said as which rule isn't kept yet, never its stack
    trace, and the fix in one sentence.
 5. The page, under its own Frontend item: "Frontend: building the floor plan page."
