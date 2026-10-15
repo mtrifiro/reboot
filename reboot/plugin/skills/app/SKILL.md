@@ -32,14 +32,13 @@ It replaces the decision flow's one sentence. No heading.
   first feature it will build, and which front door. A name the build
   picked, because the prompt gave none, says so the first time it
   appears: "Partner Loop (working name)".
-- **How Reboot builds,** a second paragraph, word for word, the same
-  for either path:
-
-  > Reboot builds an app from its design: the domain objects it keeps
-  > and the rules they follow, each rule written as a scenario that
-  > proves it. It can build a feature at a time, each one working for
-  > you to try before the next, or the whole app at once, without
-  > stopping.
+- **How Reboot builds,** a second paragraph, the same for either path,
+  these words as plain text like the first paragraph (never a quote
+  block, never broken across lines): "Reboot builds an app from its
+  domain model, the objects it keeps and the rules they follow, each
+  rule written as a scenario that proves it. It can build a feature at
+  a time, each one working for you to try before the next, or the
+  whole app at once, without stopping."
 
 - **Then one dialog,** only once the two paragraphs are out as text of
   their own: the user reads the intent and how it's built first, then answers. Never the
@@ -55,7 +54,8 @@ It replaces the decision flow's one sentence. No heading.
 - **What to expect,** after the answer, the list for that path, word
   for word but for the angle brackets.
 
-For the hotel:
+For the hotel (the `>` marks the example here; the build writes plain
+text):
 
 > Maison Desk (working name) will run a 56-room boutique hotel for its staff: the
 > rooms and their status, the guests' stays, and who on the staff may
@@ -63,7 +63,7 @@ For the hotel:
 > room can't be checked into until it's clean, in a web app with the
 > backend ready for an MCP UI too.
 >
-> Reboot builds an app from its design: the domain objects it keeps
+> Reboot builds an app from its domain model, the objects it keeps
 > and the rules they follow, each rule written as a scenario that
 > proves it. It can build a feature at a time, each one working for
 > you to try before the next, or the whole app at once, without
