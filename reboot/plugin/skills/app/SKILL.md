@@ -109,13 +109,14 @@ Then the dialog. On **a feature at a time**:
 > What to expect:
 > - The proposed design, in a few minutes. Nothing to answer until
 >   then.
-> - After your go-ahead, the project is set up, the floor plan's rules
->   written as scenarios and its domain model built. Then the Reboot
->   dashboard's link, to check the model before the rest is built on
->   it.
-> - The floor plan's backend, its actions tested against every rule,
->   for you to check on the dashboard; then its page once you say so.
->   About 15 minutes in all, for you to try.
+> - Each feature in two parts: first its backend, tested against its
+>   rules, then its frontend, tested in a browser.
+> - After your go-ahead, the floor plan's backend: its rules written as
+>   scenarios and its domain model built, with the Reboot dashboard's
+>   link to check the model; then its actions, tested against every
+>   rule, for you to check.
+> - Once you say so, its frontend: the floor plan page, tested in a
+>   browser. About 15 minutes in all, for you to try.
 > - Then each next feature, as you choose it, about 15 to 20 minutes.
 
 On **the whole app at once**:
@@ -123,24 +124,34 @@ On **the whole app at once**:
 > What to expect:
 > - The proposed design, in a few minutes. Nothing to answer until
 >   then.
-> - After your go-ahead, every feature in it, each with its rules
->   proven, built without stopping: an hour or more. The app is running
->   to try partway through; nothing to answer until it's done, then one
->   review of the whole app.
+> - After your go-ahead, in two parts without stopping: the whole
+>   backend, every feature tested against its rules, then the whole
+>   frontend, every page tested in a browser. An hour or more; nothing
+>   to answer until it's done, then the whole app to try.
 
 **2. Make the task list,** where the agent keeps one, with every item
 now, filled in from the paragraph (`references/task-list.md` has the
-rules, where the plugin has it), after the answer. For one feature at a
-time:
+rules, where the plugin has it), after the answer. A build is in two
+parts and the list shows one part at a time: the backend list, then,
+once the user says to build the frontend, the frontend list in its
+place. For one feature at a time, the backend:
 
 1. Propose the design for <app>
 2. Get your go-ahead on the design
-3. Backend: build the <feature>'s domain model and rules
+3. Build the <feature>'s domain model and rules
 4. Your turn: check the domain model on the dashboard
-5. Backend: build the <feature>'s actions and test them against its rules
+5. Build the <feature>'s actions and test them against its rules
 6. Your turn: check the backend, then say to build the frontend
-7. Frontend: build the <feature>'s page and check it in a browser
-8. Your turn: try the app and decide what to do next
+
+and the frontend:
+
+1. Build the <feature>'s page
+2. Test it in a browser
+3. Your turn: try the app and decide what to do next
+
+Each part reads only its own references: the backend part the Python
+ones, the frontend part the React, stylesheet and browser-testing ones,
+read when it starts.
 
 Every item starts with a verb; `<feature>` is the first feature's full
 name ("the room status floor plan"), lowercase inside an item.
@@ -220,12 +231,12 @@ Lake Union; the design uses that name, easy to change."
 
 **Backend and frontend, named apart.** Every message about building
 says which half it is about: the backend (the domain model, the
-rules, the actions, who may do each, the proof) or the frontend (the
-page and the browser check). The task list's items open with
-"Backend:" or "Frontend:", and the messages under them follow suit
-("Backend: running the floor plan's 9 scenarios." "Frontend: building
-the floor plan page."), so the user always knows which half is being
-worked on and which is done.
+rules, the actions, who may do each, the tests) or the frontend (the
+page and the browser tests). The task list shows one part at a time,
+and the messages open with "Backend:" or "Frontend:" ("Backend:
+running the floor plan's 9 scenarios." "Frontend: building the floor
+plan page."), so the user always knows which half is being worked on
+and which is done.
 
 **Each question asked once, in the right place.** The Claude app
 ends a working turn with a next-step box of its own (`wrap_up`: a

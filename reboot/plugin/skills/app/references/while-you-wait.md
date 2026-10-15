@@ -50,7 +50,7 @@ progress, and a fact from the table above goes with the part it fits:
    only at the end.
    A failure is said as which rule isn't kept yet, never its stack
    trace, and the fix in one sentence.
-5. The page, under its own Frontend item: "Frontend: building the floor plan page."
+5. The page, in the frontend list: "Frontend: building the floor plan page."
 6. The browser check: "Frontend: checking the page in a browser, as a person
    would use it."
 

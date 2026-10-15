@@ -34,13 +34,20 @@ tool call, with three differences:
   >   as built, or change something.
 - **The task list** has the whole-app items, with no go-ahead:
 
-  1. Propose the design for <app>
-  2. Backend: build the domain model and rules
-  3. Frontend: build every page of the design
-  4. Backend: build every feature and test it against its rules
-  5. Your turn: try the app and decide what to do next
+  the backend:
 
-  For an MCP UI, item 3 is "Frontend: build every UI of the design".
+  1. Propose the design for <app>
+  2. Build the domain model and rules
+  3. Build every feature's actions and test them against its rules
+
+  then, with no stop, the frontend in its place:
+
+  1. Build every page of the design
+  2. Test them in a browser
+  3. Your turn: try the app and decide what to do next
+
+  For an MCP UI, the frontend's item 1 is "Build every UI of the
+  design" and item 2 "Test them in their AI client".
 
 ## 1. Ambitious scope
 
