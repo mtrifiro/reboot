@@ -25,90 +25,108 @@ fails stays in progress, never done.
 
 **Short, and the user's turn last.** The list says where the build
 is and where the user comes in, not every step inside it: scaffolding,
-scenarios, tests, pages and the browser check all sit inside the
-Backend and Frontend items. Every item stays on the list, in order: none is dropped. Before
+scenarios, tests, pages and the browser checks all sit inside the
+items of the two parts below. Every item stays on the list, in order: none is dropped. Before
 the handoff's question, every item above "Your turn: try the app and
 decide what to do next" is done (a step that couldn't be is named in the handoff's
 **Notes**), and that item is in progress while the user answers: it is
 what tells the user the build is waiting for them. The question never
 comes while an earlier item is still in progress.
 
+## Two parts, two lists
+
+Every build is in two parts, and the task list shows one part at a
+time: **the backend**, built and tested against its rules, then **the
+frontend**, built and tested in a browser. When the user says to
+build the frontend, the backend list is done and replaced by the
+frontend list. Each part reads only its own references: the backend
+part the Python ones, the frontend part the React, stylesheet and
+browser-testing ones.
+
 ## One feature at a time
 
-The first feature, in the order of the `web-app` Step-by-Step Build
-Flow:
+The first feature's backend:
 
 1. Propose the design for <app>
 2. Get your go-ahead on the design
-3. Backend: build the <feature>'s domain model and rules
+3. Build the <feature>'s domain model and rules
 4. Your turn: check the domain model on the dashboard
-5. Backend: build the <feature>'s actions and test them against its rules
+5. Build the <feature>'s actions and test them against its rules
 6. Your turn: check the backend, then say to build the frontend
-7. Frontend: build the <feature>'s page and check it in a browser
-8. Your turn: try the app and decide what to do next
 
 Item 3 covers the scaffold, the rules as scenarios, the domain model
 and starting the dashboard. Item 5 covers the actions, who may do
-each, demo data and the tests (scenarios pass, types check). Item 7
-covers the page, its browser scenario and starting the app; it ends
-with the line linking the app and the dashboard. "Backend:" and
-"Frontend:" open the items that build one or the other, so the user
-always knows which half is being worked on. Items 2 and 4 are the `app` skill's
-two questions before any code, and item 6 its question before any page
+each, demo data and the tests (scenarios pass, types check). Items 2,
+4 and 6 are the `app` skill's questions
 (`app/references/design-first.md`); a front door's skill used on its
 own, which doesn't ask them, leaves them off.
 
-A first feature seen from both sides (`app` skill, step 1) names
-both pages in item 7: "Frontend: build the <feature>'s two pages,
-<the customers'> and <the staff's>, and check them side by side in a
-browser".
+Its frontend, once the user says so:
 
-For the hotel's first feature, the list reads:
+1. Build the <feature>'s page
+2. Test it in a browser
+3. Your turn: try the app and decide what to do next
+
+Item 1 covers the frontend scaffold, the page and starting the app.
+Item 2 covers the browser scenario, the first-paint time
+(`web-app/references/first-paint.md`) and the layout checks
+(`web-app/references/ui-design.md`, "Measure what can be measured"),
+at desktop and phone width; it ends with the line linking the app and
+the dashboard. A first feature seen from both sides (`app` skill,
+step 1) has "Build the <feature>'s two pages, <the customers'> and
+<the staff's>" and "Test them side by side in a browser".
+
+For the hotel's first feature, the two lists read:
 
 1. Propose the design for Maison Desk
 2. Get your go-ahead on the design
-3. Backend: build the room status floor plan's domain model and rules
+3. Build the room status floor plan's domain model and rules
 4. Your turn: check the domain model on the dashboard
-5. Backend: build the room status floor plan's actions and test them against its rules
+5. Build the room status floor plan's actions and test them against its rules
 6. Your turn: check the backend, then say to build the frontend
-7. Frontend: build the room status floor plan's page and check it in a browser
-8. Your turn: try the app and decide what to do next
 
-Each next feature, when the user chooses it (the app keeps running):
+1. Build the room status floor plan's page
+2. Test it in a browser
+3. Your turn: try the app and decide what to do next
+
+Each next feature, when the user asks for it (the app keeps running),
+its backend:
 
 1. Show what the <feature> adds to the design
-2. Backend: add the <feature>'s domain model and rules
-3. Backend: build the <feature>'s actions and test them against its rules
+2. Add the <feature>'s domain model and rules
+3. Build the <feature>'s actions and test them against its rules
 4. Your turn: check the backend, then say to build the frontend
-5. Frontend: build the <feature>'s page and check it in a browser
-6. Your turn: try the app and decide what to do next
 
-## The whole app first
+and its frontend, the same three items as the first feature's.
 
-The full prototype (`web-app/references/full-build.md`) and an MCP UI
-built whole (`mcp-ui`, Step-by-Step Build Flow):
+## The whole app at once
+
+The same two parts, for every feature at once
+(`web-app/references/full-build.md`, `mcp-ui` built whole). The
+backend:
 
 1. Propose the design for <app>
 2. Get your go-ahead on the design
-3. Backend: build the domain model and rules
-4. Frontend: build every page of the design
-5. Backend: build every feature and test it against its rules
-6. Your turn: try the app and decide what to do next
+3. Build the domain model and rules
+4. Build every feature's actions and test them against its rules
 
-Item 2 is left off where no go-ahead is asked (`one-shot`). Item 3
-covers the scaffold, the dashboard, the actions without their rules
-yet and demo data; item 4 the pages and starting the app; item 5 each
-feature's rules as scenarios and their proof, then the whole suite and
-types. For an MCP UI, item 4 is "Frontend: build every UI of the
-design".
+then, with no stop between them, the frontend:
+
+1. Build every page of the design
+2. Test them in a browser
+3. Your turn: try the app and decide what to do next
+
+Item 2 of the backend is left off where no go-ahead is asked
+(`one-shot`). For an MCP UI, the frontend's item 1 is "Build every UI
+of the design" and item 2 "Test them in their AI client".
 
 ## A backend only
 
-As one feature at a time (`app/references/backend-only.md`), without
-the Frontend item, with item 5 "Backend: build the <feature>'s
-actions and test them against its rules, with the backend running", the last item "Your turn: decide
-what to do next" (no app to try), and "Generate the <platform> client"
-after the first feature's proof.
+The backend list alone (`app/references/backend-only.md`), its item 5
+"Build the <feature>'s actions and test them against its rules, with
+the backend running", item 6 "Your turn: decide what to do next" (no
+app to try), and "Generate the <platform> client" after the first
+feature's tests pass.
 
 ## A change to a built app
 
