@@ -218,7 +218,8 @@ it.** Each task-list item that starts gets two or three sentences
 before its work: what the build is doing now, in the user's nouns, and
 the part Reboot does that a usual stack leaves to the developer. Plain
 and specific, never a sales line, and each point said once in a build,
-not repeated at every feature. What to draw on, at the stage it fits:
+not repeated at every feature or in a wait note
+(`references/while-you-wait.md`) later. What to draw on, at the stage it fits:
 
 - **The design:** the app is described as domain objects and the rules
   they keep, before any code, so what's proposed is what gets built

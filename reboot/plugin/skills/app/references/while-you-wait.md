@@ -19,7 +19,7 @@ nothing beyond what the line says.
 
 | Step | Fact |
 | --- | --- |
-| Installing dependencies (`uv sync`, `npm install`) | There's no database to set up. Reboot keeps each domain object's state for it, so there are no tables, migrations or cache to keep in sync. |
+| Installing dependencies (`uv sync`, `npm install`) | One package brings the whole backend: Reboot runs the servers, the routing between them and the storage itself, so there's nothing else to install or run. |
 | Generating code (`rbt generate`) | The API is written once, in Python. Reboot generates the typed server code, the React hooks and the MCP tools from it. |
 | Starting the dashboard | The dashboard draws the domain model and its rules from the code itself, so what you check there is what runs. |
 | Running the scenarios | Each rule is a scenario in plain words, and that scenario is the test: a rule the code breaks shows up as a failing scenario, not a bug report. |
