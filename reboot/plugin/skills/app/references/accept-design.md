@@ -35,9 +35,12 @@ only at the first handoff: each dialog costs the user a stop.
 **The first handoff** asks **How are we doing?**, with what the user
 just reviewed named in the app's own nouns and its rules counted:
 
-- "Keep going" (recommended): "<What was reviewed> and its <n> rules
-  look right. Build the next part." For example, "The floor plan and
-  its 6 rules look right. Build the next part."
+- "Keep going" (recommended): "<What was reviewed>: <what it keeps
+  track of>, its <n> rules and <its page> look right. Build <the next
+  part> next." For example, "The floor plan: the rooms and their
+  status, its 4 rules and the floor plan page look right. Build
+  reservations next." It names what the user accepts and what comes
+  next, so the dialog reads on its own.
 - "Not yet": "I'll try it first. Ask me again after."
 
 After "Keep going", what's next is plain text, never a dialog: the
