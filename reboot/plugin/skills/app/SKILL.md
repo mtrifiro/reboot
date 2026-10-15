@@ -314,29 +314,28 @@ not repeated at every feature or in a wait note
 - **The page:** the page subscribes to its data and updates on its own
   when anything changes, with no refresh and no polling code.
 
-**Show the first feature file's rules, the first time.** Once the
-first feature file is written, show part of it in the chat, so the
-user learns to read one: one rule with one of its scenarios, in a
-```gherkin block, as written in the file (no more than about 15
-lines), then two or three sentences on how to read it: a **Rule** is
-one thing the app must keep true, in plain words; each **Scenario**
-under it is an example that proves it, **Given** the situation,
-**When** someone acts, **Then** what must be true after. Say that the
-build isn't done until every scenario passes, and link the whole file
-(on the dashboard's Features page once it's up). Once per build;
-later features name their rules in a sentence and link the file.
+**Show the first feature's rules, the first time, in plain words.**
+Once the first feature file is written, list its rules in the chat,
+one line each in the user's nouns, each a link to the rule on the
+dashboard's Features page, with how many scenarios test it; then one
+or two sentences on what they are: each rule is something the app
+must keep true, and each is tested by scenarios, examples of someone
+acting and what must hold after, written in plain words in the
+feature file; the feature isn't done until every scenario passes.
+Never the file's text or a code block of it: the user reads the rules,
+and opens the file on the dashboard if they want the scenarios. Once
+per build; later features name their rules the same way.
 
 For the hotel:
 
-```gherkin
-Rule: A room can't be checked into until it's inspected
-
-  Scenario: The front desk can't check a guest into a dirty room
-    Given room 202 is dirty
-    When the front desk checks a guest into room 202
-    Then the check-in is refused
-    And room 202 is still dirty
-```
+> Room booking's rules, each tested by its scenarios:
+> - [A room can't be booked twice for the same night](<link>) (3 scenarios)
+> - [A stay needs at least one night](<link>) (2 scenarios)
+> - [Only the front desk can cancel a guest's booking](<link>) (2 scenarios)
+>
+> Each rule is something the app must keep true. Its scenarios are
+> examples in plain words, someone acting and what must hold after,
+> and the backend isn't done until every one passes.
 
 **Fixes stay in the user's terms.** A fix while proving a feature is
 said as what it changes for the user, in one sentence, or not at all
