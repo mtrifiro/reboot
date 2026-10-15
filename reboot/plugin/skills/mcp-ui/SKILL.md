@@ -213,6 +213,26 @@ under Key Framework Concepts):
   `Workflow`**, refresh tokens, erasure — is
   [`python/references/auth-external-api-calls.md`](../python/references/auth-external-api-calls.md).
 
+**Before the tests:** `python/references/testing-project-setup.md`
+and `python/references/testing-features.md` (the built-in steps'
+spelling; always), plus `python/references/patterns-idempotency.md`
+— it explains `IdempotencyUncertainError`, which is otherwise the
+one runtime error whose cause is not in any reference you have
+read. `python/references/testing-harness.md` and
+`testing-external-context.md` are for custom steps;
+`testing-failure-recovery.md` is the one to read whenever the app
+has a spawned task, a `Workflow`, or `schedule()`d work: it covers
+restarting the app under test and asserting that work survived.
+The order of work around the feature files (agree in English, tag
+`@wip`, iterate on scenarios) is the
+[`feature` skill](../feature/SKILL.md).
+
+**The two parts.** Every group above this line is the backend part.
+The groups from here on are the frontend part: read them only when the
+frontend part starts, once the user says to build the frontend (or, on
+the automatic paths, once every feature's backend passes), never
+before, and not at all when the user stops after the backend.
+
 **Before the frontend:**
 
 - `web-app/references/ui-design.md` — the primary view for each
@@ -241,20 +261,6 @@ under Key Framework Concepts):
   `window.open`) with a `window.open` fallback. The web-app side
   reads the ID from the URL; a shared `rbt_session` keeps the user
   signed in across frontends.
-
-**Before the tests:** `python/references/testing-project-setup.md`
-and `python/references/testing-features.md` (the built-in steps'
-spelling; always), plus `python/references/patterns-idempotency.md`
-— it explains `IdempotencyUncertainError`, which is otherwise the
-one runtime error whose cause is not in any reference you have
-read. `python/references/testing-harness.md` and
-`testing-external-context.md` are for custom steps;
-`testing-failure-recovery.md` is the one to read whenever the app
-has a spawned task, a `Workflow`, or `schedule()`d work: it covers
-restarting the app under test and asserting that work survived.
-The order of work around the feature files (agree in English, tag
-`@wip`, iterate on scenarios) is the
-[`feature` skill](../feature/SKILL.md).
 
 **Before running the app:** the [`run` skill](../run/SKILL.md).
 
