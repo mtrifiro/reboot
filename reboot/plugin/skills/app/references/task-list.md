@@ -19,8 +19,9 @@ word for word, with the angle brackets filled in:
 
 Every item starts with a verb. Inside an item every name is
 lowercase, as in a sentence ("Build the room status floor plan's
-domain model"), unless it is a proper noun. Make the list once the
-design is proposed; mark each item done as it finishes; a step that
+domain model"), unless it is a proper noun. Make the list after the user answers how to build, never in the
+same response as that question (before it, a list has only "Propose
+the design for <app>"); mark each item done as it finishes; a step that
 fails stays in progress, never done.
 
 **Short, and the user's turn last.** The list says where the build
