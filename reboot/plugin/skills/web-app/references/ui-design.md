@@ -49,7 +49,9 @@ and tested once, in the accent the design names. Don't design a look
 from scratch.
 
 1. Copy `assets/styles.css`, `assets/theme.tsx` and
-   `assets/backend-check.tsx` from this skill into `frontend/web/src/`. In `main.tsx`, import the stylesheet and
+   `assets/backend-check.tsx` from this skill into `frontend/web/src/`
+   with `cp`, without reading them: the stylesheet is over 4,000 words,
+   and every word read is sent again on every later turn. In `main.tsx`, import the stylesheet and
    its typefaces, and apply a saved theme before the first render:
 
    ```tsx
@@ -70,7 +72,8 @@ from scratch.
    the palettes: teal, cyan, blue, indigo, violet, purple, plum, rose).
    It rewrites the accent's family in the light and dark blocks.
 3. Build the pages from the stylesheet's classes, listed in its
-   opening comment: `topbar`, `brand-band` and `page-head`, `stats`,
+   opening comment (read only that: the file's first 34 lines, never
+   the whole file; to see one class's rules, search for it): `topbar`, `brand-band` and `page-head`, `stats`,
    `filter-panel`, `list-card` and `row`, `board`, `feed`, `chart`,
    `drawer`, `kv`, `pill`, `skeleton`, `empty` and the rest. Use its
    tokens, never raw hex. Extend the stylesheet when a page needs
