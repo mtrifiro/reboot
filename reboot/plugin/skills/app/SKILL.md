@@ -188,6 +188,19 @@ thing twice. A dialog stays for a question in the middle of a turn
 without the box. A dialog the user skipped is not a reason to ask
 again: the turn ends with the recap and the question in the box.
 
+**"Not yet" means nothing happens.** At a feature's review the
+options are "Yes, build <the next feature>" (record this one as kept,
+then build the next) and "Not yet", whose reply is "Leave it as it is
+for now." On "Not yet" the build does nothing more that turn: no
+recording, no tags changed, no commands; one line says the app and
+the dashboard stay up and what to say to go on. Keeping the feature
+is recorded (`app/references/accept-design.md`) only when the user
+says to keep it or to build the next one, and then the build says
+first that recording takes a minute: the work-in-progress tags come
+off, the design document becomes the accepted design, and the
+decisions log gets its entry. Never write a reply button that joins
+two moves ("keep it, but stop here").
+
 **At every stage, say what is being done and what Reboot brings to
 it.** Each task-list item that starts gets two or three sentences
 before its work: what the build is doing now, in the user's nouns, and
