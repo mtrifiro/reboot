@@ -194,6 +194,35 @@ class ModelDiffTest(unittest.TestCase):
             model_diff.files_at(head, "tests", ".feature"),
         )
 
+    def test_a_package_big_enough_to_split(self) -> None:
+        types = ", ".join(f"T{i}=Type(state=S, methods=M, description='x')" for i in range(6))
+        api = {"api/hotel/v1/hotel.py": f"api = API({types})\n"}
+        lines = model_diff.package_lines(api)
+        self.assertEqual(len(lines), 1)
+        self.assertIn("`hotel.v1` holds 6 domain objects", lines[0])
+        five = {"api/hotel/v1/hotel.py": "api = API(" + ", ".join(
+            f"T{i}=Type(state=S, methods=M, description='x')" for i in range(5)) + ")\n"}
+        self.assertEqual(model_diff.package_lines(five), [])
+
+    def test_packages_in_a_circle(self) -> None:
+        api = {
+            "api/a/v1/a.py": "from b.v1.b import X\n",
+            "api/b/v1/b.py": "from a.v1.a import Y\n",
+            "api/c/v1/c.py": "from a.v1.a import Z\n",
+        }
+        packages = model_diff.packages_of(api)
+        self.assertEqual(packages["c.v1"]["imports"], {"a.v1"})
+        self.assertEqual(model_diff.import_circles(packages), [["a.v1", "b.v1", "a.v1"]])
+        self.assertIn("in a circle", model_diff.package_lines(api)[0])
+
+    def test_layered_packages_say_nothing(self) -> None:
+        api = {
+            "api/rooms/v1/rooms.py": "from reboot.api import API\n",
+            "api/hotel/v1/hotel.py": "from rooms.v1.rooms import RoomState\n",
+        }
+        self.assertEqual(model_diff.package_lines(api), [])
+        self.assertNotIn("_Packages_", model_diff.markdown("a", "b", [], packages=[]))
+
     def test_no_change(self) -> None:
         self.assertEqual(self.changes(), [])
         self.assertIn("no change", model_diff.markdown("a", "b", []))
