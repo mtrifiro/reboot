@@ -82,7 +82,16 @@ pythonpath =
   backend/api
   api
   scripts
+timeout = 180
 ```
+
+**`timeout = 180`** (from `pytest-timeout`, a dev dependency, see
+`lifecycle-project-setup.md`) fails any one test that runs past three
+minutes, with its name and where it was waiting. Without it, a
+scenario that hangs (a call that never answers, a page that never
+loads) holds the whole run silent until the command's own limit,
+which names nothing. Three minutes covers the slowest browser
+scenario, which starts the web app's dev server first.
 
 **Three entries, not two.** `backend/src` and `backend/api` cover
 your servicers and the generated `_rbt` modules, but tests also

@@ -151,6 +151,13 @@ id"`, then `<account id>`. Give an id only when it means something
   the commit being proposed is the Flywheel's Prove evidence; a
   `-m wip` or `-k` run is not
   ([`app/references/flywheel.md`](../app/references/flywheel.md)).
+- **Never filter a run's output.** No `| grep`, `| head` or `| tail`
+  on a suite run: they print nothing until the run ends, so a hang
+  looks like silence and the failing scenario's name is lost. Run it
+  as it is, or in the background and read `tests/.progress.jsonl`
+  (below). If a run hangs anyway, stop it and rerun with `-x`, which
+  stops at the first failure, unfiltered: the per-test `timeout` in
+  `pytest.ini` names the scenario that hung.
 - **Report a full run as it goes.** A full run takes minutes, and the
   host shows a command's output only when it ends. Start it in the
   background (`scripts/test.sh full`, or `uv run pytest`), then about
