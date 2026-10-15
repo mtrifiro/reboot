@@ -153,9 +153,18 @@ ask, and `one-shot` never does.
 
 In every feature built one at a time, once its actions pass every
 scenario (and types check), and before any page, stop and show the
-result: one line per rule, ✓ with its scenario count, linked to the
-rule on the dashboard's Features page, and the line linking Models ·
-Features · Changelog. Then one dialog:
+backend, in this order, as text in the same response as the dialog
+and above it. The dialog is never asked without it:
+
+1. One line: what was built and how to look at it, for example "The
+   amenity booking's backend is done: every rule holds, tested by its
+   scenarios. See it on the dashboard's Features page."
+2. One line per rule, ✓ with its scenario count, the rule's words a
+   link to it on the Features page.
+3. The dashboard's line: Models · Features · Changelog, each a link.
+4. In the Claude app, the Features page opened in the Browser pane.
+
+Then one dialog:
 
 - Title: **Build the frontend?** (For a first feature seen from both
   sides, the option names both pages: "The booking page for passengers
@@ -178,6 +187,10 @@ From the first feature on, the build follows the front door
 unchanged, but for these questions.
 
 ## Never
+
+- "Build the frontend?" without the backend's results and the
+  dashboard's links shown just above it (section 5): the question asks
+  the user to judge what those show.
 
 - Reading a reference, or listing the folder, before the paragraph
   that says what will be built; reading this plugin's files with a
