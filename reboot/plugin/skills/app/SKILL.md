@@ -37,9 +37,9 @@ It replaces the decision flow's one sentence. No heading.
 
   > Reboot builds an app from its design: the domain objects it keeps
   > and the rules they follow, each rule written as a scenario that
-  > proves it. The code is built until every scenario passes, and the
-  > Reboot dashboard shows the domain model and its rules as they're
-  > built.
+  > proves it. It can build a feature at a time, each one working for
+  > you to try before the next, or the whole app at once, without
+  > stopping.
 
 - **Then one dialog,** only once the two paragraphs are out as text of
   their own: the user reads the intent and how it's built first, then answers. Never the
@@ -65,9 +65,9 @@ For the hotel:
 >
 > Reboot builds an app from its design: the domain objects it keeps
 > and the rules they follow, each rule written as a scenario that
-> proves it. The code is built until every scenario passes, and the
-> Reboot dashboard shows the domain model and its rules as they're
-> built.
+> proves it. It can build a feature at a time, each one working for
+> you to try before the next, or the whole app at once, without
+> stopping.
 
 Then the dialog. On **a feature at a time**:
 
