@@ -10,30 +10,41 @@ allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 Decide which front door to build first and defer to the matching
 skill. The backend is always ready for both.
 
-**A new app asks nothing until its design document is written.** It
-is built one feature at a time, without asking how: say what will be
-built in one paragraph, take the recommended answer to every scope
-question, write the whole proposed design to `design/design.md`, then
-ask one thing, build the first feature or change something first, as
+**A new app asks one thing before its design: how to build it.** Say
+what will be built in one paragraph, then ask a feature at a time or
+the whole app at once, each with its time; then say what to expect on
+that path, take the recommended answer to every scope question, and
+write the whole proposed design to `design/design.md`, as
 [`references/design-first.md`](references/design-first.md) says. It
-overrides the front door's round of scope questions. For the whole app
-at once, with every feature, the user asks for the
-[`one-shot` skill](../one-shot/SKILL.md) by name.
+overrides the front door's round of scope questions. The whole app at
+once builds every feature in the proposed design by the
+[`one-shot` skill](../one-shot/SKILL.md)'s steps, without stopping.
 
 ## First, Before Reading Anything
 
-**1. Say what will be built, and what to expect.** The first text of
-the build, before any tool call and before the front door's skill, in
-the user's nouns and in the build's voice, never "I". It replaces the
-decision flow's one sentence. No heading and no question.
+**1. Say what will be built, ask how, then say what to expect.** The
+first text of the build, before any tool call and before the front
+door's skill, in the user's nouns and in the build's voice, never "I".
+It replaces the decision flow's one sentence. No heading.
 
 - **One paragraph** of at most three sentences, from the prompt alone:
   what the app is and who uses it, what it will keep track of, the
   first feature it will build, and which front door. A name the build
   picked, because the prompt gave none, says so the first time it
   appears: "Partner Loop (working name)".
-- **What to expect,** a list of four lines, word for word but for the
-  angle brackets, with the time estimates below:
+- **Then one dialog,** only once the paragraph is out as text of its
+  own: the user reads the intent first, then answers. Never the
+  paragraph inside the dialog, and never the dialog alone. The dialog
+  (`AskUserQuestion` where available; otherwise the same as one plain
+  line), word for word but for the angle brackets:
+  - Title: **How should it be built?**
+  - "A feature at a time" (recommended): "<The first feature>, working
+    to try, in about 15 minutes; then each next feature as you choose
+    it, about 15 to 20 minutes each."
+  - "The whole app at once": "Every feature in the design, each with
+    its rules proven, built without stopping: an hour or more."
+- **What to expect,** after the answer, the list for that path, word
+  for word but for the angle brackets.
 
 For the hotel:
 
@@ -42,21 +53,32 @@ For the hotel:
 > do what. The first feature is a floor plan of every room, where a
 > room can't be checked into until it's clean, in a web app with the
 > backend ready for an MCP UI too.
->
+
+Then the dialog. On **a feature at a time**:
+
 > What to expect:
 > - The proposed design, in a few minutes. Nothing to answer until
 >   then.
-> - After your go-ahead, once the domain model is written, the Reboot
->   dashboard opens with its link: the app's domain model and rules,
->   updated as they're built. You check the model there before the
->   rest is built on it.
+> - After your go-ahead, the Reboot dashboard's link, to check the
+>   domain model before the rest is built on it.
 > - The floor plan, working, in about 15 minutes, with its rules
 >   proven by scenarios, for you to try.
-> - Then each next feature, about 15 to 20 minutes, as you choose it.
+> - Then each next feature, as you choose it, about 15 to 20 minutes.
+
+On **the whole app at once**:
+
+> What to expect:
+> - The proposed design, in a few minutes. Nothing to answer until
+>   then.
+> - After your go-ahead, every feature in it, each with its rules
+>   proven, built without stopping: an hour or more. The app is running
+>   to try partway through; nothing to answer until it's done, then one
+>   review of the whole app.
 
 **2. Make the task list,** where the agent keeps one, with every item
 now, filled in from the paragraph (`references/task-list.md` has the
-rules, where the plugin has it). For one feature at a time:
+rules, where the plugin has it), after the answer. For one feature at a
+time:
 
 1. Propose the design for <app>
 2. Wait for your go-ahead on the design
@@ -75,7 +97,7 @@ Every item starts with a verb; `<feature>` is the first feature's full
 name ("the room status floor plan"), lowercase inside an item.
 
 **3. Time estimates,** from measured builds, always "about", only in
-the opening's list, never a guess of the build's own: the proposed
+the opening's dialog and list, never a guess of the build's own: the proposed
 design, a few minutes; the first feature after the go-ahead, about 15
 minutes; each next feature, about 15 to 20 minutes; the whole app at
 once (`one-shot`), an hour or more.

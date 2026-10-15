@@ -1,7 +1,7 @@
 ---
 title: Ask Nothing Until the Design Document
 impact: HIGH
-impactDescription: A new app starts with no questions. The user reads what will be built at once, then the whole proposed design in design/design.md, and answers one question, build it or change something, before any code; a round of scope questions first only delays the design they could react to.
+impactDescription: A new app asks one question first, a feature at a time or the whole app at once, each with its time. The user reads what will be built at once, then the whole proposed design in design/design.md, and gives the go-ahead or changes something before any code; a round of scope questions first only delays the design they could react to.
 tags: questions, scope, design, design document, first feature, go-ahead
 ---
 
@@ -68,22 +68,32 @@ file. In the build's voice throughout, never "I made" or "Should I".
 ## 3. One question
 
 End with one dialog (`AskUserQuestion` where available; otherwise the
-same as one plain line), the build's first question:
+same as one plain line), the build's second and last question before any code:
 
 - Title: **Ready to build?**
-- "Build it" (recommended): "Build a first working version of <the
-  first feature> to try, then change what you like."
+- "Build it" (recommended): on a feature at a time, "Build a first
+  working version of <the first feature> to try, then change what you
+  like."; on the whole app at once, "Build every feature in the design
+  without stopping, an hour or more, then review the whole app."
 - "Not yet": "I want to study the design more. Ask me again later."
 
-A change is typed as the dialog's own free answer, so no option only
-means "change something". Nothing is built before the answer. It
-comes in addition to the first handoff's review: this one decides the
-design before any code, that one the feature as built.
+The path was chosen before the design, in the opening's dialog
+(`app/SKILL.md` step 1); this one only gives the go-ahead. A change is
+typed as the dialog's own free answer, so no option only means
+"change something". Nothing is built before the answer. It comes in
+addition to the first handoff's review: this one decides the design
+before any code, that one the feature as built.
 
-- **A yes** (or the first feature named): build it by the front
-  door's one-feature flow. At the first handoff, `design/design.md`
-  becomes the accepted design as `accept-design.md` says, and
-  **Assumed** moves into the first decisions entry.
+- **A yes, on the whole app at once:** build every feature in the
+  design by the [`one-shot` skill](../../one-shot/SKILL.md)'s steps 4
+  and 5, from the design already proposed (no features added to it):
+  the whole-app flow, no stops, one handoff at the end. The task list
+  is the whole-app list (`task-list.md`, where the plugin has it), its
+  first two items done.
+- **A yes, on a feature at a time** (or the first feature named): build
+  it by the front door's one-feature flow. At the first handoff,
+  `design/design.md` becomes the accepted design as `accept-design.md`
+  says, and **Assumed** moves into the first decisions entry.
 - **Not yet:** wait; when the user comes back, ask the same dialog
   again.
 - **A change:** update the document and the design, show what
