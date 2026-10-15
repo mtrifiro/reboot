@@ -13,41 +13,23 @@ word for word, with the angle brackets filled in:
 - `<app>` is the app's name, as the design gives it.
 - `<feature>` is the feature's name exactly as the design's feature
   list gives it, never shortened: a name that says what the feature
-  does in the user's nouns ("Room status floor plan", not "Floor
-  plan"), so an item reads on its own.
+  does in the user's nouns ("the room status floor plan", not "the
+  board"), so an item reads on its own.
 - `<page>` is the page's name in the user's nouns.
 
-Each item starts with what it belongs to, then what is being done,
-from a verb. Inside an item every name is lowercase, as in a sentence
-("Check the floor plan page in a browser", never "the Floor plan
-page"), unless it is a proper noun. A page named after its feature is
-"its page" in the feature's items. Make the list once the design is
-proposed; mark each item done as it finishes; a step that fails stays
-in progress, never done.
+Every item starts with a verb. Inside an item every name is
+lowercase, as in a sentence ("Build the room status floor plan's
+domain model"), unless it is a proper noun. Make the list once the
+design is proposed; mark each item done as it finishes; a step that
+fails stays in progress, never done.
 
 **The review comes last.** Every item stays on the list, in order:
-none is dropped or merged. Before the handoff's question, every item
-above "Show <feature> for your review" is done (a step that couldn't
-be is named in the handoff's **Notes**), and the review item is in
-progress while the user answers. The question never comes while an
-earlier item is still in progress.
-
-For the hotel's first feature, the list reads:
-
-1. Propose the design for Maison Desk
-2. Set up the project
-3. Room status floor plan: write its rules as scenarios
-4. Room status floor plan: build the domain model
-5. Start the developer dashboard to display the domain model
-6. Room status floor plan: build the actions, their rules and who may do each
-7. Room status floor plan: add demo data
-8. Room status floor plan: run the scenarios
-9. Room status floor plan: check the types
-10. Set up the frontend
-11. Room status floor plan: build its page
-12. Room status floor plan: add a browser scenario for its page
-13. Check the floor plan page in a browser
-14. Show room status floor plan for your review
+none is dropped. Before the handoff's question, every item above
+"Your turn: review …" is done (a step that couldn't be is named in
+the handoff's **Notes**), and the review item is in progress while
+the user answers: it is what tells the user the build is waiting for
+them. The question never comes while an earlier item is still in
+progress.
 
 ## One feature at a time
 
@@ -55,35 +37,44 @@ The first feature, in the order of the `web-app` Step-by-Step Build
 Flow:
 
 1. Propose the design for <app>
-2. Set up the project
-3. <feature>: write its rules as scenarios
-4. <feature>: build the domain model
-5. Start the developer dashboard to display the domain model
-6. <feature>: build the actions, their rules and who may do each
-7. <feature>: add demo data
-8. <feature>: run the scenarios
-9. <feature>: check the types
-10. Set up the frontend
-11. <feature>: build the <page> page
-12. <feature>: add a browser scenario for the <page> page
-13. Check the <page> page in a browser
-14. Show <feature> for your review
+2. Scaffold the project
+3. Write the <feature>'s rules as scenarios
+4. Build the <feature>'s domain model
+5. Start the Reboot dashboard to show the domain model
+6. Build the <feature>'s actions, who may do each, and demo data
+7. Prove the <feature>'s rules (scenarios pass, types check)
+8. Build the <feature>'s page, with a browser scenario
+9. Start the app for you to see, and check it in a browser
+10. Your turn: review the <feature>
 
-Each next feature, when the user chooses it:
+Item 9 ends with the line linking the app and the dashboard.
 
-1. <feature>: show what it adds to the design
-2. <feature>: write its rules as scenarios
-3. <feature>: add to the domain model
-4. <feature>: build the actions, their rules and who may do each
-5. <feature>: add demo data
-6. <feature>: run the scenarios
-7. <feature>: check the types
-8. <feature>: build the <page> page
-9. Check the <page> page in a browser
-10. Show <feature> for your review
+For the hotel's first feature, the list reads:
 
-A feature that changes an existing page says "change the <page>
-page" at item 8; one with no page drops items 8 and 9.
+1. Propose the design for Maison Desk
+2. Scaffold the project
+3. Write the room status floor plan's rules as scenarios
+4. Build the room status floor plan's domain model
+5. Start the Reboot dashboard to show the domain model
+6. Build the room status floor plan's actions, who may do each, and demo data
+7. Prove the room status floor plan's rules (scenarios pass, types check)
+8. Build the room status floor plan's page, with a browser scenario
+9. Start the app for you to see, and check it in a browser
+10. Your turn: review the room status floor plan
+
+Each next feature, when the user chooses it (the app keeps running):
+
+1. Show what the <feature> adds to the design
+2. Write the <feature>'s rules as scenarios
+3. Add the <feature> to the domain model
+4. Build the <feature>'s actions, who may do each, and demo data
+5. Prove the <feature>'s rules (scenarios pass, types check)
+6. Build the <feature>'s page, with a browser scenario
+7. Check the <feature> in a browser
+8. Your turn: review the <feature>
+
+A feature that changes an existing page says "Change the <page> page
+for the <feature>" at item 6; one with no page drops items 6 and 7.
 
 ## The whole app first
 
@@ -91,50 +82,47 @@ The full prototype (`web-app/references/full-build.md`) and an MCP UI
 built whole (`mcp-ui`, Step-by-Step Build Flow):
 
 1. Propose the design for <app>
-2. Set up the project
+2. Scaffold the project
 3. Build the domain model
-4. Start the developer dashboard to display the domain model
-5. Build the actions, without their rules yet
-6. Add demo data
-7. Set up the frontend
-8. Build every page of the design
-9. Check the app in a browser
-10. <feature>: write its rules as scenarios
-11. <feature>: put its rules in the code and run its scenarios
-12. Run all the scenarios and check the types
-13. Show <app> for your review
+4. Start the Reboot dashboard to show the domain model
+5. Build the actions, without their rules yet, and demo data
+6. Build every page of the design
+7. Start the app for you to see, and check it in a browser
+8. Write the <feature>'s rules as scenarios
+9. Prove the <feature>'s rules in the code
+10. Prove every rule (all scenarios pass, types check)
+11. Your turn: review <app>
 
-Items 10 and 11 come once for each feature, in the design's order.
+Items 8 and 9 come once for each feature, in the design's order.
 
-For an MCP UI, item 8 is "Build every UI of the design" and item 9
-"Check the app in its AI client". An MCP UI built one feature at a
-time follows the lists above, with the same two changes.
+For an MCP UI, item 6 is "Build every UI of the design" and item 7
+"Start the app and check it in its AI client". An MCP UI built one
+feature at a time follows the lists above, with the same two changes.
 
 ## A backend only
 
 As one feature at a time (`app/references/backend-only.md`), without
-the frontend, page and browser items, and with "Generate the
-<platform> client" after the first feature's "check the types".
+the page and browser items, with "Start the backend" in place of item
+9, and with "Generate the <platform> client" after the first
+feature's proof.
 
 ## A change to a built app
 
-`<change>` is a short name for it in the user's nouns ("Early
+`<change>` is a short name for it in the user's nouns ("early
 check-in").
 
-1. <change>: show what it changes in the design (only when it does)
-2. <change>: write its scenarios
-3. <change>: change the code
-4. Run all the scenarios and check the types
+1. Show what <change> changes in the design (only when it does)
+2. Write <change>'s scenarios
+3. Change the code for <change>
+4. Prove every rule (all scenarios pass, types check)
 5. Check the <page> page in a browser (when a page changed)
-6. Show <change>
+6. Your turn: review <change>
 
 ## Never
 
 - An item named for a file or a tool (`main.py`, `pytest`, `mypy`,
   "servicer"), where an item above says it in the user's terms.
-- Two steps folded into one item, or one step split across several:
-  each item is one step of the build flow, so the list shows where the
-  build is.
-- Items added for reading references or scaffolding: they belong to
-  the item they serve.
+- An item added for a step inside another (reading references,
+  installing packages, generating code): it belongs to the item it
+  serves, so the list shows where the build is at a glance.
 - "Done" on an item whose check failed.
