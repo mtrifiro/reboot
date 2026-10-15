@@ -78,8 +78,8 @@ same as one plain line), the build's second and last question before any code:
   working version of <the first feature> to try, then change what you
   like."; on the whole app at once, "Build every feature in the design
   without stopping, an hour or more, then review the whole app."
-- "Not yet": "Not ready to build yet." Nothing more: what happens
-  next is said after the answer.
+- "Not yet": "I want to review or revise the design." Nothing more:
+  what happens next is said after the answer.
 
 The path was chosen before the design, in the opening's dialog
 (`app/SKILL.md` step 1); this one only gives the go-ahead. A change is
