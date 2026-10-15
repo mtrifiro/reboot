@@ -27,7 +27,7 @@ any tool call and before the front door's skill: one paragraph of at
 most four sentences, from the prompt alone, in the user's nouns and in
 the build's voice, never "I": what the app is and who uses it, what it
 will keep track of, the first feature it will build, and which front
-door, ending word for word "The full design comes next, in
+door, ending word for word "The proposed design comes next, in
 `design/design.md`; nothing to answer yet." It replaces the decision
 flow's one sentence. No heading, no list, no question. For the hotel:
 
@@ -35,7 +35,7 @@ flow's one sentence. No heading, no list, no question. For the hotel:
 > rooms and their status, the guests' stays, and who on the staff may
 > do what. The first feature is a floor plan of every room, where a
 > room can't be checked into until it's clean. It's a web app, with
-> the backend ready for an MCP UI too. The full design comes next, in
+> the backend ready for an MCP UI too. The proposed design comes next, in
 > `design/design.md`; nothing to answer yet.
 
 **2. Make the task list,** where the agent keeps one, with every item

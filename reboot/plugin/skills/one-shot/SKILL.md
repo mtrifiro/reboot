@@ -21,7 +21,7 @@ tool call, with three differences:
 
 - **The paragraph** describes the complete app: who uses it, its
   features in one sentence, and which front door, ending word for
-  word "The full design comes next, in `design/design.md`, and the
+  word "The proposed design comes next, in `design/design.md`, and the
   build goes straight on; nothing to answer until it's done."
 - **The task list** has the whole-app items, with no go-ahead:
 

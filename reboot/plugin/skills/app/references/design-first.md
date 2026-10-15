@@ -54,7 +54,7 @@ while nothing is built:
   user sees what to change.
 
 Then show the proposed design in the chat as the front door says, and
-say in one line where the document is, as a link: "The full design,
+say in one line where the document is, as a link: "The proposed design,
 with every rule for the later features and the choices made for you
 under **Assumed**, is in design/design.md", the path a link to the
 file. In the
