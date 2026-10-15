@@ -132,7 +132,11 @@ On **Automatically**:
 
 **2. Make the task list,** where the agent keeps one, with every item
 now, filled in from the paragraph (`references/task-list.md` has the
-rules, where the plugin has it), after the answer. A build is in two
+rules, where the plugin has it), after the answer. The question is the
+only tool call in its response: no task list beside it, since the list
+depends on the answer. If a list is made before the answer at all, it
+has one item, "Propose the design for <app>", and the rest is filled
+in after the answer, for the path chosen. A build is in two
 parts and the list shows one part at a time: the backend list, then,
 once the user says to build the frontend, the frontend list in its
 place. For one feature at a time, the backend:
