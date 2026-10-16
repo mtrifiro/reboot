@@ -1,11 +1,11 @@
 ---
-name: feature-analysis
-description: Suggest the next 4 to 6 features for a Reboot app from evidence - every feature and rule already built, the design and its decisions, and original research on the app's domain (how comparable products and real businesses of this kind work, what their users expect, what they complain about, the rules of the trade), each source linked. Finds the gaps (people the design names with nothing to do, cycles left open, states no action reaches), weighs each candidate by who it serves, how often, what it unblocks, its size and what Reboot does well for it, writes design/feature-analysis.md and asks which to build next. Use when the user asks what to build next, for a roadmap, for feature ideas, for what's missing, or how the app compares with others like it. Not for reviewing the domain model (domain-review) or the look (design-review).
+name: what-next
+description: Suggest the next 4 to 6 features for a Reboot app from evidence - every feature and rule already built, the design and its decisions, and original research on the app's domain (how comparable products and real businesses of this kind work, what their users expect, what they complain about, the rules of the trade), each source linked. Finds the gaps (people the design names with nothing to do, cycles left open, states no action reaches), weighs each candidate by who it serves, how often, what it unblocks, its size and what Reboot does well for it, writes design/what-next.md and asks which to build next. Use when the user asks what to build next, for a roadmap, for feature ideas, for what's missing, or how the app compares with others like it. Not for reviewing the domain model (domain-review) or the look (design-review).
 argument-hint: [focus, e.g. "for the front desk" or "what competitors have"]
 allowed-tools: Bash, Read, Write, Glob, Grep, WebSearch, WebFetch, AskUserQuestion
 ---
 
-# feature-analysis — What to Build Next, From Evidence
+# what-next — What to Build Next, From Evidence
 
 Suggests the next four to six features for an app that is already
 built, each one argued from three kinds of evidence: what the app has
@@ -95,7 +95,7 @@ it is used, then by size.
 
 ## 5. The analysis
 
-One message, headed **Feature analysis: <app>**:
+One message, headed **What next: <app>**:
 
 1. **Where it stands,** two or three sentences: what the app does
    today, for whom, and the biggest gap.
@@ -109,7 +109,7 @@ One message, headed **Feature analysis: <app>**:
    - what Reboot brings to it, where that is true.
 4. **Considered and left out,** one line each, with why.
 
-Write the same to `design/feature-analysis.md` with the date and the
+Write the same to `design/what-next.md` with the date and the
 sources. Change no other file.
 
 Then one dialog:
@@ -132,5 +132,5 @@ current one, as `app/references/accept-design.md` says.
   again.
 - More than six suggestions: the point is to choose.
 - Editing the app: the analysis writes only
-  `design/feature-analysis.md`. Never while a build is working in the
+  `design/what-next.md`. Never while a build is working in the
   project (a test run in progress, another session writing to it).

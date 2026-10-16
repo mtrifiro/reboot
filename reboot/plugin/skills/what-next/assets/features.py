@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""What a Reboot app has built and planned, for a feature analysis.
+"""What a Reboot app has built and planned, for the what-next skill.
 
     python3 features.py            # Markdown, from the project root
     python3 features.py --json

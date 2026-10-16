@@ -15,7 +15,7 @@ Reads only files and the process table; starts and changes nothing:
   the Vite dev server) and the ports it listens on;
 - the last test run (tests/.last-run.json), and whether one is running;
 - the reviews written so far (design/review.md, look-review.md,
-  feature-analysis.md).
+  what-next.md).
 
 Standard library only; `ps` and `lsof` where present.
 """
@@ -150,7 +150,7 @@ def status() -> dict:
         "running": processes(),
         "last_run": last_run(),
         "reviews": [str(p.relative_to(ROOT)) for p in sorted((ROOT / "design").glob("*.md"))
-                    if p.name in ("review.md", "look-review.md", "feature-analysis.md")]
+                    if p.name in ("review.md", "look-review.md", "what-next.md")]
                    if (ROOT / "design").is_dir() else [],
         "design": (ROOT / "design/design.md").is_file(),
     }

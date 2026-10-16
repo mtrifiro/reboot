@@ -180,7 +180,7 @@ scale?", "review the data model") goes to the
 makes the changes the user picks, every rule still passing.
 
 **What to build next, for a roadmap or "what's missing"** goes to the
-[`feature-analysis` skill](../../feature-analysis/SKILL.md): it weighs
+[`what-next` skill](../../what-next/SKILL.md): it weighs
 what's built, the design's gaps and original research, and suggests
 four to six features with their evidence.
 
