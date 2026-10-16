@@ -16,60 +16,38 @@ heading with nothing to say is left out, never filled.
 
 ### The proposed design
 
-About 600 words. The example is a hotel; keep the shape, not the
-nouns.
+A short message, about 200 words, that points to the design instead
+of repeating it: `design/design.md` already holds all of it (the
+methods, the pages, sign-in, what was assumed), written once. Writing
+the same design twice, in the file and again in the chat, cost a
+build a minute of silence. The example is a hotel; keep the shape,
+not the nouns.
 
 ```markdown
 ## Reboot Design · <App name>, the proposed design
 
-**Brief.** <Who uses <app name> and on what screen.> <Their main job, as a
-cycle or flow when there is one: *occupied → dirty → cleaned →
-inspected → occupied*.> The main page answers one question: **<the
-question>** The name is **<name>** and the accent is **<accent>**
-(<why it suits the domain>).<When the build picked them: " Both were
+**Brief.** <Who uses <app name> and on what screen, and the question
+the main page answers: **<the question>**> The name is **<name>** and
+the accent is **<accent>**.<When the build picked them: " Both were
 picked for you; either is easy to change.">
 
-**<What the build assumed> (picked for you, easy to change).** <The
-counts, layouts and names the brief left open, in one paragraph:
-floors 2–8 with 8 rooms each, numbered 201–808, …>
+**Domain model:** <Object> (<what it holds, a few words>), <Object>
+(…), <Object> (…). Later features add <objects>.
 
-**Domain model (proposed)**
-- **<Object>:** one per <what>, keyed by <id>. It holds <fields, in
-  plain words>. It is its own object because <why: what changes on
-  its own, what runs one at a time, what that prevents>.
-- **<Object>:** …
-- *Later features add* <objects, comma-separated>.
+**First: <first feature>.** <Why it comes first, one sentence: the
+central object and the rule the user can see it keep.> Its rules:
+- <A rule, one line, the key words in bold.>
+- …
 
-**Proposed features, in build order**
-Only the first is built next; the rest, and their order, are yours to
-change at any point.
-1. **<First feature> (first).** <Why it comes first: the central
-   object and a rule the user can see it keep.> Rules:
-   - <A rule, one line, the key words in bold.>
-   - …
-2. <Feature>
-3. …
+**After it,** yours to reorder: <feature>, <feature>, <feature>.
 
-**<First feature>: methods.** <One line on who calls them.>
-
-| Object | Method | Kind | Role for an AI caller |
-|---|---|---|---|
-| <Object> | `<method>` (<what it does, when not obvious>) | <Reader, Writer, Transaction or Workflow; constructor> | <tool, `UI()` view, app only, or people only> |
-
-**Pages**
-- `<route>`: <the page's primary view, worked on directly>, <what a
-  click opens>. <The one reader that feeds it.>
-
-**Sign-in.** <Who signs in, how in development and at deploy, and
-what an anonymous visitor sees.> <In development, the picker's five
-accounts and the role each plays: "Alice is the founder, Ben the CTO,
-…".>
-
-Building <first feature> now.
+Assumed, all easy to change: <the name, the counts and the roles the
+build picked>. The whole design, with the methods, pages and sign-in,
+is in [design/design.md](design/design.md).
 ```
 
-With a full prototype chosen, the methods table covers every feature,
-and the last line is "Building the whole prototype now."
+With the whole app chosen, **First** becomes **Features**: each one
+with its rules, one line per rule, and no **After it**.
 
 ### The handoff
 
