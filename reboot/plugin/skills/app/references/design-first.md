@@ -75,11 +75,11 @@ while nothing is built:
   step 1, one line each, the question then the answer taken, so the
   user sees what to change.
 
-Then show the proposed design in the chat as the front door says: a
-short summary that points to `design/design.md`, never the whole
-design written a second time (`design-messages.md`, "The proposed
-design"). It ends with one line that names what was assumed, so
-nothing feels hidden, then where the rest is:
+Then show the proposed design in the chat as the front door says:
+the whole design, in the shape of `design-messages.md`, "The proposed
+design", about 600 words. The user signs off on what they see, so a
+summary that points to `design/design.md` is not enough. Its
+assumptions name what the build picked, so nothing feels hidden:
 
 > Assumed, all easy to change: the name Groom Room, opening hours
 > 9:00 to 17:00, and three roles (owner, groomer, front desk). The
