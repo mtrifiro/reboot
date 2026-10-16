@@ -17,7 +17,7 @@ heading with nothing to say is left out, never filled.
 ### The proposed design
 
 The whole design but its methods, about 500 words: this is what the
-user signs off on with "Ready to build?", so it shows the design
+user signs off on with the question after it, so it shows the design
 itself, not a pointer to `design/design.md`. The methods stay in the
 file only: they are the build's detail, not what the user decides. Writing it takes about a minute, and the
 go-ahead is worth it. The example is a hotel; keep the shape, not the
@@ -67,7 +67,7 @@ The whole design, with its methods, is in
 [design/design.md](design/design.md).
 ```
 
-Then the dialog **Ready to build?** (`design-first.md`, section 3);
+Then the go-ahead's dialog (`design-first.md`, section 3);
 nothing between them.
 
 ### The handoff
