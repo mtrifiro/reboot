@@ -56,5 +56,20 @@ progress, and a fact from the table above goes with the part it fits:
 One line each, and a fact only where the table has one that fits and
 hasn't been said. No line for a part that takes seconds.
 
+Never a stretch of more than about a minute with nothing said. One
+build went ten minutes silent after the go-ahead, until the user asked
+why it was stuck: it read its references, then wrote every file in
+one shell command. So:
+
+- The go-ahead's line goes out before the references are read, and
+  the reading is said in one line when it is more than a few files
+  ("Backend: reading how Reboot writes this kind of model.").
+- Each part's files are written with the Write tool, a part at a
+  time, its line first: the API, then the servicers, then the
+  scenarios, then the demo data. Never one Bash call with every file
+  in heredocs.
+- A step that has run a minute with no output to report gets a line
+  saying what it is still doing.
+
 A step not in the table gets no note. When no fact is left that fits,
 say nothing extra.
