@@ -38,8 +38,8 @@ export function BackendCheck({
   children,
 }: {
   url: string;
-  // The app's name, for the production banner: "Maison Desk can't
-  // reach its server right now."
+  // The app's name, for the production banner: "Maison Desk is
+  // updating, or can't reach its server."
   name?: string;
   children: ReactNode;
 }) {
@@ -95,7 +95,10 @@ export function BackendCheck({
   return <BackendDown url={url} restarting={wasUp} />;
 }
 
-// Production: a slim banner over the app, which stays as it is.
+// Production: a slim banner over the app, which stays as it is. A
+// backend that stops answering in production is most often a new
+// version being deployed (`rbt cloud up` takes about a minute), so the
+// banner says that first.
 function Reconnecting({ name }: { name: string }) {
   return (
     <div
@@ -115,7 +118,8 @@ function Reconnecting({ name }: { name: string }) {
         boxShadow: "var(--elev)",
       }}
     >
-      {name} can't reach its server right now. Reconnecting…
+      {name} is updating, or can't reach its server right now.
+      Reconnecting…
     </div>
   );
 }

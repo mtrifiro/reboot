@@ -48,8 +48,9 @@ Every web app starts from the house look: one stylesheet, designed
 and tested once, in the accent the design names. Don't design a look
 from scratch.
 
-1. Copy `assets/styles.css`, `assets/theme.tsx` and
-   `assets/backend-check.tsx` from this skill into `frontend/web/src/`
+1. Copy `assets/styles.css`, `assets/theme.tsx`,
+   `assets/backend-check.tsx` and `assets/reload-prompt.tsx` from this
+   skill into `frontend/web/src/`
    with `cp`, without reading them: the stylesheet is over 4,000 words,
    and every word read is sent again on every later turn. In `main.tsx`, import the stylesheet and
    its typefaces, and apply a saved theme before the first render:
