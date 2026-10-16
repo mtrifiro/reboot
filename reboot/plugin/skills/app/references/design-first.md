@@ -22,8 +22,8 @@ questions, ask none. Work out the questions as it says, then take the
 answer it would mark as recommended for each:
 
 - **How to build:** one feature at a time, always.
-- **Everything else** (who signs in and with which roles, what the
-  app keeps track of): the recommended, simplest option.
+- **Everything else** (who signs in, what the app keeps track of):
+  the recommended, simplest option. Roles wait for Who may do what.
 - **The accent and the app's name,** when the prompt names none:
   picked to suit the domain.
 
@@ -57,12 +57,14 @@ while nothing is built:
 - **Every feature** is in it, under **Proposed features, in build
   order**, with the line "Only the first is built next; the rest, and
   their order, are yours to change at any point.": the first marked
-  and why it comes first, each with its rules in plain words. For an
-  app with two sides, the first is one interaction from both sides
-  (`app` skill, step 1), and **Pages** lists both of its pages; **Sign-in**
-  gives the development accounts to both sides, for example Alice and
-  Ben as staff and Carlos as a customer, and the scenarios prove each
-  side sees and does only its own.
+  and why it comes first, each with its rules in plain words. The
+  first is one page for one side (`app` skill, step 1); an app with a
+  customer side lists that side's page as its own feature, right
+  after the first. **Who may do what** is a feature of its own, before
+  any deploy; until it is built, **Sign-in** says in one line
+  "Everyone signed in can do everything for now; roles come with Who
+  may do what.", and the first feature has no roles, roster or role
+  rules.
 - **No links yet.** Packages, domain objects, methods, features and
   rules are named in code style (`Room`, `Room.check_in`), never as
   dashboard links: nothing exists on the dashboard before it is built,
@@ -83,11 +85,11 @@ summary that points to `design/design.md` is not enough. Its
 assumptions name what the build picked, so nothing feels hidden:
 
 > Assumed, all easy to change: the name Groom Room, opening hours
-> 9:00 to 17:00, and three roles (owner, groomer, front desk). The
-> rest is in design/design.md.
+> 9:00 to 17:00, and an hour per appointment. The rest is in
+> design/design.md.
 
 At most five assumptions, the ones that shape the app most (its name,
-counts, hours, roles), in the user's nouns; the path a link to the
+counts, hours), in the user's nouns; the path a link to the
 file.
 
 ## 3. One question
@@ -228,10 +230,7 @@ Then one dialog:
   appear on the floor plan as they come in. About 10 minutes." Written
   to a person, not as a spec: no paths (`/stay`), no parts of the page
   by their build names (tile, drawer, modal), no "frontend" or
-  "backend" beyond the title. For a first feature seen from both sides,
-  the title is **Build both pages?**, the option "Build both pages",
-  and its description names them: "The booking page for passengers
-  and the flight board for dispatchers, ..."
+  "backend" beyond the title.
 - "Not yet": "I want to look at the backend first."
 
 Each next feature goes from its backend straight on to its page, with

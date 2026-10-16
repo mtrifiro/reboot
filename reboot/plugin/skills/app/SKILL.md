@@ -40,12 +40,10 @@ Then the dialog **How should it be built?** (`AskUserQuestion`; where
 there is none, the same as one plain line), its options word for word:
 
 - "Mixed (Recommended)": "You approve the design and try the first
-  feature, about 30 minutes (one side only: about 15); then the rest is
-  built and tested without stopping, an hour or more."
-- "Step by step": "A feature at a time, about 15 minutes each (25 to
-  30 for the first, seen from both sides). You check each part." (One
-  side only: "A feature at a time, about 15 minutes each. You check
-  each part.")
+  feature, about 15 minutes; then the rest is built and tested
+  without stopping, an hour or more."
+- "Step by step": "A feature at a time, about 15 minutes each. You
+  check each part."
 - "Hands-off": "No stops at all, not even for the design: every
   feature a real product needs, built and tested, an hour or more. You
   see it at the end."
@@ -60,24 +58,32 @@ Rules for that response:
   user's choice. Mixed is first and the only option marked
   recommended.
 - "(working name)" only when the build picked the name.
-- **Two sides:** an app with a staff side and a customer side (a hotel
-  and its guests, an airline and its passengers, a clinic and its
-  patients) starts with its core transaction from both sides: the
-  customer acts on their page and the staff see it land on theirs,
-  live (a guest books a room, never an amenity first). A one-sided app
-  keeps a one-page first feature. The prompt's framing decides: one
-  that names the staff's tool ("an operations app", "a back office",
-  "a dispatch tool") is one-sided, its customer side someone else's
-  system, and the first sentence says so ("used by its dispatchers and
-  pilots; passengers book through the airline's own system").
+- **One feature first:** the app's core transaction (a room booked,
+  never an amenity first), on one page, for the side the prompt names:
+  "manage a hotel" names its staff, so the front desk books a room on
+  the room board. An app with a customer side (a hotel and its
+  guests, an airline and its passengers) builds that side later, as
+  its own feature: the customer's page, with what they do landing
+  live on the staff's page, the first part recommended after the
+  first feature. The prompt's framing decides whether there is one: a
+  prompt that names the staff's tool ("an operations app", "a back
+  office", "a dispatch tool") has none, its customer side someone
+  else's system. The first sentence says which ("used by its front
+  desk; guests get their own page later", or "used by its dispatchers
+  and pilots; passengers book through the airline's own system").
+- **No roles first:** the first feature has sign-in (the development
+  accounts) and an authorizer on every method, "anyone signed in",
+  never `allow()`; no roles, roster or role rules. Who may do what is
+  its own feature, **Who may do what**, in the build order before
+  any deploy.
 
 Example: "Maison Desk (working name) is an app for a 56-room boutique
-hotel, used by its staff and its guests. It keeps track of the rooms
-and their status, the guests and their stays, and who on the staff
-may do what. The first feature is booking a room from both sides,
-guests on their own page and the front desk on the room board, which
-refuses a room already taken for any of those nights; built as a web
-app with the backend ready for an MCP UI too."
+hotel, used by its front desk; guests get their own page later. It
+keeps track of the rooms and their status, the guests and their
+stays, and the amenities they book. The first feature is booking a
+room on the room board, which refuses a room already taken for any of
+those nights; built as a web app with the backend ready for an MCP UI
+too."
 
 **What to expect,** right after the answer, before any other tool
 call: the chosen path's items, each its own line of a list under
@@ -86,7 +92,7 @@ call: the chosen path's items, each its own line of a list under
 - **Mixed:** the proposed design in a few minutes, nothing to answer
   until then · after the go-ahead, <first feature> built and tested
   without stopping, its backend against its rules, then its frontend
-  (<its pages>) in a browser, about 30 minutes · then your turn to try
+  (<its page>) in a browser, about 15 minutes · then your turn to try
   it · once you say so, the rest of the design, built and tested
   without stopping, an hour or more, then the whole app to try.
 - **Step by step:** the proposed design in a few minutes, nothing to
@@ -94,8 +100,8 @@ call: the chosen path's items, each its own line of a list under
   against its rules, then its frontend tested in a browser · after the
   go-ahead, <first feature>'s backend, with the dashboard's link to
   check its domain model, then its actions tested against every rule ·
-  once you say so, its frontend (<its pages>), about 25 to 30 minutes
-  in all · then each next feature as you choose it, 15 to 20 minutes.
+  once you say so, its frontend (<its page>), about 15 minutes in
+  all · then each next feature as you choose it, 15 to 20 minutes.
 - **Hands-off:** no questions from here on, not even about the design
   · the design, with every feature a real <domain> app needs, in
   design/design.md · then the whole backend and the whole frontend,
@@ -116,9 +122,8 @@ and for Hands-off, the [`one-shot` skill](../one-shot/SKILL.md).
   that exists when this skill loads is replaced with that item first,
   in a response of its own.
 - **Times,** always "about", only in the opening: the design, a few
-  minutes; the first feature, 15, or 25 to 30 from both sides (on
-  Mixed, about 15 or 30); each next feature, 15 to 20; the whole app,
-  or the rest of it, an hour or more.
+  minutes; the first feature, 15; each next feature, 15 to 20; the
+  whole app, or the rest of it, an hour or more.
 - **Never a minute without a line,** at every stage: in the design,
   one when the research ends (what it found) and one before each of
   the design's three parts (`references/design-first.md`); in the build, one before the references a stage reads

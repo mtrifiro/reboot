@@ -89,9 +89,9 @@ clicking it; the backend check opens `#/features`. A single object's
 or rule's link is for the chat's own links, never the pane. The link line stays as well, for a host without a
 pane and for later. Never start a second dashboard for the pane.
 
-**Two pages side by side.** For a first feature seen from both sides,
-the handoff's **How to check it** starts with the two pages side by
-side: "Open the booking page as Carlos and the room board as Alice,
+**Two pages side by side.** For the feature that adds a customer
+side, the handoff's **How to check it** starts with the two pages side
+by side: "Open the booking page as Carlos and the room board as Alice,
 side by side. Book a stay as Carlos and watch it land on the board,
 with no refresh." In the Claude app, both open in the Browser pane,
 one tab each.
@@ -103,8 +103,8 @@ browser (the browser scenarios, and the checks in
 pane, so no card for an app still being tested appears in the chat.
 The app opens in the pane once, at the handoff's **Your turn**, ready
 to try (a `launch.json` configuration named `app` with only its URL,
-e.g. `"url": "http://localhost:5173"`, started by name), and for a
-feature seen from both sides, in two tabs, one per side. In the Claude app
+e.g. `"url": "http://localhost:5173"`, started by name), and for the
+feature that adds a customer side, in two tabs, one per side. In the Claude app
 nothing opens in the user's external browser: not the app, not the
 dashboard (`dashboard` skill, Step 4, starts it with `BROWSER=true`),
 not an MCP UI's setup wizard. Outside the Claude app, the skills'
