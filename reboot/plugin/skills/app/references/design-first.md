@@ -34,8 +34,22 @@ user's own time zone.
 ## 2. The design document
 
 Read the references for the API as the front door says, then write the
-whole proposed design to `design/design.md`, in the shape of
-[`design-document.md`](design-document.md), with these differences
+proposed design to `design/design.md`, in the shape of
+[`design-document.md`](design-document.md), **in three parts, each its
+own write, each after its own line to the user** (message text, before
+the write):
+
+1. "Writing the design: first the domain model." Then write the title,
+   status, **Brief** and **Domain model**.
+2. "Domain model written: <the objects>. Now the features and their
+   rules." Then add **Proposed features, in build order**.
+3. "<N> features, the first <feature>. Now the methods, pages and
+   sign-in." Then add the rest: the first feature's methods, **Pages**,
+   **Sign-in** and **Assumed**.
+
+Each part is less to work out at once than the whole design, and the
+user sees it take shape instead of minutes of silence (one build spent
+3 minutes thinking before writing it whole). With these differences
 while nothing is built:
 
 - **Status:** "proposed on <date>; nothing is built yet. Names become

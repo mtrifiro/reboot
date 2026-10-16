@@ -63,8 +63,8 @@ starting its research and showing the design. So:
 - In the design: when the research ends, one line on what it found
   that the design uses ("Kenmore Air flies Beavers, Otters and a
   Caravan from Lake Union and Kenmore; the design uses those."), and
-  one before writing the design ("Writing the design: the domain
-  model, the features in order, and the first one's rules.").
+  one before each of the design's three parts, which are written one
+  at a time (`design-first.md`, "The design document").
 
 - The go-ahead's line goes out before the references are read, and
   the reading is said in one line when it is more than a few files

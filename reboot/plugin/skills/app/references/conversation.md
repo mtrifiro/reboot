@@ -7,6 +7,10 @@ tags: conversation, links, browser pane, narration, questions, research, handoff
 
 # Talking to the User While the App Is Built
 
+**Every line below is message text, in these words, before the
+response's tool calls: never only in thinking, which the user never
+gets as a message** (`app` skill, top).
+
 Read once, after the user answers "How should it be built?" and the
 build has said what to expect (`app` skill, step 1). It covers the
 rest of the build: links, the Browser pane, what is said after each

@@ -14,6 +14,21 @@ skill. The backend is always ready for both.
 then follows [`references/design-first.md`](references/design-first.md),
 which overrides the front door's round of scope questions.
 
+> **The user sees only message text. Say every status the way these
+> skills give it, as the response's own visible text.**
+>
+> Thinking is never shown as a message. The Claude app shows at most a
+> summary of it, which drops and rewords what you wrote: builds that
+> drafted the opening in thinking showed the user a paraphrase that
+> promised "feature by feature" before they had chosen, and lost
+> "(working name)". So everything this plugin tells you to say (the
+> opening, What to expect, what the research found, "Writing the
+> design", each part's line, each result, each handoff) goes out as
+> text in the response, **in the skills' words, before that response's
+> tool calls**. Drafting it in thinking is not saying it. Before every
+> tool call, ask: is there something the user should read first? Then
+> write it, word for word, before the call.
+
 ## First, Before Reading Anything
 
 **1. Say what will be built, ask how, then say what to expect.** The
@@ -175,7 +190,8 @@ it goes out first, once per build each:
 [`references/while-you-wait.md`](references/while-you-wait.md).
 And the user never waits more than about a minute without a line, at
 every stage, the design included: in the design, one when the research
-ends, saying what it found, and one before the design is written; in
+ends, saying what it found, and one before each of the design's three
+parts (`references/design-first.md`); in
 the build, one before the references a stage reads, and one as each
 part starts (the API, the servicers, the tests, the page). Files are written one
 part at a time with the Write tool, never every file in one shell
