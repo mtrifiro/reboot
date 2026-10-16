@@ -12,9 +12,7 @@ metadata:
 
 # Reboot Python Best Practices
 
-> **Version notices:** if `rbt` reports a version mismatch or that a
-> newer Reboot is available, the [upgrade skill](../upgrade/SKILL.md)
-> says how and when to react.
+> **Version notices** from `rbt` (a mismatch, a newer Reboot): the [upgrade skill](../upgrade/SKILL.md).
 
 Guide for building transactional microservices in Python with the Reboot
 framework. Reboot APIs are defined in pydantic Python
@@ -258,6 +256,27 @@ user about every action. Never edit installed packages (`.venv/`,
 `site-packages/`, `node_modules/`) unless the user agreed to it, as a
 known issue's workaround may ask.
 
+### Project lifecycle
+
+- `references/lifecycle-project-setup.md` — the layout,
+  `pyproject.toml`, `.gitignore`, `.mypy.ini`; no `__init__.py`
+- `references/lifecycle-rbtrc.md` — `.rbtrc`: `--application-name`,
+  `--env-file`, the `serve run` lines
+- `references/lifecycle-application-entry.md` — the shape of `main`
+  and `Application(...)`
+- `references/lifecycle-initialize-hook.md` — `initialize` for
+  singletons and first-run setup
+- `references/patterns-idempotency.md` — constructors and
+  `initialize` that are safe to run twice
+- `references/lifecycle-seeding.md` — loading a catalog or demo
+  data from `initialize` and tests
+- `references/lifecycle-secrets.md` — env vars in dev, `rbt cloud
+  secret set` in Cloud
+- `references/lifecycle-dockerfile.md` — the Dockerfile Reboot
+  Cloud accepts
+- `references/lifecycle-reboot-cloud.md` — `rbt cloud up` /
+  `secret` / `logs` / `down`
+
 ### Building a workflow
 
 - `references/servicer-workflow.md` — **the** single, comprehensive
@@ -270,6 +289,13 @@ known issue's workaround may ask.
   mutation via `Service.ref().<scope>.write(context, fn)`;
   `until` / `until_changes` reactive waiting; and the declared-vs-
   undeclared exception rule for how a workflow exits
+
+### Scheduling work
+
+- `references/scheduling-basic.md` — `ref.schedule(when=...)`:
+  deferred work that survives restarts
+- `references/scheduling-recurring.md` — recurring / "cron" work by
+  self-rescheduling
 
 ### Calling an LLM / building an AI agent
 
@@ -297,6 +323,8 @@ The `Agent` runs only inside a `WorkflowContext`, so also read the
 - `references/api-methods.md` — `Reader` / `Writer` / `Transaction` /
   `Workflow` factories and the `factory=True` constructor option
 - `references/api-errors.md` — typed error declaration
+- `references/patterns-error-handling.md` — catching declared errors
+  at the caller; an error rolls the mutation back
 - `references/state-collections.md` — **always read when modeling
   any collection**: decide whether each contained item should be
   its own state `Type`, and pick between in-state `list[Sub]`,
@@ -307,6 +335,8 @@ The `Agent` runs only inside a `WorkflowContext`, so also read the
 - `references/state-nested-models.md` — same rule from the nested-
   `Model` angle: state Models never appear as fields of other
   state Models
+- `references/state-scalar-fields.md` — zero-value defaults on
+  scalar state fields; no secret in a plain field
 - `references/api-schema-evolution.md` — **always read before
   modifying an API that has already been deployed or run with
   persisted state**: the rules you must follow for API schema
@@ -331,6 +361,8 @@ The `Agent` runs only inside a `WorkflowContext`, so also read the
   `<X>.<CtorMethod>(context, id, ...)`, NEVER `<X>.ref(id).<ctor>(...)`
   (the trap that skips creation semantics). The factory-declaration
   side is `servicer-constructor.md`; the call-site side is here
+- `references/rpc-forall.md` — `Service.forall(ids).method(context)`,
+  a fan-out over many actors in input order
 
 ### Using stdlib state types
 
@@ -400,6 +432,12 @@ with "unknown actor type."
   Host-agnostic (MCP UIs and web apps). Pairs with
   `stdlib-oauth-tokens.md` (the `OAuthTokenManager` type).
 
+### Frontend (shared by `web-app` and `mcp-ui`)
+
+- `references/react-generated-client.md` — what
+  `rbt generate --react=` emits: hook overloads, `Use<Type>Api`,
+  reader/mutation return shapes, typed errors, naming rules
+
 ### Testing
 
 An application's tests are Gherkin `.feature` files run by
@@ -460,120 +498,6 @@ optional extra:
 - `references/errors.md` — holding an error string, grep a
   distinctive fragment of it here first; each row gives the cause,
   the fix and the reference that explains it. Never read it whole.
-
-## Available Reference Files
-
-Reference files live in `references/` and are named
-`{prefix}-{topic}.md` (e.g., `servicer-transaction.md`). Load only
-the files relevant to the current task; the "How to Use" section
-above lists the right ones grouped by task type. The full catalog:
-
-**Lifecycle** (`lifecycle-`):
-
-- `references/lifecycle-project-setup.md`
-- `references/lifecycle-rbtrc.md`
-- `references/lifecycle-application-entry.md`
-- `references/lifecycle-initialize-hook.md`
-- `references/lifecycle-seeding.md` — loading a catalog or demo
-  data from `initialize` and tests
-- `references/lifecycle-secrets.md`
-- `references/lifecycle-dockerfile.md`
-- `references/lifecycle-reboot-cloud.md`
-
-**API** (`api-`):
-
-- `references/api-pydantic.md`
-- `references/api-methods.md`
-- `references/api-errors.md`
-- `references/api-schema-evolution.md` — schema evolution rules for
-  deployed applications / persisted state
-
-**Servicer** (`servicer-`):
-
-- `references/servicer-reader.md`
-- `references/servicer-writer.md`
-- `references/servicer-transaction.md`
-- `references/servicer-workflow.md` — the single, comprehensive
-  workflow reference (declaration, call-classification, scopes,
-  `context.loop`, external `at_least_once` / `at_most_once`,
-  `until` / `until_changes`, and workflow exit semantics)
-- `references/servicer-constructor.md`
-- `references/servicer-authorizer.md`
-
-**Agent** (`agent-`):
-
-- `references/agent-pydantic-ai.md`
-- `references/agent-tools.md`
-
-**Stdlib** (`stdlib-`):
-
-- `references/stdlib-ordered-map.md`
-- `references/stdlib-queue.md`
-- `references/stdlib-pubsub.md`
-- `references/stdlib-presence.md`
-- `references/stdlib-item.md`
-- `references/stdlib-ciphertext.md`
-- `references/stdlib-oauth-tokens.md`
-
-**Crypto** (`crypto-`):
-
-- `references/crypto-root-keys.md`
-
-**State** (`state-`):
-
-- `references/state-scalar-fields.md`
-- `references/state-collections.md`
-- `references/state-nested-models.md`
-
-**Auth** (`auth-`):
-
-- `references/auth-allow-deny.md`
-- `references/auth-allow-if.md`
-- `references/auth-built-in-predicates.md`
-- `references/auth-custom-predicates.md`
-- `references/auth-claims.md`
-- `references/auth-roles.md`
-- `references/auth-context-propagation.md` — `context.auth` follows a
-  call through the application; audit in writers, never in readers
-- `references/auth-external-api-calls.md`
-
-**RPC** (`rpc-`):
-
-- `references/rpc-refs.md`
-- `references/rpc-calls.md`
-- `references/rpc-constructor-calls.md`
-- `references/rpc-forall.md`
-
-**Scheduling** (`scheduling-`):
-
-- `references/scheduling-basic.md`
-- `references/scheduling-recurring.md`
-
-**Testing** (`testing-`):
-
-- `references/testing-project-setup.md`
-- `references/testing-features.md`
-- `references/testing-web-app.md`
-- `references/testing-harness.md`
-- `references/testing-external-context.md`
-- `references/testing-failure-recovery.md`
-
-**Frontend** (shared by `web-app` and `mcp-ui`):
-
-- `references/react-generated-client.md` — what
-  `rbt generate --react=` emits: hook overloads, `Use<Type>Api`,
-  reader/mutation return shapes, typed errors, naming rules.
-
-**Patterns** (`patterns-`):
-
-- `references/patterns-error-handling.md`
-- `references/patterns-idempotency.md`
-- `references/patterns-common-gotchas.md`
-- `references/patterns-cross-actor-reads.md`
-
-**Errors**:
-
-- `references/errors.md` — error strings with cause and fix; grep it
 
 ## External References
 
