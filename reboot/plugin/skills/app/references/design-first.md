@@ -1,7 +1,7 @@
 ---
 title: Ask Nothing Until the Design Document
 impact: HIGH
-impactDescription: A new app asks nothing before its design. The user reads what will be built at once, then the whole proposed design, and only then chooses how to build it (Mixed, a feature at a time, or the whole app, each timed from the design) or changes something, before any code; a question asked before the design is asked blind.
+impactDescription: A new app asks nothing before its design. The user reads what will be built at once, then the whole proposed design, and only then chooses how to build it (a feature at a time, or the whole app timed from the design) or changes something, before any code; a question asked before the design is asked blind.
 tags: questions, scope, design, design document, first feature, go-ahead
 ---
 
@@ -103,44 +103,23 @@ heading filled, its features and rules before its domain model, about
 (`AskUserQuestion` where available; otherwise the same as one plain
 line), the build's first and only question before any code. It
 chooses how to build and gives the go-ahead at once, with the design
-in view. Its options word for word, filled in from the design (<n>
-the other features' count; <time> about 15 minutes a feature, said
-"about an hour", "about an hour and a half"):
+in view. Two options, word for word, filled in from the design (<n>
+the features' count; <time> about 15 minutes a feature, said "about
+an hour", "about an hour and a half"):
 
 - Title: **How should it be built?**
-- "Mixed (Recommended)": "Build <the first feature> for you to try,
-  about 15 minutes; then the other <n> features without stopping,
-  about <time>."
 - "Step by step": "A feature at a time, about 15 minutes each. You
   check each part."
-- "The whole app": "All <n + 1> features without stopping, about
-  <time>; you see it at the end."
-- "Not yet": "I want to review or revise the design." Nothing more:
-  what happens next is said after the answer.
+- "The whole app": "All <n> features without stopping, about <time>;
+  you see it at the end."
 
-Mixed is first and the only option marked recommended. A change is
-typed as the dialog's own free answer, so no option only means
-"change something". Nothing is built before the answer. It comes in
+Neither is marked recommended: that is the user's choice. A change,
+or "not yet", is typed as the dialog's own free answer, so no option
+only means "change something". Nothing is built before the answer. It comes in
 addition to the first handoff's review: this one decides the design
 before any code, that one the feature as built. After the answer, the
 `app` skill's **What to expect** for the chosen path, then the build.
 
-- **Mixed:** build the first feature by the front door's
-  one-feature flow, its backend and then its frontend with no stop
-  between them (no "Build on this domain model?", no "Build the frontend: the <screen>?"),
-  to its first handoff. That handoff's dialog, in place of "What
-  should I build next?", is **Build the rest?**: "Build the rest"
-  (recommended), "<the other features, in the user's nouns>, built and
-  tested without stopping, an hour or more", then "Not yet": "I want
-  to try it first, or change something." A change typed as its free
-  answer goes into the first feature, and the same dialog follows. On
-  its yes, build every other feature in the
-  design by the [`one-shot` skill](../../one-shot/SKILL.md)'s steps 4
-  and 5, from the design already proposed (no features added to it):
-  no stops, one handoff at the end. The task lists are the first
-  feature's (`task-list.md`, where the plugin has it) without their
-  "Your turn" items but the last, then the whole-app lists for the
-  rest.
 - **The whole app:** build every feature in the design by the
   [`one-shot` skill](../../one-shot/SKILL.md)'s steps 4 and 5, from
   the design already proposed (no features added to it): no stops,
@@ -150,7 +129,7 @@ before any code, that one the feature as built. After the answer, the
   it by the front door's one-feature flow. At the first handoff,
   `design/design.md` becomes the accepted design as `accept-design.md`
   says, and **Assumed** moves into the first decisions entry.
-- **Not yet:** no tool call; one short reply that links the design
+- **"Not yet", typed, or the dialog skipped:** no tool call; one short reply that links the design
   document so the user can open it and read it whole:
   "The whole design is in design/design.md." with that path as a
   Markdown link to the file in the user's project, then "Tell me to
@@ -218,7 +197,7 @@ changed, and ask again. The task list's "Your turn: check the domain
 model on the dashboard" stays in progress until the yes. If the
 dashboard didn't come up, don't ask: say so in one sentence and go on;
 the model is checked at the first handoff. Each next feature doesn't
-ask, Mixed doesn't, and `one-shot` never does.
+ask, and `one-shot` never does.
 
 ## 5. The backend, before the page
 
@@ -262,9 +241,8 @@ as the free answer goes back to the rules or the actions, which are
 tested again, and the same dialog follows. "Not yet" does nothing
 more: one line says the dashboard stays up and what to say to go on.
 The task list's "Your turn: check the backend, then say to build the
-frontend (<screen>)" stays in progress until
-the answer. A backend only (no front door), Mixed and `one-shot` skip
-it.
+<screen>" stays in progress until
+the answer. A backend only (no front door) and `one-shot` skip it.
 
 From the first feature on, the build follows the front door
 unchanged, but for these questions.

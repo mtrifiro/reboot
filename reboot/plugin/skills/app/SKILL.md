@@ -84,11 +84,6 @@ built?** (after the design), before any other tool call: the chosen
 path's items, each its own line of a list under "What to expect:",
 filled in from the design:
 
-- **Mixed:** <first feature> built and tested without stopping, its
-  backend against its rules, then its frontend (<its page>) in a
-  browser, about 15 minutes · then your turn to try it · once you say
-  so, the other <n> features, built and tested without stopping,
-  about <time>, then the whole app to try.
 - **Step by step:** each feature in two parts, its backend tested
   against its rules, then its frontend tested in a browser ·
   <first feature>'s backend, with the dashboard's link to check its
@@ -103,9 +98,8 @@ filled in from the design:
 once: what the build says, links, opens and asks at every stage from
 here on. Each path's next steps are read when they start: the design
 ([`references/design-first.md`](references/design-first.md)), the task
-list (`references/task-list.md`), and for the rest of a Mixed build
-and for the whole app, the [`one-shot` skill](../one-shot/SKILL.md)'s
-steps 4 and 5.
+list (`references/task-list.md`), and for the whole app, the
+[`one-shot` skill](../one-shot/SKILL.md)'s steps 4 and 5.
 
 **3. Throughout the build:**
 
@@ -116,7 +110,7 @@ steps 4 and 5.
   follows the answer.
 - **Times,** always "about", only in the opening and in **How should
   it be built?**: the design, a few minutes; the first feature, 15; each next feature, 15 to 20; the
-  whole app, or the rest of it, an hour or more.
+  whole app, about 15 a feature.
 - **Never a minute without a line,** at every stage: in the design,
   one when the research ends (what it found) and one before each of
   the design's three parts (`references/design-first.md`); in the build, one before the references a stage reads
