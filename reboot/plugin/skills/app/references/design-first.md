@@ -94,8 +94,8 @@ counts, hours), in the user's nouns.
 
 First the proposed design, as text in the same response, just above
 the dialog: the message in [`design-messages.md`](design-messages.md),
-"The proposed design", the whole design with every heading filled,
-about 600 words. Then end with one dialog
+"The proposed design", the whole design but its methods, every
+heading filled, about 500 words. Then end with one dialog
 (`AskUserQuestion` where available; otherwise the same as one plain
 line), the build's second and last question before any code:
 
