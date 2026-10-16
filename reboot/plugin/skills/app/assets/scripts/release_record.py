@@ -92,9 +92,9 @@ def main(argv: list[str]) -> int:
     tests = json.loads(record.read_text()) if record.is_file() else {}
     release["tests"] = tests
     if not tests:
-        print("release: tests: no run recorded (tests/.last-run.json); run the full suite first")
+        print("release: tests: no run recorded (tests/.last-run.json); run the full test suite first")
     else:
-        where = "the full suite" if tests.get("full") else "a partial run"
+        where = "the full test suite" if tests.get("full") else "a partial run"
         print(f"release: tests: {tests.get('passed', 0)} passed, {tests.get('failed', 0)} failed, "
               f"{tests.get('wip', 0)} @wip, {tests.get('blocked', 0)} @blocked; {where} at "
               f"{tests.get('revision') or 'this folder'}{' with uncommitted changes' if tests.get('dirty') else ''}")

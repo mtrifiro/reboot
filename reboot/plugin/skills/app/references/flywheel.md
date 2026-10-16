@@ -117,7 +117,7 @@ not cards: they follow [`design-messages.md`](design-messages.md) word
 for word, and the handoff's ask is as
 [`accept-design.md`](accept-design.md) says.
 
-> **Reboot Prove · built and tested.** The full suite ran at this
+> **Reboot Prove · built and tested.** The full test suite ran at this
 > commit: 11 of 12 scenarios pass; the one that doesn't is "A guest
 > cancels the day before check-in". This is the stage where the code
 > is checked against the design you accepted. If you open a pull

@@ -634,7 +634,7 @@ def last_run_line(accepted: dict | None, last_run: dict | None) -> str:
     if not last_run or last_run.get("when", "") < accepted.get("at", ""):
         return (
             "**Scenarios run since acceptance**: none recorded (`tests/.last-run.json`); "
-            "run a new scenario red before its fix, then the full suite green."
+            "run a new scenario red before its fix, then the full test suite green."
         )
     kind = "full run" if last_run.get("full") else "partial run"
     return (
