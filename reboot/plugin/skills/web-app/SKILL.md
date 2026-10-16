@@ -647,7 +647,7 @@ works as it will in the finished app.
    `initialize`, only under `rbt dev run`, seeded as
    `python/references/lifecycle-seeding.md` says. Then write the
    feature's scenarios in the built-in steps of
-   `python/references/testing-features.md`, run `uv run pytest` as [`feature/SKILL.md`](../feature/SKILL.md)'s "Report a full run as it goes" says (in the background, results posted rule by rule) and
+   `python/references/testing-features.md`, run `uv run pytest` as [`feature/SKILL.md`](../feature/SKILL.md)'s "Report a full run once, at the end" says (in the background, its result said once) and
    `uv run mypy backend/ tests/`, and fix what fails before any page.
 7. Scaffold the frontend at `frontend/`
    (`npm create vite@latest frontend -- --template react-ts`), shape
@@ -663,7 +663,7 @@ works as it will in the finished app.
 9. Add one web app scenario for the page per
    `python/references/testing-web-app.md` (it installs Playwright).
    Every feature file then runs from the one test module that
-   starts the frontend. Run `uv run pytest` again, as [`feature/SKILL.md`](../feature/SKILL.md)'s "Report a full run as it goes" says (in the background, results posted rule by rule).
+   starts the frontend. Run `uv run pytest` again, as [`feature/SKILL.md`](../feature/SKILL.md)'s "Report a full run once, at the end" says (in the background, its result said once).
 10. Start the app with the [`run` skill](../run/SKILL.md) and check
     the page in a real browser (Playwright, or the agent's browser
     tool): signed in, it shows the whole demo data, its main action
@@ -701,7 +701,7 @@ works as it will in the finished app.
     change to an existing page, and its scenarios. Before a change
     that isn't additive, stop the app with the `run` skill; start it
     again once the scenarios pass.
-14. Run `uv run pytest`, as [`feature/SKILL.md`](../feature/SKILL.md)'s "Report a full run as it goes" says (in the background, results posted rule by rule), and `uv run mypy backend/ tests/`, check the
+14. Run `uv run pytest`, as [`feature/SKILL.md`](../feature/SKILL.md)'s "Report a full run once, at the end" says (in the background, its result said once), and `uv run mypy backend/ tests/`, check the
     page in the browser as in step 10, and show what this feature
     changed as in step 11, with the same links: the objects it added
     or changed, its actions and rules with their scenarios, what

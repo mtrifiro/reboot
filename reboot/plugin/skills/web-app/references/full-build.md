@@ -138,7 +138,7 @@ feature:
     feature it touches. The Flywheel's routing rule
     ([`app/references/flywheel.md`](../../app/references/flywheel.md))
     says which changes are design.
-17. Run `uv run pytest`, as [`feature/SKILL.md`](../../feature/SKILL.md)'s "Report a full run as it goes" says (in the background, results posted rule by rule), and `uv run mypy backend/ tests/` from the
+17. Run `uv run pytest`, as [`feature/SKILL.md`](../../feature/SKILL.md)'s "Report a full run once, at the end" says (in the background, its result said once), and `uv run mypy backend/ tests/` from the
     project root and fix what fails, then say in one line which
     feature is now finished.
 
