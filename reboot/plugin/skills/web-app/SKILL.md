@@ -678,7 +678,9 @@ works as it will in the finished app.
     the Browser pane, which is for the user at the handoff): signed
     in, it shows the whole demo data, its main action works, every
     filter or drawer it opens can be cleared or closed, no console
-    errors, and the layout checks in
+    errors, the main page shows its first record within 2 seconds,
+    timed as [`references/first-paint.md`](references/first-paint.md)
+    says, and the layout checks in
     [`references/ui-design.md`](references/ui-design.md) ("Measure
     what can be measured") pass at desktop and phone width.
 11. Show what was built so the user can judge it, not admire it,
