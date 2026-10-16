@@ -61,7 +61,7 @@ The first feature's backend:
 Item 3 covers the scaffold, the rules as scenarios, then the domain model
 and starting the dashboard. Item 5 covers the actions, who may do
 each, demo data and the tests (scenarios pass, types check). Items 2,
-4 and 6 are the `app` skill's questions
+4 and 6 are the `new-app` skill's questions
 (`app/references/design-first.md`); a front door's skill used on its
 own, which doesn't ask them, leaves them off.
 
@@ -76,7 +76,7 @@ Item 2 covers the browser scenario, the first-paint time
 (`web-app/references/first-paint.md`) and the layout checks
 (`web-app/references/ui-design.md`, "Measure what can be measured"),
 at desktop and phone width; it ends with the line linking the app and
-the dashboard. A first feature seen from both sides (`app` skill,
+the dashboard. A first feature seen from both sides (`new-app` skill,
 step 1) has "Build the two pages for “<feature>”, <the customers'>
 and <the staff's>" and "Test them side by side in a browser".
 
