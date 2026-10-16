@@ -126,9 +126,9 @@ filled in from the design:
   domain model, then its actions tested against every rule · once you
   say so, its frontend (<its page>), about 15 minutes in all · then
   each next feature as you choose it, 15 to 20 minutes.
-- **All at once:** every feature in the design, the whole backend
-  and then the whole frontend, tested, without stopping, about <time>
-  · then the whole app to try.
+- **All at once:** every feature in the design, the pages built in
+  parallel with the backend, then everything tested together, without
+  stopping, about <time> · then the whole app to try.
 
 **2. Then read [`../app/references/conversation.md`](../app/references/conversation.md)**
 once: what the build says, links, opens and asks at every stage from
