@@ -116,7 +116,7 @@ before any code, that one the feature as built.
 
 - **A yes, on Mixed:** build the first feature by the front door's
   one-feature flow, its backend and then its frontend with no stop
-  between them (no "Does the domain model look right?", no "Build the frontend: the <screen>?"),
+  between them (no "Build on this domain model?", no "Build the frontend: the <screen>?"),
   to its first handoff. That handoff's dialog, in place of "What
   should I build next?", is **Build the rest?**: "Build the rest"
   (recommended), "<the other features, in the user's nouns>, built and
