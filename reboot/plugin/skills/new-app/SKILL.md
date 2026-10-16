@@ -44,15 +44,15 @@ One to three questions, each two to four options, the simplest first
 and marked "(Recommended)", so accepting every recommendation is one
 answer:
 
-- **"How much should the first build cover?"**: "All <n> features
-  (Recommended)", naming them in the description ("Appointment board,
-  pet records, visit billing, vaccine reminders"), or "<The first
-  feature> first", the one sentence 2 names, the rest after. The four
-  or five features are worked out from the prompt: the one sentence 2
-  names first, then the staff's other features, and last, only when
-  the prompt implies customers who use the app themselves ("a hotel
-  where guests book online"), a feature for them, saying who it is
-  for.
+- **"Which features should the first build include?"** (multi-select):
+  four features worked out from the prompt, each its name in the
+  user's nouns as the label and its rule in a few words as the
+  description, in this order: the one sentence 2 names, first, marked
+  "(Recommended)" (a multi-select starts with nothing ticked, so it
+  leads); then the staff's other features; last, only when the prompt
+  implies customers who use the app themselves ("a hotel where guests
+  book online"), a feature for them, its description starting with who
+  it is for. The features ticked are the build, in that order.
 - **"Who signs in?"**, when the prompt leaves it open: "Anyone signed
   in can do everything; roles later (Recommended)" or "Staff roles from
   the start", naming the roles in the user's nouns ("front desk, vets

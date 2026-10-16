@@ -1,7 +1,7 @@
 ---
 title: The Design First, Then How to Build It
 impact: HIGH
-impactDescription: A new app asks one short round of scope questions first (how much the first build covers, who signs in, the accent; never the front door, which is the web app unless the prompt names another), then shows the whole proposed design, and only then asks how to build it, before any code.
+impactDescription: A new app asks one short round of scope questions first (which features the first build includes, ticked from four; who signs in; the accent; never the front door, which is the web app unless the prompt names another), then shows the whole proposed design, and only then asks how to build it, before any code.
 tags: questions, scope, design, design document, first feature, go-ahead
 ---
 
@@ -19,7 +19,8 @@ says: the opening, then the task list, before any reading.
 
 Where the front door's Design Phase asks its round of scope
 questions, ask only the opening's round instead (`new-app` skill, step
-1): how much the first build covers, who signs in, the accent; the
+1): which features the first build includes, who signs in, the
+accent; the
 front door is never asked (the `app` skill's routing). Work out anything else as the
 front door says, then take the answer it would mark as recommended:
 
