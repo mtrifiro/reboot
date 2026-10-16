@@ -28,10 +28,25 @@ Once a feature file exists, the dashboard part names its three pages
 
 > App: http://localhost:5173/ · Dashboard: [Models](http://127.0.0.1:9871/#/models) · [Features](http://127.0.0.1:9871/#/features) · [Changelog](http://127.0.0.1:9871/#/changelog)
 
-The major turns: the app's first start (the `run` skill), each
-handoff (in its **Your turn**), each feature finished, each change
-made, and the build's last message. Before the app runs, the line has
-the dashboard alone, once it is up.
+The major turns: the dashboard's first start, the app's first start
+(the `run` skill), each handoff (in its **Your turn**), each feature
+finished, each change made, and the build's last message. Before the
+app runs, the line has the dashboard alone.
+
+**The dashboard's first start** gets its line as soon as it answers,
+whatever comes next, never only "it's live on port <port>": the
+objects already written, each a link to itself on the models page,
+then the three pages:
+
+> Dashboard is up: [Hotel](http://127.0.0.1:9871/#/models?type=hotel.v1.Hotel) · [Room](http://127.0.0.1:9871/#/models?type=hotel.v1.Room) · [Stay](http://127.0.0.1:9871/#/models?type=hotel.v1.Stay). [Models](http://127.0.0.1:9871/#/models) · [Features](http://127.0.0.1:9871/#/features) · [Changelog](http://127.0.0.1:9871/#/changelog)
+
+**A feature file, wherever it is named,** is two links: the file in
+the project, and its page on the dashboard once the dashboard is up,
+so the rules can be read where they live and where they run, written
+as `[tests/room_booking.feature](tests/room_booking.feature) ([on the dashboard](http://127.0.0.1:9871/#/features/tests/room_booking.feature))`.
+The same for a rule named on its own: its link is the feature's
+dashboard link plus `/rules/<n>` (`dashboard` skill, "Links to an
+Object or a Rule").
 
 **Open the dashboard in the app's Browser pane** where the host has
 one (the Claude app's `preview_start`), the first time it is up and

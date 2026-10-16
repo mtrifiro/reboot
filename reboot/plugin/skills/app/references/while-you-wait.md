@@ -39,7 +39,9 @@ user's nouns says where it is, the task list item staying in
 progress, and a fact from the table above goes with the part it fits:
 
 1. The rules: "Backend: writing the floor plan's rules as scenarios
-   in `tests/room_status_floor_plan.feature`."
+   in `tests/room_status_floor_plan.feature`",
+   the file a link (`conversation.md`, "A feature file"), and its
+   dashboard page linked too once the dashboard is up.
 2. The actions: "Backend: writing the room status floor plan's actions:
    checking in, marking a room cleaned, inspecting it."
 3. Who may do each: "Backend: now who may do each: only housekeeping marks a
