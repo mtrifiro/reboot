@@ -85,19 +85,17 @@ summary that points to `design/design.md` is not enough. Its
 assumptions name what the build picked, so nothing feels hidden:
 
 > Assumed, all easy to change: the name Groom Room, opening hours
-> 9:00 to 17:00, and an hour per appointment. The rest is in
-> design/design.md.
+> 9:00 to 17:00, and an hour per appointment.
 
 At most five assumptions, the ones that shape the app most (its name,
-counts, hours), in the user's nouns; the path a link to the
-file.
+counts, hours), in the user's nouns.
 
 ## 3. One question
 
 First the proposed design, as text in the same response, just above
 the dialog: the message in [`design-messages.md`](design-messages.md),
-"The proposed design", every heading filled (Brief, Domain model,
-First, After it, Assumed), about 200 words. Then end with one dialog
+"The proposed design", the whole design with every heading filled,
+about 600 words. Then end with one dialog
 (`AskUserQuestion` where available; otherwise the same as one plain
 line), the build's second and last question before any code:
 
