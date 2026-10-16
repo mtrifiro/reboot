@@ -35,29 +35,29 @@ Something else the prompt leaves open is decided the same way: the
 simplest choice that fits, assumed, and listed. Times are in the
 user's own time zone.
 
-## 2. The design document
+## 2. The design: shown first, written to the file after
 
-Read the references for the API as the front door says, then write the
-proposed design to `design/design.md`, in the shape of
-[`design-document.md`](design-document.md), **in three parts, each its
-own write, each after its own line to the user** (message text, before
-the write):
+Before the design, read only what it needs: the domain model's shape
+rules (`python/references/state-collections.md` and
+`api-methods.md`) and `design-messages.md`'s "The proposed design".
+Nothing else yet: `conversation.md`, `design-document.md`,
+`task-list.md` and the front door's references are read after the
+answer, while the user isn't waiting on them.
 
-1. "Writing the design: first the features and their rules." Then
-   write the title, status, **Brief** and **Proposed features, in build
-   order**.
-2. "<N> features, the first <feature>. Now the domain model that keeps
-   its rules." Then add **Domain model**, each object introduced by the
-   rule it keeps ("`Room` holds its own bookings, so no night is booked
-   twice").
-3. "Domain model written: <the objects>. Now the methods, pages and
-   sign-in." Then add the rest: the first feature's methods, **Pages**,
-   **Sign-in** and **Assumed**.
+Then write the proposed design **once, in the chat**: the message in
+the shape of `design-messages.md`, "The proposed design", the whole
+design but its methods, about 500 words, with one line before it only
+when research ran long. Then ask **How should it be built?** (section
+3). `design/design.md` is written after the answer, before any code,
+in the shape of [`design-document.md`](design-document.md), in one
+write: the same design, plus the first feature's methods. On "Not
+yet", it is written before the reply that links it. Writing the
+design twice, in parts and then again for the chat, kept the user
+waiting for the file (crm-15 showed its design at 1 m 58 s; hotel-7,
+which wrote it once in the chat, at 47 s).
 
-Each part is less to work out at once than the whole design, and the
-user sees it take shape instead of minutes of silence (one build spent
-3 minutes thinking before writing it whole). With these differences
-while nothing is built:
+What the design holds while nothing is built, in the chat and in the
+file:
 
 - **Status:** "proposed on <date>; nothing is built yet. Names become
   links to the developer dashboard once it shows them."
@@ -84,12 +84,9 @@ while nothing is built:
   step 1, one line each, the question then the answer taken, so the
   user sees what to change.
 
-Then show the proposed design in the chat as the front door says:
-the whole design but its methods, in the shape of `design-messages.md`,
-"The proposed design", about 500 words; the methods stay in
-`design/design.md`. The user signs off on what they see, so a
-summary that points to `design/design.md` is not enough. Its
-assumptions name what the build picked, so nothing feels hidden:
+The user signs off on what they see, so a summary that points to
+`design/design.md` is not enough. Its assumptions name what the build
+picked, so nothing feels hidden:
 
 > Assumed, all easy to change: the name Groom Room, opening hours
 > 9:00 to 17:00, and an hour per appointment.
@@ -141,7 +138,7 @@ before any code, that one the feature as built. After the answer, the
   it by the front door's one-feature flow. At the first handoff,
   `design/design.md` becomes the accepted design as `accept-design.md`
   says, and **Assumed** moves into the first decisions entry.
-- **Not yet, or the dialog skipped:** no tool call; one short reply that links the design
+- **Not yet, or the dialog skipped:** write `design/design.md` (section 2), then one short reply that links the design
   document so the user can open it and read it whole:
   "The whole design is in design/design.md." with that path as a
   Markdown link to the file in the user's project, then "Tell me to

@@ -130,9 +130,11 @@ filled in from the design:
   parallel with the backend, then everything tested together, without
   stopping, about <time> · then the whole app to try.
 
-**2. Then read [`../app/references/conversation.md`](../app/references/conversation.md)**
+**2. Before the design, read only what it needs** (`../app/references/design-first.md`,
+section 2). **After the answer to How should it be built?, read
+[`../app/references/conversation.md`](../app/references/conversation.md)**
 once: what the build says, links, opens and asks at every stage from
-here on. Each path's next steps are read when they start: the design
+there on. Each path's next steps are read when they start: the design
 ([`../app/references/design-first.md`](../app/references/design-first.md)), the task
 list (`../app/references/task-list.md`), and for the whole app, the
 [`one-shot` skill](../one-shot/SKILL.md)'s steps 4 and 5.
@@ -148,8 +150,8 @@ list (`../app/references/task-list.md`), and for the whole app, the
   it be built?**: the design, a few minutes; the first feature, 15; each next feature, 15 to 20; the
   whole app, about 7 a feature.
 - **Never a minute without a line,** at every stage: in the design,
-  one when the research ends (what it found) and one before each of
-  the design's three parts (`../app/references/design-first.md`); in
+  one when the research ends (what it found), then the design itself,
+  one message (`../app/references/design-first.md`, section 2); in
   the build, one as each part starts (the API, the servicers, the
   tests, the page), saying what Reboot does for this app at that step
   (`../app/references/conversation.md`, "Say what Reboot does here").
