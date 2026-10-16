@@ -1,6 +1,6 @@
 ---
 name: app
-description: Build a Reboot application from a user description. Every backend is designed ready for both front doors, an MCP UI (ChatGPT, Claude, VSCode, Goose) and a standalone web app, with one `User` per identity via `oauth=...`. Builds the front door the prompt names (MCP/Claude/ChatGPT → `mcp-ui`; a URL/SPA/"website" → `web-app`; both named → both; an API or backend for the user's own frontend, mobile app or service → a backend only, with a generated client); otherwise builds the web app first without asking, and offers the other front door at handoff.
+description: Build a Reboot application from a user description. Every backend is designed ready for both front doors, an MCP UI (ChatGPT, Claude, VSCode, Goose) and a standalone web app, with one `User` per identity via `oauth=...`. Builds the front door the prompt names (MCP/Claude/ChatGPT → `mcp-ui`; a URL/SPA/"website" → `web-app`; both named → both; an API or backend for the user's own frontend, mobile app or service → a backend only, with a generated client); otherwise builds the web app first without asking, and offers the other front door at handoff. Load it as the very first step of any request to build an app, before a task list, a plan or any other tool call: it says what to show first.
 argument-hint: [<app-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 ---
@@ -55,7 +55,14 @@ It replaces the decision flow's one sentence. No heading.
 
 - **Then one dialog,** only once the two paragraphs are out as text of
   their own: the user reads the intent and how it's built first, then answers. Never the
-  paragraph inside the dialog, and never the dialog alone. The dialog
+  paragraph inside the dialog, and never the dialog alone. The response
+  that asks is, in this order: the first paragraph, the second, then
+  the dialog's tool call. Both paragraphs are that response's own
+  text: written only in thinking, the user never gets them (the
+  Claude app may show a thought's summary, but it is not the message),
+  and the dialog then arrives alone. Never a word about how it will be
+  built (feature by feature, all at once) before the answer: the
+  second paragraph names both ways and the dialog asks. The dialog
   (`AskUserQuestion` where available; otherwise the same as one plain
   line), word for word but for the angle brackets:
   - Title: **How should it be built?**
@@ -153,7 +160,10 @@ and, for Automatically and Hands-off, the [`one-shot` skill](../one-shot/SKILL.m
 **3. The task list** is made after the answer, never beside the
 question: the question is the only tool call in its response. A list
 made before the answer at all has one item, "Propose the design for
-<app>". The lists, one per part (the backend, then the frontend), are
+<app>". A list that already exists when this skill loads (the host
+may have planned before loading it) is replaced first, in a response
+of its own, with that one item, so the opening and its dialog still
+come alone. The lists, one per part (the backend, then the frontend), are
 in `references/task-list.md`, where the plugin has it.
 
 **4. Time estimates,** from measured builds, always "about", only in
