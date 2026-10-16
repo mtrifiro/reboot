@@ -43,15 +43,14 @@ It replaces the decision flow's one sentence. No heading.
   model, two pages. An app with one side (an internal tool, a chore
   chart, a CRM) keeps a one-page first feature. Its handoff starts with
   the two pages side by side (`references/conversation.md`).
-- **How Reboot builds,** a second paragraph of its own, the same for
+- **How it will be built, the user's choice,** a second paragraph of its own, the same for
   every app and either path, these words exactly, as plain text like
   the first paragraph (never merged into it, never paraphrased, never
-  a quote block, never broken across lines): "Reboot builds an app from its
-  domain model, the objects it keeps and the rules they follow, each
-  rule written as a scenario that proves it. It can build
-  interactively, a feature at a time, each one working for you to try
-  before the next, or automatically, the whole app at once, without
-  stopping."
+  a quote block, never broken across lines): "I'll build it with Reboot,
+  starting from its domain model: the objects it keeps and the rules
+  they follow, each rule proved by a scenario. You choose how: a
+  feature at a time, trying each one before the next, or the whole app
+  at once, without stopping."
 
 - **Then one dialog,** only once the two paragraphs are out as text of
   their own: the user reads the intent and how it's built first, then answers. Never the
@@ -104,11 +103,10 @@ text):
 > already taken for any of those nights; built as a web app with the
 > backend ready for an MCP UI too.
 >
-> Reboot builds an app from its domain model, the objects it keeps
-> and the rules they follow, each rule written as a scenario that
-> proves it. It can build interactively, a feature at a time, each
-> one working for you to try before the next, or automatically, the
-> whole app at once, without stopping.
+> I'll build it with Reboot, starting from its domain model: the
+> objects it keeps and the rules they follow, each rule proved by a
+> scenario. You choose how: a feature at a time, trying each one
+> before the next, or the whole app at once, without stopping.
 
 Then the dialog. On **Interactively**:
 
