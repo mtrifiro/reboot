@@ -7,14 +7,9 @@ allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 
 # web-app — Build Reboot Web Apps
 
-> **Version notices:** if `rbt` reports a version mismatch or that a
-> newer Reboot is available, the [upgrade skill](../upgrade/SKILL.md)
-> says how and when to react.
+> **Version notices** from `rbt` (a mismatch, a newer Reboot): the [upgrade skill](../upgrade/SKILL.md).
 >
-> **Errors:** holding an error string, grep a distinctive fragment of
-> it in `python/references/errors.md` first; never read the file
-> whole. Defects in released Reboot versions, with their workarounds,
-> are in [`KNOWN-ISSUES.md`](../../KNOWN-ISSUES.md).
+> **Errors:** grep a fragment of the string in `python/references/errors.md` (never read whole); known defects and workarounds: [`KNOWN-ISSUES.md`](../../KNOWN-ISSUES.md).
 
 Build complete Reboot Web Apps from a user description: a Reboot
 backend behind a standalone React frontend served at a normal URL.
@@ -393,7 +388,8 @@ rule that sends a change to the design back to Design.
    recommendation is one answer. Never an option that only
    means "say what": every dialog has its own free answer. Don't ask about the look: when the
    user named no brand, pick the accent that suits the domain from
-   teal, cyan, blue, indigo, violet, purple, plum and rose, and say in
+   the ones [`references/ui-design.md`](references/ui-design.md)
+   lists, and say in
    the brief that it was picked for them and is easy to change later,
    to another color or to their brand. Name the app too, unless the
    prompt gives a name, and say the same of it. Don't ask what the design can
@@ -656,8 +652,8 @@ works as it will in the finished app.
     what to try, where to look, and the features to ask for next, the
     recommended one first, then the dialog **What should I build next?**
     with those features as its options. The user's choosing or asking for a next
-    feature (or saying to keep this one) accepts this one, and its
-    `@wip` comes off then. Open it with the
+    feature (or saying to keep this one) accepts this one (its
+    `@wip`: the [`feature` skill](../feature/SKILL.md)). Open it with the
     Flywheel heading **Reboot Design · ready for your review**; the
     first time, record it as `app/references/accept-design.md` says; each
     acceptance is recorded the same way
