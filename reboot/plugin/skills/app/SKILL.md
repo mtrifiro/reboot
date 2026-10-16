@@ -33,30 +33,21 @@ the prompt alone, in the user's nouns:
 <its rule>; built as <a web app | an MCP UI | both>, with the backend
 ready for the other front door too.
 
-I'll build it with Reboot, starting from its rules: what must always hold, each proved by a scenario, and the domain model that keeps them. You choose how: the first feature with you, then the rest without stopping; a feature at a time; or the whole app at once.
+I'll design it first, with Reboot, starting from its rules: what must always hold, each proved by a scenario, and the domain model that keeps them. You'll see the design in a few minutes, then choose how to build it.
 ```
 
-Then the dialog **How should it be built?** (`AskUserQuestion`; where
-there is none, the same as one plain line), its options word for word:
-
-- "Mixed (Recommended)": "You approve the design and try the first
-  feature, about 15 minutes; then the rest is built and tested
-  without stopping, an hour or more."
-- "Step by step": "A feature at a time, about 15 minutes each. You
-  check each part."
-- "Hands-off": "No stops at all, not even for the design: every
-  feature a real product needs, built and tested, an hour or more. You
-  see it at the end."
+No question follows it: the build goes straight on to the design.
+How to build is asked once, after the design is shown, with the design
+in view ([`references/design-first.md`](references/design-first.md),
+section 3, **How should it be built?**).
 
 Rules for that response:
 
-- Both paragraphs are its visible text, never only in thinking; then
-  the dialog, its only tool call. Never the dialog alone.
+- Both paragraphs are its visible text, never only in thinking,
+  before any tool call.
 - The second paragraph word for word, as plain text, never merged with
   the first.
-- Nothing about how it will be built before the answer: that is the
-  user's choice. Mixed is first and the only option marked
-  recommended.
+- Nothing about how it will be built: that is asked after the design.
 - "(working name)" only when the build picked the name.
 - **One feature first:** the feature at the centre of the named side's
   day, on one page: the main page's central object and a rule the user
@@ -88,44 +79,43 @@ room status floor plan: every room moving from occupied to dirty to
 cleaned to inspected, and no guest put in a room that isn't inspected;
 built as a web app with the backend ready for an MCP UI too."
 
-**What to expect,** right after the answer, before any other tool
-call: the chosen path's items, each its own line of a list under
-"What to expect:", filled in for this app:
+**What to expect,** right after the answer to **How should it be
+built?** (after the design), before any other tool call: the chosen
+path's items, each its own line of a list under "What to expect:",
+filled in from the design:
 
-- **Mixed:** the proposed design in a few minutes, nothing to answer
-  until then · after the go-ahead, <first feature> built and tested
-  without stopping, its backend against its rules, then its frontend
-  (<its page>) in a browser, about 15 minutes · then your turn to try
-  it · once you say so, the rest of the design, built and tested
-  without stopping, an hour or more, then the whole app to try.
-- **Step by step:** the proposed design in a few minutes, nothing to
-  answer until then · each feature in two parts, its backend tested
-  against its rules, then its frontend tested in a browser · after the
-  go-ahead, <first feature>'s backend, with the dashboard's link to
-  check its domain model, then its actions tested against every rule ·
-  once you say so, its frontend (<its page>), about 15 minutes in
-  all · then each next feature as you choose it, 15 to 20 minutes.
-- **Hands-off:** no questions from here on, not even about the design
-  · the design, with every feature a real <domain> app needs, in
-  design/design.md · then the whole backend and the whole frontend,
-  tested, without stopping, an hour or more. Then hand the build to
-  the [`one-shot` skill](../one-shot/SKILL.md) from its step 1.
+- **Mixed:** <first feature> built and tested without stopping, its
+  backend against its rules, then its frontend (<its page>) in a
+  browser, about 15 minutes · then your turn to try it · once you say
+  so, the other <n> features, built and tested without stopping,
+  about <time>, then the whole app to try.
+- **Step by step:** each feature in two parts, its backend tested
+  against its rules, then its frontend tested in a browser ·
+  <first feature>'s backend, with the dashboard's link to check its
+  domain model, then its actions tested against every rule · once you
+  say so, its frontend (<its page>), about 15 minutes in all · then
+  each next feature as you choose it, 15 to 20 minutes.
+- **The whole app:** every feature in the design, the whole backend
+  and then the whole frontend, tested, without stopping, about <time>
+  · then the whole app to try.
 
 **2. Then read [`references/conversation.md`](references/conversation.md)**
 once: what the build says, links, opens and asks at every stage from
 here on. Each path's next steps are read when they start: the design
 ([`references/design-first.md`](references/design-first.md)), the task
 list (`references/task-list.md`), and for the rest of a Mixed build
-and for Hands-off, the [`one-shot` skill](../one-shot/SKILL.md).
+and for the whole app, the [`one-shot` skill](../one-shot/SKILL.md)'s
+steps 4 and 5.
 
 **3. Throughout the build:**
 
-- **Task list:** none beside the opening's dialog. Made before the
-  answer, it has one item, "Propose the design for <app>"; a list
-  that exists when this skill loads is replaced with that item first,
-  in a response of its own.
-- **Times,** always "about", only in the opening: the design, a few
-  minutes; the first feature, 15; each next feature, 15 to 20; the
+- **Task list:** until the answer to **How should it be built?** it
+  has one item, "Propose the design for <app>", made right after the
+  opening; a list that exists when this skill loads is replaced with
+  that item first, in a response of its own. The chosen path's list
+  follows the answer.
+- **Times,** always "about", only in the opening and in **How should
+  it be built?**: the design, a few minutes; the first feature, 15; each next feature, 15 to 20; the
   whole app, or the rest of it, an hour or more.
 - **Never a minute without a line,** at every stage: in the design,
   one when the research ends (what it found) and one before each of
