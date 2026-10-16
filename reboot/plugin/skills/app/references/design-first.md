@@ -103,7 +103,7 @@ heading filled, its features and rules before its domain model, about
 (`AskUserQuestion` where available; otherwise the same as one plain
 line), the build's first and only question before any code. It
 chooses how to build and gives the go-ahead at once, with the design
-in view. Two options, word for word, filled in from the design (<n>
+in view. Its options, word for word, filled in from the design (<n>
 the features' count; <time> about 15 minutes a feature, said "about
 an hour", "about an hour and a half"):
 
@@ -112,10 +112,12 @@ an hour", "about an hour and a half"):
   check each part."
 - "The whole app": "All <n> features without stopping, about <time>;
   you see it at the end."
+- "Not yet": "I want to review or revise the design." Nothing more:
+  what happens next is said after the answer.
 
-Neither is marked recommended: that is the user's choice. A change,
-or "not yet", is typed as the dialog's own free answer, so no option
-only means "change something". Nothing is built before the answer. It comes in
+Neither way of building is marked recommended: that is the user's
+choice. A change is typed as the dialog's own free answer, so no
+option only means "change something". Nothing is built before the answer. It comes in
 addition to the first handoff's review: this one decides the design
 before any code, that one the feature as built. After the answer, the
 `app` skill's **What to expect** for the chosen path, then the build.
@@ -129,7 +131,7 @@ before any code, that one the feature as built. After the answer, the
   it by the front door's one-feature flow. At the first handoff,
   `design/design.md` becomes the accepted design as `accept-design.md`
   says, and **Assumed** moves into the first decisions entry.
-- **"Not yet", typed, or the dialog skipped:** no tool call; one short reply that links the design
+- **Not yet, or the dialog skipped:** no tool call; one short reply that links the design
   document so the user can open it and read it whole:
   "The whole design is in design/design.md." with that path as a
   Markdown link to the file in the user's project, then "Tell me to
