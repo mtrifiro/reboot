@@ -288,8 +288,11 @@ The design is a proposal until the user accepts it: call it, and
 every part of it such as the data model, proposed, never settled, set
 or final, in the design and in every status line. Ask one round of
 scope questions before it (step 2 below), then build without waiting
-again. The user accepts the design, or says what to change, at the
-handoff, with the running app in front of them.
+again. The first question is how to build: one feature at a
+time, where after each the user tries it in their AI client,
+understands it and chooses the next, so the design is accepted piece
+by piece; or the whole app first, accepted at its handoff, with the
+running app in front of them.
 
 ### Design Phase
 
@@ -297,16 +300,23 @@ handoff, with the running app in front of them.
    below.
 2. Ask one round of scope questions first, from the prompt alone,
    before reading any reference or showing a design: one question
-   dialog (`AskUserQuestion` where available) with at most three
-   questions, on what the prompt left open and an answer would change
-   most, such as who signs in with which roles and what the app keeps
+   dialog (`AskUserQuestion` where available). The first question is
+   how to build it, unless the prompt already says: "One feature at a
+   time, so you understand each part as it's built" (recommended) or
+   "The whole app first, then reviewed as a whole". Then at most three
+   more, on what the prompt left
+   open and an answer would change most, such as who signs in with which roles and what the app keeps
    track of. Give each question two to four options, the simplest
    first and marked as recommended, so accepting every
-   recommendation is one answer. When the user named no brand, one of
-   them is the accent: two or three of teal, cyan, blue, indigo,
-   violet, purple, plum and rose that suit the domain, plus "use my
-   brand" for a site or tokens to read. Don't ask what the design can
-   decide well on its own. Ask nothing more until the handoff.
+   recommendation is one answer. Don't ask about the look: when the
+   user named no brand, pick the accent that suits the domain from
+   teal, cyan, blue, indigo, violet, purple, plum and rose, and say in
+   the brief that it was picked for them and is easy to change later,
+   to another color or to their brand. Name the app too, unless the
+   prompt gives a name, and say the same of it. Don't ask what the design can
+   decide well on its own. Never ask about time zones: every date
+   and time is in the user's own time zone unless they say otherwise,
+   and the design says so among what it assumed. Ask nothing more until the handoff.
 3. Read the references for the API, then show the proposed design
    with the answers in it, before writing the API: the brief (who
    uses the app and on what screen, the task, the one question its
@@ -328,7 +338,17 @@ handoff, with the running app in front of them.
      main user story — and most of them ending on a turn that
      renders a `UI()` component, not just a tool call (see
      "Example Prompts" under Key Framework Concepts).
-4. Then execute the Step-by-Step Build Flow.
+4. Then build it the way the user chose. The whole app: the
+   Step-by-Step Build Flow below, for every feature. One feature at a
+   time: the same flow for the first feature only, its types, methods,
+   `UI()` views, example prompts and scenarios, handed off at step 14
+   with what it keeps track of, what it does and the rules it keeps,
+   and the question dialog as in the `web-app` skill's step 11: accept
+   this feature (its `@wip` comes off) or change something first, and
+   what to build next, the recommended feature first. Each next
+   feature then goes through the Update Flow, its feature file first
+   ([`feature` skill](../feature/SKILL.md)), and ends with the same
+   dialog.
 
 For updates to existing apps, still work the design first: read
 current state, state the changes, then modify.
@@ -803,7 +823,8 @@ a worked set are in
     servicers and never subclass one to weaken its `authorizer()`.
     Let factories make ids up. Tag what cannot pass yet `@blocked`
     with its reason; leave `@wip` where work continues. Run
-    `uv run pytest` and fix anything that fails.
+    `uv run pytest` with `rbt dev run` stopped (`run` skill, "Stopping
+    the App") and fix anything that fails.
     Then type-check: run `uv run mypy backend/ tests/` from the project
     root and fix every error (config and rationale in
     `python/references/lifecycle-project-setup.md`). Do not
@@ -849,7 +870,7 @@ When modifying an existing app:
    an example prompt in `backend/src/example_prompts.py` so the
    wizard surfaces the new flow.
 7. Re-verify the backend: run `uv run mypy backend/ tests/` from the
-   project root and `uv run pytest`; fix every
+   project root and `uv run pytest`, with `rbt dev run` stopped; fix every
    error and failure before handing back.
 8. If the app isn't already running, bring it up with the
    [`run` skill](../run/SKILL.md). If it is already running under
