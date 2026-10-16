@@ -37,17 +37,13 @@ yet: the app is named in the design, as a working name.
    starting from its rules, and you'll choose how to build it." word
    for word.
 
-**Then one round of questions, what to build,** as `/app` asks it
-(the `app` skill's "which kind of app" and the front door's scope
-round): one dialog (`AskUserQuestion`; where there is none, the same as
+**Then one round of questions, what to build,** as the front door's
+scope round asks it: one dialog (`AskUserQuestion`; where there is none, the same as
 plain lines), from the prompt alone, before reading any reference.
-Two to four questions, each two to four options, the simplest first
+One to three questions, each two to four options, the simplest first
 and marked "(Recommended)", so accepting every recommendation is one
 answer:
 
-- **"Which kind of app are you building?"**, only when the prompt
-  doesn't name the front door: "Web app (Recommended)", "MCP UI (for
-  Claude or ChatGPT)", "Both".
 - **"How much should the first build cover?"**: "All <n> features
   (Recommended)", naming them in the description ("Appointment board,
   pet records, visit billing, vaccine reminders"), or "<The first
@@ -66,7 +62,9 @@ answer:
   three accents that suit the domain, the first recommended, plus
   "Use my brand" (a site or tokens to read).
 
-The answers are the design's scope: the features chosen, in build
+The front door is never asked, as the `app` skill routes it: the one
+the prompt names, otherwise the web app, with the backend ready for an
+MCP UI, offered at handoff. The answers are the design's scope: the features chosen, in build
 order, and nothing else; what else a real app in the domain needs goes
 under **Not in this build**, never built unless the user asks. A free
 answer is taken as written. Nothing else is asked before the design,
