@@ -138,13 +138,25 @@ feature:
     feature it touches. The Flywheel's routing rule
     ([`app/references/flywheel.md`](../../app/references/flywheel.md))
     says which changes are design.
-17. Run `uv run pytest`, as [`feature/SKILL.md`](../../feature/SKILL.md)'s "Report a full run once, at the end" says (in the background, its result said once), and `uv run mypy backend/ tests/` from the
-    project root and fix what fails, then say in one line which
-    feature is now finished.
+17. Test the backend only: `uv run pytest tests/<app>_test.py`, every
+    feature's backend scenarios and no browser, in the background, its
+    result said once ([`feature/SKILL.md`](../../feature/SKILL.md),
+    "Report a full run once, at the end"), and
+    `uv run mypy backend/ tests/` from the project root. After a
+    failure, fix it and rerun only what failed (`--lf`), then go on;
+    say in one line which feature is now finished. The browser
+    scenarios (`tests/web_test.py`) wait for step 18: they start a
+    browser and the frontend on every run, and the pages are finished
+    last. A whole-suite run after every feature cost restaurant-3 over
+    a third of its build.
 
 **The handoff**, when every feature is done:
 
-18. Every scenario passes (or is `@blocked` with its reason) and
+18. Run the whole suite once, browser scenarios included, in the
+    background, its result said once, and mypy. After a failure, fix
+    it and rerun only what failed (`--lf`); run the whole suite again
+    only when a fix changed something several features share (an
+    object's state, a method, the page shell). Then every scenario passes (or is `@blocked` with its reason) and
     mypy is green — together they are what catches contract bugs.
     Write the handoff in the shape of
     [`app/references/design-messages.md`](../../app/references/design-messages.md),
