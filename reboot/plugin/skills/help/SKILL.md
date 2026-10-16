@@ -44,12 +44,12 @@ One message, no longer than a screen:
 | --- | --- |
 | No project | "Build me a <kind of app> for <who>" (the `app` skill); "Show me an example first" (the `quickstart` skill) |
 | Design only | "Build it" (go on from the design); "Change the design: <what>" |
-| Backend built | "Build the frontend"; "Show me the domain model" (the dashboard); "Will it scale?" (`domain-review`) |
+| Backend built | "Build the <screen>" (the next page, named as its users would); "Show me the domain model" (the dashboard); "Will it scale?" (`domain-review`) |
 | Frontend built | "Build <the next feature from the last Build next list>" ; "What should I build next?" (`what-next`); "Review the look" (`design-review`); "Will it scale?" (`domain-review`); "Put it in Claude and ChatGPT" (an MCP UI, when only the web app exists); "Deploy it" (`deploy`); "Stop the app" or "Restart it" (`run`) |
 | Deployed | "What's happening in production?" (`inspect`); "Deploy the latest" (`deploy`); the frontend-built items |
 
    Leave out what doesn't apply: no "Review the look" without a web
-   app, no "Stop the app" when nothing runs, no "Build the frontend"
+   app, no "Stop the app" when nothing runs, no "Build the <screen>"
    once it is built. A feature in progress (`@wip`) comes first:
    "Finish <feature>".
 
