@@ -112,16 +112,20 @@ backend:
 1. Propose the design for <app>
 2. Get your go-ahead on the design
 3. Build the domain model and rules
-4. Build every feature's actions and test them against its rules
+4. Start every page of the design in parallel (a sub-agent)
+5. Build every feature's actions and test them against its rules
 
 then, with no stop between them, the frontend:
 
-1. Build every page of the design
+1. Finish every page of the design
 2. Test them in a browser
 3. Your turn: try the app and decide what to do next
 
 Item 2 of the backend is left off where no go-ahead is asked
-(`one-shot`). For an MCP UI, the frontend's item 1 is "Build every UI
+(`one-shot`), and item 4 only where the host has no Agent tool
+(`web-app/references/full-build.md`, "The prototype, built in two
+parts at once"); then the frontend's item 1 is "Build every page of
+the design". For an MCP UI, the frontend's item 1 is "Build every UI
 of the design" and item 2 "Test them in their AI client".
 
 ## A backend only
