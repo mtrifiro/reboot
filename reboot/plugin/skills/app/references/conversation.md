@@ -17,6 +17,17 @@ rest of the build: links, the Browser pane, what is said after each
 answer and at each stage, research, the questions inside the build,
 and keeping a feature.
 
+**Explain, don't just report.** Each message says what happened, what
+it means for the user's app, and what comes next, in the user's nouns,
+so someone who glanced away can pick it up. "The dashboard is up" is a
+report; "The domain model is on the dashboard: Room holds its own
+bookings, so no night is booked twice ([Room](<link>)). Next, the
+booking actions." explains. Name the thing, link it when it can be
+opened, and say why it matters. A dialog is explained the same way:
+its title names what it asks about, each option says what happens if
+chosen, and the text just above it gives the context to choose; a
+question that only makes sense after scrolling up is not ready to ask.
+
 **Links at every major turn.** Once the app has started, every
 major turn ends with one line linking both, on the ports they started
 on, so the user never scrolls back for them:
