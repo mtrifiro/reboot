@@ -24,17 +24,29 @@ allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 
 ## First, Before Reading Anything
 
-**1. The opening.** The build's first response is this, filled in from
-the prompt alone, in the user's nouns:
+**1. The opening.** The build's first response is a short brief, worked
+out from the prompt for this app: about 150 to 200 words, three short
+paragraphs, no headings, in the user's nouns. It is real work, not a
+form to fill in: the design starts from it, so think it through and
+write it out.
 
-```text
-<App> (working name) is <what it is>, used by <who>. It keeps track of
-<three to five of the user's nouns>. The first feature is <feature>,
-<its rule>; built as <a web app | an MCP UI | both>, with the backend
-ready for the other front door too.
-
-I'll design it first, with Reboot, starting from its rules: what must always hold, each proved by a scenario, and the domain model that keeps them. You'll see the design in a few minutes, then choose how to build it.
-```
+1. **What it is and who it's for.** "<App> (working name) is <what it
+   is>, used by <who>", saying too which side comes later or belongs
+   to someone else's system (the **One feature first** rule below).
+   Then their day with it, in their terms: the cycle or flow the app
+   follows ("each room goes from occupied to dirty to cleaned to
+   inspected, and back to occupied").
+2. **What it keeps track of.** Three to five of the user's nouns, each
+   with a few words on what it holds and why it matters to them
+   ("the rooms, each with its housekeeping state; the stays, so the
+   desk knows who arrives and who leaves today").
+3. **The first feature, and why it comes first.** The feature, its
+   rule in plain words, why it is first, and the front door ("built as
+   a web app, with the backend ready for an MCP UI too"). Then end with
+   this sentence, word for word: "I'll design it first, with Reboot,
+   starting from its rules: what must always hold, each proved by a
+   scenario, and the domain model that keeps them. You'll see the
+   design in a few minutes, then choose how to build it."
 
 No question follows it: the build goes straight on to the design.
 How to build is asked once, after the design is shown, with the design
@@ -43,12 +55,13 @@ section 3, **How should it be built?**).
 
 Rules for that response:
 
-- Both paragraphs are its visible text, never only in thinking,
-  before any tool call.
-- The second paragraph word for word, as plain text, never merged with
-  the first.
+- The brief is the response's visible text, before any tool call. A
+  brief worked out in thinking is not sent: write it out as text,
+  whole, then make the task list.
+- The last sentence word for word, as plain text.
 - Nothing about how it will be built: that is asked after the design.
-- "(working name)" only when the build picked the name.
+- "(working name)" after the name the first time it appears, only when
+  the build picked the name.
 - **One feature first:** the feature at the centre of the named side's
   day, on one page: the main page's central object and a rule the user
   can see it keep. "Manage a hotel" names its staff, and their day is
@@ -71,13 +84,27 @@ Rules for that response:
   its own feature, **Who may do what**, in the build order before
   any deploy.
 
-Example: "Maison Desk (working name) is an app for a 56-room boutique
-hotel, used by its front desk and housekeeping; guests get their own
-page later. It keeps track of the rooms and their status, the guests
-and their stays, and the amenities they book. The first feature is the
-room status floor plan: every room moving from occupied to dirty to
-cleaned to inspected, and no guest put in a room that isn't inspected;
-built as a web app with the backend ready for an MCP UI too."
+Example:
+
+> Maison Desk (working name) is an app for a 56-room boutique hotel,
+> used by its front desk and housekeeping; guests get their own page
+> later. Their day is the rooms: each goes from occupied to dirty when
+> a guest leaves, to cleaned, to inspected, and only then to the next
+> guest.
+>
+> It keeps track of the rooms, each with its housekeeping state; the
+> stays, so the desk knows who arrives and who leaves today; the
+> guests and what they prefer; and the amenities they book, from the
+> spa to the chauffeur.
+>
+> The first feature is the room status floor plan: all 56 rooms by
+> floor, each in its state, and no guest put in a room that isn't
+> inspected. It comes first because every other part of the hotel
+> waits on a clean room. Built as a web app, with the backend ready
+> for an MCP UI too. I'll design it first, with Reboot, starting from
+> its rules: what must always hold, each proved by a scenario, and the
+> domain model that keeps them. You'll see the design in a few
+> minutes, then choose how to build it.
 
 **What to expect,** right after the answer to **How should it be
 built?** (after the design), before any other tool call: the chosen

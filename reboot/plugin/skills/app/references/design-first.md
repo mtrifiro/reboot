@@ -13,7 +13,7 @@ way. It replaces the front door's round of scope questions.
 ## 0. Say what will be built, first
 
 Done already, as the `app` skill's "First, Before Reading Anything"
-says: the paragraph, then the task list, before any reading.
+says: the brief, then the task list, before any reading.
 
 ## 1. No scope questions
 
@@ -264,8 +264,8 @@ unchanged, but for these questions.
   dashboard's links shown just above it (section 5): the question asks
   the user to judge what those show.
 
-- Reading a reference, or listing the folder, before the paragraph
-  that says what will be built; reading this plugin's files with a
+- Reading a reference, or listing the folder, before the brief that
+  says what will be built; reading this plugin's files with a
   shell command instead of the file tools.
 - Any question before the design is shown, "How should it be
   built?" included: it is asked once, after the design.
