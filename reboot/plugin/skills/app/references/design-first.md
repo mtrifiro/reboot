@@ -1,11 +1,11 @@
 ---
-title: Ask Nothing Until the Design Document
+title: What to Build First, How to Build After the Design
 impact: HIGH
-impactDescription: A new app asks nothing before its design. The user reads what will be built at once, then the whole proposed design, and only then chooses how to build it (a feature at a time, or the whole app timed from the design) or changes something, before any code; a question asked before the design is asked blind.
+impactDescription: A new app asks what to build before its design (what it should cover first, and who will use it, each with the likely answer picked) and how to build only after it, with the whole proposed design in view: the scope is the user's, and the way of building is chosen knowing what it covers.
 tags: questions, scope, design, design document, first feature, go-ahead
 ---
 
-# Ask Nothing Until the Design Document
+# What to Build First, How to Build After the Design
 
 The `app` skill's build of a new app, in either front door, works this
 way. It replaces the front door's round of scope questions.
@@ -15,15 +15,17 @@ way. It replaces the front door's round of scope questions.
 Done already, as the `app` skill's "First, Before Reading Anything"
 says: the opening, then the task list, before any reading.
 
-## 1. No scope questions
+## 1. Two questions, then none
 
 Where the front door's Design Phase asks its round of scope
-questions, ask none. Work out the questions as it says, then take the
-answer it would mark as recommended for each:
+questions, ask only the opening's two (`app` skill, step 1): what the
+app should cover first, and who will use it. Work out the rest as the
+front door says, then take the answer it would mark as recommended for
+each:
 
-- **How to build:** one feature at a time, always.
-- **Everything else** (who signs in, what the app keeps track of):
-  the recommended, simplest option. Roles wait for Who may do what.
+- **How to build:** asked after the design (section 3), never here.
+- **Everything else** (the front door, who signs in): the recommended,
+  simplest option. Roles wait for Who may do what.
 - **The accent and the app's name,** when the prompt names none:
   picked to suit the domain.
 
@@ -267,8 +269,9 @@ unchanged, but for these questions.
 - Reading a reference, or listing the folder, before the opening that
   says what will be built; reading this plugin's files with a
   shell command instead of the file tools.
-- Any question before the design is shown, "How should it be
-  built?" included: it is asked once, after the design.
+- Any question before the design is shown other than the opening's
+  two, what it covers and who uses it; "How should it be built?" is
+  asked once, after the design.
 - An answer taken in step 1 without its line under **Assumed**.
 - Code, `rbt generate` or a project scaffold before the user's answer
   to the one question.

@@ -31,15 +31,35 @@ everything that matters on its own, the most important first:
 
 1. "<App> (working name) is <what it is>, used by <who>; <the side
    that comes later, or is someone else's system>." (the rules below)
-2. "The first feature is <feature>: <its rule, in plain words>."
-3. "I'll design it first, starting from its rules; you'll see the
-   design in a few minutes, then choose how to build it." word for
-   word.
+2. "I'd start with <feature>: <its rule, in plain words>."
+3. "First, what it should cover; then I'll design it, starting from
+   its rules, and you'll choose how to build it." word for word.
 
-No question follows it: the build goes straight on to the design.
-How to build is asked once, after the design is shown, with the design
-in view ([`references/design-first.md`](references/design-first.md),
-section 3, **How should it be built?**).
+**Then one dialog, what to build** (`AskUserQuestion`; where there is
+none, the same as plain lines), two questions, each answerable with
+one click because the build has already picked the likely answer:
+
+- **"What should <App> cover first?"** (header "Features",
+  multi-select): four features worked out from the prompt, each its
+  name in the user's nouns as the label and its rule in a few words as
+  the description; the one sentence 2 names first, marked
+  "(Recommended)". For a hotel: "Room status floor plan
+  (Recommended)", "Guest stays and arrivals", "Amenity bookings",
+  "Guest room page".
+- **"Who will use it?"** (header "Users"): the staff the prompt names,
+  alone, and with the customers, each in the user's nouns ("Front desk
+  and housekeeping", "Staff and guests"); the one the rules below
+  pick, marked "(Recommended)".
+
+What is chosen is the design's scope: the chosen features, in build
+order, the recommended one first when chosen; the rest of what a real
+app in the domain needs listed after them as later features. A
+customer side chosen is its own feature, right after the first. A free
+answer is taken as written. Nothing else is asked before the design:
+the front door, sign-in and the rest are assumed and listed under
+**Assumed**. How to build is asked once, after the design is shown
+([`references/design-first.md`](references/design-first.md), section
+3, **How should it be built?**).
 
 Rules for that response:
 
@@ -47,7 +67,8 @@ Rules for that response:
   three sentences wherever it is drafted: never a longer or different
   version in thinking, since that is what the user may see instead.
 - Nothing more in it: what the app keeps track of, the front door and
-  the rest are in the design, minutes later.
+  the rest are in the design, minutes later. Then the dialog, the
+  response's only tool call.
 - Nothing about how it will be built: that is asked after the design.
 - "(working name)" after the name the first time it appears, only when
   the build picked the name.
@@ -78,11 +99,11 @@ Rules for that response:
 
 Example: "Maison Desk (working name) is an app for a 56-room boutique
 hotel, used by its front desk and housekeeping; guests get their own
-page later. The first feature is the room status floor plan: every
-room from occupied to dirty to cleaned to inspected, and no guest put
-in a room that isn't inspected. I'll design it first, starting from
-its rules; you'll see the design in a few minutes, then choose how to
-build it."
+page later. I'd start with the room status floor plan: every room
+from occupied to dirty to cleaned to inspected, and no guest put in a
+room that isn't inspected. First, what it should cover; then I'll
+design it, starting from its rules, and you'll choose how to build
+it."
 
 **What to expect,** right after the answer to **How should it be
 built?** (after the design), before any other tool call: the chosen
@@ -110,7 +131,7 @@ list (`references/task-list.md`), and for the whole app, the
 
 - **Task list:** until the answer to **How should it be built?** it
   has one item, "Propose the design for <app>", made right after the
-  opening; a list that exists when this skill loads is replaced with
+  answers to the opening's two questions; a list that exists when this skill loads is replaced with
   that item first, in a response of its own. The chosen path's list
   follows the answer.
 - **Times,** always "about", only in the opening and in **How should
