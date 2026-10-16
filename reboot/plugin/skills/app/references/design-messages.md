@@ -137,7 +137,7 @@ to try first, in a sentence: the action and the rule that holds.>
 [Features](<URL>/#/features) · [Changelog](<URL>/#/changelog) ·
 [the design](design/design.md)
 
-**Build next, when you're ready** (ask for one):
+**Build next, when you're ready:**
 1. **<The recommended part>:** <what it adds, and why it comes next>.
    About 15 to 20 minutes.
 2. **<Another part>:** <what it adds, in one line>.
@@ -150,10 +150,12 @@ MCP UI beside the web app.">
 
 **Your turn** is always last, set apart by the rule and its heading:
 the message is long, and it is what the user acts on, after **Open
-it** has scrolled away. It asks nothing, as
-[`accept-design.md`](accept-design.md) says: it lists, and the user
-asks. Nothing follows it but the link line (`app` skill, step 4) when
-the turn has one to give, and no other line repeats what it says.
+it** has scrolled away. Then one dialog, **What should I build
+next?** ([`accept-design.md`](accept-design.md)), its options the
+parts listed under **Build next**, so the user picks one with a click
+instead of typing its number. Nothing follows it but the link line
+(`app` skill, step 4) when the turn has one to give, and no other line
+repeats what it says.
 The full review table goes to `design/design.md`, not into this
 message.
 

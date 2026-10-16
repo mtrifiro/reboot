@@ -676,10 +676,11 @@ works as it will in the finished app.
     or a Rule"), how to check it, what's not built yet, and notes.
     Last, close as
     [`app/references/accept-design.md`](../app/references/accept-design.md)
-    says, with no question: it ends with the **Your turn** section of
+    says: it ends with the **Your turn** section of
     [`app/references/design-messages.md`](../app/references/design-messages.md),
     what to try, where to look, and the features to ask for next, the
-    recommended one first. No dialog, at any handoff. The user's asking for a next
+    recommended one first, then the dialog **What should I build next?**
+    with those features as its options. The user's choosing or asking for a next
     feature (or saying to keep this one) accepts this one, and its
     `@wip` comes off then. Open it with the
     Flywheel heading **Reboot Design · ready for your review**; the
