@@ -16,9 +16,10 @@ heading with nothing to say is left out, never filled.
 
 ### The proposed design
 
-The whole design, about 600 words: this is what the user signs off
-on with "Ready to build?", so it shows the design itself, not a pointer
-to `design/design.md`. Writing it takes about a minute, and the
+The whole design but its methods, about 500 words: this is what the
+user signs off on with "Ready to build?", so it shows the design
+itself, not a pointer to `design/design.md`. The methods stay in the
+file only: they are the build's detail, not what the user decides. Writing it takes about a minute, and the
 go-ahead is worth it. The example is a hotel; keep the shape, not the
 nouns.
 
@@ -53,12 +54,6 @@ change at any point.
 2. <Feature>
 3. …
 
-**<First feature>: methods.** <One line on who calls them.>
-
-| Object | Method | Kind | Role for an AI caller |
-|---|---|---|---|
-| <Object> | `<method>` (<what it does, when not obvious>) | <Reader, Writer, Transaction or Workflow; constructor> | <tool, `UI()` view, app only, or people only> |
-
 **Pages**
 - `<route>`: <the page's primary view, worked on directly>, <what a
   click opens>. <The one reader that feeds it.>
@@ -68,13 +63,12 @@ what an anonymous visitor sees.> <In development, the picker's five
 accounts and the role each plays: "Alice is the founder, Ben the CTO,
 …".>
 
-The whole design, with what each method checks, is in
+The whole design, with its methods, is in
 [design/design.md](design/design.md).
 ```
 
 Then the dialog **Ready to build?** (`design-first.md`, section 3);
-nothing between them. With every feature built at once, the methods
-table covers every feature.
+nothing between them.
 
 ### The handoff
 
