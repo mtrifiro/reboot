@@ -198,12 +198,12 @@ and above it. The dialog is never asked without it:
 
 Then one dialog:
 
-- Title: **Build the <screen>?**, the screen named as its users would
-  name it ("Build the manifest screen?"), never "the frontend": that
-  is the build's word for a layer, not something a user sees.
-- "Build the <screen>" (recommended): "<Where it is and what is on
-  it>, the screen <its users> will use, built on the backend you just
-  saw, about <n> minutes." For a first feature seen from both sides,
+- Title: **Build the frontend: the <screen>?**, naming both the step
+  (the frontend, the half after the backend) and the screen as its
+  users would name it ("Build the frontend: the room board?").
+- "Build the <screen>" (recommended): "The frontend, on the backend
+  you just saw: <where it is and what is on it>, the screen <its
+  users> will use. About <n> minutes." For a first feature seen from both sides,
   the title is **Build both pages?**, the option "Build both pages",
   and its description names them: "The booking page for passengers
   and the flight board for dispatchers, ..."
@@ -215,7 +215,7 @@ as the free answer goes back to the rules or the actions, which are
 tested again, and the same dialog follows. "Not yet" does nothing
 more: one line says the dashboard stays up and what to say to go on.
 The task list's "Your turn: check the backend, then say to build the
-<screen>" stays in progress until
+frontend (<screen>)" stays in progress until
 the answer. A backend only (no front door) and `one-shot` skip it.
 
 From the first feature on, the build follows the front door
@@ -227,7 +227,7 @@ unchanged, but for these questions.
   dashboard's links written just above it, as text (section 4). One
   build drafted the line in thinking and asked "Does this look right?"
   alone, with nothing to say what "this" was.
-- "Build the <screen>?" without the backend's results and the
+- "Build the frontend: the <screen>?" without the backend's results and the
   dashboard's links shown just above it (section 5): the question asks
   the user to judge what those show.
 
