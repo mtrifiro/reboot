@@ -42,13 +42,11 @@ progress, and a fact from the table above goes with the part it fits:
    room cleaned, only the supervisor inspects."
 3. Demo data: "Backend: adding demo data: 56 rooms across seven floors, a few
    in each state, so the floor plan has something to show."
-4. The proof: "Backend: running the floor plan's 9 scenarios." Then, as they
-   pass, the count ("6 of 9 pass; the rest are the check-in rules"),
-   read from `tests/.progress.jsonl` while the run goes on in the
-   background (`feature` skill, "Report a full run as it goes"), never
-   only at the end.
-   A failure is said as which rule isn't kept yet, never its stack
-   trace, and the fix in one sentence.
+4. The proof: "Backend: running the floor plan's 9 scenarios." Then
+   nothing per scenario: one line when the run ends, every rule kept
+   or which aren't yet (`feature` skill, "Report a full run once, at
+   the end"). A failure is said as which rule isn't kept yet, never
+   its stack trace, and the fix in one sentence.
 5. The page, in the frontend list: "Frontend: building the floor plan page."
 6. The browser check: "Frontend: checking the page in a browser, as a person
    would use it."
@@ -69,7 +67,8 @@ one shell command. So:
   scenarios, then the demo data. Never one Bash call with every file
   in heredocs.
 - A step that has run a minute with no output to report gets a line
-  saying what it is still doing.
+  saying what it is still doing; a suite run, once, after about
+  three minutes.
 
 A step not in the table gets no note. When no fact is left that fits,
 say nothing extra.
