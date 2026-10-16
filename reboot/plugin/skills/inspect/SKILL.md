@@ -7,9 +7,7 @@ allowed-tools: Bash, Read
 
 # inspect — Inspect a Running Reboot Application's State
 
-> **Version notices:** if `rbt` reports a version mismatch or that a
-> newer Reboot is available, the [upgrade skill](../upgrade/SKILL.md)
-> says how and when to react.
+> **Version notices** from `rbt` (a mismatch, a newer Reboot): the [upgrade skill](../upgrade/SKILL.md).
 
 `rbt inspect` reads the persisted state of a **running** Reboot
 application — the same data the `/__/inspect` web dashboard shows,
