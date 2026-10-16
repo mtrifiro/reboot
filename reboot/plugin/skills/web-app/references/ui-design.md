@@ -111,7 +111,8 @@ screenshots and open either scheme
 **Measure what can be measured.** A screenshot looked at quickly lets
 uneven layouts through; a check that returns pass or fail doesn't. In
 the browser check (step 10), at desktop and at phone width, run each
-of these in the page and fix whatever it reports before the handoff.
+of these on every page the feature adds or changes, not only the main
+page, and fix whatever it reports before the handoff.
 Run them in a headless browser, never in a browser the user sees (in
 the Claude app, not the Browser pane): a short Playwright script
 (`uv run python`, `playwright.sync_api`, `page.evaluate(...)`) that
@@ -139,25 +140,41 @@ const clipped = [...document.querySelectorAll("main *")].filter((e) =>
 `spill` and `clipped` must be empty, each naming what to fix.
 
 Then open every drawer and form the page has, and run this with each
-one open; it lists text and controls that touch or overlap, and must
-come back empty:
+one open; it lists text and controls that touch or overlap, stacked
+or side by side, and must come back empty:
 
 ```js
-const boxes = [...document.querySelectorAll("label, input, select, textarea, button, h1, h2, h3, p")]
-  .filter((e) => e.offsetParent && !e.closest("label, button"))
+// Every control, and every element with text of its own, outside a
+// button or label (their insides move with them).
+const own = (e) => [...e.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim());
+const boxes = [...document.querySelectorAll("main *, [role=dialog] *")]
+  .filter((e) => e.offsetParent && (own(e) || e.matches("input, select, textarea, button")))
+  .filter((e) => !e.parentElement?.closest("button, label"))
   .map((e) => ({ e, r: e.getBoundingClientRect() }));
+const inline = (e) => getComputedStyle(e).display === "inline";
+const name = (e) => `${e.tagName} "${e.textContent?.trim().slice(0, 20)}"`;
 const touching = [];
 for (let i = 0; i < boxes.length; i++)
   for (let j = i + 1; j < boxes.length; j++) {
     const a = boxes[i], b = boxes[j];
     if (a.e.contains(b.e) || b.e.contains(a.e)) continue;
+    // Pieces of one line of text ("Alice" "(you)") sit a word space apart.
+    if (inline(a.e) && inline(b.e) && a.e.parentElement === b.e.parentElement) continue;
     const overlapX = Math.min(a.r.right, b.r.right) - Math.max(a.r.left, b.r.left);
+    const overlapY = Math.min(a.r.bottom, b.r.bottom) - Math.max(a.r.top, b.r.top);
+    const gapX = Math.max(a.r.left, b.r.left) - Math.min(a.r.right, b.r.right);
     const gapY = Math.max(a.r.top, b.r.top) - Math.min(a.r.bottom, b.r.bottom);
-    if (overlapX > 0 && gapY < 4)
-      touching.push(`${a.e.tagName} "${a.e.textContent?.trim().slice(0, 20)}" / ${b.e.tagName} "${b.e.textContent?.trim().slice(0, 20)}" (${Math.round(gapY)}px)`);
+    if (overlapX > 0 && gapY < 4) touching.push(`${name(a.e)} / ${name(b.e)} stacked, ${Math.round(gapY)}px apart`);
+    else if (overlapY > 0 && gapX < 8) touching.push(`${name(a.e)} / ${name(b.e)} side by side, ${Math.round(gapX)}px apart`);
   }
 touching;
 ```
+
+**A button's visible label is short:** "Cancel", "Remove", "Edit".
+What tells one row's button from the next ("Cancel invitation for
+carlos@example.com") goes in its `aria-label`, which is its accessible
+name, so a scenario still clicks it by that name; written out on the
+button, it crowds the row it sits in (vet-1's Team page).
 
 Never: browser default styling (an unstyled `<button>`, `<select>` or
 `<input>`), `alert()`, `confirm()` or `prompt()` (they block the
@@ -166,6 +183,7 @@ placeholder as a control's only label, or a layout that doesn't line
 up: the columns of a board, and the rows and cells of a grid or floor
 plan, are each the same height, headers too, and a card or cell is
 only as tall as its contents, never stretched to fill spare space;
-or two pieces of text or controls that touch or overlap: stacked
-fields are a full spacing step apart, and fields side by side in a
-row have their labels on one line.
+or two pieces of text or controls that touch or overlap, stacked or
+side by side: stacked fields are a full spacing step apart, a row's
+text and its buttons at least a spacing step apart, and fields side by
+side in a row have their labels on one line.
