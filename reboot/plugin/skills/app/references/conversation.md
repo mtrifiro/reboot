@@ -122,6 +122,12 @@ whole task list. So:
   buttons: the feature is running for the user to try.
 - A dialog the user skipped is not a reason to ask again in the box.
 
+**A change to the look** (colors, typefaces, a brand, corners, the
+layout), asked for at any point after the first handoff, goes to the
+[`design` skill](../../design/SKILL.md): the user picks from previews
+and each change can be undone. It isn't a feature, so nothing is
+recorded as kept for it.
+
 **Keeping a feature is recorded when the user asks for more.** When
 the user asks for the next feature, or says to keep this one, the
 build records it as kept ([`accept-design.md`](accept-design.md)) and says
