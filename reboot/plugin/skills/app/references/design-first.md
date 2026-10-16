@@ -1,7 +1,7 @@
 ---
 title: What to Build First, How to Build After the Design
 impact: HIGH
-impactDescription: A new app asks what to build before its design (which features matter most, and who will use it, each with the likely answer picked) and how to build only after it, with the whole proposed design in view: the scope is the user's, and the way of building is chosen knowing what it covers.
+impactDescription: A new app asks what to build before its design (which features matter most, customer features last, the likely one marked) and how to build only after it, with the whole proposed design in view: the scope is the user's, and the way of building is chosen knowing what it covers.
 tags: questions, scope, design, design document, first feature, go-ahead
 ---
 
@@ -18,8 +18,8 @@ says: the opening, then the task list, before any reading.
 ## 1. Two questions, then none
 
 Where the front door's Design Phase asks its round of scope
-questions, ask only the opening's two (`app` skill, step 1): what the
-app's features matter most, and who will use it. Work out the rest as the
+questions, ask only the opening's one (`app` skill, step 1): which of the
+app's features matter most; a customer feature chosen answers who uses it. Work out the rest as the
 front door says, then take the answer it would mark as recommended for
 each:
 
@@ -59,7 +59,7 @@ while nothing is built:
 
 - **Status:** "proposed on <date>; nothing is built yet. Names become
   links to the developer dashboard once it shows them."
-- **You chose**, first after the Brief: the opening's two answers,
+- **You chose**, first after the Brief: the opening's answer,
   word for word. Then the chosen features, and only those, under
   **Proposed features, in build order**: the first marked and why it
   comes first, each with its rules in plain words. The first is one
@@ -276,7 +276,7 @@ unchanged, but for these questions.
   says what will be built; reading this plugin's files with a
   shell command instead of the file tools.
 - Any question before the design is shown other than the opening's
-  two, what it covers and who uses it; "How should it be built?" is
+  one, which features matter most; "How should it be built?" is
   asked once, after the design.
 - An answer taken in step 1 without its line under **Assumed**.
 - Code, `rbt generate` or a project scaffold before the user's answer

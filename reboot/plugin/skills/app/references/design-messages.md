@@ -28,7 +28,7 @@ question>** The name is **<name>** and the accent is **<accent>**
 (<why it suits the domain>).<When the build picked them: " Both were
 picked for you; either is easy to change.">
 
-**You chose:** <the opening's two answers, word for word>.
+**You chose:** <the opening's answer, word for word>.
 
 **<What the build assumed> (picked for you, easy to change).** <The
 counts, layouts and names the brief left open, in one paragraph:

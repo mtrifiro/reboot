@@ -27,46 +27,47 @@ allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 **1. The opening.** The build's first words: one short paragraph of
 three sentences, in the user's nouns. It is what the user sees first,
 sent as text or shown from the build's thinking, so it carries
-everything that matters on its own, the most important first:
+everything that matters on its own, the most important first. No name
+yet: the app is named in the design, as a working name.
 
-1. "<App> (working name) is <what it is>, used by <who>; <the side
-   that comes later, or is someone else's system>." (the rules below)
+1. "An app for <what it is>, used by <who>." (the rules below)
 2. "I'd start with <feature>: <its rule, in plain words>."
 3. "First, which features matter most to you; then I'll design it,
    starting from its rules, and you'll choose how to build it." word
    for word.
 
-**Then one dialog, what to build** (`AskUserQuestion`; where there is
-none, the same as plain lines), two questions, the likely answer to
-each marked "(Recommended)". A multi-select starts with nothing
-checked, so the recommended feature is listed first:
+**Then one question, what to build** (`AskUserQuestion`; where there
+is none, the same as plain lines): **"Which features matter most for
+your <business>'s app?"** ("your clinic's app", "your hotel's app"),
+header "Features", multi-select. Four features worked out from the
+prompt, each its name in the user's nouns as the label and its rule in
+a few words as the description, in this order:
 
-- **"Which features matter most for <App>?"** (header "Features",
-  multi-select): four features worked out from the prompt, each its
-  name in the user's nouns as the label and its rule in a few words as
-  the description; the one sentence 2 names first, marked
-  "(Recommended)". For a hotel: "Room status floor plan
-  (Recommended)", "Guest stays and arrivals", "Amenity bookings",
-  "Guest room page".
-- **"Who will use it?"** (header "Users"): the staff the prompt names,
-  alone, and with the customers, each in the user's nouns ("Front desk
-  and housekeeping", "Staff and guests"); the one the rules below
-  pick, marked "(Recommended)".
+- the one sentence 2 names, first, marked "(Recommended)" (a
+  multi-select starts with nothing checked, so it leads);
+- the other staff features;
+- last, any feature that needs the customers too (an owner's booking
+  page, a guest's room page), its description starting with who it is
+  for: "For pet owners: they request a visit, and it appears live on
+  the front desk's board."
+
+For a clinic: "Appointment board (Recommended)", "Pet medical
+records", "Visit billing", "Owner booking page".
 
 What is chosen is the build, exactly: the chosen features, in build
-order, the recommended one first when chosen, and nothing else. What
+order, the recommended one first when chosen, and nothing else. A
+customer feature chosen makes the app two-sided: it is built right
+after the first feature, as its own. None chosen means staff only: no
+customer-facing feature anywhere in the design, not even "later". What
 else a real app in the domain needs (and Who may do what) goes in a
 separate list, **Not in this build**, which is never built unless the
-user asks for it. A customer side is a feature only when "Who will
-use it?" chose it, right after the first; staff only means no
-customer-facing feature anywhere in the design, not even "later", and
-the design never words the answer as "later". A free answer is taken
-as written. The answers go in the design under **You chose**, word for
-word, never under **Assumed**: they are the user's decisions. Nothing else is asked before the design:
-the front door, sign-in and the rest are assumed and listed under
-**Assumed**. How to build is asked once, after the design is shown
-([`references/design-first.md`](references/design-first.md), section
-3, **How should it be built?**).
+user asks for it. A free answer is taken as written. The answer goes
+in the design under **You chose**, word for word, never under
+**Assumed**: it is the user's decision. Nothing else is asked before
+the design: the name, the front door, sign-in and the rest are assumed
+and listed under **Assumed**. How to build is asked once, after the
+design is shown ([`references/design-first.md`](references/design-first.md),
+section 3, **How should it be built?**).
 
 Rules for that response:
 
@@ -74,11 +75,12 @@ Rules for that response:
   three sentences wherever it is drafted: never a longer or different
   version in thinking, since that is what the user may see instead.
 - Nothing more in it: what the app keeps track of, the front door and
-  the rest are in the design, minutes later. Then the dialog, the
+  the rest are in the design, minutes later. Then the question, the
   response's only tool call.
 - Nothing about how it will be built: that is asked after the design.
-- "(working name)" after the name the first time it appears, only when
-  the build picked the name.
+- **No name before the design.** The design proposes one, marked
+  "(working name)" the first time it appears, with the accent, under
+  what the build assumed.
 - **The first feature:** the feature at the centre of the named
   side's day, on one page: the main page's central object and a rule
   the user can see it keep. "Manage a hotel" names its staff, and
@@ -87,30 +89,25 @@ Rules for that response:
   that isn't inspected.
 - **A sale first only when the prompt is about selling:** a booking
   site, a shop, a ticket office.
-- **The customer side later:** an app with one (a hotel and its
-  guests, an airline and its passengers) builds it as its own feature,
-  recommended right after the first: the customer's page, with what
-  they do landing live on the staff's page.
+- **Customer features last in the list**, and never the recommended
+  one unless the prompt is about selling: they need both the staff's
+  side and the customer's to be worth trying.
 - **A staff tool has no customer side:** a prompt that names the
   staff's tool ("an operations app", "a back office", "a dispatch
-  tool") keeps its customer side in someone else's system.
-- **Sentence 1 says which:** "used by its front desk and
-  housekeeping; guests get their own page later", or "used by its
-  dispatchers and pilots; passengers book through the airline's own
-  system".
+  tool") offers no customer feature; its customers use someone else's
+  system.
 - **No roles first:** the first feature has sign-in (the development
   accounts) and an authorizer on every method, "anyone signed in",
   never `allow()`; no roles, roster or role rules. Who may do what is
   its own feature, **Who may do what**, in the build order before
   any deploy.
 
-Example: "Maison Desk (working name) is an app for a 56-room boutique
-hotel, used by its front desk and housekeeping; guests get their own
-page later. I'd start with the room status floor plan: every room from
-occupied to dirty to cleaned to inspected, and no guest put in a room
-that isn't inspected. First, which features matter most to you; then
-I'll design it, starting from its rules, and you'll choose how to
-build it."
+Example: "An app for a 56-room boutique hotel, used by its front desk
+and housekeeping. I'd start with the room status floor plan: every
+room from occupied to dirty to cleaned to inspected, and no guest put
+in a room that isn't inspected. First, which features matter most to
+you; then I'll design it, starting from its rules, and you'll choose
+how to build it."
 
 **What to expect,** right after the answer to **How should it be
 built?** (after the design), before any other tool call: the chosen
@@ -138,7 +135,7 @@ list (`references/task-list.md`), and for the whole app, the
 
 - **Task list:** until the answer to **How should it be built?** it
   has one item, "Propose the design for <app>", made right after the
-  answers to the opening's two questions; a list that exists when this skill loads is replaced with
+  answer to the opening's question; a list that exists when this skill loads is replaced with
   that item first, in a response of its own. The chosen path's list
   follows the answer.
 - **Times,** always "about", only in the opening and in **How should
