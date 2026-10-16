@@ -95,12 +95,12 @@ function BackendDown({ url, restarting }: { url: string; restarting: boolean }) 
         <h1>The backend is restarting</h1>
         <p>
           It restarts by itself after each change to its code, and keeps
-          its data. This usually takes a few seconds; the app comes back
+          its data. This can take a couple of minutes; the app comes back
           on its own.
         </p>
         <p className="small">
-          If it takes more than a minute, the backend may have stopped:
-          ask Claude to check the app.
+          If it takes more than five minutes, the backend may have
+          stopped: ask Claude to check the app.
         </p>
       </main>
     );
