@@ -7,9 +7,7 @@ allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 
 # dashboard — Start the Reboot Developer Dashboard
 
-> **Version notices:** if `rbt` reports a version mismatch or that a
-> newer Reboot is available, the [upgrade skill](../upgrade/SKILL.md)
-> says how and when to react.
+> **Version notices** from `rbt` (a mismatch, a newer Reboot): the [upgrade skill](../upgrade/SKILL.md).
 
 The developer dashboard, served by `rbt dashboard`, shows an
 application's API and call graph (Models), its `.feature` files with
