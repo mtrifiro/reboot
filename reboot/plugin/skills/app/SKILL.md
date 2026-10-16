@@ -63,7 +63,11 @@ Rules for that response:
   patients) starts with its core transaction from both sides: the
   customer acts on their page and the staff see it land on theirs,
   live (a guest books a room, never an amenity first). A one-sided app
-  keeps a one-page first feature.
+  keeps a one-page first feature. The prompt's framing decides: one
+  that names the staff's tool ("an operations app", "a back office",
+  "a dispatch tool") is one-sided, its customer side someone else's
+  system, and the first sentence says so ("used by its dispatchers and
+  pilots; passengers book through the airline's own system").
 
 Example: "Maison Desk (working name) is an app for a 56-room boutique
 hotel, used by its staff and its guests. It keeps track of the rooms
