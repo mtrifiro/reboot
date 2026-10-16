@@ -1,0 +1,19 @@
+[project]
+name = "<project-name>"
+version = "0.1.0"
+requires-python = ">= 3.10"
+dependencies = [
+    "reboot==1.6.0",
+]
+
+[dependency-groups]
+dev = [
+    "reboot[dev]==1.6.0",
+    "mypy==1.18.1",
+    "pytest>=7.4.2",
+    "pytest-timeout>=2.3.1",
+    # Only with web app scenarios (`testing-web-app.md`):
+    # "playwright>=1.55.0",
+    # "pytest-playwright>=0.7.1",
+    "types-protobuf>=4.24.0.20240129",
+]
