@@ -105,16 +105,18 @@ recap, one question, reply buttons), and that box also checks off the
 whole task list. So:
 
 - **Questions inside the build** (how to build, Ready to build?, Does this
-  look right? (the model check), Build the frontend?) are dialogs (`AskUserQuestion`) asked while the
+  look right? (the model check), Build the frontend?, What should I
+  build next?) are dialogs (`AskUserQuestion`) asked while the
   turn goes on, never the box: the box would tick every item on the
   list before anything is built, and the list would then have to be
   made again.
-- **The end of a feature asks nothing.** The box gets the recap
-  only, with no `ask` and no buttons: the feature is running for the
-  user to try, and the closing line names the recommended next one
-  and says to ask for it when ready ([`accept-design.md`](accept-design.md)).
-- A dialog the user skipped is not a reason to ask again in the box:
-  end with the recap alone.
+- **The end of a feature asks one dialog,** What should I build
+  next?, its options the next parts, the recommended one first, and
+  "Not yet" ([`accept-design.md`](accept-design.md)). A part chosen
+  starts it in the same turn, with its new list. On "Not yet", or a
+  skipped dialog, the box gets the recap only, with no `ask` and no
+  buttons: the feature is running for the user to try.
+- A dialog the user skipped is not a reason to ask again in the box.
 
 **Keeping a feature is recorded when the user asks for more.** When
 the user asks for the next feature, or says to keep this one, the
