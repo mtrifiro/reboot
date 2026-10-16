@@ -94,14 +94,14 @@ For the hotel's first feature, the two lists read:
 3. Your turn: try the app and decide what to do next
 
 Each next feature, when the user asks for it (the app keeps running),
-its backend:
+one list, backend and frontend with no stop between them:
 
 1. Show what “<feature>” adds to the design
 2. Add the domain model and rules for “<feature>”
 3. Build the actions for “<feature>” and test them against its rules
-4. Your turn: check the backend, then say to build the frontend (<screen>)
-
-and its frontend, the same three items as the first feature's.
+4. Build the page for “<feature>”
+5. Test it in a browser
+6. Your turn: try the app and decide what to do next
 
 ## The whole app at once
 
