@@ -111,7 +111,7 @@ an hour", "about an hour and a half"):
 - "The whole app": "All <n> features without stopping, about <time>;
   you see it at the end."
 - "Step by step": "A feature at a time, about 15 minutes each. You
-  check each part."
+  check each part: great for learning Reboot."
 - "Not yet": "I want to review or revise the design." Nothing more:
   what happens next is said after the answer.
 
