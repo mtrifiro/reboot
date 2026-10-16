@@ -47,15 +47,17 @@ spelled out.
    real generated hooks, so the user's changes and the finished app
    converge on the same code. The user sees it only once it works.
 
-**The prototype, built in two parts at once.** Where sub-agents are
-available (Claude Code's Agent tool), start one for the frontend
-(steps 8 to 12) right after step 5 and do steps 6 and 7 yourself
-meanwhile. Give it the proposed design with its brief, the API file,
+**The prototype, built in two parts at once.** In Claude Code and the
+Claude app, which have the Agent tool, always start a sub-agent for
+the frontend (steps 8 to 12) right after step 5, and do steps 6 and 7
+yourself meanwhile: the pages then cost no time of their own (vet-1
+handed off five features at 25 m 51 s this way; crm-15, in order, had
+its first page 5.5 minutes later). Give it the proposed design with its brief, the API file,
 and this skill's frontend references; tell it to work only under
 `frontend/`, never to run `rbt generate`, change the API or start
 the app, and to report back when `npm run build` passes or when the
-API lacks something a page needs. Without sub-agents, do the steps in
-order.
+API lacks something a page needs. Only a host without
+the Agent tool (Codex, say) does the steps in order.
 
 6. Write a thin servicer (`backend/src/servicers/<name>.py`),
    context-type patterns in `python/references/servicer-*.md`.
