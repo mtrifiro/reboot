@@ -59,6 +59,30 @@ export function BackendCheck({
   return <BackendDown url={url} restarting={wasUp} />;
 }
 
+// A ring in the accent color, turning while the backend restarts, so the
+// page reads as waiting rather than stuck. Its style is here, not in the
+// house stylesheet, so the page needs nothing else; the stylesheet's
+// reduced-motion rule still stops it.
+function Spinner() {
+  return (
+    <>
+      <style>{`
+        @keyframes backend-check-turn { to { transform: rotate(360deg); } }
+        .backend-check-spinner {
+          width: 40px;
+          height: 40px;
+          margin: 0 auto 24px;
+          border-radius: 50%;
+          border: 3px solid var(--track);
+          border-top-color: var(--accent);
+          animation: backend-check-turn 0.9s linear infinite;
+        }
+      `}</style>
+      <div className="backend-check-spinner" aria-hidden="true" />
+    </>
+  );
+}
+
 function BackendDown({ url, restarting }: { url: string; restarting: boolean }) {
   const hideRebootWarning = (
     <style>{`#${REBOOT_WARNING_ID} { display: none !important; }`}</style>
@@ -67,6 +91,7 @@ function BackendDown({ url, restarting }: { url: string; restarting: boolean }) 
     return (
       <main className="empty" role="status" aria-live="polite">
         {hideRebootWarning}
+        <Spinner />
         <h1>The backend is restarting</h1>
         <p>
           It restarts by itself after each change to its code, and keeps
