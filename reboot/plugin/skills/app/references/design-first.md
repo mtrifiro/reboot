@@ -210,9 +210,15 @@ Then one dialog:
 - Title: **Build the frontend: the <screen>?**, naming both the step
   (the frontend, the half after the backend) and the screen as its
   users would name it ("Build the frontend: the room board?").
-- "Build the <screen>" (recommended): "The frontend, on the backend
-  you just saw: <where it is and what is on it>, the screen <its
-  users> will use. About <n> minutes." For a first feature seen from both sides,
+- "Build the <screen>" (recommended): "Next, the page <its users>
+  use: <what they can do there, as a sentence about them>, <and what
+  you'll see change elsewhere, if anything>. About <n> minutes." For
+  example: "Next, the page guests use: they can turn on Do Not Disturb
+  or ask for their room to be made up, and you'll see their requests
+  appear on the floor plan as they come in. About 10 minutes." Written
+  to a person, not as a spec: no paths (`/stay`), no parts of the page
+  by their build names (tile, drawer, modal), no "frontend" or
+  "backend" beyond the title. For a first feature seen from both sides,
   the title is **Build both pages?**, the option "Build both pages",
   and its description names them: "The booking page for passengers
   and the flight board for dispatchers, ..."
