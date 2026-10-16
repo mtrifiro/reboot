@@ -19,6 +19,7 @@
         "./skills/one-shot",
         "./skills/feature",
         "./skills/design",
+        "./skills/domain",
         "./skills/mcp-ui",
         "./skills/web-app",
         "./skills/run",
