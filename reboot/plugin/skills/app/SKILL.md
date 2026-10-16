@@ -29,9 +29,8 @@ three sentences, in the user's nouns. It is what the user sees first,
 sent as text or shown from the build's thinking, so it carries
 everything that matters on its own, the most important first:
 
-1. "<App> (working name) is <what it is>, for <who>; <the side that
-   comes later, or is someone else's system>." (the **One feature
-   first** rule below)
+1. "<App> (working name) is <what it is>, used by <who>; <the side
+   that comes later, or is someone else's system>." (the rules below)
 2. "The first feature is <feature>: <its rule, in plain words>."
 3. "I'll design it first, starting from its rules; you'll see the
    design in a few minutes, then choose how to build it." word for
@@ -52,22 +51,25 @@ Rules for that response:
 - Nothing about how it will be built: that is asked after the design.
 - "(working name)" after the name the first time it appears, only when
   the build picked the name.
-- **One feature first:** the feature at the centre of the named side's
-  day, on one page: the main page's central object and a rule the user
-  can see it keep. "Manage a hotel" names its staff, and their day is
-  the rooms: the room status floor plan, each room moving occupied →
-  dirty → cleaned → inspected, with no guest put in a room that isn't
-  inspected. A sale comes first only when the prompt is about selling
-  (a booking site, a shop, a ticket office). An app with a customer side (a hotel and its
-  guests, an airline and its passengers) builds that side later, as
-  its own feature: the customer's page, with what they do landing
-  live on the staff's page, the first part recommended after the
-  first feature. The prompt's framing decides whether there is one: a
-  prompt that names the staff's tool ("an operations app", "a back
-  office", "a dispatch tool") has none, its customer side someone
-  else's system. The first sentence says which ("used by its front
-  desk and housekeeping; guests get their own page later", or "used by its dispatchers
-  and pilots; passengers book through the airline's own system").
+- **The first feature:** the feature at the centre of the named
+  side's day, on one page: the main page's central object and a rule
+  the user can see it keep. "Manage a hotel" names its staff, and
+  their day is the rooms: the room status floor plan, each room moving
+  occupied → dirty → cleaned → inspected, with no guest put in a room
+  that isn't inspected.
+- **A sale first only when the prompt is about selling:** a booking
+  site, a shop, a ticket office.
+- **The customer side later:** an app with one (a hotel and its
+  guests, an airline and its passengers) builds it as its own feature,
+  recommended right after the first: the customer's page, with what
+  they do landing live on the staff's page.
+- **A staff tool has no customer side:** a prompt that names the
+  staff's tool ("an operations app", "a back office", "a dispatch
+  tool") keeps its customer side in someone else's system.
+- **Sentence 1 says which:** "used by its front desk and
+  housekeeping; guests get their own page later", or "used by its
+  dispatchers and pilots; passengers book through the airline's own
+  system".
 - **No roles first:** the first feature has sign-in (the development
   accounts) and an authorizer on every method, "anyone signed in",
   never `allow()`; no roles, roster or role rules. Who may do what is
@@ -75,11 +77,12 @@ Rules for that response:
   any deploy.
 
 Example: "Maison Desk (working name) is an app for a 56-room boutique
-hotel's front desk and housekeeping; guests get their own page later.
-The first feature is the room status floor plan: every room from
-occupied to dirty to cleaned to inspected, and no guest put in a room
-that isn't inspected. I'll design it first, starting from its rules;
-you'll see the design in a few minutes, then choose how to build it."
+hotel, used by its front desk and housekeeping; guests get their own
+page later. The first feature is the room status floor plan: every
+room from occupied to dirty to cleaned to inspected, and no guest put
+in a room that isn't inspected. I'll design it first, starting from
+its rules; you'll see the design in a few minutes, then choose how to
+build it."
 
 **What to expect,** right after the answer to **How should it be
 built?** (after the design), before any other tool call: the chosen
