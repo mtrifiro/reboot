@@ -154,7 +154,7 @@ ends a working turn with a next-step box of its own (`wrap_up`: a
 recap, one question, reply buttons), and that box also checks off the
 whole task list. So:
 
-- **Questions inside the build** (Which features matter most for your <business>'s app?, in the opening; How should it be built?, after the design; Build on
+- **Questions inside the build** (How should it be built?, after the design; Build on
   this domain model? (the model check), Build the frontend: the <screen>?, What
   should I build next?) are dialogs (`AskUserQuestion`) asked while the
   turn goes on, never the box: the box would tick every item on the

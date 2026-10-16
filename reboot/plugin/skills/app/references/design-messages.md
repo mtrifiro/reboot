@@ -28,14 +28,12 @@ question>** The name is **<name>** and the accent is **<accent>**
 (<why it suits the domain>).<When the build picked them: " Both were
 picked for you; either is easy to change.">
 
-**You chose:** <the opening's answer, word for word>.
-
 **<What the build assumed> (picked for you, easy to change).** <The
 counts, layouts and names the brief left open, in one paragraph:
 floors 2–8 with 8 rooms each, numbered 201–808, …>
 
 **Proposed features, in build order**
-The features you chose; their order is yours to change.
+Four or five, in the order they would be built; yours to change.
 1. **<First feature> (first).** <Why it comes first: the central
    object and a rule the user can see it keep.> Rules:
    - <A rule, one line, the key words in bold.>

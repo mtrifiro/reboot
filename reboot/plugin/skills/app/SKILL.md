@@ -32,42 +32,27 @@ yet: the app is named in the design, as a working name.
 
 1. "An app for <what it is>, used by <who>." (the rules below)
 2. "I'd start with <feature>: <its rule, in plain words>."
-3. "First, which features matter most to you; then I'll design it,
-   starting from its rules, and you'll choose how to build it." word
-   for word.
+3. "I'll design it now, starting from its rules; you'll see it in a
+   few minutes, then choose how to build it." word for word.
 
-**Then one question, what to build** (`AskUserQuestion`; where there
-is none, the same as plain lines): **"Which features matter most for
-your <business>'s app?"** ("your clinic's app", "your hotel's app"),
-header "Features", multi-select. Four features worked out from the
-prompt, each its name in the user's nouns as the label and its rule in
-a few words as the description, in this order:
+**No question follows it:** the build goes straight on to the design,
+which picks the features itself:
 
-- the one sentence 2 names, first, marked "(Recommended)" (a
-  multi-select starts with nothing checked, so it leads);
-- the other staff features;
-- last, any feature that needs the customers too (an owner's booking
-  page, a guest's room page), its description starting with who it is
-  for: "For pet owners: they request a visit, and it appears live on
-  the front desk's board."
-
-For a clinic: "Appointment board (Recommended)", "Pet medical
-records", "Visit billing", "Owner booking page".
-
-What is chosen is the build, exactly: the chosen features, in build
-order, the recommended one first when chosen, and nothing else. A
-customer feature chosen makes the app two-sided: it is built right
-after the first feature, as its own. None chosen means staff only: no
-customer-facing feature anywhere in the design, not even "later". What
-else a real app in the domain needs (and Who may do what) goes in a
-separate list, **Not in this build**, which is never built unless the
-user asks for it. A free answer is taken as written. The answer goes
-in the design under **You chose**, word for word, never under
-**Assumed**: it is the user's decision. Nothing else is asked before
-the design: the name, the front door, sign-in and the rest are assumed
-and listed under **Assumed**. How to build is asked once, after the
-design is shown ([`references/design-first.md`](references/design-first.md),
-section 3, **How should it be built?**).
+- **Four or five features**, in build order: the one sentence 2 names
+  first, then the staff's other features, and last, only when the
+  prompt implies customers who use the app themselves ("a hotel where
+  guests book online"), a feature for them, built right after the
+  first and saying who it is for. "Manage a hotel" gets no guest page.
+- **Everything else** a real app in the domain needs (and Who may do
+  what) goes in a separate list, **Not in this build**, never built
+  unless the user asks.
+- **The design is the review:** a change ("drop billing", "add an
+  owner page") is typed at **How should it be built?**, the one
+  question, asked once after the design is shown
+  ([`references/design-first.md`](references/design-first.md),
+  section 3); the design is updated and the question asked again. The
+  name, the front door, sign-in and the rest are assumed and listed
+  under **Assumed**.
 
 Rules for that response:
 
@@ -75,8 +60,7 @@ Rules for that response:
   three sentences wherever it is drafted: never a longer or different
   version in thinking, since that is what the user may see instead.
 - Nothing more in it: what the app keeps track of, the front door and
-  the rest are in the design, minutes later. Then the question, the
-  response's only tool call.
+  the rest are in the design, minutes later.
 - Nothing about how it will be built: that is asked after the design.
 - **No name before the design.** The design proposes one, marked
   "(working name)" the first time it appears, with the accent, under
@@ -89,9 +73,9 @@ Rules for that response:
   that isn't inspected.
 - **A sale first only when the prompt is about selling:** a booking
   site, a shop, a ticket office.
-- **Customer features last in the list**, and never the recommended
-  one unless the prompt is about selling: they need both the staff's
-  side and the customer's to be worth trying.
+- **Customer features last**, and never first unless the prompt is
+  about selling: they need both the staff's side and the customer's to
+  be worth trying.
 - **A staff tool has no customer side:** a prompt that names the
   staff's tool ("an operations app", "a back office", "a dispatch
   tool") offers no customer feature; its customers use someone else's
@@ -105,9 +89,8 @@ Rules for that response:
 Example: "An app for a 56-room boutique hotel, used by its front desk
 and housekeeping. I'd start with the room status floor plan: every
 room from occupied to dirty to cleaned to inspected, and no guest put
-in a room that isn't inspected. First, which features matter most to
-you; then I'll design it, starting from its rules, and you'll choose
-how to build it."
+in a room that isn't inspected. I'll design it now, starting from its rules;
+you'll see it in a few minutes, then choose how to build it."
 
 **What to expect,** right after the answer to **How should it be
 built?** (after the design), before any other tool call: the chosen
@@ -135,7 +118,7 @@ list (`references/task-list.md`), and for the whole app, the
 
 - **Task list:** until the answer to **How should it be built?** it
   has one item, "Propose the design for <app>", made right after the
-  answer to the opening's question; a list that exists when this skill loads is replaced with
+  opening; a list that exists when this skill loads is replaced with
   that item first, in a response of its own. The chosen path's list
   follows the answer.
 - **Times,** always "about", only in the opening and in **How should

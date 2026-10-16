@@ -1,11 +1,11 @@
 ---
-title: What to Build First, How to Build After the Design
+title: The Design First, Then How to Build It
 impact: HIGH
-impactDescription: A new app asks what to build before its design (which features matter most, customer features last, the likely one marked) and how to build only after it, with the whole proposed design in view: the scope is the user's, and the way of building is chosen knowing what it covers.
+impactDescription: A new app asks nothing before its design. The design proposes four or five features, the rest under Not in this build; the user reads it whole and then chooses how to build it, or changes the features, before any code.
 tags: questions, scope, design, design document, first feature, go-ahead
 ---
 
-# What to Build First, How to Build After the Design
+# The Design First, Then How to Build It
 
 The `app` skill's build of a new app, in either front door, works this
 way. It replaces the front door's round of scope questions.
@@ -15,13 +15,11 @@ way. It replaces the front door's round of scope questions.
 Done already, as the `app` skill's "First, Before Reading Anything"
 says: the opening, then the task list, before any reading.
 
-## 1. Two questions, then none
+## 1. No questions before the design
 
 Where the front door's Design Phase asks its round of scope
-questions, ask only the opening's one (`app` skill, step 1): which of the
-app's features matter most; a customer feature chosen answers who uses it. Work out the rest as the
-front door says, then take the answer it would mark as recommended for
-each:
+questions, ask none. Work out the questions as it says, then take the
+answer it would mark as recommended for each:
 
 - **How to build:** asked after the design (section 3), never here.
 - **Everything else** (the front door, who signs in): the recommended,
@@ -59,15 +57,14 @@ while nothing is built:
 
 - **Status:** "proposed on <date>; nothing is built yet. Names become
   links to the developer dashboard once it shows them."
-- **You chose**, first after the Brief: the opening's answer,
-  word for word. Then the chosen features, and only those, under
-  **Proposed features, in build order**: the first marked and why it
-  comes first, each with its rules in plain words. The first is one
-  page for one side (`app` skill, step 1); a customer side chosen is
-  its own feature, right after the first. Then **Not in this build**:
-  what else a real app in the domain needs, one line each, built only
-  when the user asks. **Who may do what** is listed there, before any
-  deploy, unless it was chosen; until it is built, **Sign-in** says in one line
+- **Four or five features** under **Proposed features, in build
+  order** (`app` skill, step 1): the first marked and why it comes
+  first, each with its rules in plain words. The first is one page for
+  one side; a customer feature, only when the prompt implies
+  customers who use the app, comes right after the first. Then **Not
+  in this build**: what else a real app in the domain needs, one line
+  each, built only when the user asks. **Who may do what** is listed
+  there, before any deploy; until it is built, **Sign-in** says in one line
   "Everyone signed in can do everything for now; roles come with Who
   may do what.", and the first feature has no roles, roster or role
   rules.
@@ -114,8 +111,9 @@ hotel-7, until a build on these skills is measured):
 
 - Title: **How should it be built?**
 - "The whole app": "All <n> features without stopping, about <time>;
-  you see it at the end." <n> is the features chosen in the opening,
-  never the ones under **Not in this build**.
+  you see it at the end." <n> is the features under **Proposed
+  features, in build order**, never the ones under **Not in this
+  build**.
 - "Step by step": "A feature at a time, about 15 minutes each. You
   check each part: great for learning Reboot."
 - "Not yet": "I want to review or revise the design." Nothing more:
@@ -128,7 +126,7 @@ addition to the first handoff's review: this one decides the design
 before any code, that one the feature as built. After the answer, the
 `app` skill's **What to expect** for the chosen path, then the build.
 
-- **The whole app:** build every chosen feature, the ones under
+- **The whole app:** build every proposed feature, the ones under
   **Proposed features, in build order** and none from **Not in this
   build**, by the
   [`one-shot` skill](../../one-shot/SKILL.md)'s steps 4 and 5, from
@@ -275,9 +273,9 @@ unchanged, but for these questions.
 - Reading a reference, or listing the folder, before the opening that
   says what will be built; reading this plugin's files with a
   shell command instead of the file tools.
-- Any question before the design is shown other than the opening's
-  one, which features matter most; "How should it be built?" is
-  asked once, after the design.
+- Any question before the design is shown: "How should it be
+  built?" is asked once, after the design, and takes any change to
+  the features.
 - An answer taken in step 1 without its line under **Assumed**.
 - Code, `rbt generate` or a project scaffold before the user's answer
   to the one question.
