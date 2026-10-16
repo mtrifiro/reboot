@@ -27,19 +27,39 @@ frontend/
 ├── tsconfig.json
 ├── tsconfig.app.json    # `include: ["web/src"]`, the `@api/*` path
 ├── tsconfig.node.json
-├── vite.config.ts       # Below
+├── vite.config.ts       # Copied, below
 ├── api/                 # `rbt generate --react=frontend/api`
 └── web/
-    ├── .env.development # `VITE_REBOOT_URL`, below
+    ├── .env.development # Copied: `VITE_REBOOT_URL`
     ├── .env.production  # Written at deploy time (the `deploy` skill)
     ├── index.html       # `<div id="root">` + `<script type="module" src="/src/main.tsx">`
     ├── public/          # Static files, copied into the build as they are
     └── src/
         ├── main.tsx     # The provider, below
-        ├── vite-env.d.ts
+        ├── vite-env.d.ts # Copied
+        ├── errors.ts    # Copied, then its cases filled in
         ├── App.tsx
         └── pages/
 ```
+
+After the scaffold and the move, copy the four files this skill
+holds, never retyped and never read:
+
+```sh
+cp -R <this skill>/assets/frontend/. frontend/
+```
+
+`vite.config.ts` is the stock config rooted at `web/` with four
+load-bearing additions: `outDir: "../dist/web"` beside `web/`; the
+`@api` alias for the generated client; `dedupe` of `react`,
+`react-dom` and `zod` (two copies, one from the app and one pulled
+through the Reboot packages, break hooks and schema identity checks at
+runtime); and `server.host: true` with the port from `PORT`. Leaving
+`server.host` out is the single most common reason a freshly built
+app "starts fine" and then won't open: Vite's default `localhost`
+resolves to IPv6 `[::1]` only, and a forwarded port (Codespaces, VS
+Code remote, a dev VM, a tunnel) connects over IPv4 and gets
+connection refused while the process is up and logs no error.
 
 Keep the `react`, `react-dom`, and `devDependencies` (Vite, its
 React plugin, TypeScript, the `@types/*`) at the versions the
@@ -48,78 +68,18 @@ here would only go stale. Add the two Reboot packages, pinned to the
 same version as the backend's `reboot` dependency, and `zod`:
 
 ```json
-{
-  "name": "<app>-web",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build"
-  },
-  "dependencies": {
-    "@reboot-dev/reboot-api": "<same version as `reboot` in pyproject.toml>",
-    "@reboot-dev/reboot-react": "<same version>",
-    "react": "<as the scaffold wrote it>",
-    "react-dom": "<as the scaffold wrote it>",
-    "zod": "^4.0.0"
-  },
-  "devDependencies": {
-    "<as the scaffold wrote them>": ""
-  }
+"dependencies": {
+  "@reboot-dev/reboot-api": "<same version as `reboot` in pyproject.toml>",
+  "@reboot-dev/reboot-react": "<same version>",
+  "zod": "^4.0.0"
 }
 ```
 
-`vite.config.ts` is the stock config rooted at `web/`, with a few
-additions, each load-bearing:
-
-```ts
-import react from "@vitejs/plugin-react";
-import path from "path";
-import { defineConfig } from "vite";
-
-export default defineConfig({
-  plugins: [react()],
-  // The SPA's sources, `index.html`, `public/` and `.env*` live
-  // under `web/`.
-  root: "web",
-  build: {
-    // Beside `web/`, where the backend or a static host serves it
-    // at `/`; the default `base: "/"` stays.
-    outDir: "../dist/web",
-    emptyOutDir: true,
-  },
-  resolve: {
-    // The generated client, imported as `@api/<pkg>/v1/<name>_rbt_react`.
-    alias: { "@api": path.resolve(__dirname, "api") },
-    // Two copies of `react` or `zod` — one from the app, one pulled
-    // through the Reboot packages — break hooks and schema identity
-    // checks at runtime.
-    dedupe: ["react", "react-dom", "zod"],
-  },
-  server: {
-    // Listen on every interface. Vite's default is `localhost`,
-    // which on modern Node resolves to IPv6 `[::1]` only; a
-    // forwarded port (Codespaces, VS Code remote, a dev VM, a
-    // tunnel) connects over IPv4 `127.0.0.1` and gets connection
-    // refused, so the page is unreachable from the browser even
-    // though the dev server is healthy and logs no error.
-    host: true,
-    // Settable per machine, for one where 5173 is taken.
-    port: parseInt(process.env.PORT || "5173", 10),
-  },
-});
-```
-
-Leaving `server.host` out is the single most common reason a
-freshly built app "starts fine" and then won't open: `npm run dev`
-prints a URL, the process is up, and the browser cannot reach it.
-
 The config imports `path` and reads `process.env`, so `tsc -b` needs
-Node's types:
-`@types/node` and `"types": ["node"]` in `tsconfig.node.json`'s
-`compilerOptions`, both of which the scaffold writes. In
-`tsconfig.app.json`, point `include` at `web/src` instead of the
-scaffold's `src`, and add the alias's `paths`:
+Node's types: `@types/node` and `"types": ["node"]` in
+`tsconfig.node.json`'s `compilerOptions`, both of which the scaffold
+writes. In `tsconfig.app.json`, point `include` at `web/src` instead
+of the scaffold's `src`, and add the alias's `paths`:
 
 ```json
 {
@@ -142,28 +102,15 @@ scaffold's `src`, and add the alias's `paths`:
 `window.REBOOT_URL`, then a `?rebootUrl=` query parameter, then
 `window.location.origin`. In development the SPA is served by Vite
 on `:5173` while the backend listens on `:9991`, so the fallback
-resolves to the **wrong** origin — and when even that is
-unavailable the client throws
+resolves to the **wrong** origin, and when even that is unavailable
+the client throws
 `Could not detect Reboot server URL. Ensure the page is served from the Reboot server.`
 
-Pass it explicitly, from an env file, which Vite reads from its
-`root`:
-
-```
-# frontend/web/.env.development
-VITE_REBOOT_URL=http://localhost:9991
-```
-
-`import.meta.env` needs Vite's ambient types or `npm run build`
-fails with `Property 'env' does not exist on type 'ImportMeta'`.
-The scaffold writes them as `src/vite-env.d.ts`, which moves to
-`frontend/web/src/vite-env.d.ts` with the rest of `src/`; if you
-assembled the tree by hand, write it:
-
-```ts
-// frontend/web/src/vite-env.d.ts
-/// <reference types="vite/client" />
-```
+The copied `web/.env.development` sets `VITE_REBOOT_URL=http://localhost:9991`,
+which Vite reads from its `root`; the copied `web/src/vite-env.d.ts`
+gives `import.meta.env` its types (without it `npm run build` fails
+with `Property 'env' does not exist on type 'ImportMeta'`). The
+provider takes it:
 
 ```tsx
 // frontend/web/src/main.tsx
@@ -172,10 +119,10 @@ const REBOOT_URL =
   window.location.origin;
 
 createRoot(document.getElementById("root")!).render(
-  <BackendCheck url={REBOOT_URL} name="Maison Desk">
+  <BackendCheck url={REBOOT_URL} name="<the app's name>">
     <RebootClientProvider url={REBOOT_URL}>
       <App />
-      <ReloadPrompt name="Maison Desk" />
+      <ReloadPrompt name="<the app's name>" />
     </RebootClientProvider>
   </BackendCheck>
 );
@@ -206,6 +153,11 @@ now, so it needs no build id; it checks when the tab comes back into
 view and every five minutes. Pass the app's name as `name`. A
 web app scenario starts the backend first, so it never sees either.
 
+A handle costs a connection too: `use<Type>({ id })` opens one when it
+mounts, even with no reader called on it, so a list doesn't call it per
+item. Mount one for the record being acted on: the open drawer, the
+card being dragged, the row being edited.
+
 ## The Generated Client
 
 The hook, mutator, and error declarations `rbt generate --react=`
@@ -228,41 +180,18 @@ subscribes once, to a reader on their parent that returns them all.
 One subscription per tile, card or row paints the page one record at a
 time, and its totals change until the last arrives
 ([`patterns-cross-actor-reads.md`](../../python/references/patterns-cross-actor-reads.md)).
-A handle costs a connection too: `use<Type>({ id })` opens one when it
-mounts, even with no reader called on it, so a list doesn't call it per
-item. Mount one for the record being acted on: the open drawer, the
-card being dragged, the row being edited.
 
 ## Surfacing a Typed Error to the User
 
 `aborted.error` is a discriminated union — the errors the method
 declared plus the framework's (`PermissionDenied`, `Unknown`, …) —
-tagged by `error.type`, which is the Python error class's name. A
-single translator keeps the switch in one place; every story with
-a "shows a visible error" requirement routes through it:
-
-```ts
-// frontend/web/src/errors.ts
-export function friendlyError(aborted: {
-  error: { type: string } & Record<string, unknown>;
-  message: string;
-}): string {
-  switch (aborted.error.type) {
-    case "QuotaExceededError":
-      return `Limit reached (${String(aborted.error.limit)}).`;
-    case "UnknownUserError":
-      return `No user named "${String(aborted.error.username)}".`;
-    case "PermissionDenied":
-      return "You don't have access to do that.";
-    default:
-      return aborted.message || `Something went wrong.`;
-  }
-}
-```
-
-The fields on each error case are exactly the fields declared on
-the pydantic error model in the API definition, camelCased. The
-frontend only _reports_; the backend already refused the operation.
+tagged by `error.type`, which is the Python error class's name. The
+copied `web/src/errors.ts` is the single translator, `friendlyError`,
+a `switch` on `error.type` with `PermissionDenied` and a default on
+`aborted.message`: add one case per error the API declares, its text
+from the error model's fields (camelCased), and route every story with
+a "shows a visible error" requirement through it. The frontend only
+_reports_; the backend already refused the operation.
 
 ## Accessible Markup, So Scenarios Can Drive the Page
 
