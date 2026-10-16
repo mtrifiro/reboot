@@ -1,7 +1,7 @@
 ---
 title: Ask Nothing Until the Design Document
 impact: HIGH
-impactDescription: A new app asks one question first, a feature at a time or the whole app at once, each with its time. The user reads what will be built at once, then the whole proposed design in design/design.md, and gives the go-ahead or changes something before any code; a round of scope questions first only delays the design they could react to.
+impactDescription: A new app asks one question first, Mixed (the first feature with the user, then the rest without stopping), a feature at a time, or the whole app at once, each with its time. The user reads what will be built at once, then the whole proposed design in design/design.md, and gives the go-ahead or changes something before any code; a round of scope questions first only delays the design they could react to.
 tags: questions, scope, design, design document, first feature, go-ahead
 ---
 
@@ -98,8 +98,8 @@ same as one plain line), the build's second and last question before any code:
 - Title: **Ready to build?**
 - "Build it" (recommended): on a feature at a time, "Build a first
   working version of <the first feature> to try, then change what you
-  like."; on the whole app at once, "Build every feature in the design
-  without stopping, an hour or more, then review the whole app."
+  like."; on Mixed, "Build <the first feature> for you to try, then
+  the rest of the design without stopping."
 - "Not yet": "I want to review or revise the design." Nothing more:
   what happens next is said after the answer.
 
@@ -110,12 +110,22 @@ typed as the dialog's own free answer, so no option only means
 addition to the first handoff's review: this one decides the design
 before any code, that one the feature as built.
 
-- **A yes, on the whole app at once:** build every feature in the
+- **A yes, on Mixed:** build the first feature by the front door's
+  one-feature flow, its backend and then its frontend with no stop
+  between them (no "Does this look right?", no "Build the <screen>?"),
+  to its first handoff. That handoff's dialog, in place of "What
+  should I build next?", is **Build the rest?**: "Build the rest"
+  (recommended), "<the other features, in the user's nouns>, built and
+  tested without stopping, an hour or more", then "Not yet": "I want
+  to try it first, or change something." A change typed as its free
+  answer goes into the first feature, and the same dialog follows. On
+  its yes, build every other feature in the
   design by the [`one-shot` skill](../../one-shot/SKILL.md)'s steps 4
   and 5, from the design already proposed (no features added to it):
-  the whole-app flow, no stops, one handoff at the end. The task list
-  is the whole-app list (`task-list.md`, where the plugin has it), its
-  first two items done.
+  no stops, one handoff at the end. The task lists are the first
+  feature's (`task-list.md`, where the plugin has it) without their
+  "Your turn" items but the last, then the whole-app lists for the
+  rest.
 - **A yes, on a feature at a time** (or the first feature named): build
   it by the front door's one-feature flow. At the first handoff,
   `design/design.md` becomes the accepted design as `accept-design.md`
@@ -188,7 +198,7 @@ changed, and ask again. The task list's "Your turn: check the domain
 model on the dashboard" stays in progress until the yes. If the
 dashboard didn't come up, don't ask: say so in one sentence and go on;
 the model is checked at the first handoff. Each next feature doesn't
-ask, and `one-shot` never does.
+ask, Mixed doesn't, and `one-shot` never does.
 
 ## 5. The backend, before the page
 
@@ -236,7 +246,8 @@ tested again, and the same dialog follows. "Not yet" does nothing
 more: one line says the dashboard stays up and what to say to go on.
 The task list's "Your turn: check the backend, then say to build the
 frontend (<screen>)" stays in progress until
-the answer. A backend only (no front door) and `one-shot` skip it.
+the answer. A backend only (no front door), Mixed and `one-shot` skip
+it.
 
 From the first feature on, the build follows the front door
 unchanged, but for these questions.

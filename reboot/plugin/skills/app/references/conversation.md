@@ -155,8 +155,8 @@ recap, one question, reply buttons), and that box also checks off the
 whole task list. So:
 
 - **Questions inside the build** (how to build, Ready to build?, Build on
-  this domain model? (the model check), Build the frontend: the <screen>?, What should I
-  build next?) are dialogs (`AskUserQuestion`) asked while the
+  this domain model? (the model check), Build the frontend: the <screen>?, Build the
+  rest? (on Mixed), What should I build next?) are dialogs (`AskUserQuestion`) asked while the
   turn goes on, never the box: the box would tick every item on the
   list before anything is built, and the list would then have to be
   made again.

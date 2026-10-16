@@ -33,18 +33,19 @@ the prompt alone, in the user's nouns:
 <its rule>; built as <a web app | an MCP UI | both>, with the backend
 ready for the other front door too.
 
-I'll build it with Reboot, starting from its domain model: the objects it keeps and the rules they follow, each rule proved by a scenario. You choose how: a feature at a time, trying each one before the next, or the whole app at once, without stopping.
+I'll build it with Reboot, starting from its domain model: the objects it keeps and the rules they follow, each rule proved by a scenario. You choose how: the first feature with you, then the rest without stopping; a feature at a time; or the whole app at once.
 ```
 
 Then the dialog **How should it be built?** (`AskUserQuestion`; where
 there is none, the same as one plain line), its options word for word:
 
-- "Interactively": "A feature at a time, about 15 minutes each (25 to
+- "Mixed (Recommended)": "You approve the design and try the first
+  feature, about 30 minutes (one side only: about 15); then the rest is
+  built and tested without stopping, an hour or more."
+- "Step by step": "A feature at a time, about 15 minutes each (25 to
   30 for the first, seen from both sides). You check each part." (One
   side only: "A feature at a time, about 15 minutes each. You check
   each part.")
-- "Automatically": "You approve the design; then the whole app is
-  built and tested without stopping: an hour or more."
 - "Hands-off": "No stops at all, not even for the design: every
   feature a real product needs, built and tested, an hour or more. You
   see it at the end."
@@ -56,7 +57,8 @@ Rules for that response:
 - The second paragraph word for word, as plain text, never merged with
   the first.
 - Nothing about how it will be built before the answer: that is the
-  user's choice. No option is marked recommended.
+  user's choice. Mixed is first and the only option marked
+  recommended.
 - "(working name)" only when the build picked the name.
 - **Two sides:** an app with a staff side and a customer side (a hotel
   and its guests, an airline and its passengers, a clinic and its
@@ -81,17 +83,19 @@ app with the backend ready for an MCP UI too."
 call: the chosen path's items, each its own line of a list under
 "What to expect:", filled in for this app:
 
-- **Interactively:** the proposed design in a few minutes, nothing to
+- **Mixed:** the proposed design in a few minutes, nothing to answer
+  until then · after the go-ahead, <first feature> built and tested
+  without stopping, its backend against its rules, then its frontend
+  (<its pages>) in a browser, about 30 minutes · then your turn to try
+  it · once you say so, the rest of the design, built and tested
+  without stopping, an hour or more, then the whole app to try.
+- **Step by step:** the proposed design in a few minutes, nothing to
   answer until then · each feature in two parts, its backend tested
   against its rules, then its frontend tested in a browser · after the
   go-ahead, <first feature>'s backend, with the dashboard's link to
   check its domain model, then its actions tested against every rule ·
   once you say so, its frontend (<its pages>), about 25 to 30 minutes
   in all · then each next feature as you choose it, 15 to 20 minutes.
-- **Automatically:** the proposed design in a few minutes · after the
-  go-ahead, without stopping, the whole backend tested against its
-  rules, then the whole frontend tested in a browser, an hour or more,
-  then the whole app to try.
 - **Hands-off:** no questions from here on, not even about the design
   · the design, with every feature a real <domain> app needs, in
   design/design.md · then the whole backend and the whole frontend,
@@ -102,8 +106,8 @@ call: the chosen path's items, each its own line of a list under
 once: what the build says, links, opens and asks at every stage from
 here on. Each path's next steps are read when they start: the design
 ([`references/design-first.md`](references/design-first.md)), the task
-list (`references/task-list.md`), and for Automatically and Hands-off,
-the [`one-shot` skill](../one-shot/SKILL.md).
+list (`references/task-list.md`), and for the rest of a Mixed build
+and for Hands-off, the [`one-shot` skill](../one-shot/SKILL.md).
 
 **3. Throughout the build:**
 
@@ -112,8 +116,9 @@ the [`one-shot` skill](../one-shot/SKILL.md).
   that exists when this skill loads is replaced with that item first,
   in a response of its own.
 - **Times,** always "about", only in the opening: the design, a few
-  minutes; the first feature, 15, or 25 to 30 from both sides; each
-  next feature, 15 to 20; the whole app, an hour or more.
+  minutes; the first feature, 15, or 25 to 30 from both sides (on
+  Mixed, about 15 or 30); each next feature, 15 to 20; the whole app,
+  or the rest of it, an hour or more.
 - **Never a minute without a line,** at every stage: in the design,
   one when the research ends (what it found) and one before each of
   the design's three parts (`references/design-first.md`); in the build, one before the references a stage reads
