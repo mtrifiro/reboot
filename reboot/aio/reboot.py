@@ -5,6 +5,7 @@ import reboot.aio.tracing
 import tempfile
 import uuid
 from dataclasses import dataclass
+from datetime import timedelta
 from log.log import get_logger
 from pathlib import Path
 from rbt.v1alpha1 import database_pb2
@@ -17,7 +18,7 @@ from reboot.aio.http import WebFramework
 from reboot.aio.internals.application_metadata import ApplicationMetadata
 from reboot.aio.internals.channel_manager import _ChannelManager
 from reboot.aio.libraries import AbstractLibrary
-from reboot.aio.monitoring import monitor_event_loop
+from reboot.aio.monitoring import monitor_event_loop, warn_when_slow
 from reboot.aio.placement import PlanOnlyPlacementClient
 from reboot.aio.resolvers import StaticResolver
 from reboot.aio.servers import run_application_initializer
@@ -502,17 +503,29 @@ class Reboot:
                 servers=servers,
                 allowed_origins=allowed_origins,
             )
-            await self._application_metadata.validate_schema_backwards_compatibility(
-                config
-            )
+            # This step makes the application metadata calls, which
+            # carry a deadline of their own; expect it to finish well
+            # within that deadline so the log names the step we are
+            # stuck on before the deadline fails the process.
+            async with warn_when_slow(
+                "Validate the application's schema against the database",
+                expected=timedelta(seconds=10),
+            ):
+                await self._application_metadata.validate_schema_backwards_compatibility(
+                    config
+                )
             revision = ApplicationRevision(config=config)
 
         assert revision is not None
 
         # This addition will trigger a new plan being made: then, wait for it
         # to have been observed.
-        await self._config_tracker.add_config(revision.config)
-        await self._wait_for_local_plan_sync()
+        async with warn_when_slow(
+            "Start the application's servers",
+            expected=timedelta(seconds=30),
+        ):
+            await self._config_tracker.add_config(revision.config)
+            await self._wait_for_local_plan_sync()
 
         trusted_address: Optional[str] = None
         if local_envoy:
