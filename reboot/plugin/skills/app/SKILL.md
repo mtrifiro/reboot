@@ -58,10 +58,13 @@ Rules for that response:
   user's choice. Mixed is first and the only option marked
   recommended.
 - "(working name)" only when the build picked the name.
-- **One feature first:** the app's core transaction (a room booked,
-  never an amenity first), on one page, for the side the prompt names:
-  "manage a hotel" names its staff, so the front desk books a room on
-  the room board. An app with a customer side (a hotel and its
+- **One feature first:** the feature at the centre of the named side's
+  day, on one page: the main page's central object and a rule the user
+  can see it keep. "Manage a hotel" names its staff, and their day is
+  the rooms: the room status floor plan, each room moving occupied →
+  dirty → cleaned → inspected, with no guest put in a room that isn't
+  inspected. A sale comes first only when the prompt is about selling
+  (a booking site, a shop, a ticket office). An app with a customer side (a hotel and its
   guests, an airline and its passengers) builds that side later, as
   its own feature: the customer's page, with what they do landing
   live on the staff's page, the first part recommended after the
@@ -69,7 +72,7 @@ Rules for that response:
   prompt that names the staff's tool ("an operations app", "a back
   office", "a dispatch tool") has none, its customer side someone
   else's system. The first sentence says which ("used by its front
-  desk; guests get their own page later", or "used by its dispatchers
+  desk and housekeeping; guests get their own page later", or "used by its dispatchers
   and pilots; passengers book through the airline's own system").
 - **No roles first:** the first feature has sign-in (the development
   accounts) and an authorizer on every method, "anyone signed in",
@@ -78,12 +81,12 @@ Rules for that response:
   any deploy.
 
 Example: "Maison Desk (working name) is an app for a 56-room boutique
-hotel, used by its front desk; guests get their own page later. It
-keeps track of the rooms and their status, the guests and their
-stays, and the amenities they book. The first feature is booking a
-room on the room board, which refuses a room already taken for any of
-those nights; built as a web app with the backend ready for an MCP UI
-too."
+hotel, used by its front desk and housekeeping; guests get their own
+page later. It keeps track of the rooms and their status, the guests
+and their stays, and the amenities they book. The first feature is the
+room status floor plan: every room moving from occupied to dirty to
+cleaned to inspected, and no guest put in a room that isn't inspected;
+built as a web app with the backend ready for an MCP UI too."
 
 **What to expect,** right after the answer, before any other tool
 call: the chosen path's items, each its own line of a list under
