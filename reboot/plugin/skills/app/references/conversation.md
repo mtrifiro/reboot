@@ -28,6 +28,20 @@ its title names what it asks about, each option says what happens if
 chosen, and the text just above it gives the context to choose; a
 question that only makes sense after scrolling up is not ready to ask.
 
+**Say what Reboot does here, for this app.** A stage's line pairs what
+the build is doing with what Reboot takes off the developer's hands at
+that step, in the app's own nouns: "Moving an account from engaged to
+opportunity is one transaction: the account and the book change
+together or not at all, with no rollback code to write", never "a
+transaction changes several objects all or nothing". Name the object,
+the rule or the page, and what the developer didn't have to write (a
+database, migrations, an API layer, websocket or polling code, retry
+logic, a test harness). The build's own reading is not news: never
+"reading how this plugin designs an app", "the shape the design
+document takes" or "Reboot's references for the API"; a reading step
+gets no line of its own, or, when it is long, the next step's Reboot
+line said before it.
+
 **Links at every major turn.** Once the app has started, every
 major turn ends with one line linking both, on the ports they started
 on, so the user never scrolls back for them:

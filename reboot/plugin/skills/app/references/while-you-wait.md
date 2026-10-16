@@ -9,7 +9,11 @@ tags: progress, waiting, narration, reboot capabilities
 
 Before a step that usually takes more than about 20 seconds, send one
 note, one or two sentences, before the tool call that starts it. Pick
-the fact below that fits the step; each is said at most once in a
+the fact below that fits the step and say it **for this app**: the
+table gives what Reboot does; the note names this app's object, rule
+or page doing it, and what the developer didn't have to write ("Each
+account is its own durable object, so there's no database to set up,
+no tables or migrations", not "Reboot stores state for you"); each is said at most once in a
 build, and a fact already said at a stage's start ([`conversation.md`](conversation.md), "At every stage") is not said again here.
 
 The tone is a good release note: plain, specific, true. No exclamation
@@ -74,8 +78,10 @@ starting its research and showing the design. So:
   them carries the table's fact for writing the design.
 
 - The go-ahead's line goes out before the references are read, and
-  the reading is said in one line when it is more than a few files
-  ("Backend: reading how Reboot writes this kind of model.").
+  the reading gets no line of its own: when it is long, the next
+  step's Reboot line goes before it ("Backend: next, the board's
+  actions. Moving an account is one transaction, the account and the
+  book together or not at all.").
 - Each part's files are written with the Write tool, a part at a
   time, its line first: the API, then the servicers, then the
   scenarios, then the demo data. Never one Bash call with every file
