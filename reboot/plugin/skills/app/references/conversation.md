@@ -42,8 +42,10 @@ then the three pages:
 
 **A feature file, wherever it is named,** is two links: the file in
 the project, and its page on the dashboard once the dashboard is up,
-so the rules can be read where they live and where they run, written
-as `[tests/room_booking.feature](tests/room_booking.feature) ([on the dashboard](http://127.0.0.1:9871/#/features/tests/room_booking.feature))`.
+so the rules can be read where they live and where they run: the
+path, tests/room_booking.feature, as a Markdown link to the file in
+the user's project, then "(on the dashboard)" as a link to
+http://127.0.0.1:9871/#/features/tests/room_booking.feature.
 The same for a rule named on its own: its link is the feature's
 dashboard link plus `/rules/<n>` (`dashboard` skill, "Links to an
 Object or a Rule").
