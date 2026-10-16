@@ -243,7 +243,7 @@ as the free answer goes back to the rules or the actions, which are
 tested again, and the same dialog follows. "Not yet" does nothing
 more: one line says the dashboard stays up and what to say to go on.
 The task list's "Your turn: check the backend, then say to build the
-<screen>" stays in progress until
+frontend (<screen>)" stays in progress until
 the answer. A backend only (no front door) and `one-shot` skip it.
 
 From the first feature on, the build follows the front door
