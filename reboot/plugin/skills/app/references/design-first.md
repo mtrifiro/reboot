@@ -144,7 +144,7 @@ dashboard links (the rest stay plain until built), then end
 the turn with one line linking each domain object on the dashboard
 (`dashboard` skill, "Links to an Object or a Rule"), then one dialog:
 
-> The room status floor plan's domain model is open on the dashboard
+> The room status floor plan's [domain model](<the Models page link>) is open on the dashboard
 > (on 9874, since other projects hold 9871 to 9873): the things the
 > app keeps track of ([Room](<link>), [Floor](<link>), [Hotel](<link>))
 > and what each one holds. Everything else is built on top of it, so
@@ -157,10 +157,17 @@ naming the port only when it isn't 9871, then the Models · Features ·
 Changelog line. No separate "the developer dashboard is at …" line
 before it, and no second list of the same objects.
 
-- Title: **Does this look right?**
-- "Looks right, keep going" (recommended): "Build the <feature>'s
-  actions on it and test them against its rules."
-- "Not yet": "I want to look at it more."
+The lead line and the link line are message text, written in the same
+response as the dialog, just above it; never drafted only in thinking.
+The dialog says what it asks about on its own, so it reads right even
+when the text above has scrolled away:
+
+- Title: **Does the domain model look right?**
+- "Looks right, keep going" (recommended): "<The objects, in the
+  user's nouns: Hotel, Room and Stay>, as on the dashboard. Next: the
+  actions for “<feature>”, tested against its rules."
+- "Not yet": "I want to look at the domain model on the dashboard
+  first."
 
 A change goes in the free answer ("a booking should also hold the
 guest's room").
@@ -216,6 +223,10 @@ unchanged, but for these questions.
 
 ## Never
 
+- "Does the domain model look right?" without its lead line and the
+  dashboard's links written just above it, as text (section 4). One
+  build drafted the line in thinking and asked "Does this look right?"
+  alone, with nothing to say what "this" was.
 - "Build the <screen>?" without the backend's results and the
   dashboard's links shown just above it (section 5): the question asks
   the user to judge what those show.
