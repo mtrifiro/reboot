@@ -192,7 +192,7 @@ ask, and `one-shot` never does.
 
 ## 5. The backend, before the page
 
-In every feature built one at a time, once its actions pass every
+In the first feature only, once its actions pass every
 scenario (and types check), and before any page, stop and show the
 backend, in this order, as text in the same response as the dialog
 and above it. The dialog is never asked without it:
@@ -217,6 +217,11 @@ Then one dialog:
   and its description names them: "The booking page for passengers
   and the flight board for dispatchers, ..."
 - "Not yet": "I want to look at the backend first."
+
+Each next feature goes from its backend straight on to its page, with
+no stop between them: the user has seen the backend's half once, and
+the feature's handoff shows both, its rules on the dashboard and its
+page to try.
 
 The backend is the half the rules live in, so the user sees it work,
 on the dashboard, before any time goes into the page. A change typed
