@@ -94,8 +94,12 @@ file.
 
 ## 3. One question
 
-End with one dialog (`AskUserQuestion` where available; otherwise the
-same as one plain line), the build's second and last question before any code:
+First the proposed design, as text in the same response, just above
+the dialog: the message in [`design-messages.md`](design-messages.md),
+"The proposed design", every heading filled (Brief, Domain model,
+First, After it, Assumed), about 200 words. Then end with one dialog
+(`AskUserQuestion` where available; otherwise the same as one plain
+line), the build's second and last question before any code:
 
 - Title: **Ready to build?**
 - "Build it" (recommended): on a feature at a time, "Build a first
@@ -253,6 +257,11 @@ unchanged, but for these questions.
 
 ## Never
 
+- "Ready to build?" without the proposed design written just above
+  it, as text (section 3): the question asks the user to judge it. A
+  sentence that the design is in `design/design.md`, or the message
+  drafted only in thinking, is not it; one build asked with nothing
+  shown but a line of its thinking.
 - "Build on this domain model?" without its lead line and the
   dashboard's links written just above it, as text (section 4). One
   build drafted the line in thinking and asked "Does this look right?"
