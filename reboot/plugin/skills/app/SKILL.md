@@ -175,9 +175,11 @@ minutes; the whole app, an hour or more.
 **While a slow step runs,** a short true fact about Reboot that fits
 it goes out first, once per build each:
 [`references/while-you-wait.md`](references/while-you-wait.md).
-And the user never waits more than about a minute without a line:
-one before the references a stage reads, and one as each part starts
-(the API, the servicers, the tests, the page). Files are written one
+And the user never waits more than about a minute without a line, at
+every stage, the design included: in the design, one when the research
+ends, saying what it found, and one before the design is written; in
+the build, one before the references a stage reads, and one as each
+part starts (the API, the servicers, the tests, the page). Files are written one
 part at a time with the Write tool, never every file in one shell
 command: a single call that runs for minutes shows nothing.
 

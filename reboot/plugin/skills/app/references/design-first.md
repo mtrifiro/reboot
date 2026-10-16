@@ -61,9 +61,11 @@ while nothing is built:
   step 1, one line each, the question then the answer taken, so the
   user sees what to change.
 
-Then show the proposed design in the chat as the front door says, and
-end with one line that names what was assumed, so nothing feels
-hidden, then where the rest is:
+Then show the proposed design in the chat as the front door says: a
+short summary that points to `design/design.md`, never the whole
+design written a second time (`design-messages.md`, "The proposed
+design"). It ends with one line that names what was assumed, so
+nothing feels hidden, then where the rest is:
 
 > Assumed, all easy to change: the name Groom Room, opening hours
 > 9:00 to 17:00, and three roles (owner, groomer, front desk). The

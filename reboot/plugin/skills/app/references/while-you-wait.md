@@ -54,10 +54,17 @@ progress, and a fact from the table above goes with the part it fits:
 One line each, and a fact only where the table has one that fits and
 hasn't been said. No line for a part that takes seconds.
 
-Never a stretch of more than about a minute with nothing said. One
-build went ten minutes silent after the go-ahead, until the user asked
-why it was stuck: it read its references, then wrote every file in
-one shell command. So:
+Never a stretch of more than about a minute with nothing said, at any
+stage. One build went ten minutes silent after the go-ahead, until the
+user asked why it was stuck: it read its references, then wrote every
+file in one shell command. Another went six minutes silent between
+starting its research and showing the design. So:
+
+- In the design: when the research ends, one line on what it found
+  that the design uses ("Kenmore Air flies Beavers, Otters and a
+  Caravan from Lake Union and Kenmore; the design uses those."), and
+  one before writing the design ("Writing the design: the domain
+  model, the features in order, and the first one's rules.").
 
 - The go-ahead's line goes out before the references are read, and
   the reading is said in one line when it is more than a few files
