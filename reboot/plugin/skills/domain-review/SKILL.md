@@ -1,11 +1,11 @@
 ---
-name: domain
-description: Review a Reboot app's domain model, packages and architecture the way a systems engineer who has run software at scale would - start from the numbers, find the one actor everyone waits on, prefer the simplest shape that holds at ten times the load, measure instead of guessing - then make the improvements the user picks, one at a time, each measured before and after with every rule still passing. Reads the code with assets/review.py (domain objects, collections, calls between objects, single actors, wide transactions, fan-out reads, packages, workflows' outside calls). Use when the user asks to review, evaluate, critique, harden or scale the domain model, the data model, the packages or the architecture of an app that is already built, or asks whether it will scale. Not for the app's look (the design skill) or for adding a feature (the feature skill).
+name: domain-review
+description: Review a Reboot app's domain model, packages and architecture the way a systems engineer who has run software at scale would - start from the numbers, find the one actor everyone waits on, prefer the simplest shape that holds at ten times the load, measure instead of guessing - then make the improvements the user picks, one at a time, each measured before and after with every rule still passing. Reads the code with assets/review.py (domain objects, collections, calls between objects, single actors, wide transactions, fan-out reads, packages, workflows' outside calls). Use when the user asks to review, evaluate, critique, harden or scale the domain model, the data model, the packages or the architecture of an app that is already built, or asks whether it will scale. Not for the app's look (the design-review skill) or for adding a feature (the feature skill).
 argument-hint: [what to look at, e.g. "will booking scale?"]
 allowed-tools: Bash, Read, Write, Edit, Glob, Grep, AskUserQuestion
 ---
 
-# domain — Review the Domain Model and Architecture, Then Improve It
+# domain-review — Review the Domain Model and Architecture, Then Improve It
 
 The review judges an app the way an engineer who has kept large
 systems running would: from numbers, not taste. Every finding says
@@ -122,9 +122,17 @@ one dialog, several answers allowed:
 
 - **Which should I do?** The top three findings, each its title as
   the label and its cost and time as the description, the first
-  marked "(Recommended)", and last "None for now": "Keep the review
-  to read; change nothing." On "None for now", one line pointing to
-  `design/review.md`, then stop.
+  marked "(Recommended)", and "Measure first" when a finding rests on
+  an assumed figure. No "None" option: in a list of checkboxes,
+  ticking nothing is none. When nothing is chosen, one line pointing
+  to `design/review.md`, then stop.
+
+**Never while a build is working in the project.** Before changing a
+file, check that nothing else is: no test run in progress
+(`tests/.suite-running`, a `pytest` process in the project), and no
+other session's transcript for the project written to in the last few
+minutes. If one is, say so in one line and wait for it to finish, or
+ask the user: two sessions editing one app break each other's runs.
 
 ### 4. Make each change, one at a time
 
