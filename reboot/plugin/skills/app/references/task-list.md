@@ -11,15 +11,18 @@ Where the agent keeps a task list (a to-do tool), its items are these,
 word for word, with the angle brackets filled in:
 
 - `<app>` is the app's name, as the design gives it.
-- `<feature>` is the feature's name exactly as the design's feature
-  list gives it, never shortened: a name that says what the feature
-  does in the user's nouns ("the room status floor plan", not "the
-  board"), so an item reads on its own.
+- `<feature>` is the feature's name as a short noun phrase in the
+  user's nouns, in curly quotes: “room booking”, “room status floor
+  plan”, never a verb phrase (“booking a room on the room board”) and
+  never so short it needs explaining (“the board”). The task list
+  shows no bold or italics, so the quotes set the name apart, and it
+  follows "for", never a possessive ("the rules for “room booking”",
+  not "room booking's rules").
 - `<page>` is the page's name in the user's nouns.
 
 Every item starts with a verb. Inside an item every name is
-lowercase, as in a sentence ("Build the room status floor plan's
-domain model"), unless it is a proper noun. Make the list after the user answers how to build, never in the
+lowercase, as in a sentence ("Build the domain model for “room
+status floor plan”"), unless it is a proper noun. Make the list after the user answers how to build, never in the
 same response as that question (before it, a list has only "Propose
 the design for <app>"); mark each item done as it finishes; a step that
 fails stays in progress, never done.
@@ -50,9 +53,9 @@ The first feature's backend:
 
 1. Propose the design for <app>
 2. Get your go-ahead on the design
-3. Build the <feature>'s domain model and rules
+3. Build the domain model and rules for “<feature>”
 4. Your turn: check the domain model on the dashboard
-5. Build the <feature>'s actions and test them against its rules
+5. Build the actions for “<feature>” and test them against its rules
 6. Your turn: check the backend, then say to build the <screen>
 
 Item 3 covers the scaffold, the rules as scenarios, the domain model
@@ -64,7 +67,7 @@ own, which doesn't ask them, leaves them off.
 
 Its frontend, once the user says so:
 
-1. Build the <feature>'s page
+1. Build the page for “<feature>”
 2. Test it in a browser
 3. Your turn: try the app and decide what to do next
 
@@ -74,28 +77,28 @@ Item 2 covers the browser scenario, the first-paint time
 (`web-app/references/ui-design.md`, "Measure what can be measured"),
 at desktop and phone width; it ends with the line linking the app and
 the dashboard. A first feature seen from both sides (`app` skill,
-step 1) has "Build the <feature>'s two pages, <the customers'> and
-<the staff's>" and "Test them side by side in a browser".
+step 1) has "Build the two pages for “<feature>”, <the customers'>
+and <the staff's>" and "Test them side by side in a browser".
 
 For the hotel's first feature, the two lists read:
 
 1. Propose the design for Maison Desk
 2. Get your go-ahead on the design
-3. Build the room status floor plan's domain model and rules
+3. Build the domain model and rules for “room status floor plan”
 4. Your turn: check the domain model on the dashboard
-5. Build the room status floor plan's actions and test them against its rules
+5. Build the actions for “room status floor plan” and test them against its rules
 6. Your turn: check the backend, then say to build the floor plan
 
-1. Build the room status floor plan's page
+1. Build the page for “room status floor plan”
 2. Test it in a browser
 3. Your turn: try the app and decide what to do next
 
 Each next feature, when the user asks for it (the app keeps running),
 its backend:
 
-1. Show what the <feature> adds to the design
-2. Add the <feature>'s domain model and rules
-3. Build the <feature>'s actions and test them against its rules
+1. Show what “<feature>” adds to the design
+2. Add the domain model and rules for “<feature>”
+3. Build the actions for “<feature>” and test them against its rules
 4. Your turn: check the backend, then say to build the <screen>
 
 and its frontend, the same three items as the first feature's.
@@ -124,7 +127,7 @@ of the design" and item 2 "Test them in their AI client".
 ## A backend only
 
 The backend list alone (`app/references/backend-only.md`), its item 5
-"Build the <feature>'s actions and test them against its rules, with
+"Build the actions for “<feature>” and test them against its rules, with
 the backend running", item 6 "Your turn: decide what to do next" (no
 app to try), and "Generate the <platform> client" after the first
 feature's tests pass.
