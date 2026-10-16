@@ -718,7 +718,7 @@ a worked set are in
    [`dashboard` skill](../dashboard/SKILL.md) and follow it — so the
    user can watch the app come together, and go on without waiting
    for it. If it fails to come up, say so in one sentence and keep
-   building; do not stop to debug it. Built from the `new-app` skill, the
+   building; do not stop to debug it. Built from the `app` skill, the
    first feature instead waits for it and asks "Build on this domain model?" (the model check)
    ([`app/references/design-first.md`](../app/references/design-first.md),
    "The domain model, once") before step 6.
@@ -763,7 +763,7 @@ a worked set are in
     review the features.
 14. Run the app — load the [`run` skill](../run/SKILL.md) and
     follow it, and unless the user asked for only an MCP UI, end the
-    handoff with the one-line offer of a web app (`new-app` skill, "At
+    handoff with the one-line offer of a web app (`app` skill, "At
     handoff"). It is the single canonical "start the app"
     procedure: it detects the app type, makes sure dependencies
     and secrets are in place, and starts the backend and

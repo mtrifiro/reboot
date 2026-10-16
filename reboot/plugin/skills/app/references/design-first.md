@@ -7,21 +7,21 @@ tags: questions, scope, design, design document, first feature, go-ahead
 
 # The Design First, Then How to Build It
 
-The `new-app` skill's build of a new app, in either front door, works this
+The `app` skill's build of a new app, in either front door, works this
 way. It replaces the front door's round of scope questions.
 
 ## 0. Say what will be built, first
 
-Done already, as the `new-app` skill's "First, Before Reading Anything"
+Done already, as the `app` skill's "First, Before Reading Anything"
 says: the opening, then the task list, before any reading.
 
 ## 1. One round of questions, then none until the design
 
 Where the front door's Design Phase asks its round of scope
-questions, ask only the opening's round instead (`new-app` skill, step
+questions, ask only the opening's round instead (`app` skill, step
 1): which features the first build includes, who signs in, the
 accent; the
-front door is never asked (the `app` skill's routing). Work out anything else as the
+front door is never asked (the `app` skill's Routing). Work out anything else as the
 front door says, then take the answer it would mark as recommended:
 
 - **How to build:** asked after the design (section 3), never here.
@@ -62,7 +62,7 @@ file:
 - **Status:** "proposed on <date>; nothing is built yet. Names become
   links to the developer dashboard once it shows them."
 - **Four or five features** under **Proposed features, in build
-  order** (`new-app` skill, step 1): the first marked and why it comes
+  order** (`app` skill, step 1): the first marked and why it comes
   first, each with its rules in plain words. The first is one page for
   one side; a customer feature, only when the prompt implies
   customers who use the app, comes right after the first. Then **Not
@@ -125,7 +125,7 @@ choice. A change is typed as the dialog's own free answer, so no
 option only means "change something". Nothing is built before the answer. It comes in
 addition to the first handoff's review: this one decides the design
 before any code, that one the feature as built. After the answer, the
-`new-app` skill's **What to expect** for the chosen path, then the build.
+`app` skill's **What to expect** for the chosen path, then the build.
 
 - **All at once:** build every proposed feature, the ones under
   **Proposed features, in build order** and none from **Not in this

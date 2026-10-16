@@ -16,7 +16,6 @@
       "strict": false,
       "skills": [
         "./skills/app",
-        "./skills/new-app",
         "./skills/one-shot",
         "./skills/feature",
         "./skills/mcp-ui",
