@@ -1,7 +1,7 @@
 ---
 title: What to Build First, How to Build After the Design
 impact: HIGH
-impactDescription: A new app asks what to build before its design (what it should cover first, and who will use it, each with the likely answer picked) and how to build only after it, with the whole proposed design in view: the scope is the user's, and the way of building is chosen knowing what it covers.
+impactDescription: A new app asks what to build before its design (which features matter most, and who will use it, each with the likely answer picked) and how to build only after it, with the whole proposed design in view: the scope is the user's, and the way of building is chosen knowing what it covers.
 tags: questions, scope, design, design document, first feature, go-ahead
 ---
 
@@ -19,7 +19,7 @@ says: the opening, then the task list, before any reading.
 
 Where the front door's Design Phase asks its round of scope
 questions, ask only the opening's two (`app` skill, step 1): what the
-app should cover first, and who will use it. Work out the rest as the
+app's features matter most, and who will use it. Work out the rest as the
 front door says, then take the answer it would mark as recommended for
 each:
 

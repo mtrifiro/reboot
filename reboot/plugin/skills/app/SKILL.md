@@ -32,14 +32,16 @@ everything that matters on its own, the most important first:
 1. "<App> (working name) is <what it is>, used by <who>; <the side
    that comes later, or is someone else's system>." (the rules below)
 2. "I'd start with <feature>: <its rule, in plain words>."
-3. "First, what it should cover; then I'll design it, starting from
-   its rules, and you'll choose how to build it." word for word.
+3. "First, which features matter most to you; then I'll design it,
+   starting from its rules, and you'll choose how to build it." word
+   for word.
 
 **Then one dialog, what to build** (`AskUserQuestion`; where there is
-none, the same as plain lines), two questions, each answerable with
-one click because the build has already picked the likely answer:
+none, the same as plain lines), two questions, the likely answer to
+each marked "(Recommended)". A multi-select starts with nothing
+checked, so the recommended feature is listed first:
 
-- **"What should <App> cover first?"** (header "Features",
+- **"Which features matter most for <App>?"** (header "Features",
   multi-select): four features worked out from the prompt, each its
   name in the user's nouns as the label and its rule in a few words as
   the description; the one sentence 2 names first, marked
@@ -104,11 +106,11 @@ Rules for that response:
 
 Example: "Maison Desk (working name) is an app for a 56-room boutique
 hotel, used by its front desk and housekeeping; guests get their own
-page later. I'd start with the room status floor plan: every room
-from occupied to dirty to cleaned to inspected, and no guest put in a
-room that isn't inspected. First, what it should cover; then I'll
-design it, starting from its rules, and you'll choose how to build
-it."
+page later. I'd start with the room status floor plan: every room from
+occupied to dirty to cleaned to inspected, and no guest put in a room
+that isn't inspected. First, which features matter most to you; then
+I'll design it, starting from its rules, and you'll choose how to
+build it."
 
 **What to expect,** right after the answer to **How should it be
 built?** (after the design), before any other tool call: the chosen
