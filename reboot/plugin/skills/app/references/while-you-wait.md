@@ -20,8 +20,9 @@ nothing beyond what the line says.
 | --- | --- |
 | Installing dependencies (`uv sync`, `npm install`) | One package brings the whole backend: Reboot runs the servers, the routing between them and the storage itself, so there's nothing else to install or run. |
 | Generating code (`rbt generate`) | The API is written once, in Python. Reboot generates the typed server code, the React hooks and the MCP tools from it. |
-| Starting the dashboard | The dashboard draws the domain model and its rules from the code itself, so what you check there is what runs. |
-| Running the scenarios | Each rule is a scenario in plain words, and that scenario is the test: a rule the code breaks shows up as a failing scenario, not a bug report. |
+| Writing the rules as a feature file (`tests/<feature>.feature`) | Each feature is one file, `tests/<feature>.feature`: its rules in plain words, and under each rule its scenarios, written Given, When, Then ("Given room 204 is booked for Friday, when Carlos books it for Friday, then he's told it's taken"). That is behavior-driven development (BDD): the spec, written before the code, in words you can check. |
+| Starting the dashboard | The dashboard draws the domain model and its rules from the code itself, so what you check there is what runs. Its Features page reads the feature files: each rule, its scenarios and their last run. |
+| Running the scenarios | The feature file is also the test suite: each scenario runs against the real backend, so the spec can't drift from the code. A rule the code breaks shows up as a failing scenario, in the rule's own words, not as a bug report. |
 | Building an action that changes several objects | A transaction changes several objects all or nothing, so a check-in can't half happen, even if a server stops partway. |
 | Building a page | Pages subscribe to their data and update on their own when anything changes: no refresh button and no polling code. |
 | Checking the page in a browser | The same backend serves this web app and an MCP UI for ChatGPT or Claude, with no second API. |
@@ -36,19 +37,21 @@ never runs silent. As each part inside it starts, one line in the
 user's nouns says where it is, the task list item staying in
 progress, and a fact from the table above goes with the part it fits:
 
-1. The actions: "Backend: writing the room status floor plan's actions:
+1. The rules: "Backend: writing the floor plan's rules as scenarios
+   in `tests/room_status_floor_plan.feature`."
+2. The actions: "Backend: writing the room status floor plan's actions:
    checking in, marking a room cleaned, inspecting it."
-2. Who may do each: "Backend: now who may do each: only housekeeping marks a
+3. Who may do each: "Backend: now who may do each: only housekeeping marks a
    room cleaned, only the supervisor inspects."
-3. Demo data: "Backend: adding demo data: 56 rooms across seven floors, a few
+4. Demo data: "Backend: adding demo data: 56 rooms across seven floors, a few
    in each state, so the floor plan has something to show."
-4. The proof: "Backend: running the floor plan's 9 scenarios." Then
+5. The proof: "Backend: running the floor plan's 9 scenarios." Then
    nothing per scenario: one line when the run ends, every rule kept
    or which aren't yet (`feature` skill, "Report a full run once, at
    the end"). A failure is said as which rule isn't kept yet, never
    its stack trace, and the fix in one sentence.
-5. The page, in the frontend list: "Frontend: building the floor plan page."
-6. The browser check: "Frontend: checking the page in a browser, as a person
+6. The page, in the frontend list: "Frontend: building the floor plan page."
+7. The browser check: "Frontend: checking the page in a browser, as a person
    would use it."
 
 One line each, and a fact only where the table has one that fits and
