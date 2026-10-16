@@ -149,9 +149,12 @@ list (`../app/references/task-list.md`), and for the whole app, the
   whole app, about 7 a feature.
 - **Never a minute without a line,** at every stage: in the design,
   one when the research ends (what it found) and one before each of
-  the design's three parts (`../app/references/design-first.md`); in the build, one before the references a stage reads
-  and one as each part starts (the API, the servicers, the tests, the
-  page). Before a slow step, one fact about Reboot that fits it
+  the design's three parts (`../app/references/design-first.md`); in
+  the build, one as each part starts (the API, the servicers, the
+  tests, the page), saying what Reboot does for this app at that step
+  (`../app/references/conversation.md`, "Say what Reboot does here").
+  Reading the plugin's references gets no line of its own. Before a
+  slow step, one fact about Reboot said for this app
   ([`../app/references/while-you-wait.md`](../app/references/while-you-wait.md)).
 - **Files a part at a time** with the Write tool, never every file in
   one shell command.
