@@ -311,10 +311,8 @@ Feature: Users can sign in
 
 - **`@wip`** marks the feature, rule, or scenario being worked on.
   It runs as usual; the dashboard marks it in green and filters by
-  it, so what is new is easy to see. Put it on the whole feature
-  when the feature is new, move it down to the rules and scenarios
-  as they are added, and take it off with the developer's agreement
-  when the work is done.
+  it. Where it goes and when it comes off: the
+  [`feature` skill](../../feature/SKILL.md).
 - **`@blocked`** marks a scenario the application cannot pass yet,
   or one that needs a person to do something first (a credential, a
   decision, an external system). Its description, the paragraph
