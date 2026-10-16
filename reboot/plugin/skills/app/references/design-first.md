@@ -106,8 +106,10 @@ heading filled, its features and rules before its domain model, about
 line), the build's first and only question before any code. It
 chooses how to build and gives the go-ahead at once, with the design
 in view. Its options, word for word, filled in from the design (<n>
-the features' count; <time> about 15 minutes a feature, said "about
-an hour", "about an hour and a half"):
+the features' count; <time> about 7 minutes a feature, rounded to
+the nearest quarter hour and said "about 45 minutes", "about an hour";
+7 is what whole-app builds measured, 1.6.0's hotel-6 and main's
+hotel-7, until a build on these skills is measured):
 
 - Title: **How should it be built?**
 - "The whole app": "All <n> features without stopping, about <time>;

@@ -136,7 +136,7 @@ list (`references/task-list.md`), and for the whole app, the
   follows the answer.
 - **Times,** always "about", only in the opening and in **How should
   it be built?**: the design, a few minutes; the first feature, 15; each next feature, 15 to 20; the
-  whole app, about 15 a feature.
+  whole app, about 7 a feature.
 - **Never a minute without a line,** at every stage: in the design,
   one when the research ends (what it found) and one before each of
   the design's three parts (`references/design-first.md`); in the build, one before the references a stage reads
