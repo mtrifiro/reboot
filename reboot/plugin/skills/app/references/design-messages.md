@@ -63,6 +63,15 @@ what an anonymous visitor sees.> <In development, the picker's five
 accounts and the role each plays: "Alice is the founder, Ben the CTO,
 …".>
 
+**What Reboot does for you here.** <Three or four bullets, each one of
+these said for this design, in its nouns, naming what the developer
+doesn't write: each <Object> is a durable object holding its own state
+(no database, tables or migrations); <the rule that spans objects> is
+one transaction, all or nothing (no rollback code); <the page> updates
+live when anyone changes it (no polling or websocket code); each rule's
+scenarios are the tests (no separate test harness); the same backend
+serves an MCP UI for Claude or ChatGPT (no second API).>
+
 The whole design, with its methods, is in
 [design/design.md](design/design.md).
 ```
@@ -97,6 +106,13 @@ real page in a browser, and mypy is clean.
 - [Rule: <a rule with no action of its own>](<link>).
 - The browser scenarios' videos and screenshots are on the [Features
   page](<link>).
+
+**What Reboot did for you.** <Two or three lines, for what was just
+built, naming what isn't in the code because Reboot does it: "There is
+no database schema, migration, API layer or websocket code in this
+app: <Object>'s state is kept by Reboot, <the action> is one
+transaction, and <the page> is live through its reader."> Said once,
+at the first handoff; later handoffs name only what is new.
 
 **How to check it:** <sign in as whom, open what, try what>. The rule
 refuses it. <A second thing to try, when there is one.>
