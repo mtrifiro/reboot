@@ -7,14 +7,9 @@ allowed-tools: Bash, Read, Write, Glob, Grep, Edit, AskUserQuestion
 
 # run — Run a Reboot Application
 
-> **Version notices:** if `rbt` reports a version mismatch or that a
-> newer Reboot is available, the [upgrade skill](../upgrade/SKILL.md)
-> says how and when to react.
+> **Version notices** from `rbt` (a mismatch, a newer Reboot): the [upgrade skill](../upgrade/SKILL.md).
 >
-> **Errors:** holding an error string, grep a distinctive fragment of
-> it in `python/references/errors.md` first; never read the file
-> whole. Defects in released Reboot versions, with their workarounds,
-> are in [`KNOWN-ISSUES.md`](../../KNOWN-ISSUES.md).
+> **Errors:** grep a fragment of the string in `python/references/errors.md` (never read whole); known defects and workarounds: [`KNOWN-ISSUES.md`](../../KNOWN-ISSUES.md).
 
 Bring an existing Reboot application up locally. This skill is the
 single canonical "start the app" procedure: it figures out what
