@@ -162,15 +162,24 @@ response as the dialog, just above it; never drafted only in thinking.
 The dialog says what it asks about on its own, so it reads right even
 when the text above has scrolled away:
 
-- Title: **Does the domain model look right?**
-- "Looks right, keep going" (recommended): "<The objects, in the
-  user's nouns: Hotel, Room and Stay>, as on the dashboard. Next: the
-  actions for “<feature>”, tested against its rules."
-- "Not yet": "I want to look at the domain model on the dashboard
-  first."
+- Title: **Build on this domain model?**
+- "Build on it" (recommended): "Next: the actions for “<feature>”,
+  tested against its rules. <The objects, in the user's nouns: Hotel,
+  Room and Stay> can still change later; now is when it's cheapest."
+- "Walk me through it": "A short tour here in the chat: what <the
+  objects> each hold, and the rule each one keeps."
 
-A change goes in the free answer ("a booking should also hold the
-guest's room").
+The question works for whoever reads it: someone who opened the
+dashboard confirms what they saw, someone who didn't can take the
+tour or go on, and neither is asked which they are. A change goes in
+the free answer ("a stay should also hold the guest's room").
+
+**The tour,** on "Walk me through it": one short paragraph per object,
+in the user's nouns, each its name linked on the dashboard: what it
+holds, why it is its own object, and the rule it keeps ("Room holds
+its housekeeping state and its stays, so no guest is put in a room
+that isn't inspected"). Then one line on how they connect, and the
+same dialog again.
 
 When the model differs from the proposed design, one line before the
 dialog says how, in the user's nouns. A change is typed as the
@@ -223,7 +232,7 @@ unchanged, but for these questions.
 
 ## Never
 
-- "Does the domain model look right?" without its lead line and the
+- "Build on this domain model?" without its lead line and the
   dashboard's links written just above it, as text (section 4). One
   build drafted the line in thinking and asked "Does this look right?"
   alone, with nothing to say what "this" was.
