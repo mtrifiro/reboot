@@ -575,7 +575,7 @@ works as it will in the finished app.
    the developer dashboard — load the
    [`dashboard` skill](../dashboard/SKILL.md) and follow it — and go
    on without waiting for it. If it fails to come up, say so in one
-   sentence and keep building. Built from the `app` skill, the first
+   sentence and keep building. Built from the `new-app` skill, the first
    feature instead waits for it and asks "Build on this domain model?" (the model check)
    ([`app/references/design-first.md`](../app/references/design-first.md),
    "The domain model, once") before step 5.
@@ -642,7 +642,7 @@ works as it will in the finished app.
     next question.
 
 When the user says the app is done, offer an MCP UI in one line
-(`app` skill, "At handoff"), unless they asked for only a web app.
+(`new-app` skill, "At handoff"), unless they asked for only a web app.
 
 ## Update Flow
 

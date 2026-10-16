@@ -7,7 +7,7 @@ allowed-tools: Bash, Read, Write, Glob, Grep, Edit, Agent
 
 # one-shot: a Complete Reboot Application, Asking Nothing
 
-Load the [`app` skill](../app/SKILL.md) for its routing, then the
+Load the [`new-app` skill](../new-app/SKILL.md) for its routing, then the
 front door it routes to, and build the **whole app at once**: for a
 web app, [`web-app/references/full-build.md`](../web-app/references/full-build.md);
 for an MCP UI, its Step-by-Step Build Flow. The differences below
@@ -16,7 +16,7 @@ not apply: nothing stops the build until the end.
 
 ## 0. Say what will be built, first
 
-The `app` skill's "First, Before Reading Anything" applies, before any
+The `new-app` skill's "First, Before Reading Anything" applies, before any
 tool call, with three differences:
 
 - **The paragraph** describes the complete app: who uses it, its

@@ -168,4 +168,4 @@ feature:
     [`app/references/accept-design.md`](../../app/references/accept-design.md)
     says), and, unless they asked
     for only a web app, end with the one-line offer of an MCP UI
-    (`app` skill, "At handoff").
+    (`new-app` skill, "At handoff").
