@@ -76,8 +76,9 @@ while nothing is built:
   user sees what to change.
 
 Then show the proposed design in the chat as the front door says:
-the whole design, in the shape of `design-messages.md`, "The proposed
-design", about 600 words. The user signs off on what they see, so a
+the whole design but its methods, in the shape of `design-messages.md`,
+"The proposed design", about 500 words; the methods stay in
+`design/design.md`. The user signs off on what they see, so a
 summary that points to `design/design.md` is not enough. Its
 assumptions name what the build picked, so nothing feels hidden:
 
