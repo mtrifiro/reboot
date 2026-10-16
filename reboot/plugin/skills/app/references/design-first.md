@@ -1,7 +1,7 @@
 ---
 title: The Design First, Then How to Build It
 impact: HIGH
-impactDescription: A new app asks nothing before its design. The design proposes four or five features, the rest under Not in this build; the user reads it whole and then chooses how to build it, or changes the features, before any code.
+impactDescription: A new app asks one round of scope questions first, as /app does (front door, how much the first build covers, who signs in, the accent), then shows the whole proposed design, and only then asks how to build it (the whole app or step by step), before any code.
 tags: questions, scope, design, design document, first feature, go-ahead
 ---
 
@@ -15,17 +15,20 @@ way. It replaces the front door's round of scope questions.
 Done already, as the `new-app` skill's "First, Before Reading Anything"
 says: the opening, then the task list, before any reading.
 
-## 1. No questions before the design
+## 1. One round of questions, then none until the design
 
 Where the front door's Design Phase asks its round of scope
-questions, ask none. Work out the questions as it says, then take the
-answer it would mark as recommended for each:
+questions, ask only the opening's round instead (`new-app` skill, step
+1): the front door when the prompt doesn't name it, how much the first
+build covers, who signs in, the accent. Work out anything else as the
+front door says, then take the answer it would mark as recommended:
 
 - **How to build:** asked after the design (section 3), never here.
-- **Everything else** (the front door, who signs in): the recommended,
-  simplest option. Roles wait for Who may do what.
-- **The accent and the app's name,** when the prompt names none:
-  picked to suit the domain.
+- **Everything else** (what the app keeps track of, counts, layouts,
+  hours): the recommended, simplest option. Roles wait for Who may do
+  what unless the round chose them.
+- **The app's name,** when the prompt names none: picked to suit the
+  domain, proposed in the design as a working name.
 
 Something else the prompt leaves open is decided the same way: the
 simplest choice that fits, assumed, and listed. Times are in the
@@ -273,9 +276,9 @@ unchanged, but for these questions.
 - Reading a reference, or listing the folder, before the opening that
   says what will be built; reading this plugin's files with a
   shell command instead of the file tools.
-- Any question before the design is shown: "How should it be
-  built?" is asked once, after the design, and takes any change to
-  the features.
+- Any question before the design other than the opening's round;
+  "How should it be built?" is asked once, after the design, and takes
+  any change to the features.
 - An answer taken in step 1 without its line under **Assumed**.
 - Code, `rbt generate` or a project scaffold before the user's answer
   to the one question.
