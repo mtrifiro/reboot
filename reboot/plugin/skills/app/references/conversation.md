@@ -99,6 +99,10 @@ running the floor plan's 9 scenarios." "Frontend: building the floor
 plan page."), so the user always knows which half is being worked on
 and which is done.
 
+**The tests, by their name.** To the user, the tests are "the tests"
+or "the test suite", never "the suite" alone ("Backend: running the
+full test suite, 14 scenarios.").
+
 **Each question asked once, in the right place.** The Claude app
 ends a working turn with a next-step box of its own (`wrap_up`: a
 recap, one question, reply buttons), and that box also checks off the
