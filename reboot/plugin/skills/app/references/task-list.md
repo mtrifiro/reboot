@@ -56,7 +56,7 @@ The first feature's backend:
 3. Build the domain model and rules for “<feature>”
 4. Your turn: check the domain model on the dashboard
 5. Build the actions for “<feature>” and test them against its rules
-6. Your turn: check the backend, then say to build the <screen>
+6. Your turn: check the backend, then say to build the frontend (<screen>)
 
 Item 3 covers the scaffold, the rules as scenarios, the domain model
 and starting the dashboard. Item 5 covers the actions, who may do
@@ -99,7 +99,7 @@ its backend:
 1. Show what “<feature>” adds to the design
 2. Add the domain model and rules for “<feature>”
 3. Build the actions for “<feature>” and test them against its rules
-4. Your turn: check the backend, then say to build the <screen>
+4. Your turn: check the backend, then say to build the frontend (<screen>)
 
 and its frontend, the same three items as the first feature's.
 
