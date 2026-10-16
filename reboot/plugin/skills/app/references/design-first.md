@@ -119,6 +119,19 @@ hotel-7, until a build on these skills is measured):
   check each part: great for learning Reboot."
 - "Not yet": "I want to review or revise the design." Nothing more:
   what happens next is said after the answer.
+- "Tell me more": "What each way involves, before I choose."
+
+**On "Tell me more",** answer in the chat, then ask the same dialog
+again. One short paragraph per way, in the user's nouns: All at once,
+what is built in what order, that the pages are built alongside the
+backends, that it stops only at the end, and what to watch meanwhile
+(the task list, the dashboard filling in); Step by step, the stops and
+what the user does at each (the domain model on the dashboard, the
+first feature's backend before its page, each feature's handoff to
+try); Not yet, that the design is written to `design/design.md` to
+read and change. One line on what Reboot does for them either way
+(`conversation.md`, "Say what Reboot does here"). No new facts about
+the design, and no recommendation.
 
 Neither way of building is marked recommended: that is the user's
 choice. A change is typed as the dialog's own free answer, so no
@@ -238,6 +251,13 @@ Then one dialog:
   by their build names (tile, drawer, modal), no "frontend" or
   "backend" beyond the title.
 - "Not yet": "I want to look at the backend first."
+- "Tell me more": "What the page will do, and how it is built."
+
+**On "Tell me more",** answer in the chat, then ask the same dialog
+again: what the page shows and lets its users do, in their nouns; how
+it stays current (it reads the backend through Reboot's generated
+React hooks, so a change anyone makes appears without a reload); and
+how it is checked (its scenarios in a browser, and the layout check).
 
 Each next feature goes from its backend straight on to its page, with
 no stop between them: the user has seen the backend's half once, and
