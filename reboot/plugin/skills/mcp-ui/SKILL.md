@@ -7,14 +7,9 @@ allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 
 # mcp-ui — Build Reboot MCP UIs
 
-> **Version notices:** if `rbt` reports a version mismatch or that a
-> newer Reboot is available, the [upgrade skill](../upgrade/SKILL.md)
-> says how and when to react.
+> **Version notices** from `rbt` (a mismatch, a newer Reboot): the [upgrade skill](../upgrade/SKILL.md).
 >
-> **Errors:** holding an error string, grep a distinctive fragment of
-> it in `python/references/errors.md` first; never read the file
-> whole. Defects in released Reboot versions, with their workarounds,
-> are in [`KNOWN-ISSUES.md`](../../KNOWN-ISSUES.md).
+> **Errors:** grep a fragment of the string in `python/references/errors.md` (never read whole); known defects and workarounds: [`KNOWN-ISSUES.md`](../../KNOWN-ISSUES.md).
 
 Build complete Reboot MCP UIs from a user description.
 
@@ -313,7 +308,8 @@ rule that sends a change to the design back to Design.
    recommendation is one answer. Never an option that only
    means "say what": every dialog has its own free answer. Don't ask about the look: when the
    user named no brand, pick the accent that suits the domain from
-   teal, cyan, blue, indigo, violet, purple, plum and rose, and say in
+   the ones [`web-app/references/ui-design.md`](../web-app/references/ui-design.md)
+   lists, and say in
    the brief that it was picked for them and is easy to change later,
    to another color or to their brand. Name the app too, unless the
    prompt gives a name, and say the same of it. Don't ask what the design can
@@ -795,8 +791,9 @@ for word: the list for the way the user chose to build.
     the real authorizers get exercised: register the **real**
     servicers and never subclass one to weaken its `authorizer()`.
     Let factories make ids up. Tag what cannot pass yet `@blocked`
-    with its reason; leave `@wip` where work continues. Run
-    `uv run pytest` as [`feature/SKILL.md`](../feature/SKILL.md)'s "Report a full run once, at the end" says (in the background, its result said once), with `rbt dev run` stopped (`run` skill, "Stopping
+    with its reason, and `@wip` as the
+    [`feature` skill](../feature/SKILL.md) says. Run
+    `uv run pytest` as [`feature/SKILL.md`](../feature/SKILL.md)'s "Report a full run once, at the end" says, with `rbt dev run` stopped (`run` skill, "Stopping
     the App"), and fix anything that fails.
     Then type-check: run `uv run mypy backend/ tests/` from the project
     root and fix every error (config and rationale in
