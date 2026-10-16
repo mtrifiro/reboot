@@ -1,13 +1,21 @@
 import { useEffect, useState, type ReactNode } from "react";
 
-// While the Reboot backend can't be reached, the app shows a page that
-// says so, instead of failing call by call or showing a blank page, and
-// checks again every few seconds; as soon as the backend answers, the
-// app appears, with no reload. Any HTTP answer, even an error, means the
-// backend is up; only a failed connection means it is down. `no-cors`
-// lets the check reach it without CORS headers.
+// While the Reboot backend can't be reached, the app says so, instead of
+// failing call by call, and checks again every few seconds; as soon as
+// the backend answers, it is back, with no reload. Any HTTP answer, even
+// an error, means the backend is up; only a failed connection means it
+// is down. `no-cors` lets the check reach it without CORS headers.
+//
+// In development the check replaces the app with a page that says what
+// is happening (the backend restarting after a change, or not started).
+// In production it never takes the app down: a person may be halfway
+// through something, so a banner over the app says it is reconnecting,
+// and the app renders at once, without waiting for the first check.
 const DOWN_EVERY_MS = 3_000;
 const UP_EVERY_MS = 10_000;
+// One failed check is often a blip (a network hiccup, a laptop waking
+// up): the backend counts as down only after this many in a row.
+const FAILURES_TO_DOWN = 2;
 
 // Reboot's web library adds its own red "Trouble connecting..." box to
 // the page in development, 10 seconds into a lost connection, with this
@@ -26,12 +34,21 @@ async function reachable(url: string): Promise<boolean> {
 
 export function BackendCheck({
   url,
+  name = "The app",
   children,
 }: {
   url: string;
+  // The app's name, for the production banner: "Maison Desk can't
+  // reach its server right now."
+  name?: string;
   children: ReactNode;
 }) {
-  const [up, setUp] = useState<boolean | null>(null);
+  // In development, nothing renders until the first check (a few
+  // milliseconds on localhost), so a backend that isn't started shows
+  // its page at once; in production the app renders right away.
+  const [up, setUp] = useState<boolean | null>(
+    import.meta.env.DEV ? null : true,
+  );
   // Whether the backend answered since the page loaded: losing it after
   // that is, in development, nearly always `rbt dev run` restarting it
   // after a change to the backend's code.
@@ -40,11 +57,22 @@ export function BackendCheck({
   useEffect(() => {
     let stopped = false;
     let timer: number | undefined;
+    let failures = 0;
+    let first = true;
     const check = async () => {
       const ok = await reachable(url);
       if (stopped) return;
-      setUp(ok);
-      if (ok) setWasUp(true);
+      failures = ok ? 0 : failures + 1;
+      // The first check decides at once, so a backend that was never
+      // started shows its page without a wait; after that, it takes
+      // `FAILURES_TO_DOWN` failures in a row.
+      if (ok) {
+        setUp(true);
+        setWasUp(true);
+      } else if (first || failures >= FAILURES_TO_DOWN) {
+        setUp(false);
+      }
+      first = false;
       timer = window.setTimeout(check, ok ? UP_EVERY_MS : DOWN_EVERY_MS);
     };
     check();
@@ -54,9 +82,42 @@ export function BackendCheck({
     };
   }, [url]);
 
-  if (up === null) return null; // the first check, a few milliseconds
+  if (up === null) return null; // development's first check
   if (up) return <>{children}</>;
+  if (!import.meta.env.DEV) {
+    return (
+      <>
+        <Reconnecting name={name} />
+        {children}
+      </>
+    );
+  }
   return <BackendDown url={url} restarting={wasUp} />;
+}
+
+// Production: a slim banner over the app, which stays as it is.
+function Reconnecting({ name }: { name: string }) {
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000,
+        padding: "8px 16px",
+        textAlign: "center",
+        background: "var(--panel)",
+        color: "var(--ink)",
+        borderBottom: "1px solid var(--line)",
+        boxShadow: "var(--elev)",
+      }}
+    >
+      {name} can't reach its server right now. Reconnecting…
+    </div>
+  );
 }
 
 // A ring in the accent color, turning while the backend restarts, so the
@@ -83,11 +144,12 @@ function Spinner() {
   );
 }
 
+// Development only: the page that replaces the app.
 function BackendDown({ url, restarting }: { url: string; restarting: boolean }) {
   const hideRebootWarning = (
     <style>{`#${REBOOT_WARNING_ID} { display: none !important; }`}</style>
   );
-  if (restarting && import.meta.env.DEV) {
+  if (restarting) {
     return (
       <main className="empty" role="status" aria-live="polite">
         {hideRebootWarning}
@@ -109,22 +171,16 @@ function BackendDown({ url, restarting }: { url: string; restarting: boolean }) 
     <main className="empty" role="status" aria-live="polite">
       {hideRebootWarning}
       <h1>The app's backend isn't running</h1>
-      {import.meta.env.DEV ? (
-        <>
-          <p>
-            This page is served, but the Reboot backend at{" "}
-            <span className="mono">{url}</span> doesn't answer, so there is
-            nothing to show yet.
-          </p>
-          <p>
-            Start it from the project folder with{" "}
-            <span className="mono">uv run rbt dev run</span>, or ask Claude
-            to start the app.
-          </p>
-        </>
-      ) : (
-        <p>The app can't reach its server right now.</p>
-      )}
+      <p>
+        This page is served, but the Reboot backend at{" "}
+        <span className="mono">{url}</span> doesn't answer, so there is
+        nothing to show yet.
+      </p>
+      <p>
+        Start it from the project folder with{" "}
+        <span className="mono">uv run rbt dev run</span>, or ask Claude to
+        start the app.
+      </p>
       <p className="small">
         Checking again every few seconds; the app opens as soon as the
         backend answers.
