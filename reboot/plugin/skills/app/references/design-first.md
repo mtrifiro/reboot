@@ -108,10 +108,10 @@ the features' count; <time> about 15 minutes a feature, said "about
 an hour", "about an hour and a half"):
 
 - Title: **How should it be built?**
-- "Step by step": "A feature at a time, about 15 minutes each. You
-  check each part."
 - "The whole app": "All <n> features without stopping, about <time>;
   you see it at the end."
+- "Step by step": "A feature at a time, about 15 minutes each. You
+  check each part."
 - "Not yet": "I want to review or revise the design." Nothing more:
   what happens next is said after the answer.
 
