@@ -174,6 +174,11 @@ layout), asked for at any point after the first handoff, goes to the
 and each change can be undone. It isn't a feature, so nothing is
 recorded as kept for it.
 
+**A review of the domain model or the architecture** ("will this
+scale?", "review the data model") goes to the
+[`domain` skill](../../domain/SKILL.md): it reviews from numbers and
+makes the changes the user picks, every rule still passing.
+
 **Keeping a feature is recorded when the user asks for more.** When
 the user asks for the next feature, or says to keep this one, the
 build records it as kept ([`accept-design.md`](accept-design.md)) and says
