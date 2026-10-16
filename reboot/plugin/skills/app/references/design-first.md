@@ -114,7 +114,7 @@ the nearest quarter hour and said "about 45 minutes", "about an hour";
 hotel-7, until a build on these skills is measured):
 
 - Title: **How should it be built?**
-- "The whole app": "All <n> features without stopping, about <time>;
+- "All at once": "All <n> features without stopping, about <time>;
   you see it at the end." <n> is the features under **Proposed
   features, in build order**, never the ones under **Not in this
   build**.
@@ -130,7 +130,7 @@ addition to the first handoff's review: this one decides the design
 before any code, that one the feature as built. After the answer, the
 `new-app` skill's **What to expect** for the chosen path, then the build.
 
-- **The whole app:** build every proposed feature, the ones under
+- **All at once:** build every proposed feature, the ones under
   **Proposed features, in build order** and none from **Not in this
   build**, by the
   [`one-shot` skill](../../one-shot/SKILL.md)'s steps 4 and 5, from

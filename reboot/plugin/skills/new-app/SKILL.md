@@ -126,7 +126,7 @@ filled in from the design:
   domain model, then its actions tested against every rule · once you
   say so, its frontend (<its page>), about 15 minutes in all · then
   each next feature as you choose it, 15 to 20 minutes.
-- **The whole app:** every feature in the design, the whole backend
+- **All at once:** every feature in the design, the whole backend
   and then the whole frontend, tested, without stopping, about <time>
   · then the whole app to try.
 
