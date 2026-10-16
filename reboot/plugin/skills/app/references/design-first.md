@@ -59,14 +59,15 @@ while nothing is built:
 
 - **Status:** "proposed on <date>; nothing is built yet. Names become
   links to the developer dashboard once it shows them."
-- **Every feature** is in it, under **Proposed features, in build
-  order**, with the line "Only the first is built next; the rest, and
-  their order, are yours to change at any point.": the first marked
-  and why it comes first, each with its rules in plain words. The
-  first is one page for one side (`app` skill, step 1); an app with a
-  customer side lists that side's page as its own feature, right
-  after the first. **Who may do what** is a feature of its own, before
-  any deploy; until it is built, **Sign-in** says in one line
+- **You chose**, first after the Brief: the opening's two answers,
+  word for word. Then the chosen features, and only those, under
+  **Proposed features, in build order**: the first marked and why it
+  comes first, each with its rules in plain words. The first is one
+  page for one side (`app` skill, step 1); a customer side chosen is
+  its own feature, right after the first. Then **Not in this build**:
+  what else a real app in the domain needs, one line each, built only
+  when the user asks. **Who may do what** is listed there, before any
+  deploy, unless it was chosen; until it is built, **Sign-in** says in one line
   "Everyone signed in can do everything for now; roles come with Who
   may do what.", and the first feature has no roles, roster or role
   rules.
@@ -113,7 +114,8 @@ hotel-7, until a build on these skills is measured):
 
 - Title: **How should it be built?**
 - "The whole app": "All <n> features without stopping, about <time>;
-  you see it at the end."
+  you see it at the end." <n> is the features chosen in the opening,
+  never the ones under **Not in this build**.
 - "Step by step": "A feature at a time, about 15 minutes each. You
   check each part: great for learning Reboot."
 - "Not yet": "I want to review or revise the design." Nothing more:
@@ -126,7 +128,9 @@ addition to the first handoff's review: this one decides the design
 before any code, that one the feature as built. After the answer, the
 `app` skill's **What to expect** for the chosen path, then the build.
 
-- **The whole app:** build every feature in the design by the
+- **The whole app:** build every chosen feature, the ones under
+  **Proposed features, in build order** and none from **Not in this
+  build**, by the
   [`one-shot` skill](../../one-shot/SKILL.md)'s steps 4 and 5, from
   the design already proposed (no features added to it): no stops,
   one handoff at the end. The task list is the whole-app list

@@ -51,11 +51,16 @@ one click because the build has already picked the likely answer:
   and housekeeping", "Staff and guests"); the one the rules below
   pick, marked "(Recommended)".
 
-What is chosen is the design's scope: the chosen features, in build
-order, the recommended one first when chosen; the rest of what a real
-app in the domain needs listed after them as later features. A
-customer side chosen is its own feature, right after the first. A free
-answer is taken as written. Nothing else is asked before the design:
+What is chosen is the build, exactly: the chosen features, in build
+order, the recommended one first when chosen, and nothing else. What
+else a real app in the domain needs (and Who may do what) goes in a
+separate list, **Not in this build**, which is never built unless the
+user asks for it. A customer side is a feature only when "Who will
+use it?" chose it, right after the first; staff only means no
+customer-facing feature anywhere in the design, not even "later", and
+the design never words the answer as "later". A free answer is taken
+as written. The answers go in the design under **You chose**, word for
+word, never under **Assumed**: they are the user's decisions. Nothing else is asked before the design:
 the front door, sign-in and the rest are assumed and listed under
 **Assumed**. How to build is asked once, after the design is shown
 ([`references/design-first.md`](references/design-first.md), section
