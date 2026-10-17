@@ -37,10 +37,25 @@ no gradient or glow.
 | Places and dates                     | A floor plan, a map, a calendar      |
 
 A spatial view takes the page's width, its geometry from data. A
-drag calls one existing method per drop, lights the target first and
-snaps a refused drop back; keep a button for keyboard users. A
 record's detail opens in a drawer or on its own route, never
 reflowing the list.
+
+### Drag and Drop, Wherever Something Moves
+
+Wherever a page moves something, it moves by drag and drop: an item
+between stages or lists, a booking to another room or day, a shift
+to another person, a card up or down in an order, a file onto the
+thing it belongs to. The thing is draggable; every valid target
+lights up on pick-up; the drop calls one existing method; a refused
+drop snaps back with the rule's reason in one line; the page updates
+from its subscription, not from the drop. Reordering is a drag too.
+Choosing the new place from a dropdown, a "Move to…" dialog or an
+edit form is the fallback, kept beside the drag for keyboard users
+and for the scenarios, which click it (`testing-web-app.md`), never
+the primary gesture; at phone width, where a drag is awkward, the
+fallback shows. Built with the browser's own drag and drop
+(`draggable`, `onDragStart`, `onDragOver`, `onDrop`) or pointer
+events, no library.
 
 Every view a person can narrow (a filter, a selection, a search, an
 open drawer) shows that it is narrowed and has a visible way back: an
