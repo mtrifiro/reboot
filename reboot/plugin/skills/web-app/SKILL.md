@@ -1,6 +1,6 @@
 ---
 name: web-app
-description: Build complete Reboot Web Apps — a Reboot backend behind a standalone browser-facing React frontend, served at a normal URL (not embedded in an MCP host). Layers on top of the python skill for backend mechanics; covers what's specific to standalone Web Apps — no MCP front door, no UI() methods, normal React/Vite SPA scaffolding, and Reboot auth for browser users. The backend stays ready for an MCP UI.
+description: Build complete Reboot Web Apps — a Reboot backend behind a standalone browser-facing React frontend, served at a normal URL (not embedded in an MCP host). Layers on top of the python skill for backend mechanics; covers what's specific to standalone Web Apps — no MCP front door, no UI() methods, a React/Vite SPA rendered from the starter, and Reboot auth for browser users. The backend stays ready for an MCP UI.
 argument-hint: [<app-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 ---
@@ -397,21 +397,29 @@ finished app.
 
 **The first feature:**
 
-1. Create `.python-version`, `pyproject.toml`, `.rbtrc` and
-   `.mypy.ini` as `python/references/lifecycle-{project-setup,rbtrc}.md`
-   shapes them; in `.rbtrc`, point the React codegen at
-   `frontend/api`:
-   ```sh
-   generate --react=frontend/api
-   ```
-   Then give the project `AGENTS.md` and `CLAUDE.md` with the
+1. Render the project from the starter
+   (`python/references/lifecycle-project-setup.md`):
+   `python3 '<the python skill>/assets/render.py' --app '<App Name>'
+   --pkg <pkg> --hub <Hub> --thing <Thing> --web .` (single quotes, as
+   written), the hub the
+   design's one hub object and the thing the first feature's central
+   object. It writes the shell, a working backend in that shape (a
+   `User`, the hub, the thing, their servicers and tests) and the
+   whole frontend (Vite, React, the house look, one page that lists
+   and adds the thing, signed in), all named for the design; `.rbtrc`
+   already points the React codegen at `frontend/api`. Then give the
+   project `AGENTS.md` and `CLAUDE.md` with the
    [`agents-md` skill](../agents-md/SKILL.md), naming the API and
-   servicer files the design settled on.
+   servicer files it wrote.
 2. `uv sync`.
-3. Write the first feature's `@wip` feature file with the
-   [`feature` skill](../feature/SKILL.md), then the API for that
-   feature only (`api/<pkg>/v1/<name>.py`): its types and methods,
-   plus `User`; later features add to it. Pydantic rules:
+3. Edit the starter's feature file (`tests/<things>.feature`, `@wip`)
+   into the first feature's with the
+   [`feature` skill](../feature/SKILL.md): its rules and scenarios in
+   the same built-in steps, renamed for the activity when the name
+   doesn't fit; then the API (`api/<pkg>/v1/<pkg>.py`) for that
+   feature only: the design's fields on the starter's objects, its
+   methods beside the starter's, in the same shape, and nothing the
+   design doesn't name; later features add to it. Pydantic rules:
    `python/references/api-pydantic.md`; method marker → context type:
    `python/references/api-methods.md`. Every `Reader`, `Writer`,
    `Transaction` and `Workflow` still requires the `mcp=` argument:
@@ -427,32 +435,37 @@ finished app.
    not on the prompt-by-prompt path, which asks nothing)
    ([`app/references/design-first.md`](../app/references/design-first.md),
    "The domain model, once") before step 5.
-5. Write the feature's servicer, with its rules and its real
-   `authorizer()`; context-type patterns in
+5. Edit the starter's servicers into the feature's: its rules, its
+   methods, its real `authorizer()` (the starter's: anyone signed in,
+   `create` and `open` internal); context-type patterns in
    `python/references/servicer-*.md`.
-6. Write `main.py` (`python/references/lifecycle-application-entry.md`)
-   with believable demo data for this feature's objects from
-   `initialize`, under `rbt dev run` only, as
+6. Add any new servicer to `main.py`'s `SERVICERS`
+   (`python/references/lifecycle-application-entry.md`) and
+   believable demo data for this feature's objects to `initialize`,
+   under `rbt dev run` only, as
    `python/references/lifecycle-seeding.md` says. Write the
    feature's scenarios in the built-in steps of
    `python/references/testing-features.md`; run `uv run pytest` as the [`feature` skill](../feature/SKILL.md)'s step 4 says (the feature's own files, in the foreground) and
    `uv run mypy backend/ tests/` with `rbt dev run` stopped (`run`
    skill, "Stopping the App"); fix what fails before any page.
-7. Scaffold the frontend beside `frontend/` and move it in
-   (`frontend/api/` is already there, and `create-vite` won't write
-   into a folder that isn't empty), shape it as [`references/react-client.md`](references/react-client.md)
-   shows, `cd frontend && npm install`, and run `uv run rbt generate`
-   again for the React bindings.
-8. Build the feature's one page from
+7. The frontend is in place from step 1
+   ([`references/react-client.md`](references/react-client.md) says
+   what each file is for): `cd frontend && npm install`, then
+   `uv run rbt generate` again for the React bindings, and
+   `cd frontend && npm run build` to prove the starter's page compiles
+   against them.
+8. Edit the starter's page (`frontend/web/src/App.tsx`: sign-in, one
+   reader, a form, a table) into the feature's one page from
    [`references/react-client.md`](references/react-client.md) and
    [`references/ui-design.md`](references/ui-design.md): its primary
-   view in the house look, with sign-in. Write the calls from the
-   reference and do **not** open `frontend/api/**/*_rbt_react.ts`.
+   view in the house look. Write the calls from the reference and do
+   **not** open `frontend/api/**/*_rbt_react.ts`.
    `cd frontend && npm run build`.
-9. Add one web app scenario for the page per
-   `python/references/testing-web-app.md` (it installs Playwright);
-   every feature file then runs from the one test module that starts
-   the frontend. Run `uv run pytest` again, as the [`feature` skill](../feature/SKILL.md)'s step 4 says.
+9. Edit the starter's browser scenario (`tests/<pkg>_web.feature`,
+   run by `tests/web_test.py`, which starts the frontend) into the
+   page's, per `python/references/testing-web-app.md`
+   (`uv run playwright install chromium` once); every web feature
+   file runs from that one module. Run `uv run pytest` again, as the [`feature` skill](../feature/SKILL.md)'s step 4 says.
 10. Start the app with the [`run` skill](../run/SKILL.md) and check
     the page in a headless browser (Playwright; in the Claude app never
     the Browser pane, which is for the user at the handoff): signed
