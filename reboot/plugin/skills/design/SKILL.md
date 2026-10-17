@@ -1,6 +1,6 @@
 ---
 name: design
-description: "Design a Reboot application from a description, without building it: one round of questions about what to build and how (all at once, step by step, prompt by prompt, or unguided, which hands the prompt and the answers to the build skill), then the whole proposed design in the chat and in design/design.md, where the app and build skills pick it up. Use when the user asks for a design, a proposal or a plan for an app and not yet the app, or asks for it by name (/reboot:design); a prompt that asks to build an app goes to the app skill, which runs this skill first."
+description: "Design a Reboot application from a description, without building it: one round of questions about what to build and how (all at once, guided, prompt by prompt, or unguided, which hands the prompt and the answers to the build skill), then the whole proposed design in the chat and in design/design.md, where the app and build skills pick it up. Use when the user asks for a design, a proposal or a plan for an app and not yet the app, or asks for it by name (/reboot:design); a prompt that asks to build an app goes to the app skill, which runs this skill first."
 argument-hint: [<app-description>]
 allowed-tools: Read, Write, Edit, Glob, Grep
 ---
@@ -117,14 +117,14 @@ recommendation is one answer:
   recommended: "All at once": "Every feature in the design without
   stopping, about 10 minutes a feature, more for a hard domain; you
   see it at the end." ·
-  "Step by step": "A feature at a time, about 15 minutes each; you
+  "Guided": "A feature at a time, about 15 minutes each; you
   check each part as it's built: great for learning Reboot." · "Prompt by prompt": "You say what to build at each step.
   Nothing is asked: each thing is built, tested and handed off, then
   the build waits for your next prompt." · "Unguided": "No design, no
   questions, no explanations: what you've said so far, built and
   tested, then the links. For a prompt that already says exactly what
   to build." The choice isn't for keeps: at any handoff "build the
-  rest all at once", "step by step from here" or "prompt by prompt
+  rest all at once", "guided from here" or "prompt by prompt
   from here" switches, and the first handoff says so in one line.
 
 **On "Unguided"** this skill's part ends: load the [`build`
@@ -225,7 +225,7 @@ What the design holds while nothing is built, in chat and file:
 - **Assumed**, after **Sign-in**: every answer taken in the round, one
   line each, question then answer, so the user sees what to change,
   and the build that picks the design up reads its path there ("How
-  should it be built? Step by step").
+  should it be built? Guided").
 
 The user signs off on what they see, so the assumptions say what the
 build picked:
@@ -248,8 +248,8 @@ Markdown link to the file in the user's project:
 > The design is in design/design.md. Say "build it" to build it the
 > way you chose, or what to change.
 
-Then stop: no dialog, no code. On "build it" (or "build it step by
-step", "build the rest all at once", "prompt by prompt", which switches
+Then stop: no dialog, no code. On "build it" (or "build it guided",
+"build the rest all at once", "prompt by prompt", which switches
 the path), load
 the [`app` skill](../app/SKILL.md) with the Skill tool
 (`/reboot:app`), never by reading its file: it takes the proposed
