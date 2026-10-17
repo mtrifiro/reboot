@@ -86,25 +86,13 @@ Every web app starts from the house look: one stylesheet, designed
 and tested once, in the accent the design names. Don't design a look
 from scratch.
 
-1. Copy `assets/styles.css`, `assets/theme.tsx`,
-   `assets/backend-check.tsx` and `assets/reload-prompt.tsx` from this
-   skill into `frontend/web/src/`
-   with `cp`, without reading them: the stylesheet is over 4,000 words,
-   and every word read is sent again on every later turn. In `main.tsx`, import the stylesheet and
-   its typefaces, and apply a saved theme before the first render:
-
-   ```tsx
-   import "@fontsource-variable/bricolage-grotesque";
-   import "@fontsource-variable/instrument-sans";
-   import "@fontsource-variable/jetbrains-mono";
-   import "./styles.css";
-   import { applySavedTheme } from "./theme";
-
-   applySavedTheme();
-   ```
-
-   Install the three packages:
-   `npm install @fontsource-variable/bricolage-grotesque @fontsource-variable/instrument-sans @fontsource-variable/jetbrains-mono`.
+1. The house stylesheet, `theme.tsx`, `backend-check.tsx` and
+   `reload-prompt.tsx` arrive with the starter (`render.py --web`,
+   the web-app skill's step 1), in `frontend/web/src/`, and its
+   `main.tsx` already imports the stylesheet and the three typefaces
+   (in `package.json`) and applies a saved theme before the first
+   render. Don't read the stylesheet: it is over 4,000 words, and
+   every word read is sent again on every later turn.
 
 2. Set the accent the design names, from the project root:
    `python3 <this skill>/assets/accent.py teal` (with no name it lists
