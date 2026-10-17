@@ -77,10 +77,10 @@ time zone.
 
 ## 3. The design document
 
-Write the proposed design to `design/design.md` in three parts, each
-after its own line, as
+Write the proposed design to `design/design.md` in one write, as
 [`app/references/design-first.md`](../app/references/design-first.md)
-says ("The design document"), in the shape of
+says (section 2, "The design: shown first, written to the file
+after"), in the shape of
 [`app/references/design-document.md`](../app/references/design-document.md),
 status "proposed on <date>; being built now", with an **Assumed**
 section after **Sign-in**. Show the proposed design in the chat as the
