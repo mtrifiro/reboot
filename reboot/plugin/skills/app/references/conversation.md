@@ -11,8 +11,8 @@ tags: conversation, links, browser pane, narration, questions, research, handoff
 response's tool calls: never only in thinking, which the user never
 gets as a message** (`app` skill, top).
 
-Read once, after the user answers "How should it be built?" and the
-build has said what to expect (`app` skill, step 1). It covers the
+Read once, after the go-ahead (on the power-user path, after the
+design) and the build has said what to expect (`app` skill, step 1). It covers the
 rest of the build: links, the Browser pane, what is said after each
 answer and at each stage, research, the questions inside the build,
 and keeping a feature.
@@ -158,7 +158,7 @@ ends a working turn with a next-step box of its own (`wrap_up`: a
 recap, one question, reply buttons), and that box also checks off the
 whole task list. So:
 
-- **Questions inside the build** (How should it be built?, after the design; Build on
+- **Questions inside the build** (Build on this design?, after the design; Build on
   this domain model? (the model check), Build the frontend: the <screen>?, What
   should I build next?) are dialogs (`AskUserQuestion`) asked while the
   turn goes on, never the box: the box would tick every item on the
@@ -171,11 +171,15 @@ whole task list. So:
   skipped dialog, the box gets the recap only, with no `ask` and no
   buttons: the feature is running for the user to try.
 - **Every question inside the build offers a way to learn more before
-  answering:** "Tell me more" on How should it be built? and Build the
+  answering:** "Tell me more" on Build on this design? and Build the
   frontend: the <screen>?, "Walk me through it" on the model check
   (`design-first.md` gives each one's answer). It answers in the chat
   and asks the same dialog again. What should I build next? describes
   each part in its option instead, since its options are the parts.
+- **On the power-user path none of these is asked** (`design-first.md`,
+  section 3): each prompt is built as asked, **Your turn** ends with
+  the plain line "Say what's next.", and the box carries the recap
+  only.
 - A dialog the user skipped is not a reason to ask again in the box.
 
 **A change to the look** (colors, typefaces, a brand, corners, the
