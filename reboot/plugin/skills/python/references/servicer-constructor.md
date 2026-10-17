@@ -99,7 +99,6 @@ response (or `None` when `response=None`).
 
 ## See Also
 
-- `api-methods.md` — "The Servicer Signature Each Declaration
-  Obliges": the exact shape codegen requires for a factory method,
-  including the `request=None` / `response=None` variants. Read it
-  instead of the generated `*_rbt.py`.
+`api-methods.md`, "The Servicer Signature Each Declaration Obliges",
+for the shape a factory method takes; `rpc-calls.md` for the call
+site.
