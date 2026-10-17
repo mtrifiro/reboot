@@ -27,7 +27,10 @@ allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 **1. The design, by the [`design` skill](../design/SKILL.md).** The
 response's first act, before any text or other tool call, is to load
 it with the Skill tool (`/reboot:design <the prompt>`), never by
-reading its file. It says the opening, asks the one round of questions
+reading its file; when the host asks for a plan before anything, the
+plan is one item, "Propose the design for <app>", and the path's list
+comes after the go-ahead. Right after it loads, its opening goes out
+as text, before the round. It says the opening, asks the one round of questions
 (the first build's features, who signs in, the accent, and how to
 build: all at once, guided, or prompt by prompt),
 reads what the design needs and shows the whole proposed design, once,
