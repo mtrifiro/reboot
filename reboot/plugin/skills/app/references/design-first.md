@@ -44,6 +44,19 @@ Nothing else yet: `conversation.md`, `design-document.md`,
 `task-list.md` and the front door's references are read after the
 answer, while the user isn't waiting on them.
 
+Before writing it, walk the workflows through, in thought: for each
+person who uses the app, the jobs they come to get done (as user
+stories: "as the front desk, I move a guest to another room when
+theirs isn't ready"), and for each job every step from its start to
+its end, not the first click. Each thing the app keeps track of has a
+whole lifecycle, and a feature that adds the thing covers it: it is
+created, seen in a list and on its own, found (a filter, a search),
+changed (every field a person could get wrong has an edit), corrected
+(a mistake undone, a cancel), and ended (done, cancelled, archived or
+deleted, as the domain says). "Edit" is the part builds miss most.
+A part of a lifecycle left for later is named under **Not in this
+build**, never silently absent.
+
 Then write the proposed design **once, in the chat**: the message in
 the shape of `design-messages.md`, "The proposed design", the whole
 design but its methods, about 500 words, with one line before it only
@@ -63,7 +76,9 @@ file:
   links to the developer dashboard once it shows them."
 - **Four or five features** under **Proposed features, in build
   order** (`app` skill, step 1): the first marked and why it comes
-  first, each with its rules in plain words. The first is one page for
+  first, each a job for a named person, walked start to finish (its
+  user story in one line, then what it lets them do, the lifecycle of
+  what it adds included), with its rules in plain words. The first is one page for
   one side; a customer feature, only when the prompt implies
   customers who use the app, comes right after the first. Then **Not
   in this build**: what else a real app in the domain needs, one line
