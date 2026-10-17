@@ -47,6 +47,14 @@ feature to be, as a person would describe it, not as an API:
   below zero; a customer sees only their own accounts. Most features
   have one or two; many have none. Do not dress up "the button
   works" as a rule.
+- **The job, start to finish:** who does it and what they are
+  trying to get done (the user story), then each step from the job's
+  start to its end, not the first click. Each thing the feature adds
+  gets its whole lifecycle: created, seen in a list and on its own,
+  found, changed (an edit for every field a person could get wrong),
+  corrected (undo, cancel) and ended (done, cancelled, archived,
+  deleted, as the domain says). A part left for later is named, never
+  silently absent; "edit" is the part builds miss most.
 - **A few example situations** in prose, one line each: "a
   transfer between two customers' accounts"; "a transfer for more
   than the source holds".
