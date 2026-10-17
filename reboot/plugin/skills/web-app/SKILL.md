@@ -47,23 +47,6 @@ backend behind a standalone React frontend served at a normal URL.
   [`deploy` skill](../deploy/SKILL.md): backend on Reboot Cloud,
   frontend on a static host under the user's own custom domain.
 
-## How a Web App Differs From an MCP UI
-
-The Reboot backend is identical. The deltas are all on the frontend:
-
-| Concern      | MCP UI (`mcp-ui`)                                                                               | Web App (this skill)                                                                      |
-| ------------ | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| Front door   | MCP host (ChatGPT, Claude, …) creates a `User` per user.                                        | Browser user signs in via `Application(oauth=...)`; same `User` per upstream identity.    |
-| API exposure | `mcp=Tool()` on writer/transaction methods.                                                     | Methods exposed only through the generated React client.                                  |
-| UI shape     | `UI()` methods → artifacts embedded in the MCP host.                                            | An SPA at `frontend/web/` opened at a URL.                                                |
-| Vite config  | The `mcp-ui` scaffolding's: one-file `dist/mcp/<name>/index.html` per UI, served through Envoy. | A stock Vite SPA config rooted at `web/`, built to `dist/web/` at `base: "/"`.            |
-| Test surface | MCPJam inspector.                                                                               | Scenarios that drive the app through Playwright (`python/references/testing-web-app.md`). |
-| `User` type  | Required — the MCP entry point.                                                                 | Required too — it owns per-user state and keeps the backend ready for an MCP UI.          |
-
-Backend mechanics (state, methods, Servicers, workflows, refs,
-scheduling, stdlib actors, errors, auth predicates, testing) are
-**unchanged** — load them from `python`.
-
 ## Auth in Web Apps
 
 Web apps wire identity via
@@ -118,38 +101,14 @@ Recommended sequence:
    production.
 2. **Before `rbt serve` / Reboot Cloud:** set `prod=Google(...)`
    (or `GitHub(...)`, `Auth0(...)`, your own `OAuthProvider`
-   subclass). The authorizers need no second pass. The providers
-   and what each needs:
-
-   All arguments are keyword-only.
-
-   | provider        | required arguments                        |
-   | --------------- | ----------------------------------------- |
-   | `Development()` | none — dev only, sign in as any identity  |
-   | `Anonymous()`   | none — every visitor is a fresh identity  |
-   | `Google(...)`   | `client_id=`, `client_secret=`            |
-   | `GitHub(...)`   | `client_id=`, `client_secret=`            |
-   | `Auth0(...)`    | `domain=`, `client_id=`, `client_secret=` |
-   | `Ory(...)`      | `domain=`, `client_id=`, `client_secret=` |
-
-   The registered providers (everything but `Development` and
-   `Anonymous`) also take `scopes=` and `store_tokens=`; register
-   `/__/oauth/callback` as the redirect URI with the provider.
-   Every provider but `Anonymous` takes `claims=`, `Development()`
-   included ([`auth-claims.md`](../python/references/auth-claims.md)).
-
-   Add `claims=[...]` when you need identity fields such as the
-   user's email, and `store_tokens=True` only when you will call
-   that provider's own API as the user. **Choose it at deploy, not
-   during the design**: the design and every build before deploy keep
-   `prod=None`, and the [`deploy` skill](../deploy/SKILL.md) sets the
-   provider. Choose deliberately then, before real users exist:
-   `context.auth.user_id` is namespaced per provider, so switching
-   providers after launch strands every existing user's state. Only
-   reach for
-   [mcp-ui/references/auth-oauth-providers.md](../mcp-ui/references/auth-oauth-providers.md)
-   if you need to write a custom provider or debug a specific
-   provider's flow.
+   subclass); the authorizers need no second pass. Until then every
+   build keeps `prod=None`, and the [`deploy` skill](../deploy/SKILL.md)
+   sets the provider. The providers and their arguments, `scopes=`,
+   `store_tokens=`, `claims=`
+   ([`auth-claims.md`](../python/references/auth-claims.md)), the
+   redirect URI, and why the choice is for keeps:
+   [`auth-oauth-providers.md`](../mcp-ui/references/auth-oauth-providers.md),
+   when you pick a real provider, at deploy.
 
    Tests build their own `Application(...)` rather than running
    `main.py`'s, whose `prod=None` arm and missing `allowed_origins`
@@ -176,25 +135,13 @@ the hook mechanics in
 
 ### Calling external APIs on the user's behalf
 
-To act **as the user** at an external service (call their Slack,
-Google, a partner API), store that service's OAuth tokens encrypted in
-an `OAuthTokenManager` and make the call inside a `Workflow`. When the
-API belongs to the identity provider you already sign in with via
-`Application(oauth=...)` (`Google` / `GitHub` / `Auth0`), use the
-`store_tokens=True` shortcut: add the extra `scopes=[...]` your calls
-need and the OAuth server captures the provider's tokens at sign-in
-(Path A in `python/references/auth-external-api-calls.md`). For any
-other service, run that service's OAuth flow yourself with your own
-authorize/callback HTTP endpoints (a callback registered
-`app_internal=True`) and call `OAuthTokenManager.store`. The full
-host-agnostic recipe — endpoints, storage, reading tokens back, the
-in-`Workflow` call, refresh, and erasure — is
-`python/references/auth-external-api-calls.md` (Path B). Never store
-tokens in a plain `str` field or hand-roll `Ciphertext`
-(`python/references/stdlib-oauth-tokens.md`). If the service doesn't do
-OAuth at all and the user pastes an **API key** instead, that key goes
-through `Ciphertext` (the ciphertext id kept in state) — Path C in the
-same recipe.
+To act **as the user** at an external service, store its OAuth tokens
+in an `OAuthTokenManager` and call it inside a `Workflow`:
+`python/references/auth-external-api-calls.md` (Path A, the sign-in
+provider's `store_tokens=True`; Path B, any other service's own OAuth
+flow; Path C, a pasted API key through `Ciphertext`). Never a plain
+`str` token field or a hand-rolled `Ciphertext`
+(`python/references/stdlib-oauth-tokens.md`).
 
 ### Browser-side wiring (React)
 
@@ -210,102 +157,79 @@ Everything you read stays in the conversation and is re-sent on
 every later turn, so **read each reference at the step that needs
 it** — not all of them up front — and read each one **once**. The
 groups below are in build order, and each reference appears in
-exactly one of them — the step that needs it.
+exactly one of them — the step that needs it. Never a whole generated
+or installed file (`*_rbt.py`, `*_rbt_react.ts`, `site-packages/`,
+`node_modules/`), and any search bounded hard:
+[`front-door-common.md`](../app/references/front-door-common.md),
+"Never Read Generated or Installed Source in the Main Thread".
 
-> **Never read `mcp-ui/references/*` for a web app.** They cover
-> the MCP frontend — `UI()` artifacts, the MCPJam inspector,
-> `mcp/<name>/index.html` entries, the `vite.config.ts` and
-> `build.mjs` that serve MCP UIs through Envoy, `mcp=Tool()`
-> markers, popping a widget out into a web app. Reaching into them
-> costs context and produces MCP-UI-shaped code (`mcp=Tool()`
-> markers and `UI()` methods in an app with no MCP frontend). The
-> web equivalents are
-> [`references/react-client.md`](references/react-client.md) and the
-> `python` references named below. The single exception is
-> [mcp-ui/references/auth-oauth-providers.md](../mcp-ui/references/auth-oauth-providers.md),
-> which is frontend-neutral: read it when you pick a real provider.
+> **Never read `mcp-ui/references/*` for a web app** (they produce `mcp=Tool()` markers and `UI()` methods in an app with no MCP frontend; the web equivalent is [`references/react-client.md`](references/react-client.md)), except [`auth-oauth-providers.md`](../mcp-ui/references/auth-oauth-providers.md), which is frontend-neutral: read it when you pick a real provider.
 
 **Before the API definition:**
 
-- `python/references/patterns-common-gotchas.md` — recurring trips
-  (`self.ref().state_id`, kwargs convention, a `ref()` belongs to
-  one context, the auto-constructed `User` type, `--name` vs.
-  `--application-name`).
-- `python/references/api-pydantic.md` — pydantic API rules (every
-  Field needs a zero-value default; non-Optional `Model`-typed
-  fields can't take defaults).
-- `python/references/api-methods.md` — factory → context type
-  mapping (Reader/Writer/Transaction/Workflow).
+- `python/references/patterns-common-gotchas.md` — recurring trips.
+- `python/references/api-pydantic.md` — pydantic API rules.
+- `python/references/api-methods.md` — factory → context type mapping.
 - `python/references/api-errors.md` — typed errors, when the API
   declares any.
 - `python/references/state-collections.md` — **always read when the
-  app has any "list of X" concept.** Decides whether each X should
-  be its own state `Type` (most of the time, yes) and picks between
-  in-state `list[Sub]`, in-state `list[str]` of foreign IDs, or an
-  `OrderedMap` of foreign IDs. The trap is defaulting to
-  `list[Todo]`/`list[Document]`/etc. on one parent for entity
-  collections — see Step 1 of that reference.
-- `python/references/state-nested-models.md` — the same rule from
-  the nested-`Model` angle.
+  app has any "list of X" concept.**
+- `python/references/state-nested-models.md` — only when a state
+  nests a non-state `Model`.
 
 **Before the project shell** (`.rbtrc`, `pyproject.toml`,
 `.mypy.ini`, `main.py`):
 
-- `python/references/lifecycle-{project-setup,rbtrc,application-entry,initialize-hook}.md` — the canonical layout, the CLI flags, the
-  `Application(...)` constructor, the `initialize` hook.
+- `python/references/lifecycle-{project-setup,rbtrc,application-entry}.md`
+  — the layout, the CLI flags, `Application(...)`.
 
 **Before the servicer:**
 
 - `python/references/servicer-{reader,writer,transaction,constructor}.md` — one per context type you actually declared.
-- `python/references/rpc-refs.md` — `self.ref().state_id` (never
-  `self.state_id`); `self.ref().schedule(...)`.
-- `python/references/rpc-calls.md` — kwargs, not Request wrappers.
-- `python/references/rpc-constructor-calls.md` —
-  `Service.create(context, id)` semantics.
+- `python/references/rpc-refs.md` — `self.ref().state_id`;
+  `self.ref().schedule(...)`.
+- `python/references/rpc-calls.md` — kwargs, not Request wrappers;
+  `Service.create(context, id)`.
 - `python/references/servicer-workflow.md` — only when you declared
-  a `Workflow`, and then top to bottom: the `@classmethod` /
-  `WorkflowContext` declaration shape, the call-classification
-  decision tree (Reboot scopes vs. `at_least_once` vs.
-  `at_most_once`), `context.loop`, inline state writes,
-  `until` / `until_changes`, and workflow exit semantics.
+  a `Workflow`, and then top to bottom.
 
 **Before the authorizers** (browser users — see "Auth in Web Apps"
 above for the dev-vs-prod sequence):
 
-- `python/references/servicer-authorizer.md` — **start here**.
-  Explains `oauth=` (the default, with rules from day one) vs.
-  `token_verifier=` (the escape hatch for custom IdPs, where rules
-  may wait until the verifier is wired).
+- `python/references/servicer-authorizer.md` — **start here**:
+  `oauth=` vs. `token_verifier=`.
 - `python/references/auth-allow-if.md`,
-  `python/references/auth-built-in-predicates.md`,
-  `python/references/auth-custom-predicates.md` — the predicate
-  machinery once you're ready to write rules.
-- `python/references/auth-allow-deny.md` — narrow uses of
-  unconditional rules; specifically, when **not** to reach for
-  `allow()`.
+  `python/references/auth-built-in-predicates.md` — the predicate
+  machinery.
+- `python/references/auth-custom-predicates.md` — only when the
+  built-in predicates don't cover a rule.
+- `python/references/auth-allow-deny.md` — only when the design has
+  a public, unauthenticated endpoint.
 - `python/references/auth-external-api-calls.md` and
   `python/references/stdlib-oauth-tokens.md` — **calling an external
-  service's API as the user**: custom OAuth endpoints (web apps use
-  Path B — no `store_tokens=True` shortcut) → `OAuthTokenManager.store`
-  → read back + call inside a `Workflow`. Never a plain `str` token
-  field.
+  service's API as the user** (web apps: Path B).
+
+**Before `main.py`:**
+
+- `python/references/lifecycle-seeding.md` — demo data from
+  `initialize`, under `rbt dev run` only, idempotent on restart;
+  always.
 
 **Before the tests:**
 
 - `python/references/testing-project-setup.md` — always.
 - `python/references/testing-features.md` — the built-in steps'
   spelling; always.
-- `python/references/patterns-idempotency.md` — it explains
-  `IdempotencyUncertainError`, which is otherwise the one runtime
-  error whose cause is not in any reference you have read.
+- `python/references/lifecycle-seeding-troubleshooting.md` — only
+  when `IdempotencyUncertainError` appears, or a seed stalls, hangs or
+  errors.
 - `python/references/testing-harness.md` and
   `testing-external-context.md` — for custom steps.
-- `testing-failure-recovery.md` — the one to read whenever the app
-  has a spawned task, a `Workflow`, or `schedule()`d work: it covers
-  restarting the app under test and asserting that work survived.
+- `python/references/testing-custom-steps.md` — for custom steps.
+- `testing-failure-recovery.md` — whenever the app has a spawned
+  task, a `Workflow`, or `schedule()`d work.
 - [`feature/SKILL.md`](../feature/SKILL.md) — the order of work
-  around the feature files (agree in English, tag `@wip`, iterate on
-  scenarios).
+  around the feature files.
 
 **The two parts.** Every group above this line is the backend part.
 The groups from here on are the frontend part: read them only when the
@@ -315,22 +239,12 @@ before, and not at all when the user stops after the backend.
 
 **Before the frontend:**
 
-- [`references/ui-design.md`](references/ui-design.md) — the
-  primary view for each task, and the house look: copy the
-  stylesheet and theme toggle, set the design's accent, build the
-  pages from its classes; the sidebar layout, a brand, logo and
-  favicon, and the checks.
+- [`references/ui-design.md`](references/ui-design.md) — the primary
+  view and the house look.
 - [`references/react-client.md`](references/react-client.md) — the
-  `frontend/` shell (the stock Vite config rooted at `web/`,
-  including the `server.host` the browser needs), the backend URL
-  (`VITE_REBOOT_URL` — the default detection resolves to Vite's
-  origin, not the backend's), sign-in/sign-out, and how a typed
-  backend error becomes a message the user sees.
+  `frontend/` shell, `VITE_REBOOT_URL`, sign-in, typed errors.
 - `python/references/react-generated-client.md` — what
-  `rbt generate --react=` emits: the `use<Type>()` overloads, the
-  three-field reader return, why mutations resolve to
-  `{ response, aborted }` instead of throwing, the typed error
-  classes, and the snake→camel naming rules.
+  `rbt generate --react=` emits.
 
 **Before the browser tests** (the frontend part):
 `python/references/testing-web-app.md` (the `frontend` fixture, the web
@@ -338,36 +252,13 @@ app steps, and the accessible markup the page needs).
 
 **Before running the app:** the [`run` skill](../run/SKILL.md).
 
-If you find yourself grepping the framework's installed source or a
-generated file to answer a question, the next section is for you —
-do not explore it in the main conversation.
-
-## Never Read Generated or Installed Source in the Main Thread
-
-Never a whole generated or installed file (`*_rbt.py`,
-`*_rbt_react.ts`, `site-packages/`, `node_modules/`): use the
-references, and bound any search hard
-([`app/references/front-door-common.md`](../app/references/front-door-common.md)).
-
 ## Workflow: Propose the Design, Then Build
 
-**Always work out the design before writing code.** The state model
-is the foundation — getting entities, field types, or method types
-wrong means regenerating everything across the project.
-The design is a proposal until the user accepts it: call it, and
-every part of it such as the data model, proposed, never settled, set
-or final, in the design and in every status line. Ask one round of
-scope questions before it (step 2 below), then build without
-waiting. The question of how to build has two answers: one feature at a time,
-where after each the user sees it running, understands it and
-chooses the next, so the design is accepted piece by piece; or a
-full prototype first, accepted at its handoff.
-
-This is the first stage of the **Reboot Flywheel**: Design, then
-Prove, then Observe, each ending in a decision that is the user's.
-[`app/references/flywheel.md`](../app/references/flywheel.md) has
-the stages, the heading each decision opens with, and the routing
-rule that sends a change to the design back to Design.
+**Always work out the design before writing code.** The design is a
+proposal until the user accepts it, and the first stage of the Reboot
+Flywheel:
+[`front-door-common.md`](../app/references/front-door-common.md),
+"The Design Is a Proposal".
 
 ### Design Phase
 
@@ -378,32 +269,12 @@ rule that sends a change to the design back to Design.
    its part of the API exists.
 1. Analyze the user's description using the State Model Assessment
    below.
-2. Ask one round of scope questions first, from the prompt alone,
-   before reading any reference or showing a design: one question
-   dialog (`AskUserQuestion` where available). Built from the
-   [`app` skill](../app/SKILL.md), its opening round replaces this
-   one: nothing else is asked before the design, and **How should it
-   be built?** comes once, after the design
-   ([`app/references/design-first.md`](../app/references/design-first.md),
-   section 3). Invoked directly, the first question is how to build
-   it, unless the prompt already says: "One feature at a time, so you
-   understand each part as it's built" (recommended) or "A full
-   working prototype first, then finished feature by feature". Then
-   at most three more, on what the prompt
-   left open and an answer would change most, such as who signs in
-   with which roles and what the app keeps track of. Give each question two to four options, the simplest
-   first and marked as recommended, so accepting every
-   recommendation is one answer. Never an option that only
-   means "say what": every dialog has its own free answer. Don't ask about the look: when the
-   user named no brand, pick the accent that suits the domain from
-   the ones [`references/ui-design.md`](references/ui-design.md)
-   lists, and say in
-   the brief that it was picked for them and is easy to change later,
-   to another color or to their brand. Name the app too, unless the
-   prompt gives a name, and say the same of it. Don't ask what the design can
-   decide well on its own. Never ask about time zones: every date
-   and time is in the user's own time zone unless they say otherwise,
-   and it goes under **Assumed** in the decisions log. Ask nothing more until the handoff.
+2. The scope round, as
+   [`front-door-common.md`](../app/references/front-door-common.md)
+   ("The Scope Round") says. The first question's options: "One
+   feature at a time, so you understand each part as it's built"
+   (recommended) or "A full working prototype first, then finished
+   feature by feature".
 3. Read the references for the API, then show the proposed design,
    word for word in the shape of
    [`app/references/design-messages.md`](../app/references/design-messages.md),
@@ -440,51 +311,26 @@ rule that sends a change to the design back to Design.
    [`references/full-build.md`](references/full-build.md).
 
 For updates to existing apps, still work the design first: read
-current state, state the changes, then modify.
-
-### Writing the Design for a Human Reader
-
-Write the design for a person who hasn't read these skills: no
-skill-internal terms, and for every choice the what and a one-clause
-why in the domain's terms, as
-[`app/references/front-door-common.md`](../app/references/front-door-common.md)
-says, with its examples.
+current state, state the changes, then modify. Write the design for a
+person who hasn't read these skills:
+[`front-door-common.md`](../app/references/front-door-common.md),
+"Writing the Design for a Human Reader".
 
 ## State Model Assessment
 
 Before writing code, analyze the user's request:
 
-1. **Application types — decompose aggressively.** List every
-   distinct entity the user is going to add / edit / list / find
-   over time (todos, documents, posts, accounts, people, …).
-   **Each entity becomes its own `Type` with its own state**, even
-   when "each user only has a few of them". Anything you can
-   imagine being `add`-ed / `remove`-d / `find`-ed by name has its
-   own identity and belongs in its own actor. The default wrong
-   move is packing everything into one parent's state as
-   `list[Todo]` (or `list[Document]`, `list[Post]`, …) — that
-   flattens N actors into one, prevents per-entity auth/methods,
-   and forces a full rewrite when the collection grows. See
-   `python/references/state-collections.md` Step 1 for the full
-   decomposition signal list.
+1. **Application types** — decompose per
+   `python/references/state-collections.md` Step 1: every entity the
+   user adds, edits, lists or finds is its own `Type`, never a
+   `list[Todo]` on one parent.
 2. **Per-user state?** If yes, declare a `User` type and route
    creation through it the same way `mcp-ui` does — the
    `User`-front-door pattern is independent of MCP. If the app is
    anonymous or all users share state, skip `User`.
-3. **Container shape for each collection.** Once an entity is its
-   own `Type`, parents store **references**, not objects. Three
-   shapes (full table + worked example in
-   `python/references/state-collections.md`):
-   - `list[Sub]` of non-state `Model`s — bounded sub-records with
-     no identity of their own (line items on an Order, tags on a
-     Post). NOT for entity collections.
-   - `list[str]` of foreign state IDs — bounded entity collection
-     (low hundreds, occasionally low thousands) you always read
-     whole.
-   - `OrderedMap` of foreign state IDs — collection grows without
-     bound, needs pagination / range queries / ordered iteration.
-     The default choice for any "list of things the user keeps
-     adding to".
+3. **Container shape for each collection** — shape per
+   `python/references/state-collections.md` Step 2: parents store
+   references, not objects.
 4. **State shape (per type)**: Fields, types — lists, nested
    objects, primitives. Each gets `Field(tag=N)`. Nested `Model`
    sub-objects owned 1:1 by a parent state must be
@@ -503,16 +349,9 @@ Before writing code, analyze the user's request:
    wrap the calls.
 7. **Auth**: Anonymous-only, public-read + authed-write, fully
    locked down, …? See `python/references/auth-*.md`.
-8. **Names**: Name each type for what it holds and is for, in
-   the domain's own words, never for its key or its time period.
-   A type keyed by a gate and a date is `GateSchedule` (one gate's
-   flights and closures for a day), not `GateDay`; a type keyed by
-   a date is `DispatchBoard` (the day's flights, and the rule that
-   no aircraft or pilot is double-booked), not `DispatchDay` or
-   `Day`. The key says how an instance is found; the name says
-   what it is. Test each name: would someone in the domain know
-   what it holds without being told its id? If not, rename it
-   before the API is written, when a rename costs one line.
+8. **Names** — for what each type holds and is for, never for its
+   key: [`front-door-common.md`](../app/references/front-door-common.md),
+   "Names".
 
 ## Project Layout
 
@@ -647,25 +486,19 @@ works as it will in the finished app.
     says, and the layout checks in
     [`references/ui-design.md`](references/ui-design.md) ("Measure
     what can be measured") pass at desktop and phone width.
-11. Show what was built so the user can judge it, not admire it,
-    word for word in the handoff's shape in
-    [`app/references/design-messages.md`](../app/references/design-messages.md):
-    what it keeps track of, what it does with each rule linked to the
-    dashboard's Features page (`dashboard` skill, "Links to an Object
-    or a Rule"), how to check it, what's not built yet, and notes.
-    Last, close as
-    [`app/references/accept-design.md`](../app/references/accept-design.md)
-    says: it ends with the **Your turn** section of
+11. Show what was built so the user can judge it, not admire it, word
+    for word in the handoff's shape in
     [`app/references/design-messages.md`](../app/references/design-messages.md),
-    what to try, where to look, and the features to ask for next, the
-    recommended one first, then the dialog **What should I build next?**
-    with those features as its options. The user's choosing or asking for a next
-    feature (or saying to keep this one) accepts this one (its
-    `@wip`: the [`feature` skill](../feature/SKILL.md)). Open it with the
-    Flywheel heading **Reboot Design · ready for your review**; the
-    first time, record it as `app/references/accept-design.md` says; each
-    acceptance is recorded the same way
-    ([`app/references/accept-design.md`](../app/references/accept-design.md)).
+    each rule linked to the dashboard's Features page (`dashboard`
+    skill, "Links to an Object or a Rule"), closing with its **Your
+    turn** section and the dialog **What should I build next?**, the
+    recommended feature first, as
+    [`app/references/accept-design.md`](../app/references/accept-design.md)
+    says. Open it with the Flywheel heading **Reboot Design · ready for
+    your review**. Choosing or asking for a next feature (or keeping
+    this one) accepts this one (its `@wip`: the
+    [`feature` skill](../feature/SKILL.md)); each acceptance is
+    recorded as `accept-design.md` says.
 
 **Each next feature**, when the user chooses it:
 
@@ -694,19 +527,14 @@ When the user says the app is done, offer an MCP UI in one line
 
 ## Update Flow
 
-To change an existing app, read `AGENTS.md`, `.rbtrc`, the API, the servicers,
-`main.py` and `frontend/web/src/App.tsx`, then route the change by
-the Flywheel's routing rule (`app/references/flywheel.md`;
-`python3 scripts/model_diff.py` sorts it): a change
-to a domain object, a rule or who may call goes back to Design;
-anything else stays in Prove. A design change the user asked for is
-built and judged at the next handoff; one they didn't ask for is shown
-and asked about before code
-([`app/references/accept-design.md`](../app/references/accept-design.md)). Then follow
-steps 12 to 14.
-An app with persisted or deployed state follows
+To change an existing app, read `AGENTS.md`, `.rbtrc`, the API, the
+servicers, `main.py` and `frontend/web/src/App.tsx`, then route the
+change as
+[`front-door-common.md`](../app/references/front-door-common.md)
+("Routing a Change") says, and follow steps 12 to 14. An app with
+persisted or deployed state follows
 `python/references/api-schema-evolution.md`. Under `rbt dev run`,
-edits (and `.env`) reload it; no restart.
-If the change moved a file, added a state type or a page, changed a
-command, or taught a rule, update `AGENTS.md` in the same change
+edits (and `.env`) reload it; no restart. If the change moved a file,
+added a state type or a page, changed a command, or taught a rule,
+update `AGENTS.md` in the same change
 ([`agents-md` skill](../agents-md/SKILL.md)).
