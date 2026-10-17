@@ -1,6 +1,6 @@
 ---
 name: design
-description: "Design a Reboot application from a description, without building it: one round of questions about what to build and how (all at once, guided, or prompt by prompt), then the whole proposed design in the chat and in design/design.md, where the app and build skills pick it up. Use when the user asks for a design, a proposal or a plan for an app and not yet the app, or asks for it by name (/reboot:design); a prompt that asks to build an app goes to the app skill, which runs this skill first."
+description: "Design a Reboot application from a description, without building it: one round of questions about what to build and how (all at once, guided, or prompt by prompt), then the whole proposed design in the chat and in design/design.md, where the app and build skills pick it up; loaded by the one-shot skill, no round and a whole-app scope. Use when the user asks for a design, a proposal or a plan for an app and not yet the app, or asks for it by name (/reboot:design); a prompt that asks to build an app goes to the app skill, which runs this skill first."
 argument-hint: [<app-description>]
 allowed-tools: Read, Write, Edit, Glob, Grep
 ---
@@ -31,6 +31,15 @@ code, no `rbt generate`, no project scaffold, no dependency installed.
   the same response
   ([`app/references/design-first.md`](../app/references/design-first.md),
   section 3); on the prompt-by-prompt path, that section's closing line.
+- **Loaded by the [`one-shot` skill](../one-shot/SKILL.md)** (it
+  loaded first): no round and no question, ever. Its section 1 gives
+  the scope (every feature a real product in the domain needs, every
+  role) and the answers the round would have asked, and overrides
+  "Four or five features" and "No roles first" below; everything
+  else below holds. The opening's third sentence is "No questions:
+  I'll design the whole app, then build and test all of it and hand
+  it over when it's done." word for word, and the design follows in
+  the same response, with no dialog between them.
 - Read this plugin's files with the Read tool, one call per file and
   several in one response, never a shell command: a long shell result
   is cut to a preview and the rest goes unread (the `python` skill's
@@ -247,6 +256,10 @@ hours), in the user's nouns.
 
 ## 4. Then
 
+**Loaded by the `one-shot` skill:** write `design/design.md` right
+after the design, with no closing line and no dialog; the one-shot
+skill goes straight on to the build in the same turn.
+
 **Loaded by the `app` skill:** no closing line. The go-ahead dialog
 follows the design in the same response (`design-first.md`, section
 3), and the app skill takes it from there.
@@ -274,7 +287,8 @@ design, with no new facts added to it.
 - Reading a reference or listing the folder before the opening that
   says what will be built; a name before the design.
 - Any question before the design other than the round; a second
-  round; a question on the prompt-by-prompt path.
+  round; a question on the prompt-by-prompt path or when loaded by
+  the `one-shot` skill.
 - An answer taken in the round without its line under **Assumed**.
 - The design drafted only in thinking, or shown only as a pointer to
   `design/design.md`: the user judges what they see in the chat.
