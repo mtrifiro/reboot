@@ -43,7 +43,7 @@ await account.deposit(context, amount=10)
 ### 5. Constructor Calls Use `Service.create` / `Service.<ctor>`
 
 Don't call a constructor through `.ref(id).method(...)`. Use the factory
-form so creation semantics apply:
+form so creation semantics apply (`rpc-calls.md`):
 
 ```python
 # Wrong:
@@ -109,20 +109,14 @@ Any change you make to a generated file is overwritten the next time
 `rbt generate` runs (which `rbt dev run` does on file change). Edit
 the API definition file instead.
 
-### 11. State Defaults Must Be the Type's Zero Value
-
-You cannot declare a non-zero `default=` on a `Field(tag=N)` —
-non-zero defaults are rejected at import. To seed non-zero state, do
-it in a constructor method using `context.constructor`.
-
-### 12. Register Stdlib Libraries
+### 11. Register Stdlib Libraries
 
 `OrderedMap` requires `libraries=[ordered_map_library()]` in the
 `Application(...)` call. Forgetting it gives a runtime error about
 unknown actor type. The same shape applies to every stdlib state
 type with a `<thing>_library()` factory.
 
-### 13. Servicer Class, Not Instance, in `Application(...)`
+### 12. Servicer Class, Not Instance, in `Application(...)`
 
 ```python
 # Wrong:
@@ -131,59 +125,29 @@ await Application(servicers=[ChatRoomServicer()]).run()
 await Application(servicers=[ChatRoomServicer]).run()
 ```
 
-### 14. Pydantic `Field(tag=N)` Needs an Explicit Zero-Value Default
+### 13. Pydantic `Field(tag=N)` Needs an Explicit Zero-Value Default
 
-Two layered rules:
+Every Field declares its type's zero value as default; domain
+defaults go in the constructor. See "`default=` Must Be the Type's
+Zero Value" in `api-pydantic.md`.
 
-1. Every Field needs an explicit default — `model_construct()` skips
-   fields without one, and reads then `AttributeError`.
-2. The default **must be the type's zero value** (`""`, `0`, `0.0`,
-   `False`, empty list/dict). Non-zero defaults are rejected at import
-   time:
-
-   ```text
-   reboot.api.UserPydanticError: Field `turn` in model `CheckersState`
-   uses `default` with an unsupported value. Supported default value
-   for `str` is ``.
-   ```
-
-Always declare zero defaults; set domain defaults inside the
-constructor method (or a `start`-style reset writer):
-
-```python
-class GameState(Model):
-    board: str = Field(tag=1, default="")
-    turn: str = Field(tag=2, default="")           # not default="r"
-    move_delay_seconds: float = Field(tag=3, default=0.0)  # not 1.0
-    history: list[str] = Field(tag=4, default_factory=list)
-    paused: bool = Field(tag=5, default=False)
-
-
-async def open(
-    self, context: WriterContext, request: OpenRequest,
-) -> None:
-    if context.constructor:
-        self.state.turn = "r"
-        self.state.move_delay_seconds = 1.0
-```
-
-### 15. `self.state_id` Doesn't Exist; Use `self.ref().state_id`
+### 14. `self.state_id` Doesn't Exist; Use `self.ref().state_id`
 
 Inside a Servicer (writer/reader/transaction), get the actor's ID via
 `self.ref().state_id`. Inside a workflow `@classmethod`, use
 `context.state_id`. Plain `self.state_id` raises `AttributeError: 'XServicer' object has no attribute 'state_id'`.
 
-### 16. Generated Request/Response Names Come From the Method Name
+### 15. Generated Request/Response Names Come From the Method Name
 
 `<Type>.<MethodPascalCase>Request` and
 `<Type>.<MethodPascalCase>Response` — the source class names you
 passed to `request=`/`response=` are **internal**. A method
 `create_checkers_game` is always exposed as
 `User.CreateCheckersGameRequest`/`Response`, regardless of source
-name. Mismatching the method PascalCase raises `AttributeError: type object '<Type>' has no attribute '<WrongName>'`. See
-`api-pydantic.md` for the full rule.
+name. Mismatching the method PascalCase raises `AttributeError: type object '<Type>' has no attribute '<WrongName>'`. The
+signature each declaration obliges is in `api-methods.md`.
 
-### 17. `Workflow(...)` Needs `mcp=` Just Like the Other Factories
+### 16. `Workflow(...)` Needs `mcp=` Just Like the Other Factories
 
 Easy to miss because workflows are rarely AI-callable. Missing it:
 
@@ -195,7 +159,7 @@ mcp
 
 Set `mcp=None` for non-tool workflows.
 
-### 18. Secrets Don't Belong in Plain `str` Fields
+### 17. Secrets Don't Belong in Plain `str` Fields
 
 A `str`/`bytes` scalar field is plaintext at rest. Passwords, API keys,
 session tokens, and PII must **never** be stored that way — the "it's
@@ -217,7 +181,7 @@ encrypts them automatically.
 See `stdlib-ciphertext.md` and "Never Store Secrets in Plain Scalar
 Fields" in `state-scalar-fields.md`.
 
-### 19. Inline Writer Parameter Must Be Named `state`
+### 18. Inline Writer Parameter Must Be Named `state`
 
 The runtime calls the writer as `writer(state=typed_state)`. Renaming
 the parameter raises `TypeError: ... got an unexpected keyword argument 'state'`. Always:
@@ -228,7 +192,7 @@ async def fn(state):
 await Service.ref().write(context, fn)
 ```
 
-### 20. Schema Evolution Is Additive-Only Once State Persists
+### 19. Schema Evolution Is Additive-Only Once State Persists
 
 Changing the API of an application that has persisted state or has
 been deployed can make it fail to boot ("Updated state or method
@@ -236,71 +200,44 @@ definitions are not backwards compatible") and get its deploy
 rejected. Read `api-schema-evolution.md` for the rules you must
 follow before changing such an API.
 
-### 21. A `ref()` Belongs to One Context — `MixedContextsError`
+### 20. A `ref()` Belongs to One Context — `MixedContextsError`
 
-**Reusing a ref for many calls on the same context is fine** — hold
-it in a local and call it as often as you like:
-
-```python
-task_list = TaskList.ref(list_id)
-await task_list.add_task(context, title="Milk")
-await task_list.toggle_task(context, task_id=task_id)
-snapshot = await task_list.get(context)      # All fine.
-```
-
-What is not allowed is carrying that same ref object across to a
-**different** context. `Type.ref(id)` binds to the first `Context`
-it is used with (it carries that context's idempotency manager), so
-a ref stashed on `self`, hoisted to a module constant, or shared
-between two test contexts raises `MixedContextsError` — on readers
-as well as mutations, and regardless of the id being identical:
+A ref may serve many calls on one context; hold it in a local and
+reuse it. Carrying it to a **different** context is the error:
+`Type.ref(id)` binds to the first `Context` it is used with (it
+carries that context's idempotency manager), so a ref stashed on
+`self`, hoisted to a module constant, or shared between two test
+contexts raises `MixedContextsError`, on readers too, whatever the
+id. Make a fresh ref per context; `ref()` is cheap:
 
 ```python
 # Wrong — one ref object, two contexts.
 shared = TaskList.ref(list_id)
 await shared.get(alice)
-await shared.get(alice2)     # MixedContextsError, even for the
-                             # same user and the same list id.
+await shared.get(alice2)     # MixedContextsError, same id or not.
 
-# Right — a fresh ref per context; `ref()` is cheap.
+# Right — a fresh ref per context.
 await TaskList.ref(list_id).get(alice)
 await TaskList.ref(list_id).get(alice2)
 ```
 
-The error names the fix directly: "Instead create a new
-`WeakReference` for every `Context`."
+### 21. The State Type Named `User` Is Auto-Constructed
 
-### 22. The State Type Named `User` Is Auto-Constructed
+A state type literally named `User` is special: under
+`Application(oauth=...)`, Reboot auto-constructs one `User` actor per
+signed-in identity, whose state id **is** the `context.auth.user_id`,
+on first access. Do not write a sign-up method that creates it, do
+not pass an id to `useUser()` in the browser, and do not construct
+it in tests: `await rbt.create_external_context_as(name, user_id)`
+is enough for `User.ref(user_id)` to resolve. A `User` type without
+`oauth=` fails to start, except under the test harness, which
+supplies a test OAuth provider (`testing-harness.md`). Other state
+types are constructed explicitly, by their factory `create`.
 
-A state type literally named `User` is special: when
-`Application(oauth=...)` is configured, Reboot auto-constructs one
-`User` actor per signed-in identity, whose state id **is** the
-`context.auth.user_id`, on first access. Do not write a sign-up
-method that creates it, do not pass an id to `useUser()` in the
-browser, and do not construct it in tests — impersonating a user
-with `await rbt.create_external_context_as(name, user_id)` is enough
-for `User.ref(user_id)` to resolve. The auto-construction happens
-only under `oauth=`; an app with a `User` type and no `oauth=` fails
-to start, except under the test harness, which supplies a test OAuth
-provider when `oauth=` is omitted (`testing-harness.md`). Other
-state types are constructed explicitly, by their factory `create`.
-
-To give a new `User` initial state (e.g. allocate the id of an
-`OrderedMap` index, `state-collections.md`), override its
-constructor on the servicer. Reboot adds `create` to the `User` API
-itself, as a factory `Transaction` (declaring one is an error), and
-calls it when the user first signs in:
-
-```python
-class UserServicer(User.Servicer):
-
-    async def create(self, context: TransactionContext) -> None:
-        self.state.todos_index_id = str(uuid4())
-```
-
-Being a `Transaction`, it may also call other states (e.g. sign the
-user up with a singleton). It needs no `if context.constructor:`
-check: `create` is a constructor, so a call to it on a `User` that
-already exists, whether from the framework or from anything else
-that can reach the API, aborts with `StateAlreadyConstructed` before
-the body runs. Inside `create`, the state is always new.
+For initial state, override its constructor on the servicer: Reboot
+adds `create` to the `User` API itself, as a factory `Transaction`
+(declaring one is an error), and calls it at first sign-in. It may
+call other states, and needs no `if context.constructor:` check:
+`create` on an existing `User` aborts with `StateAlreadyConstructed`
+before the body runs. Shape C in `state-collections.md` allocates an
+`OrderedMap` id there.
