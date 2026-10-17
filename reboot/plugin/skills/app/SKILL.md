@@ -35,7 +35,8 @@ Then load the chosen skill with the Skill tool
 typed, never by reading its file; that skill takes it from there.
 
 - **No answer** (the dialog skipped, or a host that can't ask):
-  Guided.
+  Guided, with no line about the choice; the guided skill's first
+  words are the next thing said.
 - **A free answer** is read for one of the three ("the whole thing,
   no questions" is one-shot; "just build it" is build); otherwise
   Guided.
