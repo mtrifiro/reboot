@@ -1,55 +1,57 @@
 ---
 name: one-shot
-description: Build a complete Reboot application in one go, asking nothing. Designs every feature a real product in the domain needs, not only those the prompt names, builds the whole app with every rule and scenario without stopping, and hands it over once, at the end. Use only when the user asks for it by name ("/reboot:one-shot", "one-shot", "one shot"); otherwise the app skill builds apps one feature at a time.
+description: Build a complete Reboot application in one go, asking nothing. Designs every feature a real product in the domain needs, not only those the prompt names, builds the whole app with every rule and scenario without stopping, reviews its domain model and its look and fixes what the reviews find, and hands it over once, at the end. Use only when the user asks for it by name ("/reboot:one-shot", "one-shot", "one shot"); otherwise the app skill builds apps design first, with one round of questions.
 argument-hint: [<app-description>]
-allowed-tools: Bash, Read, Write, Glob, Grep, Edit, Agent
+allowed-tools: Bash, Read, Write, Glob, Grep, Edit, Agent, Skill
 ---
 
 # one-shot: a Complete Reboot Application, Asking Nothing
 
-Load the [`app` skill](../app/SKILL.md) for its routing, then the
-front door it routes to, and build the **whole app at once**: for a
-web app, [`web-app/references/full-build.md`](../web-app/references/full-build.md);
-for an MCP UI, its Step-by-Step Build Flow. The differences below
-override them, and `app/references/design-first.md`'s go-ahead does
-not apply: nothing stops the build until the end.
+From the prompt to a finished app, the proper way, with no question
+until the end: the design, every feature with its rules proven by
+scenarios, every page tested in a browser, a domain review and a look
+review with what they find fixed, and one handoff. Nothing stops the
+build but the end. The `app` skill is not loaded: its round of
+questions and its go-ahead are what this skill leaves out.
 
-## 0. Say what will be built, first
+> **The user sees only message text.** Every line this skill says
+> (the opening, the design, What to expect, each feature finished,
+> each review, the handoff) goes out as the response's own text,
+> before that response's tool calls. Drafting it in thinking is not
+> saying it.
 
-The `app` skill's "First, Before Reading Anything" applies, before any
-tool call, with three differences:
+## 1. The design, by the `design` skill
 
-- **The paragraph** describes the complete app: who uses it, its
-  features in one sentence, and which front door. **What to expect**
-  is four lines:
+The response's first act is to load the [`design`
+skill](../design/SKILL.md) with the Skill tool (`/reboot:design <the
+prompt>`), never by reading its file. Loaded by this skill it asks
+nothing: it says the opening (its third sentence "No questions: I'll
+design the whole app, then build and test all of it and hand it over
+when it's done."), reads what the design needs, shows the whole
+proposed design in the chat with the scope of section 2, and writes
+`design/design.md` right after it.
 
-  > What to expect:
-  > - The proposed design, in a few minutes.
-  > - Once the domain model is written, the Reboot dashboard opens with
-  >   its link: the app's domain model and rules, updated as they're
-  >   built.
-  > - Then the whole app, every feature with its rules proven by
-  >   scenarios, in an hour or more, without stopping.
-  > - Nothing to answer until it's done; then one question: accept it
-  >   as built, or change something.
-- **The task list** has the whole-app items, with no go-ahead:
+Then, in the same turn, **What to expect**, a list of four lines:
 
-  the backend:
+> What to expect:
+> - The domain model and every rule first, with the Reboot
+>   dashboard's link once it is written: the app's domain model and
+>   rules, updated as they're built.
+> - Then every feature, its rules proven by scenarios, and every page
+>   tested in a browser, without stopping: about <10 minutes a
+>   feature, more for a hard domain>.
+> - Then a review of the domain model and of the look, and the fixes
+>   they call for, about 15 minutes.
+> - Nothing to answer until it's done; then one question: accept it
+>   as built, or change something.
 
-  1. Propose the design for <app>
-  2. Build the domain model and rules
-  3. Build every feature's actions and test them against its rules
+**The task list** has the whole-app items
+([`app/references/task-list.md`](../app/references/task-list.md),
+"The whole app at once") with no go-ahead, and one item before
+**Your turn**: "Review the domain model and the look, and fix what
+they find".
 
-  then, with no stop, the frontend in its place:
-
-  1. Build every page of the design
-  2. Test them in a browser
-  3. Your turn: try the app and decide what to do next
-
-  For an MCP UI, the frontend's item 1 is "Build every UI of the
-  design" and item 2 "Test them in their AI client".
-
-## 1. Ambitious scope
+## 2. Ambitious scope, the round answered
 
 Design the app a team in this domain would run its work on end to
 end, not the smallest app that fits the prompt:
@@ -59,42 +61,55 @@ end, not the smallest app that fits the prompt:
   and housekeeping, reservations and the front desk, staff roles,
   guest profiles, amenity bookings, concierge requests, and the
   folio and billing. Aim for six to ten features, each with the rules
-  that make it trustworthy.
-- **Every role** that does that work, with what each may do.
+  that make it trustworthy, in build order; **Not in this build**
+  holds only what a real product could still go without.
+- **Every role** that does that work, with what each may do, from the
+  first build: **Who may do what** is one of the features, not left
+  for later.
 - **Pages** for each role's daily work, each with its primary view.
 
-Each feature added beyond the prompt goes under **Assumed** with one
-line on why a real product needs it.
+The round's other answers, taken without asking: the accent the
+design skill would recommend for the domain (or the brand the prompt
+names); "How should it be built? One-shot". Each answer and each
+feature added beyond the prompt goes under **Assumed**, the feature
+with one line on why a real product needs it.
 
-## 2. No questions
+## 3. No questions
 
-Ask nothing, from start to finish: no scope questions, no go-ahead on
-the design, no acceptance between features. Take the answer the front
-door would mark as recommended for each scope question, and decide
-anything else the same way: the simplest choice that fits the
-ambitious scope, listed under **Assumed**. Times are in the user's own
-time zone.
-
-## 3. The design document
-
-Write the proposed design to `design/design.md` in one write, as
-[`app/references/design-first.md`](../app/references/design-first.md)
-says (section 2, "The design: shown first, written to the file
-after"), in the shape of
-[`app/references/design-document.md`](../app/references/design-document.md),
-status "proposed on <date>; being built now", with an **Assumed**
-section after **Sign-in**. Show the proposed design in the chat as the
-front door says, with the document's link, and go straight on to the
-build in the same turn.
+Ask nothing, from start to finish: no round, no go-ahead on the
+design, no acceptance between features, no dialog from a review.
+Where a skill this one loads would ask, take the answer it marks as
+recommended, or decide the same way: the simplest choice that fits
+the scope, listed under **Assumed** in `design/design.md` and named at
+the handoff. Times are in the user's own time zone.
 
 ## 4. The build, without stopping
 
-Build by the whole-app flow: the prototype first (with sub-agents for
-the frontend where the host has them), then every feature in the
-design's order, each with its rules and scenarios. Between features,
-say in one line which is finished and go on; never wait for an
-answer.
+**The front door** is the one the prompt names, by the `app` skill's
+Routing triggers: MCP, an AI host named as where it runs, or "a tool
+for an agent" is an MCP UI (`/reboot:mcp-ui`); a URL, a route,
+"website", "web app", "SPA" or "in the browser" is a web app
+(`/reboot:web-app`); "an API", "a backend", "headless" or "for my
+mobile app" is a backend only
+([`app/references/backend-only.md`](../app/references/backend-only.md));
+nothing named is a web app. Load the door with the Skill tool, never
+by reading its file, and build by its whole-app flow: for a web app,
+[`web-app/references/full-build.md`](../web-app/references/full-build.md);
+for an MCP UI, its Step-by-Step Build Flow for every feature. The
+door's Design Phase, scope round and dialogs are skipped: the design
+is done. Read [`app/references/conversation.md`](../app/references/conversation.md)
+once, for what the build says at each step.
 
+Build the prototype first (with a sub-agent for the frontend where the
+host has the Agent tool), then every feature in the design's order,
+each with its rules and scenarios. Between features, say in one line
+which is finished and go on; never wait for an answer.
+
+- **Read this plugin with the Read tool,** one call per file, several
+  in one response, never `cat`, `awk` or a loop in a shell (the
+  `python` skill's rule: a long shell result comes back as a preview
+  and the rest goes unread). A file that exists is changed with the
+  Edit tool, never rewritten.
 - **A failure:** fix it and go on. A scenario that can't pass after a
   real attempt is tagged `@blocked` with its reason, and the build
   goes on to the next feature; it is named at the handoff.
@@ -103,22 +118,77 @@ answer.
 - **The prototype's "try it" message** is said in one line with the
   URL; the build doesn't wait for it.
 
-## 5. One handoff, at the end
+The build part ends when every feature is built, the whole suite runs
+once (browser scenarios included) with every scenario passing or
+`@blocked` with its reason, and mypy is clean
+(`full-build.md`, step 18, up to the handoff).
 
-When every feature is built, every scenario passes or is `@blocked`
-with its reason, and mypy is clean: the handoff in the shape of
+## 5. The reviews, and their fixes
+
+Two reviews of what was built, each by its skill's own method, with
+no dialog: the build picks what to fix by the rules below. Read each
+skill's file with the Read tool for its method; don't load it with
+the Skill tool, which would start its conversation.
+
+**The domain model** ([`domain-review`](../domain-review/SKILL.md)):
+
+1. Its sections 1 and 3: `review.py`, then the review, the scale taken
+   from the design's own counts (the scale dialog's recommended
+   answer, never asked), written to `design/review.md`. Say its verdict in two lines.
+2. Fix every finding marked **now** or **before the first deploy**,
+   one at a time, by its section 4: measured first when it is about
+   load, every rule and scenario unchanged, the suite and mypy green,
+   the probe again, one commit "Domain: <what changed>". A finding
+   whose fix would change a rule, or what a user sees, is not made:
+   it goes to the handoff.
+
+**The look** ([`design-review`](../design-review/SKILL.md)), for a web
+app:
+
+1. Its section 2: capture every page at desktop and phone width,
+   light and dark, measure, judge, and write `design/look-review.md`.
+   Say its verdict in two lines.
+2. Fix every finding that breaks a rule of
+   `web-app/references/ui-design.md` or fails a measurement (contrast,
+   spill, clipped text, touching controls, a raw color outside
+   `styles.css`, a page that doesn't hold at phone width or in the
+   dark scheme), as its "Beyond the Tokens" says, then capture that
+   page again. A change of taste (the accent, the page tones, the
+   typefaces, the corners) is never made: it goes to the handoff.
+
+After the fixes, the whole suite and mypy once more when anything
+changed, the result said once.
+
+## 6. One handoff, at the end
+
+`design/design.md` rewritten as built, its links checked by
+`scripts/design_links.py`; then the handoff in the shape of
 [`app/references/design-messages.md`](../app/references/design-messages.md),
-covering every feature, with `design/design.md` rewritten as built
-and its links checked by `scripts/design_links.py`. Then the one
-question the whole build asks: accept it as built, or change something.
-On a yes, record the acceptance as
+covering every feature, with under **Notes**, when the reviews ran:
+what each review fixed, in a line each with its numbers, what it found
+and left for the user (a rule change, a change of look), and the links
+to `design/review.md` and `design/look-review.md`. Every `@blocked`
+scenario is named with its reason, and every assumption that shaped
+the app is in **Assumed**.
+
+Then the one question the whole build asks, **<The app> works. What
+next?**, worded as
 [`app/references/accept-design.md`](../app/references/accept-design.md)
-says, with **Assumed** in the first decisions entry.
+says: accept it as built, or change something. On a yes, record the
+acceptance as `accept-design.md` says, with **Assumed** in the first
+decisions entry.
 
 ## Never
 
-- A question, a dialog or a wait for an answer before the handoff.
+- A question, a dialog or a wait for an answer before the handoff,
+  from this skill or any skill it loads or reads.
+- The `app` skill loaded: its round and go-ahead are the questions
+  this skill leaves out.
 - A smaller app than the domain needs because the prompt was short.
 - A feature dropped silently: a feature that can't be finished is in
   the handoff, with what blocks it.
-- A feature added without its line under **Assumed**.
+- A feature or an answer taken without its line under **Assumed**.
+- A rule, a scenario, or the app's look changed by a review fix: those
+  are the user's, named at the handoff.
+- The handoff before the reviews, or before the suite and mypy are
+  green after their fixes.
