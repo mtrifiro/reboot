@@ -120,8 +120,12 @@ internal steps, no promise of further updates. For the go-ahead on a feature at 
 time:
 
 > Building the room status floor plan's domain model and rules now.
-> The Reboot dashboard's link comes once the model is written, for you
-> to check it before the rest is built on it.
+> Each room is its own durable object in Reboot, its status kept for
+> it, so there is no database to set up. Each rule, such as a room
+> can't be checked into until it's clean, is written first as a
+> scenario in plain words; the floor plan isn't done until every one
+> passes. The Reboot dashboard's link comes once the model is
+> written, for you to check it before the rest is built on it.
 
 Never a silent start after an answer, and never only a task list
 update.
@@ -260,15 +264,6 @@ when it changes nothing they'd see ("A scenario was phrased in a way
 the test steps don't accept; reworded, same rule."). Never the
 mechanics: step libraries, `Given` restrictions, response paths,
 field names.
-
-For the go-ahead's next stage on the hotel:
-
-> Building the room status floor plan's domain model and rules now.
-> Each room is its own durable object in Reboot, its status kept for
-> it, so there is no database to set up. Each rule, such as a room
-> can't be checked into until it's clean, is written first as a
-> scenario in plain words; the floor plan isn't done until every one
-> passes.
 
 **While a slow step runs,** a short true fact about Reboot that fits
 it goes out first, once per build each:
