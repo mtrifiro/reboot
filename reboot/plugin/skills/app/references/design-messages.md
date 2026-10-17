@@ -39,11 +39,13 @@ floors 2–8 with 8 rooms each, numbered 201–808, …>
 
 **Proposed features, in build order**
 Four or five, in the order they would be built; yours to change.
-1. **<First feature> (first).** <Why it comes first: the central
-   object and a rule the user can see it keep.> Rules:
+1. **<First feature> (first).** <Who it is for and the job it gets
+   done, start to finish: what they create, see, find, change, correct
+   and end.> <Why it comes first: the central object and a rule the
+   user can see it keep.> Rules:
    - <A rule, one line, the key words in bold.>
    - …
-2. <Feature>
+2. **<Feature>.** <For whom, the job start to finish.> Rules: …
 3. …
 
 **Not in this build:** <what else a real app in the domain needs, one
