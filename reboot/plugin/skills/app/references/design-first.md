@@ -1,13 +1,13 @@
 ---
 title: The Design First, Then How to Build It
 impact: HIGH
-impactDescription: After the design skill's round and proposed design, the app skill asks the go-ahead (Build on this design?), then, in the first feature, the domain model check and the frontend question, each with its text just above it; the prompt-by-prompt path asks none of them.
+impactDescription: After the design skill's round and proposed design, the guided skill asks the go-ahead (Build on this design?), then, in the first feature, the domain model check and the frontend question, each with its text just above it; the prompt-by-prompt path asks none of them.
 tags: go-ahead, domain model, frontend, dialogs, design, prompt by prompt
 ---
 
 # The Design First, Then How to Build It
 
-How the `app` skill builds a new app, in either front door, once the
+How the `guided` skill builds a new app, in either front door, once the
 [`design` skill](../../design/SKILL.md) has said the opening, asked
 the one round (the first build's features, who signs in, the accent,
 how to build) and shown the proposed design. It replaces the front
@@ -15,7 +15,7 @@ door's round of scope questions.
 
 ## 1–2. The opening, the round, the design
 
-The `design` skill's, loaded first by the `app` skill. Nothing is
+The `design` skill's, loaded first by the `guided` skill. Nothing is
 asked before the design but its round, nothing is read before the
 design but what it needs, and the design is shown once, in the chat,
 in the shape of [`design-messages.md`](design-messages.md).
@@ -26,28 +26,29 @@ The proposed design (section 2) sits as text just above the dialog,
 in the same response, every heading filled, features and rules before
 the domain model. Then one dialog (`AskUserQuestion` where available,
 else one plain line), the only question between the opening's round
-and code: the go-ahead for the chosen way of building. Its options,
+and code: the go-ahead, and the way of building. Its options,
 word for word, filled from the design (<n> the features'
 count; <time> about 10 minutes a feature, more for a hard domain, as
 whole-app builds measured,
 rounded to the quarter hour: "about 45 minutes", "about an hour"):
 
 - Title: **Build on this design?**
-- "Start building" (recommended): for All at once, "All <n> features
-  without stopping, about <time>; you see it at the end."; for
-  Guided, "<First feature>'s backend first, about 15 minutes: you
-  check its domain model on the dashboard, then its actions, then say
-  to build its page." <n> is the features under **Proposed features,
-  in build order**, never the ones under **Not in this build**.
+- "Start building" (recommended): "<First feature>'s backend first,
+  about 15 minutes: you check its domain model on the dashboard, then
+  its actions, then say to build its page."
+- "Build it all at once": "All <n> features without stopping, about
+  <time>; you see it at the end." <n> is the features under **Proposed
+  features, in build order**, never the ones under **Not in this
+  build**.
 - "Not yet": "I want to review or revise the design." Nothing more:
   what happens next is said after the answer.
 - "Tell me more": "What happens first, before I say go."
 
-**On "Tell me more",** one short paragraph in the chat for the chosen
-way, in the user's nouns, then the same dialog again. All at once:
+**On "Tell me more",** one short paragraph in the chat for each way,
+in the user's nouns, then the same dialog again. All at once:
 the build order, pages alongside backends, one stop at the end, what
-to watch meanwhile (the task list, the dashboard filling in). Guided:
-each stop and what the user does there (the domain model on the
+to watch meanwhile (the task list, the dashboard filling in). Step by
+step: each stop and what the user does there (the domain model on the
 dashboard, the backend's rules proven before its page, each
 feature's handoff to try). Both: the design goes to
 `design/design.md` to read and change, and one line on what Reboot
@@ -56,10 +57,11 @@ new facts about the design.
 
 Nothing is built before the answer. The go-ahead adds to the first
 handoff's review: this decides the design before any code, that the
-feature as built. After the answer, the `app` skill's **What to
+feature as built. After the answer, the `guided` skill's **What to
 expect** for the chosen path, then the build.
 
-**The prompt-by-prompt path asks nothing,** here or later: no go-ahead
+**The prompt-by-prompt path** (asked for in those words, at the
+go-ahead or at a handoff) **asks nothing,** here or later: no go-ahead
 dialog (the design's closing line is "The design is in
 design/design.md (linked). Say what to build first.", `design.md`
 written just before it, and the build stops), no model check (section
@@ -76,11 +78,11 @@ user's words are the agreement.
 
 - **All at once:** every feature under **Proposed features, in build
   order**, none from **Not in this build**, by the
-  [`one-shot` skill](../../one-shot/SKILL.md)'s steps 4 and 5, from
+  [`one-shot` skill](../../one-shot/SKILL.md)'s steps 4 and 6, from
   the design as proposed, no features added: no stops, one handoff at
   the end. The task list is the whole-app list (`task-list.md`, where
   the plugin has it), its first item done.
-- **Guided** (or the first feature named): build it by the
+- **Start building** (step by step, or the first feature named): build it by the
   front door's one-feature flow. At the first handoff,
   `design/design.md` becomes the accepted design (`accept-design.md`),
   and **Assumed** moves into the first decisions entry.
