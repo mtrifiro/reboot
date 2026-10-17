@@ -1,6 +1,6 @@
 ---
 name: app
-description: "Build a Reboot application from a user description, design first: the design skill's one round of questions about what to build and how (all at once, step by step, prompt by prompt, where the user says what to build at each step and nothing is asked, or unguided, which hands over to the build skill) and its proposed design, then the go-ahead and the build; a design already proposed in design/design.md is built on without asking again. Every backend is ready for both front doors, an MCP UI (ChatGPT, Claude, VSCode, Goose) and a standalone web app; builds the front door the prompt names, otherwise the web app, and offers the other at handoff."
+description: "Build a Reboot application from a user description, design first: the design skill's one round of questions about what to build and how (all at once, guided, prompt by prompt, where the user says what to build at each step and nothing is asked, or unguided, which hands over to the build skill) and its proposed design, then the go-ahead and the build; a design already proposed in design/design.md is built on without asking again. Every backend is ready for both front doors, an MCP UI (ChatGPT, Claude, VSCode, Goose) and a standalone web app; builds the front door the prompt names, otherwise the web app, and offers the other at handoff."
 argument-hint: [<app-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 ---
@@ -29,7 +29,7 @@ response's first act, before any text or other tool call, is to load
 it with the Skill tool (`/reboot:design <the prompt>`), never by
 reading its file. It says the opening, asks the one round of questions
 (the first build's features, who signs in, the accent, and how to
-build: all at once, step by step, prompt by prompt, or unguided),
+build: all at once, guided, prompt by prompt, or unguided),
 reads what the design needs and shows the whole proposed design, once,
 in the chat. On "Unguided" the design skill hands the prompt and the
 answers to the [`build` skill](../build/SKILL.md) and this skill's part
@@ -55,7 +55,7 @@ prompt-by-prompt path, right after the design's closing line), before any
 other tool call: the chosen path's items, each its own line of a list
 under "What to expect:", filled in from the design:
 
-- **Step by step:** each feature in two parts, its backend tested
+- **Guided:** each feature in two parts, its backend tested
   against its rules, then its frontend tested in a browser ·
   <first feature>'s backend, with the dashboard's link to check its
   domain model, then its actions tested against every rule · once you
@@ -64,7 +64,7 @@ under "What to expect:", filled in from the design:
 - **All at once:** every feature in the design, the pages built in
   parallel with the backend, then everything tested together, without
   stopping, about <time> · then the whole app to try. · "build the
-  rest step by step" at any handoff switches.
+  rest guided" at any handoff switches.
 - **Prompt by prompt:** each thing you ask for at the prompt, built and
   tested against its rules, then handed off with its links · the build
   asks nothing and waits for your next prompt · the design is in
