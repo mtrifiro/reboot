@@ -139,7 +139,12 @@ For each finding chosen, in the review's order:
    out of the default run (`addopts = -m "not probe"` in `pytest.ini`,
    the marker registered), sending N concurrent calls to the hot
    method and printing how long they took and how many failed. Run it
-   with `uv run pytest -m probe -s` and keep the numbers.
+   with `uv run pytest -m probe -s` and keep the numbers. Size it to
+   finish in about a minute, and say the size in the line before it
+   ("840 bookings at once, about a minute"); a wait on it is one call
+   of at most two minutes, and between waits a line of what it is
+   doing. A probe that would take longer is made smaller, never waited
+   on.
 3. **Rules are the contract.** An architecture change keeps every
    `Rule:` and every scenario as it is; the full suite passing
    unchanged is the proof. A fix that would change a rule is a design
