@@ -89,20 +89,11 @@ slowest browser scenario, which starts the web app's dev server first.
 
 Every app built with the Reboot Flywheel
 (`app/references/flywheel.md`) records each test run as evidence:
-copy `tests/last_run.py`, `scripts/model_diff.py`, `scripts/test.sh`
-and `scripts/release_record.py` from the `app` skill's `assets/`
-(`chmod +x scripts/test.sh`), and start `tests/conftest.py` with:
-
-```python
-# tests/conftest.py
-# The last run's results, in tests/.last-run.json (tests/last_run.py).
-from last_run import (  # noqa: F401
-    pytest_runtest_logreport,
-    pytest_sessionstart,
-    pytest_terminal_summary,
-    pytest_unconfigure,
-)
-```
+`render.py` (`lifecycle-project-setup.md`) writes `tests/last_run.py`,
+`scripts/model_diff.py`, `scripts/test.sh`, `scripts/release_record.py`
+and `scripts/design_links.py` from the `app` skill's `assets/`, and a
+`tests/conftest.py` that imports the record's four pytest hooks from
+`last_run` and nothing else.
 
 Add anything else only when a module imported by tests **eagerly**
 instantiates something that needs an environment variable, typically
