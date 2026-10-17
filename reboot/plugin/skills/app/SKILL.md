@@ -1,6 +1,6 @@
 ---
 name: app
-description: "Build a Reboot application from a description. First one question, how it should be built, with one skill per answer: guided (a design to approve, the user's choices, each part built and explained: the guided skill), the whole app with no questions (the one-shot skill), or just what was typed (the build skill); then that skill, with the prompt. Holds the front-door routing every build uses: an MCP UI (ChatGPT, Claude, VSCode, Goose) or a standalone web app by the prompt's own words, otherwise the web app, the other offered at handoff. Use for any prompt that asks to build an app and names no skill."
+description: "Build a Reboot application from a description. First one question, how it should be built, with one skill per answer: guided (a design to approve, the user's choices, each part built and explained: the guided skill), the whole app with no questions (the one-shot skill), or just what was typed (the build skill), none recommended; then that skill, with the prompt. Holds the front-door routing every build uses: an MCP UI (ChatGPT, Claude, VSCode, Goose) or a standalone web app by the prompt's own words, otherwise the web app, the other offered at handoff. Use for any prompt that asks to build an app and names no skill."
 argument-hint: [<app-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 ---
@@ -18,13 +18,13 @@ call (loading this skill was the first), is one dialog
 (`AskUserQuestion`; where there is none, the same as plain lines),
 word for word:
 
-- Title: **How should it be built?**
-- "Guided (Recommended)": "A design to approve, your choices, each
-  part built and explained, step by step (great for learning).
-  `/reboot:guided`"
+- Title: **How should it be built?**, none of its options marked
+  recommended:
 - "The whole app, no questions": "Designed, built, reviewed and
   handed over once, about an hour or two (great for fast progress).
   `/reboot:one-shot`"
+- "Guided": "A design to approve, your choices, each part built and
+  explained, step by step (great for learning). `/reboot:guided`"
 - "Just what I typed": "Exactly that and nothing more: no design, no
   questions, then the links (great for power users). `/reboot:build`"
 
