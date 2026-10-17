@@ -248,11 +248,17 @@ genuinely isn't covered, bound the output hard (a targeted
 `grep -n … | head -40`, or `sed -n '<start>,<end>p'` over a known
 range), never a whole generated file.
 
-Read this plugin's own skills and references with the agent's file
-tools (Read, Grep, Glob), not `cat`, `grep` or `cd` in a shell: a
-host's auto mode can take a shell command in the plugin's install
-folder for a change and block it, and after a few blocks it asks the
-user about every action. Never edit installed packages (`.venv/`,
+Read this plugin's own skills and references with the Read tool, one
+call per file, several in one response when several are needed, and
+Glob to find one (Grep where the host has it; the Claude app doesn't),
+never `cat`, `awk`, `sed` or a loop in a shell. A shell result over
+about 30 KB comes back as a 2 KB preview and a note that the rest was
+saved to a file, so a batch of references read that way never reaches
+the build: music-1 built its servicers from the preview of seven
+references it never opened. A result that says its output was saved to
+a file is a file to Read before going on. A host's auto mode can also
+block a shell command in the plugin's install folder, and after a few
+blocks it asks the user about every action. Never edit installed packages (`.venv/`,
 `site-packages/`, `node_modules/`) unless the user agreed to it, as a
 known issue's workaround may ask.
 
