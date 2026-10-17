@@ -93,9 +93,9 @@ the Agent tool (Codex, say) does the steps in order.
    `rbt dev run`, seeded as `python/references/lifecycle-seeding.md`
    says: a few bulk transactions, not one call per record, and a
    small set, enough that every page shows something.
-8. Scaffold the frontend at `frontend/`
-   (`npm create vite@latest frontend -- --template react-ts`) and
-   shape it as [`references/react-client.md`](react-client.md)
+8. Scaffold the frontend beside `frontend/` and move it in
+   (`frontend/api/` is already there, and `create-vite` won't write
+   into a folder that isn't empty) and shape it as [`references/react-client.md`](react-client.md)
    shows: the SPA's `index.html`, `src/`, and `public/` under
    `frontend/web/`, the config rooted there with the `dedupe` and
    `server.host` entries, the Reboot packages in `package.json`, and
