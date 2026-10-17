@@ -34,8 +34,8 @@ rounded to the quarter hour: "about 45 minutes", "about an hour"):
 
 - Title: **Build on this design?**
 - "Build it" (recommended): for All at once, "All <n> features
-  without stopping, about <time>; you see it at the end."; for Step
-  by step, "<First feature>'s backend first, about 15 minutes: you
+  without stopping, about <time>; you see it at the end."; for
+  Guided, "<First feature>'s backend first, about 15 minutes: you
   check its domain model on the dashboard, then its actions, then say
   to build its page." <n> is the features under **Proposed features,
   in build order**, never the ones under **Not in this build**.
@@ -46,8 +46,8 @@ rounded to the quarter hour: "about 45 minutes", "about an hour"):
 **On "Tell me more",** one short paragraph in the chat for the chosen
 way, in the user's nouns, then the same dialog again. All at once:
 the build order, pages alongside backends, one stop at the end, what
-to watch meanwhile (the task list, the dashboard filling in). Step by
-step: each stop and what the user does there (the domain model on the
+to watch meanwhile (the task list, the dashboard filling in). Guided:
+each stop and what the user does there (the domain model on the
 dashboard, the backend's rules proven before its page, each
 feature's handoff to try). Both: the design goes to
 `design/design.md` to read and change, and one line on what Reboot
@@ -80,7 +80,7 @@ user's words are the agreement.
   the design as proposed, no features added: no stops, one handoff at
   the end. The task list is the whole-app list (`task-list.md`, where
   the plugin has it), its first item done.
-- **Step by step** (or the first feature named): build it by the
+- **Guided** (or the first feature named): build it by the
   front door's one-feature flow. At the first handoff,
   `design/design.md` becomes the accepted design (`accept-design.md`),
   and **Assumed** moves into the first decisions entry.
