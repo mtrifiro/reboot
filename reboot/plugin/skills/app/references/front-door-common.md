@@ -85,3 +85,7 @@ If something genuinely isn't covered, bound the output hard: a
 targeted `grep -n … | head -40`, or `sed -n '<start>,<end>p'` over
 a known range. Never a whole generated file, never an unbounded
 recursive grep.
+
+Another skill's assets are never read as an example, the quickstart's
+hotel app included. An asset is copied where a step says to, never
+opened for its content.
