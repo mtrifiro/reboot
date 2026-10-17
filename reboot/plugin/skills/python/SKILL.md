@@ -264,12 +264,10 @@ known issue's workaround may ask.
   `--env-file`, the `serve run` lines
 - `references/lifecycle-application-entry.md` — the shape of `main`
   and `Application(...)`
-- `references/lifecycle-initialize-hook.md` — `initialize` for
-  singletons and first-run setup
-- `references/patterns-idempotency.md` — constructors and
-  `initialize` that are safe to run twice
-- `references/lifecycle-seeding.md` — loading a catalog or demo
-  data from `initialize` and tests
+- `references/lifecycle-seeding.md` — everything that runs at startup:
+  `initialize`, singletons, constructors safe to run twice, demo data
+- `references/lifecycle-seeding-troubleshooting.md` — when a seed
+  stalls, hangs or errors; `IdempotencyUncertainError`
 - `references/lifecycle-secrets.md` — env vars in dev, `rbt cloud
   secret set` in Cloud
 - `references/lifecycle-dockerfile.md` — the Dockerfile Reboot
