@@ -20,8 +20,8 @@ One line first: "Looking at what <app> does today, then at how
 
 From the project root, run
 `python3 <this skill>/assets/features.py`. It lists every feature,
-its rules and how many scenarios each has, with their tags (`@wip`
-for work in progress, `@blocked`), and from `design/design.md` the
+its rules and how many scenarios each has, with their tags (`@wip`,
+`@blocked`; the [`feature` skill](../feature/SKILL.md)), and from `design/design.md` the
 people the brief names, the cycles it names (*booked → checked in →
 checked out*) and every name still in code style, which the design
 uses for what isn't built yet. It also lists what
