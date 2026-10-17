@@ -57,6 +57,23 @@ fallback shows. Built with the browser's own drag and drop
 (`draggable`, `onDragStart`, `onDragOver`, `onDrop`) or pointer
 events, no library.
 
+### Whatever Names a Thing Opens It
+
+On every page, a name is the way to the thing it names. A record's
+name in a list, a card, a tile, a cell or a sentence opens that
+record (its drawer or its route); a person's name opens the person; a
+count opens what it counts ("12 rooms" opens those rooms); a status
+or a tag narrows the view to it; a date opens that day; a column
+header sorts by it; a summary tile opens what it sums; a dashboard
+link in the chat opens that object. Nothing that reads like a link
+is dead text, and nothing that is one looks like plain text: the
+pointer cursor and a hover state say what opens. Each opens the way
+the page already does (a drawer for a record, a filter for a status,
+a route for a page), never a new tab, and every one is a `<button>`,
+`<a href>` or a role the steps know, never a `<div onClick>`, so a
+scenario clicks it by its text (`testing-web-app.md`). The first
+browser check of a page clicks every name on it once.
+
 Every view a person can narrow (a filter, a selection, a search, an
 open drawer) shows that it is narrowed and has a visible way back: an
 "All" option or a "Clear" control beside the filter, a close button
