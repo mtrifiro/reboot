@@ -290,19 +290,22 @@ above for the dev-vs-prod sequence):
   → read back + call inside a `Workflow`. Never a plain `str` token
   field.
 
-**Before the tests:** `python/references/testing-project-setup.md`
-and `python/references/testing-features.md` (the built-in steps'
-spelling; always), plus `python/references/patterns-idempotency.md` —
-it explains `IdempotencyUncertainError`, which is otherwise the one
-runtime error whose cause is not in any reference you have read.
-`python/references/testing-harness.md` and
-`testing-external-context.md` are for custom steps;
-`testing-failure-recovery.md` is the one to read whenever the app
-has a spawned task, a `Workflow`, or `schedule()`d work: it covers
-restarting the app under test and asserting that work survived.
-The order of work around the feature files (agree in English, tag
-`@wip`, iterate on scenarios) is the
-[`feature` skill](../feature/SKILL.md).
+**Before the tests:**
+
+- `python/references/testing-project-setup.md` — always.
+- `python/references/testing-features.md` — the built-in steps'
+  spelling; always.
+- `python/references/patterns-idempotency.md` — it explains
+  `IdempotencyUncertainError`, which is otherwise the one runtime
+  error whose cause is not in any reference you have read.
+- `python/references/testing-harness.md` and
+  `testing-external-context.md` — for custom steps.
+- `testing-failure-recovery.md` — the one to read whenever the app
+  has a spawned task, a `Workflow`, or `schedule()`d work: it covers
+  restarting the app under test and asserting that work survived.
+- [`feature/SKILL.md`](../feature/SKILL.md) — the order of work
+  around the feature files (agree in English, tag `@wip`, iterate on
+  scenarios).
 
 **The two parts.** Every group above this line is the backend part.
 The groups from here on are the frontend part: read them only when the
@@ -355,7 +358,7 @@ The design is a proposal until the user accepts it: call it, and
 every part of it such as the data model, proposed, never settled, set
 or final, in the design and in every status line. Ask one round of
 scope questions before it (step 2 below), then build without
-waiting. The first question is how to build: one feature at a time,
+waiting. The question of how to build has two answers: one feature at a time,
 where after each the user sees it running, understands it and
 chooses the next, so the design is accepted piece by piece; or a
 full prototype first, accepted at its handoff.
@@ -377,11 +380,16 @@ rule that sends a change to the design back to Design.
    below.
 2. Ask one round of scope questions first, from the prompt alone,
    before reading any reference or showing a design: one question
-   dialog (`AskUserQuestion` where available). The first question is
-   always how to build it, unless the prompt already says: "One
-   feature at a time, so you understand each part as it's built"
-   (recommended) or "A full working prototype first, then finished
-   feature by feature". Then at most three more, on what the prompt
+   dialog (`AskUserQuestion` where available). Built from the
+   [`app` skill](../app/SKILL.md), its opening round replaces this
+   one: nothing else is asked before the design, and **How should it
+   be built?** comes once, after the design
+   ([`app/references/design-first.md`](../app/references/design-first.md),
+   section 3). Invoked directly, the first question is how to build
+   it, unless the prompt already says: "One feature at a time, so you
+   understand each part as it's built" (recommended) or "A full
+   working prototype first, then finished feature by feature". Then
+   at most three more, on what the prompt
    left open and an answer would change most, such as who signs in
    with which roles and what the app keeps track of. Give each question two to four options, the simplest
    first and marked as recommended, so accepting every
@@ -611,7 +619,7 @@ works as it will in the finished app.
    `initialize`, only under `rbt dev run`, seeded as
    `python/references/lifecycle-seeding.md` says. Then write the
    feature's scenarios in the built-in steps of
-   `python/references/testing-features.md`, run `uv run pytest` as [`feature/SKILL.md`](../feature/SKILL.md)'s "Report a full run once, at the end" says (in the background, its result said once) and
+   `python/references/testing-features.md`, run `uv run pytest` as [`feature/SKILL.md`](../feature/SKILL.md)'s "Report a full run once, at the end" says and
    `uv run mypy backend/ tests/` with `rbt dev run` stopped (`run`
    skill, "Stopping the App"), and fix what fails before any page.
 7. Scaffold the frontend at `frontend/`
@@ -628,7 +636,7 @@ works as it will in the finished app.
 9. Add one web app scenario for the page per
    `python/references/testing-web-app.md` (it installs Playwright).
    Every feature file then runs from the one test module that
-   starts the frontend. Run `uv run pytest` again, as [`feature/SKILL.md`](../feature/SKILL.md)'s "Report a full run once, at the end" says (in the background, its result said once).
+   starts the frontend. Run `uv run pytest` again, as [`feature/SKILL.md`](../feature/SKILL.md)'s "Report a full run once, at the end" says.
 10. Start the app with the [`run` skill](../run/SKILL.md) and check
     the page in a headless browser (Playwright; in the Claude app never
     the Browser pane, which is for the user at the handoff): signed
@@ -673,7 +681,7 @@ works as it will in the finished app.
     that isn't additive, stop the app with the `run` skill; start it
     again once the scenarios pass.
 14. Stop `rbt dev run` (`run` skill, "Stopping the App"), run
-    `uv run pytest` as [`feature/SKILL.md`](../feature/SKILL.md)'s "Report a full run once, at the end" says (in the background, its result said once) and `uv run mypy backend/ tests/`, start it again, check the
+    `uv run pytest` as [`feature/SKILL.md`](../feature/SKILL.md)'s "Report a full run once, at the end" says and `uv run mypy backend/ tests/`, start it again, check the
     page in the browser as in step 10, and show what this feature
     changed as in step 11, with the same links: the objects it added
     or changed, its actions and rules with their scenarios, what
