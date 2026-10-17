@@ -69,12 +69,18 @@ build and how; then I'll design it, starting from its rules."
 own, word for word:
 
 > This is the guided build: a design, a few choices, then each part
-> explained as it's built. For no questions at all, use
-> `/reboot:build` to build exactly what you've typed, or
-> `/reboot:one-shot` for a complete app, designed, built and reviewed
-> in one go.
+> explained as it's built. For no questions at all, send a new
+> message starting with one of these, followed by what you want:
+> - `/reboot:build <what to build>` builds exactly what you've typed:
+>   no design, no questions, then the links.
+> - `/reboot:one-shot <the app>` builds a complete app, designed,
+>   built, reviewed and handed over once, in about an hour or two.
+>
+> For example: `/reboot:one-shot <the user's prompt, as typed>`
 
-Not on its own, and not when loaded by the `one-shot` skill.
+The example is the user's own prompt after `/reboot:one-shot`, so it
+can be copied as it stands. Not on its own, and not when loaded by the
+`one-shot` skill.
 
 Rules for that response:
 
