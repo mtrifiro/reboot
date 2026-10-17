@@ -148,7 +148,7 @@ get on with the build:
 > [Room status floor plan](http://127.0.0.1:9871/#/features/tests/room_status.feature)
 > feature with its rules.
 
-**In a build that checks the model next** (the `app` skill's "Build
+**In a build that checks the model next** (the `guided` skill's "Build
 on this domain model?", `app/references/design-first.md`, section 4),
 this line is not written on its own: the model check's lead line is
 the hand-over, the dashboard named once, a port other than 9871 said
