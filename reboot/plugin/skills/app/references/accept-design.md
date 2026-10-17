@@ -70,7 +70,8 @@ before code is a design change the user didn't ask for
 
 Later handoffs show only the slice the feature adds, under the same
 headings, and `design/design.md` gains its objects, methods, rules
-and rows of the table, each a link.
+and rows of the table, as [`design-document.md`](design-document.md)
+says.
 
 ### After the review
 
@@ -84,12 +85,10 @@ is built.
 
 ### Once accepted
 
-1. Write or update `design/design.md`, the design document, in the
-   shape [`design-document.md`](design-document.md) gives: the design
-   as accepted, with the review table, its status "accepted on
-   <date>", and every package, domain object, method, feature and rule
-   a dashboard link. Run `python3 scripts/design_links.py` and fix
-   what it lists until it lists nothing.
+1. Write or update `design/design.md` in the shape
+   [`design-document.md`](design-document.md) gives, status "accepted
+   on <date>". Run `python3 scripts/design_links.py` and fix what it
+   lists until it lists nothing.
 2. Append an entry to `design/decisions.md` (below).
 3. Run `python3 scripts/model_diff.py --accept`. It writes
    `design/accepted.json` (the date and a fingerprint of `api/` and the
