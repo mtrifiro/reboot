@@ -105,7 +105,9 @@ then, with no stop between them, the frontend:
 1. Finish every page of the design
 2. Test them in a browser
 
-Item 3 of the backend is left off where the host has no Agent tool
+`one-shot` adds "Review the domain model and the look, and fix what
+they find" as the frontend's last item. Item 3 of the backend is left
+off where the host has no Agent tool
 (`web-app/references/full-build.md`, "The prototype, built in two
 parts at once"); then the frontend's item 1 is "Build every page of
 the design". For an MCP UI, the frontend's item 1 is "Build every UI
