@@ -62,5 +62,3 @@ one (or whose library is not used) puts its `servicers()` list into
 - `stdlib-presence.md` — `presence.servicers()` (three Servicers; no
   library factory)
 
-First-run setup that creates singletons or seeds state is
-`lifecycle-initialize-hook.md`.
