@@ -31,13 +31,13 @@ reading any reference or showing a design: one question dialog
 (`AskUserQuestion` where available). Built from the
 [`app` skill](../SKILL.md), its opening round replaces this one: it
 asks how to build as well (all at once, step by step, or the
-power-user path, where the user directs every step at the prompt and
-nothing is asked), nothing else is asked before the design, and the
+prompt-by-prompt path, where the user says what to build at each
+step and nothing is asked), nothing else is asked before the design, and the
 go-ahead, **Build on this design?**, comes once, after the design
 ([`design-first.md`](design-first.md), section 3). Invoked directly,
 the first question is how to build it, unless the prompt already says;
 its options, the first recommended, are in the door's step 2, with
-"Power user: I direct each step at the prompt; ask me nothing" as the
+"Prompt by prompt: I say what to build at each step; ask me nothing" as the
 last.
 Then at most three more, on what the prompt left open and an answer
 would change most, such as who signs in with which roles and what the
