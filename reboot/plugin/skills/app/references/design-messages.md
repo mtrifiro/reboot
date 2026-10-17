@@ -26,7 +26,9 @@ nouns.
 ```markdown
 ## Reboot Design · <App name>, the proposed design
 
-**Brief.** <Who uses <app name> and on what screen.> <Their main job, as a
+**Brief.** <Who uses <app name> (working name) and on what screen: the
+name's first mention, "(working name)" right after it when the build
+picked it.> <Their main job, as a
 cycle or flow when there is one: *occupied → dirty → cleaned →
 inspected → occupied*.> The main page answers one question: **<the
 question>** The name is **<name>** and the accent is **<accent: one of teal, cyan, blue, indigo, violet, purple, plum or rose, by that plain name, never a theme such as "newsprint">**
