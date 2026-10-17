@@ -87,11 +87,6 @@ recorded by a writer. See `auth-context-propagation.md`.
 
 ## See Also
 
-- `rpc-refs.md` — getting an actor ref and the actor's ID. The
-  recurring trip: `self.state_id` doesn't exist; use
-  `self.ref().state_id`.
-- `rpc-calls.md` — kwargs convention for calling other actors.
-- `servicer-authorizer.md` — every Servicer needs `def authorizer(self)`
-  returning a constructed rule.
-- `auth-context-propagation.md` — `context.auth` follows a call to
-  another servicer; use it in writers and authorizers, not readers.
+`rpc-refs.md` — `self.ref().state_id`, never `self.state_id`.
+`servicer-authorizer.md` — every Servicer's `def authorizer(self)`
+returns a constructed rule.
