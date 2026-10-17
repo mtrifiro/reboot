@@ -11,35 +11,27 @@ allowed-tools: Bash, Read, Write, Glob, Grep, Edit, AskUserQuestion
 >
 > **Errors:** grep a fragment of the string in `python/references/errors.md` (never read whole); known defects and workarounds: [`KNOWN-ISSUES.md`](../../KNOWN-ISSUES.md).
 
-Bring an existing Reboot application up locally. This skill is the
-single canonical "start the app" procedure: it figures out what
-kind of app the project is, makes sure dependencies and secrets are
-ready, and launches every process the app needs.
-
-Use it whenever the user wants to run, start, restart, or "bring
-up" an existing Reboot app — most commonly at the start of a fresh
-session, where no processes and no exported environment survive
-from last time.
-
-> This skill **runs** an app; it does not build or modify one. To
-> build, see the [`mcp-ui` skill](../mcp-ui/SKILL.md) and the
-> [web-app skill](../web-app/SKILL.md) — those skills defer here for
-> their "run the app" step.
+Bring an existing Reboot application up locally: the one "start the
+app" procedure, for a run, a restart, or a fresh session where no
+process and no exported environment survive from last time. It
+**runs** an app; it does not build or modify one. To build, the
+[`mcp-ui` skill](../mcp-ui/SKILL.md) and the
+[web-app skill](../web-app/SKILL.md), which defer here for their
+"run the app" step.
 
 ## Step 1 — Locate the project
 
-Work in the directory the user named, or the current directory. The project root is the directory that contains
-`.rbtrc`. If there is no `.rbtrc` anywhere obvious, ask the user
-where the app is. Every command below runs from the project root.
-
-If the project has no `AGENTS.md`, or its `CLAUDE.md` is not just
-`@AGENTS.md`, give it both with the
+Work in the directory the user named, or the current directory. The
+project root is the directory that contains `.rbtrc`; if none is
+obvious, ask the user where the app is. Every command below runs
+from the project root. If the project has no `AGENTS.md`, or its
+`CLAUDE.md` is not just `@AGENTS.md`, give it both with the
 [`agents-md` skill](../agents-md/SKILL.md) before starting anything,
 so the next session in this project starts with its map.
 
 ## Step 2 — Detect the app type
 
-A Reboot project is one of two kinds. Decide using these signals,
+A Reboot project is one of two kinds. Decide by these signals,
 strongest first.
 
 **MCP UI** — any of:
@@ -53,96 +45,64 @@ strongest first.
   a `dev run:hmr --frontend-host=...` line: Envoy proxying the
   frontend, which only MCP UIs need.
 
-**Web App** — all of:
-
-- No `mcp=Tool(` / `UI(` anywhere under `api/`.
-- The SPA entry `frontend/web/index.html`, and no `frontend/mcp/`.
+**Web App** — all of: no `mcp=Tool(` / `UI(` anywhere under `api/`;
+the SPA entry `frontend/web/index.html`, and no `frontend/mcp/`.
 
 If the signals genuinely conflict, or none match, ask the user
-("Is this an MCP UI or a standalone Web App?"). Do not guess —
-the app type changes whether the setup wizard is opened.
+("Is this an MCP UI or a standalone Web App?"). Do not guess: the
+app type decides whether the tunnel runs and the setup wizard opens.
 
 ## Step 3 — Dependencies
 
-From the project root:
-
-- Backend: if `.venv/` is missing, run `uv sync`. If `rbt dev run`
-  later warns that `reboot[dev]` is not installed, add
-  `reboot[dev]` at the same pin as `reboot` to the dev group of
-  `pyproject.toml` (template in
-  `../python/references/lifecycle-project-setup.md`) and `uv sync`
-  again; the extra is what the tests and the dashboard's Features
-  page run on.
-- Frontend: if `frontend/node_modules/` is missing, run
-  `npm install` in `frontend/`.
+From the project root: if `.venv/` is missing, run `uv sync`. If
+`rbt dev run` later warns that `reboot[dev]` is not installed, add
+`reboot[dev]` at the same pin as `reboot` to the dev group of
+`pyproject.toml` (`../python/references/lifecycle-project-setup.md`)
+and `uv sync` again; the extra is what the tests and the dashboard's
+Features page run on. If `frontend/node_modules/` is missing, run
+`npm install` in `frontend/`.
 
 ## Step 4 — Secrets: the git-ignored env file
 
-Reboot apps read secrets from `os.environ`. `rbt dev run` loads
-them from an env file via its `--env-file` flag, configured once
-in `.rbtrc`. Set this up **before** starting the backend:
+Reboot apps read secrets from `os.environ`; `rbt dev run` loads them
+from the env file `.rbtrc` names. Set this up **before** starting
+the backend:
 
 1. **Find the required variables.** Grep the backend for
-   `os.environ[...]`, `os.environ.get(...)`, and `os.getenv(...)`,
+   `os.environ[...]`, `os.environ.get(...)` and `os.getenv(...)`,
    and check `main.py` for `Application(oauth=...)` provider
    credentials. Every name found is a variable the app needs.
-2. **Make sure `.rbtrc` references the env file.** It must contain
-   the line `dev run --env-file=.env`. If it does not, add it.
-3. **Make sure `.env` is git-ignored.** `.env` holds secrets and
-   must never be committed. Check `.gitignore` at the project root
-   for a line that ignores `.env`; if there is none, add `.env` to
-   `.gitignore` (creating the file if it does not exist). Do this
-   **before** writing any secret into `.env`.
-4. **Fill `.env`.** Write standard `.env` `KEY=VALUE` lines — e.g.
-   `ANTHROPIC_API_KEY=sk-ant-...`. For every required variable not
+2. **`.rbtrc` has the line `dev run --env-file=.env`.** If it does
+   not, add it.
+3. **`.env` is git-ignored**, before any secret is written into it:
+   if no line of the project-root `.gitignore` ignores `.env`, add
+   one (creating the file if it does not exist).
+4. **Fill `.env`** with standard `KEY=VALUE` lines (e.g.
+   `ANTHROPIC_API_KEY=sk-ant-...`). For every required variable not
    already a line in `.env` (and not already exported in the
-   environment), ask the user for the value and write it in.
-   Never start the backend with a required
-   variable missing — the app fails at boot or on first use, and
-   the failure is hard to read.
+   environment), ask the user for the value and write it in. Never
+   start the backend with a required variable missing: the app fails
+   at boot or on first use, and the failure is hard to read.
 
-The full secrets story — dev vs. Reboot Cloud — is in
+The full secrets story, dev and Reboot Cloud, is
 `python/references/lifecycle-secrets.md`.
 
 ## Step 5 — Start the processes
 
 Run each process in its own background shell, from the project
-root.
-
-### Tunnel — MCP UIs only
-
-Before starting an MCP UI's backend, kick off a Cloudflare quick
-tunnel pointed at the dev server's port so external MCP clients
-(e.g. ChatGPT) can reach it. Skip the tunnel for a **Web App**: it
-has no MCP clients, and a tunnel would publish a dev server where
-the `Development()` picker lets anyone sign in as anyone. Run the
-bundled `cloudflared` shim in its own background shell with two
-flags you choose:
-
-- `--url http://localhost:<BACKEND_PORT>` — the dev server's HTTP
-  port (the default is `9991`; pick a different free port if `9991`
-  is taken and configure `rbt dev run` to match below).
-- `--metrics localhost:<METRICS_PORT>` — a free local port for
-  cloudflared's metrics endpoint (the default is `4040`; pick a
-  different free port if `4040` is taken). Once the tunnel is up,
-  `http://localhost:<METRICS_PORT>/quicktunnel` returns the
-  allocated `*.trycloudflare.com` URL.
-
-```sh
-cloudflared tunnel \
-    --metrics localhost:4040 \
-    --url http://localhost:9991
-```
-
-Pass the **same** `<BACKEND_PORT>` to `rbt dev run` so the dev
-server and the tunnel agree on the port — Reboot's default is
-`9991`, so no extra flag is needed if you stuck with the default;
-otherwise see `python/references/lifecycle-rbtrc.md` for the
-`application_port` knob.
+root. An MCP UI has two more steps around these, the Cloudflare
+quick tunnel before the backend and the setup wizard after it:
+[`references/mcp-ui-processes.md`](references/mcp-ui-processes.md).
+Skip the tunnel for a **Web App**: it has no MCP clients, and a
+tunnel would publish a dev server where the `Development()` picker
+lets anyone sign in as anyone.
 
 ### Backend — both app types
 
-Start the backend in its own background shell:
+Before starting it, check that its port is free (`lsof -i :9991`, or
+the port `.rbtrc` sets): a process there is a copy left running, by
+this session or an earlier one, so stop it instead of starting a
+second. Then, in its own background shell:
 
 ```sh
 uv run rbt dev run --no-chaos
@@ -152,9 +112,9 @@ uv run rbt dev run --no-chaos
 `--no-chaos` disables the Chaos Monkey, a useful bug-finder that is
 confusing to a developer who cannot see the backend terminal.
 
-`Backwards incompatibility encountered` in the backend's log means the backend
-is waiting, not crashed: the API changed in a way the saved state
-can't take. Make the change additive
+`Backwards incompatibility encountered` in the backend's log means
+the backend is waiting, not crashed: the API changed in a way the
+saved state can't take. Make the change additive
 (`python/references/api-schema-evolution.md`) and it reloads. When
 the development data is disposable, stop the backend and run
 `rbt dev expunge --application-name=<name> --yes` instead; a
@@ -162,75 +122,11 @@ background shell can't press `x`.
 
 ### Frontend — both app types
 
-Run the Vite dev server from `frontend/`.
+The Vite dev server, from `frontend/`:
 
 ```sh
 cd frontend && npm run dev
 ```
-
-### Setup wizard — MCP UIs only
-
-An MCP UI's backend serves an interactive **setup wizard** at
-its root URL (`http://localhost:9991`) — a browser page that walks
-the user through connecting the app to an MCP client (such as
-MCPJam: picking a client, copying the `/mcp` endpoint, completing
-the OAuth handshake). It is the natural starting point — and the
-place the user launches MCPJam from, if they pick it — so open it.
-
-Once the backend logs show it is serving traffic, do two things:
-
-1. **Tell the user the wizard exists and what it's for** — e.g.
-   "Setup wizard (connect an MCP client) at http://localhost:9991".
-2. **Open it once**: in the Claude app (or any host with a Browser
-   pane), in the pane, with the pane's tool (`preview_start` with its
-   URL), never in the external browser. Elsewhere, in the browser,
-   best-effort:
-
-   ```sh
-   "$BROWSER" http://localhost:9991 || xdg-open http://localhost:9991 || \
-     python3 -m webbrowser http://localhost:9991
-   ```
-
-Open the wizard **exactly once, at first startup — never on
-reloads.** The backend runs under `--watch` and reprints its
-"serving traffic" banner every time it hot-reloads on a code change;
-re-opening a browser tab on each reload would be hostile. Because
-you open it as a one-shot step during initial startup (not from a
-loop that watches for the backend coming back up), this is naturally
-satisfied — just don't add any reload-driven re-open.
-
-**Skip this only for a Web App.** A **Web App** has no MCP frontend,
-so no wizard is served and there's nothing to connect — don't
-announce or open it. Every other app here is an MCP app, and the
-wizard is how you point a client at it, so open it even for a
-**tools-only app** with no `UI()` methods: connecting MCPJam or
-Claude through the wizard is exactly how the user tries those MCP
-tools out.
-
-### MCPJam inspector — on demand, never during startup
-
-Do **not** start the MCPJam inspector as part of bringing the app
-up. MCPJam is just one of the MCP clients the setup wizard offers
-(alongside Claude and ChatGPT), so starting it is only relevant
-once the user picks **MCPJam** in the wizard. When they do, the
-wizard's MCPJam step shows the exact launch command — pointed at
-the app's `/mcp` endpoint with OAuth — for the user to run from
-their own terminal:
-
-```sh
-npx @mcpjam/inspector@2.23.3 --url http://localhost:9991/mcp --oauth
-```
-
-Leave the launch to the wizard. Only run it yourself if the user
-explicitly asks you to, and then use the plugin's
-`mcpjam-inspector` shim (it pins the version and passes `--no-open`
-so it does not pop a browser tab — you surface the URL instead):
-
-```sh
-mcpjam-inspector --url http://localhost:9991/mcp --oauth
-```
-
-Either way the inspector binds the fixed port 6274.
 
 ## Stopping the App
 
@@ -247,10 +143,7 @@ kill -INT $(pgrep -f "$PWD/.venv/bin/rbt dev run")
 **Stop it before running the test suite**, and start it again once
 the suite passes. The suite runs its own Reboot over the same
 generated code; a running `rbt dev run` regenerates that code when
-`api/` changes, under the tests, and the run hangs. Before starting the
-backend, check that its port is free (`lsof -i :9991`, or the port
-`.rbtrc` sets): a process there is a copy left running, by this
-session or an earlier one, so stop it instead of starting a second.
+`api/` changes, under the tests, and the run hangs.
 
 ## Step 6 — Hand off
 
@@ -262,19 +155,14 @@ started on:
 
 (For an MCP UI, the app link is the setup wizard,
 `http://localhost:9991`.) Then confirm every process is up from its
-logs, and give the user:
-
-- the application's own inspect-page URL (and that `rbt inspect`
-  inspects the same state from the CLI — see the
-  [inspect skill](../inspect/SKILL.md));
-- for an MCP UI — the setup-wizard URL (`http://localhost:9991`,
-  already opened for them, for connecting an MCP client) and a
-  first prompt to try (e.g. "Create a new todo list and show it to
-  me"). Don't hand over an MCPJam URL — MCPJam isn't running, and
-  only starts if the user picks it in the wizard (see the on-demand
-  step above);
-- for a Web App — the URL the Vite dev server printed
-  (`http://localhost:5173/` by default) and a first page to open.
+logs, and give the user the application's own inspect-page URL (and
+that `rbt inspect` inspects the same state from the CLI, the
+[inspect skill](../inspect/SKILL.md)); for a Web App, the URL the
+Vite dev server printed (`http://localhost:5173/` by default) and a
+first page to open; for an MCP UI, what
+[`references/mcp-ui-processes.md`](references/mcp-ui-processes.md)
+says at the hand-off (the wizard, a first prompt, never an MCPJam
+URL).
 
 > **Always start every process the app needs.** An MCP UI needs
 > backend and frontend; a Web App needs the same. (MCPJam is not in
