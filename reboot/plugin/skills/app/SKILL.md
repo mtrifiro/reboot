@@ -62,12 +62,15 @@ recommended, so accepting every recommendation is one answer:
   recommended, plus "Use my brand" (a site or tokens to read).
 - **"How should it be built?"**, always, last, none of its options
   recommended: "All at once": "Every feature in the design without
-  stopping, about 7 minutes a feature; you see it at the end." ·
+  stopping, about 10 minutes a feature, more for a hard domain; you
+  see it at the end." ·
   "Step by step": "A feature at a time, about 15 minutes each; you
   check each part as it's built: great for learning Reboot." · "Power
   user": "You direct every step at the prompt. Nothing is asked: each
   thing you ask for is built, tested and handed off, then the build
-  waits for your next prompt."
+  waits for your next prompt." The choice isn't for keeps: at any
+  handoff "build the rest all at once" or "step by step from here"
+  switches, and the first handoff says so in one line.
 
 The front door is never asked (Routing, below): the one
 the prompt names, otherwise the web app, with the backend ready for an
@@ -136,7 +139,8 @@ under "What to expect:", filled in from the design:
   each next feature as you choose it, 15 to 20 minutes.
 - **All at once:** every feature in the design, the pages built in
   parallel with the backend, then everything tested together, without
-  stopping, about <time> · then the whole app to try.
+  stopping, about <time> · then the whole app to try. · "build the
+  rest step by step" at any handoff switches.
 - **Power user:** each thing you ask for at the prompt, built and
   tested against its rules, then handed off with its links · the build
   asks nothing and waits for your next prompt · the design is in
@@ -161,7 +165,7 @@ list (`../app/references/task-list.md`), and for the whole app, the
   follows the go-ahead (on the power-user path, the design).
 - **Times,** always "about", only in the opening's dialog and in
   **What to expect**: the design, a few minutes; the first feature,
-  15; each next feature, 15 to 20; the whole app, about 7 a feature.
+  15; each next feature, 15 to 20; the whole app, about 10 a feature, more for a hard domain.
 - **Never a minute without a line,** at every stage: in the design,
   one when the research ends (what it found), then the design itself,
   one message (`../app/references/design-first.md`, section 2); in
