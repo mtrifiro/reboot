@@ -16,6 +16,7 @@
       "strict": false,
       "skills": [
         "./skills/app",
+        "./skills/build",
         "./skills/one-shot",
         "./skills/feature",
         "./skills/design-review",
