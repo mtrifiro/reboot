@@ -13,12 +13,14 @@ the fact below that fits the step and say it **for this app**: the
 table gives what Reboot does; the note names this app's object, rule
 or page doing it, and what the developer didn't have to write ("Each
 account is its own durable object, so there's no database to set up,
-no tables or migrations", not "Reboot stores state for you"); each is said at most once in a
-build, and a fact already said at a stage's start ([`conversation.md`](conversation.md), "At every stage") is not said again here.
-
-The tone is a good release note: plain, specific, true. No exclamation
-marks, no "Did you know", no comparison by name with another product,
-nothing beyond what the line says.
+no tables or migrations", not "Reboot stores state for you"). Each
+fact is said at most once in a build, and one already said at a
+stage's start ([`conversation.md`](conversation.md), "At every
+stage") is not said again here. The tone is a good release note:
+plain, specific, true. No exclamation marks, no "Did you know", no
+comparison by name with another product, nothing beyond what the line
+says. A step not in the table gets no note; when no fact is left that
+fits, say nothing extra.
 
 | Step | Fact |
 | --- | --- |
@@ -40,42 +42,40 @@ nothing beyond what the line says.
 It is the longest item on the list, often ten minutes or more, so it
 never runs silent. As each part inside it starts, one line in the
 user's nouns says where it is, the task list item staying in
-progress, and a fact from the table above goes with the part it fits:
+progress, and a fact from the table goes with the part it fits; one
+line each, no line for a part that takes seconds:
 
 1. The rules: "Backend: writing the floor plan's rules as scenarios
-   in `tests/room_status_floor_plan.feature`",
-   the file a link (`conversation.md`, "A feature file"), and its
-   dashboard page linked too once the dashboard is up.
-2. The actions: "Backend: writing the room status floor plan's actions:
-   checking in, marking a room cleaned, inspecting it."
-3. Who may do each: "Backend: now who may do each: only housekeeping marks a
-   room cleaned, only the supervisor inspects."
-4. Demo data: "Backend: adding demo data: 56 rooms across seven floors, a few
-   in each state, so the floor plan has something to show."
+   in `tests/room_status_floor_plan.feature`", the file a link
+   (`conversation.md`, "A feature file"), and its dashboard page
+   linked too once the dashboard is up.
+2. The actions: "Backend: writing the room status floor plan's
+   actions: checking in, marking a room cleaned, inspecting it."
+3. Who may do each: "Backend: now who may do each: only housekeeping
+   marks a room cleaned, only the supervisor inspects."
+4. Demo data: "Backend: adding demo data: 56 rooms across seven
+   floors, a few in each state, so the floor plan has something to
+   show."
 5. The proof: "Backend: running the floor plan's 9 scenarios." Then
    nothing per scenario: one line when the run ends, every rule kept
-   or which aren't yet (`feature` skill, "Report a full run once, at
-   the end"). A failure is said as which rule isn't kept yet, never
-   its stack trace, and the fix in one sentence.
-6. The page, in the frontend list: "Frontend: building the floor plan page."
-7. The browser check: "Frontend: checking the page in a browser, as a person
-   would use it."
-
-One line each, and a fact only where the table has one that fits and
-hasn't been said. No line for a part that takes seconds.
+   or which aren't yet (`feature` skill, Step 4). A failure is said
+   as which rule isn't kept yet, never its stack trace, and the fix
+   in one sentence.
+6. The page, in the frontend list: "Frontend: building the floor plan
+   page."
+7. The browser check: "Frontend: checking the page in a browser, as a
+   person would use it."
 
 Never a stretch of more than about a minute with nothing said, at any
-stage. One build went ten minutes silent after the go-ahead, until the
-user asked why it was stuck: it read its references, then wrote every
-file in one shell command. Another went six minutes silent between
-starting its research and showing the design. So:
+stage (builds have gone ten minutes silent after the go-ahead, reading
+references and then writing every file in one shell command, and six
+minutes between starting their research and showing the design). So:
 
 - In the design: when the research ends, one line on what it found
   that the design uses ("Kenmore Air flies Beavers, Otters and a
   Caravan from Lake Union and Kenmore; the design uses those."),
   carrying the table's fact for writing the design; the design itself
   follows as one message (`design-first.md`, section 2).
-
 - The go-ahead's line goes out before the references are read, and
   the reading gets no line of its own: when it is long, the next
   step's Reboot line goes before it ("Backend: next, the board's
@@ -88,6 +88,3 @@ starting its research and showing the design. So:
 - A step that has run a minute with no output to report gets a line
   saying what it is still doing; a suite run, once, after about
   three minutes.
-
-A step not in the table gets no note. When no fact is left that fits,
-say nothing extra.
