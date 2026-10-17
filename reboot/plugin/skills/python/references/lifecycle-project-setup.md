@@ -1,7 +1,7 @@
 ---
 title: Set Up a Reboot Python Project
 impact: CRITICAL
-impactDescription: Project won't build or run without the right files in place; the shell is copied from the python skill's `assets/project/`
+impactDescription: Project won't build or run without the right files in place; the shell and the starter app are rendered from the python skill's assets by `render.py`
 tags: project-setup, pyproject, python-version, dependencies, layout
 ---
 
@@ -41,15 +41,28 @@ my-app/
     mcp/<ui-name>/       # the MCP UIs, if the app has any
 ```
 
-The shell files are copied from the `python` skill's assets, never
-retyped and never read:
+An MCP UI copies its own shell (`mcp-ui/references/project-shell.md`).
+A web app or a backend renders the shell and the starter app from the
+`python` skill's assets, named for the design, never retyped and never
+read:
 
 ```sh
-cp -R <the python skill>/assets/project/. .
+python3 '<the python skill>/assets/render.py' --app '<App Name>' \
+    --pkg <pkg> --hub <Hub> --thing <Thing> [--things <Things>] [--web] .
 ```
 
-Then replace `<project-name>` in `.rbtrc` and `pyproject.toml`. What
-the copy holds, and the rule behind each file:
+Single quotes, as written. `<Hub>` is the design's one hub object (the
+hotel, the band), `<Thing>` the first feature's central object (a room,
+a gig); `--web` adds the web app and its browser scenarios (the
+`web-app` skill's step 1). Besides the files below it writes a working
+app in that shape, green as it stands (`uv sync && uv run rbt generate
+&& uv run pytest`): a `User`, the hub and the thing in
+`api/<pkg>/v1/<pkg>.py`, their servicers with real authorizers,
+`main.py`, the tests in the built-in steps, the test record and
+scripts. The build edits it into the design with the Edit tool: the
+design's fields and methods beside the starter's, in the same shape; a
+name that doesn't fit is renamed, no file rewritten whole; a file that
+exists is kept. What the shell holds, and the rule behind each file:
 
 - `pyproject.toml`: Reboot supports Python 3.10+. The only runtime
   dependency is `reboot`; `reboot[dev]`, at the same pin, adds what
