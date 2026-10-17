@@ -354,11 +354,6 @@ The `Agent` runs only inside a `WorkflowContext`, so also read the
 - `references/rpc-calls.md` — **always read**: the kwargs-not-Request
   trap (`await ref.deposit(context, DepositRequest(amount=10))`) is a
   recurring miss; passes type-check and fails at runtime
-- `references/rpc-constructor-calls.md` — **always read** when the
-  agent invokes a constructor: use `<X>.create(context, id, ...)` or
-  `<X>.<CtorMethod>(context, id, ...)`, NEVER `<X>.ref(id).<ctor>(...)`
-  (the trap that skips creation semantics). The factory-declaration
-  side is `servicer-constructor.md`; the call-site side is here
 - `references/rpc-forall.md` — `Service.forall(ids).method(context)`,
   a fan-out over many actors in input order
 
