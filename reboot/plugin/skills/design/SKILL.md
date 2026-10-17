@@ -65,6 +65,17 @@ room from occupied to dirty to cleaned to inspected, and no guest put
 in a room that isn't inspected. First, a few questions about what to
 build and how; then I'll design it, starting from its rules."
 
+**Loaded by the `app` skill,** one more line after the paragraph, its
+own, word for word:
+
+> This is the guided build: a design, a few choices, then each part
+> explained as it's built. For no questions at all, use
+> `/reboot:build` to build exactly what you've typed, or
+> `/reboot:one-shot` for a complete app, designed, built and reviewed
+> in one go.
+
+Not on its own, and not when loaded by the `one-shot` skill.
+
 Rules for that response:
 
 - Written as the response's text right after this skill loads (the
@@ -72,7 +83,8 @@ Rules for that response:
   tool call, and the same three sentences wherever it is drafted:
   never a longer or different version in thinking, since that is what
   the user may see instead.
-- Nothing more in it: what the app keeps track of, the front door and
+- Nothing more in it (but the guided-build line, from the `app`
+  skill): what the app keeps track of, the front door and
   the rest are in the design, minutes later. Then the dialog, the
   response's next tool call.
 - Nothing about how it will be built beyond the dialog's own options:
