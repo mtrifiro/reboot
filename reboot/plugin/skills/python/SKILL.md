@@ -445,7 +445,9 @@ feature in English, tag it `@wip`, iterate on scenarios) is the
   scenario**: the built-in steps' spelling (who calls, factories
   making ids up, saved values, assertions, `eventually`, attempts
   and aborts, tasks), `@wip` / `@blocked`, feature / rule / scenario
-  structure, custom steps as plain Reboot code, mocks and stand-ins
+  structure
+- `references/testing-custom-steps.md` — a step the built-in steps
+  don't have: custom steps as plain Reboot code, mocks and stand-ins
 - `references/testing-web-app.md` — scenarios that open the web app:
   the `frontend` fixture, the web app steps, the accessible markup
   the page needs, sign-in, recordings
