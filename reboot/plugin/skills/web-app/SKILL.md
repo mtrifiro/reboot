@@ -458,7 +458,7 @@ works as it will in the finished app.
    `initialize`, only under `rbt dev run`, seeded as
    `python/references/lifecycle-seeding.md` says. Then write the
    feature's scenarios in the built-in steps of
-   `python/references/testing-features.md`, run `uv run pytest` as [`feature/SKILL.md`](../feature/SKILL.md)'s "Report a full run once, at the end" says and
+   `python/references/testing-features.md`, run `uv run pytest` as the [`feature` skill](../feature/SKILL.md)'s step 4 says (the feature's own files, in the foreground) and
    `uv run mypy backend/ tests/` with `rbt dev run` stopped (`run`
    skill, "Stopping the App"), and fix what fails before any page.
 7. Scaffold the frontend at `frontend/`
@@ -475,7 +475,7 @@ works as it will in the finished app.
 9. Add one web app scenario for the page per
    `python/references/testing-web-app.md` (it installs Playwright).
    Every feature file then runs from the one test module that
-   starts the frontend. Run `uv run pytest` again, as [`feature/SKILL.md`](../feature/SKILL.md)'s "Report a full run once, at the end" says.
+   starts the frontend. Run `uv run pytest` again, as the [`feature` skill](../feature/SKILL.md)'s step 4 says (the feature's own files, in the foreground).
 10. Start the app with the [`run` skill](../run/SKILL.md) and check
     the page in a headless browser (Playwright; in the Claude app never
     the Browser pane, which is for the user at the handoff): signed
@@ -486,7 +486,9 @@ works as it will in the finished app.
     says, and the layout checks in
     [`references/ui-design.md`](references/ui-design.md) ("Measure
     what can be measured") pass at desktop and phone width.
-11. Show what was built so the user can judge it, not admire it, word
+11. Run the whole suite once, in the background while the handoff is
+    written (`feature` skill, "Report a full run once, at the end"),
+    its result said once. Show what was built so the user can judge it, not admire it, word
     for word in the handoff's shape in
     [`app/references/design-messages.md`](../app/references/design-messages.md),
     each rule linked to the dashboard's Features page (`dashboard`
@@ -513,10 +515,14 @@ works as it will in the finished app.
     change to an existing page, and its scenarios. Before a change
     that isn't additive, stop the app with the `run` skill; start it
     again once the scenarios pass.
-14. Stop `rbt dev run` (`run` skill, "Stopping the App"), run
-    `uv run pytest` as [`feature/SKILL.md`](../feature/SKILL.md)'s "Report a full run once, at the end" says and `uv run mypy backend/ tests/`, start it again, check the
-    page in the browser as in step 10, and show what this feature
-    changed as in step 11, with the same links: the objects it added
+14. Stop `rbt dev run` (`run` skill, "Stopping the App") for the
+    suite only: run the feature's own scenarios as the
+    [`feature` skill](../feature/SKILL.md)'s step 4 says (in the
+    foreground) and `uv run mypy backend/ tests/`, start it again, and
+    check in the browser as in step 10 only the pages this feature
+    added or changed (their first paint and layout checks too, not
+    every page's). Then show what this feature changed as in step 11,
+    with the same links: the objects it added
     or changed, its actions and rules with their scenarios, what
     changed in the API
     (the dashboard's changelog), and what is still to come; then the

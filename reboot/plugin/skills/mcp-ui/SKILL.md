@@ -592,8 +592,8 @@ for word: the list for the way the user chose to build.
     servicers — never subclass one to weaken its `authorizer()`. Let
     factories make ids up. Tag what cannot pass yet `@blocked` with
     its reason, and `@wip` as the `feature` skill says. Run
-    `uv run pytest` as [`feature/SKILL.md`](../feature/SKILL.md)'s
-    "Report a full run once, at the end" says, with `rbt dev run`
+    `uv run pytest` as the [`feature` skill](../feature/SKILL.md)'s step 4 says (the
+    feature's own files, in the foreground), with `rbt dev run`
     stopped (`run` skill, "Stopping the App"), then
     `uv run mypy backend/ tests/` from the project root
     (`python/references/lifecycle-project-setup.md`); fix every
@@ -605,7 +605,9 @@ for word: the list for the way the user chose to build.
     (`http://localhost:9991`)**, which is the handoff for an MCP UI,
     not the `/mcp` URL; MCPJam only on demand from the wizard; never
     a bare `rbt dev run` / `npm run dev`, which drop the wizard hint.
-    Open the wizard once at first startup, write the handoff in the
+    Open the wizard once at first startup, run the whole suite once,
+    in the background while the handoff is written (`feature` skill,
+    "Report a full run once, at the end"), and write the handoff in the
     shape of
     [`app/references/design-messages.md`](../app/references/design-messages.md)
     with the wizard's URL under **Open it**, and ask in a question
@@ -632,8 +634,8 @@ When modifying an existing app:
 6. A new user-facing capability gets an example prompt in
    `backend/src/example_prompts.py`, so the wizard surfaces it.
 7. Run `uv run mypy backend/ tests/` from the project root and
-   `uv run pytest`, as [`feature/SKILL.md`](../feature/SKILL.md)'s
-   "Report a full run once, at the end" says, with `rbt dev run`
+   `uv run pytest`, as the [`feature` skill](../feature/SKILL.md)'s step 4 says (the
+    feature's own files, in the foreground), with `rbt dev run`
    stopped; fix every error and failure before handing back.
 8. Bring the app up with the [`run` skill](../run/SKILL.md) if it
    isn't running; under `rbt dev run`, edits (and `.env`) reload it,
