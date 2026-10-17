@@ -187,7 +187,10 @@ the prompt, verbatim, never inferred:
   and no offer at handoff.
 
 Each route starts with the opening above, naming its front door, then
-loads that skill (or `backend-only.md`) and follows it from the top.
+loads that skill with the Skill tool (`/reboot:web-app`,
+`/reboot:mcp-ui`), never by reading its `SKILL.md` (the tool loads it
+whole and marks the route taken), or reads `backend-only.md`, and
+follows it from the top.
 
 **At handoff,** unless "just/only/no" applied, offer the other front
 door in one line: "Want this in Claude and ChatGPT too? The backend is
