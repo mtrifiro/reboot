@@ -24,8 +24,10 @@ code, no `rbt generate`, no project scaffold, no dependency installed.
   asks for a design, a proposal or a plan and not yet the app):
   everything below, ending with the closing line in section 4.
 - **Loaded by the [`app` skill](../app/SKILL.md)** (a prompt that
-  asks to build): everything below but the closing line. The app
-  skill's go-ahead, **Build on this design?**, follows the design in
+  asks to build): everything below but the closing line. The opening
+  goes out as text right after this skill loads: the two Skill loads
+  are the response's only tool calls before it, and the round's
+  dialog is the next. The app skill's go-ahead, **Build on this design?**, follows the design in
   the same response
   ([`app/references/design-first.md`](../app/references/design-first.md),
   section 3); on the prompt-by-prompt path, that section's closing line.
@@ -37,9 +39,10 @@ code, no `rbt generate`, no project scaffold, no dependency installed.
 ## 1. The opening, before reading anything
 
 The build's first words: one short paragraph of three sentences, in
-the user's nouns. It is what the user sees first, sent as text or shown
-from the build's thinking, so it carries everything that matters on its
-own, the most important first. No name yet: the app is named in the
+the user's nouns, sent as text. When nothing is sent, the Claude app
+shows a paraphrase of the build's thinking in its place (hotel-200 saw
+one sentence and never the opening), so it is sent, and it carries
+everything that matters on its own, the most important first. No name yet: the app is named in the
 design, as a working name.
 
 1. "An app for <what it is>, used by <who>." (the rules below)
@@ -55,12 +58,14 @@ build and how; then I'll design it, starting from its rules."
 
 Rules for that response:
 
-- Written as the response's text, before any tool call, and the same
-  three sentences wherever it is drafted: never a longer or different
-  version in thinking, since that is what the user may see instead.
+- Written as the response's text right after this skill loads (the
+  Skill loads are the only tool calls before it) and before any other
+  tool call, and the same three sentences wherever it is drafted:
+  never a longer or different version in thinking, since that is what
+  the user may see instead.
 - Nothing more in it: what the app keeps track of, the front door and
   the rest are in the design, minutes later. Then the dialog, the
-  response's only tool call.
+  response's next tool call.
 - Nothing about how it will be built beyond the dialog's own options:
   **What to expect** is the `app` skill's, after the go-ahead.
 - **No name before the design.** The design proposes one, with the
@@ -99,32 +104,27 @@ four questions, each two to four options, the simplest first and
 marked "(Recommended)" where one is recommended, so accepting every
 recommendation is one answer:
 
-- **"Which features should the first build include?"**, one choice
-  of three: "The <n> proposed (Recommended)", its description the
-  features worked out from the prompt, named in the user's nouns in
-  build order ("Room status floor plan, reservations, housekeeping
-  assignments and guest profiles, in that order."); "Just the <first
-  feature>", its description that feature's rule in a few words and
-  "the rest when you ask"; "Let me pick": "Tick the features yourself,
-  in a second question." The features are worked out in this order:
-  the one sentence 2 names first; then the staff's other features;
-  last, only when the prompt implies customers who use the app
-  themselves ("a hotel where guests book online"), a feature for them,
-  its description starting with who it is for. On "Let me pick", one
-  more dialog after the round, multi-select, the same features as its
-  options, each its name as the label and its rule as the description,
-  the first marked "(Recommended)"; the features ticked are the build,
-  in that order, and nothing ticked is the recommended one. The
-  features chosen are the design's scope, in build order.
+- **"Which features should the first build include?"** (multi-select,
+  the question ending "Nothing ticked builds the recommended set."):
+  four features worked out from the prompt, each its name in the
+  user's nouns as the label and its rule in a few words as the
+  description, in this order: the one sentence 2 names, first, marked
+  "(Recommended)" (a multi-select starts with nothing ticked, so it
+  leads); then the staff's other features; last, only when the prompt
+  implies customers who use the app themselves ("a hotel where guests
+  book online"), a feature for them, its description starting with who
+  it is for. The features ticked are the build, in that order; nothing
+  ticked, or Skip, is the recommended one.
 - **"Who signs in?"**, when the prompt leaves it open: "Anyone signed
   in can do everything; roles later (Recommended)" or "Staff roles from
   the start", naming the roles in the user's nouns ("front desk, vets
   and techs"). Roles chosen are in the first build; otherwise they are
   **Who may do what**, before any deploy.
 - **"Which accent?"**, only when the prompt names no brand: two or
-  three accents that suit the domain, from the list
-  `web-app/references/ui-design.md` gives and no other, the first
-  recommended, plus "Use my brand" (a site or tokens to read).
+  three that suit the domain from the house look's eight, teal, cyan,
+  blue, indigo, violet, purple, plum and rose, and no other (nothing
+  is read for this), the first recommended, plus "Use my brand" (a
+  site or tokens to read).
 - **"How should it be built?"**, always, last, none of its options
   recommended: "All at once": "Every feature in the design without
   stopping, about 10 minutes a feature, more for a hard domain; you
