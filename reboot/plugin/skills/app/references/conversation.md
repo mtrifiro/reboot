@@ -11,7 +11,7 @@ tags: conversation, links, browser pane, narration, questions, research, handoff
 response's tool calls: never only in thinking, which the user never
 gets as a message** (`app` skill, top).
 
-Read once, after the go-ahead (on the power-user path, after the
+Read once, after the go-ahead (on the prompt-by-prompt path, after the
 design) and the build has said what to expect (`app` skill, step 1). It covers the
 rest of the build: links, the Browser pane, what is said after each
 answer and at each stage, research, the questions inside the build,
@@ -176,7 +176,7 @@ whole task list. So:
   (`design-first.md` gives each one's answer). It answers in the chat
   and asks the same dialog again. What should I build next? describes
   each part in its option instead, since its options are the parts.
-- **On the power-user path none of these is asked** (`design-first.md`,
+- **On the prompt-by-prompt path none of these is asked** (`design-first.md`,
   section 3): each prompt is built as asked, **Your turn** ends with
   the plain line "Say what's next.", and the box carries the recap
   only.
