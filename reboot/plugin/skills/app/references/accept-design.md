@@ -50,7 +50,10 @@ call after the message:
 
 On "Not yet", one line: "Tell me when you're ready, or what to
 change." Then stop, and nothing is recorded. A part chosen is built
-straight away, with no further question.
+straight away, with no further question. On the power-user path there
+is no dialog: **Your turn** ends with the plain line "Say what's
+next.", and the acceptance is recorded the same way, when the user
+asks for the next thing.
 
 What the user says next decides: choosing or asking for a next part,
 or saying to keep this one, accepts what was reviewed, recorded as below before
