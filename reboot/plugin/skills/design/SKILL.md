@@ -99,15 +99,23 @@ four questions, each two to four options, the simplest first and
 marked "(Recommended)" where one is recommended, so accepting every
 recommendation is one answer:
 
-- **"Which features should the first build include?"** (multi-select):
-  four features worked out from the prompt, each its name in the
-  user's nouns as the label and its rule in a few words as the
-  description, in this order: the one sentence 2 names, first, marked
-  "(Recommended)" (a multi-select starts with nothing ticked, so it
-  leads); then the staff's other features; last, only when the prompt
-  implies customers who use the app themselves ("a hotel where guests
-  book online"), a feature for them, its description starting with who
-  it is for. The features ticked are the build, in that order.
+- **"Which features should the first build include?"**, one choice
+  of three: "The <n> proposed (Recommended)", its description the
+  features worked out from the prompt, named in the user's nouns in
+  build order ("Room status floor plan, reservations, housekeeping
+  assignments and guest profiles, in that order."); "Just the <first
+  feature>", its description that feature's rule in a few words and
+  "the rest when you ask"; "Let me pick": "Tick the features yourself,
+  in a second question." The features are worked out in this order:
+  the one sentence 2 names first; then the staff's other features;
+  last, only when the prompt implies customers who use the app
+  themselves ("a hotel where guests book online"), a feature for them,
+  its description starting with who it is for. On "Let me pick", one
+  more dialog after the round, multi-select, the same features as its
+  options, each its name as the label and its rule as the description,
+  the first marked "(Recommended)"; the features ticked are the build,
+  in that order, and nothing ticked is the recommended one. The
+  features chosen are the design's scope, in build order.
 - **"Who signs in?"**, when the prompt leaves it open: "Anyone signed
   in can do everything; roles later (Recommended)" or "Staff roles from
   the start", naming the roles in the user's nouns ("front desk, vets
@@ -132,7 +140,7 @@ recommendation is one answer:
 build it", "no design") ends this skill's part: load the [`build`
 skill](../build/SKILL.md) with the Skill tool (`/reboot:build`), its
 argument the prompt as typed followed by any answers given (the
-features ticked, who signs in, the accent), and stop. No design, no
+features chosen, who signs in, the accent), and stop. No design, no
 closing line: the build skill says nothing but its steps and the
 links.
 
