@@ -61,7 +61,7 @@ The first feature's backend:
 Item 3 covers the scaffold, the rules as scenarios, then the domain model
 and starting the dashboard. Item 5 covers the actions, who may do
 each, demo data and the tests (scenarios pass, types check). Items 2,
-4 and 6 are the `new-app` skill's questions
+4 and 6 are the `app` skill's questions
 (`app/references/design-first.md`); a front door's skill used on its
 own, which doesn't ask them, leaves them off.
 
@@ -76,22 +76,12 @@ Item 2 covers the browser scenario, the first-paint time
 (`web-app/references/first-paint.md`) and the layout checks
 (`web-app/references/ui-design.md`, "Measure what can be measured"),
 at desktop and phone width; it ends with the line linking the app and
-the dashboard. A first feature seen from both sides (`new-app` skill,
+the dashboard. A first feature seen from both sides (`app` skill,
 step 1) has "Build the two pages for “<feature>”, <the customers'>
-and <the staff's>" and "Test them side by side in a browser".
-
-For the hotel's first feature, the two lists read:
-
-1. Propose the design for Maison Desk
-2. Get your go-ahead on the design
-3. Write the rules for “room status floor plan”, then its domain model
-4. Your turn: check the domain model on the dashboard
-5. Build the actions for “room status floor plan” and test them against its rules
-6. Your turn: check the backend, then say to build the floor plan
-
-1. Build the page for “room status floor plan”
-2. Test it in a browser
-3. Your turn: try the app and decide what to do next
+and <the staff's>" and "Test them side by side in a browser". For
+the hotel, item 3 reads "Write the rules for “room status floor
+plan”, then its domain model" and item 6 "Your turn: check the
+backend, then say to build the floor plan".
 
 Each next feature, when the user asks for it (the app keeps running),
 one list, backend and frontend with no stop between them:
