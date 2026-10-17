@@ -29,9 +29,10 @@ The script that does the work is [`assets/look.py`](assets/look.py)
 
 The kinds and their choices:
 
-- **accent:** teal, cyan, blue, indigo, violet, purple, plum, rose, or
-  a brand's hex (`#0a6e5c`; add `--dark #5fd0bd` to give the dark
-  scheme's own). From a hex, the script makes the whole family (deep
+- **accent:** one of the accents
+  [`web-app/references/ui-design.md`](../web-app/references/ui-design.md)
+  lists, or a brand's hex (`#0a6e5c`; add `--dark #5fd0bd` to give the
+  dark scheme's own). From a hex, the script makes the whole family (deep
   shade for the top bar, pale tint for selection, both schemes) and
   darkens or lightens it until it is readable.
 - **neutrals:** cool (the house default), warm, grey, white.
