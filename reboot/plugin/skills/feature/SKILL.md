@@ -169,19 +169,25 @@ id"`, then `<account id>`. Give an id only when it means something
   (below). If a run hangs anyway, stop it and rerun with `-x`, which
   stops at the first failure, unfiltered: the per-test `timeout` in
   `pytest.ini` names the scenario that hung.
-- **Report a full run once, at the end.** A full run takes minutes,
-  and a line per rule as each finishes is noise. Start it in the
-  background (`scripts/test.sh full`, or `uv run pytest`) after one
-  line saying what runs ("Backend: running the room booking's 14
-  scenarios."). While it runs, post nothing per scenario and don't
-  watch it with a monitor that reports each test; check
-  `tests/.progress.jsonl` (`tests/last_run.py` writes a line per
-  scenario) only to see that it is still moving, and after about three
-  minutes say once that it is still running, with the count done.
-  When it ends, one line from `tests/.last-run.json`: every rule kept,
-  or which rules aren't kept yet, by the rule in plain words, then the
-  fix. A narrow run (`-m wip`, `-k`, one feature file) is the same:
-  its result at the end.
+- **A feature's own scenarios run in the foreground.** While a
+  feature is being built, run its own files (`uv run pytest
+  tests/<feature>_test.py`, or `-m wip`, `-k`) as a plain foreground
+  command: the per-test `timeout = 180` in `pytest.ini` bounds a hang
+  and names the scenario, so no `sleep`, no polling loop and no
+  monitor. One line before it says what runs ("Backend: running the
+  room booking's 14 scenarios."); when it ends, one line from
+  `tests/.last-run.json`: every rule kept, or which rules aren't kept
+  yet, by the rule in plain words, then the fix.
+- **Report a full run once, at the end.** The whole suite
+  (`scripts/test.sh full`, or `uv run pytest`) runs once, at a
+  handoff or the whole-app end, in the background while the handoff
+  is written, after the same one line. A line per rule as each
+  finishes is noise: post nothing per scenario and don't watch it
+  with a monitor that reports each test; check `tests/.progress.jsonl`
+  (`tests/last_run.py` writes a line per scenario) only to see that
+  it is still moving, and after about three minutes say once that it
+  is still running, with the count done. When it ends, its result the
+  same way, once.
 - **Suggest reviewing in the dashboard** after each round: the
   feature's card, its rules, the methods it uses and the ones no
   feature uses, and the recordings.
