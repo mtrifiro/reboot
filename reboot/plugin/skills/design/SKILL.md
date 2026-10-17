@@ -36,10 +36,12 @@ code, no `rbt generate`, no project scaffold, no dependency installed.
   the scope (every feature a real product in the domain needs, every
   role) and the answers the round would have asked, and overrides
   "Four or five features" and "No roles first" below; everything
-  else below holds. The opening's third sentence is "No questions:
-  I'll design the whole app, then build and test all of it and hand
-  it over when it's done." word for word, and the design follows in
-  the same response, with no dialog between them.
+  else below holds. The opening goes out as text right after this
+  skill loads: the Skill loads are the response's only tool calls
+  before it, and the first read comes after it. Its third sentence is
+  "No questions: the whole app is designed, then built, tested and
+  handed over when it is done." word for word, and the design follows
+  in the same response, with no dialog between them.
 - Read this plugin's files with the Read tool, one call per file and
   several in one response, never a shell command: a long shell result
   is cut to a preview and the rest goes unread (the `python` skill's
