@@ -274,7 +274,8 @@ Flywheel:
    ("The Scope Round") says. The first question's options: "One
    feature at a time, so you understand each part as it's built"
    (recommended) or "A full working prototype first, then finished
-   feature by feature".
+   feature by feature", or "Power user: I direct each step at the
+   prompt; ask me nothing".
 3. Read the references for the API, then show the proposed design,
    word for word in the shape of
    [`app/references/design-messages.md`](../app/references/design-messages.md),
@@ -447,7 +448,8 @@ works as it will in the finished app.
    [`dashboard` skill](../dashboard/SKILL.md) and follow it — and go
    on without waiting for it. If it fails to come up, say so in one
    sentence and keep building. Built from the `app` skill, the first
-   feature instead waits for it and asks "Build on this domain model?" (the model check)
+   feature instead waits for it and asks "Build on this domain model?" (the model check;
+   not on the power-user path, which asks nothing)
    ([`app/references/design-first.md`](../app/references/design-first.md),
    "The domain model, once") before step 5.
 5. Write the servicer for the feature, with its rules and its real
@@ -494,7 +496,8 @@ works as it will in the finished app.
     each rule linked to the dashboard's Features page (`dashboard`
     skill, "Links to an Object or a Rule"), closing with its **Your
     turn** section and the dialog **What should I build next?**, the
-    recommended feature first, as
+    recommended feature first (on the power-user path no dialog: **Your
+    turn** ends with the plain line "Say what's next."), as
     [`app/references/accept-design.md`](../app/references/accept-design.md)
     says. Open it with the Flywheel heading **Reboot Design · ready for
     your review**. Choosing or asking for a next feature (or keeping
