@@ -61,7 +61,7 @@ each, demo data and the tests (scenarios pass, types check). The
 go-ahead after item 1 and the domain model check after item 2
 (`app/references/design-first.md`) are dialogs, not items; after item
 3 the backend's results are said and the frontend list takes over; a
-front door's skill used on its own and the power-user path (below)
+front door's skill used on its own and the prompt-by-prompt path (below)
 ask neither.
 
 Its frontend, straight after:
@@ -111,7 +111,7 @@ parts at once"); then the frontend's item 1 is "Build every page of
 the design". For an MCP UI, the frontend's item 1 is "Build every UI
 of the design" and item 2 "Test them in their AI client".
 
-## Power user
+## Prompt by prompt
 
 The user directs every step at the prompt and is asked nothing
 (`app/references/design-first.md`, section 3). Before the first
