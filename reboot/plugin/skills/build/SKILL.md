@@ -1,6 +1,6 @@
 ---
 name: build
-description: "Build exactly what the prompt says on Reboot, for someone who knows what they want: no questions, no proposed design, no narration, no task list; the domain model, the authorizers and the tests still right. Use only when the user asks for it by name (/reboot:build) or refused the design in the design skill's round ("just build it"), which hands over the prompt and any answers; never for a new app described in plain words, which goes to the app skill."
+description: "Build exactly what the prompt says on Reboot, for someone who knows what they want: no questions, no proposed design, no narration, no task list; the domain model, the authorizers and the tests still right. Use only when the user asks for it by name (/reboot:build) or refused the design in the design skill's round ('just build it'), which hands over the prompt and any answers; never for a new app described in plain words, which goes to the app skill."
 argument-hint: [<what to build>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 ---
