@@ -58,7 +58,8 @@ line each, Who may do what among them>. Built only when you ask.
 
 **Pages**
 - `<route>`: <the page's primary view, worked on directly>, <what a
-  click opens>. <The one reader that feeds it.>
+  drag moves where, when something moves>, <what a click opens>.
+  <The one reader that feeds it.>
 
 **Sign-in.** <Who signs in, how in development and at deploy, and
 what an anonymous visitor sees.> <In development, the picker's five
