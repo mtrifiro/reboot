@@ -34,7 +34,8 @@ A fix is proposed upstream (reboot#232).
 
 ### Harness tests on macOS hang or fail with `Unimplemented` or timeouts
 
-Affects: 1.6.0 on macOS.
+Affects: 1.6.0 and main (seen on 1.6.1+dev1332, 2026-10-17) on macOS.
+The starter's `tests/conftest.py` carries the workaround below.
 
 The test harness starts its servers on `0.0.0.0`, which binds both IPv4
 and IPv6, while callers dial IPv4. On macOS a new server can then be
