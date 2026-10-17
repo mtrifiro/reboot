@@ -41,6 +41,11 @@ The prompt, no more:
   second feature, no "Not in this build", no roadmap.
 - A Reboot-native instruction ("a `Transaction` on `Room` keyed by
   hotel and number, staff only") is built as written, not redesigned.
+- A `design/design.md` already in the project (the `design` skill's,
+  proposed or accepted) is the spec: the prompt names the part of it
+  to build ("the gig calendar"), or "the design" for all of it, built
+  as it reads, nothing added; its **Assumed** lines are taken as
+  decided.
 - A change to a built app is made as asked (`feature` skill, "A fix,
   a bug report, a review finding", without its question): additive
   API changes (`python/references/api-schema-evolution.md`), the
@@ -68,7 +73,7 @@ links appear in the line.
 
 ## The record
 
-`design/design.md` is written silently, in the shape of
+`design/design.md`, when none exists, is written silently, in the shape of
 [`app/references/design-document.md`](../app/references/design-document.md),
 once a domain model exists, and updated when it changes; one line
 says where it is the first time. Nothing else of the design record
