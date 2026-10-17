@@ -189,7 +189,8 @@ Flywheel:
    [`front-door-common.md`](../app/references/front-door-common.md)
    ("The Scope Round") says. The first question's options: "One
    feature at a time, so you understand each part as it's built"
-   (recommended) or "The whole app first, then reviewed as a whole".
+   (recommended) or "The whole app first, then reviewed as a whole", or "Power user: I direct each step at the
+   prompt; ask me nothing".
 3. Read the references for the API, then show the proposed design,
    word for word in the shape of
    [`app/references/design-messages.md`](../app/references/design-messages.md)
@@ -562,7 +563,8 @@ for word: the list for the way the user chose to build.
    user can watch the app come together, and go on without waiting
    for it. If it fails to come up, say so in one sentence and keep
    building; do not stop to debug it. Built from the `app` skill, the
-   first feature instead waits for it and asks "Build on this domain model?" (the model check)
+   first feature instead waits for it and asks "Build on this domain model?" (the model check;
+   not on the power-user path, which asks nothing)
    ([`app/references/design-first.md`](../app/references/design-first.md),
    "The domain model, once") before step 6.
 6. Write servicer (`backend/src/servicers/<name>.py`) — see
@@ -611,7 +613,9 @@ for word: the list for the way the user chose to build.
     shape of
     [`app/references/design-messages.md`](../app/references/design-messages.md)
     with the wizard's URL under **Open it**, and ask in a question
-    dialog (`AskUserQuestion` where available) **What should I build next?**,
+    dialog (`AskUserQuestion` where available) **What should I build next?**
+    (on the power-user path no dialog: **Your turn** ends with the plain
+    line "Say what's next."),
     worded as
     [`app/references/accept-design.md`](../app/references/accept-design.md)
     says, which also records the acceptance. Unless the user asked for
