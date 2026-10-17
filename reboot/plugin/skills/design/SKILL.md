@@ -29,7 +29,10 @@ code, no `rbt generate`, no project scaffold, no dependency installed.
   the same response
   ([`app/references/design-first.md`](../app/references/design-first.md),
   section 3); on the power-user path, that section's closing line.
-- Read this plugin's files with Read and Glob, never a shell command.
+- Read this plugin's files with the Read tool, one call per file and
+  several in one response, never a shell command: a long shell result
+  is cut to a preview and the rest goes unread (the `python` skill's
+  rule).
 
 ## 1. The opening, before reading anything
 
