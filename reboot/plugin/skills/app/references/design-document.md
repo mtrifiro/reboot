@@ -43,7 +43,7 @@ below links to the developer dashboard, which draws them from the code.
 ## Brief
 
 <Who uses it, on what screen, the task, the one question the main page
-answers, and the accent.>
+answers, and the accent, one of the house look's eight by its plain name.>
 
 ## Features and their rules
 
