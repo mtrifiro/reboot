@@ -15,11 +15,22 @@ bundles, which a web app has no use for.
 
 ## The `frontend/` Shell
 
-A stock Vite React-TS project
-(`npm create vite@latest frontend -- --template react-ts`) with the
-SPA's `index.html`, `src/`, and `public/` moved under `web/`, so
-that the generated client at `frontend/api/` and, should the app
-ever add MCP UIs, `frontend/mcp/` sit beside it:
+A stock Vite React-TS project with the SPA's `index.html`, `src/`,
+and `public/` moved under `web/`, so that the generated client at
+`frontend/api/` and, should the app ever add MCP UIs, `frontend/mcp/`
+sit beside it. The first `rbt generate` has already written
+`frontend/api/`, and `create-vite` won't scaffold into a folder that
+isn't empty (with `--no-interactive` it writes nothing and says
+nothing, and the move after it fails). So scaffold beside it and
+move the files in:
+
+```sh
+npm create vite@latest frontend-vite -- --template react-ts --no-interactive
+mkdir -p frontend/web
+mv frontend-vite/index.html frontend-vite/src frontend-vite/public frontend/web/
+mv frontend-vite/package.json frontend-vite/tsconfig*.json frontend-vite/.gitignore frontend/
+rm -rf frontend-vite
+```
 
 ```
 frontend/
