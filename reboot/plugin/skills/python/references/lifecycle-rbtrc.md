@@ -1,17 +1,18 @@
 ---
 title: Configure `.rbtrc` Correctly
 impact: CRITICAL
-impactDescription: `rbt generate` and `rbt dev run` won't find files without correct config
+impactDescription: `rbt generate` and `rbt dev run` won't find files without correct config; the file is copied with the project shell
 tags: rbtrc, config, generate, dev, expunge, application-name
 ---
 
 ## Configure `.rbtrc` Correctly
 
-> **Critical:** on `reboot>=1.0.4`, `dev run --application-name=<app>` is the canonical persistence flag. `--name=<app>` still works as a deprecated alias and prints a console warning recommending the rename — agents writing fresh `.rbtrc` should use `--application-name`.
-
-`.rbtrc` is the per-project config for the `rbt` CLI: each line is
-`<subcommand> <flag>` (or `<subcommand>:<config> <flag>` for named
-configs). Comments start with `#`.
+> **Critical:** `.rbtrc` is line-based, each line `<subcommand> <flag>`
+> (or `<subcommand>:<config> <flag>` for a named config), comments
+> with `#`. On `reboot>=1.0.4`, `dev run --application-name=<app>` is
+> the canonical persistence flag; `--name=<app>` still works as a
+> deprecated alias that warns on every run. A fresh `.rbtrc` uses
+> `--application-name`, whatever older examples and tutorials show.
 
 **Incorrect (older Reboot, which models remember best):**
 
@@ -23,129 +24,51 @@ protoc --python=backend/api
 dev run --name=chat-room
 ```
 
-**Correct (line-based, matches the [`reboot-bank-pydantic`](https://github.com/reboot-dev/reboot-bank-pydantic) example's `.rbtrc`):**
-
-```sh
-# Find API definition files in 'api/'.
-generate api/
-
-# Tell `rbt` where to output its generated files.
-generate --python=backend/api/
-generate --react=frontend/api
-
-# Watch source files during `rbt dev run`.
-dev run --watch=backend/api/**/*.py
-dev run --watch=backend/src/**/*.py
-
-# Tell `rbt` that this is a Python application.
-dev run --python
-
-# Save state between `rbt dev run` restarts.
-dev run --application-name=chat-room
-dev expunge --application-name=chat-room
-
-# Load secrets from a git-ignored env file (see "`--env-file` Loads
-# Secrets" below).
-dev run --env-file=.env
-
-# Run the application!
-dev run --application=backend/src/main.py
-```
+**Correct:** the `.rbtrc` copied with the project shell
+(`lifecycle-project-setup.md`; the same shape as the
+[`reboot-bank-pydantic`](https://github.com/reboot-dev/reboot-bank-pydantic)
+example's), with `<project-name>` replaced. It holds the `generate`
+lines (`api/` as the definition root, `--python=backend/api/`,
+`--react=frontend/api`), the `dev run` lines (`--watch` on the backend
+sources, `--python`, `--application-name`, `--env-file=.env`,
+`--application=backend/src/main.py`), the matching `dev expunge`, and
+the `serve run` block.
 
 ## `--application-name` Persists State Across Restarts
 
-The value passed to `dev run --application-name=<name>` keys the state
-that survives between `rbt dev run` restarts. Use the same value for
-`dev expunge --application-name=<name>` so a single command resets that
-state.
-
-## `--application-name` vs. `--name`
-
-`--application-name` is the canonical flag on `reboot>=1.0.4`. The
-older `--name` was renamed for clarity; `--name` still works as a
-deprecated alias but prints a console warning on every `rbt dev run`:
-
-```text
-WARNING: `--name` has been renamed to `--application-name`; please
-update your `.rbtrc`.
-```
-
-Treat the warning as real — when writing fresh `.rbtrc` (or fixing
-an old one), use `--application-name=<name>`. Don't be fooled by
-older skill examples or third-party tutorials that still show
-`--name`.
+The value keys the state that survives between `rbt dev run`
+restarts; `dev expunge --application-name=<name>` takes the same value
+so one command resets it.
 
 ## `--env-file` Loads Secrets Into `rbt dev run`
 
-`dev run --env-file=<path>` reads a file of `KEY=VALUE` lines and
-sets each as an environment variable before launching the
-application, so the app reads them with `os.environ`. It is the
-recommended way to deliver secrets in local development: keep one
-`.env` file, name it once in `.rbtrc`, and every `rbt dev run`
-picks it up.
-
-```sh
-dev run --env-file=.env
-```
-
-- The file uses standard `.env` syntax (parsed by `python-dotenv`):
-  `KEY=VALUE` lines, `#` comments, blank lines, optional `export `
-  prefixes, and quoted values are all supported.
-- `--env-file` is **only** available for `dev run` — not `rbt serve`
-  or Reboot Cloud. Values passed with `--env=KEY=VALUE` override
-  values from the file.
-- A missing env file is a non-fatal warning, not an error — an app
-  that needs no secrets yet can keep the `.rbtrc` line.
-- Editing the env file while `rbt dev run` is running restarts
-  the application automatically, so updated values take effect
-  without a manual restart — just as editing a `--watch`ed
-  source file does.
-
-Keep the `.env` file out of git — add it to `.gitignore`. Full
-secrets guidance — including Reboot Cloud — is in
-`lifecycle-secrets.md`.
+`dev run --env-file=.env` reads `KEY=VALUE` lines (standard `.env`
+syntax: comments, blank lines, `export` prefixes, quoted values) and
+sets each as an environment variable before launching the app, which
+reads them with `os.environ`. A missing file is a warning, not an
+error, so the line stays in an app with no secrets yet; editing the
+file while `rbt dev run` runs restarts the app, as editing a
+`--watch`ed source does. `--env-file` is **dev-only**, and
+`--env=KEY=VALUE` overrides it; `.env` stays out of git. Full secrets
+guidance, including Reboot Cloud, is `lifecycle-secrets.md`.
 
 ## `serve run` Lines: Production Config
 
-`.rbtrc` also holds the flags for `rbt serve run` — the command the
-Cloud image's `CMD ["rbt", "serve", "run"]` invokes, as well as any
-on-prem `rbt serve` deploy. Same line-based syntax; one subcommand
-per line:
-
-```sh
-serve run --python
-serve run --application=backend/src/main.py
-serve run --application-name=<app>
-serve run --tls=external
-```
-
-Same `--application-name` value as the `dev run` lines — that name
-keys state in both local dev and production. See
-[`lifecycle-dockerfile.md`](lifecycle-dockerfile.md) for the full
-production block (including when `--tls=external` is correct) and
-[`lifecycle-reboot-cloud.md`](lifecycle-reboot-cloud.md) for the
-deploy workflow.
-
-`--env-file` is **dev-only** (see "`--env-file` Loads Secrets" above).
-Production secrets are delivered via `rbt cloud secret set` — see
-[`lifecycle-secrets.md`](lifecycle-secrets.md), or by the environment in
-self-hosted `rbt serve` deployments.
+The same file holds the flags for `rbt serve run`, the command the
+Cloud image's `CMD ["rbt", "serve", "run"]` and any on-prem deploy
+invoke: `--python`, `--application`, the **same** `--application-name`
+(it keys state in production too) and `--tls=external`. When
+`--tls=external` is right, and the full production block, is
+[`lifecycle-dockerfile.md`](lifecycle-dockerfile.md); the deploy
+workflow is [`lifecycle-reboot-cloud.md`](lifecycle-reboot-cloud.md);
+production secrets come from `rbt cloud secret set`
+([`lifecycle-secrets.md`](lifecycle-secrets.md)) or the environment of
+a self-hosted `rbt serve`.
 
 ## Named Configs
 
-A `<subcommand>:<config>` line only applies when `--config=<config>` is on
-the command line:
-
-```sh
-# Default config (HMR / Vite).
-dev run --default-config=hmr
-dev run --frontend-root-path=frontend
-
-dev run:hmr --frontend-host=http://localhost:4444
-
-# Dist mode (no Vite).
-dev run:dist --frontend-dist-path=frontend/dist
-```
-
-Run with `rbt dev run` (uses `--default-config=hmr`) or
-`rbt dev run --config=dist` to switch.
+A `<subcommand>:<config>` line applies only with `--config=<config>`
+on the command line, and `dev run --default-config=hmr` picks one
+when none is given. The MCP UI shell uses this for its `:hmr`
+(`--frontend-host=http://localhost:4444`) and `:dist`
+(`--frontend-dist-path=frontend/dist`) modes.
