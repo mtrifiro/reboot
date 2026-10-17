@@ -27,7 +27,7 @@ Build in two parts, each finished and tested before the next starts
    the first-paint time and the layout checks. Read the React,
    stylesheet and browser-testing references now.
 
-The steps below keep their numbers; this is the order to take them in.
+The steps below keep their numbers; this is the order to take them in. **A file that exists is changed with the Edit tool,** the lines that change and nothing more, never a `sed -i`, a `python3 -` script or a heredoc that rewrites it ([`front-door-common.md`](../../app/references/front-door-common.md), "A Change Is an Edit, Never a Rewrite").
 
 ### The Steps
 
