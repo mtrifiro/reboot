@@ -1,7 +1,7 @@
 ---
 title: Define the Application Entry Point
 impact: CRITICAL
-impactDescription: Application won't start without a correctly-shaped `main`; the skeleton is copied with the project shell
+impactDescription: Application won't start without a correctly-shaped `main`; the starter's is rendered with the project shell
 tags: main, application, asyncio, servicers, libraries
 ---
 
@@ -15,12 +15,12 @@ tags: main, application, asyncio, servicers, libraries
 Every Reboot Python application has an `async def main()` that
 constructs an `Application` with the list of Servicer classes and any
 standard-library components, then awaits `.run()`; the `__main__`
-block runs it under `asyncio.run`. The copied `backend/src/main.py`
-(`lifecycle-project-setup.md`) is that shape with an empty
-`servicers=[]` and an `initialize` hook to fill in: one import per
-servicer (`from servicers.<name> import <Name>Servicer`), the classes
-in the list, and the demo data in `initialize`
-(`lifecycle-seeding.md`). Reboot constructs instances per actor as
+block runs it under `asyncio.run`. The starter's `backend/src/main.py`
+(`lifecycle-project-setup.md`) is that shape: `SERVICERS`, one import
+per servicer (`from servicers.<name> import <Name>Servicer`), which
+the tests import too; `initialize`, which opens the hub and takes the
+demo data (`lifecycle-seeding.md`); and `oauth=` with the development
+picker. A new servicer is one import and one entry in the list. Reboot constructs instances per actor as
 needed; a sync `main` or a servicer's own `.serve()` is not how Reboot
 starts.
 
