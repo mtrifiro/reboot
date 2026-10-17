@@ -14,14 +14,10 @@ tags: testing, bdd, gherkin, feature, scenario, rule, pytest-bdd, reboot.bdd, wi
 > say, and write it as plain Reboot code. Every step that calls
 > names who calls: there is no current user and no anonymous call.
 
-A feature file is read by three parties: the developer, who reviews
-it as the specification of what the application does; `pytest`,
-which runs each scenario against the application through the
-`Reboot()` harness; and the dashboard's Features page, which shows
-each feature with its rules, scenarios, the methods it uses, and
-the recordings of its browser scenarios. One file serves all three
-only if it says things the built-in steps understand, so learn the
-spelling before writing.
+A feature file is the specification the developer reviews, the
+suite `pytest` runs through the `Reboot()` harness, and what the
+dashboard's Features page shows; it serves all three only in the
+built-in steps' spelling.
 
 The [`reboot-bank-pydantic`](https://github.com/reboot-dev/reboot-bank-pydantic)
 example's `tests/*.feature` files are the reference for
@@ -29,34 +25,19 @@ every pattern here.
 
 ## What Goes Where
 
-```
-pytest.ini                     # testpaths: tests; pythonpath: backend/src backend/api api
-tests/
-├── opening_accounts.feature   # One feature per capability.
-├── transfers.feature
-├── withdrawals.feature
-├── full_bank_test.py          # One module per application setup.
-├── interest_test.py
-├── web_test.py                # The scenarios that drive the web app.
-└── opening_accounts.recordings/   # Made by running; git-ignored.
-```
+`testing-project-setup.md` has the `tests/` layout, `pytest.ini`,
+`pyproject.toml`, and the `.gitignore`.
 
 - **One `.feature` file per capability**, named for the activity:
   `transfers.feature`, `opening_accounts.feature`. Not
   `bank.feature` or `account.feature`: those name state types, which
   the dashboard already indexes as such.
-- **One test module per application configuration.** A module is a
-  few lines: the `application` fixture returning the
-  `Application(...)` the scenarios run against, and a
-  `scenarios(...)` call naming the feature files that run against
-  it. The bank's `full_bank_test.py` runs four feature files against
-  an application with authorizers and interest turned off;
-  `interest_test.py` runs `interest.feature` against one with
-  interest on; `web_test.py` runs the features whose scenarios open
-  the web app.
-- **Recordings** of browser scenarios land in
-  `<feature>.recordings/` beside the feature file; `*.recordings/`
-  is in `.gitignore` (see `testing-web-app.md`).
+- **One test module per application configuration**: the
+  `application` fixture returning the `Application(...)` the
+  scenarios run against, and a `scenarios(...)` call naming the
+  feature files that run against it: the bank's `full_bank_test.py`
+  (authorizers and interest off), `interest_test.py` (interest on),
+  and `web_test.py` (the scenarios that open the web app).
 
 The minimal module:
 
@@ -80,15 +61,13 @@ scenarios('deposits.feature', 'withdrawals.feature')
 ```
 
 Nothing imports the built-in steps: the `reboot` package registers
-them as a pytest plugin, active whenever `reboot[dev]` is installed
-(`testing-project-setup.md` has the `pyproject.toml`). A module runs
-a second application by naming it: `Given the "proxy" application is up` runs what a `proxy_application` fixture returns.
+them as a pytest plugin, active whenever `reboot[dev]` is installed.
+A module runs a second application by naming it: `Given the "proxy"
+application is up` runs what a `proxy_application` fixture returns.
 
-Run the suite the usual way: `uv run pytest` from the project root,
-one
-file with `uv run pytest tests/full_bank_test.py`, one scenario
-with `-k "transfer between two"`, and by tag with `-m wip` or
-`-m "not wip"`.
+`uv run pytest` from the project root runs the suite; one file,
+`uv run pytest tests/full_bank_test.py`; one scenario,
+`-k "transfer between two"`; by tag, `-m wip` or `-m "not wip"`.
 
 ## The Shape of a Feature
 
@@ -131,30 +110,22 @@ Feature: Customers can transfer money between accounts
 an example.**
 
 - The **feature** is one thing a user can do, named as a sentence
-  about the activity ("Customers can transfer money between
-  accounts"), with a description paragraph saying what it is for.
-  It is the right size when its rules read like a specification
-  someone could implement from and all serve one user goal.
-- A **rule** is a business invariant the capability obeys, one
-  someone would want to verify formally (money is conserved by a
-  transfer, a balance never goes below zero, a customer sees only
-  their own accounts). State it once, in the rule's name and its
-  description. Add a rule only for an invariant of that kind: a
-  scenario that only shows what an operation or a page does sits at
-  the feature's top level with no rule around it (the bank's
-  `deposits.feature` and `opening_accounts.feature`).
+  about the activity, with a description saying what it is for; it
+  is the right size when its rules all serve one user goal and read
+  like a specification someone could implement from.
+- A **rule** is a business invariant someone would verify formally
+  (money is conserved by a transfer), stated once, in its name and
+  description. A scenario that only shows what an operation or a
+  page does sits at the feature's top level, with no rule.
 - A **scenario** is one concrete illustration, named for the
-  situation ("A transfer for more than the source account holds"),
-  never a restatement of the rule. A `Scenario Outline` with an
-  `Examples` table illustrates one rule at several values
-  (`withdrawals.feature`).
-- The **background** carries what every scenario starts from,
-  usually `Given the application is up` and the users everyone
-  needs. Keep a user out of the background when only some scenarios
-  use them.
-- Tests of Reboot's own mechanisms (that a spawned task runs, that a
-  schedule fires) belong in Reboot's suite, not in the
-  application's specification.
+  situation, never a restatement of the rule; a `Scenario Outline`
+  with an `Examples` table illustrates one rule at several values.
+- The **background** carries what every scenario starts from
+  (`Given the application is up`, the users everyone needs); a user
+  only some scenarios use stays out of it.
+- Tests of Reboot's own mechanisms (a spawned task runs, a schedule
+  fires) belong in Reboot's suite, not in the application's
+  specification.
 
 ## Who Calls
 
@@ -323,99 +294,7 @@ Feature: Users can sign in
 The `feature` skill (`../../feature/SKILL.md`) is the workflow that
 puts these tags on and takes them off.
 
-## Custom Steps Are Plain Reboot Code
+## Custom Steps
 
-Write a custom step only for what the built-in steps cannot say: a
-loop, an assertion on a mock, a stand-in's side channel. Its body
-is the same code any Reboot caller writes:
-
-```python
-from bank.v1.account_rbt import Account
-from reboot.bdd import parsers, then, when
-from reboot.bdd.fixtures import World
-
-
-@when(
-    parsers.parse(
-        '"{user}" does {count:d} deposits of {amount:d} on `Account` of '
-        '"<{name}>"'
-    )
-)
-async def _makes_deposits(
-    world: World,
-    user: str,
-    name: str,
-    count: int,
-    amount: int,
-) -> None:
-    # The account is named by a saved value, the id the factory made
-    # up, which the step reads from what the scenario has saved.
-    context = world.context(user)
-    for _ in range(count):
-        await Account.ref(str(world.saved[name])).deposit(
-            context,
-            amount=amount,
-        )
-```
-
-- Take the `world` fixture and get the context from
-  `world.context(user)`, naming the user the step calls as, spelled
-  in the step text the way the built-in steps spell it: a call
-  starts with the user, a read with `as "alice",`. That context
-  carries the token of a user the scenario declared; reach for
-  `rbt.create_external_context()` only to step outside the
-  scenario's identity on purpose.
-- Call the generated clients directly. Never call through
-  `World.call` or `World.request`; they are the built-in steps'
-  internals.
-- A saved value is read from `world.saved[name]`; the built-in
-  substitution of `<name>` does not run on custom steps.
-- A step may be `async def`; `reboot.bdd`'s `given` / `when` /
-  `then` / `step` run it on the harness's event loop.
-- **A fixture may save values** with `world.save('name', value)`,
-  so that scenarios say `<name>`: a scripted model that learns a
-  page id when a tool returns saves it for the scenario to assert
-  on. Order the scenario so a step that recalls the name runs after
-  the save is certain (a recall resolves when its step starts).
-
-**Mocked externals assert through one-line custom steps.** A mock
-replaces the external call in an autouse fixture, and a `Then` step
-asserts on it:
-
-```python
-@pytest.fixture(autouse=True)
-def send_email() -> Iterator[mock.AsyncMock]:
-    with mock.patch('account_servicer.send_email') as mocked:
-        yield mocked
-
-
-@then('the welcome email was sent')
-def _the_welcome_email_was_sent(send_email: mock.AsyncMock) -> None:
-    # Reboot re-runs methods twice in development mode to validate
-    # that they are idempotent, so the email sends twice.
-    assert send_email.call_count == 2
-```
-
-**Model and dependency stand-ins are autouse fixtures**, and a
-module's scenarios share its fixtures, so each stand-in gets a test
-module of its own: an application with a scripted LLM has one
-module per script, each running the feature files that script
-serves.
-
-## What Stays Outside a Feature File
-
-A test that crashes the application in the middle of a method and
-brings it back (`testing-failure-recovery.md`) is about Reboot's
-recovery, not the application's behavior, and stays an
-`IsolatedAsyncioTestCase` on the `Reboot()` harness
-(`testing-harness.md`). Everything a user of the application can
-observe belongs in a feature file.
-
-## The Dashboard
-
-`rbt dashboard` (the `dashboard` skill) shows the Features page:
-each feature as a card with its rules and scenarios, the methods it
-exercises, the methods no feature exercises, the `@wip` and
-`@blocked` marks, and, for browser scenarios, the last run's video
-and screenshots. Point the developer there to review scenarios; it
-needs `reboot[dev]` installed.
+A step the built-in steps don't have is a custom step:
+[`testing-custom-steps.md`](testing-custom-steps.md).
