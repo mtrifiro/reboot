@@ -1,0 +1,31 @@
+import "@fontsource-variable/bricolage-grotesque";
+import "@fontsource-variable/instrument-sans";
+import "@fontsource-variable/jetbrains-mono";
+import "./styles.css";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { RebootClientProvider } from "@reboot-dev/reboot-react";
+import App from "./App.tsx";
+import { BackendCheck } from "./backend-check";
+import { ReloadPrompt } from "./reload-prompt";
+import { applySavedTheme } from "./theme";
+
+applySavedTheme();
+
+// In development Vite serves the page on :5173 and the backend
+// listens on :9991 (`web/.env.development`); in production both come
+// from one origin.
+const REBOOT_URL =
+  (import.meta.env.VITE_REBOOT_URL as string | undefined) ??
+  window.location.origin;
+
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
+    <BackendCheck url={REBOOT_URL} name="__APP_NAME__">
+      <RebootClientProvider url={REBOOT_URL}>
+        <App />
+        <ReloadPrompt name="__APP_NAME__" />
+      </RebootClientProvider>
+    </BackendCheck>
+  </StrictMode>,
+);
