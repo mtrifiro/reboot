@@ -58,6 +58,11 @@ The prompt, no more:
   each); its Design Phase, scope round and every dialog are skipped,
   and so are the `app` skill's references, except
   `design-document.md` below.
+- The reading list is read with the Read tool, one call per file,
+  several in one response, never `cat`, `awk` or a loop in a shell: a
+  shell result over about 30 KB comes back as a 2 KB preview and the
+  references in it go unread (the `python` skill's "Read this
+  plugin's own skills" paragraph).
 
 ## What is said
 
