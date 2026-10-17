@@ -1,5 +1,5 @@
 ---
-description: "No brand named: the accent dialog offers only the house list, and a themed look is never invented for the domain."
+description: "No brand named: the design settles on one of the eight house accents, named plainly, and no theme is invented for the domain (planning-only, so the accent is an assumption, not a dialog)."
 runs: 3
 max_turns: 40
 timeout_seconds: 900
