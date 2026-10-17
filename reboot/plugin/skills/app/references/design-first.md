@@ -1,106 +1,24 @@
 ---
 title: The Design First, Then How to Build It
 impact: HIGH
-impactDescription: A new app asks one short round of scope questions first (which features the first build includes, ticked from four; who signs in; the accent; how to build, all at once, step by step or as a power user who directs every step and is asked nothing; never the front door, which is the web app unless the prompt names another), then shows the whole proposed design and asks for the go-ahead, before any code.
-tags: questions, scope, design, design document, first feature, go-ahead
+impactDescription: After the design skill's round and proposed design, the app skill asks the go-ahead (Build on this design?), then, in the first feature, the domain model check and the frontend question, each with its text just above it; the power-user path asks none of them.
+tags: go-ahead, domain model, frontend, dialogs, design, power user
 ---
 
 # The Design First, Then How to Build It
 
-How the `app` skill builds a new app, in either front door. It
-replaces the front door's round of scope questions.
+How the `app` skill builds a new app, in either front door, once the
+[`design` skill](../../design/SKILL.md) has said the opening, asked
+the one round (the first build's features, who signs in, the accent,
+how to build) and shown the proposed design. It replaces the front
+door's round of scope questions.
 
-## 0. Say what will be built, first
+## 1–2. The opening, the round, the design
 
-Done already, as the `app` skill's "First, Before Reading Anything"
-says: the opening, then the task list, before any reading.
-
-## 1. One round of questions, then none until the design
-
-Where the front door's Design Phase asks its scope questions, ask only
-the opening's round (`app` skill, step 1): the first build's features,
-who signs in, the accent, and how to build (all at once, step by step,
-or the power-user path: the user directs every step and is asked
-nothing). The front door is never asked (`app` skill, Routing).
-Everything else is decided as the front door says, taking its
-recommended answer:
-
-- **Everything else** (what the app keeps track of, counts, layouts,
-  hours): the simplest option, assumed and listed. Roles wait for Who
-  may do what unless the round chose them.
-- **The app's name,** when the prompt names none: one that suits the
-  domain, a working name in the design.
-
-Times are in the user's time zone.
-
-## 2. The design: shown first, written to the file after
-
-Before the design, read only what it needs: the domain model's shape
-rules (`python/references/state-collections.md`, `api-methods.md`)
-and `design-messages.md`'s "The proposed design". `conversation.md`,
-`design-document.md`, `task-list.md` and the front door's references
-are read after the answer.
-
-First, in thought, walk every workflow: each person who uses the app,
-the jobs they come to do (user stories: "as the front desk, I move a
-guest to another room when theirs isn't ready"), and each job's every
-step from start to end, not the first click. Each thing the app keeps
-track of has a whole lifecycle, which the feature that adds it
-covers: created, seen in a list and on its own, found (a filter, a
-search), changed (every field a person could get wrong has an edit),
-corrected (a mistake undone, a cancel), and ended (done, cancelled,
-archived or deleted, as the domain says). "Edit" is the part builds
-miss most. A part left for later is named under **Not in this
-build**, never silently absent.
-
-Then the proposed design, **once, in the chat**, in the shape of
-`design-messages.md`, "The proposed design": the whole design but its
-methods, about 500 words, one line before it only when research ran
-long. Then the go-ahead, **Build on this design?** (section 3); on
-the power-user path no dialog: the design's closing line is "The
-design is in design/design.md (linked). Say what to build first." and
-the build stops. `design/design.md` is written after the answer (on
-the power-user path, right after the design, before that line),
-before any code, in the shape of
-[`design-document.md`](design-document.md), in one write: the same
-design plus the first feature's methods. On "Not yet", it is written
-before the reply that links it. Writing it twice, in parts then for
-the chat, made the user wait (crm-15 showed its design at 1 m 58 s;
-hotel-7, writing it once in the chat, at 47 s).
-
-What the design holds while nothing is built, in chat and file:
-
-- **Status:** "proposed on <date>; nothing is built yet. Names become
-  links to the developer dashboard once it shows them."
-- **Four or five features** under **Proposed features, in build
-  order** (`app` skill, step 1): the first marked, with why; each a
-  job for a named person, walked start to finish (user story in one
-  line, then what it lets them do, with the lifecycle of what it
-  adds), its rules in plain words. The first is one page for one
-  side; a customer feature, when the prompt implies customers who use
-  the app, comes second. Then **Not in this build**: what else a real
-  app in the domain needs, one line each, built only when asked.
-  **Who may do what** is listed there, before any deploy; until it is
-  built, **Sign-in** says in one line "Everyone signed in can do
-  everything for now; roles come with Who may do what.", and the
-  first feature has no roles, roster or role rules.
-- **No links yet.** Packages, domain objects, methods, features and
-  rules are named in code style (`Room`, `Room.check_in`), never as
-  dashboard links: a link to nothing reads as broken. Links come with
-  section 4; `scripts/design_links.py` checks them from then on.
-- **No review table** and **no Decisions** section yet: both come at
-  the first acceptance.
-- **Assumed**, after **Sign-in**: every answer taken in step 1, one
-  line each, question then answer, so the user sees what to change.
-
-The user signs off on what they see, so the assumptions say what the
-build picked:
-
-> Assumed, all easy to change: the name Groom Room, opening hours
-> 9:00 to 17:00, and an hour per appointment.
-
-At most five, the ones that shape the app most (its name, counts,
-hours), in the user's nouns.
+The `design` skill's, loaded first by the `app` skill. Nothing is
+asked before the design but its round, nothing is read before the
+design but what it needs, and the design is shown once, in the chat,
+in the shape of [`design-messages.md`](design-messages.md).
 
 ## 3. The go-ahead
 
@@ -142,8 +60,10 @@ feature as built. After the answer, the `app` skill's **What to
 expect** for the chosen path, then the build.
 
 **The power-user path asks nothing,** here or later: no go-ahead
-dialog (section 2's closing line, then the build stops), no model
-check (section 4), no frontend question (section 5), no **What should
+dialog (the design's closing line is "The design is in
+design/design.md (linked). Say what to build first.", `design.md`
+written just before it, and the build stops), no model check (section
+4), no frontend question (section 5), no **What should
 I build next?**. Each prompt is built as asked by the front door's
 flow for that part, tested against its rules, and handed off in the
 handoff's shape with its links (`design-messages.md`), **Your turn**
@@ -165,7 +85,7 @@ user's words are the agreement.
   `design/design.md` becomes the accepted design (`accept-design.md`),
   and **Assumed** moves into the first decisions entry.
 - **Not yet, or the dialog skipped:** write `design/design.md`
-  (section 2), then one short reply: "The whole design is in
+  (the `design` skill, section 3), then one short reply: "The whole design is in
   design/design.md.", the path a Markdown link to the file in the
   user's project, then "Tell me to continue when you're ready, or
   what to change." Then stop: no dialog now.
@@ -308,12 +228,10 @@ unchanged, but for these questions.
 - A question between the backend and the page (section 5): the page
   is part of the feature the user already chose.
 
-- Reading a reference or listing the folder before the opening that
-  says what will be built; reading this plugin's files with a shell
-  command instead of the file tools.
-- Any question before the design other than the opening's round; the
-  go-ahead is asked once, after the design, and takes any change to
-  the features.
-- An answer taken in step 1 without its line under **Assumed**.
+- Reading this plugin's files with a shell command instead of the
+  file tools.
+- A second go-ahead, or a question the design skill's round already
+  asked: the go-ahead is asked once, after the design, and takes any
+  change to the features.
 - Code, `rbt generate` or a project scaffold before the go-ahead (on
   the power-user path, before the user's first build prompt).
