@@ -187,7 +187,7 @@ if os.environ.get("GOOGLE_OAUTH_CLIENT_ID") and not allowlist_configured():
 
 `initialize` keys its calls the same way on every start, so a bare
 call runs once in the application's life
-([`lifecycle-initialize-hook.md`](lifecycle-initialize-hook.md)). A
+([`lifecycle-seeding.md`](lifecycle-seeding.md)). A
 check that must run on every start, such as repairing a roster left
 with no manager, needs an alias that differs each time:
 
