@@ -465,13 +465,17 @@ feature in English, tag it `@wip`, iterate on scenarios) is the
 
 ### Type-checking (do this after every change)
 
-The generated `*_rbt.py` stubs are fully typed, so mypy checks the
-code you write against them and catches the mistakes that pass a
-visual read — a field set to the wrong type, a missing or misspelled
-keyword argument, a method called with the wrong context type, a
-response field that doesn't exist, a servicer method returning the
-wrong type. Treat a clean type-check as part of finishing, not an
-optional extra:
+mypy checks the code you write against the generated `*_rbt.py` and
+catches the mistakes that pass a visual read — a missing or
+misspelled keyword argument, a method called with the wrong context
+type, a servicer method returning the wrong type. It does **not**
+see `self.state` or a method's `request` inside a servicer: the
+generated `State` and `<Method>Request` aliases are `typing.cast(type,
+...)`, which mypy reads as `Any`. So every method binds both to the
+hand-written models as typed locals (`state: RoomState = self.state`,
+`req: CheckInRequest = request`; `references/lifecycle-project-setup.md`)
+and works on those; then a wrong or misspelled field is an error.
+Treat a clean type-check as part of finishing, not an optional extra:
 
 - Every project ships a project-root `.mypy.ini` (config and rationale
   in `references/lifecycle-project-setup.md`). It puts `backend/src`,
