@@ -17,6 +17,7 @@
       "skills": [
         "./skills/app",
         "./skills/build",
+        "./skills/design",
         "./skills/one-shot",
         "./skills/feature",
         "./skills/design-review",
