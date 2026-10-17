@@ -85,8 +85,9 @@ the copy holds, and the rule behind each file:
   entry is required:** without it `from <pkg>.v1.<name> import <X>State`
   quietly resolves to `Any`, mypy still reports "Success", and every
   annotation on a state or request model checks nothing. To confirm
-  the config is live, add a bogus attribute access on a state model
-  and check that mypy reports `has no attribute`.
+  the config is live, `reveal_type` a typed local (below): it names
+  your class. Never test it on `self.state`, which is `Any` either
+  way.
 - `.rbtrc`: `lifecycle-rbtrc.md`. `pytest.ini`:
   `testing-project-setup.md`. `backend/src/main.py`:
   `lifecycle-application-entry.md`.
@@ -95,12 +96,29 @@ the copy holds, and the rule behind each file:
 
 After writing or changing any Python in `backend/`, run
 `uv run mypy backend/ tests/` from the project root and fix every
-error before the work is done, the same way the tests run. The
-generated `*_rbt.py` stubs are fully typed, so mypy catches what a
-glance misses: a field of the wrong type, a missing or misspelled
-keyword argument, a method called with the wrong context type, a
-response field that doesn't exist. A green mypy run plus a passing
-`uv run pytest` (`testing-project-setup.md`) is the bar for "done".
+error before the work is done, the same way the tests run. mypy
+checks the calls you write against the generated `*_rbt.py`: a
+method called with the wrong context type, a missing or misspelled
+keyword argument, a servicer method returning the wrong type. It does
+**not** check `self.state` or a method's `request` inside a servicer:
+`_rbt.py` declares `<Type>.State` and each `<Method>Request` as
+`typing.cast(type, ...)`, which mypy reads as `Any`
+(`reveal_type(self.state)` → `Revealed type is "Any"`, verified at
+1.6.1), so a misspelled or missing field passes. Bind both to the
+hand-written models as typed locals, first thing in every method
+that touches them:
+
+```python
+from <app>.v1.<app> import CounterState, IncrementRequest
+
+    async def increment(self, context, request: Counter.IncrementRequest) -> None:
+        state: CounterState = self.state
+        req: IncrementRequest = request
+        state.value += req.amount   # now `state.valeu` is an error
+```
+
+A green mypy run plus a passing `uv run pytest`
+(`testing-project-setup.md`) is the bar for "done".
 
 ## Do Not Create `__init__.py` — Anywhere
 
