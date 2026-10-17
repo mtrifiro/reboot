@@ -63,9 +63,13 @@ Rules for that response:
   response's only tool call.
 - Nothing about how it will be built beyond the dialog's own options:
   **What to expect** is the `app` skill's, after the go-ahead.
-- **No name before the design.** The design proposes one, marked
-  "(working name)" the first time it appears, with the accent, under
-  what the build assumed.
+- **No name before the design.** The design proposes one, with the
+  accent, under what the build assumed. Its first mention in the
+  Brief, the Brief's first sentence, in the chat and in
+  `design/design.md`, is followed by "(working name)": "**Brief.**
+  Halftime (working name) is used by …", never only a later "The name
+  is Halftime (working name)". It stays until the user names the app
+  or keeps the name.
 - **The first feature:** the feature at the centre of the named
   side's day, on one page: the main page's central object and a rule
   the user can see it keep. "Manage a hotel" names its staff, and
