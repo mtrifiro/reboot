@@ -7,7 +7,9 @@ agent. The same skills work in both **Claude Code** and **Codex**.
 
 | Skill                            | Description                                                                                                                               |
 | -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| [`app`](skills/app/)             | Build a Reboot app from a description — the `design` skill's round and design first, then routes to `mcp-ui` or `web-app`                 |
+| [`app`](skills/app/)             | Build a Reboot app from a description — asks how to build first (guided, the whole app, or just what was typed), then that skill; holds the front-door routing |
+| [`guided`](skills/guided/)       | The guided build — the `design` skill's round and proposed design, the go-ahead, then each part built and explained                       |
+| [`one-shot`](skills/one-shot/)   | The whole app, asking nothing — designed, built, reviewed and handed over once                                                            |
 | [`design`](skills/design/)       | Design a Reboot app from a description without building it: one round of questions, then the proposed design in the chat and `design/design.md` |
 | [`build`](skills/build/)         | Build exactly what the prompt says, for someone who knows what they want: no questions, no proposed design, no narration                  |
 | [`feature`](skills/feature/)     | Specify a feature in plain English, write it down as a `@wip` feature file, then iterate on its scenarios with the user                   |
