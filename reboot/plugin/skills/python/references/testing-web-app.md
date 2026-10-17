@@ -34,9 +34,8 @@ Scenario: Opening a first account in the web app
 `testing-features.md` covers the backend steps and the shape of a
 feature; this reference covers what the browser adds. The
 [`reboot-bank-pydantic`](https://github.com/reboot-dev/reboot-bank-pydantic)
-example's `tests/web_test.py` and the scenarios of its
-`opening_accounts.feature`, `transfers.feature`, and
-`sign_in.feature` are the reference.
+example's `tests/web_test.py`, `opening_accounts.feature`,
+`transfers.feature`, and `sign_in.feature` are the reference.
 
 ## What the Project Installs
 
@@ -115,11 +114,10 @@ scenarios('opening_accounts.feature', 'transfers.feature', 'sign_in.feature')
 
 The app is served the way it is deployed: from its own origin (a
 Vite dev server on `localhost`), calling the backend cross-origin at
-its `127.0.0.1` address. The browser treats those as different
-sites, so the session cookie, the `whoami` probe, and Envoy's CORS
-allow-list are exercised the way production exercises them. The
-`application` fixture takes `frontend` so the app can allow that
-origin.
+its `127.0.0.1` address, so the session cookie, the `whoami` probe,
+and Envoy's CORS allow-list are exercised the way production
+exercises them. The `application` fixture takes `frontend` so the
+app can allow that origin.
 
 A project that serves its web app some other way defines
 `frontend` against its own `Frontend` subclass. A mobile app or an
@@ -207,73 +205,34 @@ Scenario: Signing in and out with the Development picker
 ## The App Must Have Accessible Markup
 
 The steps locate elements through the accessibility tree, so the
-page has to expose one. What the steps need, and what the React
-code must therefore do:
-
-- **A field's label is paired with it.** `<label htmlFor="amount">`
-  with `<input id="amount">`, or the input nested inside the label.
-  `fills "Amount ($)"` finds the input through that pairing; a
-  placeholder or a heading beside the field does not count.
-- **A button, link, tab, or menu item says what it does** in its
-  text, or in `aria-label` when it is only an icon. `clicks the "Sign out" button` matches that text exactly.
-- **A table, list, or region that a step names has a caption or a
-  labelled heading:** `<table aria-labelledby="your-accounts">`
-  with `<h2 id="your-accounts">Your Accounts</h2>`, or a
-  `<caption>`. `sees "$1000" in the "Your Accounts" table` looks
-  only inside it.
-- **A select is a `<select>` with a paired label**, and its
-  `<option>`s say the value a scenario would pick, such as the
-  account id.
-- **A value a scenario needs to read back** (an id the app made up)
-  carries `data-testid`, on the element whose text is exactly that
-  value. This is the only place a test id belongs; a button with a
-  test id is a button without a name.
-- **Text that changes on a backend event** (a balance, a status)
-  must be rendered as text the page shows, not only as an attribute
-  or a canvas.
-
-Build the page with these from the start, whether or not a scenario
-drives it yet: they are the same properties a screen reader needs.
+page exposes one; the markup, with the React for each rule, is in
+[`react-client.md`](../../web-app/references/react-client.md),
+where the page is built. What a scenario counts on: a field's label
+is paired with it, so `fills "Amount ($)"` finds the input and a
+placeholder does not count; a button, link, tab, or menu item says
+what it does, matched exactly; a table or region a step names has a
+`<caption>` or a labelled heading; and `data-testid` sits only on
+the element whose text is a value the backend made up, for `saves
+the text of`.
 
 ## Recordings
 
-Every browser scenario is recorded: a video of each user's browser
+Every browser scenario is recorded: a video of each user's browser,
 and a screenshot after the step that opened the app for them and
-after each assertion step, with the asserted element scrolled into
-view and outlined. They land beside the feature file:
+after each assertion step, with the asserted element outlined. They
+land beside the feature file in
+`tests/<feature>.recordings/<scenario>/<digest>/` (`alice.webm`,
+`2.png`). The digest is of what the scenario runs, so an older
+version's recordings read as stale and a run keeps only the current
+one; an outline's examples share the files, the last example's kept.
 
-```
-tests/opening_accounts.feature
-tests/opening_accounts.recordings/
-  opening-a-first-account-in-the-web-app/
-    3f9c2a1b7d4e6f80/
-      alice.webm
-      2.png
-      5.png
-```
-
-- The directory under the scenario's is named by a digest of what
-  the scenario runs (its name, background steps, steps, examples),
-  so recordings of an older version of the scenario are
-  recognizable as stale, and a run keeps only the current one. An
-  outline's examples all write the same files, so the last
-  example's are kept.
-- **`*.recordings/` is in `.gitignore`**: running the tests makes
-  them, and the dashboard's Features page shows the last run's, a
-  video link per user and a gallery of screenshots on the feature's
-  page. A browser scenario with no recordings shows "not recorded
-  yet", with a copy button beside the scenario's name to hand to
-  whoever runs the tests.
-- The browser is paced so the video can be followed:
-  `--recording-slowmo` (milliseconds after each browser operation,
-  default 500) and `--recording-dwell` (how long an assertion's
-  result stays on screen, default 1000); `0` for either turns that
-  pacing off. Only the browser is paced; the page and the backend
-  run at full speed.
-- **The step says the color scheme**, `in light mode` or `in dark mode`, and the browser emulates that `prefers-color-scheme`
-  whatever the developer's OS theme, so the recording shows what the
-  scenario says, and an app that follows the OS theme is asserted on
-  in the theme the step names.
+The browser is paced so the video can be followed:
+`--recording-slowmo` (milliseconds after each browser operation,
+default 500) and `--recording-dwell` (how long an assertion's result
+stays on screen, default 1000); `0` turns either off. Only the
+browser is paced. It emulates the `prefers-color-scheme` the step
+names, whatever the developer's OS theme, so the recording shows
+what the scenario says.
 
 ## Running
 
