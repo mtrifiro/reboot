@@ -58,11 +58,11 @@ The first feature's backend:
 Item 2 covers the scaffold, the rules as scenarios, then the domain model
 and starting the dashboard. Item 3 covers the actions, who may do
 each, demo data and the tests (scenarios pass, types check). The
-go-ahead after item 1 and the domain model check after item 2
-(`app/references/design-first.md`) are dialogs, not items; after item
-3 the backend's results are said and the frontend list takes over; a
-front door's skill used on its own and the prompt-by-prompt path (below)
-ask neither.
+`guided` skill's go-ahead after item 1 and the domain model check
+after item 2 (`app/references/design-first.md`) are dialogs, not
+items; after item 3 the backend's results are said and the frontend
+list takes over; a front door's skill used on its own and the
+prompt-by-prompt path (below) ask neither.
 
 Its frontend, straight after:
 
@@ -74,7 +74,7 @@ Item 2 covers the browser scenario, the first-paint time
 (`web-app/references/first-paint.md`) and the layout checks
 (`web-app/references/ui-design.md`, "Measure what can be measured"),
 at desktop and phone width; it ends with the line linking the app and
-the dashboard. A first feature seen from both sides (`app` skill,
+the dashboard. A first feature seen from both sides (`guided` skill,
 step 1) has "Build the two pages for “<feature>”, <the customers'>
 and <the staff's>" and "Test them side by side in a browser". For
 the hotel, item 2 reads "Write the rules for “room status floor
