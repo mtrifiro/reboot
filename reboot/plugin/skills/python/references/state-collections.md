@@ -32,9 +32,7 @@ be its own state `Type`. If **any** of these is true, it does:
   (`Address`, `Preferences`, `LineItem`).
 
 If yes → declare `Type(state=ItemState, methods=...)` for it and
-have the parent reference items by their **string IDs**. Each
-container mutation then touches only the parent's index, not the
-full payload of every item; each item edit touches only that item.
+have the parent reference items by their **string IDs**.
 
 If no — the item is a flat sub-record that lives and dies with the
 parent (an address on an Order, tags on a Post, a preferences blob
@@ -47,21 +45,14 @@ on a Guest) — keep it inline. See `state-nested-models.md`.
 
 > **Externally-synced collections are unbounded — and the verb
 > test above misses them.** A collection mirrored from an outside
-> source — a GitHub repo's issues and PRs, a mailbox's messages,
-> an RSS feed's entries, rows pulled from a third-party API —
-> never shows up with the user "add"-ing to it, so none of the
-> verbs above fire. It is still an entity collection, and it is
-> unbounded by definition: size it to the **source** (a repo has
-> thousands of issues; an inbox has tens of thousands of
-> messages), never to the demo you happen to test against. Each
-> synced item is its own state `Type`; the parent indexes them
-> with Shape C below.
+> source — a repo's issues, a mailbox's messages, a feed's entries
+> — is an entity collection, unbounded by definition: size it to
+> the **source**, never to the demo. Each synced item is its own
+> state `Type`; the parent indexes them with Shape C below.
 
 ### Step 2: Pick the Container Shape
 
-Three shapes show up. They differ along two axes: **what's stored**
-(sub-records vs. IDs of other state actors) and **how big the
-collection can get**.
+Three shapes show up:
 
 | Shape                                                       | When to pick                                                                                                                                                                                            | Pitfalls                                                                                                      |
 | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -69,24 +60,16 @@ collection can get**.
 | **B. `list[str]` / `dict[str, str]` of foreign state IDs**  | Items are their own state `Type` (Step 1 said yes) **and** the collection stays bounded — typically a few hundred, low thousands at most. You almost always read the whole index. No pagination needed. | Each parent write rewrites the full list of IDs. Doesn't scale past low thousands.                            |
 | **C. `OrderedMap` of foreign state IDs**                    | Items are their own state `Type` **and** the collection grows without bound, **or** needs pagination, range queries, or ordered iteration.                                                              | Extra hop to a stdlib actor. Entry values use the `value` / `bytes` / `any` envelope. `range` needs `limit=`. |
 
-> **"Bounded" is a domain fact, not a knob you control.** You do
-> not get to make a collection bounded by adding a size cap. If
-> you are reaching for `MAX_ITEMS = 40` or "keep only the latest
-> 50" so a collection qualifies as bounded and lands in Shape A
-> or B, stop — it is **unbounded**. The cap is a product decision
-> (how much to _show_ the user), not a data-modeling one, and it
-> belongs in a reader or view, never in the state shape. A
-> genuine bound is one the domain itself fixes: a board has 9
-> cells, an order has at most 100 line items. An invented cap is
-> a Shape C collection in disguise — model it as Shape C and let
-> the product decide later whether to display only the first 40.
+> **"Bounded" is a domain fact, not a knob you control.** If you
+> are reaching for `MAX_ITEMS = 40` or "keep only the latest 50"
+> so a collection qualifies as bounded and lands in Shape A or B,
+> stop — it is **unbounded**. The cap is a product decision and
+> belongs in a reader or view, never in the state shape. A genuine
+> bound is one the domain itself fixes: a board has 9 cells, an
+> order has at most 100 line items.
 
-Shapes B and C agree on the underlying decomposition — items are
-their own state `Type` referenced by ID. They differ only in **how
-the parent indexes** them. Migrating B → C later is a real piece of
-work (every method that touches the index changes shape); choose C
-up front if the collection might grow without bound. Migrating A →
-B/C is much harder still — every method moves to a different actor.
+Shapes B and C differ only in **how the parent indexes** the items;
+choose C up front if the collection might grow without bound.
 
 #### Shape A — `list[Sub]` of Non-State `Model`s
 
@@ -106,24 +89,11 @@ class OrderState(Model):
     items: list[LineItem] = Field(tag=1, default_factory=list)
 ```
 
-```python
-async def add_item(
-    self, context: WriterContext, request: Order.AddItemRequest,
-) -> None:
-    self.state.items.append(
-        LineItem(sku=request.sku, quantity=request.quantity),
-    )
-```
-
-OK because an Order's line items have no lifecycle of their own,
-are bounded in practice, and are always read alongside the parent.
-
 #### Shape B — `list[str]` / `dict[str, str]` of Foreign State IDs
 
-When each item is its own state `Type` **and** the collection is
-naturally bounded — e.g. board members of an Organization (single
-digits to low hundreds), the rooms a House has (dozens), accounts
-a Bank seeded at startup (fixed set):
+When Step 1 said yes **and** the collection is naturally bounded
+(an Organization's board members, a House's rooms, the accounts a
+Bank seeds at startup):
 
 ```python
 class OrgState(Model):
@@ -146,11 +116,6 @@ class OrgServicer(Org.Servicer):
         )
 ```
 
-Each member is fully addressable as `User.ref(user_id)`. The Org's
-state grows linearly with member count, which is fine up to low
-thousands. Past that, the per-add write cost of rewriting the full
-list becomes noticeable — switch to Shape C.
-
 #### Shape C — `OrderedMap` of Foreign State IDs
 
 When the collection can grow without bound, needs pagination, or
@@ -161,19 +126,6 @@ at construction) and forwards reads/writes through the map.
 > parent's `state_id`** (e.g.
 > `OrderedMap.ref(f"{self.ref().state_id}-people")` or
 > `OrderedMap.ref(f"{context.state_id}-people")` inside a workflow).
-> Even though this "works", it hides the parent → map relationship
-> from the state schema: nothing on `UserState` says this user owns
-> a People index, so [`rbt inspect`](../../inspect/SKILL.md), the
-> `/__/inspect` page, and the cloud console see only scalar fields
-> and the relationship lives as a string-formatting
-> convention inside the servicer. It also repeats the magic string
-> at every callsite — every reader, writer, and workflow that
-> touches the map — so renaming the suffix, sharding the index, or
-> migrating to a per-concern owner actor (see
-> `state-actor-decomposition.md`) becomes a grep-the-codebase
-> exercise. And it silently skips the constructor allocation step:
-> no place in the code marks "this `User` owns a People index",
-> only an eventual implicit construction on the first `insert`.
 > **Always** add a `<thing>_index_id: str` field to the parent's
 > state, allocate it once in the constructor (`uuid4()`), and
 > reference the map via `OrderedMap.ref(self.state.<id>)`. The
@@ -199,7 +151,7 @@ class UserServicer(User.Servicer):
     # The auto-constructed `User`'s constructor, a `Transaction`
     # Reboot adds to the API and calls when the user first signs in.
     # A constructor never runs on an existing state, so the body
-    # needs no `context.constructor` check; see gotcha 22 in
+    # needs no `context.constructor` check; see gotcha 21 in
     # `patterns-common-gotchas.md`.
     async def create(self, context: TransactionContext) -> None:
         # Just allocate the ID — the OrderedMap is constructed
@@ -260,71 +212,9 @@ owner's `state_id`.** This applies equally to user-defined `Type`s
 Invoice actor) and to every stdlib state type (`OrderedMap`,
 `Queue`, `Item`, `Presence`, `Topic`).
 
-**Correct (the reference lives in the schema):**
-
-```python
-class UserState(Model):
-    # The reference is a first-class field. Allocated once in `create`;
-    # persisted forever; visible to `rbt inspect`, the `/__/inspect`
-    # page, and the cloud console.
-    profile_id: str = Field(tag=1, default="")
-    drafts_index_id: str = Field(tag=2, default="")
-    inbox_queue_id: str = Field(tag=3, default="")
-
-
-class UserServicer(User.Servicer):
-
-    async def create(self, context: TransactionContext) -> None:
-        self.state.profile_id = str(uuid4())
-        self.state.drafts_index_id = str(uuid4())
-        self.state.inbox_queue_id = str(uuid4())
-
-    async def add_draft(
-        self, context: TransactionContext, request: User.AddDraftRequest,
-    ) -> None:
-        await OrderedMap.ref(self.state.drafts_index_id).insert(
-            context, key=str(uuid7()), bytes=request.draft_id.encode(),
-        )
-```
-
-**Wrong (the reference only exists as a string-formatting
-convention in the servicer source):**
-
-```python
-# Nothing on `UserState` says this user owns a drafts index.
-await OrderedMap.ref(
-    f"{self.ref().state_id}-drafts",
-).insert(context, ...)
-
-# Same anti-pattern inside a workflow.
-await OrderedMap.ref(
-    f"{context.state_id}-drafts",
-).insert(context, ...)
-```
-
-Why the persisted-ID rule is load-bearing, even though the inline
-form runs:
-
-1. **The state schema documents the actor graph.** Reading
-   `UserState` should be enough to see which other actors this user
-   owns or points at. `rbt inspect`, the `/__/inspect` page, and the
-   cloud console show the state, not the servicer source — without a
-   persisted ID, the relationship is invisible at runtime.
-2. **One place to change, not N.** The persisted ID centralizes
-   the parent → child edge in a single field. Renaming, sharding,
-   or moving the index to a per-concern owner (see
-   `state-actor-decomposition.md`) is one edit. The inline form
-   spreads `f"{state_id}-<suffix>"` across every reader, writer,
-   and workflow that touches it.
-3. **Multiple references scale.** A `User` that owns drafts,
-   monitored chats, and a profile actor naturally degrades under
-   the inline convention to `"-drafts"`, `"-monitored"`,
-   `"-profile"` suffixes pasted at every callsite. With persisted
-   IDs they're three first-class fields.
-4. **Construction is an event.** Allocating `uuid4()` in the
-   constructor marks "this actor now owns that one." The inline
-   convention has no such moment; the related actor springs into
-   existence on whichever method happens to touch it first.
+The reasoning behind these rules, with the correct and wrong form
+side by side, is [`state-collections-why.md`](state-collections-why.md);
+read it when a rule is in doubt.
 
 ### Deleting a State
 
@@ -350,53 +240,25 @@ cleared state as gone.
 
 ### Anti-Patterns
 
-- **`UserState.people: list[Person]`** when `Person` looks like a
-  domain entity (has methods, lifecycle, nested events). Flattens
-  N actors into one. Promote `Person` to its own `Type` and switch
-  to Shape B or C.
-- **`Type(state=X)` _and_ `list[X]` (or `dict[str, X]`) somewhere
-  as a state field.** The "state inside state" regression —
-  `state-nested-models.md` covers the same rule from the nested-
-  Models angle.
-- **`list[str]` for an unbounded collection** because "it's
-  simpler". It is, until it isn't — and the migration rewrites
-  every method that touches the parent. Use Shape C from the start
-  if the collection can grow without bound.
-- **Inventing a size cap to qualify for Shape A or B.** Adding a
-  `MAX_ITEMS` constant to a synced or open-ended collection so it
-  "fits" a `list`. The cap truncates the collection; it does not
-  make the domain bounded. Model as Shape C and cap the _view_ in
-  a reader, never the _state_.
-- **An externally-synced collection held in-state.** A repo's
-  issues, an inbox's mail, or a feed's entries as `list[Sub]` on
-  one parent actor: every sync rewrites the whole list, editing
-  one item rewrites all of them, and the parent actor grows
-  toward Reboot's per-actor state-size limit. Promote each synced
-  item to its own `Type` and index them with Shape C.
-- **`OrderedMap` for a clearly bounded, sub-dozen collection.** The
-  extra hop is wasted; `list[Sub]` (Shape A) or `list[str]`
-  (Shape B) is fine.
-- **Synthesizing a related actor's ID inline from the parent's
-  `state_id`** — `OrderedMap.ref(f"{self.ref().state_id}-drafts")`
-  / `OrderedMap.ref(f"{context.state_id}-drafts")`. Hides the
-  parent → map edge from the state schema, repeats the magic
-  string at every callsite, and skips the constructor allocation
-  that marks ownership. Add a `<thing>_index_id` field and
-  reference via `OrderedMap.ref(self.state.<id>)`. The same rule
-  applies to every cross-`Type` reference, stdlib or user-defined
-  — see "Relationships Between State Types" above.
+- `UserState.people: list[Person]` when `Person` is a domain
+  entity: promote it to its own `Type`, Shape B or C.
+- `Type(state=X)` _and_ `list[X]` / `dict[str, X]` as a state
+  field: state inside state (`state-nested-models.md`).
+- `list[str]` for an unbounded collection: Shape C from the start.
+- A `MAX_ITEMS` cap invented to qualify for Shape A or B: Shape C,
+  and cap the _view_ in a reader.
+- An externally-synced collection held in-state: each synced item
+  its own `Type`, indexed with Shape C.
+- `OrderedMap` for a sub-dozen, domain-bounded collection: Shape A
+  or B.
+- A related actor's ID synthesized from the parent's `state_id`: a
+  persisted `<thing>_index_id` field and
+  `OrderedMap.ref(self.state.<id>)`.
 
 ### See Also
 
-- `state-nested-models.md` — the same "state inside state" rule
-  from the nested-`Model` angle.
-- `state-actor-decomposition.md` — the orthogonal decomposition:
-  splitting **one actor** that has accreted multiple unrelated
-  concerns into one `Type` per concern. Same "store the ID, not the
-  object" principle, applied to responsibilities rather than
-  collection items.
-- `stdlib-ordered-map.md` — concrete API for Shape C, library
-  registration, pagination details.
-- `mcp-ui/references/api-state-shapes.md` (`mcp-ui` skill) — the
-  MCP-UI-specific corollary: `list[Item]` is for sub-records,
-  not for application-type instances.
+- `state-nested-models.md` — state inside state, from the
+  nested-`Model` angle.
+- `state-actor-decomposition.md` — one `Type` per concern.
+- `stdlib-ordered-map.md` — Shape C's API.
+- `mcp-ui/references/api-state-shapes.md` — the MCP-UI corollary.
