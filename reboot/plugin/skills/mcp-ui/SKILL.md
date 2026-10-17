@@ -536,7 +536,7 @@ The build's task list, where the agent keeps one, uses the items in
 [`app/references/task-list.md`](../app/references/task-list.md), word
 for word: the list for the way the user chose to build.
 
-**All commands run from the application directory.**
+**All commands run from the application directory.** **A file that exists is changed with the Edit tool,** the lines that change and nothing more, never a `sed -i`, a `python3 -` script or a heredoc that rewrites it ([`front-door-common.md`](../app/references/front-door-common.md), "A Change Is an Edit, Never a Rewrite").
 
 1. Create `.python-version`, `pyproject.toml`, `.rbtrc`, and
    `.mypy.ini` — see
