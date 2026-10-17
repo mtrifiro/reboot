@@ -1,6 +1,6 @@
 ---
 name: design
-description: "Design a Reboot application from a description, without building it: one round of questions about what to build and how (all at once, step by step, or power user), then the whole proposed design in the chat and in design/design.md, where the app and build skills pick it up. Use when the user asks for a design, a proposal or a plan for an app and not yet the app, or asks for it by name (/reboot:design); a prompt that asks to build an app goes to the app skill, which runs this skill first."
+description: "Design a Reboot application from a description, without building it: one round of questions about what to build and how (all at once, step by step, or prompt by prompt), then the whole proposed design in the chat and in design/design.md, where the app and build skills pick it up. Use when the user asks for a design, a proposal or a plan for an app and not yet the app, or asks for it by name (/reboot:design); a prompt that asks to build an app goes to the app skill, which runs this skill first."
 argument-hint: [<app-description>]
 allowed-tools: Read, Write, Edit, Glob, Grep
 ---
@@ -28,7 +28,7 @@ code, no `rbt generate`, no project scaffold, no dependency installed.
   skill's go-ahead, **Build on this design?**, follows the design in
   the same response
   ([`app/references/design-first.md`](../app/references/design-first.md),
-  section 3); on the power-user path, that section's closing line.
+  section 3); on the prompt-by-prompt path, that section's closing line.
 - Read this plugin's files with the Read tool, one call per file and
   several in one response, never a shell command: a long shell result
   is cut to a preview and the rest goes unread (the `python` skill's
@@ -118,12 +118,11 @@ recommendation is one answer:
   stopping, about 10 minutes a feature, more for a hard domain; you
   see it at the end." ·
   "Step by step": "A feature at a time, about 15 minutes each; you
-  check each part as it's built: great for learning Reboot." · "Power
-  user": "You direct every step at the prompt. Nothing is asked: each
-  thing you ask for is built, tested and handed off, then the build
-  waits for your next prompt." The choice isn't for keeps: at any
-  handoff "build the rest all at once" or "step by step from here"
-  switches, and the first handoff says so in one line.
+  check each part as it's built: great for learning Reboot." · "Prompt by prompt": "You say what to build at each step.
+  Nothing is asked: each thing is built, tested and handed off, then
+  the build waits for your next prompt." The choice isn't for keeps: at any
+  handoff "build the rest all at once", "step by step from here" or
+  "prompt by prompt from here" switches, and the first handoff says so in one line.
 
 The front door is never asked (`app` skill, Routing): the one the
 prompt names, otherwise the web app, with the backend ready for an MCP
@@ -177,7 +176,7 @@ references gets no line of its own.
 [`design-document.md`](../app/references/design-document.md): the same
 design plus the first feature's methods. Loaded by the `app` skill, it
 is written after the go-ahead's answer, before any code (on "Not yet",
-before the reply that links it); on its own and on the power-user
+before the reply that links it); on its own and on the prompt-by-prompt
 path, right after the design, before the closing line. Writing it
 twice, in parts then for the chat, made the user wait (crm-15 showed
 its design at 1 m 58 s; hotel-7, writing it once in the chat, at 47 s).
@@ -239,7 +238,8 @@ Markdown link to the file in the user's project:
 > way you chose, or what to change.
 
 Then stop: no dialog, no code. On "build it" (or "build it step by
-step", "build the rest all at once", which switches the path), load
+step", "build the rest all at once", "prompt by prompt", which switches
+the path), load
 the [`app` skill](../app/SKILL.md) with the Skill tool
 (`/reboot:app`), never by reading its file: it takes the proposed
 design as its own and starts at **What to expect**; the words were the
@@ -254,7 +254,7 @@ design, with no new facts added to it.
 - Reading a reference or listing the folder before the opening that
   says what will be built; a name before the design.
 - Any question before the design other than the round; a second
-  round; a question on the power-user path.
+  round; a question on the prompt-by-prompt path.
 - An answer taken in the round without its line under **Assumed**.
 - The design drafted only in thinking, or shown only as a pointer to
   `design/design.md`: the user judges what they see in the chat.
