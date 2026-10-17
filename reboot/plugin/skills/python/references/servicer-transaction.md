@@ -84,65 +84,20 @@ across every actor it touched.
 
 ## External Calls Belong in a Workflow, Not a Transaction
 
-A transaction is **all-or-nothing**: if it aborts, the semantics are
-that **no effect has taken place** — every mutation it made is rolled
-back. A call that leaves the system — sending email, hitting a
-third-party API, an **LLM / model API call**, charging a payment, an
-SMS login code — **cannot be rolled back**. A transaction making
-such a call directly breaks that guarantee: the transaction can
-still abort, but the external call already happened. Reboot may
-also retry a transaction internally, and in development re-run its
-body for **effect validation** (discarding the first run's
-mutations and keeping the second's) — both fire the external call
-more than once. Values that differ between runs, such as a
+A transaction is **all-or-nothing**: if it aborts, no effect has
+taken place. A call that leaves the system — email, a third-party
+API, an **LLM / model API call**, a payment, an SMS login code —
+**cannot be rolled back**, and Reboot may retry a transaction or, in
+development, re-run its body for **effect validation**, firing the
+call more than once. Values that differ between runs, such as a
 `uuid4()` id, are fine: only one run's mutations are kept.
 
-So a transaction must **never** make an external call itself. It may
-freely call other **in-system actors**, and the correct pattern is for
-one of those actors to **schedule a `Workflow`** that performs the
-external call. The
-[`reboot-bank-pydantic`](https://github.com/reboot-dev/reboot-bank-pydantic)
-`sign_up` transaction sends a welcome email this way:
-
-```python
-async def sign_up(
-    self, context: TransactionContext, request: SignUpRequest,
-) -> SignUpResponse:
-    if mailgun_api_key := await self._mailgun_api_key():
-        await mailgun.Message.send(
-            context, None, Options(bearer_token=mailgun_api_key),
-            recipient=request.account_id,
-            sender='team@reboot.dev',
-            domain='reboot.dev',
-            subject='Welcome',
-            html=self._html_email,
-            text=self._text_email,
-        )
-
-    account, _ = await Account.open(context, request.account_id)
-    await account.deposit(context, amount=request.initial_deposit)
-    return SignUpResponse()
-```
-
-`mailgun.Message.send` is a `Writer` on an in-system mailgun actor — it
-does not hit the network itself; it **schedules a workflow** that makes
-the actual HTTP send. So the transaction only ever issues in-system
-RPCs, and the un-rollback-able external call lives safely in that
-workflow.
-
-When _you_ are the one making the external call — an LLM / model API
-call, a payment charge, an SMS — put it in a `Workflow` method and
-pick the right primitive (`at_least_once`, `at_most_once`, or
-`Agent`) per `servicer-workflow.md`.
-
-How to wire it up:
-
-- Make the external call inside a `Workflow` method, with the
-  primitive chosen above.
-- A `Transaction` (or `Writer`) reaches that workflow only by
-  **scheduling** it —
-  `await self.ref().schedule().<workflow_method>(context)` — never by
-  performing the external call itself.
+So a transaction **never** makes an external call itself. It may
+call any **in-system actor**; the external call lives in a
+`Workflow`, which picks its primitive per `servicer-workflow.md`, and
+a `Transaction` (or `Writer`) reaches it only by **scheduling** it:
+`await self.ref().schedule().<workflow_method>(context)`. Gotcha 8
+in `patterns-common-gotchas.md` has the reasoning.
 
 Rule of thumb: **if a call leaves the system, it belongs in a
 workflow, not a transaction.**
@@ -165,20 +120,10 @@ in `self.state` (per-actor) or external systems.
 that have no payload to return. The method's return type is then
 `-> None` and the body has no `return` statement — common for
 orchestration calls where the caller only needs success/failure
-(raised errors). See `api-pydantic.md` for the cross-method rule.
+(raised errors). See `api-methods.md` for the obliged signature.
 
 ## See Also
 
-- `api-methods.md` — "The Servicer Signature Each Declaration
-  Obliges": the exact shape codegen requires, including the
-  `request=None` / `response=None` variants. Read it instead of
-  the generated `*_rbt.py`.
-- `rpc-refs.md` — `self.ref().state_id` (not `self.state_id`).
-- `rpc-calls.md` — kwargs convention; `await ref.method(context, k=v)`.
-- `rpc-forall.md` — `Service.forall(ids).method(context, ...)` for
-  fan-out across many actors.
-- `servicer-constructor.md` — when a transaction also constructs an
-  actor (e.g. `Account.open(context, id)`).
-- `api-errors.md` — typed errors that roll back the entire transaction.
-- `servicer-workflow.md` — when one-shot atomicity isn't enough and you
-  need durable, long-running orchestration.
+`api-methods.md` for the obliged signature; `rpc-forall.md` for
+fan-out across many actors; `servicer-workflow.md` for durable
+orchestration.
