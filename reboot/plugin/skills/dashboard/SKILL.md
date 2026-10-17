@@ -13,11 +13,10 @@ The developer dashboard, served by `rbt dashboard`, shows an
 application's API and call graph (Models), its `.feature` files with
 their rules, scenarios and browser recordings (Features), and a
 changelog of the API. It reads files, not a running app, so start it
-early and the developer watches the API take shape.
-
-Use this skill when a build flow directs you here (the `mcp-ui`
-and `web-app` skills do, right before the API is written) or when
-the user asks for the dashboard while an app is being built.
+early and the developer watches the API take shape. Use this skill
+when a build flow directs you here (the `mcp-ui` and `web-app`
+skills do, right before the API is written) or when the user asks
+for the dashboard while an app is being built.
 
 > This skill **starts the dashboard**, nothing else. It does not run
 > the application — that is the [run skill](../run/SKILL.md).
@@ -29,34 +28,31 @@ the user asks for the dashboard while an app is being built.
 
 Work in the directory the user named, or the current directory. The
 project root is the directory holding (or about to hold) `.rbtrc`.
-Every command below runs from the project root.
-
-Decide where the API files live or will live. In every scaffold this
-plugin produces that is `api/` at the project root; only deviate if
-the project visibly keeps its API elsewhere (look for the
-`generate <dir>` line in an existing `.rbtrc`).
+Every command below runs from the project root. The API files live
+in `api/` at the project root in every scaffold this plugin produces;
+deviate only if the project visibly keeps its API elsewhere (the
+`generate <dir>` line of an existing `.rbtrc`).
 
 ## Step 2 — The minimum files
 
 `rbt dashboard` needs three things on disk. In a build flow the
-scaffolding step has already created all of them — check, and only
-create what is missing:
+scaffolding step has created them all; check, and create only what
+is missing:
 
 1. **`pyproject.toml` depending on `reboot` and, in its dev group,
    `reboot[dev]`** (plus `.python-version`), so `uv run rbt`
-   resolves. `rbt dashboard` refuses to start without the
-   `reboot[dev]` extra, which carries what its Features page runs
-   on; a project that pins only `reboot` gets `reboot[dev]` added at
-   the same version. If missing, create both files following the
-   templates in `../python/references/lifecycle-project-setup.md`.
+   resolves: `rbt dashboard` refuses to start without the extra,
+   which carries what its Features page runs on, and a project that
+   pins only `reboot` gets `reboot[dev]` added at the same version.
+   If missing, both come from the python skill's project template
+   (`../python/references/lifecycle-project-setup.md`).
 2. **`.rbtrc`.** Everything the dashboard reads of the project comes
    from here: the API directory from the `generate <dir>` line, and,
    for its code checks, the application from `dev run --application=`
-   and the generated Python from `generate --python=`. The file's
-   location is also the project anchor (working directory and `.rbt/`
-   state directory). Without a `generate <dir>` line, `rbt dashboard`
-   refuses to start. If there is no `.rbtrc` yet, create a stub the
-   later scaffolding will extend:
+   and the generated Python from `generate --python=`; its location
+   anchors the working directory and the `.rbt/` state. Without a
+   `generate <dir>` line it refuses to start. With no `.rbtrc` yet,
+   a stub the later scaffolding extends:
 
    ```
    generate api/
@@ -65,15 +61,10 @@ create what is missing:
    ```
 
 3. **The API directory** from Step 1 (`mkdir -p api`). It may be
-   empty — the dashboard watches it and picks up files as they
-   appear.
+   empty: the dashboard watches it and picks up files as they appear.
 
-If `uv` is not on PATH (it always is under this plugin, whose `uv`
-shim installs it on demand), install it first:
-
-```sh
-curl -LsSf https://astral.sh/uv/install.sh | sh
-```
+`uv` is always on PATH under this plugin, whose `uv` shim installs it
+on demand (elsewhere, `curl -LsSf https://astral.sh/uv/install.sh | sh`).
 
 ## Step 3 — Is a dashboard already serving?
 
@@ -116,43 +107,39 @@ uv run rbt dashboard
 **In the Claude app** (or any host with a Browser pane, such as the
 app's `preview_start` tool), start it so it opens nothing outside the
 app, and show it in the pane instead (`app` skill, "Open the dashboard
-in the app's Browser pane"):
+in the app's Browser pane"): `rbt dashboard` opens its page through
+Python's `webbrowser`, which runs `$BROWSER` when it is set, and
+`true` does nothing and succeeds:
 
 ```sh
 BROWSER=true uv run rbt dashboard
 ```
 
-`rbt dashboard` opens its page through Python's `webbrowser`, which
-runs `$BROWSER` when it is set; `true` does nothing and succeeds, so
-no tab opens in the user's own browser.
-
 It takes the API directory from the `generate <dir>` line in
-`.rbtrc` (Step 2), spelled relative to the project root — that is how
-file names are shown in the dashboard.
-
-It prints `Your dashboard is at http://127.0.0.1:9871/` (or the port
-given) immediately and keeps running, even when it can't take the
-port: wait until the probe from Step 3 succeeds and the check there
-names this project before calling it up. It stays running for the life of the
-session — leave it alone afterwards; it never needs a restart when
-code changes.
-
+`.rbtrc`, spelled relative to the project root, which is how file
+names are shown. It prints `Your dashboard is at http://127.0.0.1:9871/`
+(or the port given) immediately and keeps running, even when it can't
+take the port: wait until the probe from Step 3 succeeds and the check
+there names this project before calling it up. It stays running for
+the life of the session and never needs a restart when code changes.
 If it fails to come up (for example the local Envoy check fails
 because neither Docker nor an `envoy` executable is available), warn
 the user in one sentence and continue the build without it.
 
 ## Step 5 — Hand over the URL
 
-In the Claude app, the pane is where it opens (Step 4); never also
-in the external browser. Elsewhere, do not open the page yourself:
-`rbt dashboard` opens it in the browser once it is serving, unless a tab is already showing it or
-the developer chose "Don't reopen automatically"; opening it as well
-gives the developer two tabs.
+In the Claude app, the pane is where it opens (Step 4); never also in
+the external browser. Elsewhere, do not open the page yourself:
+`rbt dashboard` opens it once it is serving, unless a tab is already
+showing it or the developer chose "Don't reopen automatically", and
+opening it as well gives the developer two tabs.
 
 Tell the user the dashboard is up, in one line that always starts
-with its URL, then what it is for, a link to each object the API
-declares so far and to each feature file written so far, and get on
-with the build:
+with its URL (on the port it started on, even when the browser opened
+it: a terminal session may have no window, and the line is where the
+user finds it again later), then what it is for, a link to each object
+the API declares so far and to each feature file written so far, and
+get on with the build:
 
 > The developer dashboard is at http://127.0.0.1:9871/ (it opens in
 > your browser): it shows the domain model as it's written, starting
@@ -161,18 +148,13 @@ with the build:
 > [Room status floor plan](http://127.0.0.1:9871/#/features/tests/room_status.feature)
 > feature with its rules.
 
-The URL is in that line every time, with the port it started on, even
-when the browser opened it: a terminal session may have no window,
-and the line is where the user finds it again later.
-
 **In a build that checks the model next** (the `app` skill's "Build
-on this domain model?", `app/references/design-first.md`), this line is
-not written on its own: the model check's lead line is the hand-over,
-and the dashboard is named once. A port other than 9871 is said there
-in a few words ("on 9874, since other projects hold 9871 to 9873").
-Never a second line listing the same objects, and never the URL line,
-the objects line and the Models · Features · Changelog line one after
-another.
+on this domain model?", `app/references/design-first.md`, section 4),
+this line is not written on its own: the model check's lead line is
+the hand-over, the dashboard named once, a port other than 9871 said
+there in a few words. Never a second line listing the same objects,
+and never the URL line, the objects line and the Models · Features ·
+Changelog line one after another.
 
 ### Links to an Object or a Rule
 
