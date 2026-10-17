@@ -1,26 +1,68 @@
 ---
-title: Seed Data in Batches, Sequentially, with Aliases
+title: Startup: `initialize`, Then Seed in Batches
 impact: HIGH
-impactDescription: A seed of one transaction per record, or of batches run concurrently, can stall with nothing logged or take minutes; a full production seed in every test dominates the suite
-tags: seeding, seed, initialize, demo data, bulk, batch, fixture, idempotently, alias, OrderedMap, effect validation
+impactDescription: A singleton created in the wrong place never exists; a seed of one transaction per record, or of batches run concurrently, stalls or takes minutes; a full production seed in every test dominates the suite
+tags: initialize, InitializeContext, singleton, idempotent, idempotently, alias, seeding, seed, demo data, batch, fixture, OrderedMap
 ---
 
-## Seed Data in Batches, Sequentially, with Aliases
+## Startup: `initialize`, Then Seed in Batches
 
-Use this when `initialize` or a test fixture loads more than a few
-records: a catalog, demo data, a realistic development dataset. How
-calls in `initialize` are keyed, and why a repeated call needs an
-alias, is in [`lifecycle-initialize-hook.md`](lifecycle-initialize-hook.md).
+Everything that runs at application start. When a seed stalls, hangs
+or errors, read
+[`lifecycle-seeding-troubleshooting.md`](lifecycle-seeding-troubleshooting.md).
 
-Three rules make a seed fast and restartable:
+### The `initialize` Hook
+
+`initialize` is an optional `async` callback passed to
+`Application(...)` ([`lifecycle-application-entry.md`](lifecycle-application-entry.md)).
+It runs against an `InitializeContext` and is where singletons and
+seed data are created: not a Servicer's `__init__`, which runs lazily
+when an actor is first referenced, not at app start, and has no
+context.
+
+```python
+async def initialize(context: InitializeContext):
+    await Bank.create(context, SINGLETON_BANK_ID)
+```
+
+> **Critical:** `initialize` runs on **every** application start, so
+> everything it does must be safe to run twice. Its calls get an
+> **auto-generated idempotency key** (one per `actor` + `method`) and
+> run once; `Service.create(context, id)` and factory methods are a
+> no-op on existing actors. The catch: to call the **same method on
+> the same actor more than once** you **must** distinguish the calls
+> with `.idempotently("alias")` (or an explicit `key=`), or the second
+> one raises `ValueError: To call '...' more than once using the same
+> context an idempotency alias or key must be specified`. Reusing one
+> alias for two different calls is also an error: one distinct alias
+> per distinct call.
+
+Reboot may also retry a transaction internally, so nothing in one
+depends on running exactly once: the same input produces the same
+state change once committed. A constructor that may run again on an
+existing actor gates its set-once fields on `context.constructor`
+([`servicer-constructor.md`](servicer-constructor.md)).
+
+A `Type` with no `factory=True` method is constructed implicitly by
+its first writer call, so `await ChatRoom.ref(ROOM_ID).send(context,
+message="Hello")` needs no `create`. When the API declares a factory,
+call it: `Service.create(context, id)` or
+`Service.<CtorMethod>(context, id, ...)`.
+
+### Seed Data in Batches, Sequentially, with Aliases
+
+For more than a few records (a catalog, demo data, a development
+dataset), three rules make a seed fast and restartable:
 
 - **One function, with the size as parameters.** `initialize` passes
   the production size; tests pass a small one.
-- **One transaction per batch.** It creates the batch's actors and adds
-  them to the shared index with one bulk `insert(entries=...)`. It
-  calls only constructors and that insert: put each record's starting
-  state (a member's plan, a room's status) in its create request,
-  instead of calling the record's methods one after another.
+- **One transaction per batch.** It creates the batch's actors
+  (distinct actors need no alias) and adds them to the shared index
+  with one bulk `insert(entries=...)`, not one insert per record
+  ([`stdlib-ordered-map.md`](stdlib-ordered-map.md)). It calls only
+  constructors and that insert: put each record's starting state (a
+  member's plan, a room's status) in its create request, instead of
+  calling the record's methods one after another.
 - **One batch at a time**, each call with an **alias built from the
   batch's contents**, so a seed that restarts skips the batches that
   already landed.
@@ -54,41 +96,20 @@ async def seed_chain(
         )
 ```
 
-The batch transaction in `ChainServicer`:
+An index keyed by time gets many keys per millisecond from a seed.
+Mint them with Reboot's `reboot.uuidv7.uuid7`, not the
+`uuid7-standard` package that `reboot` also installs: its `create()`
+is not monotonic, so two keys minted in the same millisecond may
+iterate out of order.
+
+`initialize` calls the seed at full size. A test calls it small,
+through an app-internal context, since seeding methods are usually
+internal-only and a user's context gets `PermissionDenied`:
 
 ```python
-from reboot.std.collections.ordered_map.v1.ordered_map import OrderedMap
-from reboot.std.item.v1.item import Item
-
-
-async def add_theaters(
-    self, context: TransactionContext, request: Chain.AddTheatersRequest,
-) -> None:
-    for theater_id in request.theater_ids:
-        # Distinct actors: no alias needed.
-        await Theater.create(
-            context, theater_id, seats_per_row=request.seats_per_row,
-        )
-    # One bulk insert per batch, not one insert per theater.
-    await OrderedMap.ref(self.state.theater_index_id).insert(
-        context,
-        entries={tid: Item(bytes=tid.encode()) for tid in request.theater_ids},
-    )
-```
-
-`initialize` calls it at full size; a test calls it small, through an
-app-internal context (seeding methods are usually internal-only, so a
-user's context gets `PermissionDenied`):
-
-```python
-async def initialize(context: InitializeContext):
-    await seed_chain(context, theaters=12, seats_per_row=20)
-
-# In a test:
 await seed_chain(
     self.rbt.create_external_context(name="seed", app_internal=True),
-    theaters=2,
-    seats_per_row=5,
+    theaters=2, seats_per_row=5,
 )
 ```
 
@@ -123,66 +144,6 @@ not `User._authenticated`). It constructs the `User` if it doesn't
 exist and does nothing otherwise, so it is safe from `initialize`. A
 seed can't act as a user, though: `initialize` has no user identity.
 
-### What Goes Wrong
-
-- **Concurrent seeding transactions** (`asyncio.gather` over batches,
-  a semaphore of 12). Transactions that share actors (the index, a
-  parent) queue on each other's locks. Twelve concurrent bulk imports
-  were observed to stall indefinitely with nothing logged, where run
-  one at a time each took five to seven seconds (1.5.0).
-- **One transaction per record.** About 3,600 calls at about 1.5 s
-  each in development were unfinished after five minutes (1.5.0).
-- **Too much in one transaction.** There is no documented size limit,
-  but one is reachable: 138 creates plus inserts into one shared
-  `OrderedMap` worked, while 360 hung the app at startup with the log
-  filling with lock waits and no error (1.4.1). Keep batches to tens of
-  creates. A lock wait gives up after 30 s and the transaction retries
-  (`LOCK_ACQUIRE_DEADLINE_DEFAULT`), so an oversized seed loops on lock
-  waits instead of failing.
-- **Methods called per record inside the seed transaction.** A batch
-  that joins each member, then sells a plan, then checks them in makes
-  three calls per record while holding the parent's lock. Under
-  `rbt dev run`, effect validation runs the transaction a second
-  time; at 1.6.0 that second run was observed to wait on the first
-  one's lock until Reboot aborted it as `PRESUMED_DEADLOCK` and the
-  app stopped serving.
-- **A large `list[...]` inline on an actor the seed keeps writing.**
-  Every write re-serializes the whole list. Collections that grow go in
-  an `OrderedMap` ([`state-collections.md`](state-collections.md)).
-- **Development state that lived through incompatible designs.**
-  Expunge and reseed. `rbt dev expunge` asks for confirmation and waits
-  for an answer, so pass `--yes` when running it without a terminal.
-
-### Effect Validation and Seed Speed
-
-`rbt dev run` runs each mutation twice to check it has no side effects
-outside Reboot, which was observed to roughly double mutation latency.
-For a large seed, turn it off: `rbt dev run --effect-validation=disabled`
-(choices `enabled`, `quiet`, `disabled`; the default is `quiet`), or in
-the harness `rbt.up(..., effect_validation=EffectValidation.DISABLED)`.
-
-With validation on, a `Re-running method <name> to validate effects`
-line per seeded method is normal. Under `quiet`, it prints once per
-method and is then silenced for five minutes, so a long seed goes
-quiet. Measure its progress from state (`rbt inspect`), not the log.
-
-Observed sizes, for scale: a sequential seed with validation disabled
-admitted 193 records at about one per second, then about 6 s per bulk
-import, about 15 minutes in all on an M-series laptop, and a restart
-part way resumed through the aliases (1.5.0). A full production seed
-added about 30 s to each harness test; a small seed cut one suite from
-7m50s to 3m52s (1.4.1).
-
-### Errors
-
-| Error text                                                                        | Meaning                                                                                 | Fix                                                                                                                             |
-| --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| `PermissionDenied` on a seed call in a test                                       | An internal-only method called with a user's context                                    | Seed through `create_external_context(name=..., app_internal=True)`                                                             |
-| `database.cc Check failed`                                                        | Development state from an incompatible earlier design                                   | Stop the app, `rbt dev expunge --application-name=<name> --yes`, reseed                                                         |
-| `is presumed deadlocked with it; aborting so that the older transaction proceeds` | Transactions contending for the same actors; the younger one is rolled back and retried | Seed one batch at a time; observed at 1.6.0 also on sequential `initialize` transactions, about 2.5 s each, and then succeeding |
-
 ### See Also
 
-- [`lifecycle-initialize-hook.md`](lifecycle-initialize-hook.md): how calls in `initialize` are keyed
-- [`stdlib-ordered-map.md`](stdlib-ordered-map.md): bulk `insert(entries=...)`
 - [`testing-harness.md`](testing-harness.md): fixtures and `app_internal=True`
