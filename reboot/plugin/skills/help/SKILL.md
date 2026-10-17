@@ -1,7 +1,7 @@
 ---
 name: help
 description: Help with a Reboot app, on one screen - where the project stands (its stage, its features, what is running and on which ports, the last test run), links to the app, the dashboard and the design, and four to eight things the user can ask for next, chosen for where they are, ending with a multiple-choice question. Also answers "how do I..." and "what is..." in a few plain lines with a link to see it, and "something's broken" by checking the usual causes first. Reads only (assets/status.py); starts and changes nothing unless asked. Use when the user says help, asks what they can do, what now, how to do something, where something is, or why the app isn't working.
-argument-hint: [a question, e.g. "how do I add a role?" or "the app won't load"]
+argument-hint: '[a question, e.g. "how do I add a role?" or "the app won''t load"]'
 allowed-tools: Bash, Read, Glob, Grep, AskUserQuestion
 ---
 
