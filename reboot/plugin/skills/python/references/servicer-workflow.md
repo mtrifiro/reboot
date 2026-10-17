@@ -425,7 +425,7 @@ The scope chain is workflow-centric — `.per_iteration()` is in fact
 rejected outside a workflow — so when you need an idempotent call from
 the `initialize` hook (which re-runs on every app start),
 `.idempotently("alias")` is the right and primary tool. See
-`lifecycle-initialize-hook.md`.
+`lifecycle-seeding.md`.
 
 ### Mutating This Actor's State
 
