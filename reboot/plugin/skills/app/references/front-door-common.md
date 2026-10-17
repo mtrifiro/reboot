@@ -30,7 +30,7 @@ Ask one round of scope questions first, from the prompt alone, before
 reading any reference or showing a design: one question dialog
 (`AskUserQuestion` where available). Built from the
 [`app` skill](../SKILL.md), its opening round replaces this one: it
-asks how to build as well (all at once, step by step, or the
+asks how to build as well (all at once, guided, or the
 prompt-by-prompt path, where the user says what to build at each
 step and nothing is asked), nothing else is asked before the design, and the
 go-ahead, **Build on this design?**, comes once, after the design
