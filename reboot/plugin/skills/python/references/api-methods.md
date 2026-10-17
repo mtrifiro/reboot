@@ -172,7 +172,7 @@ factory a `Writer(factory=True)` / `Transaction(factory=True)` and
 schedule the workflow from its body.
 
 A `Type` without an explicit factory method is created implicitly on
-first write (see `lifecycle-initialize-hook.md`).
+first write (see `lifecycle-seeding.md`).
 
 ## Pick the Right Factory
 
@@ -252,17 +252,7 @@ is written: `schedule_cleaning`, `delete_booking`.
 
 ## See Also
 
-After choosing factories, load the references that make those choices
-work end-to-end:
-
-- **Pydantic field rules**: `api-pydantic.md`. The zero-default rule
-  bites at import time.
-- **Implementation per factory** — read the matching servicer file:
-  - `Reader(...)` → `servicer-reader.md`
-  - `Writer(...)` → `servicer-writer.md`
-  - `Transaction(...)` → `servicer-transaction.md`
-  - `Workflow(...)` → `servicer-workflow.md` (the single,
-    comprehensive workflow reference — durable primitives and all)
-  - `factory=True` → `servicer-constructor.md`
-- **Calling these methods**: `rpc-calls.md` (kwargs convention) and
-  `rpc-refs.md` (`self.ref().state_id`, never `self.state_id`).
+`api-pydantic.md` for field rules; `servicer-reader.md`,
+`servicer-writer.md`, `servicer-transaction.md`,
+`servicer-workflow.md` and `servicer-constructor.md` per factory;
+`rpc-calls.md` and `rpc-refs.md` for calling.
