@@ -1,8 +1,8 @@
 ---
 title: Call Actor Methods with Kwargs and a Context
 impact: HIGH
-impactDescription: Calling with Request wrappers fails at type-check or runtime
-tags: rpc, call, kwargs, context, await
+impactDescription: Calling with Request wrappers fails at type-check or runtime; calling a constructor through `.ref(...).method(...)` skips creation semantics
+tags: rpc, call, kwargs, context, await, constructor, create, factory
 ---
 
 ## Call Actor Methods with Kwargs and a Context
@@ -61,12 +61,25 @@ response = await chat_room.messages(context)
 print(response.messages)
 ```
 
-Constructor calls return a `(ref, response)` tuple — the ref to the
-newly-constructed actor and the response from the method:
+## Constructor Calls Use `Service.create` / `Service.<ctor>`
+
+Rule: never invoke a constructor through `Service.ref(id).method(...)`
+— that skips creation semantics. Use `await Service.create(context, id)`
+for the default constructor (idempotent from `initialize`, so safe on
+every start) and `await Service.<CtorMethod>(context, id, **kwargs)`
+for a `factory=True` method. Both return a `(ref, response)` tuple;
+reuse that ref instead of constructing another with `Service.ref(...)`.
 
 ```python
-account, _ = await Account.open(context, request.account_id)
+# Wrong — a regular call; the actor does not exist yet.
+await Account.ref(account_id).open(context)
+
+# Right — creates the actor and runs the factory method.
+account, _ = await Account.open(context, account_id)
 await account.deposit(context, amount=request.initial_deposit)
+
+# Default constructor, from `initialize`:
+await Bank.create(context, SINGLETON_BANK_ID)
 ```
 
 ## Concurrent Calls with `asyncio.gather`

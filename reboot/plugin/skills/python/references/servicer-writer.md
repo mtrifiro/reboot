@@ -124,7 +124,7 @@ async def withdraw(
 `Writer(... response=None ...)` is a valid shape for writers that have
 no payload to return to the caller. The method's return type is then
 `-> None` and the body has no `return` statement (or `return` with no
-value). See `api-pydantic.md` for the cross-method rule.
+value). See `api-methods.md` for the obliged signature.
 
 ```python
 async def increment(
@@ -136,18 +136,6 @@ async def increment(
 
 ## See Also
 
-- `api-methods.md` — "The Servicer Signature Each Declaration
-  Obliges": the exact shape codegen requires, including the
-  `request=None` / `response=None` variants. Read it instead of
-  the generated `*_rbt.py`.
-- `rpc-refs.md` — `self.ref().state_id` (not `self.state_id`) for this
-  actor's ID; `self.ref().schedule(...)` for self-scheduling.
-- `rpc-calls.md` — kwargs convention for calling other actors.
-- `scheduling-basic.md` / `scheduling-recurring.md` — the canonical
-  pattern for deferred work driven from a writer.
-- `servicer-transaction.md` — when a writer can't (cross-actor
-  mutation).
-- `servicer-workflow.md` — the home for **all** external side
-  effects (even idempotent ones); writers/transactions only
-  `schedule()` the workflow, which picks the right primitive there.
-- `api-errors.md` — typed errors that roll back state automatically.
+`servicer-transaction.md` for cross-actor mutation;
+`servicer-workflow.md` for every external side effect;
+`scheduling-basic.md` for deferred work from a writer.
