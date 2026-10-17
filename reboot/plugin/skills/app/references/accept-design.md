@@ -57,7 +57,10 @@ asks for the next thing.
 
 What the user says next decides: choosing or asking for a next part,
 or saying to keep this one, accepts what was reviewed, recorded as below before
-the next part starts; a change goes back into the build. Nothing is
+the next part starts; a change goes back into the build. A switch of path ("build the rest all at
+once", "step by step from here") is taken as said, from the next part
+on, and the first handoff's **Your turn** says in one line that it can
+be. Nothing is
 recorded while the user only tries the app. When nothing is left to
 build, the closing line says so and that the user can ask for changes.
 No reply, or a dialog skipped, is not acceptance. Never put "feature", "@wip", "design" or
