@@ -1,6 +1,6 @@
 ---
 name: app
-description: "Build a Reboot application from a user description, design first: no questions before the design, the whole proposed design shown in the chat, then one question, How should it be built? (the whole app, or step by step). Every backend is ready for both front doors, an MCP UI (ChatGPT, Claude, VSCode, Goose) and a standalone web app; builds the front door the prompt names, otherwise the web app, and offers the other at handoff."
+description: "Build a Reboot application from a user description, design first: one round of questions about what to build and how (all at once, step by step, or power user, where the user directs every step at the prompt and nothing is asked), then the whole proposed design shown in the chat and the go-ahead. Every backend is ready for both front doors, an MCP UI (ChatGPT, Claude, VSCode, Goose) and a standalone web app; builds the front door the prompt names, otherwise the web app, and offers the other at handoff."
 argument-hint: [<app-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 ---
@@ -32,16 +32,15 @@ yet: the app is named in the design, as a working name.
 
 1. "An app for <what it is>, used by <who>." (the rules below)
 2. "I'd start with <feature>: <its rule, in plain words>."
-3. "First, a few questions about what to build; then I'll design it,
-   starting from its rules, and you'll choose how to build it." word
-   for word.
+3. "First, a few questions about what to build and how; then I'll
+   design it, starting from its rules." word for word.
 
-**Then one round of questions, what to build,** as the front door's
-scope round asks it: one dialog (`AskUserQuestion`; where there is none, the same as
-plain lines), from the prompt alone, before reading any reference.
-One to three questions, each two to four options, the simplest first
-and marked "(Recommended)", so accepting every recommendation is one
-answer:
+**Then one round of questions, what to build and how,** as the front
+door's scope round asks it: one dialog (`AskUserQuestion`; where there
+is none, the same as plain lines), from the prompt alone, before
+reading any reference. Two to four questions, each two to four
+options, the simplest first and marked "(Recommended)" where one is
+recommended, so accepting every recommendation is one answer:
 
 - **"Which features should the first build include?"** (multi-select):
   four features worked out from the prompt, each its name in the
@@ -58,19 +57,29 @@ answer:
   and techs"). Roles chosen are in the first build; otherwise they are
   **Who may do what**, before any deploy.
 - **"Which accent?"**, only when the prompt names no brand: two or
-  three accents that suit the domain, the first recommended, plus
-  "Use my brand" (a site or tokens to read).
+  three accents that suit the domain, from the list
+  `web-app/references/ui-design.md` gives and no other, the first
+  recommended, plus "Use my brand" (a site or tokens to read).
+- **"How should it be built?"**, always, last, none of its options
+  recommended: "All at once": "Every feature in the design without
+  stopping, about 7 minutes a feature; you see it at the end." ·
+  "Step by step": "A feature at a time, about 15 minutes each; you
+  check each part as it's built: great for learning Reboot." · "Power
+  user": "You direct every step at the prompt. Nothing is asked: each
+  thing you ask for is built, tested and handed off, then the build
+  waits for your next prompt."
 
 The front door is never asked (Routing, below): the one
 the prompt names, otherwise the web app, with the backend ready for an
 MCP UI, offered at handoff. The answers are the design's scope: the features chosen, in build
 order, and nothing else; what else a real app in the domain needs goes
 under **Not in this build**, never built unless the user asks. A free
-answer is taken as written. Nothing else is asked before the design,
-and how to build is not asked here: **How should it be built?** comes
-once, after the design is shown
+answer is taken as written. Nothing else is asked before the design.
+After the design comes the go-ahead, **Build on this design?**
 ([`../app/references/design-first.md`](../app/references/design-first.md),
-section 3), and takes a change to the design as its free answer. The
+section 3), which takes a change to the design as its free answer; on
+the power-user path there is no go-ahead dialog: the design's closing
+line says what to do, and the user's next prompt is the build. The
 name and the rest are assumed and listed under **Assumed**.
 
 Rules for that response:
@@ -81,7 +90,8 @@ Rules for that response:
 - Nothing more in it: what the app keeps track of, the front door and
   the rest are in the design, minutes later. Then the dialog, the
   response's only tool call.
-- Nothing about how it will be built: that is asked after the design.
+- Nothing about how it will be built beyond the dialog's own options:
+  **What to expect** comes after the design.
 - **No name before the design.** The design proposes one, marked
   "(working name)" the first time it appears, with the accent, under
   what the build assumed.
@@ -111,13 +121,12 @@ Example: "An app for a 56-room boutique hotel, used by its front desk
 and housekeeping. I'd start with the room status floor plan: every
 room from occupied to dirty to cleaned to inspected, and no guest put
 in a room that isn't inspected. First, a few questions about what to
-build; then I'll design it, starting from its rules, and you'll choose
-how to build it."
+build and how; then I'll design it, starting from its rules."
 
-**What to expect,** right after the answer to **How should it be
-built?** (after the design), before any other tool call: the chosen
-path's items, each its own line of a list under "What to expect:",
-filled in from the design:
+**What to expect,** right after the go-ahead (after the design; on the
+power-user path, right after the design's closing line), before any
+other tool call: the chosen path's items, each its own line of a list
+under "What to expect:", filled in from the design:
 
 - **Step by step:** each feature in two parts, its backend tested
   against its rules, then its frontend tested in a browser ·
@@ -128,9 +137,14 @@ filled in from the design:
 - **All at once:** every feature in the design, the pages built in
   parallel with the backend, then everything tested together, without
   stopping, about <time> · then the whole app to try.
+- **Power user:** each thing you ask for at the prompt, built and
+  tested against its rules, then handed off with its links · the build
+  asks nothing and waits for your next prompt · the design is in
+  `design/design.md`, yours to change at any prompt.
 
 **2. Before the design, read only what it needs** (`../app/references/design-first.md`,
-section 2). **After the answer to How should it be built?, read
+section 2). **After the go-ahead (on the power-user path, after the
+design), read
 [`../app/references/conversation.md`](../app/references/conversation.md)**
 once: what the build says, links, opens and asks at every stage from
 there on. Each path's next steps are read when they start: the design
@@ -140,14 +154,14 @@ list (`../app/references/task-list.md`), and for the whole app, the
 
 **3. Throughout the build:**
 
-- **Task list:** until the answer to **How should it be built?** it
-  has one item, "Propose the design for <app>", made right after the
-  answers to the opening's questions; a list that exists when this skill loads is replaced with
+- **Task list:** until the go-ahead it has one item, "Propose the
+  design for <app>", made right after the answers to the opening's
+  questions; a list that exists when this skill loads is replaced with
   that item first, in a response of its own. The chosen path's list
-  follows the answer.
-- **Times,** always "about", only in the opening and in **How should
-  it be built?**: the design, a few minutes; the first feature, 15; each next feature, 15 to 20; the
-  whole app, about 7 a feature.
+  follows the go-ahead (on the power-user path, the design).
+- **Times,** always "about", only in the opening's dialog and in
+  **What to expect**: the design, a few minutes; the first feature,
+  15; each next feature, 15 to 20; the whole app, about 7 a feature.
 - **Never a minute without a line,** at every stage: in the design,
   one when the research ends (what it found), then the design itself,
   one message (`../app/references/design-first.md`, section 2); in
