@@ -213,7 +213,9 @@ placeholder does not count; a button, link, tab, or menu item says
 what it does, matched exactly; a table or region a step names has a
 `<caption>` or a labelled heading; and `data-testid` sits only on
 the element whose text is a value the backend made up, for `saves
-the text of`.
+the text of`. The web steps don't drag: a drag has its click fallback
+on the page (`web-app/references/ui-design.md`, "Drag and Drop,
+Wherever Something Moves"), and that is what a scenario drives.
 
 ## Recordings
 
