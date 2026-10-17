@@ -22,3 +22,11 @@ dev run --env-file=.env
 
 # Run the application!
 dev run --application=backend/src/main.py
+
+# Production config used by `rbt serve run` (Reboot Cloud's containers
+# run `CMD ["rbt", "serve", "run"]`): the `dev run` lines minus the
+# dev-only knobs. See `python/references/lifecycle-dockerfile.md`.
+serve run --python
+serve run --application=backend/src/main.py
+serve run --application-name=<project-name>
+serve run --tls=external
