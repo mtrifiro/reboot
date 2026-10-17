@@ -56,20 +56,21 @@ Common anti-patterns the agent should refuse:
 - "Use `allow()` everywhere now; tighten before shipping." This
   approach loses track of _which_ Servicers needed real rules, and the
   `allow()` calls survive into production code.
-- "Use `allow()` because there's no auth yet." Pick the right
-  identity wiring for your app instead:
+- "Use `allow()` because there's no auth yet." Wire identity
+  instead:
   `Application(oauth=OAuth(provider=OAuthProviderByEnvironment(dev=Development(), prod=...)))`
   gives every caller a verified `dev-{hash}` identity in dev (and a real
-  one in prod), letting you write real `allow_if(...)` rules from day
-  one — typical for MCP UIs; and `Application(token_verifier=...)`
-  integrates an external IdP (typical for web apps; until it's wired,
-  omit `authorizer()` so the dev-mode warning flags what's
-  outstanding). See `servicer-authorizer.md` for the full table.
+  one in prod), so real `allow_if(...)` rules are written from day
+  one — for MCP UIs and web apps alike. `Application(token_verifier=...)`
+  is the exception, for an external IdP `oauth=` cannot wrap; until
+  it's wired, omit `authorizer()` so the dev-mode warning flags
+  what's outstanding. See `servicer-authorizer.md`.
 - "Subclass each servicer in the test suite and override
   `authorizer()` to `allow()`." Don't make this the default — it
   leaves the app's authorization untested. Impersonate users
   instead with `await rbt.create_external_context_as(name, user_id)`;
-  web apps keep their `token_verifier=...` exactly as in production —
+  apps keep their `oauth=...` (or `token_verifier=...`) exactly as in
+  production —
   the test harness's OAuth server verifies the impersonation token
   `create_external_context_as` mints, and any custom bearer a test
   constructs by hand still hits the app's verifier. See
