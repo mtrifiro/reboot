@@ -69,20 +69,15 @@ it anyway, with `@wip` on the whole feature:
 @wip
 Feature: Customers can transfer money between accounts
   A customer moves money from one of their accounts to another
-  account of the bank in one step, which is how they pay someone
-  without a withdrawal and a deposit that could come apart.
-
-  Background:
-    Given the application is up
-
-  Rule: A transfer moves exactly the amount from one account to the other
-    Neither account sees any other change.
+  account of the bank in one step.
 
   Rule: A transfer that would overdraw the source leaves both accounts unchanged
-    A transfer is one transaction: when the withdrawal from the source
-    account aborts, the deposit into the destination is rolled back
-    too, so money is never created by a failed transfer.
+    A transfer is one transaction, so money is never created by a
+    failed transfer.
 ```
+
+(The full shape, with `Background:` and scenarios, is in
+`testing-features.md`.)
 
 Add the file to the `scenarios(...)` call of the test module whose
 application it runs against, or create the module
@@ -111,16 +106,12 @@ skill, "Links to an Object or a Rule"), never as a bare path in code:
 
 Change the API, the servicers, and the frontend with the `python`
 skill and, for the frontend, the `web-app` or `mcp-ui` skill. Two
-rules of theirs matter most here:
-
-- **Every property gets a `description=`** on its `Field(...)`,
-  saying what the value means (`api-pydantic.md`). The dashboard
-  shows the description beside the property; a property without
-  one shows a request to add it.
-- **A web app page is built with accessible markup** from the
-  start (`testing-web-app.md`): labels paired with inputs, buttons
-  that say what they do, tables with a labelled heading. That is
-  what lets a scenario drive it.
+rules of theirs matter most here: **every property gets a
+`description=`** on its `Field(...)` (`api-pydantic.md`; the
+dashboard shows it beside the property, and asks for one where it is
+missing), and **a web app page is built with accessible markup** from
+the start (`testing-web-app.md`), which is what lets a scenario drive
+it.
 
 ## Step 4 — Iterate on the scenarios with the user
 
@@ -230,26 +221,6 @@ inside one function) skips this, and you say so.
 ## Converting an existing test suite
 
 When an application has `unittest` / `IsolatedAsyncioTestCase`
-tests (the pre-feature-file layout) and the user wants them as
-feature files, or the `upgrade` skill's migration notes ask for it:
-
-1. Read every test and list what each one shows, in English, one
-   line per test.
-2. **Group them into features by capability**, not by servicer or
-   test file: a `test_bank.py` with deposits, withdrawals, and
-   transfers becomes `deposits.feature`, `withdrawals.feature`, and
-   `transfers.feature`. Where the grouping is not obvious, propose
-   one and ask the user; do not guess at a business rule they did
-   not state.
-3. Follow steps 1 and 2 for each feature, then write the scenarios
-   from the tests' calls and assertions in the built-in steps. A
-   test's helper that the steps cannot express becomes a custom
-   step, written as plain Reboot code (`testing-features.md`); a
-   mock becomes an autouse fixture asserted through a one-line
-   custom step.
-4. Keep the tests that are not about the application's behavior:
-   the crash-and-recover tests of `testing-failure-recovery.md`
-   stay on the harness.
-5. Run both until the scenarios cover the tests, then delete the
-   converted tests. Leave every feature `@wip` until the user has
-   reviewed the files, then ask to remove the tags.
+tests and the user wants them as feature files, or the `upgrade`
+skill's migration notes ask for it:
+[`references/converting-tests.md`](references/converting-tests.md).
