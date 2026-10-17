@@ -160,8 +160,11 @@ a known range. Never a whole generated file, never an unbounded
 recursive grep.
 
 Another skill's assets are never read as an example, the quickstart's
-hotel app included. An asset is copied where a step says to, never
-opened for its content.
+hotel app included, and neither is another project on the machine (a
+sibling folder, an earlier build): the starter `render.py` writes is
+the example, already in the project and in the design's own names,
+and the references say the rest. An asset is copied or rendered where
+a step says to, never opened for its content.
 
 ## A Change Is an Edit, Never a Rewrite
 

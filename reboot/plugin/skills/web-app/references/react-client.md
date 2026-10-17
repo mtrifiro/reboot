@@ -15,49 +15,32 @@ bundles, which a web app has no use for.
 
 ## The `frontend/` Shell
 
-A stock Vite React-TS project with the SPA's `index.html`, `src/`,
-and `public/` moved under `web/`, so that the generated client at
+Rendered by the `python` skill's `render.py --web` (the web-app
+skill's step 1), never scaffolded with `create-vite` and never
+retyped: a Vite React-TS project with the SPA's `index.html`, `src/`
+and `public/` under `web/`, so that the generated client at
 `frontend/api/` and, should the app ever add MCP UIs, `frontend/mcp/`
-sit beside it. The first `rbt generate` has already written
-`frontend/api/`, and `create-vite` won't scaffold into a folder that
-isn't empty (with `--no-interactive` it writes nothing and says
-nothing, and the move after it fails). So scaffold beside it and
-move the files in:
-
-```sh
-npm create vite@latest frontend-vite -- --template react-ts --no-interactive
-mkdir -p frontend/web
-mv frontend-vite/index.html frontend-vite/src frontend-vite/public frontend/web/
-mv frontend-vite/package.json frontend-vite/tsconfig*.json frontend-vite/.gitignore frontend/
-rm -rf frontend-vite
-```
+sit beside it:
 
 ```
 frontend/
-├── package.json
+├── package.json         # React, Vite, TypeScript; the Reboot packages at the backend's pin; the house typefaces; zod
 ├── tsconfig.json
 ├── tsconfig.app.json    # `include: ["web/src"]`, the `@api/*` path
-├── tsconfig.node.json
-├── vite.config.ts       # Copied, below
+├── tsconfig.node.json   # Node's types, for the config
+├── vite.config.ts       # Below
 ├── api/                 # `rbt generate --react=frontend/api`
 └── web/
-    ├── .env.development # Copied: `VITE_REBOOT_URL`
+    ├── .env.development # `VITE_REBOOT_URL`
     ├── .env.production  # Written at deploy time (the `deploy` skill)
     ├── index.html       # `<div id="root">` + `<script type="module" src="/src/main.tsx">`
-    ├── public/          # Static files, copied into the build as they are
+    ├── public/          # Static files, copied into the build as they are; `favicon.svg`
     └── src/
         ├── main.tsx     # The provider, below
-        ├── vite-env.d.ts # Copied
-        ├── errors.ts    # Copied, then its cases filled in
-        ├── App.tsx
-        └── pages/
-```
-
-After the scaffold and the move, copy the four files this skill
-holds, never retyped and never read:
-
-```sh
-cp -R <this skill>/assets/frontend/. frontend/
+        ├── App.tsx      # The starter page: sign-in, one reader, a form, a table; edited into the design's pages
+        ├── styles.css, theme.tsx, backend-check.tsx, reload-prompt.tsx  # The house look (`ui-design.md`)
+        ├── errors.ts    # `friendlyError`; its cases filled in per typed error
+        └── vite-env.d.ts
 ```
 
 `vite.config.ts` is the stock config rooted at `web/` with four
@@ -72,35 +55,13 @@ resolves to IPv6 `[::1]` only, and a forwarded port (Codespaces, VS
 Code remote, a dev VM, a tunnel) connects over IPv4 and gets
 connection refused while the process is up and logs no error.
 
-Keep the `react`, `react-dom`, and `devDependencies` (Vite, its
-React plugin, TypeScript, the `@types/*`) at the versions the
-scaffold writes; they are made to work together, and pinning them
-here would only go stale. Add the two Reboot packages, pinned to the
-same version as the backend's `reboot` dependency, and `zod`:
-
-```json
-"dependencies": {
-  "@reboot-dev/reboot-api": "<same version as `reboot` in pyproject.toml>",
-  "@reboot-dev/reboot-react": "<same version>",
-  "zod": "^4.0.0"
-}
-```
-
-The config imports `path` and reads `process.env`, so `tsc -b` needs
-Node's types: `@types/node` and `"types": ["node"]` in
-`tsconfig.node.json`'s `compilerOptions`, both of which the scaffold
-writes. In `tsconfig.app.json`, point `include` at `web/src` instead
-of the scaffold's `src`, and add the alias's `paths`:
-
-```json
-{
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": { "@api/*": ["./api/*"] }
-  },
-  "include": ["web/src"]
-}
-```
+`package.json` pins `react`, `react-dom`, Vite, its React plugin and
+TypeScript at versions made to work together, the two Reboot packages
+and an `overrides` entry for `@reboot-dev/reboot-web` at the backend's
+`reboot` pin (two copies of it break the client), `zod`, and the three
+house typefaces. `tsconfig.node.json` has Node's types, since the
+config imports `path` and reads `process.env`; `tsconfig.app.json`
+includes `web/src` and maps `@api/*` to `./api/*`.
 
 `npm run dev` serves the SPA at its own origin,
 `http://localhost:5173/` by default; `npm run build` writes
@@ -121,29 +82,16 @@ The copied `web/.env.development` sets `VITE_REBOOT_URL=http://localhost:9991`,
 which Vite reads from its `root`; the copied `web/src/vite-env.d.ts`
 gives `import.meta.env` its types (without it `npm run build` fails
 with `Property 'env' does not exist on type 'ImportMeta'`). The
-provider takes it:
-
-```tsx
-// frontend/web/src/main.tsx
-const REBOOT_URL =
-  (import.meta.env.VITE_REBOOT_URL as string | undefined) ??
-  window.location.origin;
-
-createRoot(document.getElementById("root")!).render(
-  <BackendCheck url={REBOOT_URL} name="<the app's name>">
-    <RebootClientProvider url={REBOOT_URL}>
-      <App />
-      <ReloadPrompt name="<the app's name>" />
-    </RebootClientProvider>
-  </BackendCheck>
-);
-```
+provider takes it in the starter's `web/src/main.tsx`: `REBOOT_URL`
+is `import.meta.env.VITE_REBOOT_URL ?? window.location.origin`, passed
+to `<BackendCheck url>` and `<RebootClientProvider url>` around
+`<App />` and `<ReloadPrompt>`.
 
 The `?? window.location.origin` keeps the production build working
 when the backend serves the built assets from one origin.
 
 `BackendCheck` (`import { BackendCheck } from "./backend-check"`,
-copied from the skill's `assets/` with the stylesheet) says so while
+rendered with the starter, beside the stylesheet) says so while
 `REBOOT_URL` doesn't answer, instead of a blank page or a failed call
 per hook, and checks every few seconds; one failed check is a blip,
 two in a row mean down. In development it replaces the app with a page
@@ -155,7 +103,7 @@ reach its server right now. Reconnecting…" until the backend answers
 middle of is lost.
 
 `ReloadPrompt` (`import { ReloadPrompt } from "./reload-prompt"`,
-copied with it) tells an open tab, in production, that a newer version
+rendered with it) tells an open tab, in production, that a newer version
 of the frontend has been published: a card in the bottom corner,
 "<name> has been updated. Reload to get the new version.", with Reload
 and Later. It never reloads by itself, so nothing half done is lost.
@@ -259,38 +207,10 @@ HttpOnly `rbt_session` cookie, so there is no token to store, and
 `useUser()` reports the result (`user === undefined` when signed
 out).
 
-The whole shape, and the one place the signed-in subtree gets its
-guaranteed-real id:
-
-```tsx
-import {
-  RebootClientProvider,
-  useSignIn,
-  useSignOut,
-} from "@reboot-dev/reboot-react";
-import { UseUserApi, useUser } from "@api/<pkg>/v1/<name>_rbt_react";
-
-function App() {
-  const { user, isLoading } = useUser();
-  const signIn = useSignIn();
-  const signOut = useSignOut();
-  // `isLoading` covers the `/__/oauth/whoami` session probe.
-  if (isLoading) return <Spinner />;
-  if (user === undefined) {
-    return <button onClick={() => signIn()}>Sign in</button>;
-  }
-  return (
-    <>
-      <button onClick={() => signOut()}>Sign out</button>
-      <SignedIn user={user} />
-    </>
-  );
-}
-
-// Mounted only once `user` exists, so `user.state_id` is real and
-// every hook below it can be called with a genuine id.
-function SignedIn({ user }: { user: UseUserApi }) {
-  const { response } = user.useProfile();
-  // ...
-}
-```
+The starter's `App.tsx` is the whole shape: `App` takes `useUser()`,
+`useSignIn()` and `useSignOut()`, shows a skeleton while `isLoading`
+covers the `/__/oauth/whoami` session probe, a Sign in button when
+`user === undefined`, and otherwise Sign out and the signed-in
+subtree; `SignedIn` is mounted only once `user` exists, so
+`user.state_id` is real and every hook below it is called with a
+genuine id.
