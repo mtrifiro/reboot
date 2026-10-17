@@ -63,7 +63,8 @@ and starting the dashboard. Item 5 covers the actions, who may do
 each, demo data and the tests (scenarios pass, types check). Items 2,
 4 and 6 are the `app` skill's questions
 (`app/references/design-first.md`); a front door's skill used on its
-own, which doesn't ask them, leaves them off.
+own, which doesn't ask them, leaves them off, and so does the
+power-user path (below).
 
 Its frontend, once the user says so:
 
@@ -117,6 +118,22 @@ Item 2 of the backend is left off where no go-ahead is asked
 parts at once"); then the frontend's item 1 is "Build every page of
 the design". For an MCP UI, the frontend's item 1 is "Build every UI
 of the design" and item 2 "Test them in their AI client".
+
+## Power user
+
+The user directs every step at the prompt and is asked nothing
+(`app/references/design-first.md`, section 3). Before the first
+prompt:
+
+1. Propose the design for <app>
+2. Your turn: say what to build first
+
+Then, for each prompt, one list, its first item the user's own words
+as a short noun phrase:
+
+1. Build <what they asked for>
+2. Test it against its rules (and "and in a browser" when it has a page)
+3. Your turn: say what's next
 
 ## A backend only
 

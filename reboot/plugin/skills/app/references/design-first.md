@@ -1,7 +1,7 @@
 ---
 title: The Design First, Then How to Build It
 impact: HIGH
-impactDescription: A new app asks one short round of scope questions first (which features the first build includes, ticked from four; who signs in; the accent; never the front door, which is the web app unless the prompt names another), then shows the whole proposed design, and only then asks how to build it, before any code.
+impactDescription: A new app asks one short round of scope questions first (which features the first build includes, ticked from four; who signs in; the accent; how to build, all at once, step by step or as a power user who directs every step and is asked nothing; never the front door, which is the web app unless the prompt names another), then shows the whole proposed design and asks for the go-ahead, before any code.
 tags: questions, scope, design, design document, first feature, go-ahead
 ---
 
@@ -20,11 +20,12 @@ says: the opening, then the task list, before any reading.
 Where the front door's Design Phase asks its round of scope
 questions, ask only the opening's round instead (`app` skill, step
 1): which features the first build includes, who signs in, the
-accent; the
-front door is never asked (the `app` skill's Routing). Work out anything else as the
-front door says, then take the answer it would mark as recommended:
+accent, and how to build (all at once, step by step, or the
+power-user path, where the user directs every step at the prompt and
+nothing is asked); the front door is never asked (the `app` skill's
+Routing). Work out anything else as the front door says, then take
+the answer it would mark as recommended:
 
-- **How to build:** asked after the design (section 3), never here.
 - **Everything else** (what the app keeps track of, counts, layouts,
   hours): the recommended, simplest option. Roles wait for Who may do
   what unless the round chose them.
@@ -60,11 +61,15 @@ build**, never silently absent.
 Then write the proposed design **once, in the chat**: the message in
 the shape of `design-messages.md`, "The proposed design", the whole
 design but its methods, about 500 words, with one line before it only
-when research ran long. Then ask **How should it be built?** (section
-3). `design/design.md` is written after the answer, before any code,
-in the shape of [`design-document.md`](design-document.md), in one
-write: the same design, plus the first feature's methods. On "Not
-yet", it is written before the reply that links it. Writing the
+when research ran long. Then the go-ahead, **Build on this design?**
+(section 3); on the power-user path no dialog: the design's closing
+line is "The design is in design/design.md (linked). Say what to build
+first." and the build stops. `design/design.md` is written after the
+answer (on the power-user path, right after the design, before that
+line), before any code, in the shape of
+[`design-document.md`](design-document.md), in one write: the same
+design, plus the first feature's methods. On "Not yet", it is written
+before the reply that links it. Writing the
 design twice, in parts and then again for the chat, kept the user
 waiting for the file (crm-15 showed its design at 1 m 58 s; hotel-7,
 which wrote it once in the chat, at 47 s).
@@ -109,48 +114,62 @@ picked, so nothing feels hidden:
 At most five assumptions, the ones that shape the app most (its name,
 counts, hours), in the user's nouns.
 
-## 3. One question
+## 3. The go-ahead
 
 The proposed design (section 2) sits as text in the same response,
 just above the dialog, every heading filled, its features and rules
 before its domain model. Then one dialog (`AskUserQuestion` where
-available; otherwise the same as one plain line), the build's first
-and only question before any code: it chooses how to build and gives
-the go-ahead at once, with the design in view. Its options, word for
-word, filled in from the design (<n> the features' count; <time>
-about 7 minutes a feature, what whole-app builds measured, rounded to
-the nearest quarter hour and said "about 45 minutes", "about an
-hour"):
+available; otherwise the same as one plain line), the build's only
+question after the opening's round and before any code: the go-ahead,
+with the design in view, for the way of building chosen in the round.
+Its options, word for word, filled in from the design (<n> the
+features' count; <time> about 7 minutes a feature, what whole-app
+builds measured, rounded to the nearest quarter hour and said "about
+45 minutes", "about an hour"):
 
-- Title: **How should it be built?**
-- "All at once": "All <n> features without stopping, about <time>;
-  you see it at the end." <n> is the features under **Proposed
-  features, in build order**, never the ones under **Not in this
-  build**.
-- "Step by step": "A feature at a time, about 15 minutes each. You
-  check each part: great for learning Reboot."
+- Title: **Build on this design?**
+- "Build it" (recommended): for All at once, "All <n> features
+  without stopping, about <time>; you see it at the end."; for Step
+  by step, "<First feature>'s backend first, about 15 minutes: you
+  check its domain model on the dashboard, then its actions, then say
+  to build its page." <n> is the features under **Proposed features,
+  in build order**, never the ones under **Not in this build**.
 - "Not yet": "I want to review or revise the design." Nothing more:
   what happens next is said after the answer.
-- "Tell me more": "What each way involves, before I choose."
+- "Tell me more": "What happens first, before I say go."
 
 **On "Tell me more",** answer in the chat, then ask the same dialog
-again. One short paragraph per way, in the user's nouns: All at once,
-what is built in what order, that the pages are built alongside the
-backends, that it stops only at the end, and what to watch meanwhile
-(the task list, the dashboard filling in); Step by step, the stops and
-what the user does at each (the domain model on the dashboard, the
-first feature's backend before its page, each feature's handoff to
-try); Not yet, that the design is written to `design/design.md` to
-read and change. One line on what Reboot does for them either way
-(`conversation.md`, "Say what Reboot does here"). No new facts about
-the design, and no recommendation.
+again. One short paragraph for the chosen way, in the user's nouns:
+All at once, what is built in what order, that the pages are built
+alongside the backends, that it stops only at the end, and what to
+watch meanwhile (the task list, the dashboard filling in); Step by
+step, the stops and what the user does at each (the domain model on
+the dashboard, the first feature's backend before its page, each
+feature's handoff to try); and that the design is written to
+`design/design.md` to read and change. One line on what Reboot does
+for them (`conversation.md`, "Say what Reboot does here"). No new
+facts about the design.
 
-Neither way of building is marked recommended: that is the user's
-choice. A change is typed as the dialog's own free answer, so no
-option only means "change something". Nothing is built before the answer. It comes in
-addition to the first handoff's review: this one decides the design
-before any code, that one the feature as built. After the answer, the
-`app` skill's **What to expect** for the chosen path, then the build.
+A change is typed as the dialog's own free answer, so no option only
+means "change something". Nothing is built before the answer. It
+comes in addition to the first handoff's review: this one decides the
+design before any code, that one the feature as built. After the
+answer, the `app` skill's **What to expect** for the chosen path, then
+the build.
+
+**The power-user path asks nothing,** here or later: no go-ahead
+dialog (the design's closing line, section 2, and the build stops),
+no model check (section 4), no frontend question (section 5), no
+**What should I build next?**. Each prompt from the user is built as
+asked, by the front door's flow for that part, tested against its
+rules, and handed off in the handoff's shape with its links
+(`design-messages.md`), **Your turn** ending with the plain line "Say
+what's next." instead of a dialog; the next-step box carries the
+recap only. The acceptance is recorded when the user asks for the
+next thing, as `accept-design.md` says. A prompt that changes the
+design (an object, a rule, who may call) is a design change like any
+other: the design document and the decisions log follow it, with no
+question first, since the user's words are the agreement.
 
 - **All at once:** build every proposed feature, the ones under
   **Proposed features, in build order** and none from **Not in this
@@ -229,7 +248,7 @@ changed, and ask again. The task list's "Your turn: check the domain
 model on the dashboard" stays in progress until the yes. If the
 dashboard didn't come up, don't ask: say so in one sentence and go on;
 the model is checked at the first handoff. Each next feature doesn't
-ask, and `one-shot` never does.
+ask, and `one-shot` and the power-user path never do.
 
 ## 5. The backend, before the page
 
@@ -281,17 +300,20 @@ tested again, and the same dialog follows. "Not yet" does nothing
 more: one line says the dashboard stays up and what to say to go on.
 The task list's "Your turn: check the backend, then say to build the
 frontend (<screen>)" stays in progress until
-the answer. A backend only (no front door) and `one-shot` skip it.
+the answer. A backend only (no front door), `one-shot` and the
+power-user path skip it.
 
 From the first feature on, the build follows the front door
 unchanged, but for these questions.
 
 ## Never
 
-- "How should it be built?" without the proposed design written just
+- "Build on this design?" without the proposed design written just
   above it, as text (section 3): the question asks the user to judge
   it. A sentence that the design is in `design/design.md`, or the
   message drafted only in thinking, is not it.
+- A dialog on the power-user path: the user chose to be asked
+  nothing.
 - "Build on this domain model?" without its lead line and the
   dashboard's links written just above it, as text (section 4): a
   question with nothing to say what "this" is.
@@ -302,9 +324,9 @@ unchanged, but for these questions.
 - Reading a reference, or listing the folder, before the opening that
   says what will be built; reading this plugin's files with a
   shell command instead of the file tools.
-- Any question before the design other than the opening's round;
-  "How should it be built?" is asked once, after the design, and takes
-  any change to the features.
+- Any question before the design other than the opening's round; the
+  go-ahead is asked once, after the design, and takes any change to
+  the features.
 - An answer taken in step 1 without its line under **Assumed**.
-- Code, `rbt generate` or a project scaffold before the user's answer
-  to the one question.
+- Code, `rbt generate` or a project scaffold before the go-ahead (on
+  the power-user path, before the user's first build prompt).
