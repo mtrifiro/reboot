@@ -1,6 +1,6 @@
 ---
 name: design
-description: "Design a Reboot application from a description, without building it: one round of questions about what to build and how (all at once, guided, prompt by prompt, or unguided, which hands the prompt and the answers to the build skill), then the whole proposed design in the chat and in design/design.md, where the app and build skills pick it up. Use when the user asks for a design, a proposal or a plan for an app and not yet the app, or asks for it by name (/reboot:design); a prompt that asks to build an app goes to the app skill, which runs this skill first."
+description: "Design a Reboot application from a description, without building it: one round of questions about what to build and how (all at once, guided, or prompt by prompt), then the whole proposed design in the chat and in design/design.md, where the app and build skills pick it up. Use when the user asks for a design, a proposal or a plan for an app and not yet the app, or asks for it by name (/reboot:design); a prompt that asks to build an app goes to the app skill, which runs this skill first."
 argument-hint: [<app-description>]
 allowed-tools: Read, Write, Edit, Glob, Grep
 ---
@@ -120,20 +120,17 @@ recommendation is one answer:
   "Guided": "A feature at a time, about 15 minutes each; you
   check each part as it's built: great for learning Reboot." · "Prompt by prompt": "You say what to build at each step.
   Nothing is asked: each thing is built, tested and handed off, then
-  the build waits for your next prompt." · "Unguided": "No design, no
-  questions, no explanations: what you've said so far, built and
-  tested, then the links. For a prompt that already says exactly what
-  to build." The choice isn't for keeps: at any handoff "build the
+  the build waits for your next prompt." The choice isn't for keeps: at any handoff "build the
   rest all at once", "guided from here" or "prompt by prompt
   from here" switches, and the first handoff says so in one line.
 
-**On "Unguided"** this skill's part ends: load the [`build`
+**A free answer that refuses the design or the questions** ("just
+build it", "no design") ends this skill's part: load the [`build`
 skill](../build/SKILL.md) with the Skill tool (`/reboot:build`), its
-argument the prompt as typed followed by the answers given (the
+argument the prompt as typed followed by any answers given (the
 features ticked, who signs in, the accent), and stop. No design, no
 closing line: the build skill says nothing but its steps and the
-links. The free answer that refuses the design or the questions
-("just build it", "no design") is the same choice.
+links.
 
 The front door is never asked (`app` skill, Routing): the one the
 prompt names, otherwise the web app, with the backend ready for an MCP
