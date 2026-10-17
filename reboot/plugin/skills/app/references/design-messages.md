@@ -56,6 +56,8 @@ line each, Who may do what among them>. Built only when you ask.
   plain words>. It is its own object because <why: what changes on
   its own, what runs one at a time, what that prevents>.
 - **<Object>:** …
+- **`User`:** one per person who signs in, keyed by their sign-in ID.
+  It holds <what hangs off a signed-in person>. (In every design.)
 - *Later features add* <objects, comma-separated>.
 
 **Pages**
