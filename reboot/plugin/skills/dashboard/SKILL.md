@@ -165,8 +165,8 @@ The URL is in that line every time, with the port it started on, even
 when the browser opened it: a terminal session may have no window,
 and the line is where the user finds it again later.
 
-**In a build that checks the model next** (the `app` skill's "Does
-this look right?", `app/references/design-first.md`), this line is
+**In a build that checks the model next** (the `app` skill's "Build
+on this domain model?", `app/references/design-first.md`), this line is
 not written on its own: the model check's lead line is the hand-over,
 and the dashboard is named once. A port other than 9871 is said there
 in a few words ("on 9874, since other projects hold 9871 to 9873").

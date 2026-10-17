@@ -208,19 +208,22 @@ under Key Framework Concepts):
   `Workflow`**, refresh tokens, erasure — is
   [`python/references/auth-external-api-calls.md`](../python/references/auth-external-api-calls.md).
 
-**Before the tests:** `python/references/testing-project-setup.md`
-and `python/references/testing-features.md` (the built-in steps'
-spelling; always), plus `python/references/patterns-idempotency.md`
-— it explains `IdempotencyUncertainError`, which is otherwise the
-one runtime error whose cause is not in any reference you have
-read. `python/references/testing-harness.md` and
-`testing-external-context.md` are for custom steps;
-`testing-failure-recovery.md` is the one to read whenever the app
-has a spawned task, a `Workflow`, or `schedule()`d work: it covers
-restarting the app under test and asserting that work survived.
-The order of work around the feature files (agree in English, tag
-`@wip`, iterate on scenarios) is the
-[`feature` skill](../feature/SKILL.md).
+**Before the tests:**
+
+- `python/references/testing-project-setup.md` — always.
+- `python/references/testing-features.md` — the built-in steps'
+  spelling; always.
+- `python/references/patterns-idempotency.md` — it explains
+  `IdempotencyUncertainError`, which is otherwise the one runtime
+  error whose cause is not in any reference you have read.
+- `python/references/testing-harness.md` and
+  `testing-external-context.md` — for custom steps.
+- `testing-failure-recovery.md` — the one to read whenever the app
+  has a spawned task, a `Workflow`, or `schedule()`d work: it covers
+  restarting the app under test and asserting that work survived.
+- [`feature/SKILL.md`](../feature/SKILL.md) — the order of work
+  around the feature files (agree in English, tag `@wip`, iterate on
+  scenarios).
 
 **The two parts.** Every group above this line is the backend part.
 The groups from here on are the frontend part: read them only when the
@@ -279,7 +282,7 @@ The design is a proposal until the user accepts it: call it, and
 every part of it such as the data model, proposed, never settled, set
 or final, in the design and in every status line. Ask one round of
 scope questions before it (step 2 below), then build without waiting
-again. The first question is how to build: one feature at a
+again. The question of how to build has two answers: one feature at a
 time, where after each the user tries it in their AI client,
 understands it and chooses the next, so the design is accepted piece
 by piece; or the whole app first, accepted at its handoff, with the
@@ -297,10 +300,15 @@ rule that sends a change to the design back to Design.
    below.
 2. Ask one round of scope questions first, from the prompt alone,
    before reading any reference or showing a design: one question
-   dialog (`AskUserQuestion` where available). The first question is
-   how to build it, unless the prompt already says: "One feature at a
-   time, so you understand each part as it's built" (recommended) or
-   "The whole app first, then reviewed as a whole". Then at most three
+   dialog (`AskUserQuestion` where available). Built from the
+   [`app` skill](../app/SKILL.md), its opening round replaces this
+   one: nothing else is asked before the design, and **How should it
+   be built?** comes once, after the design
+   ([`app/references/design-first.md`](../app/references/design-first.md),
+   section 3). Invoked directly, the first question is how to build
+   it, unless the prompt already says: "One feature at a time, so you
+   understand each part as it's built" (recommended) or "The whole
+   app first, then reviewed as a whole". Then at most three
    more, on what the prompt left
    open and an answer would change most, such as who signs in with which roles and what the app keeps
    track of. Give each question two to four options, the simplest
@@ -854,7 +862,7 @@ When modifying an existing app:
    an example prompt in `backend/src/example_prompts.py` so the
    wizard surfaces the new flow.
 7. Re-verify the backend: run `uv run mypy backend/ tests/` from the
-   project root and `uv run pytest`, as [`feature/SKILL.md`](../feature/SKILL.md)'s "Report a full run once, at the end" says (in the background, its result said once), with `rbt dev run` stopped; fix every
+   project root and `uv run pytest`, as [`feature/SKILL.md`](../feature/SKILL.md)'s "Report a full run once, at the end" says, with `rbt dev run` stopped; fix every
    error and failure before handing back.
 8. If the app isn't already running, bring it up with the
    [`run` skill](../run/SKILL.md). If it is already running under
