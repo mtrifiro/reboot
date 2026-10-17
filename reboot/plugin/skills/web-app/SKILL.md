@@ -413,7 +413,7 @@ The build's task list, where the agent keeps one, uses the items in
 [`app/references/task-list.md`](../app/references/task-list.md), word
 for word.
 
-**All commands run from the application directory.** The build
+**All commands run from the application directory.** **A file that exists is changed with the Edit tool,** the lines that change and nothing more, never a `sed -i`, a `python3 -` script or a heredoc that rewrites it ([`front-door-common.md`](../app/references/front-door-common.md), "A Change Is an Edit, Never a Rewrite"). The build
 finishes one feature, with one page, and shows it; then the user
 chooses the next feature, and the loop below adds it. Each feature is
 built whole, with its rules and scenarios, so what the user sees
