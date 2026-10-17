@@ -179,7 +179,7 @@ stage:
    ("The Scope Round") says. The first question's options: "One
    feature at a time, so you understand each part as it's built"
    (recommended), "The whole app first, then reviewed as a whole", or
-   "Power user: I direct each step at the prompt; ask me nothing".
+   "Prompt by prompt: I say what to build at each step; ask me nothing".
 3. Read the API references, then show the proposed design, word for
    word in the shape of
    [`app/references/design-messages.md`](../app/references/design-messages.md)
@@ -517,7 +517,7 @@ for word: the list for the way the user chose to build.
    sentence and keep
    building; don't stop to debug it. Built from the `app` skill, the
    first feature instead waits for it and asks "Build on this domain model?" (the model check;
-   not on the power-user path, which asks nothing)
+   not on the prompt-by-prompt path, which asks nothing)
    ([`app/references/design-first.md`](../app/references/design-first.md),
    "The domain model, once") before step 6.
 6. Write the servicer (`backend/src/servicers/<name>.py`) per
@@ -566,7 +566,7 @@ for word: the list for the way the user chose to build.
     [`app/references/design-messages.md`](../app/references/design-messages.md)
     with the wizard's URL under **Open it**, and ask in a question
     dialog (`AskUserQuestion` where available) **What should I build next?**
-    (on the power-user path no dialog: **Your turn** ends with the plain
+    (on the prompt-by-prompt path no dialog: **Your turn** ends with the plain
     line "Say what's next."), worded as
     [`app/references/accept-design.md`](../app/references/accept-design.md)
     says, which also records the acceptance. Unless the user asked for
