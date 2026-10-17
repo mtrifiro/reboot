@@ -1,9 +1,68 @@
 ---
-title: Writing the Design for a Reader, and What Never to Read
+title: What Both Front Doors Share: the Proposal, the Scope Round, Names, Writing for a Reader, Routing a Change, What Never to Read
 impact: HIGH
-impactDescription: Shared by both front doors. The design is judged by a person who hasn't read these skills, so it is written in the domain's terms with a reason for every choice; and generated or installed source is never read whole, since every line read is re-sent on every later turn.
-tags: design, writing, generated code, reading budget
+impactDescription: Shared by both front doors, so each rule is stated once. The design is a proposal until the user accepts it; the scope round, when a door is invoked directly; names for what a type holds; the design written in the domain's terms with a reason for every choice; a change routed to Design or Prove; generated or installed source never read whole, another skill's assets never read as an example, and an existing file changed by an edit, never a rewrite.
+tags: design, proposal, scope round, names, writing, routing, generated code, reading budget, edits
 ---
+
+## The Design Is a Proposal
+
+**Always work out the design before writing code.** The state model
+is the foundation: an entity, a field type or a method type wrong
+means regenerating everything across the project. The design is a
+proposal until the user accepts it: call it, and every part of it such
+as the data model, proposed, never settled, set or final, in the
+design and in every status line. One round of scope questions comes
+before it (below), then the build runs without waiting again: one
+feature at a time, each seen running, understood and accepted before
+the user chooses the next; or the whole app first, accepted at its
+handoff with the running app in front of them.
+
+This is the first stage of the **Reboot Flywheel**: Design, then
+Prove, then Observe, each ending in a decision that is the user's.
+[`flywheel.md`](flywheel.md) has the stages, the heading each decision
+opens with, and the routing rule that sends a change to the design
+back to Design.
+
+## The Scope Round
+
+Ask one round of scope questions first, from the prompt alone, before
+reading any reference or showing a design: one question dialog
+(`AskUserQuestion` where available). Built from the
+[`app` skill](../SKILL.md), its opening round replaces this one:
+nothing else is asked before the design, and **How should it be
+built?** comes once, after the design
+([`design-first.md`](design-first.md), section 3). Invoked directly,
+the first question is how to build it, unless the prompt already says;
+its two options, the first recommended, are in the door's step 2.
+Then at most three more, on what the prompt left open and an answer
+would change most, such as who signs in with which roles and what the
+app keeps track of. Give each question two to four options, the
+simplest first and marked as recommended, so accepting every
+recommendation is one answer. Never an option that only means "say
+what": every dialog has its own free answer. Don't ask about the look:
+when the user named no brand, pick the accent that suits the domain
+from the ones [`ui-design.md`](../../web-app/references/ui-design.md)
+lists, and say in the brief that it was picked for them and is easy to
+change later, to another color or to their brand. Name the app too,
+unless the prompt gives a name, and say the same of it. Don't ask what
+the design can decide well on its own. Never ask about time zones:
+every date and time is in the user's own time zone unless they say
+otherwise, and it goes under **Assumed** in the decisions log. Ask
+nothing more until the handoff.
+
+## Names
+
+Name each type for what it holds and is for, in the domain's own
+words, never for its key or its time period. A type keyed by a gate
+and a date is `GateSchedule` (one gate's flights and closures for a
+day), not `GateDay`; a type keyed by a date is `DispatchBoard` (the
+day's flights, and the rule that no aircraft or pilot is
+double-booked), not `DispatchDay` or `Day`. The key says how an
+instance is found; the name says what it is. Test each name: would
+someone in the domain know what it holds without being told its id?
+If not, rename it before the API is written, when a rename costs one
+line.
 
 ## Writing the Design for a Human Reader
 
@@ -68,6 +127,16 @@ name the type — but pair it with the plain-English reason in the
 same sentence. The rule is "no bare jargon", not "no technical
 terms".
 
+## Routing a Change
+
+To change an existing app, route the change by the Flywheel's routing
+rule ([`flywheel.md`](flywheel.md), "The routing rule";
+`python3 scripts/model_diff.py` sorts it): a change to a domain
+object, a rule or who may call goes back to Design; anything else
+stays in Prove. A design change the user asked for is built and judged
+at the next handoff; one they didn't ask for is shown and asked about
+before code ([`accept-design.md`](accept-design.md)).
+
 ## Never Read Generated or Installed Source in the Main Thread
 
 `*_rbt.py`, `*_rbt_react.ts`, `site-packages/`, `node_modules/`,
@@ -89,3 +158,15 @@ recursive grep.
 Another skill's assets are never read as an example, the quickstart's
 hotel app included. An asset is copied where a step says to, never
 opened for its content.
+
+## A Change Is an Edit, Never a Rewrite
+
+A file that exists is changed with the Edit tool, the lines that
+change and nothing more: taking `@wip` off a feature file is one
+edit, adding a method to the API is one edit, a servicer's new rule
+is one edit. Rewriting a whole file to change a part of it costs the
+file's length in output every time (one build wrote seven feature
+files and two servicers twice over), and a shell heredoc or a
+`python3 -` script that rewrites a file costs the same and hides the
+change from review. The Write tool is for a file that doesn't exist
+yet.
