@@ -439,9 +439,9 @@ finished app.
    `python/references/testing-features.md`; run `uv run pytest` as the [`feature` skill](../feature/SKILL.md)'s step 4 says (the feature's own files, in the foreground) and
    `uv run mypy backend/ tests/` with `rbt dev run` stopped (`run`
    skill, "Stopping the App"); fix what fails before any page.
-7. Scaffold the frontend at `frontend/`
-   (`npm create vite@latest frontend -- --template react-ts`), shape
-   it as [`references/react-client.md`](references/react-client.md)
+7. Scaffold the frontend beside `frontend/` and move it in
+   (`frontend/api/` is already there, and `create-vite` won't write
+   into a folder that isn't empty), shape it as [`references/react-client.md`](references/react-client.md)
    shows, `cd frontend && npm install`, and run `uv run rbt generate`
    again for the React bindings.
 8. Build the feature's one page from
