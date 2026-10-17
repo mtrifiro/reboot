@@ -1,6 +1,6 @@
 ---
 name: app
-description: "Build a Reboot application from a user description, design first: the design skill's one round of questions about what to build and how (all at once, step by step, or prompt by prompt, where the user says what to build at each step and nothing is asked) and its proposed design, then the go-ahead and the build; a design already proposed in design/design.md is built on without asking again. Every backend is ready for both front doors, an MCP UI (ChatGPT, Claude, VSCode, Goose) and a standalone web app; builds the front door the prompt names, otherwise the web app, and offers the other at handoff."
+description: "Build a Reboot application from a user description, design first: the design skill's one round of questions about what to build and how (all at once, step by step, prompt by prompt, where the user says what to build at each step and nothing is asked, or unguided, which hands over to the build skill) and its proposed design, then the go-ahead and the build; a design already proposed in design/design.md is built on without asking again. Every backend is ready for both front doors, an MCP UI (ChatGPT, Claude, VSCode, Goose) and a standalone web app; builds the front door the prompt names, otherwise the web app, and offers the other at handoff."
 argument-hint: [<app-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 ---
@@ -29,8 +29,11 @@ response's first act, before any text or other tool call, is to load
 it with the Skill tool (`/reboot:design <the prompt>`), never by
 reading its file. It says the opening, asks the one round of questions
 (the first build's features, who signs in, the accent, and how to
-build: all at once, step by step, or prompt by prompt), reads what the
-design needs and shows the whole proposed design, once, in the chat.
+build: all at once, step by step, prompt by prompt, or unguided),
+reads what the design needs and shows the whole proposed design, once,
+in the chat. On "Unguided" the design skill hands the prompt and the
+answers to the [`build` skill](../build/SKILL.md) and this skill's part
+is over: no design, no go-ahead, no **What to expect**.
 The front door is never asked (Routing, below). Then, in the same
 response as the design, the go-ahead, **Build on this design?**
 ([`../app/references/design-first.md`](../app/references/design-first.md),
