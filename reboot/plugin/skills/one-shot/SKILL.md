@@ -25,11 +25,14 @@ questions and its go-ahead are what this skill leaves out.
 The response's first act is to load the [`design`
 skill](../design/SKILL.md) with the Skill tool (`/reboot:design <the
 prompt>`), never by reading its file. Loaded by this skill it asks
-nothing: it says the opening (its third sentence "No questions: I'll
-design the whole app, then build and test all of it and hand it over
-when it's done."), reads what the design needs, shows the whole
-proposed design in the chat with the scope of section 2, and writes
-`design/design.md` right after it.
+nothing. Right after it loads, its opening goes out as text (the two
+Skill loads are the response's only tool calls before it; hotel-200
+said nothing for 69 seconds and its first text was the design), its
+third sentence "No questions: the whole app is designed, then built,
+tested and handed over when it is done." word for word. Then it reads
+what the design needs, shows the whole proposed design in the chat
+with the scope of section 2, and writes `design/design.md` right
+after it.
 
 Then, in the same turn, **What to expect**, a list of four lines:
 
@@ -100,11 +103,24 @@ door's Design Phase, scope round and dialogs are skipped: the design
 is done. Read [`app/references/conversation.md`](../app/references/conversation.md)
 once, for what the build says at each step.
 
-Build the prototype first (with a sub-agent for the frontend where the
-host has the Agent tool), then every feature in the design's order,
+Build the prototype first, then every feature in the design's order,
 each with its rules and scenarios. Between features, say in one line
 which is finished and go on; never wait for an answer.
 
+- **The frontend by a sub-agent** (the Agent tool, where the host has
+  it) builds the pages beside the backend. It loads no skill, so its
+  prompt carries the rules it would never see, word for word: read
+  each plugin file with the Read tool, one call per file, never `cat`
+  or `sed`; change a file that exists with the Edit tool, never a
+  script or `sed -i`; the references to read, by path,
+  `web-app/references/react-client.md`,
+  `web-app/references/ui-design.md`,
+  `python/references/react-generated-client.md` and
+  `python/references/testing-web-app.md`; and the house rules it
+  keeps: the accent from `styles.css` and no raw color outside it,
+  every control and heading labelled for the browser scenarios, each
+  page's primary view as the design says. (hotel-200's sub-agent read
+  four references by `cat` and edited by `sed -i`.)
 - **Read this plugin with the Read tool,** one call per file, several
   in one response, never `cat`, `awk` or a loop in a shell (the
   `python` skill's rule: a long shell result comes back as a preview
@@ -171,12 +187,20 @@ to `design/review.md` and `design/look-review.md`. Every `@blocked`
 scenario is named with its reason, and every assumption that shaped
 the app is in **Assumed**.
 
-Then the one question the whole build asks, **<The app> works. What
-next?**, worded as
+Then the one question the whole build asks, one dialog, word for
+word:
+
+- **<The app> works. What next?**
+  - "Accept it as built (Recommended)": "Record the design and its
+    rules as they stand; later changes are measured against them."
+  - "Change something": "A rule, a page, the look, or a feature to
+    add, in your own words."
+
+On accept, record the acceptance as
 [`app/references/accept-design.md`](../app/references/accept-design.md)
-says: accept it as built, or change something. On a yes, record the
-acceptance as `accept-design.md` says, with **Assumed** in the first
-decisions entry.
+says, with **Assumed** in the first decisions entry. A change, chosen
+or typed as the free answer, is made as the `feature` skill makes any
+change, then the same question.
 
 ## Never
 
