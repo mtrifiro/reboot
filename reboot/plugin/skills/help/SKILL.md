@@ -42,7 +42,7 @@ One message, no longer than a screen:
 
 | Stage | Pick from |
 | --- | --- |
-| No project | "Build me a <kind of app> for <who>" (the `app` skill); "Design me a <kind of app>, don't build it yet" (the `design` skill); "Show me an example first" (the `quickstart` skill); `/reboot:build <exactly what to build>` (just that and nothing more, no design, no questions); `/reboot:one-shot <the app>` (the whole app a real product needs, designed, built and reviewed, nothing asked) |
+| No project | "Build me a <kind of app> for <who>" (the `app` skill: first how to build, guided, the whole app or just what's typed, then that skill); `/reboot:guided <the app>` (the guided build by name); "Design me a <kind of app>, don't build it yet" (the `design` skill); "Show me an example first" (the `quickstart` skill); `/reboot:build <exactly what to build>` (just that and nothing more, no design, no questions); `/reboot:one-shot <the app>` (the whole app a real product needs, designed, built and reviewed, nothing asked) |
 | Design only | "Build it" (go on from the design); "Change the design: <what>" |
 | Backend built | "Build the <screen>" (the next page, named as its users would); "Show me the domain model" (the dashboard); "Will it scale?" (`domain-review`) |
 | Frontend built | "Build <the next feature from the last Build next list>" ; "What should I build next?" (`what-next`); "Review the look" (`design-review`); "Will it scale?" (`domain-review`); "Put it in Claude and ChatGPT" (an MCP UI, when only the web app exists); "Deploy it" (`deploy`); "Stop the app" or "Restart it" (`run`) |
