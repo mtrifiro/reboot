@@ -236,6 +236,14 @@ case "$tool" in
                     'stat '*"${CLAUDE_PLUGIN_ROOT}/skills/"* )
                         approved=$((approved + 1))
                         ;;
+                    'python3 '*"${CLAUDE_PLUGIN_ROOT}/skills/"*/assets/*.py* )
+                        # A script this plugin ships under a skill's
+                        # assets/ (render.py, accent.py, look.py): as
+                        # trusted as the skill that names it. Quoted
+                        # with single quotes: `field` stops at a
+                        # double quote's escape.
+                        approved=$((approved + 1))
+                        ;;
                     head | tail | wc | sort | uniq)
                         # Stdin filter with no args.
                         approved=$((approved + 1))
