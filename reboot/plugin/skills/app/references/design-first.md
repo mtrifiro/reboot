@@ -96,19 +96,16 @@ counts, hours), in the user's nouns.
 
 ## 3. One question
 
-First the proposed design, as text in the same response, just above
-the dialog: the message in [`design-messages.md`](design-messages.md),
-"The proposed design", the whole design but its methods, every
-heading filled, its features and rules before its domain model, about
-500 words. Then end with one dialog
-(`AskUserQuestion` where available; otherwise the same as one plain
-line), the build's first and only question before any code. It
-chooses how to build and gives the go-ahead at once, with the design
-in view. Its options, word for word, filled in from the design (<n>
-the features' count; <time> about 7 minutes a feature, rounded to
-the nearest quarter hour and said "about 45 minutes", "about an hour";
-7 is what whole-app builds measured, 1.6.0's hotel-6 and main's
-hotel-7, until a build on these skills is measured):
+The proposed design (section 2) sits as text in the same response,
+just above the dialog, every heading filled, its features and rules
+before its domain model. Then one dialog (`AskUserQuestion` where
+available; otherwise the same as one plain line), the build's first
+and only question before any code: it chooses how to build and gives
+the go-ahead at once, with the design in view. Its options, word for
+word, filled in from the design (<n> the features' count; <time>
+about 7 minutes a feature, what whole-app builds measured, rounded to
+the nearest quarter hour and said "about 45 minutes", "about an
+hour"):
 
 - Title: **How should it be built?**
 - "All at once": "All <n> features without stopping, about <time>;
@@ -183,15 +180,13 @@ the turn with one line linking each domain object on the dashboard
 >
 > Dashboard: [Models](<link>) · [Features](<link>) · [Changelog](<link>)
 
-This is the dashboard's whole hand-over at this point: the lead line,
-naming the port only when it isn't 9871, then the Models · Features ·
-Changelog line. No separate "the developer dashboard is at …" line
-before it, and no second list of the same objects.
-
-The lead line and the link line are message text, written in the same
-response as the dialog, just above it; never drafted only in thinking.
-The dialog says what it asks about on its own, so it reads right even
-when the text above has scrolled away:
+This is the dashboard's whole hand-over here, the lead line (naming
+the port only when it isn't 9871) and the Models · Features ·
+Changelog line: no separate "the developer dashboard is at …" line,
+no second list of the same objects. Both are message text in the same
+response as the dialog, just above it, never drafted only in
+thinking. The dialog says what it asks about on its own, so it reads
+right even when the text above has scrolled away:
 
 - Title: **Build on this domain model?**
 - "Build on it" (recommended): "Next: the actions for “<feature>”,
@@ -278,18 +273,16 @@ unchanged, but for these questions.
 
 ## Never
 
-- "How should it be built?" without the proposed design written just above
-  it, as text (section 3): the question asks the user to judge it. A
-  sentence that the design is in `design/design.md`, or the message
-  drafted only in thinking, is not it; one build asked with nothing
-  shown but a line of its thinking.
+- "How should it be built?" without the proposed design written just
+  above it, as text (section 3): the question asks the user to judge
+  it. A sentence that the design is in `design/design.md`, or the
+  message drafted only in thinking, is not it.
 - "Build on this domain model?" without its lead line and the
-  dashboard's links written just above it, as text (section 4). One
-  build drafted the line in thinking and asked "Does this look right?"
-  alone, with nothing to say what "this" was.
-- "Build the frontend: the <screen>?" without the backend's results and the
-  dashboard's links shown just above it (section 5): the question asks
-  the user to judge what those show.
+  dashboard's links written just above it, as text (section 4): a
+  question with nothing to say what "this" is.
+- "Build the frontend: the <screen>?" without the backend's results
+  and the dashboard's links shown just above it (section 5): the
+  question asks the user to judge what those show.
 
 - Reading a reference, or listing the folder, before the opening that
   says what will be built; reading this plugin's files with a
