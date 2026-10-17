@@ -305,6 +305,33 @@ CASES: list[tuple[str, str, dict, Decision]] = [
         },
         Decision.APPROVE,
     ),
+    (
+        "Bash: python3 on a skill's asset script (render.py)",
+        "Bash",
+        {
+            "command":
+                f"python3 '{PLUGIN_ROOT}/skills/python/assets/render.py' "
+                f"--app 'Corner Shop' --pkg shop --hub Shop --thing Product --web ."
+        },
+        Decision.APPROVE,
+    ),
+    (
+        "Bash: python3 on an asset script outside the plugin",
+        "Bash",
+        {
+            "command":
+                "python3 /tmp/evil/plugin/skills/python/assets/render.py ."
+        },
+        Decision.REJECT,
+    ),
+    (
+        "Bash: python3 on a plugin file that is not an asset script",
+        "Bash",
+        {
+            "command": f"python3 {PLUGIN_ROOT}/skills/python/SKILL.md"
+        },
+        Decision.REJECT,
+    ),
 
     # ----- Bash: command chaining (the case from the user's session). -----
     (
