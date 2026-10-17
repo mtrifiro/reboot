@@ -1,6 +1,6 @@
 ---
 name: one-shot
-description: Build a complete Reboot application in one go, asking nothing. Designs every feature a real product in the domain needs, not only those the prompt names, builds the whole app with every rule and scenario without stopping, reviews its domain model and its look and fixes what the reviews find, and hands it over once, at the end. Use only when the user asks for it by name ("/reboot:one-shot", "one-shot", "one shot"); otherwise the app skill builds apps design first, with one round of questions.
+description: Build a complete Reboot application in one go, asking nothing. Designs every feature a real product in the domain needs, not only those the prompt names, builds the whole app with every rule and scenario without stopping, reviews its domain model and its look and fixes what the reviews find, and hands it over once, at the end. Use only when the user asks for it by name ("/reboot:one-shot", "one-shot", "one shot"); otherwise the app skill asks how to build and routes to the guided, one-shot or build skill.
 argument-hint: [<app-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit, Agent, Skill
 ---
@@ -11,7 +11,7 @@ From the prompt to a finished app, the proper way, with no question
 until the end: the design, every feature with its rules proven by
 scenarios, every page tested in a browser, a domain review and a look
 review with what they find fixed, and one handoff. Nothing stops the
-build but the end. The `app` skill is not loaded: its round of
+build but the end. The `guided` skill is not loaded: its round of
 questions and its go-ahead are what this skill leaves out.
 
 > **The user sees only message text.** Every line this skill says
@@ -206,7 +206,7 @@ change, then the same question.
 
 - A question, a dialog or a wait for an answer before the handoff,
   from this skill or any skill it loads or reads.
-- The `app` skill loaded: its round and go-ahead are the questions
+- The `guided` skill loaded: its round and go-ahead are the questions
   this skill leaves out.
 - A smaller app than the domain needs because the prompt was short.
 - A feature dropped silently: a feature that can't be finished is in
