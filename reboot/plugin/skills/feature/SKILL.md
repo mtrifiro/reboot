@@ -23,7 +23,9 @@ skill's references; read them at the step that needs them:
 
 - `../python/references/testing-features.md` — **read before
   writing any scenario**: the step vocabulary, who calls, saved
-  values, assertions, `@wip` / `@blocked`, custom steps.
+  values, assertions, `@wip` / `@blocked`.
+- `../python/references/testing-custom-steps.md` — when a scenario
+  needs a step the built-in steps don't have.
 - `../python/references/testing-web-app.md` — read when a scenario
   opens the web app: the `frontend` fixture, the web app steps, the
   accessible markup the page needs, recordings.
