@@ -29,7 +29,7 @@ nouns.
 **Brief.** <Who uses <app name> and on what screen.> <Their main job, as a
 cycle or flow when there is one: *occupied → dirty → cleaned →
 inspected → occupied*.> The main page answers one question: **<the
-question>** The name is **<name>** and the accent is **<accent>**
+question>** The name is **<name>** and the accent is **<accent: one of teal, cyan, blue, indigo, violet, purple, plum or rose, by that plain name, never a theme such as "newsprint">**
 (<why it suits the domain>).<When the build picked them: " Both were
 picked for you; either is easy to change.">
 
