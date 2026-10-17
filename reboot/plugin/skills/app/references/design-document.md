@@ -87,7 +87,8 @@ line each, with its link: "`book` is a Transaction ([decided](…))".>
 
 ## Pages
 
-- `<path>`: <what it shows and what the viewer can do there>.
+- `<path>`: <what it shows and what the viewer can do there, naming
+  what they drag where when something moves>.
 
 ## Sign-in
 
