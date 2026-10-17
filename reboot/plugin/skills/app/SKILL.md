@@ -84,7 +84,7 @@ dialogs
 ([`../app/references/design-first.md`](../app/references/design-first.md),
 sections 3 to 5), the task list (`../app/references/task-list.md`),
 and for the whole app, the [`one-shot` skill](../one-shot/SKILL.md)'s
-steps 4 and 5.
+steps 4 and 6 (its reviews, step 5, are the one-shot's own).
 
 **3. Throughout the build:**
 
