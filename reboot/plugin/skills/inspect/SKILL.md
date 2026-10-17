@@ -10,44 +10,38 @@ allowed-tools: Bash, Read
 > **Version notices** from `rbt` (a mismatch, a newer Reboot): the [upgrade skill](../upgrade/SKILL.md).
 
 `rbt inspect` reads the persisted state of a **running** Reboot
-application — the same data the `/__/inspect` web dashboard shows,
-but from the terminal so it is scriptable and pipeable. Reach for it
-to debug what an app has actually stored: which state types exist,
-which actors of a type exist, and what a single actor currently holds.
+application — what the `/__/inspect` page (linked from `rbt dev run`
+and `rbt cloud up` output) shows beside recent calls, but from the
+terminal, scriptable and pipeable. Reach for it when the question is
+about _runtime state_ rather than code: "did `create` actually persist
+this field?", "which account IDs exist?", "what does actor `alice`
+look like right now?". It only reads.
 
-Use it whenever the question is about _runtime state_ rather than
-code — e.g. "did `create` actually persist this field?", "which
-account IDs exist?", "what does actor `alice` look like right now?".
-It does not modify anything; it only reads.
-
-> This skill **inspects** a running app; it does not start one. To
-> bring an app up first, see the [run skill](../run/SKILL.md). To
-> change what an app stores, see the
-> [python skill](../python/SKILL.md).
+> This skill **inspects** a running app; it does not start one — the
+> [run skill](../run/SKILL.md) does. To change what an app stores,
+> the [python skill](../python/SKILL.md).
 
 This is the Reboot Flywheel's **Observe** stage
-([`app/references/flywheel.md`](../app/references/flywheel.md)):
-what the running app holds, and why. The history you can read is the
-history the design chose to record, so a question the stored state
-can't answer is a gap in the design. A finding goes back by the
+([`app/references/flywheel.md`](../app/references/flywheel.md)). The
+readable history is the history the design chose to record, so a
+question the stored state can't answer is a gap in the design. A finding goes back by the
 routing rule there: a code fix to Prove, a missing or wrong rule to
 Design.
 
 ## From a finding to a scenario
 
-A report names a reservation, a room or a person: a state ID. Go from
-the report to the state ID, from the state ID to the stored state
-(below), and from the stored state to the rule it breaks. Then the fix
-starts as a scenario, by the [`feature` skill](../feature/SKILL.md)'s
-"A fix, a bug report, a review finding":
+A report names a reservation, a room or a person: a state ID. From
+the report to the state ID, to the stored state (below), to the rule
+it breaks. Then the fix starts as a scenario, by the
+[`feature` skill](../feature/SKILL.md)'s "A fix, a bug report, a
+review finding":
 
 - Name the state ID and the revision that was live (the last row of
   `deploy/ledger.jsonl`, [`app/references/evidence.md`](../app/references/evidence.md))
-  in the scenario's description, so the next reader can find the
-  evidence again.
+  in the scenario's description.
 - Reproduce the stored state through the methods that produce it,
-  never by writing state directly: a scenario that sets up a state no
-  method can reach proves nothing about the app.
+  never by writing state directly: a state no method can reach proves
+  nothing about the app.
 - Put the scenario under the rule it breaks. When no rule says what
   should have happened, the rule is the gap: write it, and it goes to
   Design for acceptance before the fix.
@@ -66,14 +60,13 @@ rbt inspect state get --type=<full.Type.Name> --id=<state-id> \
   --application-url=<url>
 ```
 
-The usual flow is to drill down: `type list` to discover the exact
-type name to pass to `--type`, then `state list` to find the
-`--id`, then `state get` to dump that actor.
+Drill down: `type list` for the exact name to pass to `--type`, then
+`state list` for the `--id`, then `state get`.
 
 - `--type` takes the **full, package-qualified** type name exactly as
   `type list` prints it (e.g. `bank.v1.Account`, `tests.reboot.Echo`)
   — not the bare Python class name.
-- `--id` is the actor's state ID: the same string you pass to
+- `--id` is the actor's state ID: the string passed to
   `<Type>.ref(id)` / `<Type>.create(context, id, ...)`.
 - `state get` prints the state as a JSON object. Pipe it to `jq` or a
   file like any other JSON.
@@ -92,15 +85,14 @@ Both flags match `rbt export` / `rbt import` (see
     `https://<application-id>.prod1.rbt.cloud:9991`).
 - `--admin-credential` is the app's admin secret, stored under the
   `SECRET_REBOOT_ADMIN_TOKEN` secret.
-  - **Local dev:** defaults to `dev`, so you can omit it.
-  - **Reboot Cloud:** required — pass the value you set for
+  - **Local dev:** defaults to `dev`, so it may be omitted.
+  - **Reboot Cloud:** required — the value set for
     `SECRET_REBOOT_ADMIN_TOKEN` (see
     `../python/references/lifecycle-secrets.md`).
 
 ### Examples
 
-Against a local `rbt dev run` backend (admin credential defaults to
-`dev`):
+Local `rbt dev run` (admin credential defaults to `dev`):
 
 ```sh
 rbt inspect type list --application-url=http://localhost:9991
@@ -114,7 +106,7 @@ rbt inspect state get \
   --application-url=http://localhost:9991
 ```
 
-Against a deployed Reboot Cloud app (admin credential required):
+Reboot Cloud (admin credential required):
 
 ```sh
 rbt inspect state get \
@@ -130,8 +122,6 @@ rbt inspect state get \
 - **`state get` routes to the actor's host automatically**, even in a
   multi-server deployment, and reassembles large states transparently.
 - **Pipeable output.** `type list` and `state list` print one entry
-  per line; `state get` prints a single JSON object. None of it is
+  per line; `state get` prints a single JSON object. Nothing is
   colorized when the output is not a TTY, so it composes with `grep`,
   `jq`, etc.
-- **Web equivalent.** The `/__/inspect` page (linked from `rbt dev run` and `rbt cloud up` output) shows the same state plus recent
-  calls in a browser; `rbt inspect` is the CLI counterpart.
