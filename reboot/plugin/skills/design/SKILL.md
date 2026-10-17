@@ -195,6 +195,13 @@ What the design holds while nothing is built, in chat and file:
   line "Everyone signed in can do everything for now; roles come with
   Who may do what.", and the first feature has no roles, roster or
   role rules.
+- **A `User` object in every design,** by that name: one per person
+  who signs in, keyed by their sign-in ID, where both front doors sign
+  in and the per-user data hangs; the people the app is about (guests,
+  clients, teammates) are their own objects when they hold more than a
+  name. **A list that grows without limit** (a history, a feed,
+  events) is never a field of another object: its own object or an
+  `OrderedMap` (`state-collections.md`), said in the design.
 - **No links yet.** Packages, domain objects, methods, features and
   rules are named in code style (`Room`, `Room.check_in`), never as
   dashboard links: a link to nothing reads as broken. Links come once
