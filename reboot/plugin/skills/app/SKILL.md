@@ -97,9 +97,11 @@ steps 4 and 5.
   ([`../app/references/while-you-wait.md`](../app/references/while-you-wait.md)).
 - **Files a part at a time** with the Write tool, never every file in
   one shell command.
-- **Read this plugin with Read, Grep and Glob,** never `cat`, `ls` or
-  `cd` in a shell: auto mode may block shell commands in the plugin's
-  folder.
+- **Read this plugin with the Read tool,** one call per file, several
+  in one response, and Glob to find one; never `cat`, `awk`, `sed` or
+  a loop in a shell: a shell result over about 30 KB comes back as a
+  2 KB preview and a saved file, and the references in it go unread
+  (the `python` skill has the rule in full).
 
 ## Routing
 
