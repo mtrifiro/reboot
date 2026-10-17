@@ -7,7 +7,7 @@ allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 
 # build — Exactly What the Prompt Says
 
-The expert path. The `app` skill proposes a design, asks four
+The expert path. The `guided` skill proposes a design, asks three
 questions and explains as it goes; this skill builds the prompt as
 written and stops. Nothing is asked, ever. Nothing is built that the
 prompt doesn't name.
