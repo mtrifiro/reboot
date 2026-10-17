@@ -155,7 +155,7 @@ feature:
 15. Add the feature's rules to the servicer and adjust its pages,
     until its scenarios pass. When a scenario fails for a reason
     that looks like it is inside the framework, check
-    `python/references/patterns-idempotency.md` and
+    `python/references/lifecycle-seeding-troubleshooting.md` and
     `patterns-common-gotchas.md` before reading `site-packages`.
 16. Fold in what the user asked to change, if anything: a change to
     the design goes back to the proposed design, then into the
