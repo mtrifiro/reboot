@@ -34,8 +34,13 @@ A fix is proposed upstream (reboot#232).
 
 ### Harness tests on macOS hang or fail with `Unimplemented` or timeouts
 
-Affects: 1.6.0 and main (seen on 1.6.1+dev1332, 2026-10-17) on macOS.
-The starter's `tests/conftest.py` carries the workaround below.
+Affects: 1.6.0 on macOS; seen once on main (1.6.1+dev1332, hotel-200,
+2026-10-17: one scenario of 71 failed with "Method not found", then a
+timeout). The workaround below is not in the starter: on main it hangs
+every scenario of the starter's suite, set before or after `reboot.bdd`
+is imported (measured 2026-10-17), while hotel-200's suite passed with
+it. Add it to a project only on the symptom, and take it out if the
+scenarios then hang.
 
 The test harness starts its servers on `0.0.0.0`, which binds both IPv4
 and IPv6, while callers dial IPv4. On macOS a new server can then be
