@@ -163,9 +163,9 @@ feature:
     ([`app/references/flywheel.md`](../../app/references/flywheel.md))
     says which changes are design.
 17. Test the backend only: `uv run pytest tests/<app>_test.py`, every
-    feature's backend scenarios and no browser, in the background, its
-    result said once ([`feature/SKILL.md`](../../feature/SKILL.md),
-    "Report a full run once, at the end"), and
+    feature's backend scenarios and no browser, as
+    [`feature/SKILL.md`](../../feature/SKILL.md)'s "Report a full run
+    once, at the end" says, and
     `uv run mypy backend/ tests/` from the project root. After a
     failure, fix it and rerun only what failed (`--lf`), then go on;
     say in one line which feature is now finished. The browser
