@@ -1,8 +1,8 @@
 ---
 title: The Design First, Then How to Build It
 impact: HIGH
-impactDescription: After the design skill's round and proposed design, the app skill asks the go-ahead (Build on this design?), then, in the first feature, the domain model check and the frontend question, each with its text just above it; the power-user path asks none of them.
-tags: go-ahead, domain model, frontend, dialogs, design, power user
+impactDescription: After the design skill's round and proposed design, the app skill asks the go-ahead (Build on this design?), then, in the first feature, the domain model check and the frontend question, each with its text just above it; the prompt-by-prompt path asks none of them.
+tags: go-ahead, domain model, frontend, dialogs, design, prompt by prompt
 ---
 
 # The Design First, Then How to Build It
@@ -59,7 +59,7 @@ handoff's review: this decides the design before any code, that the
 feature as built. After the answer, the `app` skill's **What to
 expect** for the chosen path, then the build.
 
-**The power-user path asks nothing,** here or later: no go-ahead
+**The prompt-by-prompt path asks nothing,** here or later: no go-ahead
 dialog (the design's closing line is "The design is in
 design/design.md (linked). Say what to build first.", `design.md`
 written just before it, and the build stops), no model check (section
@@ -183,7 +183,7 @@ answer ("a stay should also hold the guest's room"): change the API,
 `rbt generate`, say what changed, ask again. No task item marks the
 wait: the dialog is the signal. If the dashboard didn't come up, don't ask: say so in
 one sentence and go on; the model is checked at the first handoff.
-Later features don't ask; `one-shot` and the power-user path never
+Later features don't ask; `one-shot` and the prompt-by-prompt path never
 do.
 
 ## 5. The backend, then the page
@@ -209,7 +209,7 @@ on the dashboard before any time goes into the page, and can say
 "stop" or ask for a change at any point; later features go from
 backend to page the same way, their handoff showing both. A backend
 only (no front door) ends here with its handoff; `one-shot` and the
-power-user path say the backend's lines and go on the same.
+prompt-by-prompt path say the backend's lines and go on the same.
 
 From the first feature on, the build follows the front door
 unchanged, but for these questions.
@@ -220,7 +220,7 @@ unchanged, but for these questions.
   above it (section 3): the question asks the user to judge it. A
   sentence that the design is in `design/design.md`, or a message
   drafted only in thinking, is not it.
-- A dialog on the power-user path: the user chose to be asked
+- A dialog on the prompt-by-prompt path: the user chose to be asked
   nothing.
 - "Build on this domain model?" without its lead line and the
   dashboard's links as text just above it (section 4): nothing says
@@ -234,4 +234,4 @@ unchanged, but for these questions.
   asked: the go-ahead is asked once, after the design, and takes any
   change to the features.
 - Code, `rbt generate` or a project scaffold before the go-ahead (on
-  the power-user path, before the user's first build prompt).
+  the prompt-by-prompt path, before the user's first build prompt).
