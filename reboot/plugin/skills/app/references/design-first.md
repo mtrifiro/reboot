@@ -33,7 +33,7 @@ whole-app builds measured,
 rounded to the quarter hour: "about 45 minutes", "about an hour"):
 
 - Title: **Build on this design?**
-- "Build it" (recommended): for All at once, "All <n> features
+- "Start building" (recommended): for All at once, "All <n> features
   without stopping, about <time>; you see it at the end."; for
   Guided, "<First feature>'s backend first, about 15 minutes: you
   check its domain model on the dashboard, then its actions, then say
