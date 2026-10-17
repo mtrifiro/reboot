@@ -36,17 +36,21 @@ The task list uses the items "The whole app first" in
 
 **All commands run from the application directory.**
 
-1. Create `.python-version`, `pyproject.toml`, `.rbtrc`, and
-   `.mypy.ini` — same shape as in
-   `python/references/lifecycle-{project-setup,rbtrc}.md`. In
-   `.rbtrc`, point the React codegen at `frontend/api`:
-   ```sh
-   generate --react=frontend/api
-   ```
+1. Render the project from the starter
+   (`python/references/lifecycle-project-setup.md`):
+   `python3 '<the python skill>/assets/render.py' --app '<App Name>'
+   --pkg <pkg> --hub <Hub> --thing <Thing> --web .` (single quotes, as
+   written), the hub the
+   design's one hub object and the thing its first feature's central
+   object: the shell, a working backend in that shape and the whole
+   frontend, named for the design; `.rbtrc` already points the React
+   codegen at `frontend/api`.
 2. `uv sync`.
 3. Don't start the developer dashboard yet: it starts after step 5,
    once there is an API for it to show.
-4. Write the API definition (`api/<pkg>/v1/<name>.py`). Pydantic
+4. Edit the starter's API (`api/<pkg>/v1/<pkg>.py`) into the design's:
+   its fields on the starter's objects, every object and method the
+   design names beside them, in the same shape. Pydantic
    rules live in `python/references/api-pydantic.md`; method
    marker → context-type rules in
    `python/references/api-methods.md`. Every `Reader`, `Writer`,
@@ -78,8 +82,9 @@ the app, and to report back when `npm run build` passes or when the
 API lacks something a page needs. Only a host without
 the Agent tool (Codex, say) does the steps in order.
 
-6. Write a thin servicer (`backend/src/servicers/<name>.py`),
-   context-type patterns in `python/references/servicer-*.md`.
+6. Edit the starter's servicers and add one per new object
+   (`backend/src/servicers/<name>.py`), thin; context-type patterns
+   in `python/references/servicer-*.md`.
    Readers return real state; writers and transactions store what
    they are given. Leave out every rule from the feature files (no
    overlap, stock or capacity checks, no role checks beyond sign-in)
@@ -88,23 +93,23 @@ the Agent tool (Codex, say) does the steps in order.
    for them reaches the user later.
    Write the real `authorizer()` rules now: they are short and the
    prototype needs sign-in to work.
-7. Write `main.py` (`python/references/lifecycle-application-entry.md`)
-   with believable demo data from `initialize`, only under
+7. Add the servicers to `main.py`'s `SERVICERS`
+   (`python/references/lifecycle-application-entry.md`) and
+   believable demo data to `initialize`, only under
    `rbt dev run`, seeded as `python/references/lifecycle-seeding.md`
    says: a few bulk transactions, not one call per record, and a
    small set, enough that every page shows something.
-8. Scaffold the frontend beside `frontend/` and move it in
-   (`frontend/api/` is already there, and `create-vite` won't write
-   into a folder that isn't empty) and shape it as [`references/react-client.md`](react-client.md)
-   shows: the SPA's `index.html`, `src/`, and `public/` under
-   `frontend/web/`, the config rooted there with the `dedupe` and
-   `server.host` entries, the Reboot packages in `package.json`, and
-   `frontend/web/.env.development` with `VITE_REBOOT_URL`.
+8. The frontend is in place from step 1, rendered with the starter
+   ([`references/react-client.md`](react-client.md) says what each
+   file is for: the SPA under `frontend/web/`, the config with its
+   `dedupe` and `server.host` entries, the Reboot packages in
+   `package.json`, `VITE_REBOOT_URL` in `web/.env.development`).
 9. `cd frontend && npm install`.
 10. `uv run rbt generate` again — the React bindings need
     `node_modules` to resolve types correctly. (A frontend sub-agent
     asks the main agent to run it.)
-11. Build every page of the design from
+11. Edit the starter's page (`frontend/web/src/App.tsx`) into every
+    page of the design, from
     [`references/react-client.md`](react-client.md): the
     provider and its `url`, the generated hook/mutator/error
     declarations, sign-in, and typed errors are all written out

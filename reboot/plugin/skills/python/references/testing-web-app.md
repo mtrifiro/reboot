@@ -64,53 +64,16 @@ scenario; without them the backend steps still work.
 
 ## The `frontend` Fixture and the Application
 
-Each scenario serves the web app fresh, once its backend is up. A
-project with a Vite project under its root defines the `frontend`
-fixture with `reboot.bdd.vite.vite` and the directory:
-
-```python
-import pytest
-from reboot.aio.applications import Application
-from reboot.aio.auth.oauth import OAuth
-from reboot.aio.auth.oauth_providers import (
-    Development,
-    OAuthProviderByEnvironment,
-)
-from reboot.bdd import scenarios
-from reboot.bdd.frontend import Frontend
-from reboot.bdd.vite import vite
-from typing import Iterator
-
-
-@pytest.fixture
-def frontend() -> Iterator[Frontend]:
-    with vite(directory='frontend') as frontend:
-        yield frontend
-
-
-@pytest.fixture
-def application(frontend: Frontend) -> Application:
-    # A web app calls the backend from its own origin.
-    assert frontend.origin is not None
-    development = Development()
-    return Application(
-        servicers=[...],
-        # The harness is neither `rbt dev run` nor `rbt serve`, so
-        # name the Development picker for both.
-        oauth=OAuth(
-            provider=OAuthProviderByEnvironment(
-                dev=development,
-                prod=development,
-            ),
-            # The app's origin is the only one Envoy lets read
-            # `/whoami` cross-origin, as a deployment lists its host.
-            allowed_origins=[frontend.origin],
-        ),
-    )
-
-
-scenarios('opening_accounts.feature', 'transfers.feature', 'sign_in.feature')
-```
+Each scenario serves the web app fresh, once its backend is up. The
+starter's `tests/web_test.py` (rendered with `--web`) defines both
+fixtures: `frontend`, from `reboot.bdd.vite.vite` with the directory
+`frontend`; and `application`, which takes `frontend`, passes
+`SERVICERS` and `initialize` from `main`, names the Development picker
+for both `dev` and `prod` (the harness is neither `rbt dev run` nor
+`rbt serve`), and sets `allowed_origins=[frontend.origin]`: the app's
+origin is the only one Envoy lets read `/whoami` cross-origin, as a
+deployment lists its host. Its `scenarios(...)` names the web feature
+files; every one runs from this module.
 
 The app is served the way it is deployed: from its own origin (a
 Vite dev server on `localhost`), calling the backend cross-origin at
