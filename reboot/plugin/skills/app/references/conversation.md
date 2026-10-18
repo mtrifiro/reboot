@@ -112,7 +112,7 @@ usual behaviour stands.
 
 **After every answer, say what comes next.** Whenever the user
 answers a dialog or asks for something (how to build, the go-ahead,
-the model check, the page, the next feature), the first thing after
+the model check, the next feature), the first thing after
 it, before any tool call, is one or two sentences in plain words: what
 will be done now, in the user's nouns, and what they'll see next, with
 the time when the opening's estimates give one. Short: no list of
@@ -159,7 +159,7 @@ recap, one question, reply buttons), and that box also checks off the
 whole task list. So:
 
 - **Questions inside the build** (Build on this design?, after the design; Build on
-  this domain model? (the model check), Build the frontend: the <screen>?, What
+  this domain model? (the model check), What
   should I build next?) are dialogs (`AskUserQuestion`) asked while the
   turn goes on, never the box: the box would tick every item on the
   list before anything is built, and the list would then have to be
@@ -171,8 +171,8 @@ whole task list. So:
   skipped dialog, the box gets the recap only, with no `ask` and no
   buttons: the feature is running for the user to try.
 - **Every question inside the build offers a way to learn more before
-  answering:** "Tell me more" on Build on this design? and Build the
-  frontend: the <screen>?, "Walk me through it" on the model check
+  answering:** "Tell me more" on Build on this design?, "Walk me
+  through it" on the model check
   (`design-first.md` gives each one's answer). It answers in the chat
   and asks the same dialog again. What should I build next? describes
   each part in its option instead, since its options are the parts.
