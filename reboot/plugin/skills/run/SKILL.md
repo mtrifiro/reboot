@@ -137,8 +137,14 @@ the same machine, and `pkill -f "rbt dev run"` or the first match of
 also skips the `uv` wrapper that a signal would otherwise reach first:
 
 ```shell
-kill -INT $(pgrep -f "$PWD/.venv/bin/rbt dev run")
+P=$(pgrep -f "$PWD/.venv/bin/rbt dev run"); kill -INT $P
+for i in $(seq 30); do kill -0 $P 2>/dev/null || break; sleep 1; done
 ```
+
+The loop waits, at most 30 seconds, until it has exited: its Envoy and
+ports go with it, and a suite started while they are still up has
+failed scenarios that pass alone (hotel-211: two failed in a full run
+started three seconds after the signal, and passed in the next).
 
 **Stop it before running the test suite**, and start it again once
 the suite passes. The suite runs its own Reboot over the same
