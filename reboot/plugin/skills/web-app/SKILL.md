@@ -462,7 +462,9 @@ finished app.
    reader, a form, a table) into the feature's one page from
    [`references/react-client.md`](references/react-client.md) and
    [`references/ui-design.md`](references/ui-design.md): its primary
-   view in the house look. Write the calls from the reference and do
+   view in the house look, leading with what the design's page line
+   says, the resting state plain and the accent on one action. Write
+   the calls from the reference and do
    **not** open `frontend/api/**/*_rbt_react.ts`.
    `cd frontend && npm run build`.
 9. Edit the starter's browser scenario (`tests/<pkg>_web.feature`,
