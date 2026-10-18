@@ -64,9 +64,13 @@ line each, Who may do what among them>. Built only when you ask.
 
 **Pages**
 - `<route>`: <the page's primary view in the domain's own shape (a
-  floor plan, a board, a calendar), status shown in colour, worked on
-  directly: what a tap does, what a drag moves where when something
-  moves, what a click opens>. <The one reader that feeds it.>
+  floor plan, a board, a calendar), worked on directly: what a tap
+  does, what a drag moves where when something moves, what a click
+  opens>; <what it leads with, which states carry colour and where the
+  accent goes, the normal state plain and the accent on one action:
+  "leads with rooms ready and arrivals waiting; dirty, out of order and
+  leaving today in colour, ready rooms plain; the accent on Check in">.
+  <The one reader that feeds it.>
 
 **Sign-in.** <Who signs in, how in development and at deploy, and
 what an anonymous visitor sees.> <In development, the picker's five

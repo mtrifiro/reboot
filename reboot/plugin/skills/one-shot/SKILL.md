@@ -69,7 +69,9 @@ end, not the smallest app that fits the prompt:
 - **Every role** that does that work, with what each may do, from the
   first build: **Who may do what** is one of the features, not left
   for later.
-- **Pages** for each role's daily work, each with its primary view.
+- **Pages** for each role's daily work, each with its primary view,
+  what it leads with, which states carry colour and where the accent
+  goes.
 
 The round's other answers, taken without asking: the accent the
 design skill would recommend for the domain (or the brand the prompt
@@ -119,8 +121,10 @@ which is finished and go on; never wait for an answer.
   `python/references/testing-web-app.md`; and the house rules it
   keeps: the accent from `styles.css` and no raw color outside it,
   every control and heading labelled for the browser scenarios, each
-  page's primary view as the design says. (hotel-200's sub-agent read
-  four references by `cat` and edited by `sed -i`.)
+  page's primary view, what it leads with, which states carry colour
+  and where the accent goes as the design's page line says
+  (`ui-design.md`, "What the Eye Lands On"). (hotel-200's sub-agent
+  read four references by `cat` and edited by `sed -i`.)
 - **Read this plugin with the Read tool,** one call per file, several
   in one response, never `cat`, `awk` or a loop in a shell (the
   `python` skill's rule: a long shell result comes back as a preview
@@ -165,12 +169,15 @@ app:
    light and dark, measure, judge, and write `design/look-review.md`.
    Say its verdict in two lines.
 2. Fix every finding that breaks a rule of
-   `web-app/references/ui-design.md` or fails a measurement (contrast,
-   spill, clipped text, touching controls, a raw color outside
-   `styles.css`, a page that doesn't hold at phone width or in the
-   dark scheme), as its "Beyond the Tokens" says, then capture that
-   page again. A change of taste (the accent, the page tones, the
-   typefaces, the corners) is never made: it goes to the handoff.
+   `web-app/references/ui-design.md` ("What the Eye Lands On"
+   included: a page that leads with nothing, a resting state in
+   colour, the accent on names or a status, a page a third empty) or
+   fails a measurement (contrast, spill, clipped text, touching
+   controls, a raw color outside `styles.css`, a page that doesn't
+   hold at phone width or in the dark scheme), as its "Beyond the
+   Tokens" says, then capture that page again. A change of taste (the
+   accent, the page tones, the typefaces, the corners) is never made:
+   it goes to the handoff.
 
 After the fixes, the whole suite and mypy once more when anything
 changed, the result said once.
