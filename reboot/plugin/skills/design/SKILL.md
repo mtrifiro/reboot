@@ -138,9 +138,9 @@ recommendation is one answer:
   brand" (a site or tokens to read); nothing is read for this. The
   looks: the house look (cool paper, a characterful grotesque for
   headings, soft corners: SaaS, admin and internal tools), Ledger
-  (grey, Inter throughout, sharp corners, compact rows: operations
-  tools watched all day, a dispatch desk, a warehouse, a support
-  queue), Boutique (warm paper, a serif for headings, round corners:
+  (grey, Space Grotesk headings and figures over Inter, sharp corners,
+  compact rows: operations tools watched all day, a dispatch desk, a
+  warehouse, a support queue), Boutique (warm paper, a serif for headings, round corners:
   hospitality, retail, food, wellness, culture); the accents teal,
   cyan, blue, indigo, violet, purple, plum and rose, and no other. An
   option's description says what it is like and why it suits the
