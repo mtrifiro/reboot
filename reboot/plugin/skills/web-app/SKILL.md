@@ -259,7 +259,7 @@ Flywheel:
    [`app/references/design-messages.md`](../app/references/design-messages.md),
    with the answers in it, before writing the API. It decides the
    brief (who uses the app, on what screen, the task, the one
-   question its main page answers, the accent); the domain model,
+   question its main page answers, the look and accent); the domain model,
    one line per type, what it is and how it relates to the others;
    the features in build order, the first marked and why. The first
    feature shows the central object and its main behavior on one
