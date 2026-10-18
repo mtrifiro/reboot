@@ -232,14 +232,27 @@ where it lives. For each object, in build order, one message:
    on the Features page. In a verbose build the decisive lines are
    quoted (`exegesis.md`). About 150 to 250 words an object.
 3. One dialog, **Next on the tour?**: "Next: <the next object>"
-   (recommended), "How they connect": "The calls between them, then
-   back to the model.", "Stop the tour": "Back to the model."
+   (recommended), "How they connect": "One moment of the day, followed
+   through every object it touches.", "Stop the tour": "Back to the
+   model."
 
-After the last object, how they connect comes without asking: which
-object calls which, for what, in two or three lines, with the pane
-back on the whole model (`#/models`). Then **Build on this domain
-model?** again. Three objects are three stops; a message that sums
-them up in a paragraph is not a tour (hotel-203, 2026-10-18).
+**How they connect** is a stop of its own, as long as an object's, never
+a line or a paragraph, whether chosen or reached after the last
+object. The pane shows the whole model (`#/models`). In the chat, one
+or two moments of the user's day, each followed call by call as a
+numbered list in the user's nouns, every name a link: who does what
+("Carlos marks 304 cleaned"), which action runs and its kind, what it
+reads or changes on which object and why there, what it refuses and
+the rule behind it, who sees the result and how (the floor plan
+updates on everyone's screen through its reader). Then what does not
+connect, and why: what each object never touches. After it, the tour
+goes on where it was (the next object not yet shown, with the same
+dialog); once every object and the connections are shown, **Build on
+this domain model?** again. Three objects and their connections are
+four stops; a message that sums any of them up in a paragraph is not
+a tour (hotel-203 and hotel-204, 2026-10-18: "How they connect"
+answered in four lines, and the tour ended there with two objects
+unshown).
 
 When the model differs from the proposed design, one line before the
 dialog says how, in the user's nouns. A change goes in the free
