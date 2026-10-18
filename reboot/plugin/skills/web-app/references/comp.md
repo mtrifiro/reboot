@@ -35,9 +35,11 @@ comp: in <look>, in <accent>."
    page in the stylesheet's own classes (its opening comment lists
    them, `ui-design.md`, "Build the Look", step 3; read nothing else):
    the shell (a top bar, or the sidebar as the layout rule says) with
-   the brand and the nav of every page in the design; the page head
-   with its eyebrow, title and lede; the leading figure as a `stat` or
-   a `figure`; the primary view in the domain's shape (`cells` for a
+   the brand mark and name and the nav of every page in the design;
+   the page head with its eyebrow, title and lede inside the
+   `brand-band`, the deep accent; the leading figure as a `stat` in
+   the `stats` row that overlaps the band's lower edge, or a `figure`;
+   the primary view in the domain's shape (`cells` for a
    plan, `list-card` rows, a `board`, a table) with six to twelve
    believable rows in the design's own nouns and names; the side panel
    when the page has one; the primary action as the one `primary`
@@ -82,6 +84,9 @@ above when it is wanted again.
 - A comp of any page but the main one, or more than one comp.
 - A card or a heading per row of a plan, or a plan whose rows wrap:
   the page's first screen holds the whole view.
+- The page head loose on the grey page instead of in the brand band,
+  a name with no mark, or boxes on grey as the whole look
+  (`ui-design.md`, "Not bland").
 - A script, a wired control or data behind it: it is a drawing.
 - The go-ahead dialog before the comp's line, or a minute between the
   design and the line without "Drawing the <page> as a comp".
