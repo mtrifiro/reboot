@@ -81,7 +81,8 @@ composition, its rows from the reader, and the look review reads the
 main page's screenshot against it. The comp's server is stopped when
 the app starts (step 10, the `run` skill): `kill $(cat
 design/.comp.pid)`. `design/comp/index.html` stays as the record of
-the direction; `comp.css` and `.look-history/` beside it and
+the direction, linked from the main page's line in `design/design.md`
+(`app/references/design-document.md`); `comp.css` and `.look-history/` beside it and
 `design/.comp.pid` are
 git-ignored by the starter, and the comp is redrawn from the steps
 above when it is wanted again.
