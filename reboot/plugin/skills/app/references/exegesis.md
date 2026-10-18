@@ -17,8 +17,11 @@ changes: the task list, the step lines, the dialogs and the reports
 are as they are. The exegesis is a section of each milestone report,
 never commentary between them.
 
-**Where.** The last section of each milestone report, headed
-**Exegesis**, before the report's dialog or its **Your turn** rule:
+**Where.** The last section of each milestone report, set apart as
+its own document: a horizontal rule (`---`) on its own line, the
+heading `### Exegesis · <the part>` ("Exegesis · the domain model"),
+the text, and a closing rule, before the report's dialog; in a
+handoff, the rule before **Your turn** closes it.
 
 - In a guided build: the domain model check (the rules file and the
   API), the backend check (the servicers, the demo data, the tests),
