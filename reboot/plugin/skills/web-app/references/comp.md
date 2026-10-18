@@ -7,7 +7,7 @@ tags: comp, mockup, preview, main page, go-ahead, look, design/comp/index.html
 
 # The Comp, Before the Go-Ahead
 
-A comp is the main page drawn once, as a static page in the look the
+A comp is a mockup of the main page, made once as a static page in the look the
 design names, with believable rows and no data behind it: where the
 frontend is going, shown with the design so the go-ahead judges both.
 The `guided` skill makes it for a web app after the proposed design
@@ -16,8 +16,8 @@ prompt-by-prompt path don't (no stop to show it at), an MCP UI doesn't
 (its views live in a host), and a host that can't run commands skips
 it with no line.
 
-**Make it,** about a minute, one line first: "Drawing the <page> as a
-comp, in <accent>."
+**Make it,** about a minute, one line first: "Making a mockup of the <page>,
+in <accent>."
 
 1. The stylesheet, copied unread, and the accent set on the copy:
 
@@ -53,9 +53,9 @@ comp, in <accent>."
    (`ui-design.md`, "The first screen holds the view"). The page is
    marked as a comp, last in `<body>`:
    `<aside class="comp-badge"><strong>Design comp</strong><span>A
-   drawing of the <page>, not the running app; the real page replaces
+   mockup of the <page>, not the running app; the real page replaces
    it at the frontend step.</span></aside>`. Nothing is
-   wired: no script, no drawer open, the theme toggle drawn and inert.
+   wired: no script, no drawer open, the theme toggle shown and inert.
    No raw colour outside `comp.css`.
 3. Serve `design/` and open it: `python3 -m http.server <port>
    --directory design/comp` in the background, the port the first free one
@@ -68,11 +68,11 @@ comp, in <accent>."
    (hotel-205, 2026-10-18); elsewhere, the link alone, never the user's
    external browser.
 4. One line in the chat, then the go-ahead dialog: "**Where it is
-   going:** [the <page>, as a comp](http://localhost:<port>/),
-   drawn in <accent>, with no data behind it; the real page
+   going:** [a mockup of the <page>](http://localhost:<port>/),
+   in <accent>, with no data behind it; the real page
    replaces it at the frontend step." A change to it typed as the
    go-ahead's free answer ("the waiting list on the left", "quieter")
-   is a change to the design's Pages line: made, redrawn, the same
+   is a change to the design's Pages line: made, the mockup remade, the same
    dialog again.
 
 **After the go-ahead** the comp is the page's target: the web-app
@@ -84,7 +84,7 @@ design/.comp.pid)`. `design/comp/index.html` stays as the record of
 the direction, linked from the main page's line in `design/design.md`
 (`app/references/design-document.md`); `comp.css` and `.look-history/` beside it and
 `design/.comp.pid` are
-git-ignored by the starter, and the comp is redrawn from the steps
+git-ignored by the starter, and the comp is remade from the steps
 above when it is wanted again.
 
 ## Never
@@ -95,10 +95,10 @@ above when it is wanted again.
 - The page head loose on the grey page instead of in the brand band,
   a name with no mark, or boxes on grey as the whole look
   (`ui-design.md`, "Not bland").
-- A script, a wired control or data behind it: it is a drawing.
+- A script, a wired control or data behind it: it is a mockup.
 - A comp without its `comp-badge`, or the badge on a real page.
 - The go-ahead dialog before the comp's line, or a minute between the
-  design and the line without "Drawing the <page> as a comp".
+  design and the line without "Making a mockup of the <page>".
 - The comp opened in the user's external browser in the Claude app.
 - A comp on the one-shot or prompt-by-prompt path, for an MCP UI, or
   where commands can't run.
