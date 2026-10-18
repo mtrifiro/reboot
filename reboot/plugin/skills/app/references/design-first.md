@@ -276,8 +276,8 @@ both, rules on the dashboard and page to try. A change typed as the
 free answer goes back to the rules or actions, tested again, then the
 same dialog. "Not yet" does nothing more: one line says the dashboard
 stays up and what to say to go on. The task list's "Your turn: check
-the backend, then say to build the frontend (<screen>)" stays in
-progress until the answer. A backend only (no front door), `one-shot`
+the backend, then say to move on to the frontend" stays in progress
+until the answer. A backend only (no front door), `one-shot`
 and the power-user path skip it.
 
 From the first feature on, the build follows the front door
