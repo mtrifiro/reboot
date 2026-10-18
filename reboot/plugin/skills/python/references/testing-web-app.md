@@ -98,7 +98,7 @@ the app in one scenario.
 | `"alice" clicks the "Open Account" button in the web app`                     | Clicks the element of that role and accessible name                                                                                |
 | `"alice" fills "Amount ($)" in the web app with `250``                        | Fills the field with that label                                                                                                    |
 | `"alice" fills "Guest name" in the web app with `"Mme. Laurent"``             | The same, with text: a JSON string, quoted inside the backticks                                                                    |
-| `"alice" selects "<first account id>" in "From Account" in the web app`       | Picks an option in the select with that label                                                                                      |
+| `"alice" selects "<first account id>" in "From Account" in the web app`       | Picks the option whose visible text is exactly that, not its value: an option shown as `205 · Double` is `"205 · Double"`, never `"205"` |
 | `"alice" checks "Remember me" in the web app` / `unchecks`                    | Sets the checkbox with that label                                                                                                  |
 | `"alice" presses "Enter" in the web app`                                      | Presses a key in the focused element                                                                                               |
 | `"alice" sees "$1000" in the web app`                                         | Asserts the text is visible now                                                                                                    |
