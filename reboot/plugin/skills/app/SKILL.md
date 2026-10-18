@@ -19,12 +19,12 @@ call (loading this skill was the first), is one dialog
 word for word:
 
 - Title: **How should it be built?**, none of its options marked
-  recommended:
+  recommended, in this order:
+- "Guided": "A design to approve, your choices, each part built and
+  explained, step by step (great for learning). `/reboot:guided`"
 - "The whole app, no questions": "Designed, built, reviewed and
   handed over once, about an hour or two (great for fast progress).
   `/reboot:one-shot`"
-- "Guided": "A design to approve, your choices, each part built and
-  explained, step by step (great for learning). `/reboot:guided`"
 - "Just what I typed": "Exactly that and nothing more: no design, no
   questions, then the links (great for power users). `/reboot:build`"
 
