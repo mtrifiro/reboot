@@ -24,7 +24,7 @@ numbers. The work happens on that view: drag to move, click to open
 a record and act, edit in place. Every view updates live, since a
 Reboot reader pushes each change to the page. Visual means the shape
 of the data, not decoration: no chart where a list answers better,
-no gradient or glow but the band's (below).
+no gradient or glow.
 
 ### Pick the Primary View by Task
 
@@ -139,9 +139,10 @@ on its own.
 Every web app starts from one stylesheet, designed and tested once,
 in the look and the accent the design names. Don't design a look from
 scratch. The three looks, each the whole family of tones, typefaces,
-corners and row density: **the house look** (cool paper, a
-characterful grotesque for headings, soft corners: SaaS, admin and
-internal tools), **Ledger** (grey tones, Space Grotesk headings and
+corners and row density: **the house look**, Reboot's own as the
+Plugin Browser wears it (cream paper, navy ink and accent, Space
+Grotesk over DM Sans, soft corners: the default for any domain),
+**Ledger** (grey tones, Space Grotesk headings and
 figures over Inter, sharp corners, compact rows, no shadows:
 operations tools watched all day), **Boutique** (warm paper, an
 editorial serif for headings over Inter, round corners: hospitality,
@@ -149,8 +150,7 @@ retail, food, wellness, culture). The hierarchy rules above hold in
 all three.
 
 **Not bland.** In every look a page has one strong surface and one
-voice: the page head sits in the `brand-band`, the deep accent lifting
-toward the accent at the right (`--band`, shared with the top bar), with
+voice: the page head sits in the `brand-band`, the deep accent, with
 the stats row overlapping its lower edge (the stylesheet's anatomy);
 a brand mark in the accent stands beside the name; the display face
 carries the title and every figure; a state that needs a person is
@@ -168,21 +168,22 @@ the house exists to avoid (hotel-203's comp).
 
 2. Set the accent the design names, from the project root:
    `python3 '<this skill>/assets/accent.py' teal` (with no name it
-   lists the palettes: teal, cyan, blue, indigo, violet, purple, plum,
+   lists the palettes: navy (the house accent), teal, cyan, blue, indigo,
+   violet, purple, plum,
    rose). It rewrites the accent's family in the light and dark
    blocks. For Ledger or Boutique, then
    `python3 '<the design-review skill>/assets/look.py' set look boutique`,
    which sets the tones, typefaces, corners and row density together
    and puts the look's font packages in `package.json` (step 7's
    `npm install` fetches them). That is the whole of the look's
-   change: one of the three looks and one of the eight accents. Every
+   change: one of the three looks and one of the nine accents. Every
    other token keeps its value unless the user supplied a brand (a
    site or tokens to read); a theme the build invents for the domain
    ("newsprint", "ink on warm paper") is not a brand. Tokens a page
    adds (a set of player colours, a status the domain has) extend the
    stylesheet in the house's terms and change nothing above them.
 3. Build the pages from the stylesheet's classes, listed in its
-   opening comment (read only that: the file's first 48 lines, never
+   opening comment (read only that: the file's first 49 lines, never
    the whole file; to see one class's rules, search for it): `topbar`, `brand-band` and `page-head`, `stats`,
    `filter-panel`, `list-card` and `row`, `board`, `cells` and `cell`,
    `feed`, `chart`, `drawer`, `kv`, `pill`, `figure`, `name`,
