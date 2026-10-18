@@ -159,7 +159,7 @@ user's words are the agreement.
   [`one-shot` skill](../../one-shot/SKILL.md)'s steps 4 and 5, from
   the design as proposed, no features added: no stops, one handoff at
   the end. The task list is the whole-app list (`task-list.md`, where
-  the plugin has it), its first two items done.
+  the plugin has it), its first item done.
 - **Step by step** (or the first feature named): build it by the
   front door's one-feature flow. At the first handoff,
   `design/design.md` becomes the accepted design (`accept-design.md`),
@@ -176,9 +176,8 @@ user's words are the agreement.
   changed, and ask the same dialog again.
 - **No answer** is not a yes.
 
-The task list's "Get your go-ahead on the design" stays in progress
-until the answer, done on the yes; a change keeps it in progress
-while the design is updated.
+No task item marks the wait: the dialog is the signal, and "Propose
+the design for <app>" is done once the design is shown.
 
 ## 4. The domain model, once
 
