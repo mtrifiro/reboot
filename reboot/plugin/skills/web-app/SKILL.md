@@ -444,7 +444,7 @@ finished app.
    under `rbt dev run` only, as
    `python/references/lifecycle-seeding.md` says. Write the
    feature's scenarios in the built-in steps of
-   `python/references/testing-features.md`; run `uv run pytest` as the [`feature` skill](../feature/SKILL.md)'s step 4 says (the feature's own files, in the foreground, its output never piped through `grep` or `tail`) and
+   `python/references/testing-features.md`; run `scripts/test.sh tests/<pkg>_test.py` (the feature's own scenarios) in the foreground, as the [`feature` skill](../feature/SKILL.md)'s step 4 says, and read its whole output: it is already short, never piped through `grep` or `tail`. Then run
    `uv run mypy backend/ tests/` with `rbt dev run` stopped (`run`
    skill, "Stopping the App"); fix what fails before any page.
 7. The frontend is in place from step 1
@@ -469,7 +469,7 @@ finished app.
    run by `tests/web_test.py`, which starts the frontend) into the
    page's, per `python/references/testing-web-app.md`
    (`uv run playwright install chromium` once); every web feature
-   file runs from that one module. Run `uv run pytest` again, as the [`feature` skill](../feature/SKILL.md)'s step 4 says, unfiltered.
+   file runs from that one module. Run `scripts/test.sh tests/web_test.py` in the foreground, its whole output read, never piped through `grep` or `tail`.
 10. Start the app with the [`run` skill](../run/SKILL.md) (stopping
     the comp's server first when `design/.comp.pid` exists) and check
     the page in a headless browser (Playwright; in the Claude app never
@@ -482,8 +482,12 @@ finished app.
     [`references/ui-design.md`](references/ui-design.md) ("Measure
     what can be measured") pass at desktop and phone width.
 11. Run the whole suite once, in the background while the handoff is
-    written (`feature` skill, "Report a full run once, at the end"),
-    its result said once. Show what was built so the user can judge
+    written (`feature` skill, "Report a full run once, at the end"):
+    stop the app (`run` skill, "Stopping the App"), start
+    `scripts/test.sh full` with the Bash tool's `run_in_background`,
+    and write the handoff while it runs, never waiting on it in the
+    foreground; when it finishes, start the app again and send the
+    handoff with its result, said once. Show what was built so the user can judge
     it, not admire it, word for word in the handoff's shape in
     [`app/references/design-messages.md`](../app/references/design-messages.md),
     each rule linked to the dashboard's Features page (`dashboard`
