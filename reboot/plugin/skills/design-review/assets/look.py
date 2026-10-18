@@ -298,6 +298,14 @@ def check(css: str) -> list[str]:
             got = contrast(va.strip(), vb.strip())
             if got < need:
                 failed.append(f"{which}: --{a} on --{b} is {got:.1f}:1, needs {need:g}:1")
+        # The band's gradient ends at 58% deep, 42% accent: --on-deep must
+        # read there too.
+        deep, acc, on = (t.get(which, {}).get(k, "").strip() for k in ("accent-deep", "accent", "on-deep"))
+        if all(re.fullmatch(r"#[0-9a-fA-F]{6}", v) for v in (deep, acc, on)):
+            end = to_hex(*(0.58 * d + 0.42 * x for d, x in zip(rgb(deep), rgb(acc))))
+            got = contrast(on, end)
+            if got < 4.5:
+                failed.append(f"{which}: --on-deep on the band's bright end is {got:.1f}:1, needs 4.5:1")
     return failed
 
 
