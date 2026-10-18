@@ -41,9 +41,9 @@ earlier item is still in progress.
 
 Every build is in two parts, and the task list shows one part at a
 time: **the backend**, built and tested against its rules, then **the
-frontend**, built and tested in a browser. When the user says to
-build the frontend, the backend list is done and replaced by the
-frontend list. Each part reads only its own references: the backend
+frontend**, built and tested in a browser. When the backend is done,
+its list is replaced by the frontend list. Each part reads only its
+own references: the backend
 part the Python ones, the frontend part the React, stylesheet and
 browser-testing ones.
 
@@ -58,12 +58,13 @@ The first feature's backend:
 Item 2 covers the scaffold, the rules as scenarios, then the domain model
 and starting the dashboard. Item 3 covers the actions, who may do
 each, demo data and the tests (scenarios pass, types check). The
-go-ahead after item 1, the domain model check after item 2 and the
-backend check after item 3 (`app/references/design-first.md`) are
-dialogs, not items; a front door's skill used on its own and the
-power-user path (below) ask none of them.
+go-ahead after item 1 and the domain model check after item 2
+(`app/references/design-first.md`) are dialogs, not items; after item
+3 the backend's results are said and the frontend list takes over; a
+front door's skill used on its own and the power-user path (below)
+ask neither.
 
-Its frontend, once the user says so:
+Its frontend, straight after:
 
 1. Build the page for “<feature>”
 2. Test it in a browser
