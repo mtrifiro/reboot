@@ -23,8 +23,8 @@ in <accent>."
 
    ```shell
    mkdir -p design/comp && cp '<the web-app skill>/assets/starter/frontend/web/src/styles.css' design/comp/comp.css
-   python3 '<the design-review skill>/assets/look.py' --css design/comp/comp.css set accent <accent>
-   python3 '<the design-review skill>/assets/look.py' --css design/comp/comp.css fonts
+   python3 '<the ui-review skill>/assets/look.py' --css design/comp/comp.css set accent <accent>
+   python3 '<the ui-review skill>/assets/look.py' --css design/comp/comp.css fonts
    ```
 
    The last prints the `<link>` that loads the typefaces from Google
