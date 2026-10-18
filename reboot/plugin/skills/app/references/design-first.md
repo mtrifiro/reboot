@@ -27,7 +27,7 @@ in the same response, every heading filled, features and rules before
 the domain model; for a web app built by the `guided` skill, the
 comp's line comes between them
 ([`../../web-app/references/comp.md`](../../web-app/references/comp.md)):
-the main page drawn in the look, served and opened in the pane. Then
+a mockup of the main page in the look, served and opened in the pane. Then
 one dialog (`AskUserQuestion` where available,
 else one plain line), the only question between the opening's round
 and code: the go-ahead, and the way of building. Its options,
