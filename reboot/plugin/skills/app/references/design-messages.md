@@ -11,7 +11,9 @@ Two messages carry the Reboot Flywheel's Design stage
 ([`flywheel.md`](flywheel.md)): the proposed design, before any code,
 and the handoff, when a part is running. Write each in exactly this
 shape: the same headings, in this order, with nothing before the
-heading. Fill the `<…>` from the design, in the user's nouns. A
+heading but a horizontal rule (`---`) on its own line, and a rule after
+the last line, so each reads as a document set apart from the step
+lines and dialogs around it. No other message is framed. Fill the `<…>` from the design, in the user's nouns. A
 heading with nothing to say is left out, never filled.
 
 ### The proposed design
@@ -24,6 +26,7 @@ go-ahead is worth it. The example is a hotel; keep the shape, not the
 nouns.
 
 ```markdown
+---
 ## Reboot Design · <App name>, the proposed design
 
 **Brief.** <Who uses <app name> (working name) and on what screen: the
@@ -88,6 +91,8 @@ serves an MCP UI for Claude or ChatGPT (no second API).>
 
 The whole design, with its methods, is in
 [design/design.md](design/design.md).
+
+---
 ```
 
 Then the go-ahead's dialog (`design-first.md`, section 3);
@@ -99,6 +104,7 @@ About 500 words. The first handoff shows everything built; a later one
 shows only what that part adds, under the same headings.
 
 ```markdown
+---
 **Reboot Design · ready for your review**
 
 <One sentence: what is running, in the user's nouns.>
@@ -141,9 +147,13 @@ refuses it. <A second thing to try, when there is one.>
 - <A workaround, one line: what it is and what undoes it.>
 - <What waits for deploy: the sign-in provider, who may sign in.>
 
-**Exegesis** <only in a verbose build (`exegesis.md`): what this part's
-code means and why it is shaped so, 250 to 450 words with the decisive
-lines quoted; the same text appended to design/exegesis.md.>
+---
+
+### Exegesis · <the part>
+<only in a verbose build (`exegesis.md`): what this part's code means
+and why it is shaped so, 250 to 450 words with the decisive lines
+quoted; the same text appended to design/exegesis.md. Its rule above
+sets it apart; the rule before **Your turn** closes it.>
 
 ---
 
@@ -166,6 +176,8 @@ to try first, in a sentence: the action and the rule that holds.>
 Or ask for a change to what's here. <When the other front door isn't
 built: "Want it in Claude and ChatGPT too? The backend is ready for an
 MCP UI beside the web app.">
+
+---
 ```
 
 **Your turn** is always last, set apart by the rule and its heading:
