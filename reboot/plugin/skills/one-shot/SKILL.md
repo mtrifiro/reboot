@@ -1,6 +1,6 @@
 ---
 name: one-shot
-description: Build a complete Reboot application in one go, asking nothing. Designs every feature a real product in the domain needs, not only those the prompt names, builds the whole app with every rule and scenario without stopping, reviews its domain model and its look and fixes what the reviews find, and hands it over once, at the end. Use only when the user asks for it by name ("/reboot:one-shot", "one-shot", "one shot"); otherwise the app skill asks how to build and routes to the guided, one-shot or build skill.
+description: Build a complete Reboot application in one go, asking nothing (or, with ", basic" after the prompt, one feature of it the same way). Designs every feature a real product in the domain needs, not only those the prompt names, builds the whole app with every rule and scenario without stopping, reviews its domain model and its look and fixes what the reviews find, and hands it over once, at the end. Use only when the user asks for it by name ("/reboot:one-shot", "one-shot", "one shot"); otherwise the app skill asks how to build and routes to the guided, one-shot or build skill.
 argument-hint: [<app-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit, Agent, Skill
 ---
@@ -78,6 +78,28 @@ the design skill would recommend for the domain (or the brand the
 prompt names); "How should it be built? One-shot". Each answer and each
 feature added beyond the prompt goes under **Assumed**, the feature
 with one line on why a real product needs it.
+
+### Basic: one feature
+
+When the argument ends with ", basic" (the app skill's "The basic
+app, no questions"), the build is this skill with one feature in
+place of six to ten, and nothing else changes: no questions, the
+reviews, one handoff.
+
+- **The one feature** is the heart of the prompt: the work the app is
+  for, the one its users would open it to do (for a hotel, the rooms
+  and the front desk), with the rules that make it trustworthy, its
+  page, and who may do what folded into its rules. Sign-in comes with
+  the starter and is not a feature.
+- **Not in this build** lists the features section 2 would have
+  added, in build order, each a line, so "Change something" at the
+  handoff ("a feature to add") has a list to start from.
+- The opening's third sentence is "No questions: one feature is
+  designed, then built, tested and handed over when it is done." word
+  for word, and **What to expect** says "Then that feature, its rules
+  proven by scenarios, and its page tested in a browser, without
+  stopping: about <10 minutes>." in place of its second line.
+- The ", basic" is not part of the app's name or its Brief.
 
 ## 3. No questions
 
