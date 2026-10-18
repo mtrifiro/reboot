@@ -63,6 +63,10 @@ HISTORY = WEB / ".look-history"
 
 # The house palettes, the same as web-app/assets/accent.py.
 ACCENTS: dict[str, dict[str, dict[str, str]]] = {
+    "navy": {
+        "light": {"accent": "#103761", "on-accent": "#ffffff", "accent-deep": "#13294a", "on-deep": "#f7f5ed", "accent-tint": "#e6f3dc", "bg-glow": "#f1eee4"},
+        "dark": {"accent": "#9cc4f2", "on-accent": "#0b1f36", "accent-deep": "#07182b", "on-deep": "#f7f5ed", "accent-tint": "#1f3d3a", "bg-glow": "#0e2440"},
+    },
     "teal": {
         "light": {"accent": "#076c6a", "on-accent": "#ffffff", "accent-deep": "#023534", "on-deep": "#f4f4f7", "accent-tint": "#d5f0ee", "bg-glow": "#e4efee"},
         "dark": {"accent": "#4bc2be", "on-accent": "#012221", "accent-deep": "#011514", "on-deep": "#e4efee", "accent-tint": "#003231", "bg-glow": "#101f1e"},
@@ -97,8 +101,13 @@ ACCENTS: dict[str, dict[str, dict[str, str]]] = {
     },
 }
 
-# The page, panels, text and lines: cool is the house default.
+# The page, panels, text and lines: cream is the house default (Reboot's own:
+# cream page, navy ink).
 NEUTRALS: dict[str, dict[str, dict[str, str]]] = {
+    "cream": {
+        "light": {"bg": "#f7f5ed", "bg-2": "#ffffff", "panel": "#ffffff", "ink": "#103761", "muted": "#506a85", "line": "#d9dfe6", "track": "#ece9df"},
+        "dark": {"bg": "#0b1f36", "bg-2": "#112a47", "panel": "#112a47", "ink": "#f7f5ed", "muted": "#9aabbf", "line": "#24405f", "track": "#1a3354"},
+    },
     "cool": {
         "light": {"bg": "#f4f4f7", "bg-2": "#ffffff", "panel": "#ffffff", "ink": "#1b1d26", "muted": "#5c6070", "line": "#dcdde5", "track": "#e6e6ee"},
         "dark": {"bg": "#14151c", "bg-2": "#1d1f29", "panel": "#1d1f29", "ink": "#ecebf4", "muted": "#a0a3b3", "line": "#2f3140", "track": "#262838"},
@@ -120,7 +129,7 @@ NEUTRALS: dict[str, dict[str, dict[str, str]]] = {
 # Type: display, text and mono, each an @fontsource-variable package
 # (installed for the app) and a Google Fonts family (for the preview).
 TYPE: dict[str, dict[str, tuple[str, str]]] = {
-    "house": {"display": ("Bricolage Grotesque", "bricolage-grotesque"), "text": ("Instrument Sans", "instrument-sans"), "mono": ("JetBrains Mono", "jetbrains-mono")},
+    "house": {"display": ("Space Grotesk", "space-grotesk"), "text": ("DM Sans", "dm-sans"), "mono": ("DM Mono", "@fontsource/dm-mono")},
     "classic": {"display": ("Fraunces", "fraunces"), "text": ("Inter", "inter"), "mono": ("JetBrains Mono", "jetbrains-mono")},
     "plain": {"display": ("Inter", "inter"), "text": ("Inter", "inter"), "mono": ("JetBrains Mono", "jetbrains-mono")},
     "geometric": {"display": ("Space Grotesk", "space-grotesk"), "text": ("DM Sans", "dm-sans"), "mono": ("JetBrains Mono", "jetbrains-mono")},
@@ -128,7 +137,7 @@ TYPE: dict[str, dict[str, tuple[str, str]]] = {
     "bookish": {"display": ("Newsreader", "newsreader"), "text": ("Source Sans 3", "source-sans-3"), "mono": ("JetBrains Mono", "jetbrains-mono")},
 }
 TYPE_WORDS = {
-    "house": "a characterful grotesque over a clean sans (the house look)",
+    "house": "Space Grotesk for headings over DM Sans, DM Mono for code (the house look, Reboot's own)",
     "classic": "an editorial serif for headings over Inter",
     "plain": "Inter throughout: quiet, familiar, dense",
     "geometric": "geometric and technical",
@@ -149,9 +158,9 @@ CORNERS = {"sharp": ("2px", "2px"), "soft": ("8px", "6px"), "round": ("14px", "1
 ELEV = {"light": "0 1px 2px rgba(27, 29, 38, 0.06), 0 1px 3px rgba(27, 29, 38, 0.08)",
         "dark": "0 1px 2px rgba(0, 0, 0, 0.35)"}
 LOOKS: dict[str, dict] = {
-    "house": {"neutrals": "cool", "type": "house", "corners": "soft",
+    "house": {"neutrals": "cream", "type": "house", "corners": "soft",
               "density": {"row-h": "48px", "row-pad": "10px"}, "elev": ELEV,
-              "words": "cool paper, a characterful grotesque for headings, soft corners (the house default)"},
+              "words": "Reboot's own: cream paper, navy ink, Space Grotesk over DM Sans, soft corners (the house default)"},
     "ledger": {"neutrals": "grey", "type": "ledger", "corners": "sharp",
                "density": {"row-h": "36px", "row-pad": "6px"}, "elev": {"light": "none", "dark": "none"},
                "words": "an operations ledger: grey tones, Space Grotesk headings and figures over Inter, sharp corners, compact rows, no shadows"},
@@ -298,8 +307,8 @@ def check(css: str) -> list[str]:
             got = contrast(va.strip(), vb.strip())
             if got < need:
                 failed.append(f"{which}: --{a} on --{b} is {got:.1f}:1, needs {need:g}:1")
-        # The band's gradient ends at 58% deep, 42% accent: --on-deep must
-        # read there too.
+        # A band gradient (--band) may lift as far as 58% deep, 42% accent:
+        # --on-deep must read there too.
         deep, acc, on = (t.get(which, {}).get(k, "").strip() for k in ("accent-deep", "accent", "on-deep"))
         if all(re.fullmatch(r"#[0-9a-fA-F]{6}", v) for v in (deep, acc, on)):
             end = to_hex(*(0.58 * d + 0.42 * x for d, x in zip(rgb(deep), rgb(acc))))
@@ -482,6 +491,18 @@ def undo() -> int:
     return 0
 
 
+def font_package(p: str) -> str:
+    """A TYPE entry's npm package: "@fontsource/<name>" as written (a font
+    with fixed weights), otherwise the variable "@fontsource-variable/<p>"."""
+    return p if p.startswith("@") else f"@fontsource-variable/{p}"
+
+
+def font_imports(p: str) -> str:
+    if p.startswith("@"):
+        return f'import "{p}/400.css";\nimport "{p}/500.css";\n'
+    return f'import "@fontsource-variable/{p}";\n'
+
+
 def set_type(name: str, css: str) -> str:
     if name not in TYPE:
         raise SystemExit(f"look: no type '{name}'; one of {', '.join(TYPE)}")
@@ -490,7 +511,7 @@ def set_type(name: str, css: str) -> str:
     if MAIN.is_file():
         main = MAIN.read_text(encoding="utf-8")
         main = re.sub(r'^import "@fontsource(?:-variable)?/[^"]+";\n', "", main, flags=re.M)
-        main = "".join(f'import "@fontsource-variable/{p}";\n' for p in packages) + main
+        main = "".join(font_imports(p) for p in packages) + main
         MAIN.write_text(main, encoding="utf-8")
     if PACKAGE.is_file():
         # The font packages the new type needs, in place of the old ones,
@@ -500,12 +521,12 @@ def set_type(name: str, css: str) -> str:
         for key in [k for k in deps if k.startswith("@fontsource")]:
             del deps[key]
         for p in packages:
-            deps[f"@fontsource-variable/{p}"] = "^5.3.0"
+            deps[font_package(p)] = "^5.3.0"
         data["dependencies"] = dict(sorted(deps.items()))
         PACKAGE.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
     if MAIN.is_file() or PACKAGE.is_file():
         print("install: npm install   (in frontend/; the font packages are in package.json: "
-              + ", ".join(f"@fontsource-variable/{p}" for p in packages) + ")")
+              + ", ".join(font_package(p) for p in packages) + ")")
     return css
 
 
