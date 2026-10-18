@@ -239,6 +239,12 @@ not repeated at every feature or in a wait note
 - **The page:** the page subscribes to its data and updates on its own
   when anything changes, with no refresh and no polling code.
 
+**Verbose, when the user asked for it** ("verbose", "explain as you
+build", "an exegesis"): each milestone report ends with an
+**Exegesis** section, what was written and why, read from the code,
+the same text appended to `design/exegesis.md`
+([`exegesis.md`](exegesis.md)). Between reports nothing changes.
+
 **Show the first feature's rules, the first time, in plain words.**
 Once the first feature file is written, list its rules in the chat,
 one line each in the user's nouns, each a link to the rule on the
