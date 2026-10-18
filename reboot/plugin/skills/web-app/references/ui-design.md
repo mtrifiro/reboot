@@ -24,7 +24,7 @@ numbers. The work happens on that view: drag to move, click to open
 a record and act, edit in place. Every view updates live, since a
 Reboot reader pushes each change to the page. Visual means the shape
 of the data, not decoration: no chart where a list answers better,
-no gradient or glow.
+no gradient or glow but the band's (below).
 
 ### Pick the Primary View by Task
 
@@ -149,7 +149,8 @@ retail, food, wellness, culture). The hierarchy rules above hold in
 all three.
 
 **Not bland.** In every look a page has one strong surface and one
-voice: the page head sits in the `brand-band`, the deep accent, with
+voice: the page head sits in the `brand-band`, the deep accent lifting
+toward the accent at the right (`--band`, shared with the top bar), with
 the stats row overlapping its lower edge (the stylesheet's anatomy);
 a brand mark in the accent stands beside the name; the display face
 carries the title and every figure; a state that needs a person is
