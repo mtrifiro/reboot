@@ -224,9 +224,8 @@ dialog again.
 When the model differs from the proposed design, one line before the
 dialog says how, in the user's nouns. A change goes in the free
 answer ("a stay should also hold the guest's room"): change the API,
-`rbt generate`, say what changed, ask again. The task list's "Your
-turn: check the domain model on the dashboard" stays in progress
-until the yes. If the dashboard didn't come up, don't ask: say so in
+`rbt generate`, say what changed, ask again. No task item marks the
+wait: the dialog is the signal. If the dashboard didn't come up, don't ask: say so in
 one sentence and go on; the model is checked at the first handoff.
 Later features don't ask; `one-shot` and the power-user path never
 do.
@@ -275,9 +274,8 @@ backend straight to page, no stop between, their handoff showing
 both, rules on the dashboard and page to try. A change typed as the
 free answer goes back to the rules or actions, tested again, then the
 same dialog. "Not yet" does nothing more: one line says the dashboard
-stays up and what to say to go on. The task list's "Your turn: check
-the backend, then say to move on to the frontend" stays in progress
-until the answer. A backend only (no front door), `one-shot`
+stays up and what to say to go on. No task item marks the wait: the
+dialog is the signal. A backend only (no front door), `one-shot`
 and the power-user path skip it.
 
 From the first feature on, the build follows the front door
