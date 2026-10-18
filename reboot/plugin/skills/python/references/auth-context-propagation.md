@@ -91,7 +91,7 @@ Rules are evaluated against the callee's `context.auth`, so:
   does not make a call external.
 - `allow_if(any=[state_id_is_user_id, is_app_internal])` stays the
   canonical rule for user-owned actors with background work
-  (`auth-built-in-predicates.md`).
+  (`auth-rules.md`).
 
 ## What Is Not Carried
 
@@ -158,7 +158,7 @@ workflow** is fine; the audit pattern above depends on it.
 
 ## See Also
 
-- `auth-built-in-predicates.md` — `has_verified_token`,
+- `auth-rules.md` — `has_verified_token`,
   `is_app_internal`, `state_id_is_user_id`, and why self-scheduled
   workflows need `is_app_internal`.
 - `auth-custom-predicates.md` — owner-style predicates that read

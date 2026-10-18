@@ -87,6 +87,6 @@ recorded by a writer. See `auth-context-propagation.md`.
 
 ## See Also
 
-`rpc-refs.md` — `self.ref().state_id`, never `self.state_id`.
+`rpc-calls.md` — `self.ref().state_id`, never `self.state_id`.
 `servicer-authorizer.md` — every Servicer's `def authorizer(self)`
 returns a constructed rule.
