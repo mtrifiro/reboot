@@ -45,7 +45,7 @@ That's it. In particular, `allow()` is **not** appropriate for:
 For everything else — anything reachable from a browser, an MCP
 client, an external service, or any caller you'd want to identify —
 compose an `allow_if(...)` rule with predicates from
-`auth-built-in-predicates.md` and/or `auth-custom-predicates.md`.
+`auth-rules.md` and/or `auth-custom-predicates.md`.
 
 ## When `allow()` Is NOT a Substitute
 

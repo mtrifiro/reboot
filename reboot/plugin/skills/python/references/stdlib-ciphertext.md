@@ -164,6 +164,6 @@ to build your _own_ key-deriving library with rotation — is in
 - **Don't address `WrappingKey` directly** — it's an implementation
   detail; shred via `KeyManager.shred(scope=...)`.
 - **Don't expose these methods to untrusted callers** — they default to
-  app-internal; add an explicit authorizer if you must (`auth-allow-if.md`).
+  app-internal; add an explicit authorizer if you must (`auth-rules.md`).
 - **Don't lose the `Ciphertext` id** — store the returned `state_id`;
   it's how you decrypt later.
