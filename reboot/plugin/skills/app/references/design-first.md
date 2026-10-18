@@ -122,7 +122,9 @@ That is the dashboard's whole hand-over here, the lead line (the port
 named only when it isn't 9871) and the Models · Features · Changelog
 line: no separate "the developer dashboard is at …" line, no second
 list of the objects. Both are message text just above the dialog,
-never drafted only in thinking. The dialog says on its own what it
+never drafted only in thinking; in a verbose build, the **Exegesis**
+of the rules file and the API comes between them and the dialog
+([`exegesis.md`](exegesis.md)). The dialog says on its own what it
 asks about:
 
 - Title: **Build on this domain model?**
@@ -201,6 +203,8 @@ straight on to the frontend; nothing is asked:
    link to it on the Features page.
 3. The dashboard's line: Models · Features · Changelog, each a link.
 4. In the Claude app, the Features page opened in the Browser pane.
+5. In a verbose build, the **Exegesis** of the servicers, the demo
+   data and the tests ([`exegesis.md`](exegesis.md)).
 
 Then one line on what comes next, to a person, not as a spec
 ("Frontend: the page housekeeping and the front desk use, where they
