@@ -42,7 +42,7 @@ The prompt, no more:
   hotel and number, staff only") is built as written, not redesigned.
 - Handed over from the `design` skill's round ("just build it"): the
   prompt as typed plus any answers given (the features chosen, in that order;
-  who signs in; the look and accent) are the spec, built as written; the
+  who signs in; the accent) are the spec, built as written; the
   features are the only ones built.
 - A `design/design.md` already in the project (the `design` skill's,
   proposed or accepted) is the spec: the prompt names the part of it
