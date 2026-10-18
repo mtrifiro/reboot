@@ -34,8 +34,8 @@ rounded to the quarter hour: "about 45 minutes", "about an hour"):
 
 - Title: **Build on this design?**
 - "Start building" (recommended): "<First feature>'s backend first,
-  about 15 minutes: you check its domain model on the dashboard, then
-  its actions, then say to move on to the frontend."
+  about 15 minutes: you check its domain model on the dashboard, its
+  rules are proven by their scenarios, then its page is built."
 - "Build it all at once": "All <n> features without stopping, about
   <time>; you see it at the end." <n> is the features under **Proposed
   features, in build order**, never the ones under **Not in this
