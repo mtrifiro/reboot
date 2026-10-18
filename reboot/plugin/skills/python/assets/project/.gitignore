@@ -27,3 +27,9 @@ frontend/dist/
 tests/.last-run.json
 tests/.suite-running
 tests/.progress.jsonl
+
+# The design step's comp: its stylesheet copy, server pid and look history
+# (web-app/references/comp.md); design/comp.html itself is kept.
+design/comp.css
+design/.comp.pid
+design/.look-history/
