@@ -2,7 +2,7 @@
 title: The Comp, Before the Go-Ahead
 impact: MEDIUM
 impactDescription: Without a comp the user signs off on a design they have only read and sees the frontend's direction after the backend is built; with one, the main page's look and hierarchy are judged with the design
-tags: comp, mockup, preview, main page, go-ahead, look, design/comp.html
+tags: comp, mockup, preview, main page, go-ahead, look, design/comp/index.html
 ---
 
 # The Comp, Before the Go-Ahead
@@ -22,15 +22,15 @@ comp: in <look>, in <accent>."
 1. The stylesheet, copied unread, and the look set on the copy:
 
    ```shell
-   mkdir -p design && cp '<the web-app skill>/assets/starter/frontend/web/src/styles.css' design/comp.css
-   python3 '<the design-review skill>/assets/look.py' --css design/comp.css set accent <accent>
-   python3 '<the design-review skill>/assets/look.py' --css design/comp.css set look <look>   # Ledger or Boutique only
-   python3 '<the design-review skill>/assets/look.py' --css design/comp.css fonts
+   mkdir -p design/comp && cp '<the web-app skill>/assets/starter/frontend/web/src/styles.css' design/comp/comp.css
+   python3 '<the design-review skill>/assets/look.py' --css design/comp/comp.css set accent <accent>
+   python3 '<the design-review skill>/assets/look.py' --css design/comp/comp.css set look <look>   # Ledger or Boutique only
+   python3 '<the design-review skill>/assets/look.py' --css design/comp/comp.css fonts
    ```
 
    The last prints the `<link>` that loads the typefaces from Google
    Fonts: the comp is served outside the bundle, so it needs one.
-2. `design/comp.html`, with the Write tool: `<!doctype html>`, the
+2. `design/comp/index.html`, with the Write tool: `<!doctype html>`, the
    fonts link, `<link rel="stylesheet" href="comp.css">`, then the
    page in the stylesheet's own classes (its opening comment lists
    them, `ui-design.md`, "Build the Look", step 3; read nothing else):
@@ -55,14 +55,17 @@ comp: in <look>, in <accent>."
    wired: no script, no drawer open, the theme toggle drawn and inert.
    No raw colour outside `comp.css`.
 3. Serve `design/` and open it: `python3 -m http.server <port>
-   --directory design` in the background, the port the first free one
+   --directory design/comp` in the background, the port the first free one
    from 9860, its pid written to `design/.comp.pid`. In the Claude
-   app, open `http://localhost:<port>/comp.html` in the Browser pane
+   app, open `http://localhost:<port>/` in the Browser pane
    (a `launch.json` configuration named `comp` with only that URL,
-   `conversation.md`); elsewhere, the link alone, never the user's
+   `conversation.md`). The page is the folder's `index.html`, so the
+   server's root is the comp even where the pane opens only the
+   origin; a directory listing means the file was misnamed
+   (hotel-205, 2026-10-18); elsewhere, the link alone, never the user's
    external browser.
 4. One line in the chat, then the go-ahead dialog: "**Where it is
-   going:** [the <page>, as a comp](http://localhost:<port>/comp.html),
+   going:** [the <page>, as a comp](http://localhost:<port>/),
    drawn in <look>, in <accent>, with no data behind it; the real page
    replaces it at the frontend step." A change to it typed as the
    go-ahead's free answer ("the waiting list on the left", "quieter")
@@ -74,8 +77,9 @@ skill's step 8 builds the page as the comp shows, the same classes and
 composition, its rows from the reader, and the look review reads the
 main page's screenshot against it. The comp's server is stopped when
 the app starts (step 10, the `run` skill): `kill $(cat
-design/.comp.pid)`. `design/comp.html` stays as the record of the
-direction; `comp.css`, `.comp.pid` and `.look-history/` beside it are
+design/.comp.pid)`. `design/comp/index.html` stays as the record of
+the direction; `comp.css` and `.look-history/` beside it and
+`design/.comp.pid` are
 git-ignored by the starter, and the comp is redrawn from the steps
 above when it is wanted again.
 
