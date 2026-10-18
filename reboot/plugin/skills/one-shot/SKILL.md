@@ -123,8 +123,10 @@ which is finished and go on; never wait for an answer.
   every control and heading labelled for the browser scenarios, each
   page's primary view, what it leads with, which states carry colour
   and where the accent goes as the design's page line says
-  (`ui-design.md`, "What the Eye Lands On"). (hotel-200's sub-agent
-  read four references by `cat` and edited by `sed -i`.)
+  (`ui-design.md`, "What the Eye Lands On"), and `design/comp.html`
+  as the main page's target when it exists (the guided skill's
+  all-at-once path drew it before the go-ahead). (hotel-200's
+  sub-agent read four references by `cat` and edited by `sed -i`.)
 - **Read this plugin with the Read tool,** one call per file, several
   in one response, never `cat`, `awk` or a loop in a shell (the
   `python` skill's rule: a long shell result comes back as a preview
