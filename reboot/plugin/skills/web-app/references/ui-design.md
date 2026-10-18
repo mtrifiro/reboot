@@ -141,11 +141,21 @@ in the look and the accent the design names. Don't design a look from
 scratch. The three looks, each the whole family of tones, typefaces,
 corners and row density: **the house look** (cool paper, a
 characterful grotesque for headings, soft corners: SaaS, admin and
-internal tools), **Ledger** (grey tones, Inter throughout, sharp
-corners, compact rows, no shadows: operations tools watched all day),
-**Boutique** (warm paper, an editorial serif for headings over Inter,
-round corners: hospitality, retail, food, wellness, culture). The
-hierarchy rules above hold in all three.
+internal tools), **Ledger** (grey tones, Space Grotesk headings and
+figures over Inter, sharp corners, compact rows, no shadows:
+operations tools watched all day), **Boutique** (warm paper, an
+editorial serif for headings over Inter, round corners: hospitality,
+retail, food, wellness, culture). The hierarchy rules above hold in
+all three.
+
+**Not bland.** In every look a page has one strong surface and one
+voice: the page head sits in the `brand-band`, the deep accent, with
+the stats row overlapping its lower edge (the stylesheet's anatomy);
+a brand mark in the accent stands beside the name; the display face
+carries the title and every figure; a state that needs a person is
+tinted as well as edged. White boxes on a grey field, the page head
+loose above them and one typeface at one weight is the template look
+the house exists to avoid (hotel-203's comp).
 
 1. The house stylesheet, `theme.tsx`, `backend-check.tsx` and
    `reload-prompt.tsx` arrive with the starter (`render.py --web`,
@@ -171,7 +181,7 @@ hierarchy rules above hold in all three.
    adds (a set of player colours, a status the domain has) extend the
    stylesheet in the house's terms and change nothing above them.
 3. Build the pages from the stylesheet's classes, listed in its
-   opening comment (read only that: the file's first 47 lines, never
+   opening comment (read only that: the file's first 48 lines, never
    the whole file; to see one class's rules, search for it): `topbar`, `brand-band` and `page-head`, `stats`,
    `filter-panel`, `list-card` and `row`, `board`, `cells` and `cell`,
    `feed`, `chart`, `drawer`, `kv`, `pill`, `figure`, `name`,
