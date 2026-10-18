@@ -82,6 +82,27 @@ If any call inside a transaction fails (raises a `<Method>Aborted`), the
 runtime rolls back **all** the mutations made within that transaction —
 across every actor it touched.
 
+## A Transaction May Call Other Transactions
+
+A transaction may call writers and other transactions on other
+actors, not only readers. A called transaction nests in the caller's:
+its changes commit with the root transaction or not at all. A declared
+error it raises (`<Method>Aborted`) can be caught by the caller like
+any other: the nested transaction's own changes roll back, the root
+goes on, and what the nested one read stays locked until the root
+commits, so the caller may act on what the error told it. An error
+nobody catches aborts the root.
+
+```python
+async def import_history(
+    self, context: TransactionContext, request: Student.ImportHistoryRequest,
+) -> None:
+    # Both are transactions on other actors: they nest in this one and
+    # land with it, or not at all.
+    await Term.ref(request.term_id).add_to_roster(context, student_id=context.state_id)
+    await Institution.ref(request.institution_id).index_record(context, student_id=context.state_id)
+```
+
 ## External Calls Belong in a Workflow, Not a Transaction
 
 A transaction is **all-or-nothing**: if it aborts, no effect has
