@@ -113,7 +113,10 @@ the Agent tool (Codex, say) does the steps in order.
     [`references/react-client.md`](react-client.md): the
     provider and its `url`, the generated hook/mutator/error
     declarations, sign-in, and typed errors are all written out
-    there. Write the calls from that reference and do **not** open
+    there; and from [`ui-design.md`](ui-design.md), each page's
+    primary view leading with what the design's page line says, the
+    resting state plain and the accent on one action ("What the Eye
+    Lands On"). Write the calls from that reference and do **not** open
     `frontend/api/**/*_rbt_react.ts` to check them — it is tens of
     thousands of lines that then ride along on every later turn.
 12. `cd frontend && npm run build` (sanity check the bundle).
