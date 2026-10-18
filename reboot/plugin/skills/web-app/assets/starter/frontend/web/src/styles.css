@@ -60,6 +60,10 @@
   --accent-deep: #2b1a6b;
   --on-deep: #f4f4f7;
   --accent-tint: #ebe6fb;
+  /* The top bar and the brand band: the deep accent, lifting toward the
+     accent at the right. Horizontal, so the bar and the band meet with
+     no seam; computed per scheme from the tokens above. */
+  --band: linear-gradient(90deg, var(--accent-deep) 0%, var(--accent-deep) 25%, color-mix(in srgb, var(--accent-deep) 58%, var(--accent)) 100%);
   --bg: #f4f4f7;
   --bg-2: #ffffff;
   --panel: #ffffff;
@@ -218,6 +222,7 @@ a:hover {
   gap: 4px var(--space-6);
   padding: 10px 20px;
   background: var(--accent-deep);
+  background: var(--band);
   color: var(--on-deep);
   position: sticky;
   top: 0;
@@ -268,6 +273,7 @@ a:hover {
 }
 .brand-band {
   background: var(--accent-deep);
+  background: var(--band);
   color: var(--on-deep);
   padding: var(--space-4) var(--space-4) calc(var(--space-8) + var(--space-6));
 }
