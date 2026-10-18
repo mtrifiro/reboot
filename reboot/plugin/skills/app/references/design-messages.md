@@ -141,6 +141,10 @@ refuses it. <A second thing to try, when there is one.>
 - <A workaround, one line: what it is and what undoes it.>
 - <What waits for deploy: the sign-in provider, who may sign in.>
 
+**Exegesis** <only in a verbose build (`exegesis.md`): what this part's
+code means and why it is shaped so, 250 to 450 words with the decisive
+lines quoted; the same text appended to design/exegesis.md.>
+
 ---
 
 ## Your turn
@@ -150,7 +154,8 @@ to try first, in a sentence: the action and the rule that holds.>
 
 **Look closer:** dashboard [Models](<URL>/#/models) ·
 [Features](<URL>/#/features) · [Changelog](<URL>/#/changelog) ·
-[the design](design/design.md)
+[the design](design/design.md)<in a verbose build: " ·
+[the exegesis](design/exegesis.md)">
 
 **Build next, when you're ready:**
 1. **<The recommended part>:** <what it adds, and why it comes next>.
