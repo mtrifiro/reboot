@@ -1,6 +1,6 @@
 ---
 name: review
-description: "A senior architect's review of a built Reboot app's structure (code shape and boundaries, the API and who calls it, permissions method by method, errors and restarts, rules proven, production readiness), then the recommendations the user picks, made one at a time with every rule passing. Use only when the user asks: \"/reboot:review\", \"review the architecture\", \"review the code\". Not for scale (domain-review), test coverage (test-review) or the look (ui-review)."
+description: "A senior architect's review of a built Reboot app's structure (code shape and boundaries, the API and who calls it, permissions method by method, errors and restarts, rules proven, production readiness), then the recommendations the user picks, made one at a time with every rule passing. Use only when the user asks: '/reboot:review', 'review the architecture', 'review the code'. Not for scale (domain-review), test coverage (test-review) or the look (ui-review)."
 argument-hint: '[what to look at, e.g. "the API" or "is it ready to deploy?"]'
 allowed-tools: Bash, Read, Write, Edit, Glob, Grep, AskUserQuestion
 ---
