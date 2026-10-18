@@ -40,6 +40,47 @@ A spatial view takes the page's width, its geometry from data. A
 record's detail opens in a drawer or on its own route, never
 reflowing the list.
 
+### What the Eye Lands On
+
+A page is read in one order, and is built in it: its answer first,
+then the work, then the rest. The design's **Pages** line says, for
+each page, what it leads with, which states carry colour and where the
+accent goes; the look review checks each rule below on a screenshot
+and fixes it.
+
+- **One figure leads.** The page's question has a number, and it is
+  the largest thing on the page after the title: a `stat` tile, or a
+  `figure` in the heading's line ("38 ready · 4 waiting"). One a page,
+  two when the question has two sides. Counts in 13 px pills or column
+  heads lead nothing.
+- **The resting state is plain.** In a view that colours status, the
+  normal state (ready, done, in stock, on time) has no fill: the panel
+  surface and the line. Colour goes to the states that need a person
+  (dirty, overdue, leaving today), one hue each, named in the legend.
+  More than a third of a view coloured means the colours are the wrong
+  way round (hotel-200's floor plan: 38 of 56 tiles green for "ready").
+- **The accent is spent once.** It marks the primary action and the
+  selected state (the current page, a selected stat or cell) and
+  nothing else: never a status, never every name that opens something.
+  A name that opens is `name`: ink at the title weight, the pointer, an
+  underline on hover. (hotel-200: fifteen plum names a page beside one
+  plum button, and "occupied" in plum.)
+- **Figures large, labels small.** A number read at a glance (a room
+  number, a count, a balance, a time) is the display face at 18 or
+  28 px with tabular figures (`figure`, `stat .value`), its label 12 or
+  13 px and muted beside it. A cell of a plan or grid (`cells`, `cell`)
+  is one figure and one word, its state on its left edge, the rest in
+  its drawer; two lines of 13 px text in fifty tiles is a list wearing
+  a grid.
+- **Columns are for things that move between them.** Lists side by
+  side that nothing moves between (arrivals, in house, departures) are
+  not a board: the page's work, what gets an action today, comes first
+  and takes the width, what is only watched goes under or beside it as
+  a table, and no third of the page stands empty at desktop width. A
+  search alone is one row above its list at a field's height, never a
+  panel of its own; `filter-panel` is for a search with two or more
+  filters.
+
 ### Drag and Drop, Wherever Something Moves
 
 Wherever a page moves something, it moves by drag and drop: an item
@@ -106,10 +147,11 @@ from scratch.
    player colours, a status the domain has) extend the stylesheet in
    the house's terms and change nothing above them.
 3. Build the pages from the stylesheet's classes, listed in its
-   opening comment (read only that: the file's first 34 lines, never
+   opening comment (read only that: the file's first 40 lines, never
    the whole file; to see one class's rules, search for it): `topbar`, `brand-band` and `page-head`, `stats`,
-   `filter-panel`, `list-card` and `row`, `board`, `feed`, `chart`,
-   `drawer`, `kv`, `pill`, `skeleton`, `empty` and the rest. Use its
+   `filter-panel`, `list-card` and `row`, `board`, `cells` and `cell`,
+   `feed`, `chart`, `drawer`, `kv`, `pill`, `figure`, `name`,
+   `skeleton`, `empty` and the rest. Use its
    tokens, never raw hex. Extend the stylesheet when a page needs
    something new, in the same tokens.
 
@@ -221,7 +263,9 @@ button, it crowds the row it sits in (vet-1's Team page).
 Never: browser default styling (an unstyled `<button>`, `<select>` or
 `<input>`), `alert()`, `confirm()` or `prompt()` (they block the
 scenarios too), a page broken at phone width or in either scheme, a
-placeholder as a control's only label, or a layout that doesn't line
+placeholder as a control's only label, a resting state filled with
+colour, the accent on a status or on every name, a page that leads
+with nothing, or a layout that doesn't line
 up: the columns of a board, and the rows and cells of a grid or floor
 plan, are each the same height, headers too, and a card or cell is
 only as tall as its contents, never stretched to fill spare space;
