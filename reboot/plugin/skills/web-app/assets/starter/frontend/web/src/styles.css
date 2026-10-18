@@ -40,41 +40,39 @@
    Dark mode follows prefers-color-scheme until the user picks one with
    ThemeToggle (theme.tsx), which sets data-theme="light|dark" on <html>.
    Type scale: 12 / 13 / 15 / 18 / 28 px; one radius, one shadow.
-   Looks (design-review/assets/look.py `set look`): house (cool paper,
-   Bricolage Grotesque, soft corners), ledger (grey, Space Grotesk
+   Looks (design-review/assets/look.py `set look`): house (Reboot's own,
+   as the Plugin Browser: cream paper, navy ink and accent, Space
+   Grotesk over DM Sans, soft corners), ledger (grey, Space Grotesk
    headings over Inter, sharp, compact rows via --row-h / --row-pad, no
    shadows), boutique (warm paper, Fraunces headings over Inter,
    round). The accent is set apart, with accent.py. Every page keeps
    the anatomy: brand-band with the page-head, stats overlapping it. */
 
 :root {
-  /* The house default, when the user names no brand: a cool paper page,
-     near-black ink, a violet accent with a deep shade for the top bar
-     and a pale tint for selection; Bricolage Grotesque, Instrument
-     Sans, JetBrains Mono. A user's brand replaces the whole family
-     below (accent, deep, tint, page, ink, muted, line), not just
-     --accent. Keep the accent off green, amber and red in both
-     schemes. */
-  --accent: #5b3fd6;
+  /* The house default, when the user names no brand: Reboot's own look
+     (reboot.dev, the Plugin Browser): a warm cream page, deep navy ink
+     and accent, sage as the selection tint; Space Grotesk, DM Sans, DM
+     Mono. A user's brand replaces the whole family below (accent, deep,
+     tint, page, ink, muted, line), not just --accent. Keep the accent
+     off green, amber and red in both schemes. */
+  --accent: #103761;
   --on-accent: #ffffff;
-  --accent-deep: #2b1a6b;
-  --on-deep: #f4f4f7;
-  --accent-tint: #ebe6fb;
-  /* The top bar and the brand band: the deep accent, lifting toward the
-     accent at the right. Horizontal, so the bar and the band meet with
-     no seam; computed per scheme from the tokens above. */
-  --band: linear-gradient(90deg, var(--accent-deep) 0%, var(--accent-deep) 25%, color-mix(in srgb, var(--accent-deep) 58%, var(--accent)) 100%);
-  --bg: #f4f4f7;
+  --accent-deep: #13294a;
+  --on-deep: #f7f5ed;
+  --accent-tint: #e6f3dc;
+  /* The top bar and the brand band: the deep accent, flat. */
+  --band: var(--accent-deep);
+  --bg: #f7f5ed;
   --bg-2: #ffffff;
   --panel: #ffffff;
-  --ink: #1b1d26;
-  --muted: #5c6070;
-  --line: #dcdde5;
+  --ink: #103761;
+  --muted: #506a85;
+  --line: #d9dfe6;
   --good: #3f7a2e;
   --warn: #a8660f;
   --bad: #b42318;
-  --track: #e6e6ee;
-  --bg-glow: #ecebf4;
+  --track: #ece9df;
+  --bg-glow: #f1eee4;
   --shadow: rgba(27, 29, 38, 0.1);
   --elev: 0 1px 2px rgba(27, 29, 38, 0.06), 0 1px 3px rgba(27, 29, 38, 0.08);
   --radius: 8px;
@@ -96,32 +94,26 @@
   --space-8: 32px;
   /* Bundled by the web app's main.tsx (@fontsource); an MCP UI's `.ui`
      sets these back to the system stack. */
-  --font-display:
-    "Bricolage Grotesque Variable", "Bricolage Grotesque", ui-sans-serif,
-    system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-text:
-    "Instrument Sans Variable", "Instrument Sans", ui-sans-serif, system-ui,
-    -apple-system, "Segoe UI", sans-serif;
-  --font-mono:
-    "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, SFMono-Regular,
-    Menlo, Consolas, monospace;
+  --font-display: "Space Grotesk Variable", "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-text: "DM Sans Variable", "DM Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "DM Mono Variable", "DM Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --accent: #b4a1ff;
-    --on-accent: #1b1340;
-    --accent-deep: #0f0b2a;
-    --on-deep: #ecebf4;
-    --accent-tint: #2a2448;
-    --bg: #14151c;
-    --bg-2: #1d1f29;
-    --panel: #1d1f29;
-    --ink: #ecebf4;
-    --muted: #a0a3b3;
-    --line: #2f3140;
-    --track: #262838;
-    --bg-glow: #1a1b26;
+    --accent: #9cc4f2;
+    --on-accent: #0b1f36;
+    --accent-deep: #07182b;
+    --on-deep: #f7f5ed;
+    --accent-tint: #1f3d3a;
+    --bg: #0b1f36;
+    --bg-2: #112a47;
+    --panel: #112a47;
+    --ink: #f7f5ed;
+    --muted: #9aabbf;
+    --line: #24405f;
+    --track: #1a3354;
+    --bg-glow: #0e2440;
     --good: #8ccb6b;
     --warn: #f2c784;
     --bad: #f07a6e;
@@ -131,19 +123,19 @@
   }
 }
 :root[data-theme="dark"] {
-  --accent: #b4a1ff;
-  --on-accent: #1b1340;
-  --accent-deep: #0f0b2a;
-  --on-deep: #ecebf4;
-  --accent-tint: #2a2448;
-  --bg: #14151c;
-  --bg-2: #1d1f29;
-  --panel: #1d1f29;
-  --ink: #ecebf4;
-  --muted: #a0a3b3;
-  --line: #2f3140;
-  --track: #262838;
-  --bg-glow: #1a1b26;
+  --accent: #9cc4f2;
+  --on-accent: #0b1f36;
+  --accent-deep: #07182b;
+  --on-deep: #f7f5ed;
+  --accent-tint: #1f3d3a;
+  --bg: #0b1f36;
+  --bg-2: #112a47;
+  --panel: #112a47;
+  --ink: #f7f5ed;
+  --muted: #9aabbf;
+  --line: #24405f;
+  --track: #1a3354;
+  --bg-glow: #0e2440;
   --good: #8ccb6b;
   --warn: #f2c784;
   --bad: #f07a6e;
@@ -188,12 +180,35 @@ h3 {
   font-size: 15px;
   font-weight: 600;
 }
+/* A text link is underlined, a light line that darkens on hover; links
+   drawn as controls (nav, tiles, rows, buttons, names) show it by their
+   shape instead. */
 a {
   color: var(--accent);
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
 }
 a:hover {
-  text-decoration: underline;
+  text-decoration-color: currentColor;
+}
+.topbar a,
+.sidebar-nav a,
+a.row,
+a.cell,
+a.card,
+a.button-link,
+a.name {
+  text-decoration: none;
+}
+/* A button sinks while it is held, so a press is seen. */
+button:not(:disabled) {
+  transition: transform 80ms, filter 80ms;
+}
+button:not(:disabled):active {
+  transform: translateY(1px) scale(0.97);
+  filter: brightness(0.9);
 }
 .mono {
   font-family: var(--font-mono);

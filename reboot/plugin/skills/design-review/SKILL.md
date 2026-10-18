@@ -41,7 +41,8 @@ The kinds and their choices:
   dark scheme's own). From a hex, the script makes the whole family (deep
   shade for the top bar, pale tint for selection, both schemes) and
   darkens or lightens it until it is readable.
-- **neutrals:** cool (the house default), warm, grey, white.
+- **neutrals:** cream (the house default: cream page, navy ink),
+  cool, warm, grey, white.
 - **type:** house, classic (a serif for headings over Inter), plain
   (Inter throughout), geometric, ledger (Space Grotesk for headings
   and figures over Inter), bookish. Each is an
@@ -69,7 +70,7 @@ the [`run` skill](../run/SKILL.md). Its web address is the one the
 handoff gave (often `http://localhost:5173`).
 
 Say what the look is now in one line, in words: "Maison Desk is in
-plum, on a cool grey page, with a characterful grotesque for headings
+plum, on a cream page, with Space Grotesk for headings
 and soft corners."
 
 ### 2. Review the look before advising anything
