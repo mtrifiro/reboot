@@ -14,18 +14,24 @@
    .meta, .secondary; row-grid with --row-cols for many columns) → drawer
    over the list (drawer-backdrop, drawer-head, drawer-body, drawer-foot).
    Other primary views: board / board-col (board-col-head, .count) of
-   cards; feed (a dated timeline of li with <time>); chart (an <svg>
-   with .axis / .grid, a .legend; series colors --series-1..4). Detail:
-   kv (a <dl> of label and value). Actions: confirm-bar (.message), the
-   in-page confirm; notice (.toast to float it) after an action. Also:
-   panel / panel-head, card, cards, field / field-row (forms), spacer;
-   buttons .primary / .ghost / .danger; pill; dot, tally; tabs / tab;
-   table-wrap; skeleton; empty (.actions); error; mono, small, muted,
+   cards; cells / cell (a plan or grid: a .figure and a .label each,
+   the state on the left edge as .good / .warn / .bad, .off hatched, a
+   resting cell plain); feed (a dated timeline of li with <time>);
+   chart (an <svg> with .axis / .grid, a .legend; series colors
+   --series-1..4). Detail: kv (a <dl> of label and value). Actions:
+   confirm-bar (.message), the in-page confirm; notice (.toast to float
+   it) after an action. Also: panel / panel-head, card, cards, field /
+   field-row (forms), spacer; buttons .primary / .ghost / .danger; pill;
+   figure (a number read at a glance; .large); name (a name that opens,
+   in ink, on <a> or <button>); dot, tally; tabs / tab; table-wrap;
+   skeleton; empty (.actions); error; mono, small, muted,
    visually-hidden; density-compact on any ancestor of rows.
 
-   Color: the accent family (accent, deep, tint) carries the brand;
-   neutrals carry the rest. --good, --warn and --bad (pill and dot .good
-   / .warn / .bad, tally) encode ONE data dimension, such as severity;
+   Color: the accent family (accent, deep, tint) carries the brand and
+   is spent once a page, on the primary action and the selected state;
+   neutrals carry the rest, and a resting state (ready, done) has no
+   fill. --good, --warn and --bad (pill and dot .good / .warn / .bad,
+   cell's edge, tally) encode ONE data dimension, such as severity;
    every other status is a plain neutral pill. Contrast: --ink 7:1 or
    better on --bg and --panel, --muted 4.5:1 or better.
 
@@ -858,6 +864,98 @@ button:focus-visible {
 .pill.bad {
   background: color-mix(in srgb, var(--bad) 16%, transparent);
   border-color: var(--bad);
+}
+
+/* A name that opens its record: ink, not the accent, which is kept for
+   the primary action and selection; the pointer and an underline on
+   hover say it opens. On an <a> or a <button>. */
+a.name,
+button.name {
+  font: inherit;
+  font-weight: 500;
+  color: inherit;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+a.name:hover,
+button.name:hover {
+  text-decoration: underline;
+}
+
+/* A figure read at a glance outside a stat tile: a room number on its
+   cell, a balance, a count in a heading's line. */
+.figure {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+.figure.large {
+  font-size: 28px;
+}
+
+/* A plan or grid of cells (a floor of rooms, a month, a rack): each
+   cell one figure and one word, its state on the left edge. A resting
+   cell is plain; color goes only to the states that need a person. */
+.cells {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 96px), 1fr));
+  gap: var(--space-2);
+}
+.cell {
+  display: block;
+  min-width: 0;
+  padding: var(--space-2) var(--space-3);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--line);
+  border-radius: var(--radius-sm);
+  font: inherit;
+  color: inherit;
+  text-align: left;
+}
+button.cell,
+a.cell {
+  cursor: pointer;
+}
+button.cell:hover,
+a.cell:hover {
+  background: var(--bg-glow);
+}
+.cell[aria-selected="true"],
+.cell[aria-pressed="true"] {
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.cell .label {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cell.good {
+  border-left-color: var(--good);
+}
+.cell.warn {
+  border-left-color: var(--warn);
+}
+.cell.bad {
+  border-left-color: var(--bad);
+}
+.cell.off {
+  color: var(--muted);
+  background: repeating-linear-gradient(
+    135deg,
+    var(--bg-glow) 0 6px,
+    var(--panel) 6px 12px
+  );
 }
 
 /* Tables: for many columns; wide ones scroll inside table-wrap */
