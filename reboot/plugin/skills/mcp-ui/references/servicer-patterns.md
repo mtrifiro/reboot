@@ -10,7 +10,7 @@ tags: servicer, user, transaction, workflow, ref, schedule, classmethod, inline-
 The base Servicer pattern, context types, and core trips
 (`self.ref().state_id` not `self.state_id`, kwargs not Request
 wrappers, raise typed `<Method>Aborted`) are in
-`python/references/servicer-*.md`, `rpc-refs.md`, `rpc-calls.md`,
+`python/references/servicer-*.md`, `rpc-calls.md`,
 `api-errors.md`. What's _MCP-UI-specific_:
 
 - One Servicer class per type — `UserServicer` plus one per
