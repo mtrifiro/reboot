@@ -463,8 +463,11 @@ finished app.
    [`references/react-client.md`](references/react-client.md) and
    [`references/ui-design.md`](references/ui-design.md): its primary
    view in the house look, leading with what the design's page line
-   says, the resting state plain and the accent on one action. Write
-   the calls from the reference and do
+   says, the resting state plain and the accent on one action. When
+   `design/comp.html` exists
+   ([`references/comp.md`](references/comp.md)), the page is the comp
+   made live: the same classes and composition, its rows from the
+   reader. Write the calls from the reference and do
    **not** open `frontend/api/**/*_rbt_react.ts`.
    `cd frontend && npm run build`.
 9. Edit the starter's browser scenario (`tests/<pkg>_web.feature`,
@@ -472,7 +475,8 @@ finished app.
    page's, per `python/references/testing-web-app.md`
    (`uv run playwright install chromium` once); every web feature
    file runs from that one module. Run `uv run pytest` again, as the [`feature` skill](../feature/SKILL.md)'s step 4 says.
-10. Start the app with the [`run` skill](../run/SKILL.md) and check
+10. Start the app with the [`run` skill](../run/SKILL.md) (stopping
+    the comp's server first when `design/.comp.pid` exists) and check
     the page in a headless browser (Playwright; in the Claude app never
     the Browser pane, which is for the user at the handoff): signed
     in, it shows all the demo data, its main action works, every
