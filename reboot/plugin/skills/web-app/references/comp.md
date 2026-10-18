@@ -44,8 +44,14 @@ comp: in <look>, in <accent>."
    button. What the eye lands on is as the design's Pages line says:
    the resting state plain, colour on the states that need a person,
    the accent on the primary action and the current nav item only.
-   Nothing is wired: no script, no drawer open, the theme toggle drawn
-   and inert. No raw colour outside `comp.css`.
+   A plan is `plan` rows, one a floor or aisle with its `plan-label`
+   at the left and `--cells-cols` set to the row's count, each cell
+   its number, one word and at most a one-letter `corner` mark; never
+   a card or a heading per floor. The whole first screen at desktop
+   width holds the head, the figures and the plan or board together
+   (`ui-design.md`, "The first screen holds the view"). Nothing is
+   wired: no script, no drawer open, the theme toggle drawn and inert.
+   No raw colour outside `comp.css`.
 3. Serve `design/` and open it: `python3 -m http.server <port>
    --directory design` in the background, the port the first free one
    from 9860, its pid written to `design/.comp.pid`. In the Claude
@@ -74,6 +80,8 @@ above when it is wanted again.
 ## Never
 
 - A comp of any page but the main one, or more than one comp.
+- A card or a heading per row of a plan, or a plan whose rows wrap:
+  the page's first screen holds the whole view.
 - A script, a wired control or data behind it: it is a drawing.
 - The go-ahead dialog before the comp's line, or a minute between the
   design and the line without "Drawing the <page> as a comp".
