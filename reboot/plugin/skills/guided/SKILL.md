@@ -38,7 +38,10 @@ it") the design skill hands the prompt to the [`build`
 skill](../build/SKILL.md) and this skill's part is over: no design, no
 go-ahead, no **What to expect**.
 The front door is never asked (the [`app` skill](../app/SKILL.md),
-Routing). Then, in the same response as the design, the go-ahead,
+Routing). Then, for a web app, the comp
+([`../web-app/references/comp.md`](../web-app/references/comp.md)):
+the main page drawn in the look, served, opened in the pane, one line
+with its link. Then, in the same response as the design, the go-ahead,
 **Build on this design?**
 ([`../app/references/design-first.md`](../app/references/design-first.md),
 section 3): "Start building" is step by step, "Build it all at once"
