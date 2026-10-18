@@ -87,9 +87,12 @@ every page at desktop and phone width, light and dark."
    `design/design.md`:
    - Does each page's primary view fit its task (a board, a floor
      plan, a calendar), and does the eye land first on the page's main
-     question?
-   - Is color doing one job: the accent for actions and selection,
-     status colors for one dimension only, neutrals for the rest?
+     question: the figure the design's page line says it leads with
+     (`ui-design.md`, "What the Eye Lands On")?
+   - Is color doing one job: the accent on the primary action and the
+     selected state only, never on a status or on every name; status
+     colors on the states that need a person and none on the resting
+     state; neutrals for the rest?
    - Do the type sizes keep to the scale, and the spacing to the steps?
      Do repeated things (cards, rows, columns) line up?
    - Does it hold at phone width and in dark mode, with nothing cut
