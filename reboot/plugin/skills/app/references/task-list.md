@@ -30,8 +30,9 @@ fails stays in progress, never done.
 **Short.** The list says where the build is, not every step inside
 it: scaffolding, scenarios, tests, pages and the browser checks all
 sit inside the items of the two parts below. Every item stays on the
-list, in order: none is dropped. The user's turns (the checks on the
-dashboard and in the app, the handoff's question) are not items: each
+list, in order: none is dropped. The user's turns (the go-ahead on the
+design, the checks on the dashboard and in the app, the handoff's
+question) are not items: each
 is a dialog, asked when every item before it is done (a step that
 couldn't be is named in the handoff's **Notes**), never while an
 earlier item is still in progress.
@@ -51,17 +52,16 @@ browser-testing ones.
 The first feature's backend:
 
 1. Propose the design for <app>
-2. Get your go-ahead on the design
-3. Write the rules for “<feature>”, then its domain model
-4. Build the actions for “<feature>” and test them against its rules
+2. Write the rules for “<feature>”, then its domain model
+3. Build the actions for “<feature>” and test them against its rules
 
-Item 3 covers the scaffold, the rules as scenarios, then the domain model
-and starting the dashboard. Item 4 covers the actions, who may do
-each, demo data and the tests (scenarios pass, types check). Item 2 is
-the `app` skill's go-ahead (`app/references/design-first.md`); a front
-door's skill used on its own, which doesn't ask it, leaves it off, and
-so does the power-user path (below). The domain model check after item
-3 and the backend check after item 4 are dialogs, not items.
+Item 2 covers the scaffold, the rules as scenarios, then the domain model
+and starting the dashboard. Item 3 covers the actions, who may do
+each, demo data and the tests (scenarios pass, types check). The
+go-ahead after item 1, the domain model check after item 2 and the
+backend check after item 3 (`app/references/design-first.md`) are
+dialogs, not items; a front door's skill used on its own and the
+power-user path (below) ask none of them.
 
 Its frontend, once the user says so:
 
@@ -76,7 +76,7 @@ at desktop and phone width; it ends with the line linking the app and
 the dashboard. A first feature seen from both sides (`app` skill,
 step 1) has "Build the two pages for “<feature>”, <the customers'>
 and <the staff's>" and "Test them side by side in a browser". For
-the hotel, item 3 reads "Write the rules for “room status floor
+the hotel, item 2 reads "Write the rules for “room status floor
 plan”, then its domain model".
 
 Each next feature, when the user asks for it (the app keeps running),
@@ -95,18 +95,16 @@ The same two parts, for every feature at once
 backend:
 
 1. Propose the design for <app>
-2. Get your go-ahead on the design
-3. Write the rules, then the domain model
-4. Start every page of the design in parallel (a sub-agent)
-5. Build every feature's actions and test them against its rules
+2. Write the rules, then the domain model
+3. Start every page of the design in parallel (a sub-agent)
+4. Build every feature's actions and test them against its rules
 
 then, with no stop between them, the frontend:
 
 1. Finish every page of the design
 2. Test them in a browser
 
-Item 2 of the backend is left off where no go-ahead is asked
-(`one-shot`), and item 4 only where the host has no Agent tool
+Item 3 of the backend is left off where the host has no Agent tool
 (`web-app/references/full-build.md`, "The prototype, built in two
 parts at once"); then the frontend's item 1 is "Build every page of
 the design". For an MCP UI, the frontend's item 1 is "Build every UI
@@ -128,7 +126,7 @@ as a short noun phrase:
 
 ## A backend only
 
-The backend list alone (`app/references/backend-only.md`), its item 4
+The backend list alone (`app/references/backend-only.md`), its item 3
 "Build the actions for “<feature>” and test them against its rules, with
 the backend running", and "Generate the <platform> client" after the
 first feature's tests pass.
@@ -143,8 +141,8 @@ check-in").
 
 ## Never
 
-- A "Your turn" item: the user's checks and the handoff's question are
-  dialogs, not steps of the build.
+- An item for the user's turn (the go-ahead, a check, the handoff's
+  question): those are dialogs, not steps of the build.
 - An item named for a file or a tool (`main.py`, `pytest`, `mypy`,
   "servicer"), where an item above says it in the user's terms.
 - An item added for a step inside another (reading references,
