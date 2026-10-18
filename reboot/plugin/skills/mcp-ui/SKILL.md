@@ -89,8 +89,6 @@ bounded hard:
 **Before the servicer:**
 
 - `python/references/servicer-{reader,writer,transaction,constructor}.md` — one per declared context type.
-- `python/references/rpc-refs.md` — `self.ref().state_id`;
-  `self.ref().schedule(...)`.
 - `python/references/rpc-calls.md` — kwargs, not Request wrappers;
   `Service.create(context, id)`.
 - `python/references/servicer-workflow.md` — only when a `Workflow`
@@ -101,9 +99,7 @@ bounded hard:
 **Before the authorizers:**
 
 - `python/references/servicer-authorizer.md`,
-  `python/references/auth-allow-if.md`,
-  `python/references/auth-built-in-predicates.md` — the predicate
-  machinery.
+  `python/references/auth-rules.md` — the predicate machinery.
 - `python/references/auth-custom-predicates.md` — only when the
   built-in predicates don't cover a rule.
 - `python/references/auth-allow-deny.md` — only when the design has
