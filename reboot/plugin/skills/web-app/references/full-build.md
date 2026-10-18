@@ -116,7 +116,7 @@ the Agent tool (Codex, say) does the steps in order.
     there; and from [`ui-design.md`](ui-design.md), each page's
     primary view leading with what the design's page line says, the
     resting state plain and the accent on one action ("What the Eye
-    Lands On"); when `design/comp.html` exists ([`comp.md`](comp.md)),
+    Lands On"); when `design/comp/index.html` exists ([`comp.md`](comp.md)),
     the main page is the comp made live, the same classes and
     composition. Write the calls from that reference and do **not** open
     `frontend/api/**/*_rbt_react.ts` to check them — it is tens of
