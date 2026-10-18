@@ -86,7 +86,7 @@ name, then navigate to the page the turn is about, as a whole: the
 model check opens `#/models` with no object selected (no `?type=`), so
 the user sees every object and how they connect and opens one by
 clicking it; the backend check opens `#/features`. A single object's
-or rule's link is for the chat's own links, never the pane. The link line stays as well, for a host without a
+or rule's link is for the chat's own links, never the pane, except on the model tour, which opens each object in turn (`design-first.md`, section 4). The link line stays as well, for a host without a
 pane and for later. Never start a second dashboard for the pane.
 
 **Two pages side by side.** For the feature that adds a customer
