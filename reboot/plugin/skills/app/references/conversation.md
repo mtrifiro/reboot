@@ -184,7 +184,7 @@ whole task list. So:
 
 **A change to the look** (colors, typefaces, a brand, corners, the
 layout), asked for at any point after the first handoff, goes to the
-[`design-review` skill](../../design-review/SKILL.md): it reviews the look first, then the user picks from previews
+[`ui-review` skill](../../ui-review/SKILL.md): it reviews the look first, then the user picks from previews
 and each change can be undone. It isn't a feature, so nothing is
 recorded as kept for it.
 
