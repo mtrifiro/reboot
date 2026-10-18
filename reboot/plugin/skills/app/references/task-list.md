@@ -27,15 +27,14 @@ same response as that question (before it, a list has only "Propose
 the design for <app>"); mark each item done as it finishes; a step that
 fails stays in progress, never done.
 
-**Short, and the user's turn last.** The list says where the build
-is and where the user comes in, not every step inside it: scaffolding,
-scenarios, tests, pages and the browser checks all sit inside the
-items of the two parts below. Every item stays on the list, in order: none is dropped. Before
-the handoff's question, every item above "Your turn: try the app and
-decide what to do next" is done (a step that couldn't be is named in the handoff's
-**Notes**), and that item is in progress while the user answers: it is
-what tells the user the build is waiting for them. The question never
-comes while an earlier item is still in progress.
+**Short.** The list says where the build is, not every step inside
+it: scaffolding, scenarios, tests, pages and the browser checks all
+sit inside the items of the two parts below. Every item stays on the
+list, in order: none is dropped. The user's turns (the checks on the
+dashboard and in the app, the handoff's question) are not items: each
+is a dialog, asked when every item before it is done (a step that
+couldn't be is named in the handoff's **Notes**), never while an
+earlier item is still in progress.
 
 ## Two parts, two lists
 
@@ -54,23 +53,20 @@ The first feature's backend:
 1. Propose the design for <app>
 2. Get your go-ahead on the design
 3. Write the rules for “<feature>”, then its domain model
-4. Your turn: check the domain model on the dashboard
-5. Build the actions for “<feature>” and test them against its rules
-6. Your turn: check the backend, then say to move on to the frontend
+4. Build the actions for “<feature>” and test them against its rules
 
 Item 3 covers the scaffold, the rules as scenarios, then the domain model
-and starting the dashboard. Item 5 covers the actions, who may do
-each, demo data and the tests (scenarios pass, types check). Items 2,
-4 and 6 are the `app` skill's questions
-(`app/references/design-first.md`); a front door's skill used on its
-own, which doesn't ask them, leaves them off, and so does the
-power-user path (below).
+and starting the dashboard. Item 4 covers the actions, who may do
+each, demo data and the tests (scenarios pass, types check). Item 2 is
+the `app` skill's go-ahead (`app/references/design-first.md`); a front
+door's skill used on its own, which doesn't ask it, leaves it off, and
+so does the power-user path (below). The domain model check after item
+3 and the backend check after item 4 are dialogs, not items.
 
 Its frontend, once the user says so:
 
 1. Build the page for “<feature>”
 2. Test it in a browser
-3. Your turn: try the app and decide what to do next
 
 Item 1 covers the frontend scaffold, the page and starting the app.
 Item 2 covers the browser scenario, the first-paint time
@@ -81,8 +77,7 @@ the dashboard. A first feature seen from both sides (`app` skill,
 step 1) has "Build the two pages for “<feature>”, <the customers'>
 and <the staff's>" and "Test them side by side in a browser". For
 the hotel, item 3 reads "Write the rules for “room status floor
-plan”, then its domain model"; item 6 is the same words for every
-app.
+plan”, then its domain model".
 
 Each next feature, when the user asks for it (the app keeps running),
 one list, backend and frontend with no stop between them:
@@ -92,7 +87,6 @@ one list, backend and frontend with no stop between them:
 3. Build the actions for “<feature>” and test them against its rules
 4. Build the page for “<feature>”
 5. Test it in a browser
-6. Your turn: try the app and decide what to do next
 
 ## The whole app at once
 
@@ -110,7 +104,6 @@ then, with no stop between them, the frontend:
 
 1. Finish every page of the design
 2. Test them in a browser
-3. Your turn: try the app and decide what to do next
 
 Item 2 of the backend is left off where no go-ahead is asked
 (`one-shot`), and item 4 only where the host has no Agent tool
@@ -126,22 +119,19 @@ The user directs every step at the prompt and is asked nothing
 prompt:
 
 1. Propose the design for <app>
-2. Your turn: say what to build first
 
 Then, for each prompt, one list, its first item the user's own words
 as a short noun phrase:
 
 1. Build <what they asked for>
 2. Test it against its rules (and "and in a browser" when it has a page)
-3. Your turn: say what's next
 
 ## A backend only
 
-The backend list alone (`app/references/backend-only.md`), its item 5
+The backend list alone (`app/references/backend-only.md`), its item 4
 "Build the actions for “<feature>” and test them against its rules, with
-the backend running", item 6 "Your turn: decide what to do next" (no
-app to try), and "Generate the <platform> client" after the first
-feature's tests pass.
+the backend running", and "Generate the <platform> client" after the
+first feature's tests pass.
 
 ## A change to a built app
 
@@ -150,10 +140,11 @@ check-in").
 
 1. Show what <change> changes in the design (only when it does)
 2. Make <change> and test it against the rules
-3. Your turn: try the app and decide what to do next
 
 ## Never
 
+- A "Your turn" item: the user's checks and the handoff's question are
+  dialogs, not steps of the build.
 - An item named for a file or a tool (`main.py`, `pytest`, `mypy`,
   "servicer"), where an item above says it in the user's terms.
 - An item added for a step inside another (reading references,
