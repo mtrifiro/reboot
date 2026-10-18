@@ -56,7 +56,9 @@ and fixes it.
 - **The resting state is plain.** In a view that colours status, the
   normal state (ready, done, in stock, on time) has no fill: the panel
   surface and the line. Colour goes to the states that need a person
-  (dirty, overdue, leaving today), one hue each, named in the legend.
+  (dirty, overdue, leaving today), one hue each, named in the legend;
+  the one state the page's question asks for ("which rooms are
+  ready?") may take the good colour on its edge, so the answer shows.
   More than a third of a view coloured means the colours are the wrong
   way round (hotel-200's floor plan: 38 of 56 tiles green for "ready").
 - **The accent is spent once.** It marks the primary action and the
@@ -69,9 +71,20 @@ and fixes it.
   number, a count, a balance, a time) is the display face at 18 or
   28 px with tabular figures (`figure`, `stat .value`), its label 12 or
   13 px and muted beside it. A cell of a plan or grid (`cells`, `cell`)
-  is one figure and one word, its state on its left edge, the rest in
-  its drawer; two lines of 13 px text in fifty tiles is a list wearing
-  a grid.
+  is one figure and one word, its state on its left edge, a second
+  fact at most a one-letter `corner` mark (K, Q, S), the rest in its
+  drawer; two lines of 13 px text in fifty tiles is a list wearing a
+  grid. A plan's rows are its floors or aisles (`plan`, `plan-row`, a
+  `plan-label` at the left), each row's count fixed with
+  `--cells-cols` so eight rooms stay on one line, never a card per
+  row.
+- **The first screen holds the view.** At desktop width the page
+  head, the leading figure and the whole plan or board are on screen
+  together, the last row included; a list may scroll. What doesn't
+  fit is too loose (a card per row, a heading per row, padding), not
+  too big: fifty-six rooms are seven rows of eight. (hotel-202's comp:
+  seven floor cards, each wrapping to two rows, a page four screens
+  tall.)
 - **Columns are for things that move between them.** Lists side by
   side that nothing moves between (arrivals, in house, departures) are
   not a board: the page's work, what gets an action today, comes first
@@ -158,7 +171,7 @@ hierarchy rules above hold in all three.
    adds (a set of player colours, a status the domain has) extend the
    stylesheet in the house's terms and change nothing above them.
 3. Build the pages from the stylesheet's classes, listed in its
-   opening comment (read only that: the file's first 45 lines, never
+   opening comment (read only that: the file's first 47 lines, never
    the whole file; to see one class's rules, search for it): `topbar`, `brand-band` and `page-head`, `stats`,
    `filter-panel`, `list-card` and `row`, `board`, `cells` and `cell`,
    `feed`, `chart`, `drawer`, `kv`, `pill`, `figure`, `name`,
