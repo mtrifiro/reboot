@@ -184,10 +184,12 @@ id"`, then `<account id>`. Give an id only when it means something
   handoff or the whole-app end, in the background while the handoff
   is written, after the same one line. A line per rule as each
   finishes is noise: post nothing per scenario and don't watch it
-  with a monitor that reports each test; check `tests/.progress.jsonl`
-  (`tests/last_run.py` writes a line per scenario) only to see that
-  it is still moving, and after about three minutes say once that it
-  is still running, with the count done. When it ends, its result the
+  with a monitor that reports each test. Never wait on it (`sleep`,
+  an `until` loop): write the handoff while it runs; its completion
+  notice comes on its own. Only if the handoff is written and the run
+  is past about three minutes, check `tests/.progress.jsonl`
+  (`tests/last_run.py` writes a line per scenario) and say once that
+  it is still running, with the count done. When it ends, its result the
   same way, once.
 - **Suggest reviewing in the dashboard** after each round: the
   feature's card, its rules, the methods it uses and the ones no
