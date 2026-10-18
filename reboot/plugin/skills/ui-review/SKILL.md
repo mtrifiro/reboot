@@ -1,11 +1,11 @@
 ---
-name: design-review
-description: Review how a Reboot web app looks, then change it with the user. First a design review of the running app - every main page at desktop and phone width, light and dark, measured for contrast, alignment, overflow and touching controls, and judged against the house design rules and the app's own users - with findings and what's right. Then the changes the user picks - its accent or a brand's colors, page and text tones, typefaces, corners, layout, density, logo - each shown as a preview in the app's own pieces before it is applied to the house stylesheet's tokens, with an undo. Use when the user asks to review, critique, improve or change the look, colors, theme, fonts, brand, style or feel of an app that is already built. Not for what the app keeps track of or its rules (the domain-review and feature skills), and not during a build's first feature, where the look is picked for the user.
+name: ui-review
+description: Review how a Reboot web app looks, then change it with the user. First a UI review of the running app - every main page at desktop and phone width, light and dark, measured for contrast, alignment, overflow and touching controls, and judged against the house design rules and the app's own users - with findings and what's right. Then the changes the user picks - its accent or a brand's colors, page and text tones, typefaces, corners, layout, density, logo - each shown as a preview in the app's own pieces before it is applied to the house stylesheet's tokens, with an undo. Use when the user asks to review, critique, improve or change the look, colors, theme, fonts, brand, style or feel of an app that is already built. Not for what the app keeps track of or its rules (the domain-review and feature skills), and not during a build's first feature, where the look is picked for the user.
 argument-hint: [what to change, e.g. "make it teal" or "match acme.com"]
 allowed-tools: Bash, Read, Write, Edit, Glob, Grep, AskUserQuestion
 ---
 
-# design-review — Review the App's Look, Then Change It With the User
+# ui-review — Review the App's Look, Then Change It With the User
 
 Every Reboot web app is built in the house look: one stylesheet,
 `frontend/web/src/styles.css`, whose colors, typefaces and corners are
@@ -101,7 +101,7 @@ every page at desktop and phone width, light and dark."
      off or unreachable?
    - Does the look suit the domain and the people (a front desk
      watched all day, a guest booking on a phone)?
-4. **Say it,** one message headed **Design review: <app>**:
+4. **Say it,** one message headed **UI review: <app>**:
    - **Verdict,** two or three sentences: what works, and the one
      thing that would most improve it.
    - **Findings,** at most seven, most visible first, each its title
