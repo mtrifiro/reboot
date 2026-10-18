@@ -207,18 +207,40 @@ asks about:
 - "Build on it" (recommended): "Next: the actions for “<feature>”,
   tested against its rules. <The objects, in the user's nouns: Hotel,
   Room and Stay> can still change later; now is when it's cheapest."
-- "Walk me through it": "A short tour here in the chat: what <the
-  objects> each hold, and the rule each one keeps."
+- "Walk me through it": "A tour, one object at a time, each opened on
+  the dashboard: what it holds, what it does, who may do it, and the
+  rule it keeps."
 
 It serves whoever reads it, dashboard opened or not, and neither is
 asked which they are.
 
-**The tour,** on "Walk me through it": one short paragraph per object,
-in the user's nouns, its name linked on the dashboard: what it holds,
-why it is its own object, the rule it keeps ("Room holds its
-housekeeping state and its stays, so no guest is put in a room that
-isn't inspected"). Then one line on how they connect, and the same
-dialog again.
+**The tour,** on "Walk me through it": the domain model one object at
+a time, at the user's pace. Never one paragraph for all of them, and
+never a recap of what the chat already said: a tour shows each thing
+where it lives. For each object, in build order, one message:
+
+1. The Browser pane opens that object on the dashboard
+   (`#/models?type=<package>.v1.<Object>`, the one time the pane
+   shows a single object; `conversation.md`).
+2. In the chat, in the user's nouns, every name a dashboard link: what
+   the object stands for and why it is its own object (what changes
+   on its own, what runs one at a time); what it holds, field by
+   field, in words; each action by name, its kind in plain words (a
+   writer changes this object, a transaction changes several at once
+   or none, a reader only looks), what it does and who may call it;
+   the rule it keeps and the scenario that proves it, the rule linked
+   on the Features page. In a verbose build the decisive lines are
+   quoted (`exegesis.md`). About 150 to 250 words an object, the
+   build's voice, never "I".
+3. One dialog, **Next on the tour?**: "Next: <the next object>"
+   (recommended), "How they connect": "The calls between them, then
+   back to the model.", "Stop the tour": "Back to the model."
+
+After the last object, how they connect comes without asking: which
+object calls which, for what, in two or three lines, with the pane
+back on the whole model (`#/models`). Then **Build on this domain
+model?** again. Three objects are three stops; a message that sums
+them up in a paragraph is not a tour (hotel-203, 2026-10-18).
 
 When the model differs from the proposed design, one line before the
 dialog says how, in the user's nouns. A change goes in the free
