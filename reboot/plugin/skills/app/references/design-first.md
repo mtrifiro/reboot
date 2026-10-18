@@ -248,7 +248,10 @@ updates on everyone's screen through its reader). Then what does not
 connect, and why: what each object never touches. After it, the tour
 goes on where it was (the next object not yet shown, with the same
 dialog); once every object and the connections are shown, **Build on
-this domain model?** again. Three objects and their connections are
+this domain model?** again, without "Walk me through it": its second
+option is "Change something": "Say what to change about <the objects>,
+in your own words." A tour stopped early keeps "Walk me through it",
+which resumes at the next object not yet shown. Three objects and their connections are
 four stops; a message that sums any of them up in a paragraph is not
 a tour (hotel-203 and hotel-204, 2026-10-18: "How they connect"
 answered in four lines, and the tour ended there with two objects
