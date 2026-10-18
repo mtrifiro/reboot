@@ -1,6 +1,6 @@
 ---
 name: review
-description: Review a built Reboot app's structure as a senior systems architect would - the code's shape and boundaries, the API surface and who calls it, authorization method by method, errors and what survives a restart, whether every rule is proven, the frontend's structure, and readiness to run in production - then make the recommendations the user picks, one at a time, each proven with every rule still passing. Reads the code with assets/structure.py (files and functions by size, repeated code, methods no one calls, authorizers, broad excepts, rules without scenarios, @wip left on, raw colours, secrets and environment reads). Use only when the user asks for it ("/reboot:review", "review the architecture", "review the code", "how is this app structured?", "what would a senior engineer change?"); no other skill loads it. The domain model's scale is the domain-review skill's; the look is the design-review skill's.
+description: Review a built Reboot app's structure as a senior systems architect would - the code's shape and boundaries, the API surface and who calls it, authorization method by method, errors and what survives a restart, whether every rule is proven, the frontend's structure, and readiness to run in production - then make the recommendations the user picks, one at a time, each proven with every rule still passing. Reads the code with assets/structure.py (files and functions by size, repeated code, methods no one calls, authorizers, broad excepts, rules without scenarios, @wip left on, raw colours, secrets and environment reads). Use only when the user asks for it ("/reboot:review", "review the architecture", "review the code", "how is this app structured?", "what would a senior engineer change?"); no other skill loads it. The domain model's scale is the domain-review skill's; the tests' coverage, scenario by scenario, is the test-review skill's; the look is the design-review skill's.
 argument-hint: '[what to look at, e.g. "the API" or "is it ready to deploy?"]'
 allowed-tools: Bash, Read, Write, Edit, Glob, Grep, AskUserQuestion
 ---
@@ -49,7 +49,10 @@ the build makes each change and proves every rule still holds.
 6. **The rules are the specification.** Every rule has a scenario
    that proves it, every writing method is reached by one, and
    nothing finished is left `@wip`. A test that passes whatever the
-   code does is a finding.
+   code does is a finding. Coverage gap by gap, with the scenarios
+   that would close them, is the
+   [`test-review` skill](../test-review/SKILL.md)'s: one line points
+   to it when the structure's signals show gaps.
 7. **Numbers over adjectives.** Line counts, call counts, method
    counts, measured times: a finding says how much. Load and
    contention (single actors, collections, fan-out reads, wide
