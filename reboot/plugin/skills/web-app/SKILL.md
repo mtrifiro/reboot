@@ -444,7 +444,7 @@ finished app.
    under `rbt dev run` only, as
    `python/references/lifecycle-seeding.md` says. Write the
    feature's scenarios in the built-in steps of
-   `python/references/testing-features.md`; run `uv run pytest` as the [`feature` skill](../feature/SKILL.md)'s step 4 says (the feature's own files, in the foreground) and
+   `python/references/testing-features.md`; run `uv run pytest` as the [`feature` skill](../feature/SKILL.md)'s step 4 says (the feature's own files, in the foreground, its output never piped through `grep` or `tail`) and
    `uv run mypy backend/ tests/` with `rbt dev run` stopped (`run`
    skill, "Stopping the App"); fix what fails before any page.
 7. The frontend is in place from step 1
@@ -469,7 +469,7 @@ finished app.
    run by `tests/web_test.py`, which starts the frontend) into the
    page's, per `python/references/testing-web-app.md`
    (`uv run playwright install chromium` once); every web feature
-   file runs from that one module. Run `uv run pytest` again, as the [`feature` skill](../feature/SKILL.md)'s step 4 says.
+   file runs from that one module. Run `uv run pytest` again, as the [`feature` skill](../feature/SKILL.md)'s step 4 says, unfiltered.
 10. Start the app with the [`run` skill](../run/SKILL.md) (stopping
     the comp's server first when `design/.comp.pid` exists) and check
     the page in a headless browser (Playwright; in the Claude app never
