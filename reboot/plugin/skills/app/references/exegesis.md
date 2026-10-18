@@ -62,8 +62,7 @@ durable object, an authorizer, effect validation, a reader's
 subscription), then used plainly. Links as `conversation.md` says:
 each object and rule to the dashboard, each file to the project.
 
-**Voice.** The build's, never the first person; the user's nouns
-first, Reboot's second; one idea a sentence. Not a tutorial on Reboot
+**Voice.** The user's nouns first, Reboot's second; one idea a sentence. Not a tutorial on Reboot
 and not a changelog: what this app's code means and why it is shaped
 so.
 
