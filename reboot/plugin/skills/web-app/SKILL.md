@@ -485,9 +485,11 @@ finished app.
     written (`feature` skill, "Report a full run once, at the end"):
     stop the app (`run` skill, "Stopping the App"), start
     `scripts/test.sh full` with the Bash tool's `run_in_background`,
-    and write the handoff while it runs, never waiting on it in the
-    foreground; when it finishes, start the app again and send the
-    handoff with its result, said once. Show what was built so the user can judge
+    its output unpiped, and at once write the whole handoff below
+    while it runs. Never wait on it: no `sleep`, no `until` loop, no
+    Monitor, no reading its output file; its completion notice comes
+    on its own. When it does, start the app again and send the
+    handoff with the run's result, said once. Show what was built so the user can judge
     it, not admire it, word for word in the handoff's shape in
     [`app/references/design-messages.md`](../app/references/design-messages.md),
     each rule linked to the dashboard's Features page (`dashboard`
