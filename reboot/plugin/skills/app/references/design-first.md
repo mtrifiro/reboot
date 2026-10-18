@@ -230,8 +230,7 @@ where it lives. For each object, in build order, one message:
    or none, a reader only looks), what it does and who may call it;
    the rule it keeps and the scenario that proves it, the rule linked
    on the Features page. In a verbose build the decisive lines are
-   quoted (`exegesis.md`). About 150 to 250 words an object, the
-   build's voice, never "I".
+   quoted (`exegesis.md`). About 150 to 250 words an object.
 3. One dialog, **Next on the tour?**: "Next: <the next object>"
    (recommended), "How they connect": "The calls between them, then
    back to the model.", "Stop the tour": "Back to the model."
