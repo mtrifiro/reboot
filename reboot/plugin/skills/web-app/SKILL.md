@@ -83,8 +83,7 @@ The sequence:
    `authorizer()` on every Servicer from day one**, with
    `allow_if(...)` rules that run in dev as in production
    (`python/references/servicer-authorizer.md`,
-   `python/references/auth-allow-if.md`,
-   `python/references/auth-built-in-predicates.md`). Never paper
+   `python/references/auth-rules.md`). Never paper
    over a missing rule with `allow()`; `allow()` means "public,
    unauthenticated internet endpoint" and survives into production.
 2. **Before `rbt serve` / Reboot Cloud:** set `prod=Google(...)`
@@ -167,8 +166,6 @@ generated or installed file (`*_rbt.py`, `*_rbt_react.ts`,
 **Before the servicer:**
 
 - `python/references/servicer-{reader,writer,transaction,constructor}.md` — one per context type declared.
-- `python/references/rpc-refs.md` — `self.ref().state_id`;
-  `self.ref().schedule(...)`.
 - `python/references/rpc-calls.md` — kwargs, not Request wrappers;
   `Service.create(context, id)`.
 - `python/references/servicer-workflow.md` — only when a `Workflow`
@@ -179,9 +176,7 @@ Apps" above):
 
 - `python/references/servicer-authorizer.md` — **start here**:
   `oauth=` vs. `token_verifier=`.
-- `python/references/auth-allow-if.md`,
-  `python/references/auth-built-in-predicates.md` — the predicate
-  machinery.
+- `python/references/auth-rules.md` — the predicate machinery.
 - `python/references/auth-custom-predicates.md` — only when the
   built-in predicates don't cover a rule.
 - `python/references/auth-allow-deny.md` — only when the design has
