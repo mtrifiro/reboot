@@ -1,17 +1,84 @@
 ---
-title: Built-In Authorizer Predicates
+title: "The Authorizer's Rules: `allow_if` and the Built-In Predicates"
 impact: HIGH
-impactDescription: The three shipped predicates cover most auth needs without custom code
-tags: auth, predicate, has_verified_token, is_app_internal, state_id_is_user_id
+impactDescription: All non-trivial authorization is composed from `allow_if` and predicates; the three shipped predicates cover most auth needs without custom code
+tags: auth, allow_if, predicate, all, any, composition, has_verified_token, is_app_internal, state_id_is_user_id
 ---
 
-## Built-In Authorizer Predicates
+## The Authorizer's Rules: `allow_if` and the Built-In Predicates
 
-> **Critical:** three shipped predicates cover most needs:
-> `has_verified_token` (any verified caller), `is_app_internal`
-> (only same-app internal calls — the right gate for stdlib-style
-> helpers), `state_id_is_user_id` (per-user resources where actor IDs
-> are user IDs). Compose via `allow_if(all=[...])` / `allow_if(any=[...])`.
+> **Critical:** pass exactly one of `all=` **or** `any=` to `allow_if`
+> (passing both asserts at runtime). For `all=`, list cheap
+> auth-establishing predicates first — short-circuiting + later
+> predicates can rely on earlier `Ok` results. Three shipped predicates
+> cover most needs: `has_verified_token` (any verified caller),
+> `is_app_internal` (only same-app internal calls — the right gate for
+> stdlib-style helpers), `state_id_is_user_id` (per-user resources
+> where actor IDs are user IDs).
+
+## Compose Predicates with `allow_if(all=...)` / `allow_if(any=...)`
+
+`allow_if` composes a list of predicate callables into an authorizer
+rule. Pass `all=[...]` to require every predicate to return `Ok`, or
+`any=[...]` to require at least one. The two are mutually exclusive —
+exactly one keyword is allowed.
+
+**Incorrect (passing both `all` and `any`):**
+
+```python
+allow_if(all=[has_verified_token], any=[is_app_internal])  # asserts at runtime
+```
+
+**Correct (one or the other):**
+
+```python
+from reboot.aio.auth.authorizers import (
+    allow_if, has_verified_token, is_app_internal,
+)
+
+
+def authorizer(self):
+    # Caller must be authenticated AND match some other condition.
+    return allow_if(all=[has_verified_token, my_predicate])
+
+
+def authorizer(self):
+    # Either internal-app calls OR authenticated user-facing calls work.
+    return allow_if(any=[is_app_internal, has_verified_token])
+```
+
+## Evaluation Order Matters for `all`
+
+Predicates are invoked one at a time. For `all=[...]`, list cheap or
+authentication-establishing predicates first — later predicates can rely
+on earlier ones having returned `Ok` (so e.g. a predicate that reads
+`context.auth.user_id` can come after `has_verified_token`).
+
+## Short-Circuiting
+
+`all` short-circuits on the first `PermissionDenied` or
+`Unauthenticated`. `any` short-circuits on the first `Ok`.
+
+## Aggregated Decision
+
+When `any=[...]` runs out without finding an `Ok`:
+
+- If at least one predicate returned `PermissionDenied`, the aggregate
+  is `PermissionDenied`.
+- Otherwise (all returned `Unauthenticated`), the aggregate is
+  `Unauthenticated`.
+
+This shape lets callers know whether to retry with auth (the call was
+unauthenticated) or stop trying entirely (denied).
+
+## Stdlib Uses It Internally
+
+`OrderedMapServicer` defaults to
+`allow_if(all=[is_app_internal])` — only other Reboot code in the same
+app can call it. Apply the same pattern when a stdlib-style helper
+shouldn't be reachable from outside.
+
+## Built-In Authorizer Predicates
 
 `reboot.aio.auth.authorizers` ships three predicate callables. Each takes
 keyword args and returns one of `Ok` / `Unauthenticated` /
