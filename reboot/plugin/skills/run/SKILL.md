@@ -145,6 +145,10 @@ the suite passes. The suite runs its own Reboot over the same
 generated code; a running `rbt dev run` regenerates that code when
 `api/` changes, under the tests, and the run hangs.
 
+**The comp's server** from the design step (`design/.comp.pid`,
+`web-app/references/comp.md`) is stopped when the app first starts:
+`kill $(cat design/.comp.pid) && rm design/.comp.pid`.
+
 ## Step 6 — Hand off
 
 As soon as every process is up, during a build too and before any
