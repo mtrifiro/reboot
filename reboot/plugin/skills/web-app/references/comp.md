@@ -19,12 +19,11 @@ it with no line.
 **Make it,** about a minute, one line first: "Drawing the <page> as a
 comp: in <look>, in <accent>."
 
-1. The stylesheet, copied unread, and the look set on the copy:
+1. The stylesheet, copied unread, and the accent set on the copy:
 
    ```shell
    mkdir -p design/comp && cp '<the web-app skill>/assets/starter/frontend/web/src/styles.css' design/comp/comp.css
    python3 '<the design-review skill>/assets/look.py' --css design/comp/comp.css set accent <accent>
-   python3 '<the design-review skill>/assets/look.py' --css design/comp/comp.css set look <look>   # Ledger or Boutique only
    python3 '<the design-review skill>/assets/look.py' --css design/comp/comp.css fonts
    ```
 
@@ -66,7 +65,7 @@ comp: in <look>, in <accent>."
    external browser.
 4. One line in the chat, then the go-ahead dialog: "**Where it is
    going:** [the <page>, as a comp](http://localhost:<port>/),
-   drawn in <look>, in <accent>, with no data behind it; the real page
+   drawn in <accent>, with no data behind it; the real page
    replaces it at the frontend step." A change to it typed as the
    go-ahead's free answer ("the waiting list on the left", "quieter")
    is a change to the design's Pages line: made, redrawn, the same
