@@ -1,6 +1,6 @@
 ---
 name: guided
-description: "The guided build of a Reboot application: the design skill's round of questions (the first features, who signs in, the accent) and its proposed design, the go-ahead (step by step, or all at once), then the build with each part explained; a design already proposed in design/design.md is built on without asking again. Loaded by the app skill on Guided, or asked for by name (/reboot:guided); a prompt that asks for an app in plain words goes to the app skill, which asks how to build first."
+description: "The guided build of a Reboot application: the design skill's round of questions (the first features, who signs in, the look) and its proposed design, the go-ahead (step by step, or all at once), then the build with each part explained; a design already proposed in design/design.md is built on without asking again. Loaded by the app skill on Guided, or asked for by name (/reboot:guided); a prompt that asks for an app in plain words goes to the app skill, which asks how to build first."
 argument-hint: [<app-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 ---
@@ -31,7 +31,7 @@ reading its file; when the host asks for a plan before anything, the
 plan is one item, "Propose the design for <app>", and the path's list
 comes after the go-ahead. Right after it loads, its opening goes out
 as text, before the round. It says the opening, asks the one round of
-questions (the first build's features, who signs in, the accent),
+questions (the first build's features, who signs in, the look),
 reads what the design needs and shows the whole proposed design, once,
 in the chat. On a free answer that refuses the design ("just build
 it") the design skill hands the prompt to the [`build`
