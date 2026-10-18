@@ -43,7 +43,8 @@ The kinds and their choices:
   darkens or lightens it until it is readable.
 - **neutrals:** cool (the house default), warm, grey, white.
 - **type:** house, classic (a serif for headings over Inter), plain
-  (Inter throughout), geometric, bookish. Each is an
+  (Inter throughout), geometric, ledger (Space Grotesk for headings
+  and figures over Inter), bookish. Each is an
   `@fontsource-variable` package; `set type` rewrites `main.tsx`'s
   font imports and `package.json`'s font packages; run `npm install`
   in `frontend/` after it.
