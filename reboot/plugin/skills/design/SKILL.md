@@ -1,6 +1,6 @@
 ---
 name: design
-description: "Design a Reboot application from a description, without building it: one round of questions about what to build (the first features, who signs in, the look), then the whole proposed design in the chat and in design/design.md, where the guided and build skills pick it up; loaded by the one-shot skill, no round and a whole-app scope. Use when the user asks for a design, a proposal or a plan for an app and not yet the app, or asks for it by name (/reboot:design); a prompt that asks to build an app goes to the app skill, which asks how to build first and, on Guided, runs this skill through the guided skill."
+description: "Design a Reboot application from a description, without building it: one round of questions about what to build (the first features, who signs in, the accent), then the whole proposed design in the chat and in design/design.md, where the guided and build skills pick it up; loaded by the one-shot skill, no round and a whole-app scope. Use when the user asks for a design, a proposal or a plan for an app and not yet the app, or asks for it by name (/reboot:design); a prompt that asks to build an app goes to the app skill, which asks how to build first and, on Guided, runs this skill through the guided skill."
 argument-hint: [<app-description>]
 allowed-tools: Read, Write, Edit, Glob, Grep
 ---
@@ -81,7 +81,7 @@ Rules for that response:
 - Nothing about how it will be built beyond the dialog's own options:
   **What to expect** is the `guided` skill's, after the go-ahead.
 - **No name before the design.** The design proposes one, with the
-  look and accent, under what the build assumed. Its first mention in the
+  accent, under what the build assumed. Its first mention in the
   Brief, the Brief's first sentence, in the chat and in
   `design/design.md`, is followed by "(working name)": "**Brief.**
   Halftime (working name) is used by …", never only a later "The name
@@ -132,21 +132,14 @@ recommendation is one answer:
   the start", naming the roles in the user's nouns ("front desk, vets
   and techs"). Roles chosen are in the first build; otherwise they are
   **Who may do what**, before any deploy.
-- **"Which look?"**, only when the prompt names no brand: two or
-  three that suit the domain, each one of the three house looks with
-  an accent ("Boutique, in plum"), the first recommended, plus "Use my
+- **"Which accent?"**, only when the prompt names no brand: two or
+  three that suit the domain, the first recommended, plus "Use my
   brand" (a site or tokens to read); nothing is read for this. The
-  looks: the house look (Reboot's own: cream paper, navy ink, Space
-  Grotesk over DM Sans, soft corners: the default for any domain),
-  Ledger
-  (grey, Space Grotesk headings and figures over Inter, sharp corners,
-  compact rows: operations tools watched all day, a dispatch desk, a
-  warehouse, a support queue), Boutique (warm paper, a serif for headings, round corners:
-  hospitality, retail, food, wellness, culture); the accents teal,
-  navy (the house accent), teal, cyan, blue, indigo, violet, purple,
-  plum and rose, and no other. An
-  option's description says what it is like and why it suits the
-  domain, in a few words.
+  look is always the house look (Reboot's own: cream paper, navy ink,
+  Space Grotesk over DM Sans); the accents are navy (the house
+  accent), teal, cyan, blue, indigo, violet, purple, plum and rose,
+  and no other. An option's description says why it suits the domain,
+  in a few words.
 How it is built is not asked here: the user chose the guided build
 (the `app` skill's first question), and the go-ahead offers step by
 step or all at once. The choice isn't for keeps: at any handoff "build
@@ -157,7 +150,7 @@ from here" switches, and the first handoff says so in one line.
 build it", "no design") ends this skill's part: load the [`build`
 skill](../build/SKILL.md) with the Skill tool (`/reboot:build`), its
 argument the prompt as typed followed by any answers given (the
-features chosen, who signs in, the look), and stop. No design, no
+features chosen, who signs in, the accent), and stop. No design, no
 closing line: the build skill says nothing but its steps and the
 links.
 

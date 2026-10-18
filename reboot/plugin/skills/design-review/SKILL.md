@@ -29,12 +29,6 @@ The script that does the work is [`assets/look.py`](assets/look.py)
 
 The kinds and their choices:
 
-- **look:** house, ledger or boutique: the tones, typefaces, corners
-  and row density together, as
-  [`web-app/references/ui-design.md`](../web-app/references/ui-design.md)
-  ("Build the Look") describes them. `set look` also rewrites
-  `main.tsx`'s font imports and `package.json`'s font packages; run
-  `npm install` in `frontend/` after it.
 - **accent:** one of the accents
   [`web-app/references/ui-design.md`](../web-app/references/ui-design.md)
   lists, or a brand's hex (`#0a6e5c`; add `--dark #5fd0bd` to give the
@@ -44,8 +38,7 @@ The kinds and their choices:
 - **neutrals:** cream (the house default: cream page, navy ink),
   cool, warm, grey, white.
 - **type:** house, classic (a serif for headings over Inter), plain
-  (Inter throughout), geometric, ledger (Space Grotesk for headings
-  and figures over Inter), bookish. Each is an
+  (Inter throughout), geometric, bookish. Each is an
   `@fontsource-variable` package; `set type` rewrites `main.tsx`'s
   font imports and `package.json`'s font packages; run `npm install`
   in `frontend/` after it.
@@ -144,8 +137,6 @@ step 4's preview, a page change is made as "Beyond the Tokens" says,
 then shown in the pane. "The look another way" gets one more dialog:
 
 - **What would you like to change about the look?** (several allowed)
-  - "The whole look": "House, Ledger or Boutique: tones, typefaces,
-    corners and density together."
   - "Color": "The accent: buttons, the top bar, selection."
   - "Page and text": "A cooler, warmer or plainer page behind it all."
   - "Typefaces": "The headings and text."
@@ -182,7 +173,7 @@ For each thing to change, in the order they were picked:
 
    A dialog asking to choose from previews the user hasn't been shown
    is never sent.
-3. One dialog: **Which <look / accent / page tone / typefaces / corners>?**,
+3. One dialog: **Which <accent / page tone / typefaces / corners>?**,
    each option its letter and name as the label ("A: teal") and what
    it is like as the description, last "Keep it as it is". A choice
    described in the free answer gets a new preview.
