@@ -24,6 +24,7 @@
         "./skills/design-review",
         "./skills/domain-review",
         "./skills/review",
+        "./skills/test-review",
         "./skills/what-next",
         "./skills/mcp-ui",
         "./skills/web-app",
