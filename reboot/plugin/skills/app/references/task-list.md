@@ -56,7 +56,7 @@ The first feature's backend:
 3. Write the rules for “<feature>”, then its domain model
 4. Your turn: check the domain model on the dashboard
 5. Build the actions for “<feature>” and test them against its rules
-6. Your turn: check the backend, then say to build the frontend (<screen>)
+6. Your turn: check the backend, then say to move on to the frontend
 
 Item 3 covers the scaffold, the rules as scenarios, then the domain model
 and starting the dashboard. Item 5 covers the actions, who may do
@@ -81,8 +81,8 @@ the dashboard. A first feature seen from both sides (`app` skill,
 step 1) has "Build the two pages for “<feature>”, <the customers'>
 and <the staff's>" and "Test them side by side in a browser". For
 the hotel, item 3 reads "Write the rules for “room status floor
-plan”, then its domain model" and item 6 "Your turn: check the
-backend, then say to build the floor plan".
+plan”, then its domain model"; item 6 is the same words for every
+app.
 
 Each next feature, when the user asks for it (the app keeps running),
 one list, backend and frontend with no stop between them:
