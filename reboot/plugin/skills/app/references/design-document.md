@@ -94,7 +94,7 @@ line each, with its link: "`book` is a Transaction ([decided](…))".>
   states carry colour and where the accent goes>.
 
 <When the build drew a comp (`web-app/references/comp.md`), the main
-page's line ends with "([comp](comp/index.html))", a link to the drawing
+page's line ends with "([comp](comp/index.html))", a link to the mockup
 it is built to.>
 
 ## Sign-in
@@ -147,7 +147,7 @@ scripts/design_links.py --port <port>` rewrites every link to it, in
 - A name of an object, method, feature or rule in the document without
   its link.
 - A choice the log explains, left without its link to the entry.
-- A comp drawn and the main page's line without its link.
+- A comp made and the main page's line without its link.
 - A rule in other words than the feature file's: the link text is the
   rule's own words, so the check can see a renumbering.
 - The document pasted into the chat: once written, say in one line

@@ -1028,7 +1028,7 @@ a.cell:hover {
   );
 }
 
-/* The design comp's mark (web-app/references/comp.md): a drawing, not
+/* The design comp's mark (web-app/references/comp.md): a mockup, not
    the running app. Fixed at the bottom right, never on a real page. */
 .comp-badge {
   position: fixed;
