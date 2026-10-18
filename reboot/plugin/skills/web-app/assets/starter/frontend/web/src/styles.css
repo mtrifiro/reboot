@@ -37,7 +37,12 @@
 
    Dark mode follows prefers-color-scheme until the user picks one with
    ThemeToggle (theme.tsx), which sets data-theme="light|dark" on <html>.
-   Type scale: 12 / 13 / 15 / 18 / 28 px; one radius, one shadow. */
+   Type scale: 12 / 13 / 15 / 18 / 28 px; one radius, one shadow.
+   Looks (design-review/assets/look.py `set look`): house (cool paper,
+   Bricolage Grotesque, soft corners), ledger (grey, Inter throughout,
+   sharp, compact rows via --row-h / --row-pad, no shadows), boutique
+   (warm paper, Fraunces headings over Inter, round). The accent is set
+   apart, with accent.py. */
 
 :root {
   /* The house default, when the user names no brand: a cool paper page,
@@ -68,6 +73,9 @@
   --radius: 8px;
   --radius-sm: 6px;
   --topbar-h: 52px;
+  /* Row density: a look or density-compact sets both */
+  --row-h: 48px;
+  --row-pad: 10px;
   /* Chart series: shades of the accent, so they follow it and the scheme */
   --series-1: var(--accent);
   --series-2: color-mix(in srgb, var(--accent) 65%, var(--bg-2));
@@ -425,8 +433,8 @@ button.group-band {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  min-height: 48px;
-  padding: 10px var(--space-4);
+  min-height: var(--row-h);
+  padding: var(--row-pad) var(--space-4);
   border-bottom: 1px solid var(--line);
   transition: background-color 160ms;
 }
@@ -467,9 +475,9 @@ a.row {
   display: grid;
   grid-template-columns: var(--row-cols, auto minmax(0, 1fr) auto);
 }
-.density-compact .row {
-  min-height: 36px;
-  padding-block: 6px;
+.density-compact {
+  --row-h: 36px;
+  --row-pad: 6px;
 }
 
 /* Severity, or whichever one dimension earns color: a dot, and a tally of
