@@ -40,12 +40,9 @@
    Dark mode follows prefers-color-scheme until the user picks one with
    ThemeToggle (theme.tsx), which sets data-theme="light|dark" on <html>.
    Type scale: 12 / 13 / 15 / 18 / 28 px; one radius, one shadow.
-   Looks (design-review/assets/look.py `set look`): house (Reboot's own,
-   as the Plugin Browser: cream paper, navy ink and accent, Space
-   Grotesk over DM Sans, soft corners), ledger (grey, Space Grotesk
-   headings over Inter, sharp, compact rows via --row-h / --row-pad, no
-   shadows), boutique (warm paper, Fraunces headings over Inter,
-   round). The accent is set apart, with accent.py. Every page keeps
+   The house look is Reboot's own, as the Plugin Browser: cream paper,
+   navy ink and accent, Space Grotesk over DM Sans, soft corners; the
+   accent is set with accent.py; --row-h / --row-pad set row density. Every page keeps
    the anatomy: brand-band with the page-head, stats overlapping it. */
 
 :root {
