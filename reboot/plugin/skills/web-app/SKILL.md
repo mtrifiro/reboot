@@ -407,7 +407,11 @@ finished app.
    `User`, the hub, the thing, their servicers and tests) and the
    whole frontend (Vite, React, the house look, one page that lists
    and adds the thing, signed in), all named for the design; `.rbtrc`
-   already points the React codegen at `frontend/api`. Then give the
+   already points the React codegen at `frontend/api`. To the user it
+   is the app's first working version in the design's own names,
+   never a "starter" or a "template": "Backend: Hotel, Room and User
+   as Reboot objects, already running and tested; next, the floor
+   plan's rules." Then give the
    project `AGENTS.md` and `CLAUDE.md` with the
    [`agents-md` skill](../agents-md/SKILL.md), naming the API and
    servicer files it wrote.
