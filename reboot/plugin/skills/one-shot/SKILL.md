@@ -186,7 +186,7 @@ the Skill tool, which would start its conversation.
    whose fix would change a rule, or what a user sees, is not made:
    it goes to the handoff.
 
-**The look** ([`design-review`](../design-review/SKILL.md)), for a web
+**The look** ([`ui-review`](../ui-review/SKILL.md)), for a web
 app:
 
 1. Its section 2: capture every page at desktop and phone width,
