@@ -186,7 +186,7 @@ stage:
    (its Pages section names the `UI()` views), answers included,
    before writing the API. It decides the brief (who uses the app, on
    what screen, the task, the one question its main page answers, the
-   look and accent), the features in a sentence each, and:
+   accent), the features in a sentence each, and:
    - `User` type and its methods (the front door that creates and
      locates application-type instances).
    - Application types: state shape (fields, types, tags).
