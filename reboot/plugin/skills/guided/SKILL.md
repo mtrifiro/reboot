@@ -65,8 +65,8 @@ under "What to expect:", filled in from the design:
 - **Step by step:** each feature in two parts, its backend tested
   against its rules, then its frontend tested in a browser ·
   <first feature>'s backend, with the dashboard's link to check its
-  domain model, then its actions tested against every rule · once you
-  say so, its frontend (<its page>), about 15 minutes in all · then
+  domain model, then its actions tested against every rule · then its
+  frontend (<its page>), about 15 minutes in all · then
   each next feature as you choose it, 15 to 20 minutes.
 - **All at once:** every feature in the design, the pages built in
   parallel with the backend, then everything tested together, without
