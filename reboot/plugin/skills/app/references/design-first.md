@@ -130,7 +130,7 @@ way, in the user's nouns, then the same dialog again. All at once:
 the build order, pages alongside backends, one stop at the end, what
 to watch meanwhile (the task list, the dashboard filling in). Step by
 step: each stop and what the user does there (the domain model on the
-dashboard, the first feature's backend before its page, each
+dashboard, the backend's rules proven before its page, each
 feature's handoff to try). Both: the design goes to
 `design/design.md` to read and change, and one line on what Reboot
 does for them (`conversation.md`, "Say what Reboot does here"). No
@@ -229,12 +229,11 @@ one sentence and go on; the model is checked at the first handoff.
 Later features don't ask; `one-shot` and the power-user path never
 do.
 
-## 5. The backend, before the page
+## 5. The backend, then the page
 
 In the first feature only, once its actions pass every scenario (and
-types check) and before any page, stop and show the backend, in this
-order, as text just above the dialog, which is never asked without
-it:
+types check) and before any page, show the backend as text, then go
+straight on to the frontend; nothing is asked:
 
 1. One line: what was built and where to see it, for example "The
    amenity booking's backend is done: every rule holds, tested by its
@@ -244,38 +243,16 @@ it:
 3. The dashboard's line: Models · Features · Changelog, each a link.
 4. In the Claude app, the Features page opened in the Browser pane.
 
-Then one dialog:
-
-- Title: **Build the frontend: the <screen>?**, naming both the step
-  (the frontend, the half after the backend) and the screen as its
-  users would name it ("Build the frontend: the room board?").
-- "Build the <screen>" (recommended): "Next, the page <its users>
-  use: <what they can do there, as a sentence about them>, <and what
-  you'll see change elsewhere, if anything>. About <n> minutes." For
-  example: "Next, the page guests use: they can turn on Do Not Disturb
-  or ask for their room to be made up, and you'll see their requests
-  appear on the floor plan as they come in. About 10 minutes." Written
-  to a person, not as a spec: no paths (`/stay`), no parts of the page
-  by their build names (tile, drawer, modal), no "frontend" or
-  "backend" beyond the title.
-- "Not yet": "I want to look at the backend first."
-- "Tell me more": "What the page will do, and how it is built."
-
-**On "Tell me more",** answer in the chat, then ask the same dialog
-again: what the page shows and lets its users do, in their nouns; how
-it stays current (it reads the backend through Reboot's generated
-React hooks, so anyone's change appears without a reload); how it is
-checked (its scenarios in a browser, and the layout check).
-
-The rules live in the backend, so the user sees them work on the
-dashboard before any time goes into the page; later features go from
-backend straight to page, no stop between, their handoff showing
-both, rules on the dashboard and page to try. A change typed as the
-free answer goes back to the rules or actions, tested again, then the
-same dialog. "Not yet" does nothing more: one line says the dashboard
-stays up and what to say to go on. No task item marks the wait: the
-dialog is the signal. A backend only (no front door), `one-shot`
-and the power-user path skip it.
+Then one line on what comes next, to a person, not as a spec
+("Frontend: the page housekeeping and the front desk use, where they
+see every room on its floor and tap one for its next step; about 10
+minutes."), the frontend's task list in place of the backend's, and
+the page. The rules live in the backend, so the user sees them hold
+on the dashboard before any time goes into the page, and can say
+"stop" or ask for a change at any point; later features go from
+backend to page the same way, their handoff showing both. A backend
+only (no front door) ends here with its handoff; `one-shot` and the
+power-user path say the backend's lines and go on the same.
 
 From the first feature on, the build follows the front door
 unchanged, but for these questions.
@@ -291,9 +268,8 @@ unchanged, but for these questions.
 - "Build on this domain model?" without its lead line and the
   dashboard's links as text just above it (section 4): nothing says
   what "this" is.
-- "Build the frontend: the <screen>?" without the backend's results
-  and the dashboard's links just above it (section 5): the question
-  asks the user to judge what they show.
+- A question between the backend and the page (section 5): the page
+  is part of the feature the user already chose.
 
 - Reading a reference or listing the folder before the opening that
   says what will be built; reading this plugin's files with a shell
