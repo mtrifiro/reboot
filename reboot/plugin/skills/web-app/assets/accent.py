@@ -22,6 +22,10 @@ STYLESHEET = Path("frontend/web/src/styles.css")
 FAVICON = Path("frontend/web/public/favicon.svg")
 
 PALETTES: dict[str, dict[str, dict[str, str]]] = {
+    "navy": {
+        "light": {"accent": "#103761", "on-accent": "#ffffff", "accent-deep": "#13294a", "on-deep": "#f7f5ed", "accent-tint": "#e6f3dc", "bg-glow": "#f1eee4"},
+        "dark": {"accent": "#9cc4f2", "on-accent": "#0b1f36", "accent-deep": "#07182b", "on-deep": "#f7f5ed", "accent-tint": "#1f3d3a", "bg-glow": "#0e2440"},
+    },
     "teal": {
         "light": {"accent": "#076c6a", "on-accent": "#ffffff", "accent-deep": "#023534", "on-deep": "#f4f4f7", "accent-tint": "#d5f0ee", "bg-glow": "#e4efee"},
         "dark": {"accent": "#4bc2be", "on-accent": "#012221", "accent-deep": "#011514", "on-deep": "#e4efee", "accent-tint": "#003231", "bg-glow": "#101f1e"},
