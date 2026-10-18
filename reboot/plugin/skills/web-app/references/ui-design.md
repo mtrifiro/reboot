@@ -137,19 +137,12 @@ on its own.
 ### Build the Look
 
 Every web app starts from one stylesheet, designed and tested once,
-in the look and the accent the design names. Don't design a look from
-scratch. The three looks, each the whole family of tones, typefaces,
-corners and row density: **the house look**, Reboot's own as the
-Plugin Browser wears it (cream paper, navy ink and accent, Space
-Grotesk over DM Sans, soft corners: the default for any domain),
-**Ledger** (grey tones, Space Grotesk headings and
-figures over Inter, sharp corners, compact rows, no shadows:
-operations tools watched all day), **Boutique** (warm paper, an
-editorial serif for headings over Inter, round corners: hospitality,
-retail, food, wellness, culture). The hierarchy rules above hold in
-all three.
+in the house look and the accent the design names. Don't design a look
+from scratch. The house look is Reboot's own, as the Plugin Browser
+wears it: cream paper, navy ink and accent, Space Grotesk over DM Sans,
+soft corners, for every domain; the design picks only its accent.
 
-**Not bland.** In every look a page has one strong surface and one
+**Not bland.** A page has one strong surface and one
 voice: the page head sits in the `brand-band`, the deep accent, with
 the stats row overlapping its lower edge (the stylesheet's anatomy);
 a brand mark in the accent stands beside the name; the display face
@@ -171,12 +164,8 @@ the house exists to avoid (hotel-203's comp).
    lists the palettes: navy (the house accent), teal, cyan, blue, indigo,
    violet, purple, plum,
    rose). It rewrites the accent's family in the light and dark
-   blocks. For Ledger or Boutique, then
-   `python3 '<the design-review skill>/assets/look.py' set look boutique`,
-   which sets the tones, typefaces, corners and row density together
-   and puts the look's font packages in `package.json` (step 7's
-   `npm install` fetches them). That is the whole of the look's
-   change: one of the three looks and one of the nine accents. Every
+   blocks. That is the whole of the look's change: one of the nine
+   accents. Every
    other token keeps its value unless the user supplied a brand (a
    site or tokens to read); a theme the build invents for the domain
    ("newsprint", "ink on warm paper") is not a brand. Tokens a page
