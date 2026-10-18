@@ -142,9 +142,9 @@ bounded hard:
 
 **The two parts.** Every group above this line is the backend part.
 The groups from here on are the frontend part: read them only when the
-frontend part starts, once the user says to build the frontend (or, on
-the automatic paths, once every feature's backend passes), never
-before, and not at all when the user stops after the backend.
+frontend part starts, once the feature's backend passes its scenarios
+(on the whole-app paths, every feature's), never before, and not at
+all when the user stops after the backend.
 
 **Before the frontend:**
 
