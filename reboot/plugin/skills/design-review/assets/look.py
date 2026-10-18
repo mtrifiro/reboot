@@ -5,7 +5,6 @@ Run from the project root (the folder holding frontend/web/src/styles.css).
 
     python3 look.py show
         The look now: look, accent, neutrals, type and corners, and the choices.
-    python3 look.py preview look house,ledger,boutique
     python3 look.py preview accent teal,blue,#0a6e5c
     python3 look.py preview neutrals cool,warm,grey
     python3 look.py preview type house,classic,plain
@@ -13,9 +12,8 @@ Run from the project root (the folder holding frontend/web/src/styles.css).
         Writes frontend/web/public/look-preview.html: each choice, lettered
         A, B, C..., drawn as a piece of the app in light and dark. The dev
         server serves it at /look-preview.html.
-    python3 look.py set look boutique        (house, ledger or boutique: the
-                                              tones, type, corners and row
-                                              density together)
+    python3 look.py set look house           (back to the house look: tones,
+                                              type, corners, density)
     python3 look.py set accent teal          (or a brand's hex: #0a6e5c)
     python3 look.py set accent #0a6e5c --dark #5fd0bd
     python3 look.py set neutrals warm
@@ -33,7 +31,7 @@ Run from the project root (the folder holding frontend/web/src/styles.css).
     python3 look.py fonts
         The <link> that loads the stylesheet's typefaces from Google Fonts,
         for a page served outside the bundle (the design's comp).
-    python3 look.py --css design/comp.css set look ledger
+    python3 look.py --css design/comp/comp.css set accent navy
         Any command on a stylesheet elsewhere (a copy of the house one):
         only that file is changed, nothing in frontend/.
 
@@ -133,7 +131,6 @@ TYPE: dict[str, dict[str, tuple[str, str]]] = {
     "classic": {"display": ("Fraunces", "fraunces"), "text": ("Inter", "inter"), "mono": ("JetBrains Mono", "jetbrains-mono")},
     "plain": {"display": ("Inter", "inter"), "text": ("Inter", "inter"), "mono": ("JetBrains Mono", "jetbrains-mono")},
     "geometric": {"display": ("Space Grotesk", "space-grotesk"), "text": ("DM Sans", "dm-sans"), "mono": ("JetBrains Mono", "jetbrains-mono")},
-    "ledger": {"display": ("Space Grotesk", "space-grotesk"), "text": ("Inter", "inter"), "mono": ("JetBrains Mono", "jetbrains-mono")},
     "bookish": {"display": ("Newsreader", "newsreader"), "text": ("Source Sans 3", "source-sans-3"), "mono": ("JetBrains Mono", "jetbrains-mono")},
 }
 TYPE_WORDS = {
@@ -141,7 +138,6 @@ TYPE_WORDS = {
     "classic": "an editorial serif for headings over Inter",
     "plain": "Inter throughout: quiet, familiar, dense",
     "geometric": "geometric and technical",
-    "ledger": "Space Grotesk for headings and figures over Inter: a ledger's numbers with a voice",
     "bookish": "a reading serif for headings over a humanist sans",
 }
 FALLBACK = {
@@ -153,20 +149,15 @@ SERIF = {"Fraunces", "Newsreader"}
 
 CORNERS = {"sharp": ("2px", "2px"), "soft": ("8px", "6px"), "round": ("14px", "10px")}
 
-# The house looks: each sets neutrals, type, corners, the row density
-# tokens and the shadow together. The accent is chosen apart.
+# The house look: neutrals, type, corners, the row density tokens and
+# the shadow together; `set look house` restores it. The accent is
+# chosen apart.
 ELEV = {"light": "0 1px 2px rgba(27, 29, 38, 0.06), 0 1px 3px rgba(27, 29, 38, 0.08)",
         "dark": "0 1px 2px rgba(0, 0, 0, 0.35)"}
 LOOKS: dict[str, dict] = {
     "house": {"neutrals": "cream", "type": "house", "corners": "soft",
               "density": {"row-h": "48px", "row-pad": "10px"}, "elev": ELEV,
               "words": "Reboot's own: cream paper, navy ink, Space Grotesk over DM Sans, soft corners (the house default)"},
-    "ledger": {"neutrals": "grey", "type": "ledger", "corners": "sharp",
-               "density": {"row-h": "36px", "row-pad": "6px"}, "elev": {"light": "none", "dark": "none"},
-               "words": "an operations ledger: grey tones, Space Grotesk headings and figures over Inter, sharp corners, compact rows, no shadows"},
-    "boutique": {"neutrals": "warm", "type": "classic", "corners": "round",
-                 "density": {"row-h": "48px", "row-pad": "10px"}, "elev": ELEV,
-                 "words": "a warm boutique: warm paper, an editorial serif for headings over Inter, round corners"},
 }
 
 # A :root block: its selector and its body, up to the closing brace.
