@@ -10,6 +10,7 @@
 #   scripts/test.sh <area>            the feature files tagged @<area> (one area tag per feature file;
 #                                     register each in pytest.ini's `markers`)
 #   scripts/test.sh full              everything, the gate before a handoff, a merge or a deploy
+#   scripts/test.sh tests/<x>_test.py those modules only (a feature's own scenarios)
 #
 # Anything after the mode goes to pytest. Every run records its results
 # in tests/.last-run.json (tests/last_run.py), with the hash of the tree
@@ -69,8 +70,12 @@ case "$mode" in
     # shellcheck disable=SC2086
     exec $pytest "$@"
     ;;
+  tests/*)
+    # shellcheck disable=SC2086
+    exec $pytest "$mode" "$@"
+    ;;
   -*|"")
-    echo "usage: scripts/test.sh changed [<rev>] | smoke | backend | <area> | full  [pytest args]" >&2
+    echo "usage: scripts/test.sh changed [<rev>] | smoke | backend | <area> | full | tests/<x>_test.py  [pytest args]" >&2
     exit 2
     ;;
   *)
