@@ -1,5 +1,5 @@
 ---
-description: "No brand named: the design settles on one of the eight house accents, named plainly, and no theme is invented for the domain (planning-only, so the accent is an assumption, not a dialog)."
+description: "No brand named: the design settles on one of the three house looks and one of the eight accents, named plainly, and no theme is invented for the domain (planning-only, so they are assumptions, not a dialog)."
 runs: 3
 max_turns: 40
 timeout_seconds: 900

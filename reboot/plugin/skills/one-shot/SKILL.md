@@ -73,9 +73,9 @@ end, not the smallest app that fits the prompt:
   what it leads with, which states carry colour and where the accent
   goes.
 
-The round's other answers, taken without asking: the accent the
-design skill would recommend for the domain (or the brand the prompt
-names); "How should it be built? One-shot". Each answer and each
+The round's other answers, taken without asking: the look and accent
+the design skill would recommend for the domain (or the brand the
+prompt names); "How should it be built? One-shot". Each answer and each
 feature added beyond the prompt goes under **Assumed**, the feature
 with one line on why a real product needs it.
 
