@@ -76,7 +76,10 @@ definition itself (the typed errors and models) as
 project-root `api/`; without it the suite fails at import with
 `ModuleNotFoundError: No module named '<pkg>.v1.<name>'`, which looks
 like a codegen failure but is a path problem. `scripts` lets the test
-of `scripts/model_diff.py` import it (below).
+of `scripts/model_diff.py` import it (below). `addopts = -q
+--disable-warnings` keeps a run's output to a dot per scenario, each
+failure in full and the summary line, so it is read whole, never
+through `grep` or `tail`.
 
 **`timeout = 180`** (from `pytest-timeout`, a dev dependency) fails
 any one test that runs past three minutes, with its name and where it
