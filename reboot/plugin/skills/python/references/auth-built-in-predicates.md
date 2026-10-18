@@ -51,7 +51,12 @@ Returns `Ok` when the call originates from inside the same Reboot app
 `PermissionDenied`. This is the right gate for stdlib-style internal
 helpers. An app-internal call may still carry a `context.auth` — the
 signed-in person the calling method ran for — so `is_app_internal` and
-an owner rule can both match the same call.
+an owner rule can both match the same call. It holds for every call
+made from inside the app's own code, nested calls included (a
+transaction's calls into other actors, a `User.set_claims` the
+framework invokes), and never for an external client, so a type that
+other actors call into and signed-in people also reach gates with
+`allow_if(any=[is_app_internal, <the user rule>])`.
 
 ```python
 # The OrderedMap servicer's default:
