@@ -50,7 +50,11 @@ comp, in <accent>."
    its number, one word and at most a one-letter `corner` mark; never
    a card or a heading per floor. The whole first screen at desktop
    width holds the head, the figures and the plan or board together
-   (`ui-design.md`, "The first screen holds the view"). Nothing is
+   (`ui-design.md`, "The first screen holds the view"). The page is
+   marked as a comp, last in `<body>`:
+   `<aside class="comp-badge"><strong>Design comp</strong><span>A
+   drawing of the <page>, not the running app; the real page replaces
+   it at the frontend step.</span></aside>`. Nothing is
    wired: no script, no drawer open, the theme toggle drawn and inert.
    No raw colour outside `comp.css`.
 3. Serve `design/` and open it: `python3 -m http.server <port>
@@ -91,6 +95,7 @@ above when it is wanted again.
   a name with no mark, or boxes on grey as the whole look
   (`ui-design.md`, "Not bland").
 - A script, a wired control or data behind it: it is a drawing.
+- A comp without its `comp-badge`, or the badge on a real page.
 - The go-ahead dialog before the comp's line, or a minute between the
   design and the line without "Drawing the <page> as a comp".
 - The comp opened in the user's external browser in the Claude app.
