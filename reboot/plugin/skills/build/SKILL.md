@@ -77,7 +77,11 @@ No handoff frame, no "what Reboot does here", no wait notes, no task
 list, no "What should I build next?". A refused scenario is said as
 the rule it breaks and the fix, in one line each. The dashboard
 starts once the API exists (`dashboard` skill), silently, and its
-links appear in the line.
+links appear in the line. One exception, only when the prompt asks for
+it ("verbose", "explain as you build", "an exegesis"): after the links
+line, the **Exegesis** of what was written, the same text appended to
+`design/exegesis.md`
+([`app/references/exegesis.md`](../app/references/exegesis.md)).
 
 ## The record
 

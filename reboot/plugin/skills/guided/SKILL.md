@@ -105,6 +105,13 @@ steps 4 and 6 (its reviews, step 5, are the one-shot's own).
   Reading the plugin's references gets no line of its own. Before a
   slow step, one fact about Reboot said for this app
   ([`../app/references/while-you-wait.md`](../app/references/while-you-wait.md)).
+- **Verbose,** when the user asked for it in the prompt or at any
+  point ("verbose", "explain as you build", "an exegesis"): each
+  milestone report (the model check, the backend check, each handoff)
+  ends with an **Exegesis** section, what was written and why, the
+  same text appended to `design/exegesis.md`
+  ([`../app/references/exegesis.md`](../app/references/exegesis.md)).
+  Nothing between reports changes.
 - **Files a part at a time** with the Write tool, never every file in
   one shell command.
 - **Read this plugin with the Read tool,** one call per file, several

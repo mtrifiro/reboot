@@ -187,7 +187,11 @@ changed, the result said once.
 `design/design.md` rewritten as built, its links checked by
 `scripts/design_links.py`; then the handoff in the shape of
 [`app/references/design-messages.md`](../app/references/design-messages.md),
-covering every feature, with under **Notes**, when the reviews ran:
+covering every feature (in a verbose build, asked for in the prompt,
+its **Exegesis** covers the whole app in about 400 words and links
+`design/exegesis.md`, written feature by feature as the build went:
+[`app/references/exegesis.md`](../app/references/exegesis.md)), with
+under **Notes**, when the reviews ran:
 what each review fixed, in a line each with its numbers, what it found
 and left for the user (a rule change, a change of look), and the links
 to `design/review.md` and `design/look-review.md`. Every `@blocked`
