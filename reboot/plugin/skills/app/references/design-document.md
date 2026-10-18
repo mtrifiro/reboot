@@ -43,8 +43,9 @@ below links to the developer dashboard, which draws them from the code.
 ## Brief
 
 <Who uses <app name>, on what screen, the task, the one question the
-main page answers, and the accent, one of the house look's eight by its
-plain name. While the name is one the build picked, its first mention
+main page answers, and the look, one of the three (the house look,
+Ledger, Boutique), with the accent, one of the eight by its plain
+name. While the name is one the build picked, its first mention
 here, in the first sentence, is followed by "(working name)".>
 
 ## Features and their rules

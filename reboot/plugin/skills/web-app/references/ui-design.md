@@ -123,9 +123,16 @@ on its own.
 
 ### Build the Look
 
-Every web app starts from the house look: one stylesheet, designed
-and tested once, in the accent the design names. Don't design a look
-from scratch.
+Every web app starts from one stylesheet, designed and tested once,
+in the look and the accent the design names. Don't design a look from
+scratch. The three looks, each the whole family of tones, typefaces,
+corners and row density: **the house look** (cool paper, a
+characterful grotesque for headings, soft corners: SaaS, admin and
+internal tools), **Ledger** (grey tones, Inter throughout, sharp
+corners, compact rows, no shadows: operations tools watched all day),
+**Boutique** (warm paper, an editorial serif for headings over Inter,
+round corners: hospitality, retail, food, wellness, culture). The
+hierarchy rules above hold in all three.
 
 1. The house stylesheet, `theme.tsx`, `backend-check.tsx` and
    `reload-prompt.tsx` arrive with the starter (`render.py --web`,
@@ -136,18 +143,22 @@ from scratch.
    every word read is sent again on every later turn.
 
 2. Set the accent the design names, from the project root:
-   `python3 <this skill>/assets/accent.py teal` (with no name it lists
-   the palettes: teal, cyan, blue, indigo, violet, purple, plum, rose).
-   It rewrites the accent's family in the light and dark blocks. That
-   is the whole of the look's change: the accent, from that list. The
-   paper, the ink, the typefaces and every other token keep the
-   house's values unless the user supplied a brand (a site or tokens
-   to read); a theme the build invents for the domain ("newsprint",
-   "ink on warm paper") is not a brand. Tokens a page adds (a set of
-   player colours, a status the domain has) extend the stylesheet in
-   the house's terms and change nothing above them.
+   `python3 '<this skill>/assets/accent.py' teal` (with no name it
+   lists the palettes: teal, cyan, blue, indigo, violet, purple, plum,
+   rose). It rewrites the accent's family in the light and dark
+   blocks. For Ledger or Boutique, then
+   `python3 '<the design-review skill>/assets/look.py' set look boutique`,
+   which sets the tones, typefaces, corners and row density together
+   and puts the look's font packages in `package.json` (step 7's
+   `npm install` fetches them). That is the whole of the look's
+   change: one of the three looks and one of the eight accents. Every
+   other token keeps its value unless the user supplied a brand (a
+   site or tokens to read); a theme the build invents for the domain
+   ("newsprint", "ink on warm paper") is not a brand. Tokens a page
+   adds (a set of player colours, a status the domain has) extend the
+   stylesheet in the house's terms and change nothing above them.
 3. Build the pages from the stylesheet's classes, listed in its
-   opening comment (read only that: the file's first 40 lines, never
+   opening comment (read only that: the file's first 45 lines, never
    the whole file; to see one class's rules, search for it): `topbar`, `brand-band` and `page-head`, `stats`,
    `filter-panel`, `list-card` and `row`, `board`, `cells` and `cell`,
    `feed`, `chart`, `drawer`, `kv`, `pill`, `figure`, `name`,
