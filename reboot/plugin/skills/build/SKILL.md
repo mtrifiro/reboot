@@ -24,7 +24,7 @@ prompt doesn't name.
 - **Sign-in:** anyone signed in can do everything; every method has
   an authorizer from day one, never `allow()`. Roles only when the
   prompt names them.
-- **The look:** the house look, violet, unless the prompt names an
+- **The look:** the house look, navy, unless the prompt names an
   accent from `web-app/references/ui-design.md`'s list or a brand.
 - **Everything else** the prompt leaves open: the simplest choice,
   said in one line when it matters ("Rooms keyed by hotel and number;
