@@ -4,7 +4,8 @@
 Run from the project root (the folder holding frontend/web/src/styles.css).
 
     python3 look.py show
-        The look now: accent, neutrals, type and corners, and the choices.
+        The look now: look, accent, neutrals, type and corners, and the choices.
+    python3 look.py preview look house,ledger,boutique
     python3 look.py preview accent teal,blue,#0a6e5c
     python3 look.py preview neutrals cool,warm,grey
     python3 look.py preview type house,classic,plain
@@ -12,19 +13,29 @@ Run from the project root (the folder holding frontend/web/src/styles.css).
         Writes frontend/web/public/look-preview.html: each choice, lettered
         A, B, C..., drawn as a piece of the app in light and dark. The dev
         server serves it at /look-preview.html.
+    python3 look.py set look boutique        (house, ledger or boutique: the
+                                              tones, type, corners and row
+                                              density together)
     python3 look.py set accent teal          (or a brand's hex: #0a6e5c)
     python3 look.py set accent #0a6e5c --dark #5fd0bd
     python3 look.py set neutrals warm
     python3 look.py set type classic
     python3 look.py set corners round
         Changes the tokens in place in the light block and both dark
-        blocks (type also rewrites main.tsx's font imports), after saving
-        the files it touches. Removes the preview page. Prints the
-        contrast check; exits 3 when a pair fails it.
+        blocks (type also rewrites main.tsx's font imports and
+        package.json's font packages), after saving the files it touches.
+        Removes the preview page. Prints the contrast check; exits 3 when
+        a pair fails it.
     python3 look.py undo
         Puts back the files as they were before the last `set`.
     python3 look.py check
         The contrast check alone.
+    python3 look.py fonts
+        The <link> that loads the stylesheet's typefaces from Google Fonts,
+        for a page served outside the bundle (the design's comp).
+    python3 look.py --css design/comp.css set look ledger
+        Any command on a stylesheet elsewhere (a copy of the house one):
+        only that file is changed, nothing in frontend/.
 
 Standard library only. The house stylesheet's token names never change;
 only their values do.
@@ -34,15 +45,18 @@ from __future__ import annotations
 
 import colorsys
 import html
+import json
 import re
 import shutil
 import sys
 import time
 from pathlib import Path
 
-WEB = Path("frontend/web")
+ROOT = Path("frontend")  # the saved copies are kept relative to it
+WEB = ROOT / "web"
 STYLESHEET = WEB / "src/styles.css"
 MAIN = WEB / "src/main.tsx"
+PACKAGE = ROOT / "package.json"
 FAVICON = WEB / "public/favicon.svg"
 PREVIEW = WEB / "public/look-preview.html"
 HISTORY = WEB / ".look-history"
@@ -127,6 +141,22 @@ FALLBACK = {
 SERIF = {"Fraunces", "Newsreader"}
 
 CORNERS = {"sharp": ("2px", "2px"), "soft": ("8px", "6px"), "round": ("14px", "10px")}
+
+# The house looks: each sets neutrals, type, corners, the row density
+# tokens and the shadow together. The accent is chosen apart.
+ELEV = {"light": "0 1px 2px rgba(27, 29, 38, 0.06), 0 1px 3px rgba(27, 29, 38, 0.08)",
+        "dark": "0 1px 2px rgba(0, 0, 0, 0.35)"}
+LOOKS: dict[str, dict] = {
+    "house": {"neutrals": "cool", "type": "house", "corners": "soft",
+              "density": {"row-h": "48px", "row-pad": "10px"}, "elev": ELEV,
+              "words": "cool paper, a characterful grotesque for headings, soft corners (the house default)"},
+    "ledger": {"neutrals": "grey", "type": "plain", "corners": "sharp",
+               "density": {"row-h": "36px", "row-pad": "6px"}, "elev": {"light": "none", "dark": "none"},
+               "words": "an operations ledger: grey tones, Inter throughout, sharp corners, compact rows, no shadows"},
+    "boutique": {"neutrals": "warm", "type": "classic", "corners": "round",
+                 "density": {"row-h": "48px", "row-pad": "10px"}, "elev": ELEV,
+                 "words": "a warm boutique: warm paper, an editorial serif for headings over Inter, round corners"},
+}
 
 # A :root block: its selector and its body, up to the closing brace.
 BLOCK = re.compile(r"([^{}]*:root[^{}]*)\{([^{}]*)\}")
@@ -311,7 +341,7 @@ h1{{font-size:20px;margin:0 0 4px}} .lede{{margin:0 0 20px;opacity:.75}}
 .stat small{{color:var(--muted);font-size:12px}} .stat strong{{font:600 22px var(--font-display)}}
 .stat i{{display:block;height:4px;border-radius:2px;background:var(--accent)}}
 .list{{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}}
-.row{{display:grid;grid-template-columns:1fr auto 3em;gap:10px;align-items:center;padding:8px 10px;border-top:1px solid var(--line)}}
+.row{{display:grid;grid-template-columns:1fr auto 3em;gap:10px;align-items:center;padding:var(--row-pad,8px) 10px;border-top:1px solid var(--line)}}
 .row:first-child{{border-top:0}} .row.sel{{background:var(--accent-tint)}}
 .pill{{font-style:normal;font-size:12px;padding:1px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}}
 .pill.good{{color:var(--good);border-color:currentColor}} .pill.warn{{color:var(--warn);border-color:currentColor}}
@@ -350,6 +380,16 @@ def type_values(name: str) -> dict[str, str]:
     return out
 
 
+def look_values(name: str) -> dict[str, dict[str, str]]:
+    """Every token a house look sets, per scheme (the root-only ones in both)."""
+    if name not in LOOKS:
+        raise SystemExit(f"look: no look '{name}'; one of {', '.join(LOOKS)}")
+    look = LOOKS[name]
+    r, rs = CORNERS[look["corners"]]
+    root = {**type_values(look["type"]), "radius": r, "radius-sm": rs, **look["density"]}
+    return {w: {**NEUTRALS[look["neutrals"]][w], "elev": look["elev"][w], **root} for w in ("light", "dark")}
+
+
 def preview(kind: str, names: list[str]) -> None:
     css = STYLESHEET.read_text(encoding="utf-8")
     now = tokens(css)
@@ -361,7 +401,12 @@ def preview(kind: str, names: list[str]) -> None:
         light, dark = dict(now["light"]), dict(now["light"])
         dark.update(now.get("dark", {}))
         label = name
-        if kind == "accent":
+        if kind == "look":
+            vals = look_values(name)
+            light.update(vals["light"]), dark.update(vals["dark"])
+            families.update(f for f, _ in TYPE[LOOKS[name]["type"]].values())
+            label = f"{name}: {LOOKS[name]['words']}"
+        elif kind == "accent":
             fam = accent_family(name, None, now)
             light.update(fam["light"]), dark.update(fam["dark"])
         elif kind == "neutrals":
@@ -380,17 +425,17 @@ def preview(kind: str, names: list[str]) -> None:
             r, rs = CORNERS[name]
             light.update({"radius": r, "radius-sm": rs}), dark.update({"radius": r, "radius-sm": rs})
         else:
-            raise SystemExit("look: preview accent | neutrals | type | corners")
+            raise SystemExit("look: preview look | accent | neutrals | type | corners")
         mocks = "".join(
             f'<div><p class="scheme">{w}</p>{SAMPLE.format(style=style_of(v), product=product)}</div>'
             for w, v in (("Light", light), ("Dark", dark))
         )
         blocks.append(f'<section class="choice"><h3><b>{letters[i]}</b>{html.escape(label)}</h3><div class="pair">{mocks}</div></section>')
     fonts = ""
-    if kind == "type" and families:
+    if kind in ("type", "look") and families:
         q = "&".join("family=" + f.replace(" ", "+") + ":wght@400;600" for f in sorted(families))
         fonts = f'<link rel="stylesheet" href="https://fonts.googleapis.com/css2?{q}&display=swap">'
-    titles = {"accent": "Accent color", "neutrals": "Page and text tones", "type": "Typefaces", "corners": "Corners"}
+    titles = {"look": "The look", "accent": "Accent color", "neutrals": "Page and text tones", "type": "Typefaces", "corners": "Corners"}
     PREVIEW.parent.mkdir(parents=True, exist_ok=True)
     PREVIEW.write_text(PAGE.format(fonts=fonts, title=titles[kind], choices="".join(blocks)), encoding="utf-8")
     print(f"wrote {PREVIEW}: " + ", ".join(f"{letters[i]} {n}" for i, n in enumerate(names[: len(letters)])))
@@ -405,7 +450,7 @@ def save(paths: list[Path]) -> Path:
     slot.mkdir(parents=True)
     for p in paths:
         if p.is_file():
-            dest = slot / p.relative_to(WEB)
+            dest = slot / p.relative_to(ROOT)
             dest.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(p, dest)
     return slot
@@ -417,9 +462,11 @@ def undo() -> int:
         print("look: nothing to undo")
         return 2
     slot = slots[-1]
+    # Slots saved before package.json was kept hold paths relative to web/.
+    base = ROOT if ROOT == WEB or (slot / "web").is_dir() else WEB
     for f in slot.rglob("*"):
         if f.is_file():
-            shutil.copy2(f, WEB / f.relative_to(slot))
+            shutil.copy2(f, base / f.relative_to(slot))
     shutil.rmtree(slot)
     print(f"put back the look from before the last change ({len(slots) - 1} earlier change(s) can still be undone)")
     return 0
@@ -429,15 +476,43 @@ def set_type(name: str, css: str) -> str:
     if name not in TYPE:
         raise SystemExit(f"look: no type '{name}'; one of {', '.join(TYPE)}")
     css = set_values_root_only(css, type_values(name))
+    packages = sorted({pkg for _, pkg in TYPE[name].values()})
     if MAIN.is_file():
         main = MAIN.read_text(encoding="utf-8")
         main = re.sub(r'^import "@fontsource(?:-variable)?/[^"]+";\n', "", main, flags=re.M)
-        packages = sorted({pkg for _, pkg in TYPE[name].values()})
         main = "".join(f'import "@fontsource-variable/{p}";\n' for p in packages) + main
         MAIN.write_text(main, encoding="utf-8")
-        print("install: npm install " + " ".join(f"@fontsource-variable/{p}" for p in packages)
-              + "   (in frontend/)")
+    if PACKAGE.is_file():
+        # The font packages the new type needs, in place of the old ones,
+        # so a plain `npm install` fetches them.
+        data = json.loads(PACKAGE.read_text(encoding="utf-8"))
+        deps = data.setdefault("dependencies", {})
+        for key in [k for k in deps if k.startswith("@fontsource")]:
+            del deps[key]
+        for p in packages:
+            deps[f"@fontsource-variable/{p}"] = "^5.3.0"
+        data["dependencies"] = dict(sorted(deps.items()))
+        PACKAGE.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+    if MAIN.is_file() or PACKAGE.is_file():
+        print("install: npm install   (in frontend/; the font packages are in package.json: "
+              + ", ".join(f"@fontsource-variable/{p}" for p in packages) + ")")
     return css
+
+
+def families(css: str) -> list[str]:
+    """The typeface families the light block names, display, text and mono."""
+    light = tokens(css).get("light", {})
+    found = []
+    for role in ("display", "text", "mono"):
+        m = re.match(r'\s*"([^"]+?)(?: Variable)?"', light.get(f"font-{role}", ""))
+        if m and m.group(1) not in found:
+            found.append(m.group(1))
+    return found
+
+
+def fonts_link(css: str) -> str:
+    q = "&".join("family=" + f.replace(" ", "+") + ":wght@400;500;600" for f in sorted(families(css)))
+    return f'<link rel="stylesheet" href="https://fonts.googleapis.com/css2?{q}&display=swap">'
 
 
 def set_values_root_only(css: str, values: dict[str, str]) -> str:
@@ -465,6 +540,10 @@ def show() -> int:
                  and re.match(r'\s*"([^"]+?)(?: Variable)?"', light.get("font-text", "")).group(1) == p["text"][0]), None)
     radius = light.get("radius", "").strip()
     corners = next((n for n, (r, _) in CORNERS.items() if r == radius), None)
+    row_h = light.get("row-h", "").strip()
+    look = next((n for n, l in LOOKS.items() if (l["neutrals"], l["type"], l["corners"]) == (neutral, kind, corners)
+                 and (not row_h or row_h == l["density"]["row-h"])), None)
+    print(f"look      {look or 'custom'}                    choices: {', '.join(LOOKS)} (tones, type, corners, density together)")
     print(f"accent    {named or 'custom'} ({accent})        choices: {', '.join(ACCENTS)}, or a brand's hex")
     print(f"neutrals  {neutral or 'custom'}                    choices: {', '.join(NEUTRALS)}")
     print(f"type      {kind or 'custom'} ({font.group(1) if font else '?'})   choices: {', '.join(TYPE)}")
@@ -475,6 +554,16 @@ def show() -> int:
 
 
 def main(argv: list[str]) -> int:
+    global ROOT, WEB, STYLESHEET, MAIN, FAVICON, PACKAGE, PREVIEW, HISTORY
+    if "--css" in argv:
+        # A stylesheet elsewhere (the design's comp): only it is changed.
+        i = argv.index("--css")
+        STYLESHEET = Path(argv[i + 1])
+        del argv[i:i + 2]
+        ROOT = WEB = STYLESHEET.parent
+        MAIN = FAVICON = PACKAGE = WEB / "(none)"
+        PREVIEW = WEB / "look-preview.html"
+        HISTORY = WEB / ".look-history"
     if not STYLESHEET.is_file():
         print(f"look: no {STYLESHEET}; run from the project root of a web app built in the house look", file=sys.stderr)
         return 2
@@ -486,6 +575,9 @@ def main(argv: list[str]) -> int:
         failed = check(STYLESHEET.read_text(encoding="utf-8"))
         print("\n".join(failed) if failed else "contrast: every pair passes in light and dark")
         return 3 if failed else 0
+    if argv[0] == "fonts":
+        print(fonts_link(STYLESHEET.read_text(encoding="utf-8")))
+        return 0
     if argv[0] == "preview" and len(argv) >= 3:
         preview(argv[1], [n for n in argv[2].split(",") if n])
         return 0
@@ -496,8 +588,14 @@ def main(argv: list[str]) -> int:
     dark_hex = argv[argv.index("--dark") + 1] if "--dark" in argv else None
     css = STYLESHEET.read_text(encoding="utf-8")
     now = tokens(css)
-    slot = save([STYLESHEET, MAIN, FAVICON])
-    if kind == "accent":
+    slot = save([STYLESHEET, MAIN, FAVICON, PACKAGE])
+    if kind == "look":
+        vals = look_values(name)
+        css = set_values(css, {w: {k: v for k, v in vals[w].items() if k in ("bg", "bg-2", "panel", "ink", "muted", "line", "track", "elev")}
+                               for w in ("light", "dark")})
+        css = set_type(LOOKS[name]["type"], css)
+        css = set_values_root_only(css, {k: v for k, v in vals["light"].items() if k in ("radius", "radius-sm", "row-h", "row-pad")})
+    elif kind == "accent":
         fam = accent_family(name, dark_hex, now)
         old = now["light"].get("accent", "").strip().lower()
         css = set_values(css, fam)
@@ -520,7 +618,7 @@ def main(argv: list[str]) -> int:
         css = set_values_root_only(css, {"radius": r, "radius-sm": rs})
     else:
         shutil.rmtree(slot)
-        print("look: set accent | neutrals | type | corners")
+        print("look: set look | accent | neutrals | type | corners")
         return 2
     STYLESHEET.write_text(css, encoding="utf-8")
     if PREVIEW.is_file():
