@@ -14,9 +14,11 @@
    .meta, .secondary; row-grid with --row-cols for many columns) → drawer
    over the list (drawer-backdrop, drawer-head, drawer-body, drawer-foot).
    Other primary views: board / board-col (board-col-head, .count) of
-   cards; cells / cell (a plan or grid: a .figure and a .label each,
-   the state on the left edge as .good / .warn / .bad, .off hatched, a
-   resting cell plain); feed (a dated timeline of li with <time>);
+   cards; cells / cell (a plan or grid: .figure, .label, a .corner mark;
+   --cells-cols fixes a row's count; plan / plan-row / plan-label for
+   floors or aisles, never a card per row; state as the left edge .good
+   / .warn / .bad, .off hatched; a resting cell plain); feed (a dated
+   timeline of li with <time>);
    chart (an <svg> with .axis / .grid, a .legend; series colors
    --series-1..4). Detail: kv (a <dl> of label and value). Actions:
    confirm-bar (.message), the in-page confirm; notice (.toast to float
@@ -910,16 +912,38 @@ button.name:hover {
 
 /* A plan or grid of cells (a floor of rooms, a month, a rack): each
    cell one figure and one word, its state on the left edge. A resting
-   cell is plain; color goes only to the states that need a person. */
+   cell is plain; color goes only to the states that need a person.
+   Rows that mean something (a floor, an aisle) are plan-rows with a
+   label at the left and --cells-cols set to the row's count, so eight
+   rooms stay on one line; the plan sits on the page, never a card a
+   row, and fifty cells fit the first screen. */
 .cells {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 96px), 1fr));
+  grid-template-columns: repeat(var(--cells-cols, auto-fill), minmax(min(100%, 72px), 1fr));
   gap: var(--space-2);
+}
+.plan {
+  display: grid;
+  gap: var(--space-2);
+}
+.plan-row {
+  display: grid;
+  grid-template-columns: 2.5em minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-3);
+}
+.plan-label {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--muted);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 .cell {
   display: block;
+  position: relative;
   min-width: 0;
-  padding: var(--space-2) var(--space-3);
+  padding: 6px var(--space-2) 6px 10px;
   background: var(--panel);
   border: 1px solid var(--line);
   border-left: 4px solid var(--line);
@@ -927,6 +951,13 @@ button.name:hover {
   font: inherit;
   color: inherit;
   text-align: left;
+}
+.cell .corner {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  font-size: 11px;
+  color: var(--muted);
 }
 button.cell,
 a.cell {
