@@ -255,4 +255,4 @@ is written: `schedule_cleaning`, `delete_booking`.
 `api-pydantic.md` for field rules; `servicer-reader.md`,
 `servicer-writer.md`, `servicer-transaction.md`,
 `servicer-workflow.md` and `servicer-constructor.md` per factory;
-`rpc-calls.md` and `rpc-refs.md` for calling.
+`rpc-calls.md` for calling.
