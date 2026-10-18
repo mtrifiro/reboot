@@ -95,8 +95,9 @@ The whole design, with its methods, is in
 ---
 ```
 
-Then the go-ahead's dialog (`design-first.md`, section 3);
-nothing between them.
+Then the go-ahead's dialog (`design-first.md`, section 3); nothing
+between them but, in a guided web app build, the comp's one line
+(`web-app/references/comp.md`).
 
 ### The handoff
 
