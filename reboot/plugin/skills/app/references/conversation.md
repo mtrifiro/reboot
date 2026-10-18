@@ -188,10 +188,13 @@ layout), asked for at any point after the first handoff, goes to the
 and each change can be undone. It isn't a feature, so nothing is
 recorded as kept for it.
 
-**A review of the domain model or the architecture** ("will this
-scale?", "review the data model") goes to the
+**A review of the domain model's scale** ("will this scale?",
+"review the data model") goes to the
 [`domain-review` skill](../../domain-review/SKILL.md): it reviews from numbers and
-makes the changes the user picks, every rule still passing.
+makes the changes the user picks, every rule still passing. **A review
+of the architecture or the code** ("review the architecture", "what
+would a senior engineer change?") goes to the
+[`review` skill](../../review/SKILL.md), only when the user asks.
 
 **What to build next, for a roadmap or "what's missing"** goes to the
 [`what-next` skill](../../what-next/SKILL.md): it weighs
