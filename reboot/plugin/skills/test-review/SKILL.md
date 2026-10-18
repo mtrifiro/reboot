@@ -1,6 +1,6 @@
 ---
 name: test-review
-description: "Review a built Reboot app's test coverage (methods no scenario calls, errors never made to happen, rules no refused attempt proves, roles never refused, states never checked), recommend the scenarios that close each gap and the features the gaps point to, and add the ones the user picks. Use only when the user asks: \"/reboot:test-review\", \"review the tests\", \"what isn't tested?\". Not for the structure (review) or a roadmap (what-next)."
+description: "Review a built Reboot app's test coverage (methods no scenario calls, errors never made to happen, rules no refused attempt proves, roles never refused, states never checked), recommend the scenarios that close each gap and the features the gaps point to, and add the ones the user picks. Use only when the user asks: '/reboot:test-review', 'review the tests', 'what isn't tested?'. Not for the structure (review) or a roadmap (what-next)."
 argument-hint: '[what to look at, e.g. "the front desk" or "permissions"]'
 allowed-tools: Bash, Read, Write, Edit, Glob, Grep, AskUserQuestion, Skill
 ---
