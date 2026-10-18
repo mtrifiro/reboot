@@ -17,7 +17,7 @@ prompt-by-prompt path don't (no stop to show it at), an MCP UI doesn't
 it with no line.
 
 **Make it,** about a minute, one line first: "Drawing the <page> as a
-comp: in <look>, in <accent>."
+comp, in <accent>."
 
 1. The stylesheet, copied unread, and the accent set on the copy:
 
