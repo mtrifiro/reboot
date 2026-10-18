@@ -355,11 +355,10 @@ The `Agent` runs only inside a `WorkflowContext`, so also read the
   — one per context type and the constructor / authorizer concerns.
   `servicer-workflow.md` is the large one — see "Building a workflow"
   above for when to reach for it
-- `references/rpc-refs.md` — **always read**: `self.ref().state_id` vs.
-  `self.state_id` (which doesn't exist) is a recurring trip
 - `references/rpc-calls.md` — **always read**: the kwargs-not-Request
   trap (`await ref.deposit(context, DepositRequest(amount=10))`) is a
-  recurring miss; passes type-check and fails at runtime
+  recurring miss; passes type-check and fails at runtime; so is
+  `self.state_id`, which doesn't exist (`self.ref().state_id`)
 - `references/rpc-forall.md` — `Service.forall(ids).method(context)`,
   a fan-out over many actors in input order
 
@@ -407,8 +406,8 @@ with "unknown actor type."
 ### Authorization
 
 - `references/auth-allow-deny.md` — minimal/correct shape
-- `references/auth-allow-if.md` and `references/auth-built-in-predicates.md`
-  — composition patterns
+- `references/auth-rules.md` — composition patterns and the built-in
+  predicates
 - `references/auth-custom-predicates.md` — for app-specific rules
 - `references/auth-claims.md` — when the app needs the user's email
   or name: requesting claims and overriding `User.set_claims`

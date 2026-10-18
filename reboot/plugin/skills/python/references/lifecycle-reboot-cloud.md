@@ -129,5 +129,5 @@ Servicer method needs an authorizer — calls without one are
 like under `rbt serve`. (Under `rbt dev run` they're allowed with
 a 60-second warning, so the gap only shows up on first deploy.)
 See [`servicer-authorizer.md`](servicer-authorizer.md),
-[`auth-allow-if.md`](auth-allow-if.md), and the surrounding
+[`auth-rules.md`](auth-rules.md), and the surrounding
 `auth-*` references for the predicate machinery.
