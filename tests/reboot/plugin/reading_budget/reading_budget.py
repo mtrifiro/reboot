@@ -50,6 +50,8 @@ CONDITIONAL = {
                 "custom steps",
             "python/references/testing-external-context.md":
                 "custom steps",
+            "web-app/references/company-logos.md":
+                "only when the design's objects are companies",
         },
     "mcp-ui":
         {
