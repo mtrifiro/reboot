@@ -91,6 +91,12 @@ handoff. With ", verbose", the exegesis is on
 handoff's report ends with the one feature's, and the same text is in
 `design/exegesis.md`.
 
+- **A mockup first,** for a web app: right after `design/design.md`,
+  the comp as [`web-app/references/comp.md`](../web-app/references/comp.md)
+  says for this path, its line said and no stop. The page (and the
+  frontend sub-agent, which reads it) builds from it; its server is
+  stopped when the app starts.
+
 - **The one feature** is the heart of the prompt: the work the app is
   for, the one its users would open it to do (for a hotel, the rooms
   and the front desk), with the rules that make it trustworthy, its
