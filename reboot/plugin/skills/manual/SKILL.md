@@ -1,8 +1,8 @@
 ---
 name: manual
-description: "Write the user manual for a built Reboot web app, for the people who use it: a section per role, each job as numbered steps with a screenshot, what the app refuses and what to do instead, in docs/manual.md, drawn from the design and the browser scenarios. Use when the user asks ('/reboot:manual', 'write a user manual', 'a guide for my staff') or picks it at a handoff. Not for developers (AGENTS.md is theirs)."
+description: "Write the user manual for a built Reboot web app, for the people who use it: a section per role, each job as numbered steps with a screenshot, what the app refuses and what to do instead, in docs/manual.md, drawn from the design and the browser scenarios; then offers to add it to the app as a Help page. Use when the user asks ('/reboot:manual', 'write a user manual', 'a guide for my staff') or picks it at a handoff. Not for developers (AGENTS.md is theirs)."
 argument-hint: '[blank for every role, or who it is for, e.g. "the housekeepers"]'
-allowed-tools: Bash, Read, Write, Edit, Glob
+allowed-tools: Bash, Read, Write, Edit, Glob, AskUserQuestion, Skill
 ---
 
 # manual — The User Manual
@@ -109,7 +109,7 @@ written: it goes to the closing message.
 ## 3. Hand it over
 
 Commit `docs/manual.md` and `docs/manual/` as one commit, "Docs: the
-user manual". Then one message, no dialog:
+user manual". Then one message:
 
 - a link to `docs/manual.md`, and in a line what it
   covers ("5 roles, 14 jobs, 12 screenshots");
@@ -118,14 +118,50 @@ user manual". Then one message, no dialog:
 - one line: "Ask for the manual again after a change, and it is
   rewritten from the app as it is then."
 
+When the app has no Help page yet, one dialog (`AskUserQuestion`), its
+context the line above it: "The manual can live in the app too, so
+your staff find it where they work."
+
+- **Add it to the app as a Help page?**
+  - "Add a Help page (Recommended)": "A Help link on every page; it
+    opens the manual at the signed-in person's own section."
+  - "Just the file": "Keep it in docs/manual.md."
+
+On "Just the file", stop. When the app already has the Help page, no
+dialog: refresh its copy (4) and say so in the message.
+
+## 4. The Help page
+
+Made as the [`feature` skill](../feature/SKILL.md) makes any change,
+loaded with the Skill tool, never by reading its file; it is not a
+feature, so nothing is recorded as accepted. What it builds:
+
+- **One source.** The page shows `docs/manual.md` itself: a copy in
+  `frontend/web/public/help/` (`manual.md` and its images, the image
+  links kept relative), fetched at `/help/manual.md` and rendered
+  with `marked`. Each run of this skill refreshes the copy; the page
+  never holds the manual's words in code.
+- **Where it is.** A `/help` route and a **Help** link in the app's
+  navigation, on every page, signed in or not (the Signing in section
+  is for someone who isn't yet). It opens at the signed-in person's
+  role section, by the role's heading, the rest below.
+- **In the house look,** as the `web-app` skill's
+  `references/ui-design.md` says: the manual's headings and
+  screenshots in the page's reading width, no new colours.
+- **Proven** by one browser scenario: someone opens the app, taps
+  **Help**, and sees their role's heading.
+
+Commit it as the `feature` skill commits a change, then one line with
+the page's link.
+
 ## Never
 
 - A step a test didn't take or you didn't take in the running app.
 - A label paraphrased: the reader looks for the words on the screen.
 - Code, the dashboard, or how the app is built: that is `AGENTS.md`'s.
-- An app file changed: the manual reads the app, it never fixes it.
-  A step that fails is reported, and the `feature` skill fixes it if
-  the user asks.
+- An app file changed, except for the Help page the user said yes to:
+  the manual reads the app, it never fixes it. A step that fails is
+  reported, and the `feature` skill fixes it if the user asks.
 - While a build is working in the project (a test run in progress,
   another session writing to it in the last few minutes): say so in
   one line and wait.
