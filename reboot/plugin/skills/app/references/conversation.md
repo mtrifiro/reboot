@@ -9,10 +9,10 @@ tags: conversation, links, browser pane, narration, questions, research, handoff
 
 **Every line below is message text, in these words, before the
 response's tool calls: never only in thinking, which the user never
-gets as a message** (`guided` skill, top).
+gets as a message** (`app-guided` skill, top).
 
 Read once, after the go-ahead (on the prompt-by-prompt path, after the
-design) and the build has said what to expect (`guided` skill, step 1). It covers the
+design) and the build has said what to expect (`app-guided` skill, step 1). It covers the
 rest of the build: links, the Browser pane, what is said after each
 answer and at each stage, research, the questions inside the build,
 and keeping a feature.
