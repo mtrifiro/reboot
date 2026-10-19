@@ -119,15 +119,22 @@ and pass variables in the query string (`/logo?host=...`).
 
 ### `reboot.std.oauth` can't be imported, so `store_tokens=True` fails
 
-Affects: 1.6.0.
+Affects: 1.6.0, and builds of main without the packaging fix.
 
 The `reboot` wheel ships the generated `rbt.std.oauth` code but not the
-`reboot.std.oauth` package that wraps it. An application that uses an
-OAuth provider with `store_tokens=True`, which needs `oauth_library`
-from `reboot.std.oauth.v1.oauth`, can't import it.
+`reboot.std.oauth` package that wraps it: `reboot/std/oauth/v1:oauth_py`
+is missing from `python_std` in `reboot/BUILD.bazel`. An application
+that uses an OAuth provider with `store_tokens=True`, which needs
+`oauth_library` from `reboot.std.oauth.v1.oauth`, can't import it.
 
-Workaround: leave out `store_tokens=True` and the OAuth token library
-until a release ships the package.
+Fixed by one line, adding that target to `python_std` (branch
+`oauth-in-wheel`, 9a50295fe): on a wheel built with it,
+`reboot.std.oauth.v1.oauth` imports, `GitHub(store_tokens=True)`
+constructs, and an application with `oauth_library()`,
+`ciphertext_library()` and `ordered_map_library()` starts.
+
+Workaround on 1.6.0: leave out `store_tokens=True` and the OAuth token
+library until a release ships the package.
 
 ### `empty` on a `Queue` that was never written to fails with `StateNotConstructed`
 
