@@ -547,8 +547,9 @@ for word: the list for the way the user chose to build.
     factories make ids up. Tag what cannot pass yet `@blocked` with
     its reason, and `@wip` as the `feature` skill says. Run
     `uv run pytest` as the [`feature` skill](../feature/SKILL.md)'s step 4 says (the
-    feature's own files, in the foreground), with `rbt dev run`
-    stopped (`run` skill, "Stopping the App"), then
+    feature's own files, in the foreground), the app stopped only
+    after an `api/` change (`run` skill, "Test runs and the running
+    app"), then
     `uv run mypy backend/ tests/` from the project root
     (`python/references/lifecycle-project-setup.md`); fix every
     failure and error before the next step. Point the user at the

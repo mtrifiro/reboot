@@ -156,8 +156,8 @@ id"`, then `<account id>`. Give an id only when it means something
 - **Suggest a rule only for a real invariant**, one that would be
   worth formal verification; when a scenario shows what an
   operation does and nothing more, leave it at the top level.
-- **Run the suite** with `rbt dev run` stopped (`run` skill,
-  "Stopping the App") (`uv run pytest`, or `-m wip` for
+- **Run the suite**, the app stopped only after an `api/` change
+  (`run` skill, "Test runs and the running app") (`uv run pytest`, or `-m wip` for
   what is in progress) and `uv run mypy backend/ tests/`; fix what fails.
   While it runs, don't regenerate code, start another `rbt dev run` or
   edit `api/`, `backend/` or `web/`: a suite run beside those changes
