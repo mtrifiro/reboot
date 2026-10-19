@@ -115,7 +115,8 @@ property without one shows "No description provided, please ask
 your friendly coding agent to add one for you."
 
 Describe the meaning, the units and any invariant the value obeys,
-not the type, which the annotation already says:
+not the type, which the annotation already says, in whole sentences
+as `api-methods.md`'s "How a description reads" says:
 
 ```python
 # DON'T — restates the annotation.
@@ -332,7 +333,9 @@ A state type's name alone rarely says what it is _for_. Write the
 part a reader cannot derive from the fields and methods listed
 beside it: what it is the consistency boundary for, what one
 instance corresponds to, how its ID is chosen. Per-method
-descriptions are separate; see `api-methods.md`.
+descriptions are separate; see `api-methods.md`, whose "How a
+description reads" applies to every description: whole sentences,
+the why beside the what, the conditions in full.
 
 ### Generated Request/Response Names Come From the **Method Name**
 
