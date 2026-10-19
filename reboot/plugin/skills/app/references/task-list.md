@@ -113,6 +113,17 @@ parts at once"); then the frontend's item 1 is "Build every page of
 the design". For an MCP UI, the frontend's item 1 is "Build every UI
 of the design" and item 2 "Test them in their AI client".
 
+## The first feature only
+
+The `app-basic` skill's build (`app-whole` with ", basic"), with no
+go-ahead and no stop:
+
+1. Propose the design for <app>
+2. Write the rules for <the feature>, then the domain model
+3. Build its actions and test them against its rules
+4. Build its page and test it in a browser
+5. Review the domain model and the look, and fix what they find
+
 ## Prompt by prompt
 
 The user directs every step at the prompt and is asked nothing
@@ -145,7 +156,9 @@ check-in").
 ## Never
 
 - An item for the user's turn (the go-ahead, a check, the handoff's
-  question): those are dialogs, not steps of the build.
+  question, "Your turn" itself): those are dialogs or the handoff's
+  closing section, not steps of the build (crm-20, 2026-10-19: a last
+  item "Your turn", never done).
 - An item named for a file or a tool (`main.py`, `pytest`, `mypy`,
   "servicer"), where an item above says it in the user's terms.
 - An item added for a step inside another (reading references,
