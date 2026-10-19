@@ -118,8 +118,9 @@ steps 4 and 6 (its reviews, step 5, are the one-shot's own).
 - **Files a part at a time** with the Write tool, never every file in
   one shell command.
 - **Read this plugin with the Read tool,** one call per file, several
-  in one response, and Glob to find one; never `cat`, `awk`, `sed` or
-  a loop in a shell: a shell result over about 30 KB comes back as a
+  in one response, at each link's path from the skill's base directory
+  (a bounded `find` through Bash to find one; the Claude app has no
+  Glob or Grep tool); never `cat`, `awk`, `sed` or a loop in a shell: a shell result over about 30 KB comes back as a
   2 KB preview and a saved file, and the references in it go unread
   (the `python` skill has the rule in full).
 
