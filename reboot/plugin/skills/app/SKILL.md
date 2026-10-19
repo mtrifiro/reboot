@@ -22,6 +22,10 @@ word for word:
   recommended, in this order:
 - "Interactively": "A design to approve, your choices, each part built and
   explained, step by step (great for learning). `/reboot:app-guided`"
+- "Interactively, verbose": "Interactively, plus an exegesis of the
+  code at each milestone, what was written and why, kept in
+  design/exegesis.md (great for learning Reboot itself).
+  `/reboot:app-guided`, verbose"
 - "First feature only": "One feature, the heart of what you
   typed, designed, built, reviewed and handed over once, about half an
   hour (great for a first look). `/reboot:app-basic`"
@@ -30,35 +34,22 @@ word for word:
   (great for one-shotting a full app).
   `/reboot:app-whole`"
 
-**Only on "Interactively" or "First feature only"**, one more dialog,
-word for word, before anything else:
-
-- Title: **Explain the code as you go?**, none marked recommended:
-- "No, just the build": "Each part built and said in plain words."
-- "Verbose": "Plus an exegesis of the code at each milestone, what
-  was written and why, kept in design/exegesis.md (great for learning
-  Reboot itself)."
-
-Skipped, or a host that can't ask: not verbose. "Whole app, hands
-off" never gets this question: it asks nothing, and its handoff
-offers `/reboot:explain` instead.
-
 Then load the chosen skill with the Skill tool
 ([`/reboot:app-guided`](../app-guided/SKILL.md),
 [`/reboot:app-basic`](../app-basic/SKILL.md),
 [`/reboot:app-whole`](../app-whole/SKILL.md)), its argument the prompt
 as typed, never by reading its file; that skill takes it from there.
-For "Verbose" (after either) the argument is the prompt followed by
+For "Interactively, verbose" the argument is the prompt followed by
 ", verbose", which turns verbose mode on for the build
 ([`references/exegesis.md`](references/exegesis.md)).
 
 - **No answer** (the dialog skipped, or a host that can't ask):
   Interactively, with no line about the choice; the app-guided skill's first
   words are the next thing said.
-- **A free answer** is read for one of the three ("the whole thing,
+- **A free answer** is read for one of the four ("the whole thing,
   no questions" is the whole app (Whole app, hands off); "just one feature" or "something small"
   is the basic app (First feature only); "explain as you go" or "verbose"
-  is Interactively and Verbose, with no second question; "just build it" or "exactly what I typed" loads
+  is Interactively, verbose; "just build it" or "exactly what I typed" loads
   [`/reboot:app-just`](../app-just/SKILL.md), which the dialog no longer
   offers); otherwise Interactively.
 - **A skill named in the prompt** (`/reboot:app-just …`,
