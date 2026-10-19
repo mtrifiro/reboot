@@ -201,6 +201,71 @@ class PluginSource(unittest.TestCase):
                 self.assertEqual(build_metrics.plugin_source(base), expected)
 
 
+
+class TheWholeSession(unittest.TestCase):
+    """The session's edits, test runs, downtime, messages and reads,
+    from events made here (`measure` reads events, whichever agent)."""
+
+    def setUp(self) -> None:
+        from datetime import datetime, timedelta
+        t0 = datetime(2026, 10, 19, 12, 0, 0)
+        at = lambda s: t0 + timedelta(seconds=s)
+        E = build_metrics.Event
+        self.events = [
+            E(at(0), "start"),
+            E(at(0), "person", text="Build a hotel app"),
+            E(at(5), "call", id="r1", name="Read", path="/x/skills/python/references/a.md"),
+            E(at(6), "result", id="r1", text="one two three"),
+            E(at(7), "call", id="r2", name="Read", path="/x/skills/python/references/a.md"),
+            E(at(8), "result", id="r2", text="one two three"),
+            E(at(10), "call", id="w1", name="Write", writes=("design/design.md",)),
+            E(at(11), "call", id="b1", name="Bash", text="python3 x/design_page.py"),
+            E(at(20), "call", id="q1", name="AskUserQuestion", text="Build on this design?",
+              questions=1),
+            E(at(50), "result", id="q1", text="Start building"),
+            E(at(60), "call", id="w2", name="Write", writes=("api/hotel/v1/hotel.py",)),
+            E(at(61), "call", id="e1", name="Edit", writes=("api/hotel/v1/hotel.py",)),
+            E(at(62), "call", id="w3", name="Write", writes=("api/hotel/v1/hotel.py",)),
+            E(at(70), "call", id="s1", name="Bash", text="P=$(pgrep -f x); kill -INT $P"),
+            E(at(71), "call", id="t1", name="Bash", text="scripts/test.sh tests/hotel_test.py"),
+            E(at(91), "result", id="t1", text="1 failed, 4 passed"),
+            E(at(92), "person", text="the band is too dark"),
+            E(at(100), "call", id="u1", name="Bash", text="uv run rbt dev run", background=True),
+        ]
+
+    def test_edits_and_files_written_whole_again(self) -> None:
+        m = build_metrics.measure(self.events)
+        self.assertEqual((m.files_written, m.edits, m.rewrites), (2, 1, 1))
+        self.assertEqual(m.rewritten, ["hotel.py"])
+
+    def test_test_runs_and_their_time(self) -> None:
+        m = build_metrics.measure(self.events)
+        self.assertEqual((m.test_runs, m.test_runs_failed, m.test_seconds), (1, 1, 20))
+
+    def test_the_app_down_from_its_interrupt_to_its_next_start(self) -> None:
+        m = build_metrics.measure(self.events)
+        self.assertEqual((m.app_stops, m.app_down_s, m.app_down_at_end), (1, 30, False))
+
+    def test_an_app_never_restarted_is_down_to_the_end(self) -> None:
+        m = build_metrics.measure(self.events[:-1])
+        self.assertTrue(m.app_down_at_end)
+        self.assertEqual(m.app_down_s, 22)
+
+    def test_messages_after_the_prompt_are_kept(self) -> None:
+        m = build_metrics.measure(self.events)
+        self.assertEqual(len(m.corrections), 1)
+        self.assertIn("the band is too dark", m.corrections[0])
+
+    def test_plugin_files_read_again_and_their_words(self) -> None:
+        m = build_metrics.measure(self.events)
+        self.assertEqual((m.skill_reads, m.skill_rereads), (2, 1))
+        self.assertEqual(m.skill_words, {"python": 6})
+
+    def test_the_go_ahead_is_today_s_wording_and_the_page_is_timed(self) -> None:
+        m = build_metrics.measure(self.events)
+        self.assertEqual(m.design_page_s, 11)
+        self.assertEqual(m.design_s, 20)
+
 if __name__ == "__main__":
     unittest.main()
 

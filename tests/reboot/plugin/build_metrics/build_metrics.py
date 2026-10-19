@@ -49,7 +49,21 @@ What each moment is taken to be:
   `'failed': 0` (a run in the background is read back that way);
 * the first page: the first write of a `.tsx` file under `frontend/`;
 * the handoff: the first message with a "Your turn" section, where the
-  person first tries what was built.
+  person first tries what was built;
+* the design page: the first shell call that draws `design/design.html`
+  (`design_page.py`), the design shown as a page beside the chat.
+
+And what the whole session did, apart from those moments:
+
+* edits: files written, edits made, and files written whole again;
+* test runs: each `pytest` or `scripts/test.sh` call, which failed, and
+  how long the ones in the foreground took;
+* the app's downtime: from each interrupt of `rbt dev run` to the next
+  start in the background, in wall seconds;
+* the person's messages after the first prompt, corrections mostly,
+  with an answer typed in place of a dialog's;
+* the plugin's own files read (paths under `skills/`): how many, read
+  again, and the words each skill's files returned.
 """
 
 import json
@@ -64,7 +78,15 @@ DESIGN_FILE = re.compile(r"(?:^|/)design/design\.md$")
 DESIGN_HEADING = "the proposed design"
 # The question that asks for the go-ahead on a shown design, in either
 # of the skills' wordings.
-GO_AHEAD = ("Ready to build?", "How should it be built?")
+GO_AHEAD = ("Build on this design?", "Ready to build?", "How should it be built?")
+DESIGN_PAGE = "design_page.py"
+TEST_RUN = re.compile(r"\bpytest\b|scripts/test\.sh")
+APP_STOP = re.compile(r"kill\s+-INT\b[^\n]*|rbt dev run[^\n]*kill\s+-INT")
+APP_START = "rbt dev run"
+SKILL_PATH = re.compile(r"/skills/([a-z0-9-]+)/")
+# Text that reaches the transcript as the person's but isn't theirs.
+NOT_THE_PERSON = ("<local-command", "<task-notification", "[Request interrupted",
+                  "Caveat:", "<system-reminder", "Base directory for this skill")
 FEATURE_FILE = re.compile(r"\.feature$")
 SERVICER_FILE = re.compile(r"(?:^|/)servicers/\S+\.py$")
 PAGE_FILE = re.compile(r"(?:^|/)frontend/\S+\.tsx$")
@@ -112,6 +134,8 @@ class Event:
     sub: bool = False
     tokens_in: int = 0
     tokens_out: int = 0
+    background: bool = False
+    path: str = ""
 
 
 @dataclass
@@ -148,6 +172,23 @@ class Metrics:
     # Whether an `AGENTS.md` was taken in: Codex records it, Claude Code
     # doesn't (`claude_events`).
     map_loaded: bool = False
+    design_page_s: int = -1
+    # The whole session (the module's docstring, "And what the whole
+    # session did").
+    files_written: int = 0
+    edits: int = 0
+    rewrites: int = 0
+    rewritten: list[str] = field(default_factory=list)
+    test_runs: int = 0
+    test_runs_failed: int = 0
+    test_seconds: int = 0
+    app_stops: int = 0
+    app_down_s: int = 0
+    app_down_at_end: bool = False
+    corrections: list[str] = field(default_factory=list)
+    skill_reads: int = 0
+    skill_rereads: int = 0
+    skill_words: dict[str, int] = field(default_factory=dict)
 
 
 # -- Reading a transcript. --
@@ -260,7 +301,14 @@ def claude_events(path: Path) -> Iterator[Event]:
         elif record.get("type") == "user":
             blocks = content if isinstance(content, list) else [content]
             for block in blocks:
-                yield from _claude_user(at, block)
+                yield from _claude_user(at, block, bool(record.get("isMeta")))
+        elif record.get("type") == "attachment":
+            # A message the person sent while the agent was working, queued
+            # into the turn: in place of a dialog's answer, or beside it.
+            item = record.get("attachment")
+            if (isinstance(item, dict) and item.get("type") == "queued_command"
+                    and (item.get("origin") or {}).get("kind") == "human"):
+                yield Event(at, "person", text=str(item.get("prompt", "")).strip())
 
 
 def _claude_assistant(at: datetime, block: dict) -> Iterator[Event]:
@@ -279,6 +327,8 @@ def _claude_assistant(at: datetime, block: dict) -> Iterator[Event]:
         writes = tuple(SHELL_WRITE.findall(str(args.get("command", ""))))
     questions = 0
     asked = ""
+    if name == "Bash":
+        asked = str(args.get("command", ""))
     if name == "AskUserQuestion":
         items = args.get("questions") or []
         questions = len(items)
@@ -295,10 +345,12 @@ def _claude_assistant(at: datetime, block: dict) -> Iterator[Event]:
         text=asked,
         writes=writes,
         questions=questions,
+        background=bool(args.get("run_in_background")),
+        path=str(args.get("file_path") or "") if name == "Read" else "",
     )
 
 
-def _claude_user(at: datetime, block: object) -> Iterator[Event]:
+def _claude_user(at: datetime, block: object, meta: bool = False) -> Iterator[Event]:
     if isinstance(block, dict) and block.get("type") == "tool_result":
         text = text_of(block.get("content"))
         failed = bool(block.get("is_error")) and DECLINED not in text
@@ -317,6 +369,16 @@ def _claude_user(at: datetime, block: object) -> Iterator[Event]:
     skill = CLAUDE_SKILL.search(text)
     if skill:
         yield Event(at, "load", text=text, source=skill.group(1))
+        return
+    # What the person typed: a slash command's arguments, or plain text.
+    args = re.search(r"<command-args>(.*?)</command-args>", text, re.S)
+    if args:
+        text = args.group(1)
+    elif text.lstrip().startswith("<"):
+        return
+    if meta or not text.strip() or any(m in text[:200] for m in NOT_THE_PERSON):
+        return
+    yield Event(at, "person", text=text.strip())
 
 
 # -- Codex. --
@@ -459,10 +521,37 @@ def measure(stream: Iterable[Event], agent: str = "") -> Metrics:
     clock: _Clock | None = None
     asked: dict[str, datetime] = {}
     design_written = False
-    # The design's three readings, best first (the module's docstring).
+    # The design's readings, best first (the module's docstring).
     go_ahead_s = heading_s = long_s = -1
+    written: set[str] = set()
+    runs: dict[str, tuple[datetime, bool]] = {}
+    reads: dict[str, str] = {}
+    read_paths: set[str] = set()
+    down_since: datetime | None = None
+    prompts = 0
+    last = None
     for event in stream:
         clock = clock or _Clock(event.at)
+        last = event.at
+        if event.kind == "person":
+            prompts += 1
+            if prompts > 1:
+                metrics.corrections.append(f"{clock.active(event.at) // 60}m: {event.text[:160]}")
+            continue
+        if event.kind == "call":
+            _session_call(metrics, event, written, runs, reads, read_paths)
+            if event.name == "Bash" and not event.sub:
+                if APP_STOP.search(event.text) and down_since is None:
+                    down_since = event.at
+                    metrics.app_stops += 1
+                elif event.background and APP_START in event.text and "kill" not in event.text:
+                    if down_since is not None:
+                        metrics.app_down_s += round((event.at - down_since).total_seconds())
+                        down_since = None
+                if metrics.design_page_s < 0 and DESIGN_PAGE in event.text:
+                    metrics.design_page_s = clock.active(event.at)
+        elif event.kind == "result":
+            _session_result(metrics, event, runs, reads)
         api_written = metrics.api_s >= 0
         if event.sub and event.kind in ("result", "load"):
             # A sub-agent's reading stays out of the main conversation.
@@ -522,10 +611,53 @@ def measure(stream: Iterable[Event], agent: str = "") -> Metrics:
                 metrics.plugin = plugin_source(event.source)
             if not api_written and not event.sub:
                 metrics.words_before_api += len(event.text.split())
+    if down_since is not None and last is not None:
+        metrics.app_down_s += round((last - down_since).total_seconds())
+        metrics.app_down_at_end = True
     metrics.design_s = next(
-        (s for s in (go_ahead_s, heading_s, long_s) if s >= 0), -1
+        (s for s in (go_ahead_s, metrics.design_page_s, heading_s, long_s) if s >= 0), -1
     )
     return metrics
+
+
+def _session_call(metrics: Metrics, event: Event, written: set[str],
+                  runs: dict[str, tuple[datetime, bool]], reads: dict[str, str],
+                  read_paths: set[str]) -> None:
+    """A tool call's share of the session's edits, runs and reads."""
+    for path in event.writes:
+        if event.name == "Edit" or event.name == "MultiEdit":
+            metrics.edits += 1
+        elif path in written:
+            metrics.rewrites += 1
+            name = path.rsplit("/", 1)[-1]
+            if name not in metrics.rewritten:
+                metrics.rewritten.append(name)
+        written.add(path)
+    metrics.files_written = len(written)
+    if event.name == "Bash" and TEST_RUN.search(event.text) and "kill" not in event.text:
+        runs[event.id] = (event.at, event.background)
+    if event.name == "Read" and SKILL_PATH.search(event.path):
+        reads[event.id] = event.path
+        metrics.skill_reads += 1
+        if event.path in read_paths:
+            metrics.skill_rereads += 1
+        read_paths.add(event.path)
+
+
+def _session_result(metrics: Metrics, event: Event,
+                    runs: dict[str, tuple[datetime, bool]], reads: dict[str, str]) -> None:
+    run = runs.pop(event.id, None)
+    if run is not None:
+        started, background = run
+        metrics.test_runs += 1
+        if not background:
+            metrics.test_seconds += round((event.at - started).total_seconds())
+            if FAILED.search(event.text) or event.failed:
+                metrics.test_runs_failed += 1
+    path = reads.pop(event.id, None)
+    if path is not None:
+        skill = SKILL_PATH.search(path).group(1)
+        metrics.skill_words[skill] = metrics.skill_words.get(skill, 0) + len(event.text.split())
 
 
 def _result(

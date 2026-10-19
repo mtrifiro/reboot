@@ -64,6 +64,23 @@ def main() -> int:
         print(line)
     for error in build.error_lines:
         print(f"  error: {error}")
+    print()
+    print(f"{'Active time to the design page':<44}{shown('design_page_s', build.design_page_s):>10}")
+    print(f"{'Files written, edits, written whole again':<44}"
+          f"{build.files_written:>4}, {build.edits}, {build.rewrites}"
+          + (f"   ({', '.join(build.rewritten[:6])})" if build.rewritten else ""))
+    print(f"{'Test runs (failed), foreground time':<44}"
+          f"{build.test_runs:>4} ({build.test_runs_failed}), {shown('test_seconds_s', build.test_seconds)}")
+    down = shown("app_down_s", build.app_down_s) + (", still down" if build.app_down_at_end else "")
+    print(f"{'App stopped, down for (wall time)':<44}{build.app_stops:>4}, {down}")
+    words = sum(build.skill_words.values())
+    print(f"{'Plugin files read (again), words':<44}{build.skill_reads:>4} ({build.skill_rereads}), {words:,}")
+    if build.skill_words:
+        top = sorted(build.skill_words.items(), key=lambda kv: -kv[1])
+        print("  by skill: " + " · ".join(f"{k} {v:,}" for k, v in top[:8]))
+    print(f"{'Your messages after the prompt':<44}{len(build.corrections):>4}")
+    for line in build.corrections:
+        print(f"  {line}")
     if base is None:
         return 0
     worse = set(build_metrics.worse_on(build, base))
