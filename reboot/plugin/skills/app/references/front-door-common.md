@@ -29,7 +29,7 @@ back to Design.
 Ask one round of scope questions first, from the prompt alone, before
 reading any reference or showing a design: one question dialog
 (`AskUserQuestion` where available). Built from the
-[`guided` skill](../../guided/SKILL.md), the `design` skill's round
+[`app-guided` skill](../../app-guided/SKILL.md), the `app-design` skill's round
 replaces this one (the first features, who signs in, the accent; how
 to build was the `app` skill's first question), nothing else is asked
 before the design, and the
