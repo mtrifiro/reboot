@@ -1,6 +1,6 @@
 ---
 name: app-design
-description: "Design a Reboot application from a description, without building it: one round of questions about what to build (the first features, who signs in, the accent), then the whole proposed design in the chat and in design/design.md, where the guided and build skills pick it up; loaded by the app-whole skill, no round and a whole-app scope. Use when the user asks for a design, a proposal or a plan for an app and not yet the app, or asks for it by name (/reboot:app-design); a prompt that asks to build an app goes to the app skill, which asks how to build first and, on Interactively, runs this skill through the app-guided skill."
+description: "Design a Reboot application from a description, without building it: one round of questions about what to build (the first features, who signs in, the palette), then the whole proposed design in the chat and in design/design.md, where the guided and build skills pick it up; loaded by the app-whole skill, no round and a whole-app scope. Use when the user asks for a design, a proposal or a plan for an app and not yet the app, or asks for it by name (/reboot:app-design); a prompt that asks to build an app goes to the app skill, which asks how to build first and, on Interactively, runs this skill through the app-guided skill."
 argument-hint: [<app-description>]
 allowed-tools: Read, Write, Edit, Glob, Grep
 ---
@@ -81,7 +81,7 @@ Rules for that response:
 - Nothing about how it will be built beyond the dialog's own options:
   **What to expect** is the `app-guided` skill's, after the go-ahead.
 - **No name before the design.** The design proposes one, with the
-  accent, under what the build assumed. Its first mention in the
+  palette, under what the build assumed. Its first mention in the
   Brief, the Brief's first sentence, in the chat and in
   `design/design.md`, is followed by "(working name)": "**Brief.**
   Halftime (working name) is used by …", never only a later "The name
@@ -132,16 +132,16 @@ recommendation is one answer:
   the start", naming the roles in the user's nouns ("front desk, vets
   and techs"). Roles chosen are in the first build; otherwise they are
   **Who may do what**, before any deploy.
-- **"Which accent?"**, only when the prompt names no brand: two or
+- **"Which palette?"**, only when the prompt names no brand: two or
   three that suit the domain, the first recommended, and no "Use my
   brand" option: a brand typed in the dialog's own free answer (a
   site, a colour, a name) is taken as a brand named in the prompt
-  would be. Nothing is read for this question. The
-  look is always the house look (Reboot's own: cream paper, navy ink,
-  Space Grotesk over DM Sans); the accents are navy (the house
-  accent), teal, cyan, blue, indigo, violet, purple, plum and rose,
-  and no other. An option's description says why it suits the domain,
-  in a few words.
+  would be. Nothing is read for this question. A palette is the page,
+  text, lines and accent together, a gray and an accent; the type and
+  corners are always the house look's (Space Grotesk over DM Sans).
+  The palettes are house (Reboot's own: cream paper, navy ink and accent), sand-bronze, sand-brown, sand-orange, sand-gold, olive-grass, sage-teal, slate-blue, slate-iris, mauve-plum and mauve-crimson, and no other; an option's label says its
+  two colours in words ("Sage and teal"), its description why it
+  suits the domain, in a few words.
 How it is built is not asked here: the user chose the guided build
 (the `app` skill's first question), and the go-ahead offers step by
 step or all at once. The choice isn't for keeps: at any handoff "build
@@ -152,7 +152,7 @@ from here" switches, and the first handoff says so in one line.
 build it", "no design") ends this skill's part: load the [`app-just`
 skill](../app-just/SKILL.md) with the Skill tool (`/reboot:app-just`), its
 argument the prompt as typed followed by any answers given (the
-features chosen, who signs in, the accent), and stop. No design, no
+features chosen, who signs in, the palette), and stop. No design, no
 closing line: the app-just skill says nothing but its steps and the
 links.
 
