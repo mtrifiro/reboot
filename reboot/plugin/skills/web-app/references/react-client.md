@@ -8,10 +8,12 @@ tags: web-app, react, vite, hooks, errors, RebootClientProvider
 ## Wire the Web SPA to the Reboot Backend
 
 Everything the standalone browser frontend needs. This is the
-web-app equivalent of the `mcp-ui` skill's scaffolding references —
-**do not read those**: their `vite.config.ts` and `build.mjs` serve
-MCP UIs through Envoy and build one-file `mcp/<name>/index.html`
-bundles, which a web app has no use for.
+web-app equivalent of the `mcp-app` skill's scaffolding references —
+**do not read those**. The `frontend/` shell is the same one (the
+stock Vite file plus Reboot's `reboot()` plugin), and this file
+has the web app's version of it;
+the rest of those references is about `mcp/<name>/` entries and
+one-file MCP App bundles, which a web app has no use for.
 
 ## The `frontend/` Shell
 
@@ -19,7 +21,7 @@ Rendered by the `python` skill's `render.py --web` (the web-app
 skill's step 1), never scaffolded with `create-vite` and never
 retyped: a Vite React-TS project with the SPA's `index.html`, `src/`
 and `public/` under `web/`, so that the generated client at
-`frontend/api/` and, should the app ever add MCP UIs, `frontend/mcp/`
+`frontend/api/` and, should the app ever add MCP Apps, `frontend/mcp/`
 sit beside it:
 
 ```
@@ -28,12 +30,12 @@ frontend/
 ├── tsconfig.json
 ├── tsconfig.app.json    # `include: ["web/src"]`, the `@api/*` path
 ├── tsconfig.node.json   # Node's types, for the config
-├── vite.config.ts       # Below
+├── vite.config.ts       # The stock Vite file plus `reboot()`, below
 ├── api/                 # `rbt generate --react=frontend/api`
 └── web/
-    ├── .env.development # `VITE_REBOOT_URL`
+    ├── .env.development # No `VITE_REBOOT_URL` in development; below
     ├── .env.production  # Written at deploy time (the `deploy` skill)
-    ├── index.html       # `<div id="root">` + `<script type="module" src="/src/main.tsx">`
+    ├── index.html       # `<div id="root">` + `<script type="module" src="./src/main.tsx">`
     ├── public/          # Static files, copied into the build as they are; `favicon.svg`
     └── src/
         ├── main.tsx     # The provider, below
@@ -43,49 +45,72 @@ frontend/
         └── vite-env.d.ts
 ```
 
-`vite.config.ts` is the stock config rooted at `web/` with four
-load-bearing additions: `outDir: "../dist/web"` beside `web/`; the
-`@api` alias for the generated client; `dedupe` of `react`,
-`react-dom` and `zod` (two copies, one from the app and one pulled
-through the Reboot packages, break hooks and schema identity checks at
-runtime); and `server.host: true` with the port from `PORT`. Leaving
-`server.host` out is the single most common reason a freshly built
-app "starts fine" and then won't open: Vite's default `localhost`
-resolves to IPv6 `[::1]` only, and a forwarded port (Codespaces, VS
-Code remote, a dev VM, a tunnel) connects over IPv4 and gets
-connection refused while the process is up and logs no error.
+`vite.config.ts` is the stock Vite file plus Reboot's plugin,
+`reboot({ webAppPath: "web", apiPath: "api" })` from
+`@reboot-dev/reboot-react/vite`, the same config the `mcp-app` skill
+uses, so adding MCP Apps later is one more option (`mcpAppPath`), not
+another file. The plugin serves the SPA in `web/` at `/` (and at any
+path, so the app's routes survive a reload), builds it to
+`frontend/dist/web/` at `base: "/"`, aliases `@api` to the generated
+client, dedupes `react`, `react-dom` and `zod` (two copies, one from
+the app and one pulled through the Reboot packages, break hooks and
+schema identity checks at runtime), reads `.env*` from `web/`, and
+listens on every interface: Vite's default `localhost` resolves to IPv6
+`[::1]` only, and a forwarded port (Codespaces, VS Code remote, a dev
+VM, a tunnel) would get connection refused while the server is up. It
+owns `root`, `base`, `envDir`, `publicDir`, `build.outDir`,
+`server.allowedHosts` and the alias: a config that sets one too is an
+error naming it. Anything else (another plugin, `build.sourcemap`)
+goes in the config as in any Vite project. `web/index.html` loads its
+entry relatively, `./src/main.tsx`, so the dev server can serve it at
+`/`; with `/src/main.tsx` the script is a 404 and the page is blank.
 
-`package.json` pins `react`, `react-dom`, Vite, its React plugin and
-TypeScript at versions made to work together, the two Reboot packages
-and an `overrides` entry for `@reboot-dev/reboot-web` at the backend's
-`reboot` pin (two copies of it break the client), `zod`, and the three
-house typefaces. `tsconfig.node.json` has Node's types, since the
-config imports `path` and reads `process.env`; `tsconfig.app.json`
-includes `web/src` and maps `@api/*` to `./api/*`.
+`package.json` mirrors the `.rbtrc`'s configs as scripts: `dev` runs
+`dev:portless` (`portless frontend.<app> vite`, under the name the
+backend's `--frontend-url` gives), `dev:ports` is plain `vite` on
+5173, and `build` is `tsc -b && vite build`, which builds the web app
+into `dist/web/`. It pins `react`, `react-dom`, Vite, its React plugin
+and TypeScript at versions made to work together, the two Reboot
+packages and an `overrides` entry for `@reboot-dev/reboot-web` at the
+backend's `reboot` pin (two copies of it break the client), `zod`, the
+three house typefaces, and `portless` and `vite-plugin-singlefile` as
+dev dependencies (the plugin imports the second from the project).
+`tsconfig.node.json` has Node's types; `tsconfig.app.json` includes
+`web/src` and maps `@api/*` to `./api/*`.
 
-`npm run dev` serves the SPA at its own origin,
-`http://localhost:5173/` by default; `npm run build` writes
-`frontend/dist/web/`, a plain SPA build that any host serves at
-`/`.
+Which script runs follows the run skill's choice (portless when it is
+ready, plain ports otherwise): under portless the dev server is
+`https://frontend.<app>.localhost` and the app `https://<app>.localhost/`;
+on plain ports Vite is `http://localhost:5173/` and the app
+`http://localhost:9991/`.
 
-## The Backend URL — Set It Explicitly in Dev
+## The Backend URL — The Page's Own in Dev, Set for a Deploy
 
-`<RebootClientProvider>` with no `url` falls back to detection:
-`window.REBOOT_URL`, then a `?rebootUrl=` query parameter, then
-`window.location.origin`. In development the SPA is served by Vite
-on `:5173` while the backend listens on `:9991`, so the fallback
-resolves to the **wrong** origin, and when even that is unavailable
-the client throws
-`Could not detect Reboot server URL. Ensure the page is served from the Reboot server.`
+`<RebootClientProvider>` with no `url` detects the backend:
+`window.REBOOT_URL`, then a `?rebootUrl=` query parameter, else
+`window.location.origin`. The origin is right whenever the backend
+serves the SPA, which it does in development (`--web-app`, Envoy
+sending `/` to the Vite dev server) and once built
+(`--web-app-dist-path`). So development has no `VITE_REBOOT_URL`
+(the copied `web/.env.development` says so), and the page is opened
+at the backend's URL, `https://<app>.localhost/` or
+`http://localhost:9991/`, never at Vite's own, where the origin would
+be Vite's and every call would go to the wrong place.
 
-The copied `web/.env.development` sets `VITE_REBOOT_URL=http://localhost:9991`,
-which Vite reads from its `root`; the copied `web/src/vite-env.d.ts`
-gives `import.meta.env` its types (without it `npm run build` fails
-with `Property 'env' does not exist on type 'ImportMeta'`). The
-provider takes it in the starter's `web/src/main.tsx`: `REBOOT_URL`
-is `import.meta.env.VITE_REBOOT_URL ?? window.location.origin`, passed
-to `<BackendCheck url>` and `<RebootClientProvider url>` around
-`<App />` and `<ReloadPrompt>`.
+In production the backend serves the built SPA from its image (the
+`deploy` skill), same origin, so there is nothing to set either. Only
+a SPA on a static host of its own is on another origin, and says where
+the backend is in `web/.env.production`
+(`VITE_REBOOT_URL=https://<backend>`). The starter's `web/src/main.tsx`
+takes it: `REBOOT_URL` is
+`import.meta.env.VITE_REBOOT_URL ?? window.location.origin`, passed to
+`<BackendCheck url>` and `<RebootClientProvider url>` around `<App />`
+and `<ReloadPrompt>`; the copied `web/src/vite-env.d.ts` gives
+`import.meta.env` its types (without it `npm run build` fails with
+`Property 'env' does not exist on type 'ImportMeta'`). The browser
+scenarios still open Vite directly, with `VITE_REBOOT_URL` set by the
+test harness (`reboot.bdd`'s `frontend` fixture), so they need
+nothing from this file.
 
 The `?? window.location.origin` keeps the production build working
 when the backend serves the built assets from one origin.

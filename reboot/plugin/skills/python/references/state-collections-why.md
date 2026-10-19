@@ -178,6 +178,6 @@ form runs:
   concerns into one `Type` per concern. Same "store the ID, not the
   object" principle, applied to responsibilities rather than
   collection items.
-- `mcp-ui/references/api-state-shapes.md` (`mcp-ui` skill) — the
-  MCP-UI-specific corollary: `list[Item]` is for sub-records,
+- `mcp-app/references/api-state-shapes.md` (`mcp-app` skill) — the
+  MCP-App-specific corollary: `list[Item]` is for sub-records,
   not for application-type instances.
