@@ -476,8 +476,9 @@ finished app.
     the Browser pane, which is for the user at the handoff): signed
     in, it shows all the demo data, its main action works, every
     filter or drawer it opens can be cleared or closed, no console
-    errors, its first record shows within 2 seconds, timed per
-    [`references/first-paint.md`](references/first-paint.md), and
+    errors, its first record within 2 seconds and the web vitals
+    within their budgets (LCP, layout shift, a tap's response), timed
+    per [`references/vitals.md`](references/vitals.md), and
     the layout checks in
     [`references/ui-design.md`](references/ui-design.md) ("Measure
     what can be measured") pass at desktop and phone width.
@@ -521,7 +522,7 @@ finished app.
     [`feature` skill](../feature/SKILL.md)'s step 4 says (in the
     foreground) and `uv run mypy backend/ tests/`, start it again, and
     check in the browser as in step 10 only the pages this feature
-    added or changed (first paint and layout checks too). Then show
+    added or changed (the vitals and layout checks too). Then show
     what it changed as in step 11, with the same links: the objects
     added or changed, its actions and rules with their scenarios, the
     API change (the dashboard's changelog), and what is still to
