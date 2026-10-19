@@ -223,13 +223,17 @@ the app is in **Assumed**.
 
 No dialog: **Your turn** ends with the plain line, word for word,
 "I built all the features you asked for. Tell me what you want to do
-next." (when a feature is blocked, "all the features you asked for
-but <the feature>, under Notes"). Then stop.
+next: change something, add a feature from **Not built yet**, write a
+user manual for your staff, or put it online." (when a feature is
+blocked, "all the features you asked for but <the feature>, under
+Notes"). Then stop.
 
 What the user says next decides, as
 [`app/references/accept-design.md`](../app/references/accept-design.md)
 says: a change or a feature to add is made as the `feature` skill
-makes any change, then a handoff for it ending with the same line;
+makes any change, then a handoff for it ending with the same line; a
+manual is the [`manual` skill](../manual/SKILL.md)'s, loaded with the
+Skill tool; putting it online is the [`deploy` skill](../deploy/SKILL.md)'s;
 asking for anything else, or saying it is good, accepts the app as
 built, recorded as `accept-design.md` says, with **Assumed** in the
 first decisions entry. Trying the app, or no reply, is not
