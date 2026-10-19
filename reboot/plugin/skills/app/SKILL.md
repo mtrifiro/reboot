@@ -25,10 +25,10 @@ word for word:
 - "Verbose": "Interactively, plus an exegesis of the code at each
   milestone, what was written and why, kept in design/exegesis.md
   (great for learning Reboot itself). `/reboot:app-guided`, verbose"
-- "Automatically": "One feature, the heart of what you
+- "First feature only": "One feature, the heart of what you
   typed, designed, built, reviewed and handed over once, about half an
   hour (great for a first look). `/reboot:app-basic`"
-- "Hands off": "Every feature a real product needs, six to ten,
+- "Whole app, hands off": "Every feature a real product needs, six to ten,
   designed, built, reviewed and handed over once, about an hour or two
   (great for fast progress).
   `/reboot:app-whole`"
@@ -46,8 +46,8 @@ For "Verbose" the argument is the prompt followed by
   Interactively, with no line about the choice; the app-guided skill's first
   words are the next thing said.
 - **A free answer** is read for one of the four ("the whole thing,
-  no questions" is the whole app (Hands off); "just one feature" or "something small"
-  is the basic app (Automatically); "explain as you go" or "verbose"
+  no questions" is the whole app (Whole app, hands off); "just one feature" or "something small"
+  is the basic app (First feature only); "explain as you go" or "verbose"
   is Verbose; "just build it" or "exactly what I typed" loads
   [`/reboot:app-just`](../app-just/SKILL.md), which the dialog no longer
   offers); otherwise Interactively.
