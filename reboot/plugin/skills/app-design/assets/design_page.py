@@ -4,7 +4,8 @@
     python3 '<the app-design skill>/assets/design_page.py' [design/design.md]
 
 Run from the project root, after design/design.md is written and after
-every change to it. Writes design/design.html beside it: one file, its
+every change to it. Writes design/design.html beside it (and
+design/index.html, one line that opens it from the server's root): one file, its
 styles and the Reboot wordmark inside, in the developer dashboard's
 look (Reboot's brand: cream, navy, the mono eyebrows, the cards, a
 coloured dot for each kind of method). The build opens it in the
@@ -224,7 +225,8 @@ def main(argv: list[str]) -> int:
             body.append(lines[k])
             k += 1
         rendered = blocks(body, title.lower())
-        wrap = title.lower() in ("brief", "assumed", "domain model", "sign-in") or title.lower().startswith("features")
+        wrap = title.lower() in ("brief", "assumed", "domain model", "sign-in", "what reboot does for you here") \
+            or title.lower().startswith("features")
         if wrap:
             rendered = f'<div class="card{" white" if title.lower() == "brief" else ""}">{rendered}</div>'
         sections.append(f'<section id="{slug(title)}"><p class="eyebrow">{html.escape(title)}</p>\n{rendered}</section>')
@@ -236,6 +238,11 @@ def main(argv: list[str]) -> int:
                        nav="".join(nav), h1=inline(h1), status=status, sections="\n".join(sections))
     dest = source.with_suffix(".html")
     dest.write_text(page, encoding="utf-8")
+    # The server's root opens the page, for a pane that opens only the
+    # origin; a folder that already has an index of its own keeps it.
+    index = dest.parent / "index.html"
+    if not index.exists() or "url=design.html" in index.read_text(encoding="utf-8"):
+        index.write_text('<!doctype html><meta http-equiv="refresh" content="0; url=design.html">\n', encoding="utf-8")
     print(f"wrote {dest}: the design as a page in the dashboard's look, to open in the Browser pane")
     return 0
 
