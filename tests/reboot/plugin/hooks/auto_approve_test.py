@@ -829,12 +829,20 @@ REBOOT_DEV_CASES: list[tuple[str, str, Where, Decision]] = [
         Decision.APPROVE,
     ),
     (
-        # ...and starts it; portless asks for `sudo` itself, in a
-        # terminal, so this fails harmlessly from the agent's shell.
+        # ...but never starts it: that runs `sudo` to bind port 443
+        # and leaves a machine-wide daemon running, so it is the
+        # user's, behind the usual prompt.
         "dev: portless proxy start",
         "portless proxy start",
         Where.PROJECT,
-        Decision.APPROVE,
+        Decision.REJECT,
+    ),
+    (
+        # Nor trusts its CA, which changes the OS trust store.
+        "dev: portless trust",
+        "portless trust",
+        Where.PROJECT,
+        Decision.REJECT,
     ),
     (
         # `run` skill starts the frontend dev server under portless
