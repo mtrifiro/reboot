@@ -15,8 +15,8 @@ prompt doesn't name.
 ## What is assumed, not asked
 
 - **The front door:** the one the prompt names, by the `app` skill's
-  triggers: MCP, an AI host or "a tool for an agent" is an MCP UI
-  (`/reboot:mcp-ui`); a URL, a route, "website", "web app", "SPA" or
+  triggers: MCP, an AI host or "a tool for an agent" is an MCP App
+  (`/reboot:mcp-app`); a URL, a route, "website", "web app", "SPA" or
   "in the browser" is a web app (`/reboot:web-app`); "an API", "a
   backend", "headless" or "for my mobile app" is a backend only
   (`app/references/backend-only.md`); nothing named is a web app.
@@ -71,7 +71,7 @@ One line when a step starts, naming it ("API: `Room` and `Stay`.",
 skill's step 4 (the feature's own files in the foreground, the whole
 suite when the prompt says "all"); then the links line and stop:
 
-> App: http://localhost:5173/ · Dashboard: Models · Features · Changelog (each word a link, `dashboard` skill, "Links to an Object or a Rule")
+> App: https://<app>.localhost/ (or http://localhost:9991/ on plain ports) · Dashboard: Models · Features · Changelog (each word a link, `dashboard` skill, "Links to an Object or a Rule")
 
 No handoff frame, no "what Reboot does here", no wait notes, no task
 list, no "What should I build next?". A refused scenario is said as
