@@ -94,8 +94,8 @@ handoff's report ends with the one feature's, and the same text is in
 - **A mockup first,** for a web app: right after `design/design.md`,
   the comp as [`web-app/references/comp.md`](../web-app/references/comp.md)
   says for this path, its line said and no stop. The page (and the
-  frontend sub-agent, which reads it) builds from it; the design's
-  server keeps serving it.
+  frontend sub-agent, which reads it) builds from it; its server keeps
+  serving it.
 
 - **The one feature** is the heart of the prompt: the work the app is
   for, the one its users would open it to do (for a hotel, the rooms
