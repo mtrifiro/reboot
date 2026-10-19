@@ -1,7 +1,7 @@
 ---
 title: API Definition — Method Types and Tool Exposure
 impact: CRITICAL
-impactDescription: The pydantic API file is the source of truth for both Reboot codegen AND MCP tool surface. `UI()` is MCP-UI-only; every method (including `User`'s) requires explicit `mcp=`; application types need `factory=True` on their `create` Writer.
+impactDescription: The pydantic API file is the source of truth for both Reboot codegen AND MCP tool surface. `UI()` is MCP App-only; every method (including `User`'s) requires explicit `mcp=`; application types need `factory=True` on their `create` Writer.
 tags: api, pydantic, ui, tool, mcp, reader, writer, transaction, workflow, factory, user
 ---
 
@@ -12,7 +12,7 @@ The pydantic API rules — zero-value defaults, `Optional[<Model>]` +
 `python/references/api-pydantic.md`. The marker → context type mapping is
 in `api-methods.md`.
 
-What's _MCP-UI-specific_ about these files:
+What's _MCP App-specific_ about these files:
 
 - A `User` type with empty (or near-empty) state and `Transaction`
   methods that create application-type instances.
@@ -52,7 +52,7 @@ When `request=` is a `Model`, its fields become props on the
 React component.
 
 `factory=True` on an application type's `create` Writer is the
-MCP UI spelling of a constructor (see `python`'s
+MCP App spelling of a constructor (see `python`'s
 `servicer-constructor.md` for the underlying mechanic).
 
 ## UI Placement: On the Entity Type, Not on `User`
@@ -179,7 +179,7 @@ api = API(
             # section above for the full rule.
             show_clicker=UI(
                 request=None,
-                path="frontend/mcp/clicker",
+                path="clicker",
                 title="Counter Clicker",
                 description="Interactive clicker UI for the counter.",
             ),
@@ -238,7 +238,7 @@ class DashboardConfig(Model):
 # still the tool-call target, implicit.
 show_dashboard=UI(
     request=DashboardConfig,
-    path="frontend/mcp/dashboard",
+    path="dashboard",
     title="Counter Dashboard",
     description="Dashboard UI. Use `personalized_message` to impart "
     "wisdom on the topic of counting things.",
@@ -282,7 +282,7 @@ User=Type(
     methods=Methods(
         show_person=UI(
             request=ShowPersonProps,
-            path="frontend/mcp/person",
+            path="person",
             ...
         ),
     ),
@@ -300,7 +300,7 @@ Person=Type(
     methods=Methods(
         show=UI(
             request=None,
-            path="frontend/mcp/person",
+            path="person",
             title="Person",
             description="Open the visual UI for this Person.",
         ),
