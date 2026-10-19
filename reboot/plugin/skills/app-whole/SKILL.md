@@ -49,9 +49,11 @@ Then, in the same turn, **What to expect**, a list of four lines:
 
 **The task list** has the whole-app items
 ([`app/references/task-list.md`](../app/references/task-list.md),
-"The whole app at once") with no go-ahead, and one item before
-**Your turn**: "Review the domain model and the look, and fix what
-they find".
+"The whole app at once", or "The first feature only" for ", basic")
+with no go-ahead, its last item "Review the domain model and the
+look, and fix what they find". No item is called "Your turn": the
+handoff's **Your turn** section ends the build, and isn't a step of
+it.
 
 ## 2. Ambitious scope, the round answered
 
