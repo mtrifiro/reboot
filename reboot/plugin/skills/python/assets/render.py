@@ -97,7 +97,14 @@ serve run --web-app-dist-path=frontend/dist/web
 
 def tokens(args) -> dict[str, str]:
     things = args.things or args.thing + "s"
-    slug = args.slug or re.sub(r"[^a-z0-9]+", "-", args.app.lower()).strip("-")
+    # The project's folder, not the app's working name: the name is the
+    # app's address under portless (https://<name>.localhost, and the
+    # dashboard's), and two builds of one prompt would pick the same
+    # working name and take each other's addresses. A folder is unique on
+    # the machine, and stays put when the app is renamed.
+    folder = Path(args.dest).resolve().name
+    slug = args.slug or re.sub(r"[^a-z0-9]+", "-", folder.lower()).strip("-") \
+        or re.sub(r"[^a-z0-9]+", "-", args.app.lower()).strip("-")
     return {
         "__APP_NAME__": args.app,
         "__app_slug__": slug,
@@ -151,7 +158,7 @@ def main(argv: list[str]) -> int:
     p.add_argument("--hub", required=True, help="the one hub object, CamelCase: Hotel")
     p.add_argument("--thing", required=True, help="the first feature's central object, CamelCase: Room")
     p.add_argument("--things", help="its plural when it isn't <thing>s: Stays, Inventory")
-    p.add_argument("--slug", help="the project name for pyproject, .rbtrc and package.json (default: from --app)")
+    p.add_argument("--slug", help="the project name for pyproject, .rbtrc and package.json, and so its portless address (default: the project folder's name)")
     p.add_argument("--web", action="store_true", help="also the web app and its browser scenarios")
     p.add_argument("--force", action="store_true", help="render into a folder that already has an api/")
     p.add_argument("dest", nargs="?", default=".", help="the project folder (default: here)")
