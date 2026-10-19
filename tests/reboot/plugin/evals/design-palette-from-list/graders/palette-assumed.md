@@ -1,0 +1,5 @@
+---
+type: llm
+weight: 1
+---
+The prompt names no brand. Find the palette the design settles on (its Brief or Assumed line). The plugin has one house look and eleven palettes, each a gray and an accent: house (cream and navy), sand-bronze, sand-brown, sand-orange, sand-gold, olive-grass, sage-teal, slate-blue, slate-iris, mauve-plum and mauve-crimson. PASS when the palette named is one of those eleven, by its name or its two colours in words ("sage and teal", "the house cream and navy"), and the design changes nothing else of the look. A reason given for the choice ("warm like newsprint", "suits a masthead") is fine and does not fail it. FAIL when the palette named is not one of the eleven (a hex value, "newsprint", "ink", "black", a brand, a lone accent such as "teal" with no gray), when the design invents a look of its own (its own paper, ink or typefaces, a theme such as "newsprint" named as the look, a named look such as "Ledger" or "Boutique"), or when the design says nothing about the palette or the colours. Quote the sentence you relied on.
