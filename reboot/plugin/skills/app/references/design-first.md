@@ -125,8 +125,7 @@ line linking each domain object on the dashboard (`dashboard` skill,
 > The room status floor plan's [domain model](<the Models page link>) is open on the dashboard
 > (on 9874, since other projects hold 9871 to 9873): the things the
 > app keeps track of ([Room](<link>), [Floor](<link>), [Hotel](<link>))
-> and what each one holds. Everything else is built on top of it, so
-> this is the cheapest moment to change it.
+> and what each one holds. Everything else is built on top of it.
 >
 > Dashboard: [Models](<link>) · [Features](<link>) · [Changelog](<link>)
 
@@ -141,8 +140,7 @@ asks about:
 
 - Title: **Build on this domain model?**
 - "Build on it" (recommended): "Next: the actions for “<feature>”,
-  tested against its rules. <The objects, in the user's nouns: Hotel,
-  Room and Stay> can still change later; now is when it's cheapest."
+  tested against its rules."
 - "Walk me through it": "A tour, one object at a time, each opened on
   the dashboard: what it holds, what it does, who may do it, and the
   rule it keeps."
