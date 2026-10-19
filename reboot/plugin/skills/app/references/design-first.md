@@ -1,21 +1,21 @@
 ---
 title: The Design First, Then How to Build It
 impact: HIGH
-impactDescription: After the design skill's round and proposed design, the guided skill asks the go-ahead (Build on this design?), then, in the first feature, the domain model check and the frontend question, each with its text just above it; the prompt-by-prompt path asks none of them.
+impactDescription: After the app-design skill's round and proposed design, the app-guided skill asks the go-ahead (Build on this design?), then, in the first feature, the domain model check and the frontend question, each with its text just above it; the prompt-by-prompt path asks none of them.
 tags: go-ahead, domain model, frontend, dialogs, design, prompt by prompt
 ---
 
 # The Design First, Then How to Build It
 
-How the `guided` skill builds a new app, in either front door, once the
-[`design` skill](../../design/SKILL.md) has said the opening, asked
+How the `app-guided` skill builds a new app, in either front door, once the
+[`app-design` skill](../../app-design/SKILL.md) has said the opening, asked
 the one round (the first build's features, who signs in, the accent,
 how to build) and shown the proposed design. It replaces the front
 door's round of scope questions.
 
 ## 1–2. The opening, the round, the design
 
-The `design` skill's, loaded first by the `guided` skill. Nothing is
+The `app-design` skill's, loaded first by the `app-guided` skill. Nothing is
 asked before the design but its round, nothing is read before the
 design but what it needs, and the design is shown once, in the chat,
 in the shape of [`design-messages.md`](design-messages.md).
@@ -24,7 +24,7 @@ in the shape of [`design-messages.md`](design-messages.md).
 
 The proposed design (section 2) sits as text just above the dialog,
 in the same response, every heading filled, features and rules before
-the domain model; for a web app built by the `guided` skill, the
+the domain model; for a web app built by the `app-guided` skill, the
 comp's line comes between them
 ([`../../web-app/references/comp.md`](../../web-app/references/comp.md)):
 a mockup of the main page in the look, served and opened in the pane. Then
@@ -61,7 +61,7 @@ new facts about the design.
 
 Nothing is built before the answer. The go-ahead adds to the first
 handoff's review: this decides the design before any code, that the
-feature as built. After the answer, the `guided` skill's **What to
+feature as built. After the answer, the `app-guided` skill's **What to
 expect** for the chosen path, then the build.
 
 **The prompt-by-prompt path** (asked for in those words, at the
@@ -82,7 +82,7 @@ user's words are the agreement.
 
 - **All at once:** every feature under **Proposed features, in build
   order**, none from **Not in this build**, by the
-  [`one-shot` skill](../../one-shot/SKILL.md)'s steps 4 and 6, from
+  [`app-whole` skill](../../app-whole/SKILL.md)'s steps 4 and 6, from
   the design as proposed, no features added: no stops, one handoff at
   the end. The task list is the whole-app list (`task-list.md`, where
   the plugin has it), its first item done.
@@ -91,7 +91,7 @@ user's words are the agreement.
   `design/design.md` becomes the accepted design (`accept-design.md`),
   and **Assumed** moves into the first decisions entry.
 - **Not yet, or the dialog skipped:** write `design/design.md`
-  (the `design` skill, section 3), then one short reply: "The whole design is in
+  (the `app-design` skill, section 3), then one short reply: "The whole design is in
   design/design.md.", the path a Markdown link to the file in the
   user's project, then "Tell me to continue when you're ready, or
   what to change." Then stop: no dialog now.
@@ -191,7 +191,7 @@ answer ("a stay should also hold the guest's room"): change the API,
 `rbt generate`, say what changed, ask again. No task item marks the
 wait: the dialog is the signal. If the dashboard didn't come up, don't ask: say so in
 one sentence and go on; the model is checked at the first handoff.
-Later features don't ask; `one-shot` and the prompt-by-prompt path never
+Later features don't ask; `app-whole` and the prompt-by-prompt path never
 do.
 
 ## 5. The backend, then the page
@@ -218,7 +218,7 @@ the page. The rules live in the backend, so the user sees them hold
 on the dashboard before any time goes into the page, and can say
 "stop" or ask for a change at any point; later features go from
 backend to page the same way, their handoff showing both. A backend
-only (no front door) ends here with its handoff; `one-shot` and the
+only (no front door) ends here with its handoff; `app-whole` and the
 prompt-by-prompt path say the backend's lines and go on the same.
 
 From the first feature on, the build follows the front door
@@ -240,7 +240,7 @@ unchanged, but for these questions.
 
 - Reading this plugin's files with a shell command instead of the
   file tools.
-- A second go-ahead, or a question the design skill's round already
+- A second go-ahead, or a question the app-design skill's round already
   asked: the go-ahead is asked once, after the design, and takes any
   change to the features.
 - Code, `rbt generate` or a project scaffold before the go-ahead (on
