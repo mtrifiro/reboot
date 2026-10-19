@@ -29,6 +29,9 @@ The script that does the work is [`assets/look.py`](assets/look.py)
 
 The kinds and their choices:
 
+- **palette:** one of the palettes
+  [`web-app/references/ui-design.md`](../web-app/references/ui-design.md)
+  lists: the page, text, lines and accent together.
 - **accent:** one of the accents
   [`web-app/references/ui-design.md`](../web-app/references/ui-design.md)
   lists, or a brand's hex (`#0a6e5c`; add `--dark #5fd0bd` to give the
@@ -147,7 +150,7 @@ step 4's preview, a page change is made as "Beyond the Tokens" says,
 then shown in the pane. "The look another way" gets one more dialog:
 
 - **What would you like to change about the look?** (several allowed)
-  - "Color": "The accent: buttons, the top bar, selection."
+  - "Color": "The palette: the page, text and accent together, or the accent alone."
   - "Page and text": "A cooler, warmer or plainer page behind it all."
   - "Typefaces": "The headings and text."
   - "Corners": "Sharper or rounder."
@@ -183,7 +186,7 @@ For each thing to change, in the order they were picked:
 
    A dialog asking to choose from previews the user hasn't been shown
    is never sent.
-3. One dialog: **Which <accent / page tone / typefaces / corners>?**,
+3. One dialog: **Which <palette / accent / page tone / typefaces / corners>?**,
    each option its letter and name as the label ("A: teal") and what
    it is like as the description, last "Keep it as it is". A choice
    described in the free answer gets a new preview.
@@ -223,8 +226,8 @@ undo.
    read the page's visible text, so a shortened label or a moved
    button can break a rule's proof. A scenario that relied on the old
    text means the change isn't done, never that the scenario changes.
-2. Update the accent's sentence in `design/design.md` (its opening
-   names the accent), and the look's other choices beside it, in a
+2. Update the palette's sentence in `design/design.md` (its opening
+   names the palette), and the look's other choices beside it, in a
    few words.
 3. Make sure `.gitignore` has `frontend/web/.look-history/` and
    `frontend/web/public/look-preview.html` and
@@ -272,7 +275,7 @@ Say the change in one line, make it as
   scheme without the other: every choice is shown and applied in light
   and dark.
 - Never change the look during a build's first feature to ask about
-  it: the build picks the accent and says it is easy to change; this
+  it: the build picks the palette and says it is easy to change; this
   skill is for afterwards, when the user asks.
 - Never open the preview or the app in the user's own browser in the
   Claude app: the Browser pane, or a link elsewhere.
