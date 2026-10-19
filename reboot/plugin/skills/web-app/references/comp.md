@@ -20,13 +20,13 @@ end), an MCP App doesn't (its views live in a host), and a host that
 can't run commands skips it with no line.
 
 **Make it,** about a minute, one line first: "Making a mockup of the <page>,
-in <accent>."
+in <palette>."
 
-1. The stylesheet, copied unread, and the accent set on the copy:
+1. The stylesheet, copied unread, and the palette set on the copy:
 
    ```shell
    mkdir -p design/comp && cp '<the web-app skill>/assets/starter/frontend/web/src/styles.css' design/comp/comp.css
-   python3 '<the review-ui skill>/assets/look.py' --css design/comp/comp.css set accent <accent>
+   python3 '<the review-ui skill>/assets/look.py' --css design/comp/comp.css set palette <palette>
    python3 '<the review-ui skill>/assets/look.py' --css design/comp/comp.css fonts
    ```
 
@@ -112,7 +112,7 @@ in <accent>."
    external browser.
 4. One line in the chat, then the go-ahead dialog: "**Where it is
    going:** [a mockup of the <page>](<mockup>),
-   in <accent>, with no data behind it; the real page
+   in <palette>, with no data behind it; the real page
    replaces it at the frontend step." On the first-feature-only path
    the line ends there, with no dialog: "Building it now." follows,
    and the build goes on. A change to it typed as the
