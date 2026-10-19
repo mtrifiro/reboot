@@ -85,7 +85,19 @@ in <palette>."
    ```
 
    That is the comp's only script. No raw colour outside `comp.css`.
-3. Serve `design/comp/` and open it, in the background, its pid
+3. The stylesheet put inside the page, so the comp is one file that
+   keeps its look however it is opened (served, cached in the pane
+   after its server stops, from disk, sent to someone):
+
+   ```shell
+   python3 '<the review-ui skill>/assets/look.py' --css design/comp/comp.css inline design/comp/index.html
+   ```
+
+   It replaces the `comp.css` link with a `<style>` holding the file;
+   run it again after any change to `comp.css` or the page's link
+   (hotel-252's open mockup lost its styling when its server stopped
+   and `comp.css` could no longer be fetched).
+4. Serve `design/comp/` and open it, in the background, its pid
    written to `design/.comp.pid`, the mode by `portless doctor` as the
    [`run` skill](../../run/SKILL.md) says ("Portless when it is ready,
    plain ports otherwise"), never asked about:
@@ -112,7 +124,7 @@ in <palette>."
    origin; a directory listing means the file was misnamed
    (hotel-205, 2026-10-18); elsewhere, the link alone, never the user's
    external browser.
-4. One line in the chat, then the go-ahead dialog: "**Where it is
+5. One line in the chat, then the go-ahead dialog: "**Where it is
    going:** [a mockup of the <page>](<mockup>),
    in <palette>, with no data behind it; the real page
    replaces it at the frontend step." On the first-feature-only path
@@ -130,7 +142,7 @@ through the build, so the mockup open in the pane keeps its styling
 beside the real page (hotel-252 stopped it when the app started, and
 the open mockup lost its stylesheet); it is stopped only when the user
 asks to stop the app (the `run` skill). `design/comp/index.html` stays as the record of
-the direction, linked from the main page's line in `design/design.md`
+the direction, whole on its own since it holds its stylesheet, linked from the main page's line in `design/design.md`
 (`app/references/design-document.md`); `comp.css` and `.look-history/` beside it and
 `design/.comp.pid` are
 git-ignored by the starter, and the comp is remade from the steps
@@ -147,6 +159,7 @@ above when it is wanted again.
 - A script but the comp note's, a wired control or data behind it:
   it is a mockup.
 - A comp without its `comp-badge`, or the badge on a real page.
+- A comp that links `comp.css` instead of holding it (step 3).
 - The go-ahead dialog before the comp's line, or a minute between the
   design and the line without "Making a mockup of the <page>".
 - The comp opened in the user's external browser in the Claude app.
