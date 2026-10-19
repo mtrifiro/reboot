@@ -116,7 +116,25 @@ things: the proxy running on port 443, and the local CA trusted.
 
 - **Both:** use portless, saying nothing about it: `rbt dev run` and
   `rbt dashboard` with their default configs, the frontend with
-  `npm run dev:portless`.
+  `npm run dev:portless`. First check that the names are this
+  project's: Reboot registers them with `--force`, so a second project
+  with the same `--application-name` would take the first one's
+  addresses without an error. `portless list`, then for each of
+  `https://<app>.localhost` and `https://dashboard.<app>.localhost`
+  that is routed to a port something listens on, the folder that
+  process runs from:
+
+  ```sh
+  pid=$(lsof -nP -iTCP:<port> -sTCP:LISTEN -t | head -1)
+  lsof -a -p "$pid" -d cwd -Fn | sed -n 's/^n//p'
+  ```
+
+  Another project's folder: run this one on plain ports instead, and
+  say so in one line ("Another project already has
+  https://<app>.localhost, so this one runs on plain ports"). A route
+  to a port nothing listens on is a stale one (reboot#268) and free.
+  The name is the project folder's (`render.py`), so this happens only
+  for a project named by hand.
 - **Either missing:** plain ports, with no question: `rbt dev run
   --config=ports`, `rbt dashboard --config=ports`, the frontend with
   `npm run dev:ports`. The app is `http://localhost:9991`, the
