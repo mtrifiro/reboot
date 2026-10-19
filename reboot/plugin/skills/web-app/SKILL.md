@@ -479,8 +479,8 @@ finished app.
    page's, per `python/references/testing-web-app.md`
    (`uv run playwright install chromium` once); every web feature
    file runs from that one module. Run `scripts/test.sh tests/web_test.py` in the foreground, its whole output read, never piped through `grep` or `tail`.
-10. Start the app with the [`run` skill](../run/SKILL.md) (stopping
-    the comp's server first when `design/.comp.pid` exists) and check
+10. Start the app with the [`run` skill](../run/SKILL.md) (the comp's
+    server keeps running) and check
     the page in a headless browser (Playwright; in the Claude app never
     the Browser pane, which is for the user at the handoff): signed
     in, it shows all the demo data, its main action works, every
