@@ -36,7 +36,7 @@ in <palette>."
    bar, the badge, the note and the head are step 3's. First the brand
    mark, an inline `<svg data-mark ...>` from the domain; then the page
    head with its eyebrow, title and lede inside the
-   `brand-band`, the deep accent; the leading figure as a `stat` in
+   `brand-band`; the leading figure as a `stat` in
    the `stats` row that overlaps the band's lower edge, or a `figure`;
    the signature view the design's main page line names
    (`ui-design.md`, "One Signature View"), drawn with believable
