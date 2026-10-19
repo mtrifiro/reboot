@@ -13,6 +13,7 @@ agent. The same skills work in both **Claude Code** and **Codex**.
 | [`app-whole`](skills/app-whole/)   | The whole app, asking nothing — designed, built, reviewed and handed over once                                                            |
 | [`app-design`](skills/app-design/)       | Design a Reboot app from a description without building it: one round of questions, then the proposed design in the chat and `design/design.md` |
 | [`app-just`](skills/app-just/)         | Build exactly what the prompt says, for someone who knows what they want: no questions, no proposed design, no narration                  |
+| [`explain`](skills/explain/)     | How a built app's code works and why, written to `design/exegesis.md` after the build                                                   |
 | [`feature`](skills/feature/)     | Specify a feature in plain English, write it down as a `@wip` feature file, then iterate on its scenarios with the user                   |
 | [`mcp-ui`](skills/mcp-ui/)       | Build MCP UIs for ChatGPT, Claude, VSCode, Goose, and others — layers on top of `python`                                                  |
 | [`web-app`](skills/web-app/)     | Build standalone Reboot Web Apps — a Reboot backend behind a browser-facing React frontend — layers on top of `python`                    |
