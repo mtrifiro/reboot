@@ -1,6 +1,6 @@
 ---
 name: app
-description: "Build a Reboot application from a description. First one question, how it should be built, with one skill per answer: guided (a design to approve, the user's choices, each part built and explained: the app-guided skill), guided explained (the same, plus an exegesis of the code at each milestone), the basic app with no questions (the app-whole skill with one feature), or the whole app with no questions (the app-whole skill), none recommended; then that skill, with the prompt. Holds the front-door routing every build uses: an MCP UI (ChatGPT, Claude, VSCode, Goose) or a standalone web app by the prompt's own words, otherwise the web app, the other offered at handoff. Use for any prompt that asks to build an app and names no skill."
+description: "Build a Reboot application from a description. First one question, how it should be built, with one skill per answer: guided (a design to approve, the user's choices, each part built and explained: the app-guided skill), guided explained (the same, plus an exegesis of the code at each milestone), the basic app with no questions (the app-whole skill with one feature), or the whole app with no questions (the app-whole skill), none recommended; then that skill, with the prompt. Holds the front-door routing every build uses: an MCP App (ChatGPT, Claude, VSCode, Goose) or a standalone web app by the prompt's own words, otherwise the web app, the other offered at handoff. Use for any prompt that asks to build an app and names no skill."
 argument-hint: [<app-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 ---
@@ -69,7 +69,7 @@ the prompt, verbatim, never inferred:
 
 | Front door | Triggers |
 | --- | --- |
-| [`mcp-ui`](../mcp-ui/SKILL.md) | MCP, MCP host/server/app/tool, `mcp=Tool`, `UI()`; ChatGPT, Claude, VSCode, Goose, Cursor **named as where it runs** ("use this from Claude"); "AI tool", "tool for an LLM/agent", "expose to an LLM/agent" |
+| [`mcp-app`](../mcp-app/SKILL.md) | MCP, MCP host/server/app/tool, `mcp=Tool`, `UI()`; ChatGPT, Claude, VSCode, Goose, Cursor **named as where it runs** ("use this from Claude"); "AI tool", "tool for an LLM/agent", "expose to an LLM/agent" |
 | [`web-app`](../web-app/SKILL.md) | a URL (`https://…`, `localhost:`); a route (`/login`, `/dashboard`); "website", "web app", "SPA", "in the browser", "served at"; "log in via email", "OAuth login", "sign up form" |
 | A backend only ([`../app/references/backend-only.md`](../app/references/backend-only.md)) | "an API", "a backend", "API only", "headless"; "for my mobile app", "React Native", "for my existing app", "for my frontend" |
 
@@ -83,21 +83,21 @@ the prompt, verbatim, never inferred:
   and no offer at handoff.
 
 The skill chosen above loads the front door with the Skill tool
-(`/reboot:web-app`, `/reboot:mcp-ui`), never by reading its
+(`/reboot:web-app`, `/reboot:mcp-app`), never by reading its
 `SKILL.md` (the tool loads it whole and marks the route taken), or
 reads `backend-only.md`, and follows it from the top: `app-guided` after
 the go-ahead, `app-whole` after its design, `app-just` at once.
 
 **At handoff,** unless "just/only/no" applied, offer the other front
 door in one line: "Want this in Claude and ChatGPT too? The backend is
-ready; it adds an MCP UI beside the web app." (or the reverse). On a
+ready; it adds an MCP App beside the web app." (or the reverse). On a
 yes, follow that front door's Update Flow.
 
 | Prompt | Builds |
 | --- | --- |
-| "a CRM for my personal relationships" | `web-app`, offer MCP UI |
-| "a dashboard served at metrics.example.com" | `web-app`, offer MCP UI |
-| "a tool I can use from Claude to track my reading" | `mcp-ui`, offer web app |
+| "a CRM for my personal relationships" | `web-app`, offer MCP App |
+| "a dashboard served at metrics.example.com" | `web-app`, offer MCP App |
+| "a tool I can use from Claude to track my reading" | `mcp-app`, offer web app |
 | "just a simple website for event signups" | `web-app`, no offer |
 | "a backend API for my React Native app" | backend only |
 | "an MCP server, and also a dashboard at crm.example.com" | both |
