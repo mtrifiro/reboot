@@ -40,6 +40,39 @@ A spatial view takes the page's width, its geometry from data. A
 record's detail opens in a drawer or on its own route, never
 reflowing the list.
 
+### One Signature View
+
+Every design has one view that shows the app's main question at a
+glance, the one a person remembers the app by. The design names it on
+the main page's line, the comp draws it, and the first page leads with
+it. Pick it by the shape of the domain:
+
+| The domain is mostly | Signature view | For example |
+| --- | --- | --- |
+| Space | a plan, a map, a seat chart | a hotel's floors, a warehouse, a venue |
+| Time | a timeline, a heat calendar | a band's gigs, bookings by day |
+| Flow | a pipeline drawn with its volumes | a sales pipeline, an order's path |
+| Quantity | one strong chart, its number big | revenue this month, stock left |
+| Physically three-dimensional | an isometric view | a hotel's floors stacked as a building, racks in an aisle |
+
+When the task is a list (triage, lookup, review), the list stays the
+primary view and the signature view leads above it, in the page's
+width: a pipeline strip with each stage's count over a CRM's table, a
+heat calendar over a list of bookings. It answers a question, never
+decorates: it carries real numbers from a reader, updates live, and
+each mark opens or filters what it stands for. A chart the list
+already answers, or an ornament with no data, is not one.
+
+**Three dimensions, only where the domain has them,** and drawn with
+CSS 3D transforms or SVG in isometric projection: real elements, so
+each room or rack has its role and its name, the browser scenarios
+click it like any other, and no library loads. A WebGL scene (a
+library such as three.js) only when the user asks for one, loaded
+after the first record, with the same data as a 2D view or a list
+beside it for the scenarios and for screen readers. Either way the
+page keeps its budgets in [`vitals.md`](vitals.md): its first record
+within 2 seconds, nothing shifting as the view fills.
+
 ### What the Eye Lands On
 
 A page is read in one order, and is built in it: its answer first,
