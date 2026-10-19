@@ -72,6 +72,11 @@ in a circle, linked to the entry that decided it.> ([see them on the dashboard](
   ([decided](decisions.md#<anchor of the entry that decided it>)).
 - …
 
+Each `<Type>` is named for what it holds, never for its key or its
+time period: `AmenitySchedule` (one amenity's bookings for a day), not
+`AmenityDay`; `DispatchBoard`, not `DispatchDay`
+([`front-door-common.md`](front-door-common.md), "Names").
+
 ## Methods
 
 Kinds: a **Reader** changes nothing; a **Writer** changes its own
