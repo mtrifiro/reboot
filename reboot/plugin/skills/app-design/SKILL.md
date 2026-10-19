@@ -1,6 +1,6 @@
 ---
 name: app-design
-description: "Design a Reboot application from a description, without building it: one round of questions about what to build (the first features, who signs in, the accent), then the whole proposed design in the chat and in design/design.md, where the guided and build skills pick it up; loaded by the app-whole skill, no round and a whole-app scope. Use when the user asks for a design, a proposal or a plan for an app and not yet the app, or asks for it by name (/reboot:app-design); a prompt that asks to build an app goes to the app skill, which asks how to build first and, on Guided, runs this skill through the app-guided skill."
+description: "Design a Reboot application from a description, without building it: one round of questions about what to build (the first features, who signs in, the accent), then the whole proposed design in the chat and in design/design.md, where the guided and build skills pick it up; loaded by the app-whole skill, no round and a whole-app scope. Use when the user asks for a design, a proposal or a plan for an app and not yet the app, or asks for it by name (/reboot:app-design); a prompt that asks to build an app goes to the app skill, which asks how to build first and, on Interactively, runs this skill through the app-guided skill."
 argument-hint: [<app-description>]
 allowed-tools: Read, Write, Edit, Glob, Grep
 ---
