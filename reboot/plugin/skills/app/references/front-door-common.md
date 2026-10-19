@@ -152,7 +152,7 @@ them the most expensive way in the system to learn a fact.
 The generated surfaces you actually need are written out in these
 references: the generated client in the front door's own references
 (`web-app/references/react-client.md`,
-`python/references/react-generated-client.md` for an MCP UI) and the
+`python/references/react-generated-client.md` for an MCP App) and the
 backend shapes in `python/references/`. Use them.
 
 If something genuinely isn't covered, bound the output hard: a
