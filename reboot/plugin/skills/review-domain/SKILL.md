@@ -1,11 +1,11 @@
 ---
-name: domain-review
-description: Review a built Reboot app's domain model and packages for scale, from the numbers (the actor everyone waits on, collections, fan-out reads, wide transactions), then make the improvements the user picks, each measured before and after with every rule passing. Use when the user asks whether the app will scale or to review the domain or data model. Not for the code's structure (review), the tests (test-review) or the look (ui-review).
+name: review-domain
+description: Review a built Reboot app's domain model and packages for scale, from the numbers (the actor everyone waits on, collections, fan-out reads, wide transactions), then make the improvements the user picks, each measured before and after with every rule passing. Use when the user asks whether the app will scale or to review the domain or data model. Not for the code's structure (review-architecture), the tests (review-tests) or the look (review-ui).
 argument-hint: '[optional: what to look at, e.g. "will booking scale?"; the whole domain model by default]'
 allowed-tools: Bash, Read, Write, Edit, Glob, Grep, AskUserQuestion
 ---
 
-# domain-review — Review the Domain Model and Architecture, Then Improve It
+# review-domain — Review the Domain Model and Architecture, Then Improve It
 
 The review judges from numbers, not taste. Every finding says what
 breaks first as the app grows, by how much, and what the fix costs now
