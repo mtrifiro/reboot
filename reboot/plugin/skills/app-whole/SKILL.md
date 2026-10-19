@@ -30,9 +30,9 @@ Skill loads are the response's only tool calls before it; hotel-200
 said nothing for 69 seconds and its first text was the design), its
 third sentence "No questions: the whole app is designed, then built,
 tested and handed over when it is done." word for word. Then it reads
-what the design needs, shows the whole proposed design in the chat
-with the scope of section 2, and writes `design/design.md` right
-after it.
+what the design needs, and writes the whole proposed design with the
+scope of section 2 to `design/design.md`, drawn as a page beside the
+chat with its summary in the chat (the `app-design` skill, section 3).
 
 Then, in the same turn, **What to expect**, a list of four lines:
 
@@ -94,8 +94,8 @@ handoff's report ends with the one feature's, and the same text is in
 - **A mockup first,** for a web app: right after `design/design.md`,
   the comp as [`web-app/references/comp.md`](../web-app/references/comp.md)
   says for this path, its line said and no stop. The page (and the
-  frontend sub-agent, which reads it) builds from it; its server is
-  stopped when the app starts.
+  frontend sub-agent, which reads it) builds from it; the design's
+  server keeps serving it.
 
 - **The one feature** is the heart of the prompt: the work the app is
   for, the one its users would open it to do (for a hotel, the rooms
