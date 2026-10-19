@@ -16,10 +16,18 @@ account is its own durable object, so there's no database to set up,
 no tables or migrations", not "Reboot stores state for you"). Each
 fact is said at most once in a build, and one already said at a
 stage's start ([`conversation.md`](conversation.md), "At every
-stage") is not said again here. The tone is a good release note:
-plain, specific, true. No exclamation marks, no "Did you know", no
-comparison by name with another product, nothing beyond what the line
-says. A step not in the table gets no note; when no fact is left that
+stage") is not said again here. The tone explains, as a colleague
+would: what is starting and why it takes a moment, then the fact in
+whole sentences and what it means for this app. No label in front ("While
+it starts:"), no punchline ("…, with no database behind it"), no dare
+("Restart the backend and…"), no exclamation marks, no "Did you know",
+no comparison by name with another product, nothing beyond what the
+line says. Not "While it starts: each room's status lives in Reboot's
+durable store. Restart the backend and 305 is still dirty." but
+"Starting the backend with `rbt dev run`, about half a minute. Reboot
+stores each room's status and history itself, in the room's own
+durable object, so they are kept when the backend restarts, with no
+database to set up: room 305 is still marked dirty after a restart." A step not in the table gets no note; when no fact is left that
 fits, say nothing extra.
 
 | Step | Fact |
