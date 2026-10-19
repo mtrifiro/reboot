@@ -2,7 +2,7 @@
 title: The Comp, Before the Go-Ahead
 impact: MEDIUM
 impactDescription: Without a comp the user signs off on a design they have only read and sees the frontend's direction after the backend is built; with one, the main page's look and hierarchy are judged with the design
-tags: comp, mockup, preview, main page, go-ahead, look, design/comp/index.html
+tags: comp, mockup, preview, main page, go-ahead, look, design/comp/mockup.html
 ---
 
 # The Comp, Before the Go-Ahead
@@ -32,7 +32,7 @@ in <palette>."
 
    The last prints the `<link>` that loads the typefaces from Google
    Fonts: the comp is served outside the bundle, so it needs one.
-2. `design/comp/index.html`, with the Write tool: `<!doctype html>`, the
+2. `design/comp/mockup.html`, with the Write tool: `<!doctype html>`, the
    fonts link, `<link rel="stylesheet" href="comp.css">`, then the
    page in the stylesheet's own classes (its opening comment lists
    them, `ui-design.md`, "Build the Look", step 3; read nothing else):
@@ -90,18 +90,25 @@ in <palette>."
    after its server stops, from disk, sent to someone):
 
    ```shell
-   python3 '<the review-ui skill>/assets/look.py' --css design/comp/comp.css inline design/comp/index.html
+   python3 '<the review-ui skill>/assets/look.py' --css design/comp/comp.css inline design/comp/mockup.html
    ```
 
    It replaces the `comp.css` link with a `<style>` holding the file;
    run it again after any change to `comp.css` or the page's link
    (hotel-252's open mockup lost its styling when its server stopped
-   and `comp.css` could no longer be fetched).
+   and `comp.css` could no longer be fetched). Beside it, one line,
+   `design/comp/index.html`, so the server's root opens the mockup
+   where the pane opens only the origin (hotel-205 showed a directory
+   listing):
+
+   ```html
+   <!doctype html><meta http-equiv="refresh" content="0; url=mockup.html">
+   ```
 4. Serve `design/comp/` and open it, in the background, its pid
    written to `design/.comp.pid`, the mode by `portless doctor` as the
    [`run` skill](../../run/SKILL.md) says ("Portless when it is ready,
    plain ports otherwise"), never asked about:
-   - **Under portless,** by name, `https://mockup.<app>.localhost/`
+   - **Under portless,** by name, `https://mockup.<app>.localhost/mockup.html`
      (`<app>` the project folder's name, which becomes the `.rbtrc`'s
      `--application-name`; never the app's working name, which two
      builds of one prompt share), with no port to
@@ -114,16 +121,14 @@ in <palette>."
      ```
    - **On plain ports,** `python3 -m http.server <port> --directory
      design/comp`, the port the first free one from 9860, at
-     `http://localhost:<port>/`.
+     `http://localhost:<port>/mockup.html`.
 
    Call that URL `<mockup>`. In the Claude app, open it in the Browser
    pane
    (a `launch.json` configuration named `comp` with only that URL,
-   `conversation.md`). The page is the folder's `index.html`, so the
-   server's root is the comp even where the pane opens only the
-   origin; a directory listing means the file was misnamed
-   (hotel-205, 2026-10-18); elsewhere, the link alone, never the user's
-   external browser.
+   `conversation.md`); a directory listing there means the root's
+   `index.html` is missing (step 3); elsewhere, the link alone, never
+   the user's external browser.
 5. One line in the chat, then the go-ahead dialog: "**Where it is
    going:** [a mockup of the <page>](<mockup>),
    in <palette>, with no data behind it; the real page
@@ -141,7 +146,7 @@ main page's screenshot against it. The comp's server keeps running
 through the build, so the mockup open in the pane keeps its styling
 beside the real page (hotel-252 stopped it when the app started, and
 the open mockup lost its stylesheet); it is stopped only when the user
-asks to stop the app (the `run` skill). `design/comp/index.html` stays as the record of
+asks to stop the app (the `run` skill). `design/comp/mockup.html` stays as the record of
 the direction, whole on its own since it holds its stylesheet, linked from the main page's line in `design/design.md`
 (`app/references/design-document.md`); `comp.css` and `.look-history/` beside it and
 `design/.comp.pid` are
@@ -159,7 +164,8 @@ above when it is wanted again.
 - A script but the comp note's, a wired control or data behind it:
   it is a mockup.
 - A comp without its `comp-badge`, or the badge on a real page.
-- A comp that links `comp.css` instead of holding it (step 3).
+- A comp that links `comp.css` instead of holding it (step 3), or a
+  mockup named anything but `mockup.html`.
 - The go-ahead dialog before the comp's line, or a minute between the
   design and the line without "Making a mockup of the <page>".
 - The comp opened in the user's external browser in the Claude app.
