@@ -18,6 +18,10 @@ Run from the project root (the folder holding frontend/web/src/styles.css).
     python3 look.py set palette sand-brown   (page, text, lines and accent
                                               together, from a Radix Colors
                                               gray and accent; house is ours)
+    python3 look.py set band deep            (the page head's band dark, the
+                                              gray's darkest step; calm, the
+                                              default, is a soft tint of the
+                                              accent)
     python3 look.py set accent teal          (or a brand's hex: #0a6e5c)
     python3 look.py set accent #0a6e5c --dark #5fd0bd
     python3 look.py set neutrals warm
@@ -710,6 +714,18 @@ def main(argv: list[str]) -> int:
         if FAVICON.is_file() and old:
             svg = FAVICON.read_text(encoding="utf-8")
             FAVICON.write_text(re.sub(re.escape(old), vals["light"]["accent"], svg, flags=re.I), encoding="utf-8")
+    elif kind == "band":
+        light = now.get("light", {})
+        pal = next((n for n, p in palettes().items() if n != "house"
+                    and p["light"]["accent"] == light.get("accent", "").strip()
+                    and p["light"]["bg"] == light.get("bg", "").strip()), None)
+        if name not in ("calm", "deep") or pal is None:
+            shutil.rmtree(slot)
+            raise SystemExit("look: set band calm | deep, on a Radix palette set with `set palette`")
+        found = palettes()[pal]
+        vals = found["deep"] if name == "deep" else {w: {k: found[w][k] for k in ("accent-deep", "on-deep")}
+                                                       for w in ("light", "dark")}
+        css = set_values(css, vals)
     elif kind == "accent":
         fam = accent_family(name, dark_hex, now)
         old = now["light"].get("accent", "").strip().lower()
@@ -733,7 +749,7 @@ def main(argv: list[str]) -> int:
         css = set_values_root_only(css, {"radius": r, "radius-sm": rs})
     else:
         shutil.rmtree(slot)
-        print("look: set look | palette | accent | neutrals | type | corners")
+        print("look: set look | palette | band | accent | neutrals | type | corners")
         return 2
     STYLESHEET.write_text(css, encoding="utf-8")
     if PREVIEW.is_file():
