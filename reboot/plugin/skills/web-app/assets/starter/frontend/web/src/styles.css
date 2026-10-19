@@ -1,6 +1,6 @@
 /* The app's one stylesheet: tokens, base elements, and the classes the
    page anatomy is built from (web-app/references/ui-design.md). It ships
-   in the house look; set the accent with accent.py. To rebrand, change the token VALUES in :root and both
+   in the house look; set a palette with palette.py. To rebrand, change the token VALUES in :root and both
    dark blocks; never append a later block that re-pins them. Keep the
    names. Components never carry raw hex.
 
@@ -46,7 +46,7 @@
    Type scale: 12 / 13 / 15 / 18 / 28 px; one radius, one shadow.
    The house look is Reboot's own, as the Plugin Browser: cream paper,
    navy ink and accent, Space Grotesk over DM Sans, soft corners; the
-   accent is set with accent.py; --row-h / --row-pad set row density. Every page keeps
+   palette is set with palette.py; --row-h / --row-pad set row density. Every page keeps
    the anatomy: brand-band with the page-head, stats overlapping it. */
 
 :root {
