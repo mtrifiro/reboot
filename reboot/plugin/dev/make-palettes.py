@@ -7,10 +7,13 @@
 Radix Colors (https://github.com/radix-ui/colors) is MIT licensed; its
 notice is kept beside the output in skills/web-app/assets/palettes.LICENSE.
 Each palette is a gray and an accent. Light: the page is gray-2, panels
-gray-1, text gray-12, muted gray-11, lines gray-6, the band gray-12; the
+gray-1, text gray-12, muted gray-11, lines gray-6; the
 accent is the first of steps 9-12 that reads on the page (3:1) with
-white on it (4.5:1). Dark: the page is gray-1, panels gray-2, the band
-gray-3; the accent is the first of steps 11, 10, 9 with gray-1 on it.
+white on it (4.5:1). Dark: the page is gray-1, panels gray-2; the accent
+is the first of steps 11, 10, 9 with gray-1 on it. The page head's band
+is calm: accent-4 mixed halfway with gray-6, accent-12 text (dark:
+accent-2, accent-12 text); "deep" keeps the dark band (gray-12, gray-1
+text; dark: gray-3), set with `look.py set band deep`.
 Tints are the accent's step 3 (light) and 4 (dark).
 """
 import json, re, sys
@@ -43,25 +46,34 @@ def pick(a, g, bg, order):
             return a[step], on_hex, step
     raise SystemExit(f"no accent step passes")
 
+def mix(a, b, t):
+    """a moved t of the way to b, channel by channel."""
+    x = [int(a[i:i + 2], 16) for i in (1, 3, 5)]
+    y = [int(b[i:i + 2], 16) for i in (1, 3, 5)]
+    return "#" + "".join(f"{round(p * (1 - t) + q * t):02x}" for p, q in zip(x, y))
+
 out = {}
 for gray, acc in PAIRS:
-    fam, steps = {}, []
+    fam, steps, deep = {}, [], {}
     for dark in (False, True):
         g, a = scale(gray, dark), scale(acc, dark)
         if not dark:
             bg = g[2]
             accent, on, step = pick(a, g, bg, [(9, "white"), (10, "white"), (11, "white"), (12, "white"), (9, "g12")])
             vals = {"bg": g[2], "bg-2": g[1], "panel": g[1], "ink": g[12], "muted": g[11], "line": g[6], "track": g[4],
-                    "accent": accent, "on-accent": on, "accent-deep": g[12], "on-deep": g[1],
+                    "accent": accent, "on-accent": on, "accent-deep": mix(a[4], g[6], 0.5), "on-deep": a[12],
                     "accent-tint": a[3], "bg-glow": a[2]}
+            deep["light"] = {"accent-deep": g[12], "on-deep": g[1]}
         else:
             bg = g[1]
             accent, on, step = pick(a, g, bg, [(11, "g1"), (10, "g1"), (9, "g1"), (9, "white")])
             vals = {"bg": g[1], "bg-2": g[2], "panel": g[2], "ink": g[12], "muted": g[11], "line": g[6], "track": g[4],
-                    "accent": accent, "on-accent": on, "accent-deep": g[3], "on-deep": g[12],
+                    "accent": accent, "on-accent": on, "accent-deep": a[2], "on-deep": a[12],
                     "accent-tint": a[4], "bg-glow": a[2]}
+            deep["dark"] = {"accent-deep": g[3], "on-deep": g[12]}
         fam["dark" if dark else "light"] = vals
         steps.append(f"{acc}-{step}")
-    out[f"{gray}-{acc}"] = {"source": f"Radix Colors {gray} with {steps[0]} (light), {steps[1]} (dark)", **fam}
+    out[f"{gray}-{acc}"] = {"source": f"Radix Colors {gray} with {steps[0]} (light), {steps[1]} (dark)", **fam,
+                            "deep": deep}
 json.dump(out, sys.stdout, indent=1)
 print()
