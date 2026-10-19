@@ -1,6 +1,6 @@
 ---
 name: feature
-description: Specify a Reboot application's feature before and while building it, as a Gherkin `.feature` file the tests run and the dashboard shows. Use whenever the user asks for a new capability or a change to one ("add transfers", "users should be able to..."), before touching the API or code; and when converting an existing test suite to feature files. Agrees on the feature in plain English first, writes it down tagged `@wip`, builds it with the `python` / `web-app` / `mcp-ui` skills, then iterates on scenarios with the user until they agree to take the tag off.
+description: Specify a Reboot application's feature before and while building it, as a Gherkin `.feature` file the tests run and the dashboard shows. Use whenever the user asks for a new capability or a change to one ("add transfers", "users should be able to..."), before touching the API or code; and when converting an existing test suite to feature files. Agrees on the feature in plain English first, writes it down tagged `@wip`, builds it with the `python` / `web-app` / `mcp-app` skills, then iterates on scenarios with the user until they agree to take the tag off.
 argument-hint: [<feature-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit, AskUserQuestion
 ---
@@ -104,8 +104,10 @@ skill, "Links to an Object or a Rule"), never as a bare path in code:
 
 - **The dashboard is running** (the `dashboard` skill): the feature
   shows up on its Features page at once, marked as work in progress.
-  Link it there, on the port the dashboard started on:
-  "[Room status floor plan](http://127.0.0.1:9871/#/features/tests/room_status.feature)
+  Link it there, at the URL the dashboard started on
+  (`https://dashboard.<app>.localhost` under portless, else
+  `http://127.0.0.1:<port>`):
+  "[Room status floor plan](https://dashboard.hotel.localhost/#/features/tests/room_status.feature)
   is written: its rules, as scenarios, ready to read."
 - **Not yet** (the first feature is written before the dashboard
   starts): link the file itself, `tests/<name>.feature`, and say the
@@ -115,7 +117,7 @@ skill, "Links to an Object or a Rule"), never as a bare path in code:
 ## Step 3 — Build the feature
 
 Change the API, the servicers, and the frontend with the `python`
-skill and, for the frontend, the `web-app` or `mcp-ui` skill. Two
+skill and, for the frontend, the `web-app` or `mcp-app` skill. Two
 rules of theirs matter most here: **every property gets a
 `description=`** on its `Field(...)` (`api-pydantic.md`; the
 dashboard shows it beside the property, and asks for one where it is

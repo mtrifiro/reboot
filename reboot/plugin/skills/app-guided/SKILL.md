@@ -127,7 +127,7 @@ steps 4 and 6 (its reviews, step 5, are the one-shot's own).
 
 By the [`app` skill](../app/SKILL.md)'s Routing: the one the prompt
 names, otherwise the web app, never asked. After the go-ahead, load it
-with the Skill tool (`/reboot:web-app`, `/reboot:mcp-ui`), never by
+with the Skill tool (`/reboot:web-app`, `/reboot:mcp-app`), never by
 reading its `SKILL.md`, or read `../app/references/backend-only.md`,
 and follow it from the top; at handoff, the other door is offered in
 one line as the `app` skill says. Each capability is agreed in plain

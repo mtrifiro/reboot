@@ -61,7 +61,7 @@ Common anti-patterns the agent should refuse:
   `Application(oauth=OAuth(provider=OAuthProviderByEnvironment(dev=Development(), prod=...)))`
   gives every caller a verified `dev-{hash}` identity in dev (and a real
   one in prod), so real `allow_if(...)` rules are written from day
-  one — for MCP UIs and web apps alike. `Application(token_verifier=...)`
+  one — for MCP Apps and web apps alike. `Application(token_verifier=...)`
   is the exception, for an external IdP `oauth=` cannot wrap; until
   it's wired, omit `authorizer()` so the dev-mode warning flags
   what's outstanding. See `servicer-authorizer.md`.

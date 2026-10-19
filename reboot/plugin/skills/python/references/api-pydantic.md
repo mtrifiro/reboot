@@ -188,7 +188,7 @@ yet. See `rpc-calls.md`.
 ### Every Method Factory Takes a Required `mcp=` Argument
 
 `Reader`, `Writer`, `Transaction`, **and `Workflow`** all require an
-explicit `mcp=` kwarg. The MCP-Apps integration uses it to control
+explicit `mcp=` kwarg. The MCP Apps integration uses it to control
 tool exposure; in non-MCP projects (or for methods not exposed as
 tools) the value is `mcp=None`. Omitting it raises at codegen:
 

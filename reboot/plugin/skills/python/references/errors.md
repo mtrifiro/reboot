@@ -23,8 +23,8 @@ can't happen.
 
 | Error text (stable prefix) | Meaning | Fix | Read |
 | --- | --- | --- | --- |
-| `1 validation error for UI` / `request` / `Field required` | `UI()` without `request=` | `request=None` | `mcp-ui/references/api-method-types.md` |
-| `1 validation error for Workflow` / `mcp` / `Field required` | `mcp=` omitted (any factory; the first word names it) | Add `mcp=None` (or `mcp=Tool()` in an MCP UI) | `python/references/api-methods.md` |
+| `1 validation error for UI` / `request` / `Field required` | `UI()` without `request=` | `request=None` | `mcp-app/references/api-method-types.md` |
+| `1 validation error for Workflow` / `mcp` / `Field required` | `mcp=` omitted (any factory; the first word names it) | Add `mcp=None` (or `mcp=Tool()` in an MCP App) | `python/references/api-methods.md` |
 | A bare `TimeoutError` from the `frontend` fixture on the first web scenario after adding a dependency | Vite's cold pre-bundle passed reboot.bdd's 60 s serving deadline | Rerun once Vite has pre-bundled (start it by hand once) | `python/references/testing-web-app.md` |
 | A call hangs with `Timed out waiting 30.0s to acquire exclusive lock` | Something holds the actor's lock; `rbt inspect` can't show locks (only `type list`, `state list`, `state get`; 1.6.0) | See `python/references/servicer-transaction.md`; a caller that vanished mid-transaction keeps the lock until the app restarts | `inspect/SKILL.md` |
 | A hook on an actor that does not exist retries about once a second and every other subscription on the page stalls | `StateNotConstructed` on a subscription tears the shared channel | Mount the component only after the actor exists; a no-op `touch` writer constructs a no-factory type | `python/references/react-generated-client.md` |
@@ -39,7 +39,7 @@ can't happen.
 | `aborted with 'Unauthenticated'` on a role-gated method called from another servicer or `initialize` | The predicate asked `context.auth` on an app-internal call | Return `Ok` for `context.app_internal` first | `python/references/auth-roles.md` |
 | `aborted with 'Unauthenticated': You are not authorized to call` | A rule or custom predicate needed identity on a call that had none, typically servicer-to-servicer or from `initialize` | Add `is_app_internal` to the rule (a custom predicate returns `Ok` for `context.app_internal` first); or pass identity in the request | `python/references/auth-custom-predicates.md`, `python/references/servicer-authorizer.md` |
 | `aborted with 'Unknown'` from a transaction whose nested call hit `StateNotConstructed` | A participant the transaction named was never constructed (a synthetic id); the abort crosses the transaction undeclared | Keep observers and display state out of the participant set; write them from the workflow after commit | `python/references/servicer-transaction.md` |
-| `access_denied` | `exchange_code` raised; the server logged it and redirected | Read the server log for the exchange error | `mcp-ui/references/auth-custom-oauth-provider.md` |
+| `access_denied` | `exchange_code` raised; the server logged it and redirected | Read the server log for the exchange error | `mcp-app/references/auth-custom-oauth-provider.md` |
 | `acquire_shared` … `CancelledError` (traceback through `ordered_map_servicer.py` `_Insert`) | Overlapping transactions waiting on node locks | Run the transactions sequentially | `python/references/stdlib-ordered-map.md` |
 | `` `Agent.run` requires `context: WorkflowContext` as its first positional argument `` | Called from a non-workflow context, or prompt passed first | Move the call into a `Workflow`; pass `context` first | `python/references/agent-pydantic-ai.md` |
 | `` `Agent.run_sync` is not supported `` | Sync entry point | `await agent.run(context, ...)` | `python/references/agent-pydantic-ai.md` |
@@ -50,7 +50,7 @@ can't happen.
 | `Almost: each clause goes in backticks` from a web step | Web text containing `has` / `with` hit the catch-all | Change the label | `python/references/testing-web-app.md` |
 | `Almost: say a saved value as <name>, not $name` | `$name` / `${name}` spelling | `<name>` | `python/references/testing-features.md` |
 | ``An agent needs to have a unique `name` in order to be used with Reboot`` | Constructed without `name=` | Add a stable `name=` | `python/references/agent-pydantic-ai.md` |
-| ``An OAuth provider with `store_tokens=True` needs the `oauth` and `ciphertext` libraries`` | Libraries not mounted | Add all three to `libraries=` | `mcp-ui/references/auth-store-tokens.md` |
+| ``An OAuth provider with `store_tokens=True` needs the `oauth` and `ciphertext` libraries`` | Libraries not mounted | Add all three to `libraries=` | `mcp-app/references/auth-store-tokens.md` |
 | An `OrderedMap` shows only an id | The map actor holds a root id; its keys and values live in a `Node` actor | Run `state get` again on the node id | `inspect/SKILL.md` |
 | `Application modified; restarting` | Dev watcher reloaded after a file change | Don't run the suite against a watched tree | `run/SKILL.md` |
 | `` `Application(oauth=...)` is running without `OAuth(allowed_origins=[...])` `` | `allowed_origins` left out: works under `rbt dev run`, production refuses to start | Pass a list (`[]` for same-origin only); list the SPA origin before deploying | `web-app/references/react-client.md` |
@@ -59,7 +59,7 @@ can't happen.
 | `AssertionError: Transaction '<id>' missing for state type '<type>'`, then `cygrpc` errors from `Participant/Abort` | Several calls at once on one context (`asyncio.gather` in `initialize`) | One call at a time per context, or a context per concurrent caller | `python/references/lifecycle-seeding-troubleshooting.md` |
 | `AtMostOnceFailedBeforeCompleting` | This `at_most_once` alias started earlier and never stored a result | Catch it at the call site; the alias stays poisoned until expunge | `python/references/servicer-workflow.md` |
 | `AttributeError: '` … `' object has no attribute '` | A `Field` without a default, read before it was set | Add the zero default | `python/references/api-pydantic.md` |
-| `AttributeError: type object '<Type>' has no attribute '<WrongName>'` | Request/response referenced by source class name | `<Type>.<MethodPascalCase>Request`: see `api-pydantic.md` | `mcp-ui/references/api-method-types.md` |
+| `AttributeError: type object '<Type>' has no attribute '<WrongName>'` | Request/response referenced by source class name | `<Type>.<MethodPascalCase>Request`: see `api-pydantic.md` | `mcp-app/references/api-method-types.md` |
 | `AttributeError: 'WeakReference' object has no attribute` | A constructor called through `Service.ref(id)` | `Service.<ctor>(context, id, ...)` | `python/references/rpc-calls.md` |
 | `AttributeError: 'XServicer' object has no attribute 'state_id'` | `self.state_id` on a servicer | `self.ref().state_id` / `context.state_id` | `python/references/rpc-calls.md` |
 | `Backwards incompatibility encountered` … `waiting for modification` (`rbt dev run` log) | The API changed in a way the saved state can't take; the backend is waiting, not crashed | Make the change additive, and it reloads; with disposable development data, stop it and `rbt dev expunge --application-name=<name> --yes` (a background shell can't press `x`) | `api-schema-evolution.md` |
@@ -68,7 +68,7 @@ can't happen.
 | `Cannot find name 'process'` | `process.env` in `vite.config.ts` without `@types/node` | Add `@types/node` | `web-app/references/react-client.md` |
 | `Cannot upgrade shared lock to exclusive` | Concurrent transactions read, then schedule on, the same actor | Give parallel chains their own actors; don't read before scheduling | `python/references/scheduling-basic.md` |
 | `Cannot upgrade shared lock to exclusive: another transaction is already upgrading the same state; retry the transaction.` | Two `Shared()` transactions both read then wrote (or scheduled on) the same actor | Use `Exclusive()`, or don't read before scheduling; give parallel chains their own actors | `python/references/servicer-transaction.md` |
-| claude.ai shows `Connector not found` for a `UI(request=<Model>)` view after a 200 tool result | The host never requests the view's resource (claude.ai, 2026-10); the same read replayed with the session returns the page | A `UI(request=None)` view renders; diagnose on the host's side, not the server's | `mcp-ui/references/api-method-types.md` |
+| claude.ai shows `Connector not found` for a `UI(request=<Model>)` view after a 200 tool result | The host never requests the view's resource (claude.ai, 2026-10); the same read replayed with the session returns the page | A `UI(request=None)` view renders; diagnose on the host's side, not the server's | `mcp-app/references/api-method-types.md` |
 | `Could not deploy revision` | The new revision failed to start; its logs follow | Fix the cause in the logs and `up` again | `python/references/lifecycle-reboot-cloud.md` |
 | `Could not detect Reboot server URL. Ensure the page is served from the Reboot server.` | No `url` and no fallback resolved | Pass `url={REBOOT_URL}` from `VITE_REBOOT_URL` | `web-app/references/react-client.md` |
 | `Could not find Dockerfile '...'` | `rbt cloud up` looked for `./Dockerfile` (or `--dockerfile=`) and found nothing | Add it at the project root, or pass `--dockerfile=` | `python/references/lifecycle-dockerfile.md` |
@@ -99,7 +99,7 @@ can't happen.
 | `Failed to import schema file:` (nothing after) | Often an unsupported field type such as `Optional[bytes]` | Use a supported type | `python/references/api-pydantic.md` |
 | `Failed to open rocksdb ... LOCK: Resource temporarily unavailable`, then `waiting for modification` | An orphaned `main.py` holds the state lock; no retry until a watched file changes | `lsof .rbt/dev/<application-name>/p000000/LOCK` names it; stop completely, start | — |
 | `FetchAborted` | Nothing has ever been stored for this service | Treat as "not connected" | `python/references/stdlib-oauth-tokens.md` |
-| `got an unexpected keyword argument 'request'` | `request=` wrapper passed to a scheduled call | Pass fields as kwargs | `mcp-ui/references/servicer-patterns.md` |
+| `got an unexpected keyword argument 'request'` | `request=` wrapper passed to a scheduled call | Pass fields as kwargs | `mcp-app/references/servicer-patterns.md` |
 | `got an unexpected keyword argument 'state'` | Inline writer callback parameter not named `state` | Rename it: `async def fn(state)` | `python/references/servicer-workflow.md` |
 | `has illegal name: <Name> is reserved`, or only `protoc failed with exit status 1` | A method named `read`, `write`, `delete`, `state`, `schedule` or `spawn` | Rename it | `python/references/rpc-calls.md` |
 | `has incompatible type "list[function]"; expected "Sequence[AuthorizerCallable[...]]"` | Unannotated predicate under `mypy` | Annotate the predicate's parameters and return type | `python/references/auth-custom-predicates.md` |
@@ -151,7 +151,7 @@ can't happen.
 | `NameError`, then `<Method>Aborted('Unknown')` and `retry after backoff`, in a live scheduled chain after a save | Hot reload applied one of two saves and booted the module half-edited; an undeclared error in a scheduled method retries with backoff | Write each file's edit once, definitions before uses; it recovers on the next save | — |
 | `Need type annotation` | A helper returning a rule has no return type | `-> AuthorizerRule[Any, Any]` | `python/references/auth-custom-predicates.md` |
 | `Nested agent runs are not supported` | A run started inside another | Restructure; call sequentially | `python/references/agent-pydantic-ai.md` |
-| `No OAuth provider is configured for this environment.` | The selected arm is `None` | Put a provider in that arm | `mcp-ui/references/auth-oauth-providers.md` |
+| `No OAuth provider is configured for this environment.` | The selected arm is `None` | Put a provider in that arm | `mcp-app/references/auth-oauth-providers.md` |
 | `No overload variant matches argument types "ReaderContext"` | mypy: a reader called a writer, transaction or constructor | Move the work to a `Transaction` | `python/references/servicer-reader.md` |
 | `No overload variant matches argument types "WriterContext"` | mypy's form of the `WriterContext` `TypeError`, also for `schedule()` on another actor | Make the method a `Transaction`, or schedule the work | `python/references/servicer-writer.md` |
 | `Not expecting 'servers'` / `Not expecting 'effect_validation'` | Passed alongside `revision=` | Pass `revision=` alone | `python/references/testing-failure-recovery.md` |
@@ -173,7 +173,7 @@ can't happen.
 | `Propagating unhandled but declared error (in '` | An inner call's declared error passed through a method that also declares it; it is re-raised as that method's `Aborted` | Nothing, if intended; catch it to add context | `python/references/patterns-error-handling.md` |
 | `Property 'env' does not exist on type 'ImportMeta'` | `src/vite-env.d.ts` missing | Add `src/vite-env.d.ts` (`/// <reference types="vite/client" />`) | `web-app/references/react-client.md` |
 | `Property "model" defined in "AbstractAgent" is read-only [misc]` (mypy) | Assigning `agent.wrapped.model` in a test | `# type: ignore[misc]` on that line | `python/references/testing-external-context.md` |
-| `Property 'useGet' does not exist on type '{ counter: UseCounterApi \| undefined; isLoading: boolean; }'` | Zero-arg `use<Type>()` returns `{ <type>, isLoading }` at 1.6.0, not the handle | Destructure it and mount a child once the handle is defined | `mcp-ui/references/react-scaffolding.md` |
+| `Property 'useGet' does not exist on type '{ counter: UseCounterApi \| undefined; isLoading: boolean; }'` | Zero-arg `use<Type>()` returns `{ <type>, isLoading }` at 1.6.0, not the handle | Destructure it and mount a child once the handle is defined | `mcp-app/references/react-scaffolding.md` |
 | `protoc-gen-es-with-deps: spawnSync /bin/sh ENOBUFS`, then `protoc-gen-es: Plugin failed with status code 1`; `rbt dev run` waits for modification | The generated TypeScript passed Node's 1 MiB `execSync` buffer: the whole response, from about five state types | Patch `reboot/protoc_gen_es_with_deps.cjs` in the venv with `maxBuffer: 256 * 1024 * 1024` on `execSync(...)` (find the package with `pathlib.Path(list(reboot.__path__)[0])`: it may import as a namespace package); restart `rbt dev run`; `uv sync` undoes it | — |
 | `push failed: failed to connect to the docker API at unix:///var/run/docker.sock` | macOS Docker Desktop socket is elsewhere | `export DOCKER_HOST="unix://$HOME/.docker/run/docker.sock"` | `python/references/lifecycle-reboot-cloud.md` |
 | pytest ends with no summary line and exit 0 | The run died (an `F` may already be on screen) | Treat it as failed; rerun the file alone; with `pytest-timeout`, a hang fails on its own | `python/references/testing-harness.md` |
@@ -190,9 +190,9 @@ can't happen.
 | `Reboot options for method` `...` `updated from` | A persisted constructor's kind changed between `Writer` and `Transaction` | Revert the kind; construct the other actor elsewhere | `python/references/servicer-constructor.md` |
 | `[Reboot] '<Type>.<Method>' aborted with` | Console warning on every aborted call | Expected; handle `aborted` | `python/references/react-generated-client.md` |
 | `` `ref()` called without a `state_id` can only be used within a Workflow. `` | `Type.ref()` with no id outside a workflow | `self.ref()` or `Type.ref(id)` | `python/references/servicer-workflow.md` |
-| ``requires a non-empty `client_id`.`` | The selected provider's credential env var is unset | Set it (`rbt cloud secret set ...` in production) | `mcp-ui/references/auth-oauth-providers.md` |
+| ``requires a non-empty `client_id`.`` | The selected provider's credential env var is unset | Set it (`rbt cloud secret set ...` in production) | `mcp-app/references/auth-oauth-providers.md` |
 | `ResetAborted: 'Unavailable' … 127.0.0.1:<old port>` retried forever after a restart | A task resumed after `kill -9` pinned to the dead incarnation's internal port | Stop with SIGINT, never `kill -9`; expunge clears it | — |
-| `'Resource()' is not yet supported; use 'Tool()' instead` | `mcp=Resource()` | `mcp=Tool()` | `mcp-ui/references/api-method-types.md` |
+| `'Resource()' is not yet supported; use 'Tool()' instead` | `mcp=Resource()` | `mcp=Tool()` | `mcp-app/references/api-method-types.md` |
 | `Revealed type is "Any"` | `reveal_type(self.state)`: the generated alias is opaque to mypy | Annotate a typed local with the hand-written model | `python/references/lifecycle-project-setup.md` |
 | `root key version v` … `is not in 'REBOOT_CRYPTO_ROOT_KEYS'` | `UnknownRootKeyVersion`: the version was never configured or already removed | Derive from `active_version()`; keep old versions until migrated | `python/references/crypto-root-keys.md` |
 | Safari sign-in ends in `Missing pending-flow cookie` | Dev OAuth sets `Secure` cookies over http; WebKit drops them (1.6.0) | Chrome or Firefox locally, or TLS via `dev run --tls-certificate=... --tls-key=...` | — |
@@ -222,7 +222,7 @@ can't happen.
 | ``type and cannot have a `default` value. Use `default_factory` instead.`` | `default=[]` / `default={}` | `default_factory=list` / `dict` | `python/references/api-pydantic.md` |
 | `type object '` … `' has no attribute '` | Generated name guessed from the class, not the method | `<Type>.<MethodPascalCase>Request/Response` | `python/references/api-pydantic.md` |
 | `"type[OrderedMap]" has no attribute "create"` | Called `create` on the class | `OrderedMap.ref(id).create(context)` | `python/references/stdlib-ordered-map.md` |
-| `"type[<Type>]" has no attribute "create"` | mypy: the type has no `factory=True` method (observed at 1.4.1) | `factory=True` on its `create` Writer | `mcp-ui/references/api-method-types.md` |
+| `"type[<Type>]" has no attribute "create"` | mypy: the type has no `factory=True` method (observed at 1.4.1) | `factory=True` on its `create` Writer | `mcp-app/references/api-method-types.md` |
 | `TypeError: object str can't be used in 'await' expression` | Inline writer callback is a plain `def` | `async def` | `python/references/servicer-workflow.md` |
 | ``TypeError: Only one of `value`, `bytes`, `any`, or `items` should be set`` | Zero or several value keywords on `enqueue` / `publish` | Pass exactly one | `python/references/stdlib-item.md` |
 | `TypeError: reboot.aio.contexts.WorkflowContext is not an instance or subclass of one of the expected type(s)` | `schedule()` called from a workflow | `spawn(when=…)` | `python/references/scheduling-recurring.md` |
@@ -237,7 +237,7 @@ can't happen.
 | `Unexpected 'dict' key type '` | A `dict` key that is not `str` | Key by `str` | `python/references/api-pydantic.md` |
 | `Unhandled (in '` … `propagating as 'Unknown'` | A method raised a non-`Aborted` exception, or an error no method on the path declared; the caller receives `Unknown` | Declare the error and raise `<Method>Aborted(...)`, or catch and translate | `python/references/api-errors.md` |
 | `Unimplemented` 404s, hangs, or a bare `TimeoutError` after about 45 s from `DatabaseClient`, on macOS | Test servers bind dual-stack `0.0.0.0`, and macOS hands their ports to ones an orphaned Envoy holds on IPv4 | Stop orphaned Envoys first; in `conftest.py`, `server_managers.EVERY_LOCAL_NETWORK_ADDRESS = "127.0.0.1"` | `python/references/testing-harness.md` |
-| `Unknown build target:` | `vite build` ran without `RBT_BUILD_TARGET`, or for a UI with no `index.html` | Run `npm run build` (it sets the target) | `mcp-ui/references/react-scaffolding.md` |
+| `Unknown build target:` | `vite build` ran without `RBT_BUILD_TARGET`, or for a UI with no `index.html` | Run `npm run build` (it sets the target) | `mcp-app/references/react-scaffolding.md` |
 | `Unknown state reference`, or an actor you seeded is missing | Wrong application (port or `--application-name`), or orphans from an earlier `rbt dev run` hold another generation of state (1.4.1) | Check the URL; stop every process of the app and start it once | `inspect/SKILL.md` |
 | `Updated state or method definitions are not backwards compatible.` | Boot refused; a list of changes follows (exit code 13 under `rbt dev run` / `rbt serve`) | Revert, then follow the schema-evolution steps; or expunge | `python/references/api-schema-evolution.md` |
 | `` `usePresenceContext` must be used within `Presence` `` | Hook called outside `<Presence>` | Wrap the tree in `<Presence id=… subscriberId=…>` | `python/references/stdlib-presence.md` |
@@ -253,10 +253,10 @@ can't happen.
 | `Verified identity claims were delivered for this` | Provider sends claims; `UserServicer` doesn't override `set_claims` | Override it, or remove `claims=` | `python/references/auth-claims.md` |
 | `Waiting for changes must be done _within_ a control loop` | `until_changes` outside `context.loop` | Move it inside the loop | `python/references/servicer-workflow.md` |
 | ``waiting for modification, or hit `x` to expunge`` | `rbt dev run` with `ask` | Fix the code (reloads) or press `x` | `python/references/api-schema-evolution.md` |
-| `` WARNING: `--name` has been renamed to `--application-name` `` | Old `.rbtrc` flag | Use `--application-name` | `mcp-ui/references/project-shell.md` |
+| `` WARNING: `--name` has been renamed to `--application-name` `` | Old `.rbtrc` flag | Use `--application-name` | `mcp-app/references/project-shell.md` |
 | `was deleted from servicer type` | A method was deleted or renamed | Restore it; keep as a shim | `python/references/api-schema-evolution.md` |
 | `was removed from Pydantic model` | A field was deleted (any model) | Restore it | `python/references/api-schema-evolution.md` |
 | `'WeakReference' object has no attribute 'create'` | Tried to construct a `Queue` | Enqueue directly | `python/references/stdlib-queue.md` |
-| `Web artifact 'frontend/dist/mcp/<name>/index.html' is missing` | The UI was never built | `cd frontend && npm run build`: do not edit `vite.config.ts` | `mcp-ui/references/react-scaffolding.md` |
+| `Web artifact 'frontend/dist/mcp/<name>/index.html' is missing` | The UI was never built | `cd frontend && npm run build`: do not edit `vite.config.ts` | `mcp-app/references/react-scaffolding.md` |
 | `which will now forever more raise` | stderr note: an exception escaped an `at_most_once` callable | Return failures as data | `python/references/servicer-workflow.md` |
 | `While validating effects, the re-run of the last iteration of the` | The re-run last iteration did not break | Make the break condition replay-stable | `python/references/servicer-workflow.md` |

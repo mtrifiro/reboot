@@ -13,9 +13,9 @@ import { applySavedTheme } from "./theme";
 
 applySavedTheme();
 
-// In development Vite serves the page on :5173 and the backend
-// listens on :9991 (`web/.env.development`); in production both come
-// from one origin.
+// The backend serves this page (`rbt dev run --web-app` in
+// development, the built app in production), so its origin is the
+// backend's; `VITE_REBOOT_URL` is only for a static host elsewhere.
 const REBOOT_URL =
   (import.meta.env.VITE_REBOOT_URL as string | undefined) ??
   window.location.origin;

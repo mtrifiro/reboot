@@ -120,7 +120,7 @@ Then one dialog:
   takes another, or none.
 
 A feature chosen is built as the app's front door builds each next
-feature (the `web-app` or `mcp-ui` skill's Update Flow, through the
+feature (the `web-app` or `mcp-app` skill's Update Flow, through the
 [`feature` skill](../feature/SKILL.md)), and choosing it accepts the
 current one, as `app/references/accept-design.md` says.
 
