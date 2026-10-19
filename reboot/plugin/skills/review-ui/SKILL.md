@@ -83,14 +83,12 @@ every page at desktop and phone width, light and dark."
    has, and screenshots every page in its navigation at 1440×900 and
    375×812, light and dark (`data-theme` on `<html>`), into
    `frontend/web/.look-review/`. Look at each screenshot.
-2. **Measure.** On each page and width, run the pass-or-fail scripts
-   in `web-app/references/ui-design.md` ("Measure what can be
-   measured": uneven columns, spill, clipped text, touching controls,
-   with every drawer and form opened), `look.py check` for
-   contrast in both schemes, and at desktop width the vitals of
-   `web-app/references/vitals.md` (first record, LCP, layout shift, a
-   tap on the page's main action, FCP), each over its budget a
-   finding with its number. Search the pages for raw colors
+2. **Measure.** Run the page check, `web-app/assets/check_page.py`,
+   on every main page with each drawer and form given as `--open`
+   (`web-app/references/ui-design.md`, "Measure what can be measured":
+   the vitals, uneven columns, spill, clipped text, touching controls,
+   at desktop and phone width), and `look.py check` for contrast in
+   both schemes; each FAIL is a finding with its number. Search the pages for raw colors
    (`#` followed by hex, `rgb(`) outside `styles.css`.
 3. **Judge,** against `ui-design.md` and the app's users from
    `design/design.md`:
