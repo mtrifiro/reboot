@@ -32,6 +32,8 @@ The kinds and their choices:
 - **palette:** one of the palettes
   [`web-app/references/ui-design.md`](../web-app/references/ui-design.md)
   lists: the page, text, lines and accent together.
+- **band:** calm (the default: a soft tint of the accent) or deep (the
+  gray's darkest step), for the page head, on a palette.
 - **accent:** one of the accents
   [`web-app/references/ui-design.md`](../web-app/references/ui-design.md)
   lists, or a brand's hex (`#0a6e5c`; add `--dark #5fd0bd` to give the
