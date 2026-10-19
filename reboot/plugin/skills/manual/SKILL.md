@@ -1,7 +1,7 @@
 ---
 name: manual
 description: "Write the user manual for a built Reboot web app, for the people who use it: a section per role, each job as numbered steps with a screenshot, what the app refuses and what to do instead, in docs/manual.md, drawn from the design and the browser scenarios; then offers to add it to the app as a Help page. Use when the user asks ('/reboot:manual', 'write a user manual', 'a guide for my staff') or picks it at a handoff. Not for developers (AGENTS.md is theirs)."
-argument-hint: '[blank for every role, or who it is for, e.g. "the housekeepers"]'
+argument-hint: '[optional: who it is for, e.g. "the housekeepers"; every role by default]'
 allowed-tools: Bash, Read, Write, Edit, Glob, AskUserQuestion, Skill
 ---
 
