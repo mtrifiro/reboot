@@ -237,7 +237,7 @@ wears it: cream paper, navy ink and accent, Space Grotesk over DM Sans,
 soft corners, for every domain; the design picks only its palette.
 
 **Not bland.** A page has one strong surface and one
-voice: the page head sits in the `brand-band`, the deep accent, with
+voice: the page head sits in the `brand-band` (`--accent-deep`), with
 the stats row overlapping its lower edge (the stylesheet's anatomy);
 a brand mark in the accent stands beside the name; the display face
 carries the title and every figure; a state that needs a person is
@@ -257,8 +257,10 @@ the house exists to avoid (hotel-203's comp).
    `python3 '<this skill>/assets/palette.py' sage-teal` (with no name
    it lists them). The palettes: house (Reboot's own: cream paper, navy ink and accent), sand-bronze, sand-brown, sand-orange, sand-gold, olive-grass, sage-teal, slate-blue, slate-iris, mauve-plum and mauve-crimson. Each but house is a gray and
    an accent from Radix Colors: the page, text and lines from the
-   gray, the page head's band from its darkest step, the accent kept
-   for the primary action and the selected state. It rewrites those
+   gray, the page head's band a soft tint of the accent with the
+   accent's darkest step for its text (calm; a dark band, `look.py set
+   band deep`, only when the user asks for one), the accent kept for
+   the primary action and the selected state. It rewrites those
    tokens in the light and dark blocks and names the palette's source
    at the stylesheet's top (keep that line: it is the colors' license
    notice). That is the whole of the look's change: one of the eleven
