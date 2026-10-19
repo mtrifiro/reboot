@@ -136,7 +136,9 @@ the Agent tool (Codex, say) does the steps in order.
     - the main action of each page works once, and every filter or
       drawer it opens can be cleared or closed;
     - the main page shows its first record within 2 seconds, timed
-      with the web vitals as [`vitals.md`](vitals.md) says.
+      with the web vitals by the plugin's page check,
+      `assets/check_page.py` ([`ui-design.md`](ui-design.md),
+      "Measure what can be measured").
 
     That is the whole check: don't test flows end to end by hand, and
     don't check phone width or the dark scheme yet. The scenarios
