@@ -203,21 +203,34 @@ also skips the `uv` wrapper that a signal would otherwise reach first:
 ```shell
 P=$(pgrep -f "$PWD/.venv/bin/rbt dev run"); kill -INT $P
 for i in $(seq 30); do kill -0 $P 2>/dev/null || break; sleep 1; done
+if kill -0 $P 2>/dev/null; then pkill -TERM -P $P; kill -TERM $P; sleep 5
+  kill -0 $P 2>/dev/null && kill -KILL $P; fi
 ```
 
 The loop waits, at most 30 seconds, until it has exited: its Envoy and
 ports go with it, and a suite started while they are still up has
 failed scenarios that pass alone (hotel-211: two failed in a full run
-started three seconds after the signal, and passed in the next).
+started three seconds after the signal, and passed in the next). One
+caught mid-restart, after an `api/` change, can ignore the interrupt
+and stay up, wedged (seen on a rendered starter, 2026-10-19): the last
+line stops that one process, and its own children, by its pid, never
+another app's.
 
-**Stop it before running the test suite**, and start it again as
-soon as the run ends, whether it passed or not. The suite runs its own
-Reboot over the same generated code; a running `rbt dev run`
-regenerates that code when `api/` changes, under the tests, and the
-run hangs. Say so in one line before the stop, since the app's open
-page shows the proxy's 502 while it is down: "The app is stopped while
-the scenarios run, so its page shows an error for a minute; it comes
-back when they finish."
+**Test runs and the running app.** The suite (and `mypy`) run with
+the app still up, unless a file under `api/` changed since the app
+last started: then stop it first, run, and start it again as soon as
+the run ends, whether it passed or not. The suite runs its own Reboot
+on its own ports; what collides is a running `rbt dev run`
+regenerating the code when `api/` changes, under the tests, which
+fails scenarios and can wedge the app mid-restart. Measured on a
+rendered starter (2026-10-19): with the app up and no `api/` change,
+4 of 4 full runs passed and the app stayed up; started right after an
+`api/` edit, 1 of 2 failed and the app hung. A stop leaves the user's
+open page on the proxy's 502, so it gets one line first: "The app is
+stopped while the scenarios run, after the API change, so its page
+shows an error for a minute; it comes back when they finish."
+(hotel-255 stopped it for every run and kept it down through each fix,
+15 minutes of a 28-minute build.)
 
 **A stop you made reports as a failure.** `rbt dev run` ends with exit
 code 130 when it is interrupted, and the background task that started
