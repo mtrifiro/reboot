@@ -89,9 +89,10 @@ handoff, not a note in it:
 - **CLS over 0.1:** something moved under the reader's eye. Reserve
   the space live data will fill (a list's rows at their height, a
   figure's box) before it arrives, never a spinner that the content
-  then replaces at a different size, and open drawers over the page,
-  not into it ([`ui-design.md`](ui-design.md), "Nothing Jumps, Every
-  Tap Answers").
+  then replaces at a different size ([`ui-design.md`](ui-design.md),
+  "Nothing Jumps, Every Tap Answers"). A panel opened by a tap doesn't
+  count: CLS leaves out what moves within half a second of an input,
+  so a panel may open over the page or into it.
 - **INP over 200 ms:** the tap's own handler is slow (work done before
   the page repaints). Show the action's pending state in the same
   frame and do the work after; never wait for the backend's answer
