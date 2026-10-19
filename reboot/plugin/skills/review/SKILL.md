@@ -1,195 +1,113 @@
 ---
 name: review
-description: "A senior architect's review of a built Reboot app's structure (code shape and boundaries, the API and who calls it, permissions method by method, errors and restarts, rules proven, production readiness), then the recommendations the user picks, made one at a time with every rule passing. Use only when the user asks: '/reboot:review', 'review the architecture', 'review the code'. Not for scale (domain-review), test coverage (test-review) or the look (ui-review)."
-argument-hint: '[optional: what to look at, e.g. "the API" or "is it ready to deploy?"; the whole app by default]'
-allowed-tools: Bash, Read, Write, Edit, Glob, Grep, AskUserQuestion
+description: "The full review of a built Reboot app: its architecture, its domain model at scale, its tests and its look, each by its own review skill's method and side by side, then one report ranked by who gets hurt, one choice of what to fix, and each fix made by the skill that owns it. Use when the user asks to review the app ('/reboot:review', 'review my app', 'review everything', 'is it ready?'). For one area alone: review-architecture, review-domain, review-tests, review-ui."
+argument-hint: '[optional: what to look at, e.g. "permissions" or "is it ready to deploy?"; the whole app by default]'
+allowed-tools: Bash, Read, Write, Edit, Glob, Grep, AskUserQuestion, Agent
 ---
 
-# review — Review the App's Structure, Then Improve It
+# review — The Full Review
 
-A review of the whole app as it stands, by the standard of an
-architect who has built and run large systems: simple over clever,
-boundaries that match the work, failure treated as normal, and every
-claim backed by the code or a number. Each finding says what goes
-wrong, when, and what the fix costs now against later. The user picks;
-the build makes each change and proves every rule still holds.
+Four reviews, one report. Each area is judged by its own skill's
+method, unchanged; this skill runs them side by side, puts what they
+found in one order, and has the owning skill make each fix the user
+picks.
 
-## How the Review Judges
+| Area | Skill | Writes |
+| --- | --- | --- |
+| Architecture: structure, API, permissions, errors, readiness | [`review-architecture`](../review-architecture/SKILL.md) | `design/architecture-review.md` |
+| The domain model at scale | [`review-domain`](../review-domain/SKILL.md) | `design/review.md` |
+| The tests: what no scenario proves | [`review-tests`](../review-tests/SKILL.md) | `design/test-review.md` |
+| The look, every page (a web app only) | [`review-ui`](../review-ui/SKILL.md) | `design/look-review.md` |
 
-1. **Simplest structure that does the job.** Every layer, helper,
-   package and abstraction must pay for itself today. More moving
-   parts than the work needs is a finding; so is one file doing three
-   jobs. Delete before adding.
-2. **Boundaries follow the work.** A module, package or page has one
-   reason to change. Packages split by area of the work
-   ([`accept-design.md`](../app/references/accept-design.md)), never
-   one per object; a page file holds one page; a servicer serves one
-   domain object's job. Code repeated in two places is one idea with
-   two homes.
-3. **The API is a contract.** Every method has a caller (a page, a
-   test, another object, an AI caller the design names) and the
-   smallest surface that serves them. Failures a caller can act on are
-   declared errors, not plain exceptions. Once deployed the API only
-   grows
-   ([`api-schema-evolution.md`](../python/references/api-schema-evolution.md)),
-   so a method to drop or rename is cheap only before the first deploy.
-4. **Least privilege, method by method.** Each method's callers are
-   named in its `authorizer()`
-   ([`servicer-authorizer.md`](../python/references/servicer-authorizer.md)).
-   One `_default` rule for every method is a finding once the design
-   has roles; `allow()` is a finding unless the method is public by
-   design; a method left out of the authorizer with no `_default` is
-   internal only, which is right for a step another object takes.
-5. **Failure is the normal case.** Ask what happens when a call fails,
-   runs twice, or the app restarts mid-way: a broad `except` that
-   swallows a Reboot error, a workflow's outside call without
-   `at_most_once`, a retry that isn't idempotent
-   (`python/references/servicer-workflow.md`, "Bucket 2 — Calling an
-   External System": search for it, never read the whole file).
-6. **The rules are the specification.** Every rule has a scenario
-   that proves it, every writing method is reached by one, and
-   nothing finished is left `@wip`. A test that passes whatever the
-   code does is a finding. Coverage gap by gap, with the scenarios
-   that would close them, is the
-   [`test-review` skill](../test-review/SKILL.md)'s: one line points
-   to it when the structure's signals show gaps.
-7. **Numbers over adjectives.** Line counts, call counts, method
-   counts, measured times: a finding says how much. Load and
-   contention (single actors, collections, fan-out reads, wide
-   transactions) are the [`domain-review`
-   skill](../domain-review/SKILL.md)'s; when its `review.py` shows a
-   signal worth weighing, one line says so and points to it, and the
-   finding isn't repeated here.
-8. **Ready to run elsewhere.** Configuration from the environment
-   with a dev default, secrets never in the code, the app able to
-   start clean from its seed, and enough in the logs and the
-   dashboard to see what happened
-   ([`inspect` skill](../inspect/SKILL.md)).
-9. **Rank by risk, then by cost of waiting.** What breaks or misleads
-   first comes first; among equals, the fix that gets dearer after the
-   first deploy or the next feature comes first. Taste is never a
-   finding: a name the user chose, a layout that works.
+An argument narrows every area to it ("permissions": the
+authorization findings, the refusals no scenario shows, the pages a
+role can't reach), and the report's first line says so.
 
-## The Conversation
+## 1. Before starting
 
-In the Claude app, questions are dialogs (`AskUserQuestion`). Findings
-are in the user's nouns first ("every room action shares one
-permission rule"), the code's names in backticks beside them.
+Say one line: "Reviewing <app> four ways at once: architecture, the
+domain model at scale, the tests, and the look. About ten minutes."
 
-### 1. Read the facts
+**Never while a build is working in the project:** no test run in
+progress (`tests/.suite-running`, a `pytest` process in the project),
+no other session's transcript for the project written to in the last
+few minutes. If one is, say so in one line and wait, or ask the user.
 
-Say one line first: "Reviewing <app>'s structure: its code, its API
-and who calls it, its permissions, its tests, and what it needs to
-run in production."
+For the look, the app must be running: start it with the
+[`run` skill](../run/SKILL.md) if it isn't.
 
-From the project root:
+## 2. The four reviews, side by side
 
-- `python3 <this skill>/assets/structure.py` prints the files and
-  functions by size, the servicers, the API surface with who uses each
-  method, each authorizer, the scenario counts and the last run, and
-  **signals** (A1, A2, ...), each with its evidence and the question
-  that decides it.
-- `python3 <the domain-review skill>/assets/review.py` prints the
-  domain model's facts and its signals (S1, S2, ...), for the scale
-  line only.
+Start four sub-agents in one message (the Agent tool), one per area.
+Each prompt says, in these words: "Read `<the skill>/SKILL.md` with
+the Read tool for its method; don't load it with the Skill tool. Do
+its sections up to and including the review: read the facts, judge,
+and write the review to `<its file>`. Ask nothing, change nothing in
+the project but that file, and stop before its dialog. For
+review-domain, take the scale from `design/design.md`'s own counts
+(its scale dialog's recommended answer, never asked). Reply with the
+verdict in two lines and each finding as one line: its title, its
+harm (money or access, done twice or lost, slow or down, confusing,
+cosmetic), the file and line." Add the argument, if any, to each.
 
-A signal is where to look, not a finding. Read `design/design.md` for
-who uses the app and what it is for, and `design/decisions.md` for
-choices already made on purpose: a choice the log explains is not a
-finding unless its reason no longer holds. Then read the files the
-signals point to, with the Read tool, one call per file; never
-generated code (`*_rbt.py`, `*_rbt_react.ts`, `backend/api/`), never
-`node_modules`. Check whether it is deployed (`deploy/ledger.jsonl`).
+Where the host has no Agent tool, do the four one after another, by
+the same words, in the order of the table.
 
-### 2. The review
+When each finishes, say its verdict in one line as it arrives.
 
-One message, headed **Architecture review: <app>**:
+## 3. One report
 
-1. **Verdict,** two or three sentences: is the structure sound for
-   what the app is and where it is going, and the one thing to fix
-   first.
-2. **By the numbers,** a short block: files and lines by layer
-   (API, backend, frontend, tests), domain objects and methods,
-   methods with no caller, rules and scenarios, the last run.
-3. **Findings,** at most seven, most urgent first, each a short
-   paragraph titled with the consequence in plain words ("**1. Anyone
-   signed in can take a room out of order.**"):
-   - what the code does, the evidence linked (`file:line`);
-   - what goes wrong and when: the next feature, the first deploy, the
-     first second user, a restart;
-   - the recommendation, in a sentence or two, and what the code looks
-     like after it;
-   - the cost: the files touched, whether the API changes, whether the
-     demo data is reset, and that every rule stays as it is;
-   - when: now, before the first deploy, or not until a named event.
-4. **Scale,** one line: the domain-review signals worth a look, with
-   "`/reboot:domain-review` weighs them with the numbers", or "nothing
-   in the domain model's shape is a risk at this size".
-5. **What's right,** one line each for the choices that hold up and
-   should stay.
+One message, headed **Review: <app>**, written to
+`design/full-review.md` too, and linked:
 
-Write the whole review to `design/architecture-review.md` too, and
-link it. Then one dialog, several answers allowed:
+1. **Verdict,** three sentences: is it ready for the people it's
+   for, what to fix first, and what is good.
+2. **Fix first,** at most eight findings across the four, ranked by
+   who gets hurt (money or a person's access, something done twice or
+   lost, slow or down, confusing, cosmetic), then by how many people
+   it reaches. Each: a title in the user's nouns, a sentence of what
+   goes wrong, the area, and a link to its full text in the area's
+   file. Two findings that are one problem (a permission no scenario
+   refuses, from both architecture and tests) are one entry naming
+   both.
+3. **By area,** one line each: the verdict, the count of findings,
+   and the link to its review.
+4. **Well made,** up to three lines across the four.
 
-- **Which should I do?** The top three findings, each its title as
-  the label and its cost as the description, the first marked
-  "(Recommended)". No "None" option: ticking nothing is none. When
-  nothing is chosen, one line pointing to
-  `design/architecture-review.md`, then stop.
+Every number is from an area's review, never estimated here.
 
-**Never while a build is working in the project.** Before changing a
-file, check that nothing else is: no test run in progress
-(`tests/.suite-running`, a `pytest` process in the project), no other
-session's transcript for the project written to in the last few
-minutes. If one is, say so in one line and wait, or ask the user.
+Then one dialog, several answers allowed:
 
-### 3. Make each change, one at a time
+- **What should I fix?** Up to four options: the top findings in
+  order, each its title as the label and its area and harm as the
+  description, the first marked "(Recommended)". No "None" option:
+  ticking nothing is none. When nothing is chosen, one line pointing to
+  `design/full-review.md`, then stop.
 
-For each finding chosen, in the review's order:
+## 4. Each fix, by the skill that owns it
 
-1. **Say it** in a few lines: before and after, in the user's nouns,
-   and what will be reset.
-2. **Rules are the contract.** A structural change keeps every
-   `Rule:` and every scenario as it is; the full suite passing
-   unchanged is the proof. A recommendation that changes a rule, who
-   may do what, or what a user sees is a design change: say which and
-   why, and ask before going on.
-3. **Change it,** as the [`feature` skill](../feature/SKILL.md) makes
-   any change: the API (additive only once deployed), `rbt generate`,
-   the servicers, the seed, the pages that call what moved, each file
-   changed with the Edit tool. Before the first deploy, reset the demo
-   data with the `run` skill's expunge when the state's shape changed.
-4. **Prove it:** the full test suite and mypy as the `feature` skill
-   says (its result once), and `npm run build` when the frontend
-   changed. Then `structure.py` again: the signal the finding came
-   from is gone, in one line ("`Room`'s authorizer: one rule for 11
-   methods before, 4 rules by role now").
-5. **Record it** as a design change
-   ([`accept-design.md`](../app/references/accept-design.md)): a
-   `design/decisions.md` entry with the finding, the evidence and the
-   reason, the model diff accepted when the API changed, and one
-   commit, "Architecture: <what changed>".
+For each finding chosen, in the report's order: read the owning
+skill's section for making a change (review-architecture's 3,
+review-domain's 4, review-tests' 3, review-ui's 2 to 6 for a look
+change) and make it exactly as it says: one at a time, every rule and
+scenario still passing, the suite and mypy green, its own commit and
+its own words in the commit. A fix that would change a rule or what a
+user sees asks first, as the owning skill does.
 
-### 4. After the last change
-
-One line per change made, with its before and after. If findings are
-left, one dialog, **Anything else from the review?**, its options the
-findings not done (up to three) and "Stop here". Otherwise a closing
-line naming `design/architecture-review.md`.
+After the last one, the whole suite once, as the
+[`feature` skill](../feature/SKILL.md)'s "Report a full run once"
+says, then one line per fix made. If findings are left, one dialog,
+**Anything else from the review?**, its options the next findings (up
+to three) and "Stop here"; otherwise a closing line naming
+`design/full-review.md`.
 
 ## Never
 
-- Never a finding without its evidence (`file:line`, a count, a
-  measured number) and its consequence: a recommendation says what it
-  buys.
-- Never a number that wasn't counted or measured.
-- Never change a rule, a scenario, who may do what, or what a user
-  sees as part of a structural change without the user's yes.
-- Never more than one change in flight: each is proven and committed
-  before the next starts.
-- Never a finding on taste, or one the decisions log already answers
-  with a reason that still holds.
-- Never read generated code, or `servicer-workflow.md` or `errors.md`
-  whole: search for the section.
+- A finding of this skill's own: every finding is an area review's,
+  linked to it.
+- A method changed or skipped: a review that can't run (no web app
+  for the look) is named in **By area** with why.
+- More than one fix in flight.
+- A number not counted by an area's review or a run.
 - Never name or quote a person as the reviewer, or put words in
   anyone's mouth: the review speaks for itself.
