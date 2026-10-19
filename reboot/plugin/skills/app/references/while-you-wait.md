@@ -32,7 +32,7 @@ fits, say nothing extra.
 | Running the scenarios | The feature file is also the test suite: each scenario runs against the real backend, so the spec can't drift from the code. A rule the code breaks shows up as a failing scenario, in the rule's own words, not as a bug report. |
 | Building an action that changes several objects | A transaction changes several objects all or nothing, so a check-in can't half happen, even if a server stops partway. |
 | Building a page | Pages subscribe to their data and update on their own when anything changes: no refresh button and no polling code. |
-| Checking the page in a browser | The same backend serves this web app and an MCP UI for ChatGPT or Claude, with no second API. |
+| Checking the page in a browser | The same backend serves this web app and an MCP App for ChatGPT or Claude, with no second API. |
 | Restarting the app | The dev loop restarts on every save and keeps the data, so test data isn't re-entered after each change. |
 | Building a workflow | Workflows survive a crash: a step that already called a payment or an LLM isn't called again when the work resumes. |
 | Before a deploy | Deploying is `rbt cloud up`: the same app, with nothing to provision. |

@@ -1,6 +1,6 @@
 ---
 name: web-app
-description: Build complete Reboot Web Apps — a Reboot backend behind a standalone browser-facing React frontend, served at a normal URL (not embedded in an MCP host). Layers on top of the python skill for backend mechanics; covers what's specific to standalone Web Apps — no MCP front door, no UI() methods, a React/Vite SPA rendered from the starter, and Reboot auth for browser users. The backend stays ready for an MCP UI.
+description: Build complete Reboot Web Apps — a Reboot backend behind a standalone browser-facing React frontend, served at a normal URL (not embedded in an MCP host). Layers on top of the python skill for backend mechanics; covers what's specific to standalone Web Apps — no MCP front door, no UI() methods, a React/Vite SPA rendered from the starter, and Reboot auth for browser users. The backend stays ready for an MCP App.
 argument-hint: [<app-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 ---
@@ -26,7 +26,7 @@ backend behind a standalone React frontend at a normal URL.
 > **Dual-frontend apps are supported.** One backend can serve a web
 > SPA _and_ an MCP front door, sharing `oauth=...`, the `User` actor
 > per upstream identity and the servicer code. For both, also load
-> the [`mcp-ui` skill](../mcp-ui/SKILL.md) for the MCP additions
+> the [`mcp-app` skill](../mcp-app/SKILL.md) for the MCP additions
 > (`mcp=Tool()`, `UI()`, MCPJam); this skill alone covers the web
 > side.
 
@@ -39,14 +39,14 @@ backend behind a standalone React frontend at a normal URL.
   session: the [`run` skill](../run/SKILL.md) detects the app type
   and starts backend and frontend.
 - Putting a finished Web App in production: the
-  [`deploy` skill](../deploy/SKILL.md), backend on Reboot Cloud,
-  frontend on a static host under the user's own domain.
+  [`deploy` skill](../deploy/SKILL.md), one container on Reboot
+  Cloud that runs the backend and serves the built web app from it.
 
 ## Auth in Web Apps
 
 Web apps wire identity via
 `Application(oauth=OAuth(provider=OAuthProviderByEnvironment(dev=Development(), prod=Google(...))))`,
-as MCP UIs do. Reboot mounts its OAuth Authorization Server at
+as MCP Apps do. Reboot mounts its OAuth Authorization Server at
 `/__/oauth/*` and brokers sign-in against the upstream IdP. The
 session is an HttpOnly `rbt_session` cookie set by
 `/__/oauth/finish`, read as a bearer on every RPC, so user code sees
@@ -94,7 +94,7 @@ The sequence:
    `store_tokens=`, `claims=`
    ([`auth-claims.md`](../python/references/auth-claims.md)), the
    redirect URI and why the choice is for keeps:
-   [`auth-oauth-providers.md`](../mcp-ui/references/auth-oauth-providers.md),
+   [`auth-oauth-providers.md`](../mcp-app/references/auth-oauth-providers.md),
    read at deploy.
 
    Tests build their own `Application(...)`, not `main.py`'s, whose
@@ -143,7 +143,7 @@ generated or installed file (`*_rbt.py`, `*_rbt_react.ts`,
 [`front-door-common.md`](../app/references/front-door-common.md),
 "Never Read Generated or Installed Source in the Main Thread".
 
-> **Never read `mcp-ui/references/*` for a web app** (they produce `mcp=Tool()` markers and `UI()` methods in an app with no MCP frontend; the web equivalent is [`references/react-client.md`](references/react-client.md)), except [`auth-oauth-providers.md`](../mcp-ui/references/auth-oauth-providers.md), which is frontend-neutral: read it when you pick a real provider.
+> **Never read `mcp-app/references/*` for a web app** (they produce `mcp=Tool()` markers and `UI()` methods in an app with no MCP frontend). The `frontend/` shell, `vite.config.ts` with `reboot()`, is the same for both and comes with the starter ([`references/react-client.md`](references/react-client.md) says what each file is for). The one exception is [`mcp-app/references/auth-oauth-providers.md`](../mcp-app/references/auth-oauth-providers.md), frontend-neutral, read when a real provider is picked at deploy.
 
 **Before the API definition:**
 
@@ -218,7 +218,7 @@ all when the user stops after the backend.
 - [`references/ui-design.md`](references/ui-design.md) — the primary
   view and the house look.
 - [`references/react-client.md`](references/react-client.md) — the
-  `frontend/` shell, `VITE_REBOOT_URL`, sign-in, typed errors.
+  `frontend/` shell, the backend's origin, sign-in, typed errors.
 - `python/references/react-generated-client.md` — what
   `rbt generate --react=` emits.
 - [`references/company-logos.md`](references/company-logos.md) — only
@@ -269,17 +269,17 @@ Flywheel:
    - Method map, one line per method: its type
      (Reader/Writer/Transaction/Workflow) and its role for an AI
      caller (a tool, a `UI()` view, or for people only), though the
-     MCP UI comes later.
+     MCP App comes later.
    - Route surface: the SPA's pages, each page's primary view (the
      domain's own shape — floor plan, board, timeline, calendar —
      worked on directly; a filtered list for lookup) and the methods
      it calls. A page of many records reads them all through one
      reader on their parent.
    - `User` type: always. It owns per-user state, routes creation,
-     and is the MCP front door if an MCP UI is added later.
+     and is the MCP front door if an MCP App is added later.
    - Auth: who signs in, and what an anonymous visitor may read.
-   - Ready for an MCP UI: each method's `description=` written for
-     an AI caller from the start. `mcp=None` until an MCP UI is
+   - Ready for an MCP App: each method's `description=` written for
+     an AI caller from the start. `mcp=None` until an MCP App is
      added; then only `mcp=` changes, which a deployed app allows
      (`python/references/api-schema-evolution.md`).
 4. Build it as the user chose: one feature at a time by the
@@ -301,7 +301,7 @@ Before writing code, analyze the request:
    user adds, edits, lists or finds is its own `Type`, never a
    `list[Todo]` on one parent.
 2. **Per-user state?** If yes, declare a `User` type and route
-   creation through it as `mcp-ui` does; the pattern is independent
+   creation through it as `mcp-app` does; the pattern is independent
    of MCP. An anonymous or shared-state app skips `User`.
 3. **Container shape for each collection** — per
    `python/references/state-collections.md` Step 2: parents store
@@ -357,11 +357,11 @@ The layout is the one every Reboot app has, `frontend/` included
     ├── tsconfig.json
     ├── tsconfig.app.json
     ├── tsconfig.node.json
-    ├── vite.config.ts       # Stock Vite SPA config, rooted at `web/`
+    ├── vite.config.ts       # The stock Vite file plus `reboot({ webAppPath: "web", ... })`
     ├── api/                 # Generated TypeScript client
     │                        # (output of `rbt generate --react=`)
     └── web/
-        ├── .env.development # VITE_REBOOT_URL=http://localhost:9991
+        ├── .env.production  # only for a static host on another origin
         ├── index.html       # The single SPA entry
         ├── public/
         └── src/
@@ -372,14 +372,20 @@ The layout is the one every Reboot app has, `frontend/` included
                 └── <page>.tsx
 ```
 
-The Vite dev server (`cd frontend && npm run dev`) serves the SPA at
-its own origin, `http://localhost:5173/` by default; the SPA calls
-the backend at `VITE_REBOOT_URL`. Built, it lands in
-`frontend/dist/web/` with `base: "/"`, served at `/` by a static
-host or the backend. An app that later adds an MCP frontend keeps
-this tree, adds `frontend/mcp/<name>/` beside `web/`, and swaps in
-the `mcp-ui` skill's `vite.config.ts` and `build.mjs`, which serve
-both through Envoy.
+In development the backend serves the SPA at its own origin from
+the Vite dev server (`--web-app`): `https://<app>.localhost/` under
+portless (`npm run dev:portless` beside `rbt dev run`), or
+`http://localhost:9991/` on plain ports (`npm run dev:ports` beside
+`rbt dev run --config=ports`), as the run skill decides. Open it
+there, never at Vite's own origin (`https://frontend.<app>.localhost`
+or `http://localhost:5173/`), where the client would take Vite's
+origin for the backend's. Built, it lands in `frontend/dist/web/` with
+`base: "/"`, served at `/` by the backend (`--web-app-dist-path`, the
+`dev run:dist` config and `rbt serve run`) or by a static host. An
+app that later adds an MCP frontend keeps this tree and this config:
+it adds `frontend/mcp/<name>/` beside `web/` and `mcpAppPath: "mcp"`
+to `reboot()`, and the same dev server and `npm run build` serve and
+build both.
 
 ## Step-by-Step Build Flow
 
@@ -534,7 +540,7 @@ finished app.
     API change (the dashboard's changelog), and what is still to
     come; then the next question.
 
-When the user says the app is done, offer an MCP UI in one line
+When the user says the app is done, offer an MCP App in one line
 (`app` skill, "At handoff"), unless they asked for only a web app.
 
 ## Update Flow
