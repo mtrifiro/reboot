@@ -238,12 +238,12 @@ it then reports that it failed. After a stop the build made itself,
 that notice is expected: never a failure to look into or report
 (hotel-255 spent a turn investigating its own stop).
 
-**The comp's server** from the design step (`design/.comp.pid`,
-`web-app/references/comp.md`) keeps running beside the app, through
-the suite and the restarts, so the mockup the user was shown stays
-open and styled next to the real page. It is stopped only when the
-user asks to stop the app: `kill $(cat design/.comp.pid) && rm
-design/.comp.pid`.
+**The design's server** from the design step (`design/.design.pid`,
+the `app-design` skill, section 3), which serves the design page and
+the mockup, keeps running beside the app, through the suite and the
+restarts, so what the user was shown stays open next to the real page.
+It is stopped only when the user asks to stop the app: `kill $(cat
+design/.design.pid) && rm design/.design.pid`.
 
 ## Step 6 — Hand off
 
