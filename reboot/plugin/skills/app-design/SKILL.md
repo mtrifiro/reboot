@@ -133,8 +133,10 @@ recommendation is one answer:
   and techs"). Roles chosen are in the first build; otherwise they are
   **Who may do what**, before any deploy.
 - **"Which accent?"**, only when the prompt names no brand: two or
-  three that suit the domain, the first recommended, plus "Use my
-  brand" (a site or tokens to read); nothing is read for this. The
+  three that suit the domain, the first recommended, and no "Use my
+  brand" option: a brand typed in the dialog's own free answer (a
+  site, a colour, a name) is taken as a brand named in the prompt
+  would be. Nothing is read for this question. The
   look is always the house look (Reboot's own: cream paper, navy ink,
   Space Grotesk over DM Sans); the accents are navy (the house
   accent), teal, cyan, blue, indigo, violet, purple, plum and rose,
