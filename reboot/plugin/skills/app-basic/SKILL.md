@@ -11,8 +11,8 @@ The whole-app build, limited to its first feature. Its first and only
 act: load the [`app-whole` skill](../app-whole/SKILL.md) with the Skill
 tool, never by reading its file, its argument the prompt as typed
 followed by ", basic" (`/reboot:app-whole <the prompt>, basic`); when
-its own argument ends with ", verbose" (the app skill's "Explain the
-code as you go?"), ", basic, verbose", which turns on the exegesis as
+its own argument ends with ", verbose" (typed by the user: the app
+skill's dialog doesn't offer it here), ", basic, verbose", which turns on the exegesis as
 [`app/references/exegesis.md`](../app/references/exegesis.md) says for
 the one-shot. Its
 "Basic: one feature" section takes it from there: the design names
