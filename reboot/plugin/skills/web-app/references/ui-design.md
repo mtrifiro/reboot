@@ -7,11 +7,11 @@ tags: ui, design, primary view, visual, interactive, look, stylesheet, accent, t
 
 ## Design and Build the UI
 
-The design names each page's primary view and the accent; this is how
+The design names each page's primary view and the palette; this is how
 to build them. The user's words come first, then an existing design
 system (their brand site, a tokens file), then this file. Wiring and
 accessible markup are in [`react-client.md`](react-client.md). An MCP
-UI view inside a host follows its primary view and the accent; the
+UI view inside a host follows its primary view and the palette; the
 navigation, theme toggle, fonts, logo and favicon are the web app's.
 
 ### Highly Visual and Interactive by Default
@@ -231,10 +231,10 @@ layout shift under 0.1, a tap's next paint under 200 ms.
 ### Build the Look
 
 Every web app starts from one stylesheet, designed and tested once,
-in the house look and the accent the design names. Don't design a look
+in the house look and the palette the design names. Don't design a look
 from scratch. The house look is Reboot's own, as the Plugin Browser
 wears it: cream paper, navy ink and accent, Space Grotesk over DM Sans,
-soft corners, for every domain; the design picks only its accent.
+soft corners, for every domain; the design picks only its palette.
 
 **Not bland.** A page has one strong surface and one
 voice: the page head sits in the `brand-band`, the deep accent, with
@@ -253,13 +253,16 @@ the house exists to avoid (hotel-203's comp).
    render. Don't read the stylesheet: it is over 4,000 words, and
    every word read is sent again on every later turn.
 
-2. Set the accent the design names, from the project root:
-   `python3 '<this skill>/assets/accent.py' teal` (with no name it
-   lists the palettes: navy (the house accent), teal, cyan, blue, indigo,
-   violet, purple, plum,
-   rose). It rewrites the accent's family in the light and dark
-   blocks. That is the whole of the look's change: one of the nine
-   accents. Every
+2. Set the palette the design names, from the project root:
+   `python3 '<this skill>/assets/palette.py' sage-teal` (with no name
+   it lists them). The palettes: house (Reboot's own: cream paper, navy ink and accent), sand-bronze, sand-brown, sand-orange, sand-gold, olive-grass, sage-teal, slate-blue, slate-iris, mauve-plum and mauve-crimson. Each but house is a gray and
+   an accent from Radix Colors: the page, text and lines from the
+   gray, the page head's band from its darkest step, the accent kept
+   for the primary action and the selected state. It rewrites those
+   tokens in the light and dark blocks and names the palette's source
+   at the stylesheet's top (keep that line: it is the colors' license
+   notice). That is the whole of the look's change: one of the eleven
+   palettes. Every
    other token keeps its value unless the user supplied a brand (a
    site or tokens to read); a theme the build invents for the domain
    ("newsprint", "ink on warm paper") is not a brand. Tokens a page
@@ -293,7 +296,7 @@ redefines them, since a later block silently wins.
 
 **Logo and favicon.** A simple mark from the domain beside the product
 name, as an inline SVG filled with `var(--accent)`. The same mark goes
-in `web/public/favicon.svg` in the accent's light hex (`accent.py`
+in `web/public/favicon.svg` in the accent's light hex (`palette.py`
 updates it), linked from `index.html` in place of Vite's. Set the
 page `<title>` to the product name. Never open `favicon.svg` (or any
 other asset file) in the Browser pane or a browser to check it: it is

@@ -30,7 +30,7 @@ Ask one round of scope questions first, from the prompt alone, before
 reading any reference or showing a design: one question dialog
 (`AskUserQuestion` where available). Built from the
 [`app-guided` skill](../../app-guided/SKILL.md), the `app-design` skill's round
-replaces this one (the first features, who signs in, the accent; how
+replaces this one (the first features, who signs in, the palette; how
 to build was the `app` skill's first question), nothing else is asked
 before the design, and the
 go-ahead, **Build on this design?**, comes once, after the design
@@ -45,7 +45,7 @@ app keeps track of. Give each question two to four options, the
 simplest first and marked as recommended, so accepting every
 recommendation is one answer. Never an option that only means "say
 what": every dialog has its own free answer. Don't ask about the look:
-when the user named no brand, pick the accent that suits
+when the user named no brand, pick the palette that suits
 the domain from the ones [`ui-design.md`](../../web-app/references/ui-design.md)
 lists ("Build the Look"), and say in the brief that it was picked
 for them and is easy to change later, to another color or to
