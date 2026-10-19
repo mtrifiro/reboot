@@ -300,12 +300,12 @@ case "$tool" in
                         args_all_flags "$rest" || exit 1
                         approved=$((approved + 1))
                         ;;
-                    'portless doctor' | 'portless list' | 'portless proxy start')
-                        # `run` skill — check on, and start, the
-                        # portless proxy. Starting it needs `sudo`
-                        # for port 443, which portless runs itself:
-                        # passwordless, that just works; otherwise
-                        # it fails and the skill hands it to the user.
+                    'portless doctor' | 'portless list')
+                        # `run` skill — check on the portless proxy.
+                        # Starting it (`portless proxy start`, `sudo`
+                        # for port 443) and trusting its CA are the
+                        # user's, so neither is approved here: a build
+                        # that asks to run one gets the usual prompt.
                         in_reboot_project "$effective_dir" || exit 1
                         approved=$((approved + 1))
                         ;;
