@@ -20,58 +20,18 @@ jumpier; they don't promise what users on slow phones will see.
 | **INP** (lab), the main action's tap to the next paint | 200 ms | The page answers a tap at once |
 | **FCP**, First Contentful Paint | 1.8 s, reported | Anything painted at all; says where a slow page's time went |
 
-## The script
+## How it is measured
 
-In the Playwright script of the browser check (the `web-app` skill,
-step 10), add this before the first navigation, so it watches every
-page from its start:
-
-```python
-page.add_init_script("""
-window.__vitals = { lcp: 0, cls: 0, inp: 0 };
-new PerformanceObserver((l) => { for (const e of l.getEntries()) window.__vitals.lcp = e.startTime; })
-  .observe({ type: "largest-contentful-paint", buffered: true });
-new PerformanceObserver((l) => { for (const e of l.getEntries()) if (!e.hadRecentInput) window.__vitals.cls += e.value; })
-  .observe({ type: "layout-shift", buffered: true });
-new PerformanceObserver((l) => { for (const e of l.getEntries()) if (e.interactionId) window.__vitals.inp = Math.max(window.__vitals.inp, e.duration); })
-  .observe({ type: "event", buffered: true, durationThreshold: 16 });
-""")
-```
-
-Then, for each page, signed in, three times: navigate, and time the
-first record with a selector for one record of the page's main view:
-
-```python
-FIRST = """(sel) => new Promise((resolve) => {
-  const poll = setInterval(() => {
-    const ms = performance.now(); // since this page's navigation began
-    if (document.querySelector(sel)) { clearInterval(poll); resolve(Math.round(ms)); }
-    if (ms > 30000) { clearInterval(poll); resolve(-1); }
-  }, 25);
-})"""
-READ = """() => ({
-  fcp: Math.round(performance.getEntriesByName("first-contentful-paint")[0]?.startTime ?? -1),
-  lcp: Math.round(window.__vitals.lcp),
-  cls: Number(window.__vitals.cls.toFixed(3)),
-  inp: Math.round(window.__vitals.inp),
-})"""
-
-first = page.evaluate(FIRST, "<first record selector>")
-page.wait_for_timeout(1000)  # live data still arriving can still shift the page
-loaded = page.evaluate(READ)  # fcp, lcp, cls: before any tap, which ends LCP
-page.click("<the page's main action>")  # a real click, so the browser times it
-page.wait_for_timeout(500)
-inp = page.evaluate(READ)["inp"]
-```
-
-The main action is the one the design's page line puts the accent on,
-or opening the first record (a room's drawer): one that changes the
-page without leaving it. One that submits a form is timed once its
-fields are filled.
-
-The first load after Vite starts can be slow while it prepares the
-dependencies; note it, and judge each page on its second and third
-runs.
+The page check, `<this skill>/assets/check_page.py`
+([`ui-design.md`](ui-design.md), "Measure what can be measured"), loads
+each page three times signed in, times the first record with the
+page's own selector, reads FCP, LCP and CLS before any tap, then taps
+the main action, a real click so the browser times it, and judges the
+second and third loads (the first after Vite starts can be slow while
+it prepares the dependencies). The main action is the one the design's
+page line puts the accent on, or opening the first record (a room's
+drawer): one that changes the page without leaving it, given with
+`--tap` when it isn't the first record.
 
 ## Reading the numbers
 
