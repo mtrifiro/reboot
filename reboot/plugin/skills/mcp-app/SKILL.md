@@ -1,17 +1,17 @@
 ---
-name: mcp-ui
-description: Build complete Reboot MCP UIs for ChatGPT, Claude, VSCode, Goose, and other MCP hosts. Layers on top of the python skill for backend mechanics; covers what's specific to MCP UIs — the User-type front door, MCP tool exposure, the UI() method type, and the full React/Vite scaffolding. The backend stays ready for a web app.
+name: mcp-app
+description: Build complete Reboot MCP Apps for ChatGPT, Claude, VSCode, Goose, and other MCP hosts. Layers on top of the python skill for backend mechanics; covers what's specific to MCP Apps — the User-type front door, MCP tool exposure, the UI() method type, and the full React/Vite scaffolding. The backend stays ready for a web app.
 argument-hint: [<app-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 ---
 
-# mcp-ui — Build Reboot MCP UIs
+# mcp-app — Build Reboot MCP Apps
 
 > **Version notices** from `rbt` (a mismatch, a newer Reboot): the [upgrade skill](../upgrade/SKILL.md).
 >
 > **Errors:** grep a fragment of the string in `python/references/errors.md` (never read whole); known defects and workarounds: [`KNOWN-ISSUES.md`](../../KNOWN-ISSUES.md).
 
-Build complete Reboot MCP UIs from a user description.
+Build complete Reboot MCP Apps from a user description.
 
 > **Reads from `python`.** Servicers, contexts, refs, scheduling,
 > backend LLM / agent calls, error types, the testing harness, the
@@ -31,13 +31,13 @@ Build complete Reboot MCP UIs from a user description.
 
 ## When to Use
 
-- Building a new Reboot MCP UI from a description
+- Building a new Reboot MCP App from a description
 - Adding features, state, or UI to an existing one
 - Modifying its state model, methods, or React UI
 - Running an existing one, e.g. at the start of a session: no design
   or build phase; load the [`run` skill](../run/SKILL.md), which
   detects the app type, starts backend and frontend, and opens the
-  setup wizard.
+  setup wizard (MCPJam launches from it on demand).
 
 ## Which References to Read, and When
 
@@ -54,14 +54,14 @@ bounded hard:
 [`front-door-common.md`](../app/references/front-door-common.md),
 "Never Read Generated or Installed Source in the Main Thread".
 
-> **Never read `web-app/references/*` for an MCP UI** (the standalone SPA's shell, `VITE_REBOOT_URL`, `<RebootClientProvider>` and sign-in buttons don't apply to the `frontend/mcp/<name>/` bundles an MCP host loads; the MCP UI equivalents are [`references/react-scaffolding.md`](references/react-scaffolding.md) and [`references/react-app-tsx.md`](references/react-app-tsx.md)), except `web-app/references/ui-design.md`, whose primary views and accent apply to `UI()` views too.
+> **Never read `web-app/references/*` for an MCP App** (the standalone SPA's shell, `VITE_REBOOT_URL`, `<RebootClientProvider>` and sign-in buttons don't apply to the `frontend/mcp/<name>/` bundles an MCP host loads; the MCP App equivalents are [`references/react-scaffolding.md`](references/react-scaffolding.md) and [`references/react-app-tsx.md`](references/react-app-tsx.md)), except `web-app/references/ui-design.md`, whose primary views and accent apply to `UI()` views too.
 
 **Before the project shell** (`.python-version`, `pyproject.toml`,
 `.rbtrc`, `.mypy.ini`, `main.py`):
 
 - [`references/project-shell.md`](references/project-shell.md) —
-  `.rbtrc` deltas, `pyproject.toml` extras, `main.py`,
-  `example_prompts.py`.
+  `.rbtrc` deltas (the `portless`, `ports` and `dist` configs),
+  `pyproject.toml` extras, `main.py`, `example_prompts.py`.
 - `python/references/lifecycle-{project-setup,rbtrc,application-entry}.md`
   — the layout, the CLI flags, `Application(...)`.
 
@@ -80,10 +80,10 @@ bounded hard:
   `Type` has accreted unrelated concerns; the `User` front door most
   of all.
 - [`references/api-method-types.md`](references/api-method-types.md)
-  — the MCP UI's API file: `User`, `mcp=`, `UI()`, `factory=True`.
+  — the MCP App's API file: `User`, `mcp=`, `UI()`, `factory=True`.
 - [`references/api-state-shapes.md`](references/api-state-shapes.md)
   — two recurring state shapes; composing actors by ID.
-- [`references/gotchas.md`](references/gotchas.md) — the MCP-UI trip
+- [`references/gotchas.md`](references/gotchas.md) — the MCP App trip
   list.
 
 **Before the servicer:**
@@ -94,7 +94,7 @@ bounded hard:
 - `python/references/servicer-workflow.md` — only when a `Workflow`
   is declared, then top to bottom.
 - [`references/servicer-patterns.md`](references/servicer-patterns.md)
-  — the MCP UI servicer shapes.
+  — the MCP App servicer shapes.
 
 **Before the authorizers:**
 
@@ -147,7 +147,8 @@ all when the user stops after the backend.
 - `web-app/references/ui-design.md` — the primary view for each
   `UI()` view and the accent; the rest is the web app's.
 - [`references/react-scaffolding.md`](references/react-scaffolding.md)
-  — the `frontend/` shell; `vite.config.ts` copied exactly.
+  — the `frontend/` shell, copied: `vite.config.ts` (the stock Vite
+  file plus `reboot()`) and `build.mjs` (`build()`, every UI).
 - [`references/react-app-tsx.md`](references/react-app-tsx.md) —
   `App.tsx`, with the Counter example.
 - `python/references/react-generated-client.md` — what
@@ -156,7 +157,7 @@ all when the user stops after the backend.
   — only when a widget needs a "pop out into the web app" button.
 
 **Before running the app:** the [`run` skill](../run/SKILL.md) and its
-[`run/references/mcp-ui-processes.md`](../run/references/mcp-ui-processes.md) (the
+[`run/references/mcp-app-processes.md`](../run/references/mcp-app-processes.md) (the
 tunnel, the setup wizard, MCPJam).
 
 ## Workflow: Propose the Design, Then Build
@@ -276,11 +277,11 @@ hydrated objects plus a `next_cursor`: "Reading Across Many Actors —
 the Composing Reader" in
 [`references/react-app-tsx.md`](references/react-app-tsx.md).
 
-## Key Framework Concepts (MCP UI–specific)
+## Key Framework Concepts (MCP App–specific)
 
 ### `User` and Application Types
 
-Every MCP UI has a `User` type and one or more application types:
+Every MCP App has a `User` type and one or more application types:
 
 - **`User`** is the AI's front door for **creating and locating**
   application-type instances. **"Front door" means entry point +
@@ -332,23 +333,26 @@ Every method must explicitly declare its MCP exposure:
 
 The `Reader` / `Writer` / `Transaction` / `Workflow` markers come from
 `reboot.api` and behave as `python`'s `api-methods.md` describes
-(each fixes the Servicer's context type). The MCP UI adds one:
+(each fixes the Servicer's context type). The MCP App adds one:
 
 - **`UI()`** — opens a React UI inside the MCP client. Takes
-  `request=` (config type or `None`), `path=` (web dir relative to
-  project root), `title=`, `description=`. **No servicer
-  implementation needed** — the React app _is_ the implementation.
+  `request=` (config type or `None`), `path=` (the UI's URL path
+  under `/__/frontend/mcp/`, like `"clicker"` or `"shop/cart"`; its
+  source is `frontend/mcp/<path>/`, its build
+  `frontend/dist/mcp/<path>/index.html`), `title=`, `description=`.
+  **No servicer implementation needed** — the React app _is_ the
+  implementation.
   When `request=` is a `Model`, its fields become props on the React
   component.
 
-`factory=True` on an application type's `create` Writer is the MCP UI
+`factory=True` on an application type's `create` Writer is the MCP App
 spelling of a constructor (the mechanic: `python`'s
 `servicer-constructor.md`).
 
 ### Auth: `oauth=` Provider Selection and Real Authorizers from Day One
 
-MCP UIs wire identity via `Application(oauth=...)`: it decides who
-`context.auth.user_id` says the caller is, and in an MCP app that
+MCP Apps wire identity via `Application(oauth=...)`: it decides who
+`context.auth.user_id` says the caller is, and in an MCP App that
 principal is the user. No middle ground: every user signs in through
 this OAuth flow, or the app has no per-user auth. The typical shape is
 `oauth=OAuth(provider=OAuthProviderByEnvironment(dev=Development(), prod=Google(...)))`:
@@ -413,7 +417,7 @@ makes that work.
 
 ### Example Prompts (Root-Page Wizard)
 
-Every MCP UI ships **example prompts**: short, named chat scenarios
+Every MCP App ships **example prompts**: short, named chat scenarios
 the root-page wizard shows so users can try the app the moment it
 boots; always author a set.
 
@@ -437,7 +441,7 @@ it.
 They live in `backend/src/example_prompts.py` and are passed to
 `Application(example_prompts=...)` in `main.py`. File shapes and a
 worked set: [`references/project-shell.md`](references/project-shell.md);
-the `mcp-ui-counter` example is the canonical reference.
+the `mcp-app-counter` example is the canonical reference.
 
 ## Project Structure
 
@@ -462,11 +466,11 @@ the `mcp-ui-counter` example is the canonical reference.
 │   └── <name>_test.py       # `application` fixture + `scenarios(...)`
 └── frontend/
     ├── package.json
-    ├── build.mjs            # Discovers + builds every UI
     ├── tsconfig.json
     ├── tsconfig.app.json
     ├── tsconfig.node.json
-    ├── vite.config.ts
+    ├── vite.config.ts       # defineConfig({ plugins: [react(), reboot({...})] })
+    ├── build.mjs            # await build(): every UI
     ├── api/                 # Generated React bindings (rbt generate)
     ├── mcp/
     │   └── <ui-name>/
@@ -550,9 +554,10 @@ for word: the list for the way the user chose to build.
     failure and error before the next step. Point the user at the
     dashboard's Features page.
 14. Run the app — load the [`run` skill](../run/SKILL.md) and follow
-    it with [`run/references/mcp-ui-processes.md`](../run/references/mcp-ui-processes.md):
+    it with [`run/references/mcp-app-processes.md`](../run/references/mcp-app-processes.md):
     the tunnel, the backend, then the **setup wizard at its root
-    (`http://localhost:9991`)**, the handoff for an MCP UI, not the
+    (`https://<app>.localhost` under portless, else
+    `http://localhost:9991`)**, the handoff for an MCP App, not the
     `/mcp` URL; MCPJam only on demand from the wizard; never a bare
     `rbt dev run` / `npm run dev`. Open
     the wizard once at first startup, run the whole suite once in the
@@ -566,7 +571,7 @@ for word: the list for the way the user chose to build.
     line "Say what's next."), worded as
     [`app/references/accept-design.md`](../app/references/accept-design.md)
     says, which also records the acceptance. Unless the user asked for
-    only an MCP UI, end the handoff with the one-line offer of a web
+    only an MCP App, end the handoff with the one-line offer of a web
     app (`app` skill, "At handoff").
 
 ## Update Flow
