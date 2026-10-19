@@ -1,5 +1,5 @@
 ---
-description: "One-shot asked for in words: the one-shot skill loads the design skill, which asks nothing and designs the whole app (six or more features, roles among them), then goes straight on to the build with no question."
+description: "One-shot asked for in words: the app-whole skill loads the app-design skill, which asks nothing and designs the whole app (six or more features, roles among them), then goes straight on to the build with no question."
 runs: 3
 max_turns: 40
 timeout_seconds: 900
