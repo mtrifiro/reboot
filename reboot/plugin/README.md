@@ -7,7 +7,7 @@ agent. The same skills work in both **Claude Code** and **Codex**.
 
 | Skill                            | Description                                                                                                                               |
 | -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| [`app`](skills/app/)             | Build a Reboot app from a description — asks how to build first (guided, the basic app, or the whole app), then that skill; holds the front-door routing |
+| [`app`](skills/app/)             | Build a Reboot app from a description — asks how to build first (interactively, automatically for one feature, or hands off for the whole app), then that skill; holds the front-door routing |
 | [`app-basic`](skills/app-basic/)   | One feature, asking nothing — the `app-whole` build limited to the heart of the prompt                                                  |
 | [`app-guided`](skills/app-guided/)       | The guided build — the `app-design` skill's round and proposed design, the go-ahead, then each part built and explained                       |
 | [`app-whole`](skills/app-whole/)   | The whole app, asking nothing — designed, built, reviewed and handed over once                                                            |
