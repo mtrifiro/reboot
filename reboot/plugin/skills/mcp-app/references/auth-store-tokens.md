@@ -16,7 +16,7 @@ Google Calendar, open GitHub issues, post to their Slack. It always has
 two halves: **capture** the service's OAuth tokens once (stored encrypted
 in an `OAuthTokenManager`), then **use** them by reading them back and
 calling the API **inside a `Workflow`**. This reference covers only the
-MCP UI shortcut for the capture half.
+MCP App shortcut for the capture half.
 
 The full, host-agnostic recipe — capturing tokens via your own OAuth
 endpoints, the read-back, the in-`Workflow` call, refresh tokens, and
@@ -24,7 +24,7 @@ token erasure — lives in the python skill:
 [`python/references/auth-external-api-calls.md`](../../python/references/auth-external-api-calls.md).
 **Read that for everything except the one shortcut below.**
 
-## The MCP UI shortcut: `store_tokens=True`
+## The MCP App shortcut: `store_tokens=True`
 
 When the API you want belongs to the **identity provider** in
 `Application(oauth=...)` (`Google` / `GitHub` / `Auth0`), the OAuth

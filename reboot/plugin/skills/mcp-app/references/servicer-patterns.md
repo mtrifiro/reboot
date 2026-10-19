@@ -1,7 +1,7 @@
 ---
 title: Servicer Patterns — User Front Door, Workflow Magic, Scheduling
 impact: CRITICAL
-impactDescription: Three MCP-UI-specific servicer patterns layered on top of `python`'s Servicer rules. The User-side `create_<X>` Transaction is the front door for every application-type instance; Workflow methods need `MyType.ref()` (no-arg) magic instead of `cls.ref()` or `self.ref()`; workflows kicked off from a Transaction must be `.schedule()`-d, not awaited.
+impactDescription: Three MCP App-specific servicer patterns layered on top of `python`'s Servicer rules. The User-side `create_<X>` Transaction is the front door for every application-type instance; Workflow methods need `MyType.ref()` (no-arg) magic instead of `cls.ref()` or `self.ref()`; workflows kicked off from a Transaction must be `.schedule()`-d, not awaited.
 tags: servicer, user, transaction, workflow, ref, schedule, classmethod, inline-writer, per_workflow, per_iteration, always
 ---
 
@@ -11,7 +11,7 @@ The base Servicer pattern, context types, and core trips
 (`self.ref().state_id` not `self.state_id`, kwargs not Request
 wrappers, raise typed `<Method>Aborted`) are in
 `python/references/servicer-*.md`, `rpc-calls.md`,
-`api-errors.md`. What's _MCP-UI-specific_:
+`api-errors.md`. What's _MCP App-specific_:
 
 - One Servicer class per type — `UserServicer` plus one per
   application type.
@@ -27,7 +27,7 @@ wrappers, raise typed `<Method>Aborted`) are in
 ## Simple Servicer (Counter)
 
 ```python
-from mcp_ui_counter.v1.counter_rbt import Counter, User
+from mcp_app_counter.v1.counter_rbt import Counter, User
 from reboot.aio.contexts import (
     ReaderContext,
     TransactionContext,
