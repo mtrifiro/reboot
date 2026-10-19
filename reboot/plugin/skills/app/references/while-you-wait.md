@@ -75,7 +75,7 @@ minutes between starting their research and showing the design). So:
   that the design uses ("Kenmore Air flies Beavers, Otters and a
   Caravan from Lake Union and Kenmore; the design uses those."),
   carrying the table's fact for writing the design; the design itself
-  follows as one message (the `design` skill).
+  follows as one message (the `app-design` skill).
 - The go-ahead's line goes out before the references are read, and
   the reading gets no line of its own: when it is long, the next
   step's Reboot line goes before it ("Backend: next, the board's
