@@ -34,4 +34,4 @@ tests/.progress.jsonl
 design/comp/*
 !design/comp/mockup.html
 !design/comp/index.html
-design/.comp.pid
+design/.design.pid
