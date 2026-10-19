@@ -48,6 +48,11 @@ call after the message:
 - The dialog's own free-text answer takes a change in the user's
   words.
 
+The line just above the dialog says what choosing does, in these
+words: "Choosing what's next keeps this part as built. Keeping it
+changes nothing in the app: it records these rules as the agreed
+version, so a later change to them comes back to you first."
+
 On "Not yet", one line: "Tell me when you're ready, or what to
 change." Then stop, and nothing is recorded. A part chosen is built
 straight away, with no further question. On the prompt-by-prompt path there
@@ -63,9 +68,27 @@ on, and the first handoff's **Your turn** says in one line that it can
 be. Nothing is
 recorded while the user only tries the app. When nothing is left to
 build, the closing line says so and that the user can ask for changes.
-No reply, or a dialog skipped, is not acceptance. Never put "feature", "@wip", "design" or
-"accept" in the closing line: the user judges what they see, and the
-build records what that means.
+No reply, or a dialog skipped, is not acceptance. Never put "feature",
+"@wip" or "design" in the closing line: the user judges what they see.
+
+### What accepting means, said every time it is asked
+
+Wherever the build asks the user to accept, keep or lock in what was
+built (a dialog option, a closing line, a reply to "is it done?"), it
+says once, right there, what that means, in these words or as close as
+the sentence allows:
+
+> Accepting it changes nothing in the app. It records what you've
+> seen as the agreed version: its rules are marked finished on the
+> dashboard, `design/design.md` and the decisions log say so, and it
+> is saved as the point later changes are compared to. After that, a
+> change to one of these rules, or to what the app keeps, comes back to
+> you for a yes before it is built. You can still change anything.
+
+A dialog option's description says the short form: "Changes nothing
+in the app; records these rules as agreed, so a later change to them
+comes to you first." Never "lock in", "kept" or "recorded" alone, and
+never "measured against", without what it means for the user.
 
 **No question before building** a part the user chose, or a change
 they asked for in their own words: the choice is the agreement. Say in
