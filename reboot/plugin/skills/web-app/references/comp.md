@@ -85,10 +85,25 @@ in <accent>."
    ```
 
    That is the comp's only script. No raw colour outside `comp.css`.
-3. Serve `design/` and open it: `python3 -m http.server <port>
-   --directory design/comp` in the background, the port the first free one
-   from 9860, its pid written to `design/.comp.pid`. In the Claude
-   app, open `http://localhost:<port>/` in the Browser pane
+3. Serve `design/comp/` and open it, in the background, its pid
+   written to `design/.comp.pid`, the mode by `portless doctor` as the
+   [`run` skill](../../run/SKILL.md) says ("Portless when it is ready,
+   plain ports otherwise"), never asked about:
+   - **Under portless,** by name, `https://mockup.<app>.localhost/`
+     (`<app>` the `.rbtrc`'s `--application-name`), with no port to
+     find; portless hands the server its port in `$PORT` and drops the
+     name when it stops:
+
+     ```sh
+     portless mockup.<app> sh -c 'exec python3 -m http.server "$PORT" --bind 127.0.0.1 --directory design/comp' &
+     echo $! > design/.comp.pid
+     ```
+   - **On plain ports,** `python3 -m http.server <port> --directory
+     design/comp`, the port the first free one from 9860, at
+     `http://localhost:<port>/`.
+
+   Call that URL `<mockup>`. In the Claude app, open it in the Browser
+   pane
    (a `launch.json` configuration named `comp` with only that URL,
    `conversation.md`). The page is the folder's `index.html`, so the
    server's root is the comp even where the pane opens only the
@@ -96,7 +111,7 @@ in <accent>."
    (hotel-205, 2026-10-18); elsewhere, the link alone, never the user's
    external browser.
 4. One line in the chat, then the go-ahead dialog: "**Where it is
-   going:** [a mockup of the <page>](http://localhost:<port>/),
+   going:** [a mockup of the <page>](<mockup>),
    in <accent>, with no data behind it; the real page
    replaces it at the frontend step." On the first-feature-only path
    the line ends there, with no dialog: "Building it now." follows,
