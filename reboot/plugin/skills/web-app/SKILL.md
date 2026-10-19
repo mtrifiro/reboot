@@ -484,13 +484,12 @@ finished app.
     the page in a headless browser (Playwright; in the Claude app never
     the Browser pane, which is for the user at the handoff): signed
     in, it shows all the demo data, its main action works, every
-    filter or drawer it opens can be cleared or closed, no console
-    errors, its first record within 2 seconds and the web vitals
-    within their budgets (LCP, layout shift, a tap's response), timed
-    per [`references/vitals.md`](references/vitals.md), and
-    the layout checks in
-    [`references/ui-design.md`](references/ui-design.md) ("Measure
-    what can be measured") pass at desktop and phone width.
+    filter or drawer it opens can be cleared or closed; then the
+    plugin's page check, `assets/check_page.py`, on every page the
+    feature changed, which times it and checks its layout at desktop
+    and phone width
+    ([`references/ui-design.md`](references/ui-design.md), "Measure
+    what can be measured"), every line PASS.
 11. Run the whole suite once, in the background while the handoff is
     written (`feature` skill, "Report a full run once, at the end"):
     stop the app (`run` skill, "Stopping the App"), start
