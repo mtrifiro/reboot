@@ -17,7 +17,7 @@ tags: auth, oauth, development, anonymous, google, github, auth0, provider, prod
 > state**, and don't launch on a throwaway intending to "upgrade
 > later."
 
-`Application(oauth=...)` is the identity slot for an MCP UI: what
+`Application(oauth=...)` is the identity slot for an MCP App: what
 you pass there stands first and foremost for **identity** — it
 determines who `context.auth.user_id` says the caller is, and in an MCP
 app that principal is **the user**. There's no middle ground in an MCP
@@ -140,7 +140,7 @@ same OAuth machinery can also let the app act **as the user** at an
 external service — call your identity provider's own API (built in via
 `scopes=[...]` + `store_tokens=True`), or **any other** third-party
 service (which you wire up yourself with your own OAuth endpoints). That's
-a separate concern from picking a provider: the MCP UI `store_tokens=True`
+a separate concern from picking a provider: the MCP App `store_tokens=True`
 shortcut is in
 [`auth-store-tokens.md`](auth-store-tokens.md), and the full
 host-agnostic recipe (custom endpoints + the in-`Workflow` call) is in
@@ -339,7 +339,7 @@ Switching from one to another — Google→GitHub, and especially
 keyed on user ID is then stranded:
 
 - **State keyed by `user_id`.** A `Counter` created with
-  `state_id=user_id` (the typical MCP UI pattern) lives under the old
+  `state_id=user_id` (the typical MCP App pattern) lives under the old
   ID; after the switch the same human signs in with a new ID and lands
   on a fresh, empty `Counter`.
 - **`state_id_is_user_id` authorizers.** Still valid syntactically
