@@ -46,7 +46,7 @@ below links to the developer dashboard, which draws them from the code.
 ## Brief
 
 <Who uses <app name>, on what screen, the task, the one question the
-main page answers, and the accent, one of the nine by its plain
+main page answers, and the palette, one of the eleven by its
 name. While the name is one the build picked, its first mention
 here, in the first sentence, is followed by "(working name)".>
 
