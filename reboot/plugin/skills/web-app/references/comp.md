@@ -73,13 +73,27 @@ in <palette>."
    listing). Exit 3 names what the page lacks (the band, a primary
    action, a placeholder left in); fix `page.part` and run it again,
    as after any change to it or `comp.css`.
-4. Open it from the design's server, which serves `design/` (the
-   [`app-design` skill](../../app-design/SKILL.md), section 3), at
-   `<design server>/comp/mockup.html`, called `<mockup>`: in the
-   Claude app in the Browser pane (a `launch.json` configuration named
-   `comp` with only that URL), elsewhere the link alone, never the
-   user's external browser. When the server isn't running (the comp
-   remade later), start it as that section says.
+4. Serve `design/comp/` and open it, on a server and address of its
+   own, never the design's: the pane keeps one tab per address, and
+   hotel-256's mockup, opened at the design's address, replaced the
+   design in its tab. In the background, its pid in
+   `design/.comp.pid`, the mode by `portless doctor` as the
+   [`run` skill](../../run/SKILL.md) says, never asked. Under
+   portless, `<project>` the project folder's name:
+
+   ```sh
+   portless mockup.<project> sh -c 'exec python3 -m http.server "$PORT" --bind 127.0.0.1 --directory design/comp' &
+   echo $! > design/.comp.pid
+   ```
+
+   at `https://mockup.<project>.localhost/`; on plain ports,
+   `python3 -m http.server <port> --directory design/comp`, the next
+   free port after the design's, at `http://localhost:<port>/`. The
+   root opens the mockup (`design/comp/index.html`, step 3). Call that
+   address `<mockup>`. In the Claude app, open it in the Browser pane:
+   a `launch.json` configuration named `comp` whose `url` is that
+   address alone, with no path; elsewhere the link alone, never the
+   user's external browser.
 5. One line in the chat, then the go-ahead dialog: "**Where it is
    going:** [a mockup of the <page>](<mockup>),
    in <palette>, with no data behind it; the real page
@@ -93,13 +107,13 @@ in <palette>."
 **After the go-ahead** the comp is the page's target: the web-app
 skill's step 8 builds the page as the comp shows, the same classes and
 composition, its rows from the reader, and the look review reads the
-main page's screenshot against it. The design's server keeps running
-through the build, so the design and the mockup open in the pane stay
-there beside the real page; it is stopped only when the user asks to
-stop the app (the `run` skill). `design/comp/mockup.html` stays as the record of
+main page's screenshot against it. Both servers, the design's and the
+mockup's, keep running through the build, so what is open in the pane
+stays there beside the real page; they are stopped only when the user
+asks to stop the app (the `run` skill). `design/comp/mockup.html` stays as the record of
 the direction, whole on its own since it holds its stylesheet, linked from the main page's line in `design/design.md`
 (`app/references/design-document.md`); `comp.css` and `.look-history/` beside it and
-`design/.design.pid` are
+`design/.design.pid` and `design/.comp.pid` are
 git-ignored by the starter, and the comp is remade from the steps
 above when it is wanted again.
 
