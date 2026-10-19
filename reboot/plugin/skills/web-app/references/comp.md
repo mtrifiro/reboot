@@ -90,7 +90,9 @@ in <palette>."
    [`run` skill](../../run/SKILL.md) says ("Portless when it is ready,
    plain ports otherwise"), never asked about:
    - **Under portless,** by name, `https://mockup.<app>.localhost/`
-     (`<app>` the `.rbtrc`'s `--application-name`), with no port to
+     (`<app>` the project folder's name, which becomes the `.rbtrc`'s
+     `--application-name`; never the app's working name, which two
+     builds of one prompt share), with no port to
      find; portless hands the server its port in `$PORT` and drops the
      name when it stops:
 
@@ -123,9 +125,11 @@ in <palette>."
 **After the go-ahead** the comp is the page's target: the web-app
 skill's step 8 builds the page as the comp shows, the same classes and
 composition, its rows from the reader, and the look review reads the
-main page's screenshot against it. The comp's server is stopped when
-the app starts (step 10, the `run` skill): `kill $(cat
-design/.comp.pid)`. `design/comp/index.html` stays as the record of
+main page's screenshot against it. The comp's server keeps running
+through the build, so the mockup open in the pane keeps its styling
+beside the real page (hotel-252 stopped it when the app started, and
+the open mockup lost its stylesheet); it is stopped only when the user
+asks to stop the app (the `run` skill). `design/comp/index.html` stays as the record of
 the direction, linked from the main page's line in `design/design.md`
 (`app/references/design-document.md`); `comp.css` and `.look-history/` beside it and
 `design/.comp.pid` are
