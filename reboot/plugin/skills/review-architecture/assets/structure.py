@@ -25,7 +25,7 @@ own files, and prints:
   verdict.
 
 The domain model's scale (single actors, collections, fan-out reads,
-wide transactions) is the domain-review skill's: its `review.py` is
+wide transactions) is the review-domain skill's: its `review.py` is
 imported for the parsing and not repeated here. Standard library only.
 Never imports the app.
 """
@@ -40,7 +40,7 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "domain-review" / "assets"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "review-domain" / "assets"))
 import review as domain  # noqa: E402
 
 API, BACKEND, TESTS = domain.API, domain.BACKEND, domain.TESTS
@@ -376,7 +376,7 @@ def markdown(f: dict) -> str:
         out.append(f"  - Decide: {s['decide']}")
     if not f["signals"]:
         out.append("- none")
-    out += ["", "The domain model's scale: `python3 <the domain-review skill>/assets/review.py`."]
+    out += ["", "The domain model's scale: `python3 <the review-domain skill>/assets/review.py`."]
     return "\n".join(out)
 
 
