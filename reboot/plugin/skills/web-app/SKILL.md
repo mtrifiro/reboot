@@ -221,6 +221,9 @@ all when the user stops after the backend.
   `frontend/` shell, `VITE_REBOOT_URL`, sign-in, typed errors.
 - `python/references/react-generated-client.md` — what
   `rbt generate --react=` emits.
+- [`references/company-logos.md`](references/company-logos.md) — only
+  when the design's objects are companies with a website: their
+  logos, fetched once and kept.
 
 **Before the browser tests** (the frontend part):
 `python/references/testing-web-app.md` (the `frontend` fixture, the web
