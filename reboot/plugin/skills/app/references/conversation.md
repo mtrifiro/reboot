@@ -201,7 +201,10 @@ would a senior engineer change?") goes to the
 review of the tests** ("what isn't tested?", "review our coverage")
 goes to the [`review-tests` skill](../../review-tests/SKILL.md), only
 when the user asks. **A user manual** ("write a manual", "a guide for
-my staff") goes to the [`manual` skill](../../manual/SKILL.md).
+my staff") goes to the [`manual` skill](../../manual/SKILL.md). **How the code
+works**, after a build ("explain the code", "walk me through the
+code") goes to the [`explain` skill](../../explain/SKILL.md); verbose,
+during a build, is `exegesis.md`.
 
 **What to build next, for a roadmap or "what's missing"** goes to the
 [`what-next` skill](../../what-next/SKILL.md): it weighs
