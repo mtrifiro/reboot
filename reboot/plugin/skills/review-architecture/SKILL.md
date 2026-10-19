@@ -22,10 +22,23 @@ the build makes each change and proves every rule still holds.
    jobs. Delete before adding.
 2. **Boundaries follow the work.** A module, package or page has one
    reason to change. Packages split by area of the work
-   ([`accept-design.md`](../app/references/accept-design.md)), never
-   one per object; a page file holds one page; a servicer serves one
-   domain object's job. Code repeated in two places is one idea with
-   two homes.
+   ([`design-packages.md`](../app/references/design-packages.md)),
+   never one per object; a page file holds one page; a servicer serves
+   one domain object's job. Code repeated in two places is one idea
+   with two homes.
+   **A file too big to split is an app ready for packages.** When a
+   finding splits a file that holds several areas (the API file, a
+   servicer module, `App.tsx`), the pieces are the areas, and each is
+   a package, cut the same way in every layer: the API one package
+   per area with a top package joining them, imported by none
+   (`api/rooms/v1/`, `api/reservations/v1/`, `api/hotel/v1/`, as
+   `design-packages.md` says); the servicers in a folder per area
+   (`backend/src/servicers/rooms/`); the pages in a folder per area
+   (`frontend/web/src/rooms/`); the feature files, already one per
+   area, unchanged. The finding names each package and the objects,
+   servicers and pages that go in it, and says `design-packages.md`'s
+   costs. Never a split by kind (the models in one file, the errors in
+   another), and never packages that import each other in a circle.
 3. **The API is a contract.** Every method has a caller (a page, a
    test, another object, an AI caller the design names) and the
    smallest surface that serves them. Failures a caller can act on are
@@ -155,7 +168,8 @@ For each finding chosen, in the review's order:
    may do what, or what a user sees is a design change: say which and
    why, and ask before going on.
 3. **Change it,** as the [`feature` skill](../feature/SKILL.md) makes
-   any change: the API (additive only once deployed), `rbt generate`,
+   any change (a split into packages one package at a time, the suite
+   green after each, `design.md`'s names and links moved with it): the API (additive only once deployed), `rbt generate`,
    the servicers, the seed, the pages that call what moved, each file
    changed with the Edit tool. Before the first deploy, reset the demo
    data with the `run` skill's expunge when the state's shape changed.
