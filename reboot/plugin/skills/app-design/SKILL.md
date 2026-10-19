@@ -220,13 +220,15 @@ design; reading the references gets no line of its own.
    echo $! > design/.design.pid
    ```
 
-   at `https://design.<project>.localhost/design.html`; on plain ports,
+   at `https://design.<project>.localhost/`; on plain ports,
    `python3 -m http.server <port> --directory design`, the first free
-   port from 9860, at `http://localhost:<port>/design.html`. In the
-   Claude app, open it in the Browser pane (a `launch.json`
-   configuration named `design` with only that URL); elsewhere, the
-   link. The mockup, when the build draws one, comes from the same
-   server.
+   port from 9860, at `http://localhost:<port>/`. The root opens the
+   page (`design/index.html`). In the Claude app, open it in the
+   Browser pane: a `launch.json` configuration named `design` whose
+   `url` is that address alone, with no path (the app refuses one with
+   a path, hotel-256); elsewhere, the link. The pane keeps one tab per
+   address, so nothing else is ever opened at this one: the mockup has
+   its own server and address (`web-app/references/comp.md`).
 4. In the chat, the design's summary, in the shape of
    `design-messages.md`, "The proposed design", its link to the page.
 
