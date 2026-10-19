@@ -215,6 +215,19 @@ class ModelDiffTest(unittest.TestCase):
         self.assertEqual(model_diff.import_circles(packages), [["a.v1", "b.v1", "a.v1"]])
         self.assertIn("in a circle", model_diff.package_lines(api)[0])
 
+    def test_a_name_for_a_time_period(self) -> None:
+        api = {"api/hotel/v1/hotel.py": (
+            "api = API(AmenityDay=Type(state=S, methods=M, description='x'), "
+            "AmenitySchedule=Type(state=S, methods=M, description='x'), "
+            "Holiday=Type(state=S, methods=M, description='x'), "
+            "ShiftWeek=Type(state=S, methods=M, description='x'))\n")}
+        lines = model_diff.name_lines(api)
+        self.assertEqual(len(lines), 2)
+        self.assertIn("`AmenityDay` is named for its time period", lines[0])
+        self.assertIn("`ShiftWeek`", lines[1])
+        self.assertIn("_Names_", model_diff.markdown("a", "b", [], names=lines))
+        self.assertNotIn("_Names_", model_diff.markdown("a", "b", [], names=[]))
+
     def test_layered_packages_say_nothing(self) -> None:
         api = {
             "api/rooms/v1/rooms.py": "from reboot.api import API\n",
