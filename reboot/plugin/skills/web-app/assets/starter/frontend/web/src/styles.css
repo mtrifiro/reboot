@@ -28,6 +28,10 @@
    in ink, on <a> or <button>); dot, tally; tabs / tab; table-wrap;
    skeleton; empty (.actions); error; mono, small, muted,
    visually-hidden; density-compact on any ancestor of rows.
+   Interaction patterns, each with its component in web/src/patterns/:
+   hover-card (HoverCard), clamped / clamp-more (Clamp), tip-wrap / tip /
+   info-mark (InfoTip, TipWrap), copy-button (CopyButton), avatar and
+   avatar-1..8 (Avatar), pill.job with .busy / .bad (JobStatus).
 
    Color: the accent family (accent, deep, tint) carries the brand and
    is spent once a page, on the primary action and the selected state;
@@ -74,6 +78,15 @@
   --elev: 0 1px 2px rgba(27, 29, 38, 0.06), 0 1px 3px rgba(27, 29, 38, 0.08);
   --radius: 8px;
   --radius-sm: 6px;
+  /* People: initials in a colour of their own (Avatar.tsx) */
+  --avatar-1: #dbe6f4;
+  --avatar-2: #d8ece6;
+  --avatar-3: #e6def2;
+  --avatar-4: #f4e2d3;
+  --avatar-5: #f2dbe2;
+  --avatar-6: #e1ebd5;
+  --avatar-7: #dee5e9;
+  --avatar-8: #efe5cc;
   --topbar-h: 52px;
   /* Row density: a look or density-compact sets both */
   --row-h: 48px;
@@ -116,6 +129,14 @@
     --bad: #f07a6e;
     --shadow: rgba(0, 0, 0, 0.4);
     --elev: 0 1px 2px rgba(0, 0, 0, 0.35);
+    --avatar-1: #23476e;
+    --avatar-2: #1f5049;
+    --avatar-3: #43356b;
+    --avatar-4: #6a4626;
+    --avatar-5: #663246;
+    --avatar-6: #3d5a2c;
+    --avatar-7: #3a4a57;
+    --avatar-8: #5c4e26;
     color-scheme: dark;
   }
 }
@@ -138,6 +159,14 @@
   --bad: #f07a6e;
   --shadow: rgba(0, 0, 0, 0.4);
   --elev: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --avatar-1: #23476e;
+  --avatar-2: #1f5049;
+  --avatar-3: #43356b;
+  --avatar-4: #6a4626;
+  --avatar-5: #663246;
+  --avatar-6: #3d5a2c;
+  --avatar-7: #3a4a57;
+  --avatar-8: #5c4e26;
   color-scheme: dark;
 }
 
@@ -1072,6 +1101,153 @@ a.cell:hover {
 }
 .comp-note p {
   margin: 0 0 var(--space-3);
+}
+
+/* Interaction patterns (web/src/patterns/, ui-design.md "Interaction
+   Patterns"): a hover card, a clamp, tips, a copy button, avatars, a
+   job's status. */
+.hover-anchor {
+  display: inline;
+}
+.hover-card {
+  position: fixed;
+  z-index: 40;
+  overflow-y: auto;
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 12px 32px var(--shadow);
+  font-size: 13px;
+}
+.clamped {
+  display: -webkit-box;
+  -webkit-line-clamp: var(--clamp-lines, 4);
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.clamp-more {
+  margin-top: 2px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 12px;
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.clamp-more:hover {
+  color: var(--ink);
+}
+.tip-wrap {
+  position: relative;
+  display: inline-block;
+}
+/* A beat before it shows, so crossing a row of controls doesn't set off
+   a line of explanations; hidden by visibility, so nothing moves. */
+.tip-wrap > .tip {
+  position: absolute;
+  z-index: 40;
+  left: 0;
+  top: calc(100% + 6px);
+  width: max-content;
+  max-width: 280px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--accent-deep);
+  color: var(--on-deep);
+  font-size: 12px;
+  line-height: 1.4;
+  box-shadow: 0 6px 20px var(--shadow);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 100ms ease, visibility 0s linear 100ms;
+}
+.tip-wrap:hover > .tip,
+.tip-wrap:focus-within > .tip {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 120ms ease 350ms, visibility 0s linear 350ms;
+}
+.tip-wrap.quiet > .tip {
+  visibility: hidden;
+  opacity: 0;
+  transition: none;
+}
+.info-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  margin-left: var(--space-1);
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: none;
+  color: var(--muted);
+  font: 600 12px/1 var(--font-display);
+  cursor: help;
+}
+.copy-button {
+  padding: 0 var(--space-1);
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-size: 13px;
+  cursor: pointer;
+}
+.copy-button:hover {
+  color: var(--ink);
+}
+.copy-said {
+  margin-left: var(--space-1);
+  font-size: 12px;
+  color: var(--bad);
+}
+.avatar {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  border-radius: 999px;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1;
+}
+.avatar-1 { background: var(--avatar-1); }
+.avatar-2 { background: var(--avatar-2); }
+.avatar-3 { background: var(--avatar-3); }
+.avatar-4 { background: var(--avatar-4); }
+.avatar-5 { background: var(--avatar-5); }
+.avatar-6 { background: var(--avatar-6); }
+.avatar-7 { background: var(--avatar-7); }
+.avatar-8 { background: var(--avatar-8); }
+/* A job at work: a moving dot, never the accent */
+.pill.job.busy::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 6px;
+  border-radius: 999px;
+  background: currentColor;
+  vertical-align: 1px;
+  animation: job-pulse 1.2s ease-in-out infinite;
+}
+@keyframes job-pulse {
+  50% {
+    opacity: 0.25;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pill.job.busy::before {
+    animation: none;
+  }
 }
 
 /* Tables: for many columns; wide ones scroll inside table-wrap */
