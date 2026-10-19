@@ -165,6 +165,15 @@ headings are the anchors `design.md` links to, so each is unique.
 Before a change, read the log: a change against an entry says so to
 the user first, naming the entry and its why.
 
+### Names
+
+When `model_diff.py` lists a domain object under _Names_ (named for
+its time period, `AmenityDay`), rename it before the handoff, while it
+is the build's own name and nothing is deployed: the API, the
+servicers, the pages, the scenarios and `design.md`, the suite green,
+and one line in the handoff's **Notes** with the old and the new name.
+A name the user chose is theirs: say it in **Notes** instead.
+
 ### Packages
 
 When `model_diff.py` lists a package under _Packages_ (six domain
