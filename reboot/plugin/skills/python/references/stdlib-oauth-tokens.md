@@ -8,7 +8,9 @@ tags: stdlib, oauth, tokens, access-token, refresh-token, store-tokens, cipherte
 ## Store Provider OAuth Tokens in `OAuthTokenManager`
 
 > **At 1.6.0:** `reboot.std.oauth` is not in the released wheel, so
-> the imports below fail. See
+> the imports below fail there. A build of Reboot with the packaging
+> fix has it, and the imports, `store_tokens=True` and the libraries
+> below work. See
 > [`KNOWN-ISSUES.md`](../../../KNOWN-ISSUES.md#rebootstdoauth-cant-be-imported-so-store_tokenstrue-fails).
 
 > **Critical:** never store an external provider's OAuth access/refresh
