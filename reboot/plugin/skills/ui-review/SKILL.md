@@ -1,7 +1,7 @@
 ---
 name: ui-review
 description: "Review how a built Reboot web app looks (every main page, desktop and phone, light and dark, measured and judged against the house rules), then make the changes the user picks: accent or brand colors, tones, typefaces, corners, layout, density, logo, each previewed first, with an undo. Use when the user asks to review or change the look, colors, theme, fonts, brand or style. Not for the domain model (domain-review) or during a build's first feature."
-argument-hint: [what to change, e.g. "make it teal" or "match acme.com"]
+argument-hint: '[blank for every page, or what to change, e.g. "make it teal" or "match acme.com"]'
 allowed-tools: Bash, Read, Write, Edit, Glob, Grep, AskUserQuestion
 ---
 
