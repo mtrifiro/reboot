@@ -96,7 +96,9 @@ line each, with its link: "`book` is a Transaction ([decided](…))".>
 
 - `<path>`: <what it shows and what the viewer can do there, naming
   what they drag where when something moves; what it leads with, which
-  states carry colour and where the accent goes>.
+  states carry colour and where the accent goes>. The main page's line
+  names the app's signature view and the question it answers
+  (`web-app/references/ui-design.md`, "One Signature View").
 
 <When the build drew a comp (`web-app/references/comp.md`), the main
 page's line ends with "([comp](comp/index.html))", a link to the mockup
