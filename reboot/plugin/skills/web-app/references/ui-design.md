@@ -321,65 +321,30 @@ screenshots and open either scheme
 
 **Measure what can be measured.** A screenshot looked at quickly lets
 uneven layouts through; a check that returns pass or fail doesn't. In
-the browser check (step 10), at desktop and at phone width, run each
-of these on every page the feature adds or changes, not only the main
-page, and fix whatever it reports before the handoff.
-Run them in a headless browser, never in a browser the user sees (in
-the Claude app, not the Browser pane): a short Playwright script
-(`uv run python`, `playwright.sync_api`, `page.evaluate(...)`) that
-signs in through the development picker the way the web app's
-scenarios do (`python/references/testing-web-app.md`):
+the browser check (step 10), run the plugin's page check on every page
+the feature adds or changes, not only the main page, from the project
+root with the app running, and fix whatever it reports before the
+handoff:
 
-```js
-// A board's columns and headers line up.
-const cols = [...document.querySelectorAll(".board-col")];
-const even = (els) => new Set(els.map((e) => Math.round(e.getBoundingClientRect().height))).size <= 1;
-const heads = cols.map((c) => c.querySelector(".board-col-head")).filter(Boolean);
-// Nothing spills out of its container, and no text is cut off.
-const spill = [...document.querySelectorAll("main *")].filter((e) => {
-  const r = e.getBoundingClientRect(), p = e.parentElement?.getBoundingClientRect();
-  return p && r.width > 0 && (r.right > p.right + 1 || r.left < p.left - 1) &&
-    getComputedStyle(e.parentElement).overflowX === "visible";
-}).map((e) => e.className || e.tagName).slice(0, 5);
-const clipped = [...document.querySelectorAll("main *")].filter((e) =>
-  e.scrollWidth > e.clientWidth + 1 && getComputedStyle(e).overflow === "hidden" &&
-  getComputedStyle(e).textOverflow !== "ellipsis").map((e) => e.className || e.tagName).slice(0, 5);
-({ columnsEven: even(cols), headersEven: even(heads), spill, clipped });
+```shell
+uv run python '<this skill>/assets/check_page.py' <app URL> '/=.cell' '/guests=.list-card .row' \
+  --open '/=.cell.bad' --out "$TMPDIR/checks"
 ```
 
-`columnsEven` and `headersEven` must be true (or there is no board);
-`spill` and `clipped` must be empty, each naming what to fix.
-
-Then open every drawer and form the page has, and run this with each
-one open; it lists text and controls that touch or overlap, stacked
-or side by side, and must come back empty:
-
-```js
-// Every control, and every element with text of its own, outside a
-// button or label (their insides move with them).
-const own = (e) => [...e.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim());
-const boxes = [...document.querySelectorAll("main *, [role=dialog] *")]
-  .filter((e) => e.offsetParent && (own(e) || e.matches("input, select, textarea, button")))
-  .filter((e) => !e.parentElement?.closest("button, label"))
-  .map((e) => ({ e, r: e.getBoundingClientRect() }));
-const inline = (e) => getComputedStyle(e).display === "inline";
-const name = (e) => `${e.tagName} "${e.textContent?.trim().slice(0, 20)}"`;
-const touching = [];
-for (let i = 0; i < boxes.length; i++)
-  for (let j = i + 1; j < boxes.length; j++) {
-    const a = boxes[i], b = boxes[j];
-    if (a.e.contains(b.e) || b.e.contains(a.e)) continue;
-    // Pieces of one line of text ("Alice" "(you)") sit a word space apart.
-    if (inline(a.e) && inline(b.e) && a.e.parentElement === b.e.parentElement) continue;
-    const overlapX = Math.min(a.r.right, b.r.right) - Math.max(a.r.left, b.r.left);
-    const overlapY = Math.min(a.r.bottom, b.r.bottom) - Math.max(a.r.top, b.r.top);
-    const gapX = Math.max(a.r.left, b.r.left) - Math.min(a.r.right, b.r.right);
-    const gapY = Math.max(a.r.top, b.r.top) - Math.min(a.r.bottom, b.r.bottom);
-    if (overlapX > 0 && gapY < 4) touching.push(`${name(a.e)} / ${name(b.e)} stacked, ${Math.round(gapY)}px apart`);
-    else if (overlapY > 0 && gapX < 8) touching.push(`${name(a.e)} / ${name(b.e)} side by side, ${Math.round(gapX)}px apart`);
-  }
-touching;
-```
+Each `PAGE=SELECTOR` is a page's path and one record of its main view;
+`--tap` names the page's main action when it isn't opening the first
+record, `--open` each drawer or form beyond it, `--as` the development
+picker's account (Alice by default). Headless, at desktop (light) and
+phone width (dark), signed in, it times the page
+([`vitals.md`](vitals.md)), and checks that nothing spills out of its
+container or is cut off, nothing scrolls sideways, a board's columns
+and headers and a plan's rows and cells are each one height, the plan
+or board is on the first screen at desktop, no text or control touches
+another (at rest, after the tap, with each `--open` target open), and
+the console is clean. One line per check, PASS or FAIL with what to
+fix; a screenshot per page and width in `--out`. Never write a check
+script of your own for these: the plugin's is tested, and retyping it
+costs every build minutes.
 
 **A button's visible label is short:** "Cancel", "Remove", "Edit".
 What tells one row's button from the next ("Cancel invitation for
