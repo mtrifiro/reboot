@@ -35,3 +35,4 @@ design/comp/*
 !design/comp/mockup.html
 !design/comp/index.html
 design/.design.pid
+design/.comp.pid
