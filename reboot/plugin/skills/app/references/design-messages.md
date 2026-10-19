@@ -87,7 +87,7 @@ doesn't write: each <Object> is a durable object holding its own state
 one transaction, all or nothing (no rollback code); <the page> updates
 live when anyone changes it (no polling or websocket code); each rule's
 scenarios are the tests (no separate test harness); the same backend
-serves an MCP UI for Claude or ChatGPT (no second API).>
+serves an MCP App for Claude or ChatGPT (no second API).>
 
 The whole design, with its methods, is in
 [design/design.md](design/design.md).
@@ -176,7 +176,7 @@ to try first, in a sentence: the action and the rule that holds.>
 
 Or ask for a change to what's here. <When the other front door isn't
 built: "Want it in Claude and ChatGPT too? The backend is ready for an
-MCP UI beside the web app.">
+MCP App beside the web app.">
 
 ---
 ```

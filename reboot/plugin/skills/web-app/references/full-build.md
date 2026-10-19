@@ -56,7 +56,7 @@ The task list uses the items "The whole app first" in
    `python/references/api-methods.md`. Every `Reader`, `Writer`,
    `Transaction` and `Workflow` still requires the `mcp=` argument:
    write `mcp=None` on each one. Do **not** add `mcp=Tool()` or
-   `UI()`; those are MCP-UI only.
+   `UI()`; those are MCP-App only.
 5. `uv run rbt generate`. Don't read what it wrote: the signature
    your servicer must match is in `python/references/api-methods.md`
    ("The Servicer Signature Each Declaration Obliges"). Then start
@@ -103,7 +103,7 @@ the Agent tool (Codex, say) does the steps in order.
    ([`references/react-client.md`](react-client.md) says what each
    file is for: the SPA under `frontend/web/`, the config with its
    `dedupe` and `server.host` entries, the Reboot packages in
-   `package.json`, `VITE_REBOOT_URL` in `web/.env.development`).
+   `package.json`, no `VITE_REBOOT_URL` in development).
 9. `cd frontend && npm install`.
 10. `uv run rbt generate` again — the React bindings need
     `node_modules` to resolve types correctly. (A frontend sub-agent
@@ -202,5 +202,5 @@ feature:
     recommended next step accepts the app as built; on acceptance, record it as
     [`app/references/accept-design.md`](../../app/references/accept-design.md)
     says), and, unless they asked
-    for only a web app, end with the one-line offer of an MCP UI
+    for only a web app, end with the one-line offer of an MCP App
     (`app` skill, "At handoff").

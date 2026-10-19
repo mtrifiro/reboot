@@ -102,7 +102,7 @@
   --space-4: 16px;
   --space-6: 24px;
   --space-8: 32px;
-  /* Bundled by the web app's main.tsx (@fontsource); an MCP UI's `.ui`
+  /* Bundled by the web app's main.tsx (@fontsource); an MCP App's `.ui`
      sets these back to the system stack. */
   --font-display: "Space Grotesk Variable", "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-text: "DM Sans Variable", "DM Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
