@@ -30,7 +30,7 @@ word for word:
   hour (great for a first look). `/reboot:app-basic`"
 - "Whole app, hands off": "Every feature a real product needs, six to ten,
   designed, built, reviewed and handed over once, about an hour or two
-  (great for fast progress).
+  (great for one-shotting a full app).
   `/reboot:app-whole`"
 
 Then load the chosen skill with the Skill tool
