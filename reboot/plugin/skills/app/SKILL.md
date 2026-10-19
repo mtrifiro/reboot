@@ -22,7 +22,7 @@ word for word:
   recommended, in this order:
 - "Interactively": "A design to approve, your choices, each part built and
   explained, step by step (great for learning). `/reboot:app-guided`"
-- "Interactively, verbose": "Interactively, plus an exegesis of the code at each
+- "Verbose": "Interactively, plus an exegesis of the code at each
   milestone, what was written and why, kept in design/exegesis.md
   (great for learning Reboot itself). `/reboot:app-guided`, verbose"
 - "Automatically": "One feature, the heart of what you
@@ -38,7 +38,7 @@ Then load the chosen skill with the Skill tool
 [`/reboot:app-basic`](../app-basic/SKILL.md),
 [`/reboot:app-whole`](../app-whole/SKILL.md)), its argument the prompt
 as typed, never by reading its file; that skill takes it from there.
-For "Interactively, verbose" the argument is the prompt followed by
+For "Verbose" the argument is the prompt followed by
 ", verbose", which turns verbose mode on for the build
 ([`references/exegesis.md`](references/exegesis.md)).
 
@@ -48,7 +48,7 @@ For "Interactively, verbose" the argument is the prompt followed by
 - **A free answer** is read for one of the four ("the whole thing,
   no questions" is the whole app (Hands off); "just one feature" or "something small"
   is the basic app (Automatically); "explain as you go" or "verbose"
-  is Interactively, verbose; "just build it" or "exactly what I typed" loads
+  is Verbose; "just build it" or "exactly what I typed" loads
   [`/reboot:app-just`](../app-just/SKILL.md), which the dialog no longer
   offers); otherwise Interactively.
 - **A skill named in the prompt** (`/reboot:app-just …`,
