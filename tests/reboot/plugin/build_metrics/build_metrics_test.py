@@ -27,7 +27,9 @@
   file is written at 620 s.
 """
 
+import json
 import os
+import tempfile
 import unittest
 from pathlib import Path
 from tests.reboot.plugin.build_metrics import build_metrics
@@ -209,3 +211,48 @@ class PluginSource(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class Tokens(unittest.TestCase):
+
+    def write(self, records: list[dict]) -> Path:
+        folder = Path(tempfile.mkdtemp())
+        path = folder / "session.jsonl"
+        path.write_text("".join(json.dumps(r) + "\n" for r in records))
+        return path
+
+    def reply(self, second: int, call: str, tokens_in: int, out: int,
+              block: dict) -> dict:
+        return {
+            "type": "assistant",
+            "timestamp": f"2026-10-19T10:00:{second:02d}Z",
+            "message": {
+                "id": call,
+                "content": [block],
+                "usage": {
+                    "input_tokens": 1,
+                    "cache_creation_input_tokens": tokens_in - 101,
+                    "cache_read_input_tokens": 100,
+                    "output_tokens": out,
+                },
+            },
+        }
+
+    def test_each_call_is_counted_once(self) -> None:
+        # One call's reply over two records repeats its usage; the API
+        # file is written on the second call, the handoff said on the third.
+        text = {"type": "text", "text": "Reading."}
+        api = {"type": "tool_use", "id": "t1", "name": "Write",
+               "input": {"file_path": "api/hotel/v1/hotel.py"}}
+        handoff = {"type": "text", "text": build_metrics.HANDOFF}
+        m = build_metrics.read(self.write([
+            self.reply(0, "m1", 1000, 50, text),
+            self.reply(1, "m1", 1000, 50, text),
+            self.reply(2, "m2", 3000, 70, api),
+            self.reply(3, "m3", 5000, 90, handoff),
+            self.reply(4, "m4", 6000, 10, text),
+        ]))
+        self.assertEqual(m.context_at_api, 3000)
+        self.assertEqual(m.tokens_in_to_handoff, 9000)
+        self.assertEqual(m.tokens_out_to_handoff, 210)
+        self.assertEqual((m.tokens_in, m.tokens_out), (15000, 220))
