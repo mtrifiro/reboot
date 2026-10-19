@@ -22,9 +22,6 @@ word for word:
   recommended, in this order:
 - "Interactively": "A design to approve, your choices, each part built and
   explained, step by step (great for learning). `/reboot:app-guided`"
-- "Verbose": "Interactively, plus an exegesis of the code at each
-  milestone, what was written and why, kept in design/exegesis.md
-  (great for learning Reboot itself). `/reboot:app-guided`, verbose"
 - "First feature only": "One feature, the heart of what you
   typed, designed, built, reviewed and handed over once, about half an
   hour (great for a first look). `/reboot:app-basic`"
@@ -32,6 +29,18 @@ word for word:
   designed, built, reviewed and handed over once, about an hour or two
   (great for one-shotting a full app).
   `/reboot:app-whole`"
+
+**Only on "Interactively"**, one more dialog, word for word, before
+anything else:
+
+- Title: **Explain the code as you go?**, none marked recommended:
+- "No, just the build": "Each part built and said in plain words."
+- "Verbose": "Plus an exegesis of the code at each milestone, what
+  was written and why, kept in design/exegesis.md (great for learning
+  Reboot itself)."
+
+Skipped, or a host that can't ask: not verbose. The other two choices
+never get this question.
 
 Then load the chosen skill with the Skill tool
 ([`/reboot:app-guided`](../app-guided/SKILL.md),
@@ -45,10 +54,10 @@ For "Verbose" the argument is the prompt followed by
 - **No answer** (the dialog skipped, or a host that can't ask):
   Interactively, with no line about the choice; the app-guided skill's first
   words are the next thing said.
-- **A free answer** is read for one of the four ("the whole thing,
+- **A free answer** is read for one of the three ("the whole thing,
   no questions" is the whole app (Whole app, hands off); "just one feature" or "something small"
   is the basic app (First feature only); "explain as you go" or "verbose"
-  is Verbose; "just build it" or "exactly what I typed" loads
+  is Interactively and Verbose, with no second question; "just build it" or "exactly what I typed" loads
   [`/reboot:app-just`](../app-just/SKILL.md), which the dialog no longer
   offers); otherwise Interactively.
 - **A skill named in the prompt** (`/reboot:app-just …`,
