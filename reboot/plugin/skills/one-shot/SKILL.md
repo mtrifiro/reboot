@@ -45,8 +45,7 @@ Then, in the same turn, **What to expect**, a list of four lines:
 >   feature, more for a hard domain>.
 > - Then a review of the domain model and of the look, and the fixes
 >   they call for, about 15 minutes.
-> - Nothing to answer until it's done; then one question: accept it
->   as built, or change something.
+> - Nothing to answer until it's done; then you say what's next.
 
 **The task list** has the whole-app items
 ([`app/references/task-list.md`](../app/references/task-list.md),
@@ -222,20 +221,19 @@ to `design/review.md` and `design/look-review.md`. Every `@blocked`
 scenario is named with its reason, and every assumption that shaped
 the app is in **Assumed**.
 
-Then the one question the whole build asks, one dialog, word for
-word:
+No dialog: **Your turn** ends with the plain line, word for word,
+"I built all the features you asked for. Tell me what you want to do
+next." (when a feature is blocked, "all the features you asked for
+but <the feature>, under Notes"). Then stop.
 
-- **<The app> works. What next?**
-  - "Accept it as built (Recommended)": "Record the design and its
-    rules as they stand; later changes are measured against them."
-  - "Change something": "A rule, a page, the look, or a feature to
-    add, in your own words."
-
-On accept, record the acceptance as
+What the user says next decides, as
 [`app/references/accept-design.md`](../app/references/accept-design.md)
-says, with **Assumed** in the first decisions entry. A change, chosen
-or typed as the free answer, is made as the `feature` skill makes any
-change, then the same question.
+says: a change or a feature to add is made as the `feature` skill
+makes any change, then a handoff for it ending with the same line;
+asking for anything else, or saying it is good, accepts the app as
+built, recorded as `accept-design.md` says, with **Assumed** in the
+first decisions entry. Trying the app, or no reply, is not
+acceptance.
 
 ## Never
 
