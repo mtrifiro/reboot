@@ -9,11 +9,15 @@ Run from the project root (the folder holding frontend/web/src/styles.css).
     python3 look.py preview neutrals cool,warm,grey
     python3 look.py preview type house,classic,plain
     python3 look.py preview corners sharp,soft,round
+    python3 look.py preview palette house,sand-brown,sage-teal
         Writes frontend/web/public/look-preview.html: each choice, lettered
         A, B, C..., drawn as a piece of the app in light and dark. The dev
         server serves it at /look-preview.html.
     python3 look.py set look house           (back to the house look: tones,
                                               type, corners, density)
+    python3 look.py set palette sand-brown   (page, text, lines and accent
+                                              together, from a Radix Colors
+                                              gray and accent; house is ours)
     python3 look.py set accent teal          (or a brand's hex: #0a6e5c)
     python3 look.py set accent #0a6e5c --dark #5fd0bd
     python3 look.py set neutrals warm
@@ -123,6 +127,45 @@ NEUTRALS: dict[str, dict[str, dict[str, str]]] = {
         "dark": {"bg": "#0f1014", "bg-2": "#17181e", "panel": "#17181e", "ink": "#ededf2", "muted": "#9fa2b0", "line": "#2a2c36", "track": "#22232c"},
     },
 }
+
+# Palettes: a gray and an accent from Radix Colors (MIT,
+# https://www.radix-ui.com/colors), mapped onto the tokens: the page,
+# panels, text and lines from the gray's steps, the accent from the
+# accent's, and the page head's band from the gray's darkest step, so
+# the accent is spent on the primary action and the selected state
+# only. `house` is cream and navy, the house look's own.
+PALETTES_FILE = Path(__file__).resolve().parents[2] / "web-app" / "assets" / "palettes.json"
+PALETTE_TOKENS = ("bg", "bg-2", "panel", "ink", "muted", "line", "track", "accent", "on-accent",
+                  "accent-deep", "on-deep", "accent-tint", "bg-glow")
+
+
+def palettes() -> dict[str, dict]:
+    found = {"house": {"source": "the house look: cream paper, navy ink and accent",
+                       **{w: {**NEUTRALS["cream"][w], **ACCENTS["navy"][w]} for w in ("light", "dark")}}}
+    if PALETTES_FILE.is_file():
+        found.update(json.loads(PALETTES_FILE.read_text(encoding="utf-8")))
+    return found
+
+
+CREDIT = re.compile(r"/\* Palette: [^*]*\*/\n")
+
+
+def credit(css: str, name: str) -> str:
+    """The stylesheet names the palette's source at its top; Radix Colors'
+    MIT license asks for its notice with copies of its colors."""
+    css = CREDIT.sub("", css)
+    if name == "house":
+        return css
+    return (f"/* Palette: {name}, colors from Radix Colors (https://github.com/radix-ui/colors), "
+            f"Copyright (c) 2021 Radix, MIT License. */\n") + css
+
+
+def palette_values(name: str) -> dict[str, dict[str, str]]:
+    found = palettes()
+    if name not in found:
+        raise SystemExit(f"look: no palette '{name}'; one of {', '.join(found)}")
+    return {w: {k: v for k, v in found[name][w].items() if k in PALETTE_TOKENS} for w in ("light", "dark")}
+
 
 # Type: display, text and mono, each an @fontsource-variable package
 # (installed for the app) and a Google Fonts family (for the preview).
@@ -403,9 +446,9 @@ def look_values(name: str) -> dict[str, dict[str, str]]:
 def preview(kind: str, names: list[str]) -> None:
     css = STYLESHEET.read_text(encoding="utf-8")
     now = tokens(css)
-    letters = "ABCDEFGH"
+    letters = "ABCDEFGHIJKL"
     product = product_name()
-    families: set[str] = set()
+    faces: set[str] = set()
     blocks = []
     for i, name in enumerate(names[: len(letters)]):
         light, dark = dict(now["light"]), dict(now["light"])
@@ -414,11 +457,15 @@ def preview(kind: str, names: list[str]) -> None:
         if kind == "look":
             vals = look_values(name)
             light.update(vals["light"]), dark.update(vals["dark"])
-            families.update(f for f, _ in TYPE[LOOKS[name]["type"]].values())
+            faces.update(f for f, _ in TYPE[LOOKS[name]["type"]].values())
             label = f"{name}: {LOOKS[name]['words']}"
         elif kind == "accent":
             fam = accent_family(name, None, now)
             light.update(fam["light"]), dark.update(fam["dark"])
+        elif kind == "palette":
+            vals = palette_values(name)
+            light.update(vals["light"]), dark.update(vals["dark"])
+            label = f"{name}: {palettes()[name]['source']}"
         elif kind == "neutrals":
             if name not in NEUTRALS:
                 raise SystemExit(f"look: no neutrals '{name}'; one of {', '.join(NEUTRALS)}")
@@ -427,7 +474,7 @@ def preview(kind: str, names: list[str]) -> None:
             if name not in TYPE:
                 raise SystemExit(f"look: no type '{name}'; one of {', '.join(TYPE)}")
             light.update(type_values(name)), dark.update(type_values(name))
-            families.update(f for f, _ in TYPE[name].values())
+            faces.update(f for f, _ in TYPE[name].values())
             label = f"{name}: {TYPE_WORDS[name]}"
         elif kind == "corners":
             if name not in CORNERS:
@@ -435,17 +482,19 @@ def preview(kind: str, names: list[str]) -> None:
             r, rs = CORNERS[name]
             light.update({"radius": r, "radius-sm": rs}), dark.update({"radius": r, "radius-sm": rs})
         else:
-            raise SystemExit("look: preview look | accent | neutrals | type | corners")
+            raise SystemExit("look: preview look | palette | accent | neutrals | type | corners")
         mocks = "".join(
             f'<div><p class="scheme">{w}</p>{SAMPLE.format(style=style_of(v), product=product)}</div>'
             for w, v in (("Light", light), ("Dark", dark))
         )
         blocks.append(f'<section class="choice"><h3><b>{letters[i]}</b>{html.escape(label)}</h3><div class="pair">{mocks}</div></section>')
     fonts = ""
-    if kind in ("type", "look") and families:
-        q = "&".join("family=" + f.replace(" ", "+") + ":wght@400;600" for f in sorted(families))
+    if kind == "palette":
+        faces = set(families(css))
+    if kind in ("type", "look", "palette") and faces:
+        q = "&".join("family=" + f.replace(" ", "+") + ":wght@400;600" for f in sorted(faces))
         fonts = f'<link rel="stylesheet" href="https://fonts.googleapis.com/css2?{q}&display=swap">'
-    titles = {"look": "The look", "accent": "Accent color", "neutrals": "Page and text tones", "type": "Typefaces", "corners": "Corners"}
+    titles = {"look": "The look", "palette": "Palette", "accent": "Accent color", "neutrals": "Page and text tones", "type": "Typefaces", "corners": "Corners"}
     PREVIEW.parent.mkdir(parents=True, exist_ok=True)
     PREVIEW.write_text(PAGE.format(fonts=fonts, title=titles[kind], choices="".join(blocks)), encoding="utf-8")
     print(f"wrote {PREVIEW}: " + ", ".join(f"{letters[i]} {n}" for i, n in enumerate(names[: len(letters)])))
@@ -566,6 +615,9 @@ def show() -> int:
     look = next((n for n, l in LOOKS.items() if (l["neutrals"], l["type"], l["corners"]) == (neutral, kind, corners)
                  and (not row_h or row_h == l["density"]["row-h"])), None)
     print(f"look      {look or 'custom'}                    choices: {', '.join(LOOKS)} (tones, type, corners, density together)")
+    pal = next((n for n, p in palettes().items() if p["light"]["accent"] == accent
+                and p["light"]["bg"] == light.get("bg", "").strip()), None)
+    print(f"palette   {pal or 'custom'}                    choices: {', '.join(palettes())}")
     print(f"accent    {named or 'custom'} ({accent})        choices: {', '.join(ACCENTS)}, or a brand's hex")
     print(f"neutrals  {neutral or 'custom'}                    choices: {', '.join(NEUTRALS)}")
     print(f"type      {kind or 'custom'} ({font.group(1) if font else '?'})   choices: {', '.join(TYPE)}")
@@ -617,6 +669,14 @@ def main(argv: list[str]) -> int:
                                for w in ("light", "dark")})
         css = set_type(LOOKS[name]["type"], css)
         css = set_values_root_only(css, {k: v for k, v in vals["light"].items() if k in ("radius", "radius-sm", "row-h", "row-pad")})
+    elif kind == "palette":
+        vals = palette_values(name)
+        old = now["light"].get("accent", "").strip().lower()
+        css = set_values(css, vals)
+        css = credit(css, name)
+        if FAVICON.is_file() and old:
+            svg = FAVICON.read_text(encoding="utf-8")
+            FAVICON.write_text(re.sub(re.escape(old), vals["light"]["accent"], svg, flags=re.I), encoding="utf-8")
     elif kind == "accent":
         fam = accent_family(name, dark_hex, now)
         old = now["light"].get("accent", "").strip().lower()
@@ -640,7 +700,7 @@ def main(argv: list[str]) -> int:
         css = set_values_root_only(css, {"radius": r, "radius-sm": rs})
     else:
         shutil.rmtree(slot)
-        print("look: set look | accent | neutrals | type | corners")
+        print("look: set look | palette | accent | neutrals | type | corners")
         return 2
     STYLESHEET.write_text(css, encoding="utf-8")
     if PREVIEW.is_file():
