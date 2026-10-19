@@ -24,7 +24,7 @@ Build in two parts, each finished and tested before the next starts
    tested before any page exists. Read only the Python references.
 2. **The frontend:** steps 8 to 13 (scaffold, pages, build, start the
    app), then the browser tests: each feature's browser scenario,
-   the first-paint time and the layout checks. Read the React,
+   the vitals and the layout checks. Read the React,
    stylesheet and browser-testing references now.
 
 The steps below keep their numbers; this is the order to take them in. **A file that exists is changed with the Edit tool,** the lines that change and nothing more, never a `sed -i`, a `python3 -` script or a heredoc that rewrites it ([`front-door-common.md`](../../app/references/front-door-common.md), "A Change Is an Edit, Never a Rewrite").
@@ -135,7 +135,7 @@ the Agent tool (Codex, say) does the steps in order.
     - the main action of each page works once, and every filter or
       drawer it opens can be cleared or closed;
     - the main page shows its first record within 2 seconds, timed
-      as [`first-paint.md`](first-paint.md) says.
+      with the web vitals as [`vitals.md`](vitals.md) says.
 
     That is the whole check: don't test flows end to end by hand, and
     don't check phone width or the dark scheme yet. The scenarios
