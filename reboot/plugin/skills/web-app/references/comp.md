@@ -55,8 +55,31 @@ in <accent>."
    `<aside class="comp-badge"><strong>Design comp</strong><span>A
    mockup of the <page>, not the running app; the real page replaces
    it at the frontend step.</span></aside>`. Nothing is
-   wired: no script, no drawer open, the theme toggle shown and inert.
-   No raw colour outside `comp.css`.
+   wired: no drawer open, the theme toggle shown and inert. Every
+   click opens the comp's note instead, so a tap on a button or a room
+   says what the page is rather than doing nothing; after the badge,
+   word for word but the page's name:
+
+   ```html
+   <dialog class="comp-note" id="comp-note">
+     <strong>This is a design mockup</strong>
+     <p>It shows how the <page> will look, with sample rows. Nothing
+     on it is wired yet, so buttons and links don't do anything. The
+     real page, with your data, replaces it at the frontend step.</p>
+     <form method="dialog"><button class="primary">Got it</button></form>
+   </dialog>
+   <script>
+     document.addEventListener("click", (event) => {
+       const note = document.getElementById("comp-note");
+       if (note.contains(event.target)) return;
+       event.preventDefault();
+       event.stopPropagation();
+       note.showModal();
+     }, true);
+   </script>
+   ```
+
+   That is the comp's only script. No raw colour outside `comp.css`.
 3. Serve `design/` and open it: `python3 -m http.server <port>
    --directory design/comp` in the background, the port the first free one
    from 9860, its pid written to `design/.comp.pid`. In the Claude
@@ -95,7 +118,8 @@ above when it is wanted again.
 - The page head loose on the grey page instead of in the brand band,
   a name with no mark, or boxes on grey as the whole look
   (`ui-design.md`, "Not bland").
-- A script, a wired control or data behind it: it is a mockup.
+- A script but the comp note's, a wired control or data behind it:
+  it is a mockup.
 - A comp without its `comp-badge`, or the badge on a real page.
 - The go-ahead dialog before the comp's line, or a minute between the
   design and the line without "Making a mockup of the <page>".
