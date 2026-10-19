@@ -32,8 +32,8 @@ plan is one item, "Propose the design for <app>", and the path's list
 comes after the go-ahead. Right after it loads, its opening goes out
 as text, before the round. It says the opening, asks the one round of
 questions (the first build's features, who signs in, the palette),
-reads what the design needs and shows the whole proposed design, once,
-in the chat. On a free answer that refuses the design ("just build
+reads what the design needs and writes the whole proposed design once,
+drawn as a page beside the chat, its summary in the chat. On a free answer that refuses the design ("just build
 it") the app-design skill hands the prompt to the [`app-just`
 skill](../app-just/SKILL.md) and this skill's part is over: no design, no
 go-ahead, no **What to expect**.
