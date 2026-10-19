@@ -8,7 +8,7 @@ notice said not to. `rbt dev run`'s `--open-dashboard` and
 unknown-flag error, so a `.rbtrc` carrying one makes every
 `rbt dev run` fail.
 
-Grep the project's `.rbtrc` (and any script or CI step that runs
+Search the project's `.rbtrc` with `grep` (and any script or CI step that runs
 `rbt dev run`) for `--open-dashboard`, `--no-open-dashboard` and
 `--dashboard-port`, and delete those flags. A line that is nothing
 but one of them goes away entirely; a `dev run` line that carries
