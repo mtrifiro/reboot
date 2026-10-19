@@ -38,6 +38,11 @@ Run from the project root (the folder holding frontend/web/src/styles.css).
     python3 look.py --css design/comp/comp.css set accent navy
         Any command on a stylesheet elsewhere (a copy of the house one):
         only that file is changed, nothing in frontend/.
+    python3 look.py --css design/comp/comp.css inline design/comp/index.html
+        Puts the stylesheet inside the page, in place of its
+        <link rel="stylesheet" href="comp.css"> (or of the copy put
+        there before), so the page is one file that keeps its look
+        however it is opened: served, cached, from disk, sent on.
 
 Standard library only. The house stylesheet's token names never change;
 only their values do.
@@ -599,6 +604,32 @@ def set_values_root_only(css: str, values: dict[str, str]) -> str:
     return BLOCK.sub(block, css)
 
 
+INLINED = re.compile(r'<style data-inlined="([^"]+)">.*?</style>', re.S)
+
+
+def inline(page: Path) -> int:
+    """The stylesheet inside the page: its <link> to it, or the copy
+    inlined before, replaced by a <style> holding the file as it is now."""
+    if not page.is_file():
+        print(f"look: no {page}", file=sys.stderr)
+        return 2
+    html_text = page.read_text(encoding="utf-8")
+    name = STYLESHEET.name
+    css = STYLESHEET.read_text(encoding="utf-8").replace("</style", "<\\/style")
+    block = f'<style data-inlined="{name}">\n{css}\n</style>'
+    link = re.compile(r'<link[^>]*href="(?:\./)?%s"[^>]*>' % re.escape(name))
+    if link.search(html_text):
+        html_text = link.sub(lambda _: block, html_text, count=1)
+    elif INLINED.search(html_text):
+        html_text = INLINED.sub(lambda _: block, html_text, count=1)
+    else:
+        print(f"look: {page} neither links nor holds {name}", file=sys.stderr)
+        return 2
+    page.write_text(html_text, encoding="utf-8")
+    print(f"inlined {STYLESHEET} into {page}: one file, no stylesheet to fetch")
+    return 0
+
+
 def show() -> int:
     css = STYLESHEET.read_text(encoding="utf-8")
     t = tokens(css)
@@ -652,6 +683,8 @@ def main(argv: list[str]) -> int:
     if argv[0] == "fonts":
         print(fonts_link(STYLESHEET.read_text(encoding="utf-8")))
         return 0
+    if argv[0] == "inline" and len(argv) >= 2:
+        return inline(Path(argv[1]))
     if argv[0] == "preview" and len(argv) >= 3:
         preview(argv[1], [n for n in argv[2].split(",") if n])
         return 0
