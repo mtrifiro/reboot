@@ -7,11 +7,12 @@ agent. The same skills work in both **Claude Code** and **Codex**.
 
 | Skill                            | Description                                                                                                                               |
 | -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| [`app`](skills/app/)             | Build a Reboot app from a description — asks how to build first (guided, the whole app, or just what was typed), then that skill; holds the front-door routing |
-| [`guided`](skills/guided/)       | The guided build — the `design` skill's round and proposed design, the go-ahead, then each part built and explained                       |
-| [`one-shot`](skills/one-shot/)   | The whole app, asking nothing — designed, built, reviewed and handed over once                                                            |
-| [`design`](skills/design/)       | Design a Reboot app from a description without building it: one round of questions, then the proposed design in the chat and `design/design.md` |
-| [`build`](skills/build/)         | Build exactly what the prompt says, for someone who knows what they want: no questions, no proposed design, no narration                  |
+| [`app`](skills/app/)             | Build a Reboot app from a description — asks how to build first (guided, the basic app, or the whole app), then that skill; holds the front-door routing |
+| [`app-basic`](skills/app-basic/)   | One feature, asking nothing — the `app-whole` build limited to the heart of the prompt                                                  |
+| [`app-guided`](skills/app-guided/)       | The guided build — the `app-design` skill's round and proposed design, the go-ahead, then each part built and explained                       |
+| [`app-whole`](skills/app-whole/)   | The whole app, asking nothing — designed, built, reviewed and handed over once                                                            |
+| [`app-design`](skills/app-design/)       | Design a Reboot app from a description without building it: one round of questions, then the proposed design in the chat and `design/design.md` |
+| [`app-just`](skills/app-just/)         | Build exactly what the prompt says, for someone who knows what they want: no questions, no proposed design, no narration                  |
 | [`feature`](skills/feature/)     | Specify a feature in plain English, write it down as a `@wip` feature file, then iterate on its scenarios with the user                   |
 | [`mcp-ui`](skills/mcp-ui/)       | Build MCP UIs for ChatGPT, Claude, VSCode, Goose, and others — layers on top of `python`                                                  |
 | [`web-app`](skills/web-app/)     | Build standalone Reboot Web Apps — a Reboot backend behind a browser-facing React frontend — layers on top of `python`                    |
