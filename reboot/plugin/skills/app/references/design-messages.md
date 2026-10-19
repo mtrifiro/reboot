@@ -34,7 +34,7 @@ name's first mention, "(working name)" right after it when the build
 picked it.> <Their main job, as a
 cycle or flow when there is one: *occupied → dirty → cleaned →
 inspected → occupied*.> The main page answers one question: **<the
-question>** The name is **<name>** and the accent is **<accent: one of navy, teal, cyan, blue, indigo, violet, purple, plum or rose, by that plain name, never a theme such as "newsprint">**
+question>** The name is **<name>** and the palette is **<palette: one of the eleven in web-app/references/ui-design.md, in words ("sage and teal", or "the house cream and navy"), never a theme such as "newsprint">**
 (<why it suits the domain>).<When the build picked them: " Both were
 picked for you; either is easy to change.">
 
