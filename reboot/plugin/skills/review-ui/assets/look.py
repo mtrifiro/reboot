@@ -38,7 +38,7 @@ Run from the project root (the folder holding frontend/web/src/styles.css).
     python3 look.py --css design/comp/comp.css set accent navy
         Any command on a stylesheet elsewhere (a copy of the house one):
         only that file is changed, nothing in frontend/.
-    python3 look.py --css design/comp/comp.css inline design/comp/index.html
+    python3 look.py --css design/comp/comp.css inline design/comp/mockup.html
         Puts the stylesheet inside the page, in place of its
         <link rel="stylesheet" href="comp.css"> (or of the copy put
         there before), so the page is one file that keeps its look
