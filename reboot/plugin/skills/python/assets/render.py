@@ -65,6 +65,36 @@ def lower_camel(camel: str) -> str:
     return camel[0].lower() + camel[1:]
 
 
+# A web app's `.rbtrc` configs, after the shared project's lines: the
+# backend serves the web app from Vite's dev server (`--web-app`), under
+# portless by default, on plain ports with `--config=ports`, or built
+# with `--config=dist` (python/references/lifecycle-rbtrc.md).
+WEB_RBTRC = """
+# The web app, served by the backend from Vite's dev server. Named URLs
+# via portless (https://github.com/vercel-labs/portless) by default: the
+# app is https://<project-name>.localhost, Vite (`cd frontend && npm run
+# dev`) is https://frontend.<project-name>.localhost. Needs the portless
+# proxy (`portless proxy start`).
+dev run --default-config=portless
+dev run:portless --portless
+dev run:portless --frontend-url=https://frontend.<project-name>.localhost
+dev run:portless --web-app
+
+# Plain ports instead: `rbt dev run --config=ports`, with Vite run as
+# `cd frontend && npm run dev:ports`; the app is http://localhost:9991.
+dev run:ports --frontend-url=http://localhost:5173
+dev run:ports --web-app
+
+# The built web app at `/`, no Vite: `rbt dev run --config=dist` after
+# `cd frontend && npm run build`.
+dev run:dist --web-app-dist-path=frontend/dist/web
+
+# Production (`rbt serve run`, the deploy's container) serves the built
+# web app at `/` too.
+serve run --web-app-dist-path=frontend/dist/web
+"""
+
+
 def tokens(args) -> dict[str, str]:
     things = args.things or args.thing + "s"
     slug = args.slug or re.sub(r"[^a-z0-9]+", "-", args.app.lower()).strip("-")
@@ -160,6 +190,9 @@ def main(argv: list[str]) -> int:
     copy_tree(APP_ASSETS, dest, t, written, kept)
     if args.web:
         copy_tree(WEB, dest, t, written, kept)
+        rbtrc = dest / ".rbtrc"
+        if rbtrc.exists() and "dev run:portless" not in rbtrc.read_text(encoding="utf-8"):
+            rbtrc.write_text(rbtrc.read_text(encoding="utf-8") + render(WEB_RBTRC, t), encoding="utf-8")
         # The browser scenarios need Playwright: the shell keeps the two
         # lines commented out for apps without a web app.
         pyproject = dest / "pyproject.toml"

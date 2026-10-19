@@ -20,7 +20,7 @@ from collections.abc import Iterator
 from dataclasses import dataclass
 from pathlib import Path
 
-FRONT_DOORS = ("web-app", "mcp-ui")
+FRONT_DOORS = ("web-app", "mcp-app")
 
 # The skills a build of each front door is told to load, from the
 # prompt to the handoff: the `app` router, the front door, the
@@ -53,13 +53,13 @@ CONDITIONAL = {
             "web-app/references/company-logos.md":
                 "only when the design's objects are companies",
         },
-    "mcp-ui":
+    "mcp-app":
         {
             "python/references/api-errors.md": "when the API declares",
             "python/references/servicer-workflow.md": "only when",
-            "mcp-ui/references/auth-custom-oauth-provider.md": "when none of",
-            "mcp-ui/references/auth-store-tokens.md": "when the",
-            "mcp-ui/references/pop-out-to-web-app.md": "only when",
+            "mcp-app/references/auth-custom-oauth-provider.md": "when none of",
+            "mcp-app/references/auth-store-tokens.md": "when the",
+            "mcp-app/references/pop-out-to-web-app.md": "only when",
             "python/references/testing-harness.md": "custom steps",
             "python/references/testing-external-context.md": "custom steps",
         },
