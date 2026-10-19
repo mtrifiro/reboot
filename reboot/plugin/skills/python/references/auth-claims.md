@@ -105,7 +105,7 @@ time.
 - **`Ory` can also deliver between sign-ins**: with
   `webhook_secret=` (which requires `claims=`), a change made in an
   Ory settings flow reaches users who have already signed in. See
-  [`auth-oauth-providers.md`](../../mcp-ui/references/auth-oauth-providers.md).
+  [`auth-oauth-providers.md`](../../mcp-app/references/auth-oauth-providers.md).
 - **`set_claims` is app-internal only.** A check that runs before any
   authorizer refuses external callers with `PermissionDenied`, so not
   even `allow()` exposes it.
@@ -137,5 +137,5 @@ time.
   claims
 - [`servicer-authorizer.md`](servicer-authorizer.md): authorizer rules
   and app-internal calls
-- [`auth-oauth-providers.md`](../../mcp-ui/references/auth-oauth-providers.md):
+- [`auth-oauth-providers.md`](../../mcp-app/references/auth-oauth-providers.md):
   choosing and configuring providers

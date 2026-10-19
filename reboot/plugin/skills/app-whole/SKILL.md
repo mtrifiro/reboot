@@ -125,7 +125,7 @@ the handoff. Times are in the user's own time zone.
 
 **The front door** is the one the prompt names, by the `app` skill's
 Routing triggers: MCP, an AI host named as where it runs, or "a tool
-for an agent" is an MCP UI (`/reboot:mcp-ui`); a URL, a route,
+for an agent" is an MCP App (`/reboot:mcp-app`); a URL, a route,
 "website", "web app", "SPA" or "in the browser" is a web app
 (`/reboot:web-app`); "an API", "a backend", "headless" or "for my
 mobile app" is a backend only
@@ -133,7 +133,7 @@ mobile app" is a backend only
 nothing named is a web app. Load the door with the Skill tool, never
 by reading its file, and build by its whole-app flow: for a web app,
 [`web-app/references/full-build.md`](../web-app/references/full-build.md);
-for an MCP UI, its Step-by-Step Build Flow for every feature. The
+for an MCP App, its Step-by-Step Build Flow for every feature. The
 door's Design Phase, scope round and dialogs are skipped: the design
 is done. Read [`app/references/conversation.md`](../app/references/conversation.md)
 once, for what the build says at each step.
