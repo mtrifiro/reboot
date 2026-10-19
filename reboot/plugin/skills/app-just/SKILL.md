@@ -24,8 +24,9 @@ prompt doesn't name.
 - **Sign-in:** anyone signed in can do everything; every method has
   an authorizer from day one, never `allow()`. Roles only when the
   prompt names them.
-- **The look:** the house look, navy, unless the prompt names an
-  accent from `web-app/references/ui-design.md`'s list or a brand.
+- **The look:** the house look and its palette, cream and navy,
+  unless the prompt names a palette from
+  `web-app/references/ui-design.md`'s list or a brand.
 - **Everything else** the prompt leaves open: the simplest choice,
   said in one line when it matters ("Rooms keyed by hotel and number;
   say so to change it"), never asked.
@@ -42,7 +43,7 @@ The prompt, no more:
   hotel and number, staff only") is built as written, not redesigned.
 - Handed over from the `app-design` skill's round ("just build it"): the
   prompt as typed plus any answers given (the features chosen, in that order;
-  who signs in; the accent) are the spec, built as written; the
+  who signs in; the palette) are the spec, built as written; the
   features are the only ones built.
 - A `design/design.md` already in the project (the `app-design` skill's,
   proposed or accepted) is the spec: the prompt names the part of it
