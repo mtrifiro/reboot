@@ -41,7 +41,9 @@ in <accent>."
    the page head with its eyebrow, title and lede inside the
    `brand-band`, the deep accent; the leading figure as a `stat` in
    the `stats` row that overlaps the band's lower edge, or a `figure`;
-   the primary view in the domain's shape (`cells` for a
+   the signature view the design's main page line names
+   (`ui-design.md`, "One Signature View"), drawn with believable
+   numbers; the primary view in the domain's shape (`cells` for a
    plan, `list-card` rows, a `board`, a table) with six to twelve
    believable rows in the design's own nouns and names; the side panel
    when the page has one; the primary action as the one `primary`
