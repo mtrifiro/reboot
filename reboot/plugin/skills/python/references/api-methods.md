@@ -55,12 +55,16 @@ from reboot.api import (
 AccountMethods = Methods(
     balance=Reader(
         request=None, response=BalanceResponse,
-        description="The funds currently available to withdraw.",
+        description="Returns how much money the account holds right "
+        "now, which is the most that can be withdrawn or transferred "
+        "out of it.",
         mcp=None,
     ),
     deposit=Writer(
         request=DepositRequest, response=None,
-        description="Add funds. Any amount is accepted.",
+        description="Adds the amount given to the account's balance. "
+        "Any positive amount is accepted, and the new balance is "
+        "visible to every reader as soon as the deposit returns.",
         mcp=None,
     ),
 )
@@ -71,8 +75,10 @@ BankMethods = Methods(
         # its own state, so transfers proceed through it concurrently.
         mode=Shared(),
         request=TransferRequest, response=TransferResponse,
-        description="Move funds between two accounts, both sides "
-        "landing together or neither.",
+        description="Moves an amount from one account to another. "
+        "The withdrawal and the deposit happen together or not at "
+        "all, so money is never taken from one account without "
+        "reaching the other.",
         mcp=None,
     ),
 )
@@ -214,15 +220,17 @@ All four method kinds take an optional `description=`:
 balance=Reader(
     request=None,
     response=BalanceResponse,
-    description="The funds currently available to withdraw.",
+    description="Returns how much money the account holds right "
+    "now, which is the most that can be withdrawn.",
     mcp=None,
 ),
 withdraw=Writer(
     request=WithdrawRequest,
     response=None,
     errors=[OverdraftError],
-    description="Take funds out, or raise `OverdraftError` if the "
-    "balance would go negative.",
+    description="Takes the amount given out of the account. If the "
+    "account holds less than that, nothing is taken and the call is "
+    "refused with `OverdraftError`, which says how much is available.",
     mcp=Tool(),
 ),
 ```
@@ -231,6 +239,41 @@ The dev dashboard shows it, and `mcp=Tool()` methods use it as the
 tool's description. Write what a caller cannot derive from the
 signature: the precondition, the side effect, the unit, which error it
 raises and when.
+
+### How a description reads
+
+The descriptions are the app's own documentation: a teammate reads
+them on the dashboard's Models page, and an AI caller reads them to
+decide what to call. Write them to explain, for someone who knows the
+domain but not this app:
+
+- **Whole sentences, in the domain's words.** A method's opens with
+  what it does as a verb ("Checks a walk-in guest into the room…"),
+  an object's with what one instance is ("One of the hotel's
+  rooms…"), a field's with what the value means. Never a fragment,
+  a list of nouns, or a colon doing a sentence's work.
+- **The why beside the what.** Say what the rule protects: not "the
+  consistency boundary for every step", but "every change to a room
+  goes through it one at a time, so two people can't check two guests
+  into it at once".
+- **The conditions in full.** What must be true first, what changes,
+  who sees it, and each error by name with what it tells the caller.
+- **Two to four sentences** for an object or a method, one or two for
+  a field. Calm and plain: no jokes, no clipped shorthand, no "just".
+
+```python
+# DON'T — terse, and it leaves the reader to work out the why.
+description="One room, keyed by its number: its status in the cycle "
+"occupied, dirty, cleaned, inspected, and the guest in it. The "
+"consistency boundary for every step taken on it."
+
+# DO — what it is, what it holds, and what that guarantees.
+description="One of the hotel's rooms, found by its room number. It "
+"holds where the room is in the housekeeping cycle (occupied, then "
+"dirty, cleaned and inspected, ready again) and who is staying in it. "
+"Every change to a room goes through it one at a time, so two people "
+"can never check two guests into the same room."
+```
 
 A state type takes one too, via `Type(description=...)`; see
 `api-pydantic.md`.
