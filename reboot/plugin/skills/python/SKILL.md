@@ -249,9 +249,11 @@ genuinely isn't covered, bound the output hard (a targeted
 range), never a whole generated file.
 
 Read this plugin's own skills and references with the Read tool, one
-call per file, several in one response when several are needed, and
-Glob to find one (Grep where the host has it; the Claude app doesn't),
-never `cat`, `awk`, `sed` or a loop in a shell. A shell result over
+call per file, several in one response when several are needed, each
+at its link's path from the skill's base directory; to find one, a
+bounded `find` through Bash. Never the Glob or Grep tool: the Claude
+app has neither, and the call fails. Never `cat`, `awk`, `sed` or a
+loop in a shell. A shell result over
 about 30 KB comes back as a 2 KB preview and a note that the rest was
 saved to a file, so a batch of references read that way never reaches
 the build: music-1 built its servicers from the preview of seven
