@@ -104,7 +104,7 @@ line each, with its link: "`book` is a Transaction ([decided](…))".>
   (`web-app/references/ui-design.md`, "One Signature View").
 
 <When the build drew a comp (`web-app/references/comp.md`), the main
-page's line ends with "([comp](comp/index.html))", a link to the mockup
+page's line ends with "([mockup](comp/mockup.html))", a link to the mockup
 it is built to.>
 
 ## Sign-in
