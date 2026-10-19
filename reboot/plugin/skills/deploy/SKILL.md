@@ -1,6 +1,6 @@
 ---
 name: deploy
-description: Deploy a finished Reboot app to production — the backend on Reboot Cloud, and the web frontend (if the app has one) published to a static host (Cloudflare Pages) under the user's own custom domain, talking to the backend cross-origin. Covers the production frontend build (backend URL, SPA fallback, asset paths), publishing with wrangler, attaching the domain, and the Application(allowed_origins=...) configuration that lets the browser reach the backend.
+description: Deploy a finished Reboot app to production on Reboot Cloud with `rbt cloud up` — one container that runs the backend and serves the built MCP Apps and web app from it, same-origin, so there is no second host, no cross-origin configuration and no cross-site cookie trouble. Covers the Dockerfile that builds the frontend into the image, the `.rbtrc` `serve run` lines that serve it, the OAuth and `allowed_origins` production checks, and verification; and what hosting the web app on a CDN of your own (Cloudflare Pages, Firebase, Vercel, ...) costs instead.
 argument-hint: [<project-directory>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit, AskUserQuestion
 ---
@@ -9,17 +9,16 @@ allowed-tools: Bash, Read, Write, Glob, Grep, Edit, AskUserQuestion
 
 > **Version notices** from `rbt` (a mismatch, a newer Reboot): the [upgrade skill](../upgrade/SKILL.md).
 
-Backend on **Reboot Cloud**, web frontend (a React SPA) on Cloudflare
-Pages under the user's **own domain**, talking cross-origin: the SPA
-calls `https://<application-id>.<cell>.rbt.cloud:9991` directly, and
-the backend allows that origin via `OAuth(allowed_origins=[...])`.
-An MCP UI with **no** web frontend: only the backend deploy applies —
-do Step 2, then Step 6's release record, and stop. MCP UIs ship inside
-the backend image and the backend serves them; nothing is hosted
-externally.
+`rbt cloud up` puts the app in **one container** on **Reboot Cloud**:
+the backend, and the built frontend it serves from the image, the MCP
+Apps under `/__/frontend/` and the web app (a React SPA) at `/`. The
+browser, the backend and sign-in share one origin,
+`https://<application-id>.<cell>.rbt.cloud:9991`: no second host, no
+backend URL baked into the frontend, no cross-site cookie to lose. A
+new revision is the same `rbt cloud up` again (Step 4).
 
 > This skill **deploys**; it changes nothing beyond production
-> configuration. Building: the [`mcp-ui` skill](../mcp-ui/SKILL.md)
+> configuration. Building: the [`mcp-app` skill](../mcp-app/SKILL.md)
 > and the [web-app skill](../web-app/SKILL.md); running locally: the
 > [run skill](../run/SKILL.md).
 
@@ -44,16 +43,22 @@ split is cheap now and a schema change after
 Ask everything below up front, in one `AskUserQuestion` round or one
 message, so no later step stalls:
 
-1. **The frontend's domain** — e.g. `app.example.com` — and whether
-   its DNS is managed on Cloudflare. Custom domains are the static
-   host's feature, so the hostname must be attachable there.
-2. **Cloudflare credentials** for headless publishing:
-   `CLOUDFLARE_ACCOUNT_ID` and a `CLOUDFLARE_API_TOKEN` with
-   permissions Cloudflare Pages: Edit, Zone: Read, and DNS: Edit
-   (DNS only when the zone is on Cloudflare).
-3. **Reboot Cloud access**: `REBOOT_CLOUD_API_KEY`, the
-   organization, and an application name — see
-   `python/references/lifecycle-reboot-cloud.md`.
+1. **Reboot Cloud access**: `REBOOT_CLOUD_API_KEY`, and the
+   organization (the first deploy only) — see
+   `python/references/lifecycle-reboot-cloud.md`. The application
+   name is not asked: `rbt cloud up` reads it from `.rbtrc`. Add these
+   lines, with the `serve run --application-name`'s name, where they
+   are missing:
+
+   ```sh
+   cloud up --application-name=<app>
+   cloud down --application-name=<app> --expunge
+   cloud logs --application-name=<app>
+   ```
+
+2. **Production OAuth**, if the app has `oauth=`: which provider, and
+   its client id and secret (Cloud secrets,
+   `python/references/lifecycle-secrets.md`).
 
 Export the secrets as environment variables; never pass them as
 command-line flags (visible in the process listing).
@@ -66,158 +71,98 @@ Say so in one line and ask in a question dialog (`AskUserQuestion`
 where available): "Build Who may do what first" (recommended) or
 "Deploy anyway". Never deploy such an app without that answer.
 
-## Step 2 — Deploy the backend to Reboot Cloud
+## Step 2 — Production readiness
 
 Follow `python/references/lifecycle-reboot-cloud.md` (with
-`python/references/lifecycle-dockerfile.md` for the image and
 `python/references/lifecycle-secrets.md` for secrets). Checks that
 bite here:
 
 - **A real OAuth provider.** `Development()` is dev-only; the `prod=`
-  provider must be set, and the backend's `/__/oauth/callback`
-  redirect URI registered with the IdP
-  (`mcp-ui/references/auth-oauth-providers.md`, per provider).
+  provider must be set, and the backend's
+  `https://<application-id>.<cell>.rbt.cloud:9991/__/oauth/callback`
+  redirect URI registered with the IdP once the URL is known
+  (`mcp-app/references/auth-oauth-providers.md`, per provider).
+- **`allowed_origins=[]`.** In production an app with `oauth=` must
+  set `OAuth(allowed_origins=...)`, or startup fails. The backend
+  serves the web app, so its only browser origin is the backend's
+  own, always trusted: the empty list. Only a web app hosted elsewhere
+  (the last section) lists an origin.
 - **Authorizers everywhere.** Every externally reachable method
   needs an authorizer; calls without one are denied in production
   (`python/references/servicer-authorizer.md`).
-- **Dual-frontend apps:** the Docker image must still run the MCP UI
-  builds so `dist/mcp/<name>/` is in the image (the backend serves
-  those); the **web** SPA goes to the static host and need not be.
+- **No baked-in backend URL.** The React client finds the backend at
+  the page's own origin, so `frontend/web/.env.production` must not
+  set `VITE_REBOOT_URL` (delete the file if that is all it holds);
+  one pointing anywhere else turns every call cross-origin and breaks
+  sign-in.
 
-Record the API URL `rbt cloud up` prints,
-`https://<application-id>.<cell>.rbt.cloud:9991`; Step 4 bakes it in.
+## Step 3 — The container serves the frontend
 
-## Step 3 — Allow the frontend's origin on the backend
+`rbt cloud up` builds the project's `Dockerfile`; its canonical
+layout, with the frontend layers any app with a `frontend/` adds, is
+`python/references/lifecycle-dockerfile.md`. Two halves:
 
-The browser only reaches the backend cross-origin when the frontend's
-origin is in the app's allow-list:
-
-```python
-application = Application(
-    ...,
-    oauth=OAuth(
-        provider=...,
-        allowed_origins=["https://app.example.com"],
-    ),
-)
-```
-
-Rules:
-
-- Entries are exact origins — `scheme://host[:port]`, no trailing
-  slash, no path. List **every** origin the frontend is served from:
-  `https://example.com` and `https://www.example.com` if both
-  resolve, `https://<project>.pages.dev` if the user wants it to work
-  too.
-- This one list is both the CORS policy on Reboot Cloud's proxy
-  **and** the OAuth browser flow's redirect validation
-  (`/__/oauth/start?return_to=...` only accepts origins on it); no
-  separate OAuth configuration exists.
-- In production, an app with `oauth=` set **must** set
-  `allowed_origins` (the empty list is accepted for apps with no
-  browser frontend); startup fails otherwise.
-
-After adding it, redeploy: `rbt cloud up`.
-
-## Step 4 — Build the frontend for production
-
-`frontend/vite.config.ts` builds the SPA, `frontend/web/`, into
-`frontend/dist/web/` at `base: "/"`: a plain build served at any
-host's root.
-
-1. **Bake in the backend URL.** Next to
-   `frontend/web/.env.development` (which sets `VITE_REBOOT_URL` for
-   dev), write `frontend/web/.env.production`:
+1. **The `Dockerfile`** copies `frontend/` in before `rbt generate`,
+   then runs `cd frontend && npm ci && npm run build`, so
+   `frontend/dist/mcp/<name>/` (the MCP Apps) and `frontend/dist/web/`
+   (the web app) are in the image. `.dockerignore` keeps
+   `frontend/node_modules/` and `frontend/dist/` out of the context.
+2. **`.rbtrc`'s `serve run` lines** point the backend at the builds:
+   an MCP App has the first line, a web app the second, a
+   dual-frontend app both:
 
    ```sh
-   VITE_REBOOT_URL=https://<application-id>.<cell>.rbt.cloud:9991
+   serve run --mcp-app-dist-path=frontend/dist/mcp
+   serve run --web-app-dist-path=frontend/dist/web
    ```
 
-   Vite's production build reads it; the dev one stays.
+   `--web-app-dist-path` serves the SPA at `/`, its `index.html`
+   answering any path with no route or file, so the SPA's routing
+   works on reload, as `dev run --web-app` does from the dev server.
+   The web build is at `base: "/"`, so any URL-path router's basename
+   stays `"/"`. The other production lines are in
+   `lifecycle-rbtrc.md`.
 
-2. **Build.** `cd frontend && npm run build`. The publish directory is
-   `frontend/dist/web/`, where `index.html` lands. Without a top-level
-   `404.html`, Pages serves `index.html` for any path it has no file
-   for: URL-path routes need no routing file.
+If anything above changed, try the builds locally first:
+`rbt dev run --config=dist` (after `cd frontend && npm run build`)
+serves them the way `rbt serve run` will.
 
-   A dual-frontend app builds with the `mcp-ui` skill's
-   `vite.config.ts`, whose web build carries the `/__/frontend/web/`
-   prefix the backend serves it under. For it, a `_redirects` file in
-   `frontend/web/public/` (Vite copies it into the build) maps the
-   prefix back onto the published files, and any URL-path router's
-   basename stays `"/"` — never `basename={import.meta.env.BASE_URL}`,
-   which bakes the prefix into route matching in the browser:
+## Step 4 — Deploy
 
-   ```
-   /__/frontend/web/* /:splat 200
-   /* /index.html 200
-   ```
-
-## Step 5 — Publish to Cloudflare Pages and attach the domain
-
-With `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` exported,
-`wrangler` runs headless (no `wrangler login`):
+With `REBOOT_CLOUD_API_KEY` exported:
 
 ```sh
-npx --yes wrangler@4 pages project create <project-name> \
-    --production-branch=main
-npx --yes wrangler@4 pages deploy <publish-directory> \
-    --project-name=<project-name> --branch=main
+rbt cloud up --organization=<org>
 ```
 
-The deploy prints `https://<project-name>.pages.dev`, already live.
-Attach the custom domain via the Cloudflare API (wrangler has no
-subcommand for it):
+(`--organization` the first time only.) It builds the image, pushes
+it, rolls out a revision and prints the app's URL,
+`https://<application-id>.<cell>.rbt.cloud:9991`: the web app (`/`),
+the MCP endpoint (`/mcp`) and the API at once. Register
+`<that URL>/__/oauth/callback` with the IdP now if Step 2 waited on
+it; no redeploy is needed. Secrets go in with `rbt cloud secret set`
+and roll the app on their own.
 
-```sh
-curl -sS -X POST \
-    "https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/pages/projects/<project-name>/domains" \
-    -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
-    -H "Content-Type: application/json" \
-    --data '{"name": "app.example.com"}'
-```
+## Step 5 — Verify
 
-Then DNS. On a Cloudflare zone, create the record via the API (zone
-id: `GET /zones?name=example.com`):
+With `URL=https://<application-id>.<cell>.rbt.cloud:9991`:
 
-```sh
-curl -sS -X POST \
-    "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records" \
-    -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
-    -H "Content-Type: application/json" \
-    --data '{"type": "CNAME", "name": "app.example.com", "content": "<project-name>.pages.dev", "proxied": true}'
-```
-
-When the zone is **not** on Cloudflare, tell the user to add
-`CNAME app.example.com → <project-name>.pages.dev` at their DNS
-provider; the attachment validates once it resolves, and Cloudflare
-then provisions TLS.
-
-Redeploys are `wrangler pages deploy` again — the project and domain
-stay put.
-
-## Step 6 — Verify
-
-1. **Static serving:** `curl -sSI https://app.example.com/` returns
-   200 with `content-type: text/html`; a deep route
-   (`curl -sSI https://app.example.com/some/route`) also returns 200
-   (the SPA fallback).
-2. **CORS:**
-
-   ```sh
-   curl -sSI "https://<application-id>.<cell>.rbt.cloud:9991/__/oauth/whoami" \
-       -H "Origin: https://app.example.com"
-   ```
-
-   must include `access-control-allow-origin: https://app.example.com`
-   and `access-control-allow-credentials: true`. If not, the backend
-   in the Cloud predates the `allowed_origins` change — redeploy it.
-
+1. **The web app:** `curl -sSI "$URL/"` and a deep route
+   (`curl -sSI "$URL/some/route"`, the SPA fallback) return 200 with
+   `content-type: text/html`. Reboot's own page at `/` means
+   `--web-app-dist-path` is missing or names a directory the image
+   did not build.
+2. **The MCP Apps:** `curl -sSI "$URL/__/frontend/mcp/<name>/index.html"`
+   (a `UI(path="<name>")`, built to `frontend/dist/mcp/<name>/`)
+   returns 200; a 404 means `--mcp-app-dist-path` is missing or the
+   build is not in the image.
 3. **In the browser** (the user, or a browser tool if available):
-   open `https://app.example.com`, sign in, and confirm signed-in data
-   renders: live data proves the WebSocket path cross-origin too.
+   open `$URL/`, sign in (through `/__/oauth/start` and back to `/`,
+   same-origin), and confirm signed-in data renders and updates live.
+   An app with MCP Apps: connect an MCP client to `$URL/mcp` and
+   render one.
 4. **The release record:** `python3 scripts/release_record.py
-   --revision <N> --api-url <url> --site <url>` from the deploy's
+   --revision <N> --api-url "$URL" --site "$URL"` from the deploy's
    output appends the release record to `deploy/ledger.jsonl`. Close
    with the **Reboot Observe · live** card
    ([`app/references/flywheel.md`](../app/references/flywheel.md)).
@@ -225,19 +170,43 @@ stay put.
 ## Troubleshooting
 
 - **Blank page, console full of MIME-type or 404 asset errors:** the
-  asset prefix doesn't match the host — on the dual-frontend layout,
-  `_redirects` lacks the `/__/frontend/web/*` rewrite line, or it
-  isn't first.
-- **Routes render nothing on the custom domain but the app loads at
-  `/`:** router basename baked from `import.meta.env.BASE_URL`
-  (Step 4.3).
-- **Browser console shows CORS errors:** the exact origin (watch
-  scheme and `www.`) is missing from `allowed_origins`, or the
-  backend wasn't redeployed after adding it.
-- **Sign-in fails with an invalid-redirect error:** same cause — the
-  frontend origin isn't on `allowed_origins`, so `/__/oauth/start`
-  refuses the `return_to`.
-- **Signed-in session doesn't survive a reload in Safari/Firefox:**
-  tracking prevention strips the cross-site session cookie that
-  silent restoration relies on. Sign-in still works; the user signs
-  in again — a known limit of fully cross-site hosting.
+  build's `base` doesn't match where it is served; the web build is
+  at `base: "/"`.
+- **Routes render nothing but the app loads at `/`:** router basename
+  baked from `import.meta.env.BASE_URL`; keep it `"/"`.
+- **CORS errors, or sign-in fails with an invalid-redirect error:**
+  the page calls an origin other than the one it was served from: a
+  `VITE_REBOOT_URL` is baked into the build (Step 2); remove it and
+  rebuild.
+- **Startup fails naming `allowed_origins`:** `oauth=` without an
+  explicit list; set `[]` (Step 2).
+- **The image builds locally but Cloud rejects it, or `rbt serve run`
+  fails on boot:** the Dockerfile departs from the canonical layout
+  (base image version, `CMD`, layer order): `lifecycle-dockerfile.md`'s
+  gotchas.
+
+## Hosting the web app somewhere else
+
+The web build is a plain SPA, so it _can_ go on a static host of the
+user's choosing (Cloudflare Pages, Firebase Hosting, Vercel, Netlify,
+S3) with the backend still on Reboot Cloud. Only when the user asks,
+and say what it costs first:
+
+- **It is cross-site.** `app.example.com` and
+  `<application-id>.<cell>.rbt.cloud` are different sites, so the
+  session cookie is third-party: Chrome keeps it, Safari and Firefox
+  strip it, and the user signs in again on every visit there. Same-site
+  hosting (`api.example.com` beside `app.example.com`) needs Reboot
+  Cloud's upcoming **custom domains**; until then persistent sign-in
+  is Chrome-only.
+- **Reboot Cloud is going to serve the web bundle from a CDN itself**,
+  so edge delivery, the main reason to host elsewhere, is going away
+  and this setup becomes something to undo.
+
+If the user still wants it: build with `VITE_REBOOT_URL=<the backend's
+URL>` in `frontend/web/.env.production`, list the app's exact origins
+(`scheme://host`, no trailing slash) in `OAuth(allowed_origins=[...])`,
+drop the `serve run --web-app-dist-path` line, publish
+`frontend/dist/web/` with the host's own tooling and point the domain
+at it; pass that URL as the release record's `--site`. The MCP Apps
+stay in the image; the backend serves them.

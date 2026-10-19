@@ -5,13 +5,13 @@
     "email": "team@reboot.dev"
   },
   "metadata": {
-    "description": "Skills for building MCP UIs with Reboot.",
+    "description": "Skills for building MCP Apps with Reboot.",
     "version": "1.6.0"
   },
   "plugins": [
     {
       "name": "reboot",
-      "description": "Use Reboot to build MCP UIs for ChatGPT, Claude, VSCode, Goose, and others.",
+      "description": "Use Reboot to build MCP Apps for ChatGPT, Claude, VSCode, Goose, and others.",
       "source": "./",
       "strict": false,
       "skills": [
@@ -30,7 +30,9 @@
         "./skills/manual",
         "./skills/explain",
         "./skills/what-next",
-        "./skills/mcp-ui",
+        "./skills/help",
+        "./skills/quickstart",
+        "./skills/mcp-app",
         "./skills/web-app",
         "./skills/run",
         "./skills/agents-md",
