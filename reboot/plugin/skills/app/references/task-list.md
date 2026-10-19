@@ -70,8 +70,8 @@ Its frontend, straight after:
 2. Test it in a browser
 
 Item 1 covers the frontend scaffold, the page and starting the app.
-Item 2 covers the browser scenario, the first-paint time
-(`web-app/references/first-paint.md`) and the layout checks
+Item 2 covers the browser scenario, the vitals
+(`web-app/references/vitals.md`) and the layout checks
 (`web-app/references/ui-design.md`, "Measure what can be measured"),
 at desktop and phone width; it ends with the line linking the app and
 the dashboard. A first feature seen from both sides (`app-guided` skill,
