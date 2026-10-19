@@ -22,9 +22,8 @@ in the shape of [`design-messages.md`](design-messages.md).
 
 ## 3. The go-ahead
 
-The proposed design (section 2) sits as text just above the dialog,
-in the same response, every heading filled, features and rules before
-the domain model; for a web app built by the `app-guided` skill, the
+The proposed design (section 2) is open as a page beside the chat and
+its summary sits just above the dialog, in the same response; for a web app built by the `app-guided` skill, the
 comp's line comes between them
 ([`../../web-app/references/comp.md`](../../web-app/references/comp.md)):
 a mockup of the main page in the look, served and opened in the pane. Then
@@ -54,8 +53,8 @@ the build order, pages alongside backends, one stop at the end, what
 to watch meanwhile (the task list, the dashboard filling in). Step by
 step: each stop and what the user does there (the domain model on the
 dashboard, the backend's rules proven before its page, each
-feature's handoff to try). Both: the design goes to
-`design/design.md` to read and change, and one line on what Reboot
+feature's handoff to try). Both: the design is in `design/design.md`,
+drawn as the page beside the chat, to read and change, and one line on what Reboot
 does for them (`conversation.md`, "Say what Reboot does here"). No
 new facts about the design.
 
@@ -86,13 +85,15 @@ user's words are the agreement.
   the design as proposed, no features added: no stops, one handoff at
   the end. The task list is the whole-app list (`task-list.md`, where
   the plugin has it), its first item done.
-- **Start building** (step by step, or the first feature named): build it by the
+- **Start building** (step by step, or the first feature named): the
+  first feature's **Methods** go into `design/design.md` and the page
+  is drawn again (`design-document.md`), then build it by the
   front door's one-feature flow. At the first handoff,
   `design/design.md` becomes the accepted design (`accept-design.md`),
   and **Assumed** moves into the first decisions entry.
-- **Not yet, or the dialog skipped:** write `design/design.md`
-  (the `app-design` skill, section 3), then one short reply: "The whole design is in
-  design/design.md.", the path a Markdown link to the file in the
+- **Not yet, or the dialog skipped:** one short reply: "The whole
+  design is open beside the chat and in design/design.md.", the path a
+  Markdown link to the file in the
   user's project, then "Tell me to continue when you're ready, or
   what to change." Then stop: no dialog now.
   "Continue" (or "go", "build it") asks **Build on this design?**
@@ -234,10 +235,11 @@ unchanged, but for these questions.
 
 ## Never
 
-- "Build on this design?" without the proposed design as text just
-  above it (section 3): the question asks the user to judge it. A
-  sentence that the design is in `design/design.md`, or a message
-  drafted only in thinking, is not it.
+- "Build on this design?" without the design's page open beside the
+  chat and its summary just above the dialog (section 3): the question
+  asks the user to judge it. A sentence that the design is in
+  `design/design.md` with no page drawn, or a message drafted only in
+  thinking, is not it.
 - A dialog on the prompt-by-prompt path: the user chose to be asked
   nothing.
 - "Build on this domain model?" without its lead line and the
