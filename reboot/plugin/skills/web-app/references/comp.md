@@ -16,7 +16,7 @@ and before **Build on this design?**. On the first-feature-only path
 made right after `design/design.md`, its line said, and the build goes
 straight on, the page built from it. The whole app, hands off, and the
 prompt-by-prompt path don't make one (the user sees the app at the
-end), an MCP UI doesn't (its views live in a host), and a host that
+end), an MCP App doesn't (its views live in a host), and a host that
 can't run commands skips it with no line.
 
 **Make it,** about a minute, one line first: "Making a mockup of the <page>,
@@ -132,5 +132,5 @@ above when it is wanted again.
   design and the line without "Making a mockup of the <page>".
 - The comp opened in the user's external browser in the Claude app.
 - A comp on the whole-app (hands off) or prompt-by-prompt path, for
-  an MCP UI, or where commands can't run; or a stop to wait on it on
+  an MCP App, or where commands can't run; or a stop to wait on it on
   the first-feature-only path.

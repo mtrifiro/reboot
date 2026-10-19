@@ -35,13 +35,13 @@ my-app/
   tests/                 # see `testing-project-setup.md`
     <capability>.feature
     <name>_test.py
-  frontend/              # see the `web-app` and `mcp-ui` skills
+  frontend/              # see the `web-app` and `mcp-app` skills
     api/                 # rbt generate --react output
     web/                 # the browser SPA, if the app has one
-    mcp/<ui-name>/       # the MCP UIs, if the app has any
+    mcp/<ui-name>/       # the MCP Apps, if the app has any
 ```
 
-An MCP UI copies its own shell (`mcp-ui/references/project-shell.md`).
+An MCP App copies its own shell (`mcp-app/references/project-shell.md`).
 A web app or a backend renders the shell and the starter app from the
 `python` skill's assets, named for the design, never retyped and never
 read:
@@ -101,7 +101,10 @@ exists is kept. What the shell holds, and the rule behind each file:
   the config is live, `reveal_type` a typed local (below): it names
   your class. Never test it on `self.state`, which is `Any` either
   way.
-- `.rbtrc`: `lifecycle-rbtrc.md`. `pytest.ini`:
+- `.rbtrc`: the `generate`, `dev run`, `dev expunge` and `serve run`
+  lines, and the dashboard's `portless` (default) and `ports` configs;
+  `--web` appends the web app's `portless` / `ports` / `dist` configs
+  (`lifecycle-rbtrc.md`). `pytest.ini`:
   `testing-project-setup.md`. `backend/src/main.py`:
   `lifecycle-application-entry.md`.
 

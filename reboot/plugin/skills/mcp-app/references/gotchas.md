@@ -1,11 +1,11 @@
 ---
-title: MCP UI–Specific Gotchas
+title: MCP App–Specific Gotchas
 impact: CRITICAL
-impactDescription: The trip list specific to the MCP UI layer. Every entry is a real failure mode the MCP UI codegen, runtime, or build surfaces — most are caught at startup or at codegen rather than at write time, so they look like runtime errors but are static schema problems.
+impactDescription: The trip list specific to the MCP App layer. Every entry is a real failure mode the MCP App codegen, runtime, or build surfaces — most are caught at startup or at codegen rather than at write time, so they look like runtime errors but are static schema problems.
 tags: gotchas, traps, errors, mcp, ui, factory, workflow, ref, schedule, optional, react, vite, snake-camel
 ---
 
-## MCP UI–Specific Gotchas
+## MCP App–Specific Gotchas
 
 For the rest of the trip-list — pydantic APIs, not `.proto`; no `__init__.py`
 in `api/`, pydantic Field zero-default rule, `self.ref().state_id`
@@ -14,7 +14,7 @@ paths, `Service.create(context, id)` semantics, register-all-Servicers
 — see `python/references/patterns-common-gotchas.md` and
 the per-topic references.
 
-The list below is what's specific to the MCP UI layer:
+The list below is what's specific to the MCP App layer:
 
 1. **React bindings use camelCase.** Python `from_index` becomes
    TypeScript `fromIndex`; same for every snake_case field name.
@@ -36,10 +36,16 @@ The list below is what's specific to the MCP UI layer:
 6. **Generated React import path:**
    `@api/<pkg>/v1/<name>_rbt_react`.
 
-7. **Use `--default-config=hmr`** in `.rbtrc` (not `--default=hmr`).
+7. **Use `--default-config=portless`** in `.rbtrc` (not
+   `--default=portless`).
 
-8. **`UI(path="frontend/mcp/<name>")`** — path is relative to project
-   root.
+8. **`UI(path="<name>")`** — `path` is the UI's URL path under
+   `/__/frontend/mcp/` (`"clicker"`, or nested, `"shop/cart"`), not
+   a directory: its source is `frontend/mcp/<path>/` (the Vite
+   plugin's `mcpAppPath`) and its build
+   `frontend/dist/mcp/<path>/index.html`
+   (`--mcp-app-dist-path=frontend/dist/mcp`). `path="frontend/mcp/x"`
+   is refused.
 
 9. **`UI(request=<ConfigType>)`** passes config as React component
    props. `UI(request=None)` passes no props. `request=<Model>` is
@@ -156,18 +162,19 @@ The list below is what's specific to the MCP UI layer:
     `python/references/servicer-workflow.md`.)
 
 19. **`frontend/dist/mcp/<name>/index.html` is the right location** for
-    the built MCP UI — that's where the MCP server's
-    `_resolve_dist_path` looks. The `vite.config.ts` shipped with
-    this skill produces it correctly out of the box: the
+    the built MCP App — `<--mcp-app-dist-path>/<path>/index.html`,
+    with `--mcp-app-dist-path=frontend/dist/mcp` in `.rbtrc`. Reboot's
+    Vite plugin (`reboot()` from `@reboot-dev/reboot-react/vite`)
+    produces it correctly out of the box: the
     `RBT_BUILD_TARGET=mcp:<name>` build roots itself at `mcp/<name>/`,
     so its `index.html` lands at the nested path while
     `viteSingleFile` inlines the JS/CSS. If you see
-    `Web artifact 'frontend/dist/mcp/<name>/index.html' is missing`, run
+    `The '<ui>' MCP App's build '.../index.html' is missing`, run
     `cd frontend && npm run build` — do **not** rewrite the Vite config
-    to emit a flat `dist/<name>.html`; that breaks discovery.
+    to emit a flat `dist/<name>.html`; that breaks the lookup.
 
 20. **LLM / model API calls go in a `Workflow`, never a
-    `Transaction`.** MCP UIs routinely call a model (to summarize,
+    `Transaction`.** MCP Apps routinely call a model (to summarize,
     rank, classify, generate). Reboot **retries transactions**, so a
     model call inside one is billed multiple times for a single
     logical request — and a transaction has no memoization to prevent
