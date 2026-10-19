@@ -19,11 +19,19 @@ line each, never as a question of its own and never done unasked:
   the joins.
 - **A circle:** layer the packages so the one on top imports the
   others and none imports back.
-- **What it costs,** said with it: a method can't declare an error
-  from another package (reboot#258), so the top package keeps its own
-  copy of each error it passes on; each package needs its own
+- **What it costs,** said with it: each package needs its own
   `.mypy.ini` entry; the dashboard links and `design.md` move to the
   new names.
+- **Errors cross packages as they are.** A method declares another
+  package's error by importing it (`from rooms.v1.rooms import
+  RoomNotReadyError`, then `errors=[RoomNotReadyError]`), and passes
+  the callee's refusal on unchanged: the rule stays in the package
+  that owns it, never checked again on top, and no package keeps a
+  copy. This needs Reboot newer than 1.6.0 (reboot#258, fixed after
+  it); on 1.6.0 the generated code fails to import with a
+  `NameError`, and the top package keeps its own copy of each error
+  it passes on, with the same name and fields, as the quickstart's
+  hotel does.
 - **When:** before the first deploy, while the data is demo data. A
   domain object's full name includes its package, so moving one after
   deploy is likely a rename, which
