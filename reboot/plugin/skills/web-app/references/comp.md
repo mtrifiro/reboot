@@ -22,17 +22,24 @@ can't run commands skips it with no line.
 **Make it,** about a minute, one line first: "Making a mockup of the <page>,
 in <palette>."
 
-1. The stylesheet, copied unread, and the palette set on the copy:
+1. The stylesheet, copied unread, the palette set on the copy, and its
+   class list, the opening comment and nothing more, printed once:
 
    ```shell
    mkdir -p design/comp && cp '<the web-app skill>/assets/starter/frontend/web/src/styles.css' design/comp/comp.css
    python3 '<the review-ui skill>/assets/look.py' --css design/comp/comp.css set palette <palette>
+   sed -n "/The app's one stylesheet/,/\*\//p" design/comp/comp.css
    ```
+
+   That list is everything the page needs: every class, its parts and
+   its states. Never open `comp.css` (over 36 KB) with the Read tool,
+   nor search it for a selector; the list names them all (hotel-260
+   read it whole twice, and searched it, before writing the page).
 2. `design/comp/page.part`, with the Write tool (named `.part`: the
    Claude app opens every `.html` the Write tool saves in the Browser
    pane, and this is only a fragment): the page only, in the
-   stylesheet's own classes (its opening comment lists them,
-   `ui-design.md`, "Build the Look", step 3; read nothing else); the
+   stylesheet's own classes, from step 1's list (`ui-design.md`,
+   "Build the Look", step 3; read nothing else); the
    bar, the badge, the note and the head are step 3's. First the brand
    mark, an inline `<svg data-mark ...>` from the domain; then the page
    head with its eyebrow, title and lede inside the
