@@ -134,6 +134,26 @@ open drawer) shows that it is narrowed and has a visible way back: an
 and Esc for a drawer. Clicking the same control again is not enough
 on its own.
 
+### Nothing Jumps, Every Tap Answers
+
+Every action in a Reboot app is a call to the backend, and every page
+fills from a live reader, so two things go wrong that a screenshot
+never shows:
+
+- **The page jumps while it loads.** Reserve the space live data will
+  fill before it arrives: a list's rows at their real height, a
+  figure's box, a board's columns, never a spinner the content then
+  replaces at another size. A drawer or a message opens over the page,
+  not into it, so nothing under the reader's eye moves.
+- **A tap waits for the server.** The tapped control shows the action
+  in the same frame (pressed, "Checking in…", disabled against a
+  second tap), and the page changes when the reader brings the result;
+  nothing on screen waits for the answer before showing that the tap
+  was taken. A refusal replaces the pending state with its sentence.
+
+Both are measured, with their budgets, in [`vitals.md`](vitals.md):
+layout shift under 0.1, a tap's next paint under 200 ms.
+
 ### Build the Look
 
 Every web app starts from one stylesheet, designed and tested once,
