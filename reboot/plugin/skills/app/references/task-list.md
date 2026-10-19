@@ -92,7 +92,7 @@ one list, backend and frontend with no stop between them:
 ## The whole app at once
 
 The same two parts, for every feature at once
-(`web-app/references/full-build.md`, `mcp-ui` built whole). The
+(`web-app/references/full-build.md`, `mcp-app` built whole). The
 backend:
 
 1. Propose the design for <app>
@@ -110,7 +110,7 @@ they find" as the frontend's last item. Item 3 of the backend is left
 off where the host has no Agent tool
 (`web-app/references/full-build.md`, "The prototype, built in two
 parts at once"); then the frontend's item 1 is "Build every page of
-the design". For an MCP UI, the frontend's item 1 is "Build every UI
+the design". For an MCP App, the frontend's item 1 is "Build every UI
 of the design" and item 2 "Test them in their AI client".
 
 ## The first feature only

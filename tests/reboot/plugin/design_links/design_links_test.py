@@ -88,6 +88,23 @@ class DesignLinks(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stdout)
         self.assertIn("everything in the code is linked", r.stdout)
 
+    def test_portless_links_are_checked_the_same(self) -> None:
+        named = (self.root / "design/design.md").read_text().replace(D, "https://dashboard.hotel.localhost/#/")
+        self.write("design/design.md", named)
+        self.assertEqual(self.run_it().returncode, 0)
+        self.write("design/design.md", named.replace("Room.book)", "Room.reserve)"))
+        self.assertIn("no object or method `hotel.v1.Room.reserve`", self.run_it().stdout)
+
+    def test_base_moves_every_link_to_another_dashboard(self) -> None:
+        before = (self.root / "design/design.md").read_text()
+        r = self.run_it("--base", "https://dashboard.hotel.localhost")
+        self.assertEqual(r.returncode, 0, r.stdout)
+        text = (self.root / "design/design.md").read_text()
+        self.assertNotIn("127.0.0.1", text)
+        self.assertIn("https://dashboard.hotel.localhost/#/models?type=hotel.v1.Room)", text)
+        self.run_it("--base", "http://127.0.0.1:9871")
+        self.assertEqual((self.root / "design/design.md").read_text(), before)
+
     def test_a_link_to_a_method_that_does_not_exist(self) -> None:
         self.write("design/design.md", DOCUMENT.replace("Room.book)", "Room.reserve)"))
         r = self.run_it()
