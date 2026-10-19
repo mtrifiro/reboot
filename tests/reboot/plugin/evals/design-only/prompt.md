@@ -1,5 +1,5 @@
 ---
-description: "A design and nothing else: the design skill runs on its own, shows the whole design, and stops with where it is and how to build it, loading no front door."
+description: "A design and nothing else: the app-design skill runs on its own, shows the whole design, and stops with where it is and how to build it, loading no front door."
 runs: 3
 max_turns: 40
 timeout_seconds: 900
