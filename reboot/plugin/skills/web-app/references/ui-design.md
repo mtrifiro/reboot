@@ -143,8 +143,13 @@ never shows:
 - **The page jumps while it loads.** Reserve the space live data will
   fill before it arrives: a list's rows at their real height, a
   figure's box, a board's columns, never a spinner the content then
-  replaces at another size. A drawer or a message opens over the page,
-  not into it, so nothing under the reader's eye moves.
+  replaces at another size. Only what moves untouched counts: a panel
+  the user's tap opens may open over the page or into it, since a
+  shift within half a second of a tap is not a layout shift. Choose by
+  the task: over the page for a quick task closed again (the view keeps
+  its width), into the page beside the view for back-and-forth work
+  (room after room on a floor plan), the view narrowing to make room
+  and the panel below it on a phone.
 - **A tap waits for the server.** The tapped control shows the action
   in the same frame (pressed, "Checking in…", disabled against a
   second tap), and the page changes when the reader brings the result;
