@@ -454,8 +454,9 @@ finished app.
    `python/references/lifecycle-seeding.md` says. Write the
    feature's scenarios in the built-in steps of
    `python/references/testing-features.md`; run `scripts/test.sh tests/<pkg>_test.py` (the feature's own scenarios) in the foreground, as the [`feature` skill](../feature/SKILL.md)'s step 4 says, and read its whole output: it is already short, never piped through `grep` or `tail`. Then run
-   `uv run mypy backend/ tests/` with `rbt dev run` stopped (`run`
-   skill, "Stopping the App"); fix what fails before any page.
+   `uv run mypy backend/ tests/`, the app stopped only after an `api/`
+   change (`run` skill, "Test runs and the running app"); fix what
+   fails before any page.
 7. The frontend is in place from step 1
    ([`references/react-client.md`](references/react-client.md) says
    what each file is for): `cd frontend && npm install`, then
@@ -492,7 +493,8 @@ finished app.
     what can be measured"), every line PASS.
 11. Run the whole suite once, in the background while the handoff is
     written (`feature` skill, "Report a full run once, at the end"):
-    stop the app (`run` skill, "Stopping the App"), start
+    the app stays up unless `api/` changed since it started (`run`
+    skill, "Test runs and the running app"); start
     `scripts/test.sh full` with the Bash tool's `run_in_background`,
     its output unpiped, and at once write the whole handoff below
     while it runs. Never wait on it: no `sleep`, no `until` loop, no
@@ -528,10 +530,11 @@ finished app.
     then its servicer with its rules, its demo data, its page or page
     change, and its scenarios. Before a non-additive change, stop the
     app with the `run` skill; start it again once the scenarios pass.
-14. Stop `rbt dev run` (`run` skill, "Stopping the App") for the
-    suite only: run the feature's own scenarios as the
+14. Run the feature's own scenarios as the
     [`feature` skill](../feature/SKILL.md)'s step 4 says (in the
-    foreground) and `uv run mypy backend/ tests/`, start it again, and
+    foreground) and `uv run mypy backend/ tests/`, the app stopped
+    only when `api/` changed (`run` skill, "Test runs and the running
+    app") and started again at once, and
     check in the browser as in step 10 only the pages this feature
     added or changed (the vitals and layout checks too). Then show
     what it changed as in step 11, with the same links: the objects
