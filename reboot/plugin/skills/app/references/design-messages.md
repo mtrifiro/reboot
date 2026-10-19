@@ -187,7 +187,7 @@ it** has scrolled away. Then one dialog, **What should I build
 next?** ([`accept-design.md`](accept-design.md)), its options the
 parts listed under **Build next**, so the user picks one with a click
 instead of typing its number. Nothing follows it but the link line
-(`guided` skill, step 4) when the turn has one to give, and no other line
+(`app-guided` skill, step 4) when the turn has one to give, and no other line
 repeats what it says.
 The full review table goes to `design/design.md`, not into this
 message.
