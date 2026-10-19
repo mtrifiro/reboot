@@ -184,19 +184,22 @@ whole task list. So:
 
 **A change to the look** (colors, typefaces, a brand, corners, the
 layout), asked for at any point after the first handoff, goes to the
-[`ui-review` skill](../../ui-review/SKILL.md): it reviews the look first, then the user picks from previews
+[`review-ui` skill](../../review-ui/SKILL.md): it reviews the look first, then the user picks from previews
 and each change can be undone. It isn't a feature, so nothing is
 recorded as kept for it.
 
+**A review of the whole app** ("review my app", "review everything",
+"is it ready?") goes to the [`review` skill](../../review/SKILL.md):
+the four reviews below side by side, one report, one choice of fixes.
 **A review of the domain model's scale** ("will this scale?",
 "review the data model") goes to the
-[`domain-review` skill](../../domain-review/SKILL.md): it reviews from numbers and
+[`review-domain` skill](../../review-domain/SKILL.md): it reviews from numbers and
 makes the changes the user picks, every rule still passing. **A review
 of the architecture or the code** ("review the architecture", "what
 would a senior engineer change?") goes to the
-[`review` skill](../../review/SKILL.md), only when the user asks. **A
+[`review-architecture` skill](../../review-architecture/SKILL.md), only when the user asks. **A
 review of the tests** ("what isn't tested?", "review our coverage")
-goes to the [`test-review` skill](../../test-review/SKILL.md), only
+goes to the [`review-tests` skill](../../review-tests/SKILL.md), only
 when the user asks. **A user manual** ("write a manual", "a guide for
 my staff") goes to the [`manual` skill](../../manual/SKILL.md).
 
