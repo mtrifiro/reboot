@@ -69,7 +69,7 @@ Reboot apps read secrets from `os.environ`; `rbt dev run` loads them
 from the env file `.rbtrc` names. Set this up **before** starting
 the backend:
 
-1. **Find the required variables.** Grep the backend for
+1. **Find the required variables.** Search the backend (`grep -rn` through Bash) for
    `os.environ[...]`, `os.environ.get(...)` and `os.getenv(...)`,
    and check `main.py` for `Application(oauth=...)` provider
    credentials. Every name found is a variable the app needs.
