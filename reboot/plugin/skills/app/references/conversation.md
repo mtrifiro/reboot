@@ -197,7 +197,8 @@ would a senior engineer change?") goes to the
 [`review` skill](../../review/SKILL.md), only when the user asks. **A
 review of the tests** ("what isn't tested?", "review our coverage")
 goes to the [`test-review` skill](../../test-review/SKILL.md), only
-when the user asks.
+when the user asks. **A user manual** ("write a manual", "a guide for
+my staff") goes to the [`manual` skill](../../manual/SKILL.md).
 
 **What to build next, for a roadmap or "what's missing"** goes to the
 [`what-next` skill](../../what-next/SKILL.md): it weighs
