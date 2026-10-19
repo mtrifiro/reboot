@@ -30,6 +30,10 @@ line each, never as a question of its own and never done unasked:
   `python/references/api-schema-evolution.md` counts as a delete and
   an add.
 
+The [`review-architecture` skill](../../review-architecture/SKILL.md)
+makes the same cut when it splits a file that holds several areas: the
+API, the servicers and the pages by the same packages.
+
 On the user's yes it is a design change like any other: the split,
 `design.md` with the new names, a decisions entry, and acceptance
 ([`accept-design.md`](accept-design.md)).
