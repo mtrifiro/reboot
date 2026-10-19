@@ -122,7 +122,8 @@ the Agent tool (Codex, say) does the steps in order.
     `frontend/api/**/*_rbt_react.ts` to check them — it is tens of
     thousands of lines that then ride along on every later turn.
 12. `cd frontend && npm run build` (sanity check the bundle).
-13. Start the app with the [`run` skill](../../run/SKILL.md), then
+13. Start the app with the [`run` skill](../../run/SKILL.md) (stopping
+    the comp's server first when `design/.comp.pid` exists), then
     check it is ready before telling the user anything about it,
     in a real browser: Playwright, installed as
     `python/references/testing-web-app.md` says (the web app
