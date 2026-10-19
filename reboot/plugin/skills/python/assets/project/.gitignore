@@ -29,7 +29,9 @@ tests/.suite-running
 tests/.progress.jsonl
 
 # The design step's comp: its stylesheet copy, server pid and look history
-# (web-app/references/comp.md); design/comp/index.html itself is kept.
+# (web-app/references/comp.md); design/comp/mockup.html, which holds its
+# stylesheet, and the index.html that opens it are kept.
 design/comp/*
+!design/comp/mockup.html
 !design/comp/index.html
 design/.comp.pid
