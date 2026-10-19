@@ -252,8 +252,9 @@ Flywheel:
    feature at a time, so you understand each part as it's built"
    (recommended), "A full working prototype first, then finished
    feature by feature", or "Prompt by prompt: I say what to build at each step; ask me nothing".
-3. Read the API references, then show the proposed design, word for
-   word in the shape of
+3. Read the API references, then write the proposed design and draw
+   it as a page, as the [`app-design` skill](../app-design/SKILL.md)'s
+   section 3 says, its summary in the shape of
    [`app/references/design-messages.md`](../app/references/design-messages.md),
    with the answers in it, before writing the API. It decides the
    brief (who uses the app, on what screen, the task, the one
