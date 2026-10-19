@@ -11,10 +11,13 @@ A comp is a mockup of the main page, made once as a static page in the look the
 design names, with believable rows and no data behind it: where the
 frontend is going, shown with the design so the go-ahead judges both.
 The `app-guided` skill makes it for a web app after the proposed design
-and before **Build on this design?**. The `app-whole` and the
-prompt-by-prompt path don't (no stop to show it at), an MCP UI doesn't
-(its views live in a host), and a host that can't run commands skips
-it with no line.
+and before **Build on this design?**. On the first-feature-only path
+(`app-basic`, `app-whole` with ", basic") it is a preview with no stop:
+made right after `design/design.md`, its line said, and the build goes
+straight on, the page built from it. The whole app, hands off, and the
+prompt-by-prompt path don't make one (the user sees the app at the
+end), an MCP UI doesn't (its views live in a host), and a host that
+can't run commands skips it with no line.
 
 **Make it,** about a minute, one line first: "Making a mockup of the <page>,
 in <accent>."
@@ -93,7 +96,9 @@ in <accent>."
 4. One line in the chat, then the go-ahead dialog: "**Where it is
    going:** [a mockup of the <page>](http://localhost:<port>/),
    in <accent>, with no data behind it; the real page
-   replaces it at the frontend step." A change to it typed as the
+   replaces it at the frontend step." On the first-feature-only path
+   the line ends there, with no dialog: "Building it now." follows,
+   and the build goes on. A change to it typed as the
    go-ahead's free answer ("the waiting list on the left", "quieter")
    is a change to the design's Pages line: made, the mockup remade, the same
    dialog again.
@@ -124,5 +129,6 @@ above when it is wanted again.
 - The go-ahead dialog before the comp's line, or a minute between the
   design and the line without "Making a mockup of the <page>".
 - The comp opened in the user's external browser in the Claude app.
-- A comp on the one-shot or prompt-by-prompt path, for an MCP UI, or
-  where commands can't run.
+- A comp on the whole-app (hands off) or prompt-by-prompt path, for
+  an MCP UI, or where commands can't run; or a stop to wait on it on
+  the first-feature-only path.
