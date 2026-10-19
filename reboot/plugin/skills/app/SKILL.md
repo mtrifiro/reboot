@@ -30,8 +30,8 @@ word for word:
   (great for one-shotting a full app).
   `/reboot:app-whole`"
 
-**Only on "Interactively"**, one more dialog, word for word, before
-anything else:
+**Only on "Interactively" or "First feature only"**, one more dialog,
+word for word, before anything else:
 
 - Title: **Explain the code as you go?**, none marked recommended:
 - "No, just the build": "Each part built and said in plain words."
@@ -39,15 +39,16 @@ anything else:
   was written and why, kept in design/exegesis.md (great for learning
   Reboot itself)."
 
-Skipped, or a host that can't ask: not verbose. The other two choices
-never get this question.
+Skipped, or a host that can't ask: not verbose. "Whole app, hands
+off" never gets this question: it asks nothing, and its handoff
+offers `/reboot:explain` instead.
 
 Then load the chosen skill with the Skill tool
 ([`/reboot:app-guided`](../app-guided/SKILL.md),
 [`/reboot:app-basic`](../app-basic/SKILL.md),
 [`/reboot:app-whole`](../app-whole/SKILL.md)), its argument the prompt
 as typed, never by reading its file; that skill takes it from there.
-For "Verbose" the argument is the prompt followed by
+For "Verbose" (after either) the argument is the prompt followed by
 ", verbose", which turns verbose mode on for the build
 ([`references/exegesis.md`](references/exegesis.md)).
 
