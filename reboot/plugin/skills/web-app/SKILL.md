@@ -468,7 +468,7 @@ finished app.
    [`references/ui-design.md`](references/ui-design.md): its primary
    view in the house look, leading with what the design's page line
    says, the resting state plain and the accent on one action. When
-   `design/comp/index.html` exists
+   `design/comp/mockup.html` exists
    ([`references/comp.md`](references/comp.md)), the page is the comp
    made live: the same classes and composition, its rows from the
    reader. Write the calls from the reference and do
