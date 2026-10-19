@@ -22,6 +22,13 @@ run counts toward the moments below, on the session's clock, while what
 they read is counted apart (`sub_agent_words`), since it never enters
 the main conversation.
 
+Tokens are the model's own count, from the usage Claude Code records
+on each model call (once per call, though the transcript repeats it
+on every block of the reply). Input tokens are everything the model
+was sent on a call, cached or not: the conversation so far, so a word
+read early is paid for again on every later call. Codex records no
+usage this way, so its tokens are 0.
+
 Times are active seconds: from the first event, less the time spent
 waiting for the person to answer a question, and less the time from
 the build ending its turn (the Claude app's `wrap_up`) to the person's
@@ -105,6 +112,8 @@ class Event:
     failed: bool = False
     source: str = ""
     sub: bool = False
+    tokens_in: int = 0
+    tokens_out: int = 0
 
 
 @dataclass
@@ -129,6 +138,15 @@ class Metrics:
     # read outside the main conversation, so it is never sent again on
     # its later turns.
     sub_agent_words: int = 0
+    # The model's tokens (the module's docstring): the context when the
+    # API file is written, and what went in and came out up to the
+    # first handoff and over the whole session; sub-agents' apart.
+    context_at_api: int = 0
+    tokens_in_to_handoff: int = 0
+    tokens_out_to_handoff: int = 0
+    tokens_in: int = 0
+    tokens_out: int = 0
+    sub_agent_tokens: int = 0
     # Whether an `AGENTS.md` was taken in: Codex records it, Claude Code
     # doesn't (`claude_events`).
     map_loaded: bool = False
@@ -212,12 +230,31 @@ DECLINED = "doesn't want to proceed"
 
 
 def claude_events(path: Path) -> Iterator[Event]:
+    counted: set[str] = set()
     for record in lines(path):
         at = parse_time(record)
         if at is None:
             continue
         message = record.get("message")
         content = message.get("content") if isinstance(message, dict) else None
+        usage = message.get("usage") if isinstance(message, dict) else None
+        if record.get("type") == "assistant" and isinstance(usage, dict):
+            call = str(message.get("id") or record.get("requestId") or "")
+            if call not in counted:
+                counted.add(call)
+                yield Event(
+                    at,
+                    "usage",
+                    id=call,
+                    tokens_in=sum(
+                        int(usage.get(key) or 0) for key in (
+                            "input_tokens",
+                            "cache_creation_input_tokens",
+                            "cache_read_input_tokens",
+                        )
+                    ),
+                    tokens_out=int(usage.get("output_tokens") or 0),
+                )
         if record.get("type") == "assistant" and isinstance(content, list):
             for block in content:
                 if isinstance(block, dict):
@@ -437,6 +474,18 @@ def measure(stream: Iterable[Event], agent: str = "") -> Metrics:
         if event.sub and event.kind in ("result", "load"):
             # A sub-agent's reading stays out of the main conversation.
             metrics.sub_agent_words += len(event.text.split())
+        if event.kind == "usage":
+            if event.sub:
+                metrics.sub_agent_tokens += event.tokens_in + event.tokens_out
+                continue
+            metrics.tokens_in += event.tokens_in
+            metrics.tokens_out += event.tokens_out
+            if not api_written:
+                metrics.context_at_api = event.tokens_in
+            if metrics.handoff_s < 0:
+                metrics.tokens_in_to_handoff += event.tokens_in
+                metrics.tokens_out_to_handoff += event.tokens_out
+            continue
         if event.sub and event.kind == "say":
             continue  # a sub-agent's words go to the build, not the person
         if not event.sub and event.kind in ("say", "call"):
@@ -545,6 +594,9 @@ COMPARED = (
     ("page_s", "Active time to the first page"),
     ("handoff_s", "Active time to the first handoff"),
     ("words_before_api", "Words taken in before the API file"),
+    ("context_at_api", "Context at the API file, tokens"),
+    ("tokens_in_to_handoff", "Input tokens to the first handoff"),
+    ("tokens_out_to_handoff", "Output tokens to the first handoff"),
     ("errors", "Errors hit"),
 )
 
