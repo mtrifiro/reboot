@@ -7,9 +7,12 @@ tags: design, acceptance, dashboard, links, record
 
 # The Design Document
 
-`design/design.md` is written at the first acceptance and rewritten at
-each later one ([`accept-design.md`](accept-design.md), "Once
-accepted"). It is the design as accepted, in the user's nouns, and
+`design/design.md` is first written as the proposed design (the
+`app-design` skill, section 3; its **Methods** after the go-ahead),
+then rewritten at the first acceptance and each later one
+([`accept-design.md`](accept-design.md), "Once accepted"). After every
+write, `python3 '<the app-design skill>/assets/design_page.py'` draws
+it again as `design/design.html`, the page the user reads it in. It is the design as accepted, in the user's nouns, and
 every package, domain object, method, feature and rule in it is a
 dashboard link (`dashboard` skill, "Links to an Object or a Rule"):
 
@@ -114,6 +117,17 @@ built-in accounts, Alice, Ben, Carlos, Dani and Esi) and at deploy.
 Before Who may do what is built, one line: "Everyone signed in can do
 everything for now; roles come with Who may do what." After it, the
 role each account plays and what someone with no role sees.>
+
+## What Reboot does for you here
+
+<Three or four bullets, each said for this design, in its nouns,
+naming what the developer doesn't write: each <Object> is a durable
+object holding its own state (no database, tables or migrations); <the
+rule that spans objects> is one transaction, all or nothing (no
+rollback code); <the page> updates live when anyone changes it (no
+polling or websocket code); each rule's scenarios are the tests (no
+separate test harness); the same backend serves an MCP App for Claude
+or ChatGPT (no second API).>
 
 ## Review table
 
