@@ -507,8 +507,11 @@ finished app.
 
 **Each next feature**, when the user chooses it:
 
-12. Say it in plain English in a few lines, with no question (the
-    user chose it), write its `@wip` feature file
+12. **First, one message, before any file of it**, as
+    [`accept-design.md`](../app/references/accept-design.md)'s
+    "Starting a part" says: what it adds, its rules, anything assumed,
+    and that saying stop keeps working on what's here. No question
+    (the user chose it). Then write its `@wip` feature file
     ([`feature` skill](../feature/SKILL.md)), and show the part of
     the domain model it adds. If it changes the shape of existing
     data, say the demo data will be reset, and why.

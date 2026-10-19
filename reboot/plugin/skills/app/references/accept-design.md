@@ -91,9 +91,33 @@ comes to you first." Never "lock in", "kept" or "recorded" alone, and
 never "measured against", without what it means for the user.
 
 **No question before building** a part the user chose, or a change
-they asked for in their own words: the choice is the agreement. Say in
-a few lines what it adds, its rules, and anything assumed, then build
-it; the user judges it running at the next handoff. The one question
+they asked for in their own words: the choice is the agreement. The
+user judges it running at the next handoff.
+
+### Starting a part
+
+A part the user chose starts with one message, before its feature
+file or any other file of it, opened with the step line ("Starting
+reservations and check-in"): what it adds, in the user's nouns; its
+rules, a line each; anything assumed; and "Say stop to keep working on
+what's here instead." A task item is not this message, and neither is
+a line after the work has begun (hotel-214, 2026-10-19: the feature
+file was written with no word in the chat, and the first mention came
+nine minutes later, with its backend done).
+
+### Changes first
+
+A change to what is built, asked for after a handoff (before the next
+part is chosen, with the choice, or just after it), is made before the
+next part starts, and said done in one line ("The widths are fixed at
+every size"); only then the part's opening message. A change asked
+for once the part is underway is made at the end of the step in
+progress, said done, then one line, "Back to <the part>", before its
+next step. Never two kinds of work woven together without a word: the
+user should always be able to tell whether the build is fixing what
+they have or building something new (hotel-214: width, colour and name
+changes were made between the steps of a new feature that hadn't been
+announced). The one question
 before code is a design change the user didn't ask for
 ([`flywheel.md`](flywheel.md), the routing rule).
 
