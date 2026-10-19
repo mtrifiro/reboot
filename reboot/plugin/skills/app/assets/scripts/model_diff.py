@@ -326,6 +326,28 @@ def package_lines(sources: dict[str, str]) -> list[str]:
     return lines
 
 
+# A domain object named for its time period says how it is found, not
+# what it holds (front-door-common.md, "Names"): `AmenityDay` is the
+# amenity's bookings for a day, an `AmenitySchedule`.
+PERIOD_WORDS = ("Day", "Date", "Daily", "Week", "Weekly", "Month", "Year", "Hour")
+
+
+def name_lines(sources: dict[str, str]) -> list[str]:
+    """Each domain object named for its time period. Empty when none is."""
+    types, _ = model_of(sources)
+    lines = []
+    for name in sorted(types):
+        words = re.findall(r"[A-Z][a-z]*", name)
+        if words and words[-1] in PERIOD_WORDS:
+            lines.append(
+                f"- `{name}` is named for its time period, not for what it holds. "
+                "Name it for what someone in the domain would call it (a schedule, "
+                "a board, a sheet, a log), before the first deploy, when a rename "
+                "costs one line (`front-door-common.md`, \"Names\")."
+            )
+    return lines
+
+
 def model_changes(before: dict[str, str], after: dict[str, str]) -> list[Change]:
     old_types, old_models = model_of(before)
     new_types, new_models = model_of(after)
@@ -726,6 +748,7 @@ def markdown(
     tickets: list[str] | None = None,
     last_run: dict | None = None,
     packages: list[str] | None = None,
+    names: list[str] | None = None,
 ) -> str:
     if not changes:
         lines = [
@@ -759,6 +782,8 @@ def markdown(
             "",
         ]
         lines += [f"- `{name}`" for name in unauthorized]
+    if names:
+        lines += ["", "_Names_", ""] + names
     if packages:
         lines += ["", "_Packages_", ""] + packages
     if tickets:
@@ -816,6 +841,7 @@ def main() -> int:
     tickets = tickets_of(features_before, features_after)
     unauthorized = servicers_without_authorizer(backend_files_at(head))
     packages = package_lines(files_at(head, "api", ".py"))
+    names = name_lines(files_at(head, "api", ".py"))
     head_label = head or "working tree"
     if accepted and accepted.get("is_base") and base != AT_ACCEPTANCE:
         base = base[:7]
@@ -833,10 +859,11 @@ def main() -> int:
             "tickets": tickets,
             "last_run": last_run,
             "packages": packages,
+            "names": names,
         }, indent=2))
     else:
         print(markdown(base, head_label, changes, unauthorized, accepted, tickets, last_run,
-                       packages), end="")
+                       packages, names), end="")
     return 0
 
 
