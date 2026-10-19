@@ -239,7 +239,7 @@ case "$tool" in
                         ;;
                     'python3 '*"${CLAUDE_PLUGIN_ROOT}/skills/"*/assets/*.py* )
                         # A script this plugin ships under a skill's
-                        # assets/ (render.py, accent.py, look.py): as
+                        # assets/ (render.py, palette.py, look.py): as
                         # trusted as the skill that names it. Quoted
                         # with single quotes: `field` stops at a
                         # double quote's escape.
