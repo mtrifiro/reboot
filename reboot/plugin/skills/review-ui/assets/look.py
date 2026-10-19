@@ -63,7 +63,7 @@ FAVICON = WEB / "public/favicon.svg"
 PREVIEW = WEB / "public/look-preview.html"
 HISTORY = WEB / ".look-history"
 
-# The house palettes, the same as web-app/assets/accent.py.
+# The house accents, for an accent alone (a palette sets them with the page).
 ACCENTS: dict[str, dict[str, dict[str, str]]] = {
     "navy": {
         "light": {"accent": "#103761", "on-accent": "#ffffff", "accent-deep": "#13294a", "on-deep": "#f7f5ed", "accent-tint": "#e6f3dc", "bg-glow": "#f1eee4"},
