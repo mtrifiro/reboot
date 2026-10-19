@@ -167,6 +167,42 @@ open drawer) shows that it is narrowed and has a visible way back: an
 and Esc for a drawer. Clicking the same control again is not enough
 on its own.
 
+### Interaction Patterns
+
+Six small patterns most staff apps want, each a component the starter
+ships in `frontend/web/src/patterns/` with its class in `styles.css`.
+Use the component; don't rewrite it:
+
+- **A hover card** (`HoverCard`) for a record named in a list: rest
+  on the name, or focus it, and a preview opens beside it, 350 ms
+  after the pointer settles so a sweep down the list flashes nothing,
+  closing on Esc, a scroll or a press elsewhere. Its body is the
+  record's reader, mounted only while the card is open. The name still
+  opens the record on a click ("Whatever Names a Thing Opens It").
+- **A clamp** (`Clamp`) for text that is usually a sentence and now
+  and then an essay (a note, a description, an activity entry): cut to
+  four lines, with "More" only when there is more.
+- **Tips** (`InfoTip`, `TipWrap`) where a label needs a sentence of
+  why: an ⓘ beside it, or the control itself, shown on hover and on
+  focus, put away by a click. Never `title=` as the only explanation:
+  the keyboard and a touch screen can't open it.
+- **A copy button** (`CopyButton`) beside a field people paste
+  elsewhere (an email, an id, an address): one click, a tick, or the
+  browser's refusal in words.
+- **Avatars** (`Avatar`) wherever a person is named in a row, a card
+  or a feed: their initials in one of the eight `--avatar-*` colours,
+  picked from their id, so a person is one colour everywhere.
+- **A job's status** (`JobStatus`) on anything that waits on an
+  outside call (research, an import, a sync): queued, working…,
+  retrying…, failed or done, in words; a failure always shows, with
+  its reason in a tip. Working is a moving dot, never the accent.
+
+Each is used where the design has the case and nowhere else: a hover
+card on the names a person scans, not on every word.
+
+Company logos, where the design's objects are companies with a
+website, are [`company-logos.md`](company-logos.md)'s.
+
 ### Nothing Jumps, Every Tap Answers
 
 Every action in a Reboot app is a call to the backend, and every page
