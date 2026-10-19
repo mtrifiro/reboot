@@ -23,7 +23,7 @@ prints:
   question that decides it. A signal is a place to look, not a
   verdict: a gap matters when a person would be hurt by it.
 
-Uses the domain-review skill's `review.py` for the parsing. Standard
+Uses the review-domain skill's `review.py` for the parsing. Standard
 library only. Never imports the app, never runs the tests.
 """
 
@@ -36,7 +36,7 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "domain-review" / "assets"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "review-domain" / "assets"))
 import review as domain  # noqa: E402
 
 API, BACKEND, TESTS = domain.API, domain.BACKEND, domain.TESTS
