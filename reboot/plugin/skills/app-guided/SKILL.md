@@ -1,11 +1,11 @@
 ---
-name: guided
-description: "The guided build of a Reboot application: the design skill's round of questions (the first features, who signs in, the accent) and its proposed design, the go-ahead (step by step, or all at once), then the build with each part explained; a design already proposed in design/design.md is built on without asking again. Loaded by the app skill on Guided, or asked for by name (/reboot:guided); a prompt that asks for an app in plain words goes to the app skill, which asks how to build first."
+name: app-guided
+description: "The guided build of a Reboot application: the app-design skill's round of questions (the first features, who signs in, the accent) and its proposed design, the go-ahead (step by step, or all at once), then the build with each part explained; a design already proposed in design/design.md is built on without asking again. Loaded by the app skill on Guided, or asked for by name (/reboot:app-guided); a prompt that asks for an app in plain words goes to the app skill, which asks how to build first."
 argument-hint: [<app-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 ---
 
-# guided — Design First, Then Each Part Explained
+# app-guided — Design First, Then Each Part Explained
 
 > **The user sees only message text. Say every status the way these
 > skills give it, as the response's own visible text.**
@@ -24,9 +24,9 @@ allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 
 ## First, Before Reading Anything
 
-**1. The design, by the [`design` skill](../design/SKILL.md).** The
+**1. The design, by the [`app-design` skill](../app-design/SKILL.md).** The
 response's first act, before any text or other tool call, is to load
-it with the Skill tool (`/reboot:design <the prompt>`), never by
+it with the Skill tool (`/reboot:app-design <the prompt>`), never by
 reading its file; when the host asks for a plan before anything, the
 plan is one item, "Propose the design for <app>", and the path's list
 comes after the go-ahead. Right after it loads, its opening goes out
@@ -34,8 +34,8 @@ as text, before the round. It says the opening, asks the one round of
 questions (the first build's features, who signs in, the accent),
 reads what the design needs and shows the whole proposed design, once,
 in the chat. On a free answer that refuses the design ("just build
-it") the design skill hands the prompt to the [`build`
-skill](../build/SKILL.md) and this skill's part is over: no design, no
+it") the app-design skill hands the prompt to the [`app-just`
+skill](../app-just/SKILL.md) and this skill's part is over: no design, no
 go-ahead, no **What to expect**.
 The front door is never asked (the [`app` skill](../app/SKILL.md),
 Routing). Then, for a web app, the comp
@@ -53,12 +53,12 @@ closing line says what to do, and the user's next prompt is the build.
 **A design already proposed:** when `design/design.md` is in the
 project with the status "proposed" and the prompt asks to build it
 ("build it", "build it all at once", "build the gig calendar", or the
-`design` skill handing over), it is the design and the words are the
+`app-design` skill handing over), it is the design and the words are the
 go-ahead: no round, no proposal, no dialog. **Assumed** holds the
 round's answers; the way of building is the prompt's ("build it" is
 step by step), and **Assumed** gets its line. Start at **What to
 expect**. A prompt that changes it first is a design change, made by
-the `design` skill's rules, then the same.
+the `app-design` skill's rules, then the same.
 
 **What to expect,** right after the go-ahead (after the design; on the
 prompt-by-prompt path, right after the design's closing line), before any
@@ -80,7 +80,7 @@ under "What to expect:", filled in from the design:
   asks nothing and waits for your next prompt · the design is in
   `design/design.md`, yours to change at any prompt.
 
-**2. Before the design, nothing** beyond what the `design` skill
+**2. Before the design, nothing** beyond what the `app-design` skill
 reads. **After the go-ahead (on the prompt-by-prompt path, after the
 design), read
 [`../app/references/conversation.md`](../app/references/conversation.md)**
@@ -89,12 +89,12 @@ there on. Each path's next steps are read when they start: the build's
 dialogs
 ([`../app/references/design-first.md`](../app/references/design-first.md),
 sections 3 to 5), the task list (`../app/references/task-list.md`),
-and for the whole app, the [`one-shot` skill](../one-shot/SKILL.md)'s
+and for the whole app, the [`app-whole` skill](../app-whole/SKILL.md)'s
 steps 4 and 6 (its reviews, step 5, are the one-shot's own).
 
 **3. Throughout the build:**
 
-- **Task list:** until the go-ahead it has the `design` skill's one
+- **Task list:** until the go-ahead it has the `app-design` skill's one
   item, "Propose the design for <app>". The chosen path's list follows
   the go-ahead (on the prompt-by-prompt path, the design).
 - **Times,** always "about", only in the opening's dialog and in
@@ -102,7 +102,7 @@ steps 4 and 6 (its reviews, step 5, are the one-shot's own).
   15; each next feature, 15 to 20; the whole app, about 10 a feature, more for a hard domain.
 - **Never a minute without a line,** at every stage: in the design,
   one when the research ends (what it found), then the design itself,
-  one message (the `design` skill); in the build, one as each part starts (the API, the servicers, the
+  one message (the `app-design` skill); in the build, one as each part starts (the API, the servicers, the
   tests, the page), saying what Reboot does for this app at that step
   (`../app/references/conversation.md`, "Say what Reboot does here").
   Reading the plugin's references gets no line of its own. Before a

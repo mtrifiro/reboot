@@ -27,7 +27,7 @@ handoff, the rule before **Your turn** closes it.
   API), the backend check (the servicers, the demo data, the tests),
   the handoff (the page and its browser scenarios), then each later
   feature's handoff.
-- On the prompt-by-prompt path and in the `build` skill: after each
+- On the prompt-by-prompt path and in the `app-just` skill: after each
   part's links line.
 - In the one-shot: written feature by feature to the file as the
   build goes; the handoff's section covers the whole app in about 400
