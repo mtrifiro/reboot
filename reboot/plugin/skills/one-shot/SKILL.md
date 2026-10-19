@@ -173,7 +173,7 @@ no dialog: the build picks what to fix by the rules below. Read each
 skill's file with the Read tool for its method; don't load it with
 the Skill tool, which would start its conversation.
 
-**The domain model** ([`domain-review`](../domain-review/SKILL.md)):
+**The domain model** ([`review-domain`](../review-domain/SKILL.md)):
 
 1. Its sections 1 and 3: `review.py`, then the review, the scale taken
    from the design's own counts (the scale dialog's recommended
@@ -185,7 +185,7 @@ the Skill tool, which would start its conversation.
    whose fix would change a rule, or what a user sees, is not made:
    it goes to the handoff.
 
-**The look** ([`ui-review`](../ui-review/SKILL.md)), for a web
+**The look** ([`review-ui`](../review-ui/SKILL.md)), for a web
 app:
 
 1. Its section 2: capture every page at desktop and phone width,
