@@ -425,6 +425,10 @@ button.card:hover {
   line-height: 1.2;
 }
 .stat .meter {
+  /* A block whatever element it is: inside a <button class="stat">
+     it has to be a <span>, whose inline box ignores the height, and
+     the bar then grows to the card's size (hotel-250's mockup). */
+  display: block;
   height: 4px;
   border-radius: 999px;
   background: var(--track);
