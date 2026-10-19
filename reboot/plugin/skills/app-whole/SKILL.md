@@ -237,8 +237,9 @@ manual is the [`manual` skill](../manual/SKILL.md)'s, loaded with the
 Skill tool; putting it online is the [`deploy` skill](../deploy/SKILL.md)'s;
 asking for anything else, or saying it is good, accepts the app as
 built, recorded as `accept-design.md` says, with **Assumed** in the
-first decisions entry. Trying the app, or no reply, is not
-acceptance.
+first decisions entry, and one line saying what that means
+(accept-design.md, "What accepting means"). Trying the app, or no
+reply, is not acceptance.
 
 ## Never
 
