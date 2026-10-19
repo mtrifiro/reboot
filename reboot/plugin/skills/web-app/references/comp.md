@@ -10,8 +10,8 @@ tags: comp, mockup, preview, main page, go-ahead, look, design/comp/index.html
 A comp is a mockup of the main page, made once as a static page in the look the
 design names, with believable rows and no data behind it: where the
 frontend is going, shown with the design so the go-ahead judges both.
-The `guided` skill makes it for a web app after the proposed design
-and before **Build on this design?**. The `one-shot` and the
+The `app-guided` skill makes it for a web app after the proposed design
+and before **Build on this design?**. The `app-whole` and the
 prompt-by-prompt path don't (no stop to show it at), an MCP UI doesn't
 (its views live in a host), and a host that can't run commands skips
 it with no line.

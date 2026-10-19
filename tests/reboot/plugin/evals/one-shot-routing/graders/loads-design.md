@@ -1,7 +1,7 @@
 ---
 type: tool_used
 tool: Skill
-input_match: '"skill"\s*:\s*"(?:[\w-]+:)?design"'
+input_match: '"skill"\s*:\s*"(?:[\w-]+:)?app-design"'
 ---
 
-The one-shot skill designs through the `design` skill, loaded with the Skill tool.
+The app-whole skill designs through the `app-design` skill, loaded with the Skill tool.
