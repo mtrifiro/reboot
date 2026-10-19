@@ -23,8 +23,12 @@ SKILLS = Path(os.environ.get("REBOOT_PLUGIN_SKILLS", "reboot/plugin/skills"))
 # A change that needs more raises the ceiling in the same change and
 # says why in its description; a change that cuts words may lower it.
 CEILINGS = {
-    "web-app": 39_000,  # 37,248 when this test was written
-    "mcp-ui": 52_000,  # 49,907 when this test was written
+    # Raised from 39,000 when reboot main #262 was absorbed (2026-10-19):
+    # portless and plain ports, the `reboot()` Vite plugin and the web app
+    # served at the backend's origin added about 1,100 words to the path
+    # (39,526 then).
+    "web-app": 40_000,  # 37,248 when this test was written
+    "mcp-app": 52_000,  # 49,907 when this test was written
 }
 
 
@@ -117,7 +121,7 @@ class TheParser(unittest.TestCase):
     def test_callouts_are_not_entries(self) -> None:
         found = self.entries(
             "**Before the frontend:**\n"
-            "> Never read `mcp-ui/references/react-app-tsx.md` here.\n"
+            "> Never read `mcp-app/references/react-app-tsx.md` here.\n"
             "- `references/react-client.md` — the client.\n"
         )
         self.assertEqual(len(found), 1)
