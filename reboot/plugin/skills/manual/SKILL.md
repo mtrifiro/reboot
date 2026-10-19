@@ -1,7 +1,7 @@
 ---
 name: manual
 description: "Write the user manual for a built Reboot web app, for the people who use it: a section per role, each job as numbered steps with a screenshot, what the app refuses and what to do instead, in docs/manual.md, drawn from the design and the browser scenarios. Use when the user asks ('/reboot:manual', 'write a user manual', 'a guide for my staff') or picks it at a handoff. Not for developers (AGENTS.md is theirs)."
-argument-hint: '[who it is for, e.g. "the housekeepers" (default: every role)]'
+argument-hint: '[blank for every role, or who it is for, e.g. "the housekeepers"]'
 allowed-tools: Bash, Read, Write, Edit, Glob
 ---
 
@@ -111,7 +111,7 @@ written: it goes to the closing message.
 Commit `docs/manual.md` and `docs/manual/` as one commit, "Docs: the
 user manual". Then one message, no dialog:
 
-- the link to [docs/manual.md](docs/manual.md), and in a line what it
+- a link to `docs/manual.md`, and in a line what it
   covers ("5 roles, 14 jobs, 12 screenshots");
 - each job left out and why (no page for it yet; a step that didn't
   work, with what happened);
