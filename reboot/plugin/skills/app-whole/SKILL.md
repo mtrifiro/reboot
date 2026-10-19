@@ -156,7 +156,7 @@ which is finished and go on; never wait for an answer.
   every control and heading labelled for the browser scenarios, each
   page's primary view, what it leads with, which states carry colour
   and where the accent goes as the design's page line says
-  (`ui-design.md`, "What the Eye Lands On"), and `design/comp/index.html`
+  (`ui-design.md`, "What the Eye Lands On"), and `design/comp/mockup.html`
   as the main page's target when it exists (the app-guided skill's
   all-at-once path drew it before the go-ahead). (hotel-200's
   sub-agent read four references by `cat` and edited by `sed -i`.)
