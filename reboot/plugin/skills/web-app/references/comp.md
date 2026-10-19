@@ -27,18 +27,15 @@ in <palette>."
    ```shell
    mkdir -p design/comp && cp '<the web-app skill>/assets/starter/frontend/web/src/styles.css' design/comp/comp.css
    python3 '<the review-ui skill>/assets/look.py' --css design/comp/comp.css set palette <palette>
-   python3 '<the review-ui skill>/assets/look.py' --css design/comp/comp.css fonts
    ```
-
-   The last prints the `<link>` that loads the typefaces from Google
-   Fonts: the comp is served outside the bundle, so it needs one.
-2. `design/comp/mockup.html`, with the Write tool: `<!doctype html>`, the
-   fonts link, `<link rel="stylesheet" href="comp.css">`, then the
-   page in the stylesheet's own classes (its opening comment lists
-   them, `ui-design.md`, "Build the Look", step 3; read nothing else):
-   the shell (a top bar, or the sidebar as the layout rule says) with
-   the brand mark and name and the nav of every page in the design;
-   the page head with its eyebrow, title and lede inside the
+2. `design/comp/page.part`, with the Write tool (named `.part`: the
+   Claude app opens every `.html` the Write tool saves in the Browser
+   pane, and this is only a fragment): the page only, in the
+   stylesheet's own classes (its opening comment lists them,
+   `ui-design.md`, "Build the Look", step 3; read nothing else); the
+   bar, the badge, the note and the head are step 3's. First the brand
+   mark, an inline `<svg data-mark ...>` from the domain; then the page
+   head with its eyebrow, title and lede inside the
    `brand-band`, the deep accent; the leading figure as a `stat` in
    the `stats` row that overlaps the band's lower edge, or a `figure`;
    the signature view the design's main page line names
@@ -55,55 +52,27 @@ in <palette>."
    its number, one word and at most a one-letter `corner` mark; never
    a card or a heading per floor. The whole first screen at desktop
    width holds the head, the figures and the plan or board together
-   (`ui-design.md`, "The first screen holds the view"). The page is
-   marked as a comp, last in `<body>`:
-   `<aside class="comp-badge"><strong>Design comp</strong><span>A
-   mockup of the <page>, not the running app; the real page replaces
-   it at the frontend step.</span></aside>`. Nothing is
-   wired: no drawer open, the theme toggle shown and inert. Every
-   click opens the comp's note instead, so a tap on a button or a room
-   says what the page is rather than doing nothing; after the badge,
-   word for word but the page's name:
-
-   ```html
-   <dialog class="comp-note" id="comp-note">
-     <strong>This is a design mockup</strong>
-     <p>It shows how the <page> will look, with sample rows. Nothing
-     on it is wired yet, so buttons and links don't do anything. The
-     real page, with your data, replaces it at the frontend step.</p>
-     <form method="dialog"><button class="primary">Got it</button></form>
-   </dialog>
-   <script>
-     document.addEventListener("click", (event) => {
-       const note = document.getElementById("comp-note");
-       if (note.contains(event.target)) return;
-       event.preventDefault();
-       event.stopPropagation();
-       note.showModal();
-     }, true);
-   </script>
-   ```
-
-   That is the comp's only script. No raw colour outside `comp.css`.
-3. The stylesheet put inside the page, so the comp is one file that
-   keeps its look however it is opened (served, cached in the pane
-   after its server stops, from disk, sent to someone):
+   (`ui-design.md`, "The first screen holds the view"). Nothing is
+   wired: no drawer open, no script, no raw colour outside `comp.css`.
+3. The comp, framed and made one file:
 
    ```shell
-   python3 '<the review-ui skill>/assets/look.py' --css design/comp/comp.css inline design/comp/mockup.html
+   python3 '<the web-app skill>/assets/comp.py' --app '<name>' --page '<page, in words>' --nav '<every page, this one first>' [--sidebar]
    ```
 
-   It replaces the `comp.css` link with a `<style>` holding the file;
-   run it again after any change to `comp.css` or the page's link
-   (hotel-252's open mockup lost its styling when its server stopped
-   and `comp.css` could no longer be fetched). Beside it, one line,
-   `design/comp/index.html`, so the server's root opens the mockup
-   where the pane opens only the origin (hotel-205 showed a directory
-   listing):
-
-   ```html
-   <!doctype html><meta http-equiv="refresh" content="0; url=mockup.html">
-   ```
+   It writes `design/comp/mockup.html`: the head with the typefaces'
+   link, `comp.css` inside it (so the mockup keeps its look however it
+   is opened: served, cached in the pane after its server stops, from
+   disk; hotel-252's open mockup lost its styling when its server
+   stopped), the top bar or, with `--sidebar` (the layout rule), the
+   sidebar, with the mark, the name and the nav, the theme toggle and
+   sign-out shown and inert, the page, the comp badge, and the note
+   every click opens instead of doing nothing. And
+   `design/comp/index.html`, one line that opens it where the pane
+   opens only the server's root (hotel-205 showed a directory
+   listing). Exit 3 names what the page lacks (the band, a primary
+   action, a placeholder left in); fix `page.part` and run it again,
+   as after any change to it or `comp.css`.
 4. Serve `design/comp/` and open it, in the background, its pid
    written to `design/.comp.pid`, the mode by `portless doctor` as the
    [`run` skill](../../run/SKILL.md) says ("Portless when it is ready,
@@ -164,8 +133,8 @@ above when it is wanted again.
 - A script but the comp note's, a wired control or data behind it:
   it is a mockup.
 - A comp without its `comp-badge`, or the badge on a real page.
-- A comp that links `comp.css` instead of holding it (step 3), or a
-  mockup named anything but `mockup.html`.
+- A mockup written whole instead of `page.part` framed by `comp.py`
+  (step 3), or named anything but `mockup.html`.
 - The go-ahead dialog before the comp's line, or a minute between the
   design and the line without "Making a mockup of the <page>".
 - The comp opened in the user's external browser in the Claude app.
