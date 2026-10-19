@@ -80,11 +80,14 @@ with one line on why a real product needs it.
 
 ### Basic: one feature
 
-When the argument ends with ", basic" (the
-[`app-basic` skill](../app-basic/SKILL.md), the app skill's "The basic
-app, no questions"), the build is this skill with one feature in
-place of six to ten, and nothing else changes: no questions, the
-reviews, one handoff.
+When the argument ends with ", basic" or ", basic, verbose" (the
+[`app-basic` skill](../app-basic/SKILL.md), the app skill's "First
+feature only"), the build is this skill with one feature in place of
+six to ten, and nothing else changes: no questions, the reviews, one
+handoff. With ", verbose", the exegesis is on
+([`app/references/exegesis.md`](../app/references/exegesis.md)): the
+handoff's report ends with the one feature's, and the same text is in
+`design/exegesis.md`.
 
 - **The one feature** is the heart of the prompt: the work the app is
   for, the one its users would open it to do (for a hotel, the rooms
@@ -225,7 +228,8 @@ the app is in **Assumed**.
 No dialog: **Your turn** ends with the plain line, word for word,
 "I built all the features you asked for. Tell me what you want to do
 next: change something, add a feature from **Not built yet**, write a
-user manual for your staff, or put it online." (when a feature is
+user manual for your staff, explain how the code works, or put it
+online." (when a feature is
 blocked, "all the features you asked for but <the feature>, under
 Notes"). Then stop.
 
@@ -233,8 +237,9 @@ What the user says next decides, as
 [`app/references/accept-design.md`](../app/references/accept-design.md)
 says: a change or a feature to add is made as the `feature` skill
 makes any change, then a handoff for it ending with the same line; a
-manual is the [`manual` skill](../manual/SKILL.md)'s, loaded with the
-Skill tool; putting it online is the [`deploy` skill](../deploy/SKILL.md)'s;
+manual is the [`manual` skill](../manual/SKILL.md)'s and the code's
+explanation the [`explain` skill](../explain/SKILL.md)'s, each loaded
+with the Skill tool; putting it online is the [`deploy` skill](../deploy/SKILL.md)'s;
 asking for anything else, or saying it is good, accepts the app as
 built, recorded as `accept-design.md` says, with **Assumed** in the
 first decisions entry, and one line saying what that means
