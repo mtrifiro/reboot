@@ -23,6 +23,13 @@ dev run --env-file=.env
 # Run the application!
 dev run --application=backend/src/main.py
 
+# The developer dashboard (`rbt dashboard`): named via portless, as
+# https://dashboard.<project-name>.localhost, when its proxy is running;
+# on the plain port, http://127.0.0.1:9871, with `--config=ports`.
+dashboard --default-config=portless
+dashboard:portless --portless
+dashboard:ports --no-portless
+
 # Production config used by `rbt serve run` (Reboot Cloud's containers
 # run `CMD ["rbt", "serve", "run"]`): the `dev run` lines minus the
 # dev-only knobs. See `python/references/lifecycle-dockerfile.md`.
