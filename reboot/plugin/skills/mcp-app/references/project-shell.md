@@ -18,7 +18,10 @@ never retyped and never read:
 cp -R <this skill>/assets/shell/. .
 ```
 
-Then replace `<project-name>` in `.rbtrc` and `pyproject.toml`, and
+Then replace `<project-name>` in `.rbtrc` and `pyproject.toml` with
+the project folder's name, lower case with hyphens (never the app's
+working name: it is the app's address under portless, and two projects
+must never share it), and
 fill in `backend/src/main.py` and `backend/src/example_prompts.py` as
 below. What the copy holds:
 
