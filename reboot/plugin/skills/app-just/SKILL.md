@@ -1,13 +1,13 @@
 ---
-name: build
-description: "Build exactly what the prompt says on Reboot, for someone who knows what they want: no questions, no proposed design, no narration, no task list; the domain model, the authorizers and the tests still right. Use only when the user asks for it by name (/reboot:build) or refused the design in the design skill's round ('just build it'), which hands over the prompt and any answers; never for a new app described in plain words, which goes to the app skill."
+name: app-just
+description: "Build exactly what the prompt says on Reboot, for someone who knows what they want: no questions, no proposed design, no narration, no task list; the domain model, the authorizers and the tests still right. Use only when the user asks for it by name (/reboot:app-just) or refused the design in the app-design skill's round ('just build it'), which hands over the prompt and any answers; never for a new app described in plain words, which goes to the app skill."
 argument-hint: [<what to build>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 ---
 
-# build — Exactly What the Prompt Says
+# app-just — Exactly What the Prompt Says
 
-The expert path. The `guided` skill proposes a design, asks three
+The expert path. The `app-guided` skill proposes a design, asks three
 questions and explains as it goes; this skill builds the prompt as
 written and stops. Nothing is asked, ever. Nothing is built that the
 prompt doesn't name.
@@ -40,11 +40,11 @@ The prompt, no more:
   second feature, no "Not in this build", no roadmap.
 - A Reboot-native instruction ("a `Transaction` on `Room` keyed by
   hotel and number, staff only") is built as written, not redesigned.
-- Handed over from the `design` skill's round ("just build it"): the
+- Handed over from the `app-design` skill's round ("just build it"): the
   prompt as typed plus any answers given (the features chosen, in that order;
   who signs in; the accent) are the spec, built as written; the
   features are the only ones built.
-- A `design/design.md` already in the project (the `design` skill's,
+- A `design/design.md` already in the project (the `app-design` skill's,
   proposed or accepted) is the spec: the prompt names the part of it
   to build ("the gig calendar"), or "the design" for all of it, built
   as it reads, nothing added; its **Assumed** lines are taken as
