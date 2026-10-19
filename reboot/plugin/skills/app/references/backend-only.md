@@ -39,6 +39,6 @@ differences:
   add how their frontend calls one action with the generated client,
   in a few lines (for React, the hooks in
   `python/references/react-generated-client.md`).
-- **At handoff:** offer a web app or an MCP UI in one line; the
+- **At handoff:** offer a web app or an MCP App in one line; the
   backend is ready for both. To deploy, the [`deploy`
   skill](../../deploy/SKILL.md)'s backend step is all there is.

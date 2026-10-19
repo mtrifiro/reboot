@@ -13,7 +13,10 @@ accepted"). It is the design as accepted, in the user's nouns, and
 every package, domain object, method, feature and rule in it is a
 dashboard link (`dashboard` skill, "Links to an Object or a Rule"):
 
-- an object: `http://127.0.0.1:9871/#/models?type=<package>.<Type>`;
+- an object: `<dashboard>#/models?type=<package>.<Type>`, `<dashboard>`
+  being `https://dashboard.<app>.localhost/` under portless or
+  `http://127.0.0.1:9871/` on plain ports (`design_links.py --base`
+  moves every link when that changes);
   a method appends `.<method>`;
 - a feature: `#/features/<path>.feature`; a rule appends `/rules/<n>`,
   counted from 1 in file order.
