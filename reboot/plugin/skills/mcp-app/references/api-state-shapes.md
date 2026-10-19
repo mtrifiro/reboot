@@ -1,7 +1,7 @@
 ---
 title: API State Shapes — List and Nested Sub-Objects
 impact: HIGH
-impactDescription: Two recurring MCP UI state patterns. `list[Item]` of non-state Models is for **bounded sub-records** that have no identity of their own; entity collections (people, posts, messages, anything addressable on its own) must be promoted to their own state `Type`. Single nested `Model` sub-objects must be `Optional` with `default=None` and hydrated in the factory `create` Writer — non-Optional `Model`-typed fields reject both `default=` and `default_factory=` (Gotcha #13).
+impactDescription: Two recurring MCP App state patterns. `list[Item]` of non-state Models is for **bounded sub-records** that have no identity of their own; entity collections (people, posts, messages, anything addressable on its own) must be promoted to their own state `Type`. Single nested `Model` sub-objects must be `Optional` with `default=None` and hydrated in the factory `create` Writer — non-Optional `Model`-typed fields reject both `default=` and `default_factory=` (Gotcha #13).
 tags: state, list, nested, sub-object, optional, model, default, default_factory, gotcha-13, decomposition
 ---
 
@@ -15,7 +15,7 @@ and a stdlib `OrderedMap` of foreign IDs — including when to
 **decompose** an entity collection into its own state `Type` —
 lives in `python/references/state-collections.md`. **Read it
 before settling on a list-based state shape.** This file covers
-the MCP-UI-specific corollaries.
+the MCP App-specific corollaries.
 
 ## List State Patterns (for Bounded Sub-Records Only)
 

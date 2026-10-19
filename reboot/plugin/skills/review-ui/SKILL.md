@@ -60,7 +60,8 @@ From the project root, run `look.py show`. If there is no
 look yet: say so in one line and stop (the `app` skill builds one).
 The app must be running to show anything: if it isn't, start it with
 the [`run` skill](../run/SKILL.md). Its web address is the one the
-handoff gave (often `http://localhost:5173`).
+handoff gave, the backend's (`https://<app>.localhost` under portless,
+`http://localhost:9991` on plain ports), never Vite's own port.
 
 Say what the look is now in one line, in words: "Maison Desk is in
 plum, on a cream page, with Space Grotesk for headings
