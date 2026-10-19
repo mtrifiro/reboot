@@ -216,8 +216,11 @@ generated code; a running `rbt dev run` regenerates that code when
 `api/` changes, under the tests, and the run hangs.
 
 **The comp's server** from the design step (`design/.comp.pid`,
-`web-app/references/comp.md`) is stopped when the app first starts:
-`kill $(cat design/.comp.pid) && rm design/.comp.pid`.
+`web-app/references/comp.md`) keeps running beside the app, through
+the suite and the restarts, so the mockup the user was shown stays
+open and styled next to the real page. It is stopped only when the
+user asks to stop the app: `kill $(cat design/.comp.pid) && rm
+design/.comp.pid`.
 
 ## Step 6 — Hand off
 
