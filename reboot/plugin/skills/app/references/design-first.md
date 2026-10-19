@@ -101,6 +101,14 @@ user's words are the agreement.
   "change something"): update the document and the design, show what
   changed, and ask the same dialog again.
 - **No answer** is not a yes.
+- **A message about something else** in place of the answer (the host
+  says the user "sent a message instead": a photo, a look change, a
+  question): do it or answer it, say so in a line, then ask the same
+  dialog again, its text above it. It is never a yes, nor a no: only
+  an answer that says to go on ("go", "build it", "looks good") is a
+  yes. The same holds for **Build on this domain model?** below
+  (hotel-214, 2026-10-19: a banner photo sent in place of the domain
+  model's answer was taken as "Build on it").
 
 No task item marks the wait: the dialog is the signal, and "Propose
 the design for <app>" is done once the design is shown.
@@ -188,7 +196,9 @@ unshown).
 When the model differs from the proposed design, one line before the
 dialog says how, in the user's nouns. A change goes in the free
 answer ("a stay should also hold the guest's room"): change the API,
-`rbt generate`, say what changed, ask again. No task item marks the
+`rbt generate`, say what changed, ask again. A message about
+something else is done and the dialog asked again, as for the
+go-ahead (section 3). No task item marks the
 wait: the dialog is the signal. If the dashboard didn't come up, don't ask: say so in
 one sentence and go on; the model is checked at the first handoff.
 Later features don't ask; `app-whole` and the prompt-by-prompt path never
