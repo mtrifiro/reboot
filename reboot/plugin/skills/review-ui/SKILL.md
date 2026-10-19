@@ -94,6 +94,12 @@ every page at desktop and phone width, light and dark."
      plan, a calendar), and does the eye land first on the page's main
      question: the figure the design's page line says it leads with
      (`ui-design.md`, "What the Eye Lands On")?
+   - Does the main page have its signature view (`ui-design.md`, "One
+     Signature View"): one view that answers the main question at a
+     glance, with real numbers, live, each mark opening what it stands
+     for? Missing, decorative, or a chart the list already answers is
+     a finding; a 3D view in a domain that isn't three-dimensional is
+     one too.
    - Is color doing one job: the accent on the primary action and the
      selected state only, never on a status or on every name; status
      colors on the states that need a person and none on the resting
