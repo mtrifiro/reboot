@@ -177,8 +177,9 @@ stage:
    feature at a time, so you understand each part as it's built"
    (recommended), "The whole app first, then reviewed as a whole", or
    "Prompt by prompt: I say what to build at each step; ask me nothing".
-3. Read the API references, then show the proposed design, word for
-   word in the shape of
+3. Read the API references, then write the proposed design and draw
+   it as a page, as the [`app-design` skill](../app-design/SKILL.md)'s
+   section 3 says, its summary in the shape of
    [`app/references/design-messages.md`](../app/references/design-messages.md)
    (its Pages section names the `UI()` views), answers included,
    before writing the API. It decides the brief (who uses the app, on
