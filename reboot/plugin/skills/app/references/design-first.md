@@ -9,7 +9,7 @@ tags: go-ahead, domain model, frontend, dialogs, design, prompt by prompt
 
 How the `app-guided` skill builds a new app, in either front door, once the
 [`app-design` skill](../../app-design/SKILL.md) has said the opening, asked
-the one round (the first build's features, who signs in, the accent,
+the one round (the first build's features, who signs in, the palette,
 how to build) and shown the proposed design. It replaces the front
 door's round of scope questions.
 
