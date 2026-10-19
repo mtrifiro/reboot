@@ -1,6 +1,6 @@
 ---
-name: one-shot
-description: Build a complete Reboot application in one go, asking nothing (or, with ", basic" after the prompt, one feature of it the same way). Designs every feature a real product in the domain needs, not only those the prompt names, builds the whole app with every rule and scenario without stopping, reviews its domain model and its look and fixes what the reviews find, and hands it over once, at the end. Use only when the user asks for it by name ("/reboot:one-shot", "one-shot", "one shot"); otherwise the app skill asks how to build and routes to the guided, one-shot or build skill.
+name: app-whole
+description: Build a complete Reboot application in one go, asking nothing (or, with ", basic" after the prompt, one feature of it the same way). Designs every feature a real product in the domain needs, not only those the prompt names, builds the whole app with every rule and scenario without stopping, reviews its domain model and its look and fixes what the reviews find, and hands it over once, at the end. Use only when the user asks for it by name ("/reboot:app-whole", "one-shot", "one shot"); otherwise the app skill asks how to build and routes to the guided, one-shot or build skill.
 argument-hint: [<app-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit, Agent, Skill
 ---
@@ -11,7 +11,7 @@ From the prompt to a finished app, the proper way, with no question
 until the end: the design, every feature with its rules proven by
 scenarios, every page tested in a browser, a domain review and a look
 review with what they find fixed, and one handoff. Nothing stops the
-build but the end. The `guided` skill is not loaded: its round of
+build but the end. The `app-guided` skill is not loaded: its round of
 questions and its go-ahead are what this skill leaves out.
 
 > **The user sees only message text.** Every line this skill says
@@ -20,10 +20,10 @@ questions and its go-ahead are what this skill leaves out.
 > before that response's tool calls. Drafting it in thinking is not
 > saying it.
 
-## 1. The design, by the `design` skill
+## 1. The design, by the `app-design` skill
 
-The response's first act is to load the [`design`
-skill](../design/SKILL.md) with the Skill tool (`/reboot:design <the
+The response's first act is to load the [`app-design`
+skill](../app-design/SKILL.md) with the Skill tool (`/reboot:app-design <the
 prompt>`), never by reading its file. Loaded by this skill it asks
 nothing. Right after it loads, its opening goes out as text (the two
 Skill loads are the response's only tool calls before it; hotel-200
@@ -73,14 +73,15 @@ end, not the smallest app that fits the prompt:
   goes.
 
 The round's other answers, taken without asking: the accent
-the design skill would recommend for the domain (or the brand the
+the app-design skill would recommend for the domain (or the brand the
 prompt names); "How should it be built? One-shot". Each answer and each
 feature added beyond the prompt goes under **Assumed**, the feature
 with one line on why a real product needs it.
 
 ### Basic: one feature
 
-When the argument ends with ", basic" (the app skill's "The basic
+When the argument ends with ", basic" (the
+[`app-basic` skill](../app-basic/SKILL.md), the app skill's "The basic
 app, no questions"), the build is this skill with one feature in
 place of six to ten, and nothing else changes: no questions, the
 reviews, one handoff.
@@ -145,7 +146,7 @@ which is finished and go on; never wait for an answer.
   page's primary view, what it leads with, which states carry colour
   and where the accent goes as the design's page line says
   (`ui-design.md`, "What the Eye Lands On"), and `design/comp/index.html`
-  as the main page's target when it exists (the guided skill's
+  as the main page's target when it exists (the app-guided skill's
   all-at-once path drew it before the go-ahead). (hotel-200's
   sub-agent read four references by `cat` and edited by `sed -i`.)
 - **Read this plugin with the Read tool,** one call per file, several
@@ -243,7 +244,7 @@ acceptance.
 
 - A question, a dialog or a wait for an answer before the handoff,
   from this skill or any skill it loads or reads.
-- The `guided` skill loaded: its round and go-ahead are the questions
+- The `app-guided` skill loaded: its round and go-ahead are the questions
   this skill leaves out.
 - A smaller app than the domain needs because the prompt was short.
 - A feature dropped silently: a feature that can't be finished is in

@@ -429,7 +429,7 @@ finished app.
    developer dashboard by the
    [`dashboard` skill](../dashboard/SKILL.md) without waiting for
    it; if it fails to come up, say so in one sentence and keep
-   building. Built from the `guided` skill, the first
+   building. Built from the `app-guided` skill, the first
    feature instead waits for it and asks "Build on this domain model?" (the model check;
    not on the prompt-by-prompt path, which asks nothing)
    ([`app/references/design-first.md`](../app/references/design-first.md),

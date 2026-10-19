@@ -1,11 +1,11 @@
 ---
-name: design
-description: "Design a Reboot application from a description, without building it: one round of questions about what to build (the first features, who signs in, the accent), then the whole proposed design in the chat and in design/design.md, where the guided and build skills pick it up; loaded by the one-shot skill, no round and a whole-app scope. Use when the user asks for a design, a proposal or a plan for an app and not yet the app, or asks for it by name (/reboot:design); a prompt that asks to build an app goes to the app skill, which asks how to build first and, on Guided, runs this skill through the guided skill."
+name: app-design
+description: "Design a Reboot application from a description, without building it: one round of questions about what to build (the first features, who signs in, the accent), then the whole proposed design in the chat and in design/design.md, where the guided and build skills pick it up; loaded by the app-whole skill, no round and a whole-app scope. Use when the user asks for a design, a proposal or a plan for an app and not yet the app, or asks for it by name (/reboot:app-design); a prompt that asks to build an app goes to the app skill, which asks how to build first and, on Guided, runs this skill through the app-guided skill."
 argument-hint: [<app-description>]
 allowed-tools: Read, Write, Edit, Glob, Grep
 ---
 
-# design — The Design, Before Any Code
+# app-design — The Design, Before Any Code
 
 The Reboot Flywheel's Design stage on its own: the opening, one round
 of questions, the research, and the proposed design, shown once in the
@@ -20,18 +20,18 @@ code, no `rbt generate`, no project scaffold, no dependency installed.
 
 ## How this skill runs
 
-- **On its own** (`/reboot:design <description>`, or a prompt that
+- **On its own** (`/reboot:app-design <description>`, or a prompt that
   asks for a design, a proposal or a plan and not yet the app):
   everything below, ending with the closing line in section 4.
-- **Loaded by the [`guided` skill](../guided/SKILL.md)** (the guided
+- **Loaded by the [`app-guided` skill](../app-guided/SKILL.md)** (the guided
   build): everything below but the closing line. The opening
   goes out as text right after this skill loads: the Skill loads and the
   `app` skill's one question are the only tool calls before it, and the round's
-  dialog is the next. The guided skill's go-ahead, **Build on this design?**, follows the design in
+  dialog is the next. The app-guided skill's go-ahead, **Build on this design?**, follows the design in
   the same response
   ([`app/references/design-first.md`](../app/references/design-first.md),
   section 3); on the prompt-by-prompt path, that section's closing line.
-- **Loaded by the [`one-shot` skill](../one-shot/SKILL.md)** (it
+- **Loaded by the [`app-whole` skill](../app-whole/SKILL.md)** (it
   loaded first): no round and no question, ever. Its section 1 gives
   the scope (every feature a real product in the domain needs, every
   role) and the answers the round would have asked, and overrides
@@ -79,7 +79,7 @@ Rules for that response:
   the rest are in the design, minutes later. Then the dialog, the
   response's next tool call.
 - Nothing about how it will be built beyond the dialog's own options:
-  **What to expect** is the `guided` skill's, after the go-ahead.
+  **What to expect** is the `app-guided` skill's, after the go-ahead.
 - **No name before the design.** The design proposes one, with the
   accent, under what the build assumed. Its first mention in the
   Brief, the Brief's first sentence, in the chat and in
@@ -147,11 +147,11 @@ the rest all at once", "step by step from here" or "prompt by prompt
 from here" switches, and the first handoff says so in one line.
 
 **A free answer that refuses the design or the questions** ("just
-build it", "no design") ends this skill's part: load the [`build`
-skill](../build/SKILL.md) with the Skill tool (`/reboot:build`), its
+build it", "no design") ends this skill's part: load the [`app-just`
+skill](../app-just/SKILL.md) with the Skill tool (`/reboot:app-just`), its
 argument the prompt as typed followed by any answers given (the
 features chosen, who signs in, the accent), and stop. No design, no
-closing line: the build skill says nothing but its steps and the
+closing line: the app-just skill says nothing but its steps and the
 links.
 
 The front door is never asked (the `app` skill's Routing): the one the
@@ -173,7 +173,7 @@ door would, taking its recommended answer:
 **Task list:** right after the answers, one item, "Propose the design
 for <app>"; a list that exists when this skill loads is replaced with
 that item first, in a response of its own. It is done when the design
-is shown. The `guided` skill's path list follows the go-ahead.
+is shown. The `app-guided` skill's path list follows the go-ahead.
 
 ## 3. The research, then the design
 
@@ -204,7 +204,7 @@ references gets no line of its own.
 
 `design/design.md` is written in one write, in the shape of
 [`design-document.md`](../app/references/design-document.md): the same
-design plus the first feature's methods. Loaded by the `guided` skill,
+design plus the first feature's methods. Loaded by the `app-guided` skill,
 it is written after the go-ahead's answer, before any code (on "Not yet",
 before the reply that links it); on its own and on the prompt-by-prompt
 path, right after the design, before the closing line. Writing it
@@ -258,13 +258,13 @@ hours), in the user's nouns.
 
 ## 4. Then
 
-**Loaded by the `one-shot` skill:** write `design/design.md` right
+**Loaded by the `app-whole` skill:** write `design/design.md` right
 after the design, with no closing line and no dialog; the one-shot
 skill goes straight on to the build in the same turn.
 
-**Loaded by the `guided` skill:** no closing line. The go-ahead dialog
+**Loaded by the `app-guided` skill:** no closing line. The go-ahead dialog
 follows the design in the same response (`design-first.md`, section
-3), and the guided skill takes it from there.
+3), and the app-guided skill takes it from there.
 
 **On its own:** write `design/design.md`, then one line, the path a
 Markdown link to the file in the user's project:
@@ -273,8 +273,8 @@ Markdown link to the file in the user's project:
 > by step, "build it all at once", or what to change.
 
 Then stop: no dialog, no code. On "build it" (or "build it all at
-once", "prompt by prompt"), load the [`guided`
-skill](../guided/SKILL.md) with the Skill tool (`/reboot:guided`),
+once", "prompt by prompt"), load the [`app-guided`
+skill](../app-guided/SKILL.md) with the Skill tool (`/reboot:app-guided`),
 never by reading its file: it takes the proposed
 design as its own and starts at **What to expect**; the words were the
 go-ahead. A change ("add a waiting list", "two confirmed gigs a night
@@ -289,7 +289,7 @@ design, with no new facts added to it.
   says what will be built; a name before the design.
 - Any question before the design other than the round; a second
   round; a question on the prompt-by-prompt path or when loaded by
-  the `one-shot` skill.
+  the `app-whole` skill.
 - An answer taken in the round without its line under **Assumed**.
 - The design drafted only in thinking, or shown only as a pointer to
   `design/design.md`: the user judges what they see in the chat.
