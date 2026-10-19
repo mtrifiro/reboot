@@ -261,4 +261,4 @@ cleared state as gone.
   nested-`Model` angle.
 - `state-actor-decomposition.md` — one `Type` per concern.
 - `stdlib-ordered-map.md` — Shape C's API.
-- `mcp-ui/references/api-state-shapes.md` — the MCP-UI corollary.
+- `mcp-app/references/api-state-shapes.md` — the MCP App corollary.
