@@ -1,14 +1,14 @@
 ---
-title: Pop-out button — deep-linking an MCP UI widget to your web app
+title: Pop-out button — deep-linking an MCP App widget to your web app
 impact: MEDIUM
-impactDescription: An MCP UI widget runs in a sandboxed iframe that blocks `window.open`, so a naive "open in browser" button silently does nothing in most hosts. Use the bound entity's `state_id` to build a deep link and ask the host to open it via the MCP Apps `openLink` request, with a `window.open` fallback.
+impactDescription: An MCP App widget runs in a sandboxed iframe that blocks `window.open`, so a naive "open in browser" button silently does nothing in most hosts. Use the bound entity's `state_id` to build a deep link and ask the host to open it via the MCP Apps `openLink` request, with a `window.open` fallback.
 tags: react, app-tsx, pop-out, deep-link, openLink, state_id, useMcpApp, dual-frontend, web-app
 ---
 
-## Pop-out button — deep-linking an MCP UI widget to your web app
+## Pop-out button — deep-linking an MCP App widget to your web app
 
 When the same backend also serves a standalone web app (see the
-`web-app` skill), an MCP UI widget can offer a "pop out into the
+`web-app` skill), an MCP App widget can offer a "pop out into the
 web app" button that opens the **same entity** in a full browser
 tab. Two facts make this work:
 
@@ -37,10 +37,16 @@ export const ClickerApp = () => {
   const mcpApp = useMcpApp();
 
   const handlePopOut = async () => {
+    // Where the web app is: at the backend's own origin, which serves
+    // it at `/` (`--web-app` in development, `--web-app-dist-path` in
+    // production), unless `VITE_WEB_APP_URL` (`web/.env.production`)
+    // names a host it is deployed to elsewhere.
+    const webAppUrl =
+      import.meta.env.VITE_WEB_APP_URL ??
+      new URL(window.REBOOT_URL ?? window.location.origin).origin;
     // Pass the entity ID to the web app as a query param it reads
     // on load to render that one entity.
-    const url =
-      "https://your-web-app.example/?counter=" + encodeURIComponent(counterId);
+    const url = webAppUrl + "/?counter=" + encodeURIComponent(counterId);
 
     // Ask the host to open the link; `window.open` is blocked in
     // the sandboxed iframe. Fall back to `window.open` when not
