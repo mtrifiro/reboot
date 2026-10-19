@@ -14,7 +14,7 @@ application's API and call graph (Models), its `.feature` files with
 their rules, scenarios and browser recordings (Features), and a
 changelog of the API. It reads files, not a running app, so start it
 early and the developer watches the API take shape. Use this skill
-when a build flow directs you here (the `mcp-ui` and `web-app`
+when a build flow directs you here (the `mcp-app` and `web-app`
 skills do, right before the API is written) or when the user asks
 for the dashboard while an app is being built.
 
@@ -68,33 +68,37 @@ on demand (elsewhere, `curl -LsSf https://astral.sh/uv/install.sh | sh`).
 
 ## Step 3 — Is a dashboard already serving?
 
-The dashboard serves at `http://127.0.0.1:9871/`, which forwards to
-wherever its page is. Probe it:
+Where the dashboard serves follows the app's mode (the run skill's
+"Portless when it is ready, plain ports otherwise": `portless doctor`,
+never a question). Under portless it is
+`https://dashboard.<app>.localhost/`, `<app>` being the `.rbtrc`'s
+`dev run --application-name`; on plain ports it is
+`http://127.0.0.1:9871/`. Call that URL `<dashboard>` below. Probe it:
 
 ```sh
-curl -sf -o /dev/null --max-time 2 http://127.0.0.1:9871/
+curl -sf -o /dev/null --max-time 2 <dashboard>
 ```
 
-If that succeeds, something is serving there, but it may be another
-project's dashboard: a project built earlier on the same machine keeps
-its dashboard running, and its links then show that project's model,
-not this one's. Check which folder it runs from, from the project
-root:
+- **Under portless,** an answer is this project's dashboard (the name
+  is this app's): do not start a second one. Surface the URL and stop.
+- **On plain ports,** an answer may be another project's: a project
+  built earlier on the same machine keeps its dashboard on 9871, and
+  its links show that project's model. Check which folder it runs
+  from, from the project root:
 
-```sh
-pid=$(lsof -nP -iTCP:9871 -sTCP:LISTEN -t | head -1)
-ps -o command= -p "$(ps -o ppid= -p "$pid")" | grep -F "$PWD/" \
-  && echo "this project's" || echo "another project's"
-```
+  ```sh
+  pid=$(lsof -nP -iTCP:9871 -sTCP:LISTEN -t | head -1)
+  ps -o command= -p "$(ps -o ppid= -p "$pid")" | grep -F "$PWD/" \
+    && echo "this project's" || echo "another project's"
+  ```
 
-- **This project's:** do not start a second one. Surface the URL and
-  stop.
-- **Another project's** (or nothing named in the command): leave it
-  running, since it isn't this build's to stop, and start this
-  project's own on the first free port from 9872 up (`lsof -nP
-  -iTCP:<port> -sTCP:LISTEN` prints nothing for a free one), with
-  `--port=<port>` in Step 4. Every dashboard link from then on uses
-  that port, and the hand-over says why it isn't 9871.
+  This project's: surface the URL and stop. Another project's (or
+  nothing named in the command): leave it running, since it isn't
+  this build's to stop, and start this project's own on the first
+  free port from 9872 up (`lsof -nP -iTCP:<port> -sTCP:LISTEN` prints
+  nothing for a free one), with `--port=<port>` in Step 4. Every
+  dashboard link from then on uses that port, and the hand-over says
+  why it isn't 9871.
 
 ## Step 4 — Start the dashboard
 
@@ -112,8 +116,13 @@ Python's `webbrowser`, which runs `$BROWSER` when it is set, and
 `true` does nothing and succeeds:
 
 ```sh
-BROWSER=true uv run rbt dashboard
+BROWSER=true uv run rbt dashboard                  # under portless
+BROWSER=true uv run rbt dashboard --config=ports   # on plain ports
 ```
+
+It prints `Your dashboard is at <URL>` at once and keeps running;
+wait until the probe from Step 3 answers before showing it. It stays
+up for the session and never needs a restart when code changes.
 
 It takes the API directory from the `generate <dir>` line in
 `.rbtrc`, spelled relative to the project root, which is how file
@@ -123,7 +132,9 @@ take the port: wait until the probe from Step 3 succeeds and the check
 there names this project before calling it up. It stays running for
 the life of the session and never needs a restart when code changes.
 If it fails to come up (for example the local Envoy check fails
-because neither Docker nor an `envoy` executable is available), warn
+because neither Docker nor an `envoy` executable is available, or
+the user declined portless and the proxy is not running: then
+`uv run rbt dashboard --config=ports`, on the plain port), warn
 the user in one sentence and continue the build without it.
 
 ## Step 5 — Hand over the URL
@@ -135,33 +146,36 @@ showing it or the developer chose "Don't reopen automatically", and
 opening it as well gives the developer two tabs.
 
 Tell the user the dashboard is up, in one line that always starts
-with its URL (on the port it started on, even when the browser opened
+with its URL (`<dashboard>`, as it started, even when the browser opened
 it: a terminal session may have no window, and the line is where the
 user finds it again later), then what it is for, a link to each object
 the API declares so far and to each feature file written so far, and
 get on with the build:
 
-> The developer dashboard is at http://127.0.0.1:9871/ (it opens in
-> your browser): it shows the domain model as it's written, starting
-> with [Room](http://127.0.0.1:9871/#/models?type=hotel.v1.Room) and
-> [Hotel](http://127.0.0.1:9871/#/models?type=hotel.v1.Hotel), and the
-> [Room status floor plan](http://127.0.0.1:9871/#/features/tests/room_status.feature)
+> The developer dashboard is at https://dashboard.hotel.localhost/ (it
+> opens in your browser): it shows the domain model as it's written,
+> starting with [Room](https://dashboard.hotel.localhost/#/models?type=hotel.v1.Room)
+> and [Hotel](https://dashboard.hotel.localhost/#/models?type=hotel.v1.Hotel),
+> and the [Room status floor plan](https://dashboard.hotel.localhost/#/features/tests/room_status.feature)
 > feature with its rules.
+
+(On plain ports the same line with `http://127.0.0.1:9871/`.)
 
 **In a build that checks the model next** (the `app-guided` skill's "Build
 on this domain model?", `app/references/design-first.md`, section 4),
 this line is not written on its own: the model check's lead line is
-the hand-over, the dashboard named once, a port other than 9871 said
-there in a few words. Never a second line listing the same objects,
+the hand-over, the dashboard named once, a plain-ports dashboard on a
+port other than 9871 said there in a few words. Never a second line listing the same objects,
 and never the URL line, the objects line and the Models · Features ·
 Changelog line one after another.
 
 ### Links to an Object or a Rule
 
 The dashboard opens on the exact thing a link names, so link each
-object and rule wherever you name it, on the port it started on:
+object and rule wherever you name it, from `<dashboard>` as it
+started:
 
-- An object: `http://127.0.0.1:9871/#/models?type=<package>.<Type>`,
+- An object: `<dashboard>#/models?type=<package>.<Type>`,
   such as `#/models?type=hotel.v1.Room`; a method appends
   `.<method>` (`hotel.v1.Room.check_in`).
 - A feature: `#/features/<path from the project root>`, such as

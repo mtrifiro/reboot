@@ -43,15 +43,19 @@ gets no line of its own, or, when it is long, the next step's Reboot
 line said before it.
 
 **Links at every major turn.** Once the app has started, every
-major turn ends with one line linking both, on the ports they started
-on, so the user never scrolls back for them:
+major turn ends with one line linking both, at the addresses they
+started on (the `run` skill: under portless `https://<app>.localhost/`
+and `https://dashboard.<app>.localhost/`, on plain ports
+`http://localhost:9991/` and `http://127.0.0.1:9871/`; the web app is
+always the backend's address, never Vite's), so the user never
+scrolls back for them:
 
-> App: http://localhost:5173/ · Dashboard: http://127.0.0.1:9871/
+> App: https://hotel.localhost/ · Dashboard: https://dashboard.hotel.localhost/
 
 Once a feature file exists, the dashboard part names its three pages
 (`dashboard` skill, "Links to an Object or a Rule"):
 
-> App: http://localhost:5173/ · Dashboard: [Models](http://127.0.0.1:9871/#/models) · [Features](http://127.0.0.1:9871/#/features) · [Changelog](http://127.0.0.1:9871/#/changelog)
+> App: https://hotel.localhost/ · Dashboard: [Models](https://dashboard.hotel.localhost/#/models) · [Features](https://dashboard.hotel.localhost/#/features) · [Changelog](https://dashboard.hotel.localhost/#/changelog)
 
 The major turns: the dashboard's first start, the app's first start
 (the `run` skill), each handoff (in its **Your turn**), each feature
@@ -63,14 +67,14 @@ whatever comes next, never only "it's live on port <port>": the
 objects already written, each a link to itself on the models page,
 then the three pages:
 
-> Dashboard is up: [Hotel](http://127.0.0.1:9871/#/models?type=hotel.v1.Hotel) · [Room](http://127.0.0.1:9871/#/models?type=hotel.v1.Room) · [Stay](http://127.0.0.1:9871/#/models?type=hotel.v1.Stay). [Models](http://127.0.0.1:9871/#/models) · [Features](http://127.0.0.1:9871/#/features) · [Changelog](http://127.0.0.1:9871/#/changelog)
+> Dashboard is up: [Hotel](https://dashboard.hotel.localhost/#/models?type=hotel.v1.Hotel) · [Room](https://dashboard.hotel.localhost/#/models?type=hotel.v1.Room) · [Stay](https://dashboard.hotel.localhost/#/models?type=hotel.v1.Stay). [Models](https://dashboard.hotel.localhost/#/models) · [Features](https://dashboard.hotel.localhost/#/features) · [Changelog](https://dashboard.hotel.localhost/#/changelog)
 
 **A feature file, wherever it is named,** is two links: the file in
 the project, and its page on the dashboard once the dashboard is up,
 so the rules can be read where they live and where they run: the
 path, tests/room_booking.feature, as a Markdown link to the file in
 the user's project, then "(on the dashboard)" as a link to
-http://127.0.0.1:9871/#/features/tests/room_booking.feature.
+`<dashboard>#/features/tests/room_booking.feature`.
 The same for a rule named on its own: its link is the feature's
 dashboard link plus `/rules/<n>` (`dashboard` skill, "Links to an
 Object or a Rule").
@@ -103,11 +107,12 @@ browser (the browser scenarios, and the checks in
 pane, so no card for an app still being tested appears in the chat.
 The app opens in the pane once, at the handoff's **Your turn**, ready
 to try (a `launch.json` configuration named `app` with only its URL,
-e.g. `"url": "http://localhost:5173"`, started by name), and for the
+the backend's address, `"url": "https://<app>.localhost"` or
+`"http://localhost:9991"`, started by name), and for the
 feature that adds a customer side, in two tabs, one per side. In the Claude app
 nothing opens in the user's external browser: not the app, not the
 dashboard (`dashboard` skill, Step 4, starts it with `BROWSER=true`),
-not an MCP UI's setup wizard. Outside the Claude app, the skills'
+not an MCP App's setup wizard. Outside the Claude app, the skills'
 usual behaviour stands.
 
 **After every answer, say what comes next.** Whenever the user
