@@ -298,10 +298,12 @@ redefines them, since a later block silently wins.
 name, as an inline SVG filled with `var(--accent)`. The same mark goes
 in `web/public/favicon.svg` in the accent's light hex (`palette.py`
 updates it), linked from `index.html` in place of Vite's. Set the
-page `<title>` to the product name. Never open `favicon.svg` (or any
-other asset file) in the Browser pane or a browser to check it: it is
-seen where it is used, as the mark in the app's own page and its tab,
-in the page check's screenshot.
+page `<title>` to the product name. Write `favicon.svg` (and any other
+SVG asset) through Bash, `cat > frontend/web/public/favicon.svg
+<<'EOF'`, never with the Write tool: the Claude app opens every SVG or
+HTML file the Write tool saves in the Browser pane (hotel-252). Never
+open it to check it either: it is seen where it is used, as the mark in
+the app's own page and its tab, in the page check's screenshot.
 
 The mark and the name together are always a link to the home page,
 `/`, on every page, in the top bar or the sidebar:
