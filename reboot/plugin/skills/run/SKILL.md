@@ -210,10 +210,20 @@ ports go with it, and a suite started while they are still up has
 failed scenarios that pass alone (hotel-211: two failed in a full run
 started three seconds after the signal, and passed in the next).
 
-**Stop it before running the test suite**, and start it again once
-the suite passes. The suite runs its own Reboot over the same
-generated code; a running `rbt dev run` regenerates that code when
-`api/` changes, under the tests, and the run hangs.
+**Stop it before running the test suite**, and start it again as
+soon as the run ends, whether it passed or not. The suite runs its own
+Reboot over the same generated code; a running `rbt dev run`
+regenerates that code when `api/` changes, under the tests, and the
+run hangs. Say so in one line before the stop, since the app's open
+page shows the proxy's 502 while it is down: "The app is stopped while
+the scenarios run, so its page shows an error for a minute; it comes
+back when they finish."
+
+**A stop you made reports as a failure.** `rbt dev run` ends with exit
+code 130 when it is interrupted, and the background task that started
+it then reports that it failed. After a stop the build made itself,
+that notice is expected: never a failure to look into or report
+(hotel-255 spent a turn investigating its own stop).
 
 **The comp's server** from the design step (`design/.comp.pid`,
 `web-app/references/comp.md`) keeps running beside the app, through
