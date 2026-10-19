@@ -127,8 +127,9 @@ elsewhere, one plain line as the message's last), the recommended
 answer first. Every dialog already has a free answer with a text box,
 so never offer an option that only means "say what to change"
 ("Something's different", "Something's off"). Say what the user
-gains, not what the build withholds: "the cheapest moment to change
-it", never "nothing is built until you accept".
+gains, not what the build withholds: "easy to change at any point",
+never "nothing is built until you accept" or "now is the cheapest
+moment to change it".
 
 Asked where things are, answer with the stage and the next decision:
 "Prove: 11 of 12 scenarios pass; the merge needs the last one", not a
