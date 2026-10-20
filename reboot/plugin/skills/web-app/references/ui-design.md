@@ -345,10 +345,9 @@ or board is on the first screen at desktop, no text or control touches
 another (at rest, after the tap, with each `--open` target open), and
 the console is clean. One line per check, PASS or FAIL with what to
 fix; a screenshot per page and width in `--out`. While fixing what it
-found, rerun it with `--quick`: one load a page and no timing, the
-layout, touching and console checks only, in about a third of the time
-(hotel-260 ran the full check ten times, 5 minutes, mostly to recheck
-spacing fixes). The last run before the handoff is the full one. Never write a check
+found, rerun it with `--quick`: one load a page, not timed, a third of
+the time (hotel-260: ten full runs, 5 minutes). The last run before
+the handoff is the full one. Never write a check
 script of your own for these: the plugin's is tested, and retyping it
 costs every build minutes.
 
