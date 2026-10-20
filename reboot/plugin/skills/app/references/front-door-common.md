@@ -29,11 +29,9 @@ back to Design.
 Ask one round of scope questions first, from the prompt alone, before
 reading any reference or showing a design: one question dialog
 (`AskUserQuestion` where available). Built from the
-[`app-guided` skill](../../app-guided/SKILL.md), the `app-design` skill's round
-replaces this one (the first features, who signs in, the palette,
-whether to explain as it builds; the interactive build is the `app`
-skill's default), nothing else is asked
-before the design, and the
+[`app-guided` skill](../../app-guided/SKILL.md), nothing is asked before the
+design (the `app-design` skill takes the round's recommended answers,
+under **Assumed**), and the
 go-ahead, **Ready to build this design?**, comes once, after the design
 ([`design-first.md`](design-first.md), section 3). Invoked directly,
 the first question is how to build it, unless the prompt already says;
