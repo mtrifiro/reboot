@@ -33,6 +33,10 @@ tested and handed over when it is done." word for word. Then it reads
 what the design needs, and writes the whole proposed design with the
 scope of section 2 to `design/design.md`, drawn as a page beside the
 chat with its summary in the chat (the `app-design` skill, section 3).
+For a web app, the mockup next, in the same turn
+([`web-app/references/comp.md`](../web-app/references/comp.md)): its
+line said and no stop; the main page and the frontend sub-agent build
+from it, and its server keeps serving it.
 
 Then, in the same turn, **What to expect**, a list of four lines:
 
@@ -90,12 +94,6 @@ handoff. With ", verbose", the exegesis is on
 ([`app/references/exegesis.md`](../app/references/exegesis.md)): the
 handoff's report ends with the one feature's, and the same text is in
 `design/exegesis.md`.
-
-- **A mockup first,** for a web app: right after `design/design.md`,
-  the comp as [`web-app/references/comp.md`](../web-app/references/comp.md)
-  says for this path, its line said and no stop. The page (and the
-  frontend sub-agent, which reads it) builds from it; its server keeps
-  serving it.
 
 - **The one feature** is the heart of the prompt: the work the app is
   for, the one its users would open it to do (for a hotel, the rooms
@@ -160,8 +158,8 @@ which is finished and go on; never wait for an answer.
   page's primary view, what it leads with, which states carry colour
   and where the accent goes as the design's page line says
   (`ui-design.md`, "What the Eye Lands On"), and `design/comp/mockup.html`
-  as the main page's target when it exists (the app-guided skill's
-  all-at-once path drew it before the go-ahead). (hotel-200's
+  as the main page's target (drawn right after the design, section 1,
+  or before the go-ahead on the app-guided skill's all-at-once path). (hotel-200's
   sub-agent read four references by `cat` and edited by `sed -i`.)
 - **Read this plugin with the Read tool,** one call per file, several
   in one response, never `cat`, `awk` or a loop in a shell (the
