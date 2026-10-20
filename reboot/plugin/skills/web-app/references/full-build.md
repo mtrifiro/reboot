@@ -120,8 +120,8 @@ the Agent tool (Codex, say) does the steps in order.
     the main page is the comp made live, the same classes and
     composition. Write the calls from that reference and do **not** open
     `frontend/api/**/*_rbt_react.ts` to check them — it is tens of
-    thousands of lines that then ride along on every later turn.
-12. `cd frontend && npm run build` (sanity check the bundle).
+    thousands of lines, re-sent on every later turn.
+12. `cd frontend && npm run build` (check that the bundle builds).
 13. Start the app with the [`run` skill](../../run/SKILL.md) (the
     comp's server keeps running), then
     check it is ready before telling the user anything about it,

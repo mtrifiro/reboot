@@ -41,7 +41,7 @@ it, runs it and says what it found.
 7. **A scenario that can't fail is worse than none.** It must name
    the value it expects, not only that a call returned; one that
    would pass whatever the code did is a finding.
-8. **Gaps are ranked by who gets hurt.** Money, a person's access,
+8. **Gaps are ranked by harm.** Money, a person's access,
    something done twice or lost come first; a label nobody reads comes
    last. Count, don't guess: every number is from `coverage.py` or a
    run.
@@ -168,5 +168,5 @@ Otherwise a closing line naming `design/test-review.md`.
 - Never a number that wasn't counted by `coverage.py` or a run.
 - Never more than one gap in flight: each is run and committed before
   the next starts.
-- Never name or quote a person as the reviewer, or put words in
-  anyone's mouth: the review speaks for itself.
+- Never name or quote a person as the reviewer, or attribute
+  words to anyone: the review speaks for itself.
