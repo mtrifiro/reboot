@@ -16,7 +16,9 @@ is the first of steps 11, 10, 9 with gray-1 on it. The page head's band
 is calm: accent-4 mixed halfway with gray-6, accent-12 text (dark:
 accent-2, accent-12 text); "deep" keeps the dark band (gray-12, gray-1
 text; dark: gray-4), set with `look.py set band deep`.
-Tints are the accent's step 3 (light) and 4 (dark).
+Tints are the accent's step 3 (light) and 4 (dark). The top bar is
+solid whatever the band: the deep values (gray-12 with gray-1 text;
+dark gray-4 with gray-12).
 """
 import json, re, sys
 from pathlib import Path
@@ -66,6 +68,7 @@ for gray, acc in PAIRS:
                     "accent": accent, "on-accent": on, "accent-deep": mix(a[4], g[6], 0.5), "on-deep": a[12],
                     "accent-tint": a[3], "bg-glow": a[2]}
             deep["light"] = {"accent-deep": g[12], "on-deep": g[1]}
+            vals.update({"bar": g[12], "on-bar": g[1]})
         else:
             bg = g[1]
             accent, on, step = pick(a, g, bg, [(11, "g1"), (10, "g1"), (9, "g1"), (9, "white")])
@@ -73,6 +76,7 @@ for gray, acc in PAIRS:
                     "accent": accent, "on-accent": on, "accent-deep": a[2], "on-deep": a[12],
                     "accent-tint": a[4], "bg-glow": a[2]}
             deep["dark"] = {"accent-deep": g[4], "on-deep": g[12]}
+            vals.update({"bar": g[4], "on-bar": g[12]})
         fam["dark" if dark else "light"] = vals
         steps.append(f"{acc}-{step}")
     out[f"{gray}-{acc}"] = {"source": f"Radix Colors {gray} with {steps[0]} (light), {steps[1]} (dark)", **fam,

@@ -66,7 +66,10 @@
   --accent-deep: #13294a;
   --on-deep: #f7f5ed;
   --accent-tint: #e6f3dc;
-  /* The top bar and the brand band: the deep accent, flat. */
+  /* The top bar, solid: the palette's deepest ink, whatever the band. */
+  --bar: #13294a;
+  --on-bar: #f7f5ed;
+  /* The brand band: the deep accent, flat (calm or deep, look.py set band). */
   --band: var(--accent-deep);
   --bg: #f7f5ed;
   --bg-2: #ffffff;
@@ -129,6 +132,8 @@
     --accent: #9cc4f2;
     --on-accent: #0b1f36;
     --accent-deep: #07182b;
+    --bar: #07182b;
+    --on-bar: #f7f5ed;
     --on-deep: #f7f5ed;
     --accent-tint: #1f3d3a;
     --bg: #0b1f36;
@@ -167,6 +172,8 @@
   --accent: #9cc4f2;
   --on-accent: #0b1f36;
   --accent-deep: #07182b;
+  --bar: #07182b;
+  --on-bar: #f7f5ed;
   --on-deep: #f7f5ed;
   --accent-tint: #1f3d3a;
   --bg: #0b1f36;
@@ -293,9 +300,11 @@ button:not(:disabled):active {
   align-items: center;
   gap: 4px var(--space-6);
   padding: 10px 20px;
-  background: var(--accent-deep);
-  background: var(--band);
-  color: var(--on-deep);
+  /* Solid whatever the band: its links and buttons read --on-deep */
+  --accent-deep: var(--bar);
+  --on-deep: var(--on-bar);
+  background: var(--bar);
+  color: var(--on-bar);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -347,7 +356,9 @@ button:not(:disabled):active {
   background: var(--accent-deep);
   background: var(--band);
   color: var(--on-deep);
-  padding: var(--space-4) var(--space-4) calc(var(--space-8) + var(--space-6));
+  /* Room at the foot for the stat tiles that overlap it, and a gap
+     above them */
+  padding: var(--space-6) var(--space-4) calc(var(--space-8) + var(--space-6) + var(--space-6));
 }
 .brand-band > * {
   max-width: 1248px;
@@ -361,8 +372,19 @@ button:not(:disabled):active {
 .brand-band + main {
   padding-top: var(--space-4);
 }
-.brand-band + main > .stats:first-child {
+.brand-band + main > .stats:first-child,
+.brand-band + .stats {
   margin-top: calc(-1 * (var(--space-8) + var(--space-6)));
+}
+.brand-band + .stats {
+  position: relative;
+  max-width: 1248px;
+  margin-inline: auto;
+  padding-inline: var(--space-4);
+}
+/* Nothing overlaps it: the band ends with its title block */
+.brand-band:not(:has(+ main > .stats:first-child, + .stats)) {
+  padding-bottom: var(--space-6);
 }
 main {
   max-width: 1280px;
@@ -375,19 +397,37 @@ main {
 main > * {
   min-width: 0;
 } /* a wide child scrolls inside itself, never widens the page */
+/* The title block: eyebrow, h1 and lede stacked, wrapped in a <div>
+   or not; .actions to the right, below them on a phone */
 .page-head {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--space-4);
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  column-gap: var(--space-4);
+}
+.page-head > :not(.actions) {
+  grid-column: 1;
+}
+.page-head > .actions {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  align-self: end;
+}
+@media (max-width: 640px) {
+  .page-head > .actions {
+    grid-column: 1;
+    grid-row: auto;
+    margin-top: var(--space-3);
+  }
 }
 .page-head h1 {
   margin: 0;
 }
 .page-head .eyebrow {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--muted);
   margin: 0 0 var(--space-1);
 }
@@ -1506,8 +1546,10 @@ tr:hover td {
   flex-direction: column;
   gap: var(--space-4);
   padding: var(--space-4);
-  background: var(--accent-deep);
-  color: var(--on-deep);
+  --accent-deep: var(--bar);
+  --on-deep: var(--on-bar);
+  background: var(--bar);
+  color: var(--on-bar);
 }
 .sidebar-nav .brand {
   display: inline-flex;
