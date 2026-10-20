@@ -146,7 +146,9 @@ And "bob" is an unauthenticated user
 - `has the bearer token "..."` names a user by a raw token, for an
   application whose own `TokenVerifier` accepts it.
 - `is an unauthenticated user` declares someone whose calls carry
-  no token.
+  no token. Their refusal is the rule's: `Unauthenticated` from a
+  built-in sign-in check, `PermissionDenied` from a role check of
+  your own (hotel-302 assumed the first).
 
 A call starts with the user; a read starts with `as "alice",`:
 
@@ -248,9 +250,7 @@ Then as "anonymous", `balance` on the `Account` for "ghost" aborts with `StateNo
   reader's abort is asserted on the read itself.
 - **An uncaught non-Reboot error aborts with `Unknown`**: a
   validation `ValueError` in a servicer, an index out of range.
-  Asserting `aborts with `Unknown`` is the spelling for a servicer
-  bug or an undeclared refusal; the better fix is usually to declare
-  an error and assert on that.
+  Declare an error and assert on that instead.
 
 ```gherkin
 When "anonymous" spawns a `deposit` with `amount=15` on `Account` of "<account id>"
