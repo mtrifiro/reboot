@@ -2,7 +2,7 @@
 # isort: skip_file
 # ruff: noqa
 # mypy: disable-error-code="func-returns-value"
-# Generated from an API digesting to 07f11c913717f77cda1dcb03a1598f12dbaf8a905b7e74113390afd4f9f2db7a.
+# Generated from an API digesting to 62dfd8efc520ac6d59b15a65a99013a7eec6ba428b4ea31455d43ccbc7b61c20.
 
 
 
@@ -18,7 +18,7 @@ from __future__ import annotations as IMPORT_future_annotations
 # may be invalid (broken) if the generated code is mismatched with the installed
 # libraries.
 import reboot.versioning as IMPORT_reboot_versioning
-IMPORT_reboot_versioning.check_generated_code_compatible("1.6.0")
+IMPORT_reboot_versioning.check_generated_code_compatible("1.7.0")
 
 # ATTENTION: no types in this file should be imported with their unqualified
 #            name (e.g. `from typing import Any`). That would cause clashes
@@ -15284,7 +15284,8 @@ class PingBaseServicer(IMPORT_reboot_aio_servicers.Servicer):
         ):
             reboot_context = IMPORT_reboot_mcp_context.get_reboot_context(ctx)
             ref = Ping.ref(ping_id)
-            return await ref.do_ping(reboot_context)
+            response = await ref.do_ping(reboot_context)
+            return response
 
 
         # Tool for 'reboot.ping.PingMethods.NumPings'.
@@ -15299,17 +15300,14 @@ class PingBaseServicer(IMPORT_reboot_aio_servicers.Servicer):
         ):
             reboot_context = IMPORT_reboot_mcp_context.get_reboot_context(ctx)
             ref = Ping.ref(ping_id)
-            return await ref.num_pings(reboot_context)
+            response = await ref.num_pings(reboot_context)
+            return response
 
 
-        # Map UI method names to web app paths.
+        # Map UI method names to their URL paths under
+        # `/__/frontend/mcp/` (`UI(path=...)`).
         _ui_app_paths: dict[str, str] = {
-            "show_pinger": "frontend/mcp/pinger",
-        }
-
-        # Optional artifact path overrides (only populated
-        # when `artifact_path` is explicitly set).
-        _ui_artifact_paths: dict[str, str] = {
+            "show_pinger": "pinger",
         }
 
         # Cache-bust tokens: content hash of each UI's built
@@ -15328,7 +15326,6 @@ class PingBaseServicer(IMPORT_reboot_aio_servicers.Servicer):
             IMPORT_reboot_mcp_ui.compute_ui_cache_busts(
                 __file__,
                 _ui_app_paths,
-                _ui_artifact_paths,
             )
         )
 
@@ -15345,7 +15342,6 @@ class PingBaseServicer(IMPORT_reboot_aio_servicers.Servicer):
             caller_file=__file__,
             ui_path=_ui_app_paths["show_pinger"],
             ui_name="show_pinger",
-            artifact_path=_ui_artifact_paths.get("show_pinger"),
             uri_prefix=(
                 "ui://ping/"
                 "show_pinger/"
@@ -15444,7 +15440,6 @@ class PingBaseServicer(IMPORT_reboot_aio_servicers.Servicer):
                 _ui_app_paths[ui],
                 reboot_url,
                 ui_name=ui,
-                artifact_path=_ui_artifact_paths.get(ui),
                 cache_bust=cache_bust,
             )
 
@@ -17466,7 +17461,8 @@ class UserBaseServicer(IMPORT_reboot_aio_servicers.Servicer):
             # State is auto-constructed when the user's
             # JWT is minted; see `_authenticated`.
             ref = User.ref(id)
-            return await ref.create_counter(reboot_context, request)
+            response = await ref.create_counter(reboot_context, request)
+            return response
 
 
         # Tool for 'reboot.ping.UserMethods.ListCounters'.
@@ -17483,7 +17479,8 @@ class UserBaseServicer(IMPORT_reboot_aio_servicers.Servicer):
             # State is auto-constructed when the user's
             # JWT is minted; see `_authenticated`.
             ref = User.ref(id)
-            return await ref.list_counters(reboot_context)
+            response = await ref.list_counters(reboot_context)
+            return response
 
 
         # Tool for 'reboot.ping.UserMethods.Whoami'.
@@ -17500,7 +17497,8 @@ class UserBaseServicer(IMPORT_reboot_aio_servicers.Servicer):
             # State is auto-constructed when the user's
             # JWT is minted; see `_authenticated`.
             ref = User.ref(id)
-            return await ref.whoami(reboot_context)
+            response = await ref.whoami(reboot_context)
+            return response
 
         pass  # End of _add_mcp.
 
@@ -18871,7 +18869,8 @@ class CounterBaseServicer(IMPORT_reboot_aio_servicers.Servicer):
         ):
             reboot_context = IMPORT_reboot_mcp_context.get_reboot_context(ctx)
             ref = Counter.ref(counter_id)
-            return await ref.increment(reboot_context)
+            response = await ref.increment(reboot_context)
+            return response
 
 
         # Tool for 'reboot.ping.CounterMethods.Value'.
@@ -18886,17 +18885,14 @@ class CounterBaseServicer(IMPORT_reboot_aio_servicers.Servicer):
         ):
             reboot_context = IMPORT_reboot_mcp_context.get_reboot_context(ctx)
             ref = Counter.ref(counter_id)
-            return await ref.value(reboot_context)
+            response = await ref.value(reboot_context)
+            return response
 
 
-        # Map UI method names to web app paths.
+        # Map UI method names to their URL paths under
+        # `/__/frontend/mcp/` (`UI(path=...)`).
         _ui_app_paths: dict[str, str] = {
-            "show_clicker": "frontend/mcp/clicker",
-        }
-
-        # Optional artifact path overrides (only populated
-        # when `artifact_path` is explicitly set).
-        _ui_artifact_paths: dict[str, str] = {
+            "show_clicker": "clicker",
         }
 
         # Cache-bust tokens: content hash of each UI's built
@@ -18915,7 +18911,6 @@ class CounterBaseServicer(IMPORT_reboot_aio_servicers.Servicer):
             IMPORT_reboot_mcp_ui.compute_ui_cache_busts(
                 __file__,
                 _ui_app_paths,
-                _ui_artifact_paths,
             )
         )
 
@@ -18932,7 +18927,6 @@ class CounterBaseServicer(IMPORT_reboot_aio_servicers.Servicer):
             caller_file=__file__,
             ui_path=_ui_app_paths["show_clicker"],
             ui_name="show_clicker",
-            artifact_path=_ui_artifact_paths.get("show_clicker"),
             uri_prefix=(
                 "ui://counter/"
                 "show_clicker/"
@@ -19053,7 +19047,6 @@ class CounterBaseServicer(IMPORT_reboot_aio_servicers.Servicer):
                 _ui_app_paths[ui],
                 reboot_url,
                 ui_name=ui,
-                artifact_path=_ui_artifact_paths.get(ui),
                 cache_bust=cache_bust,
             )
 

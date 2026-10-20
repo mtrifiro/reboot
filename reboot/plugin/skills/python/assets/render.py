@@ -73,11 +73,11 @@ WEB_RBTRC = """
 # The web app, served by the backend from Vite's dev server. Named URLs
 # via portless (https://github.com/vercel-labs/portless) by default: the
 # app is https://<project-name>.localhost, Vite (`cd frontend && npm run
-# dev`) is https://frontend.<project-name>.localhost. Needs the portless
+# dev`) is https://frontend-<project-name>.localhost. Needs the portless
 # proxy (`portless proxy start`).
 dev run --default-config=portless
 dev run:portless --portless
-dev run:portless --frontend-url=https://frontend.<project-name>.localhost
+dev run:portless --frontend-url=https://frontend-<project-name>.localhost
 dev run:portless --web-app
 
 # Plain ports instead: `rbt dev run --config=ports`, with Vite run as

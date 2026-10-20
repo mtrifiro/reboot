@@ -89,7 +89,7 @@ class DesignLinks(unittest.TestCase):
         self.assertIn("everything in the code is linked", r.stdout)
 
     def test_portless_links_are_checked_the_same(self) -> None:
-        named = (self.root / "design/design.md").read_text().replace(D, "https://dashboard.hotel.localhost/#/")
+        named = (self.root / "design/design.md").read_text().replace(D, "https://dashboard-hotel.localhost/#/")
         self.write("design/design.md", named)
         self.assertEqual(self.run_it().returncode, 0)
         self.write("design/design.md", named.replace("Room.book)", "Room.reserve)"))
@@ -97,11 +97,11 @@ class DesignLinks(unittest.TestCase):
 
     def test_base_moves_every_link_to_another_dashboard(self) -> None:
         before = (self.root / "design/design.md").read_text()
-        r = self.run_it("--base", "https://dashboard.hotel.localhost")
+        r = self.run_it("--base", "https://dashboard-hotel.localhost")
         self.assertEqual(r.returncode, 0, r.stdout)
         text = (self.root / "design/design.md").read_text()
         self.assertNotIn("127.0.0.1", text)
-        self.assertIn("https://dashboard.hotel.localhost/#/models?type=hotel.v1.Room)", text)
+        self.assertIn("https://dashboard-hotel.localhost/#/models?type=hotel.v1.Room)", text)
         self.run_it("--base", "http://127.0.0.1:9871")
         self.assertEqual((self.root / "design/design.md").read_text(), before)
 

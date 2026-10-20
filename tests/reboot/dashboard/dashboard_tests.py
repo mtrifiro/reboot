@@ -9,7 +9,9 @@ the features page, which shows one feature file's scenarios.
 """
 import asyncio
 import copy
+import os
 import socket
+import tempfile
 import time
 import unittest
 from google.protobuf.json_format import ParseDict
@@ -20,17 +22,20 @@ from rbt.v1alpha1.api import api_pb2
 from rbt.v1alpha1.bdd import feature_pb2
 from reboot.aio.tests import Reboot
 from reboot.dashboard.backend.constants import (
+    DASHBOARD_DIRECTORY,
     DASHBOARD_ID,
-    DASHBOARD_PATH,
+    ENVVAR_RBT_API_DIRECTORY,
     PREFERENCES_ID,
     PRESENCE_ID,
 )
 from reboot.dashboard.backend.main import application
+from reboot.settings import ENVVAR_RBT_WEB_APP_DIST_PATH
 from reboot.std.presence.v1.presence import Presence
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from testing.web import webtest
+from unittest.mock import patch
 
 
 def _new_driver():
@@ -302,6 +307,21 @@ class DashboardTest(unittest.IsolatedAsyncioTestCase):
 
         self.url = f'http://127.0.0.1:{port}'
 
+        # The page is served at `/` the way `rbt dashboard` serves it,
+        # by naming the built page as the application's web app.
+        os.environ[ENVVAR_RBT_WEB_APP_DIST_PATH] = str(DASHBOARD_DIRECTORY)
+        self.addCleanup(os.environ.pop, ENVVAR_RBT_WEB_APP_DIST_PATH, None)
+
+        # `WatchApi`, which `initialize` spawns, reads this variable,
+        # though these tests put no API files in the directory: they
+        # write the page's state straight into the application.
+        self._api_directory = tempfile.TemporaryDirectory()
+        self._environment = patch.dict(
+            os.environ,
+            {ENVVAR_RBT_API_DIRECTORY: self._api_directory.name},
+        )
+        self._environment.start()
+
         self.rbt = Reboot()
         await self.rbt.start()
         await self.rbt.up(
@@ -312,6 +332,8 @@ class DashboardTest(unittest.IsolatedAsyncioTestCase):
 
     async def asyncTearDown(self) -> None:
         await self.rbt.stop()
+        self._environment.stop()
+        self._api_directory.cleanup()
 
     async def _wait_for_viewers(self, satisfied, driver=None) -> None:
         """`List` aborts with `StateNotConstructed` until somebody has
@@ -324,7 +346,9 @@ class DashboardTest(unittest.IsolatedAsyncioTestCase):
         """
         polls = 0
         while True:
-            context = self.rbt.create_external_context(name=self.id())
+            context = self.rbt.create_external_context(
+                name=self.id(), app_internal=True
+            )
             # A reference binds to the first context that uses it, so
             # each context needs its own.
             presence = Presence.ref(PRESENCE_ID)
@@ -359,7 +383,9 @@ class DashboardTest(unittest.IsolatedAsyncioTestCase):
         renders whatever the application's state contains. Reading
         files is covered by `api_reader_tests` and `api_watcher_tests`.
         """
-        context = self.rbt.create_external_context(name=self.id())
+        context = self.rbt.create_external_context(
+            name=self.id(), app_internal=True
+        )
         await Dashboard.ref(DASHBOARD_ID).UpdateApi(
             context,
             api_directory='api',
@@ -375,7 +401,9 @@ class DashboardTest(unittest.IsolatedAsyncioTestCase):
         await self._record_state_types()
         at = Timestamp()
         at.GetCurrentTime()
-        context = self.rbt.create_external_context(name=self.id())
+        context = self.rbt.create_external_context(
+            name=self.id(), app_internal=True
+        )
         await Dashboard.ref(DASHBOARD_ID).UpdateFeatures(
             context,
             features={_FEATURE_FILENAME: _FEATURE},
@@ -385,9 +413,7 @@ class DashboardTest(unittest.IsolatedAsyncioTestCase):
     def _open_feature(self, driver, path: str = '') -> None:
         """Opens the feature's page, or one of its sections by `path`,
         and waits for its scenarios."""
-        driver.get(
-            f'{self.url}{DASHBOARD_PATH}/#/features/{_FEATURE_FILENAME}{path}'
-        )
+        driver.get(f'{self.url}/#/features/{_FEATURE_FILENAME}{path}')
         WebDriverWait(driver, 60).until(
             lambda driver: len(
                 driver.find_elements(By.CLASS_NAME, 'scenario-name')
@@ -461,9 +487,7 @@ class DashboardTest(unittest.IsolatedAsyncioTestCase):
         # while someone is typing, so the page shows the error beside
         # the state types it last parsed rather than in place of them.
         def body(driver):
-            driver.get(
-                f'{self.url}{DASHBOARD_PATH}/#/models?type=shop.v1.Shop'
-            )
+            driver.get(f'{self.url}/#/models?type=shop.v1.Shop')
             WebDriverWait(driver, 60).until(
                 expected_conditions.presence_of_element_located(
                     (By.CSS_SELECTOR, '[id="/type/shop.v1.Shop"]')
@@ -471,7 +495,9 @@ class DashboardTest(unittest.IsolatedAsyncioTestCase):
             )
             return driver.page_source
 
-        context = self.rbt.create_external_context(name=self.id())
+        context = self.rbt.create_external_context(
+            name=self.id(), app_internal=True
+        )
         await Dashboard.ref(DASHBOARD_ID).UpdateApi(
             context,
             api_directory='api',
@@ -528,7 +554,9 @@ class DashboardTest(unittest.IsolatedAsyncioTestCase):
         """Returns once the preference reads `expected`: the notice's
         write is what the page sends after the click, so seeing it is
         how the test knows the choice reached the application."""
-        context = self.rbt.create_external_context(name=self.id())
+        context = self.rbt.create_external_context(
+            name=self.id(), app_internal=True
+        )
         async for response, aborted in Preferences.ref(
             PREFERENCES_ID
         ).reactively().Get(context):
@@ -546,14 +574,8 @@ class DashboardTest(unittest.IsolatedAsyncioTestCase):
         # covers. Closing the notice writes nothing, so the test
         # closes first, then suppresses, and the preference must only
         # change on the second.
-        #
-        # The page's own path, not the root, as `rbt dashboard` opens
-        # it:
-        # the root is served through Envoy's gRPC-JSON transcoder, which
-        # fails a request carrying a query parameter its method has no
-        # field for, so `/?opened=automatically` never reaches the page.
         def close(driver):
-            driver.get(f'{self.url}{DASHBOARD_PATH}/?opened=automatically')
+            driver.get(f'{self.url}/?opened=automatically')
             self._dismiss_the_notice(driver, self._CLOSE)
 
         await asyncio.to_thread(self._run_in_browser, close)
@@ -561,7 +583,7 @@ class DashboardTest(unittest.IsolatedAsyncioTestCase):
         await self._wait_for_suppress_automatic_open(False)
 
         def suppress(driver):
-            driver.get(f'{self.url}{DASHBOARD_PATH}/?opened=automatically')
+            driver.get(f'{self.url}/?opened=automatically')
             self._dismiss_the_notice(driver, self._SUPPRESS)
 
         await asyncio.to_thread(self._run_in_browser, suppress)
@@ -580,9 +602,7 @@ class DashboardTest(unittest.IsolatedAsyncioTestCase):
         await self._record_state_types()
 
         def body(driver):
-            driver.get(
-                f'{self.url}{DASHBOARD_PATH}/#/models?type=shop.v1.shop.Shelf'
-            )
+            driver.get(f'{self.url}/#/models?type=shop.v1.shop.Shelf')
             WebDriverWait(driver, 60).until(
                 expected_conditions.presence_of_element_located(self._SHELF)
             )
@@ -606,9 +626,7 @@ class DashboardTest(unittest.IsolatedAsyncioTestCase):
         shop = (By.CSS_SELECTOR, '[id="/type/shop.v1.Shop"]')
 
         def body(driver):
-            driver.get(
-                f'{self.url}{DASHBOARD_PATH}/#/models?type=shop.v1.Shop'
-            )
+            driver.get(f'{self.url}/#/models?type=shop.v1.Shop')
             WebDriverWait(driver, 60).until(
                 expected_conditions.presence_of_element_located(shop)
             )
@@ -643,7 +661,7 @@ class DashboardTest(unittest.IsolatedAsyncioTestCase):
         # does. The graph is the models page, with no heading over it.
         def body(driver):
             driver.get(
-                f'{self.url}{DASHBOARD_PATH}/#/models/shop.v1.Shop.look'
+                f'{self.url}/#/models/shop.v1.Shop.look'
                 '?type=shop.v1.Shop.look'
             )
             WebDriverWait(driver, 60).until(
@@ -696,7 +714,9 @@ class DashboardTest(unittest.IsolatedAsyncioTestCase):
                 'url_after_click': driver.current_url,
             }
 
-        context = self.rbt.create_external_context(name=self.id())
+        context = self.rbt.create_external_context(
+            name=self.id(), app_internal=True
+        )
         await Dashboard.ref(DASHBOARD_ID).UpdateApi(
             context,
             api_directory='api',
@@ -729,7 +749,7 @@ class DashboardTest(unittest.IsolatedAsyncioTestCase):
 
         def link_to(method: str) -> str:
             return (
-                f'{self.url}{DASHBOARD_PATH}/#/models/shop.v1.Shop.{method}'
+                f'{self.url}/#/models/shop.v1.Shop.{method}'
                 f'?type=shop.v1.Shop.{method}'
             )
 
@@ -935,7 +955,7 @@ class DashboardTest(unittest.IsolatedAsyncioTestCase):
         # join the same two boxes, so each says which methods it
         # joins, not only which boxes, to a screen reader.
         def body(driver):
-            driver.get(f'{self.url}{DASHBOARD_PATH}/#/models')
+            driver.get(f'{self.url}/#/models')
             WebDriverWait(driver, 60).until(
                 expected_conditions.presence_of_element_located(
                     (By.CSS_SELECTOR, '.react-flow__edge')
@@ -946,7 +966,9 @@ class DashboardTest(unittest.IsolatedAsyncioTestCase):
                 driver.find_elements(By.CSS_SELECTOR, '.react-flow__edge')
             )
 
-        context = self.rbt.create_external_context(name=self.id())
+        context = self.rbt.create_external_context(
+            name=self.id(), app_internal=True
+        )
         await Dashboard.ref(DASHBOARD_ID).UpdateApi(
             context,
             api_directory='api',
@@ -981,7 +1003,7 @@ class DashboardTest(unittest.IsolatedAsyncioTestCase):
         # unlisted once it is closed.
         driver = await asyncio.to_thread(_new_driver)
         try:
-            await asyncio.to_thread(driver.get, f'{self.url}{DASHBOARD_PATH}/')
+            await asyncio.to_thread(driver.get, f'{self.url}/')
 
             await self._wait_for_viewers(
                 lambda viewers: viewers != [],
