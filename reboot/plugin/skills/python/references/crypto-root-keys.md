@@ -7,13 +7,13 @@ tags: crypto, root-keys, hkdf, derive_key, rotation, use_root_key_version, disus
 
 ## Derive Your Own Keys from Reboot's Managed Crypto Root Keys
 
-> **First decide if you even need rotation.** If you re-derive a key
+> **First decide whether you need rotation.** If you re-derive a key
 > from `root_keys.active_version()` **every time** and never persist
 > the derived key (or anything encrypted under it) — e.g. an
 > HMAC/signing key recomputed on each use — you need **none** of the
-> rotation machinery below: just always derive from
-> `active_version()`, and a root-key rotation simply produces a new
-> key next time. The `Watch` loop and `use_root_key_version` /
+> rotation machinery below: always derive from
+> `active_version()`, and a root-key rotation produces a new key next
+> time. The `Watch` loop and `use_root_key_version` /
 > `disuse_root_key_version` markers are **only** for code that
 > **persists material wrapped under a specific (possibly older) root
 > version** and must keep that version alive until it has migrated
@@ -97,7 +97,7 @@ writers are **idempotent**.
 
 Track the versions you hold in your **own state** (a
 `repeated uint32 consuming_versions` set) and treat the `Application`
-markers as a mirror of it. This buys two correctness properties:
+markers as a mirror of it. This gives two correctness properties:
 
 - **Mark `use` transactionally, deduped.** When you first create
   material under a version, record `use_root_key_version` _in the same
