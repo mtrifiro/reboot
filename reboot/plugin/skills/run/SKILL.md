@@ -218,8 +218,13 @@ another app's.
 
 **Test runs and the running app.** The suite (and `mypy`) run with
 the app still up, unless a file under `api/` changed since the app
-last started: then stop it first, run, and start it again as soon as
-the run ends, whether it passed or not. The suite runs its own Reboot
+last started. A change to `api/` stops the app before its first edit
+there, and starts it again as soon as `uv run rbt generate` has run,
+before the servicers are written: it restarts itself as they change,
+and the scenarios then run with it up, since `api/` hasn't changed
+since it started. When the change also changes the demo data, clear
+the old data (`uv run rbt dev expunge --yes`) before that start, not
+after the servicers. The suite runs its own Reboot
 on its own ports; what collides is a running `rbt dev run`
 regenerating the code when `api/` changes, under the tests, which
 fails scenarios and can wedge the app mid-restart. Measured on a
@@ -227,10 +232,11 @@ rendered starter (2026-10-19): with the app up and no `api/` change,
 4 of 4 full runs passed and the app stayed up; started right after an
 `api/` edit, 1 of 2 failed and the app hung. A stop leaves the user's
 open page on the proxy's 502, so it gets one line first: "The app is
-stopped while the scenarios run, after the API change, so its page
-shows an error for a minute; it comes back when they finish."
-(hotel-255 stopped it for every run and kept it down through each fix,
-15 minutes of a 28-minute build.)
+stopped while the API changes, so its page shows an error for a
+minute; it comes back once the code is generated." (hotel-255 stopped
+it for every run and kept it down through each fix, 15 minutes of a
+28-minute build; hotel-260 kept it down from the API edits through the
+backend scenarios and the new demo data, 5:44.)
 
 **A stop you made reports as a failure.** `rbt dev run` ends with exit
 code 130 when it is interrupted, and the background task that started
