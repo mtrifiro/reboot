@@ -10,8 +10,13 @@ call, before the agent's next step, gets it said.
 
 It fires once per session, on the first of:
 
-  * a Bash call running `rbt dashboard` (the port from `--port`,
-    else the project's `.claude/launch.json`, else 9871);
+  * a Bash call running `rbt dashboard`: its portless address,
+    `https://dashboard.<app>.localhost`, unless the call asks for plain
+    ports (`--config=ports`, `--no-portless`) or the project's
+    `.rbtrc` doesn't default it to portless; else the port from
+    `--port`, the project's `.claude/launch.json`, or 9871 (crm-30's
+    reminder linked 127.0.0.1:9871 while the dashboard ran under
+    portless);
   * opening the dashboard in the Claude app's Browser pane (a
     `preview_start` named `dashboard`, its URL from `launch.json`).
 
@@ -60,6 +65,28 @@ def objects(cwd: Path) -> list[str]:
     return found
 
 
+def app_name(cwd: Path) -> str:
+    """The `.rbtrc`'s `--application-name`, else the folder's name."""
+    try:
+        found = re.search(r"--application-name[= ](\S+)", (cwd / ".rbtrc").read_text())
+    except OSError:
+        found = None
+    return found.group(1) if found else cwd.name
+
+
+def portless_dashboard(command: str, cwd: Path) -> str:
+    """The dashboard's portless address when this call runs it there."""
+    if re.search(r"--config[= ]ports\b|--no-portless\b|--port[= ]\d", command):
+        return ""
+    try:
+        rbtrc = (cwd / ".rbtrc").read_text()
+    except OSError:
+        return ""
+    if "--config=portless" in command or re.search(r"^dashboard --default-config=portless", rbtrc, re.M):
+        return f"https://dashboard.{app_name(cwd)}.localhost"
+    return ""
+
+
 def dashboard_url(event: dict, cwd: Path) -> str:
     """The dashboard's URL when this call started or opened it, else ""."""
     tool = str(event.get("tool_name", ""))
@@ -68,6 +95,9 @@ def dashboard_url(event: dict, cwd: Path) -> str:
         command = str(args.get("command", ""))
         if not DASHBOARD_COMMAND.search(command):
             return ""
+        named = portless_dashboard(command, cwd)
+        if named:
+            return named
         port = PORT.search(command)
         if port:
             return f"http://127.0.0.1:{port.group(1)}"
