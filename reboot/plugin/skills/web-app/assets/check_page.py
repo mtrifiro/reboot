@@ -102,6 +102,17 @@ const own = (e) => [...e.childNodes].some((n) => n.nodeType === 3 && n.textConte
 const boxes = [...document.querySelectorAll("main *, [role=dialog] *")]
   .filter((e) => e.offsetParent && (own(e) || e.matches("input, select, textarea, button")))
   .filter((e) => !e.parentElement?.closest("button, label"))
+  // What the user can't see doesn't touch: an element inert or hidden
+  // from assistive tech, or covered by something else at its centre (a
+  // page behind an open drawer; crm-30 failed four checks on it).
+  .filter((e) => !e.closest("[inert], [aria-hidden=true]"))
+  .filter((e) => {
+    const r = e.getBoundingClientRect();
+    const x = r.left + r.width / 2, y = r.top + r.height / 2;
+    if (x < 0 || y < 0 || x > innerWidth || y > innerHeight) return true;
+    const top = document.elementFromPoint(x, y);
+    return !top || e.contains(top) || top.contains(e);
+  })
   .map((e) => ({ e, r: e.getBoundingClientRect() }));
 const inline = (e) => getComputedStyle(e).display === "inline";
 const name = (e) => `${e.tagName} "${e.textContent?.trim().slice(0, 20)}"`;
