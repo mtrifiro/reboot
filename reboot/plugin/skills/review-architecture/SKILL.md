@@ -17,16 +17,16 @@ the build makes each change and proves every rule still holds.
 ## How the Review Judges
 
 1. **Simplest structure that does the job.** Every layer, helper,
-   package and abstraction must pay for itself today. More moving
+   package and abstraction must be needed today. More moving
    parts than the work needs is a finding; so is one file doing three
    jobs. Delete before adding.
 2. **Boundaries follow the work.** A module, package or page has one
    reason to change. Packages split by area of the work
    ([`design-packages.md`](../app/references/design-packages.md)),
    never one per object; a page file holds one page; a servicer serves
-   one domain object's job. Code repeated in two places is one idea
-   with two homes.
-   **A file too big to split is an app ready for packages.** When a
+   one domain object's job. Code repeated in two places is a
+   finding.
+   **A file that holds several areas splits into packages.** When a
    finding splits a file that holds several areas (the API file, a
    servicer module, `App.tsx`), the pieces are the areas, and each is
    a package, cut the same way in every layer: the API one package
@@ -195,7 +195,7 @@ line naming `design/architecture-review.md`.
 
 - Never a finding without its evidence (`file:line`, a count, a
   measured number) and its consequence: a recommendation says what it
-  buys.
+  gains.
 - Never a number that wasn't counted or measured.
 - Never change a rule, a scenario, who may do what, or what a user
   sees as part of a structural change without the user's yes.
@@ -205,5 +205,5 @@ line naming `design/architecture-review.md`.
   with a reason that still holds.
 - Never read generated code, or `servicer-workflow.md` or `errors.md`
   whole: search for the section.
-- Never name or quote a person as the reviewer, or put words in
-  anyone's mouth: the review speaks for itself.
+- Never name or quote a person as the reviewer, or attribute
+  words to anyone: the review speaks for itself.
