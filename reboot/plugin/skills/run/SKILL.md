@@ -230,11 +230,16 @@ regenerating the code when `api/` changes, under the tests, which
 fails scenarios and can hang the app mid-restart. Measured on a
 rendered starter (2026-10-19): with the app up and no `api/` change,
 4 of 4 full runs passed and the app stayed up; started right after an
-`api/` edit, 1 of 2 failed and the app hung. A stop leaves the user's
-open page on the proxy's 502, so it gets one line first: "The app is
-stopped while the API changes, so its page shows an error for a
-minute; it comes back once the code is generated." (hotel-255 was
-down 15 minutes of 28; hotel-260, 5:44.)
+`api/` edit, 1 of 2 failed and the app hung. Right after that
+stop, `python3 '<this skill>/assets/standby.py' start` puts a
+"Restarting" page at the app's address in place of the proxy's 502;
+it reloads itself, so the user's open tab shows the app again once
+it is back. `standby.py stop` ends it: under portless once the app
+answers again (the app takes its name back), on plain ports just
+before the start (it holds 9991). One line first: "The app is
+restarting while the API changes; its page says so and comes back by
+itself in a minute or so." (hotel-255 was down 15 minutes of 28;
+hotel-260, 5:44.)
 
 **A stop you made reports as a failure.** `rbt dev run` ends with exit
 code 130 when it is interrupted, and the background task that started
