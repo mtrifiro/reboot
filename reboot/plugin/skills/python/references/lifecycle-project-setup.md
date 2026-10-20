@@ -59,7 +59,20 @@ app in that shape, green as it stands (`uv sync && uv run rbt generate
 && uv run pytest`): a `User`, the hub and the thing in
 `api/<pkg>/v1/<pkg>.py`, their servicers with real authorizers,
 `main.py`, the tests in the built-in steps, the test record and
-scripts. The build edits it into the design with the Edit tool: the
+scripts.
+
+**A path with a space** (`/Users/me/hotel 260`, as the Claude app names
+folders): `rbt generate` runs the venv's `protoc` plugins through the
+shell unquoted and fails with `/bin/sh: /Users/me/hotel: No such file
+or directory` and `` `protoc` failed with exit status 127``. `render.py`
+says so when it applies. Keep the venv outside the project: every uv
+command in the build starts `export
+UV_PROJECT_ENVIRONMENT=$HOME/.venvs/<app> &&`, `uv sync` first, and
+`.claude/settings.local.json` gets `{"env": {"UV_PROJECT_ENVIRONMENT":
+"<that path, spelled out>"}}` for later sessions (hotel-260 lost a
+minute finding this).
+
+The build edits it into the design with the Edit tool: the
 design's fields and methods beside the starter's, in the same shape; a
 name that doesn't fit is renamed, no file rewritten whole; a file that
 exists is kept. What the shell holds, and the rule behind each file:
