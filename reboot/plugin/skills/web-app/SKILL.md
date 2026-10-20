@@ -440,7 +440,7 @@ finished app.
    [`dashboard` skill](../dashboard/SKILL.md) without waiting for
    it; if it fails to come up, say so in one sentence and keep
    building. Built from the `app-guided` skill, the first
-   feature instead waits for it and shows the domain model, asking "Build on this domain model?" only when it differs from the design's (the model check;
+   feature instead waits for it and asks "Build on this domain model?" only on a change (the model check;
    not on the prompt-by-prompt path, which asks nothing)
    ([`app/references/design-first.md`](../app/references/design-first.md),
    "The domain model, once") before step 5.
@@ -531,10 +531,8 @@ finished app.
 13. Add its types and methods to the API (additive only, per
     `python/references/api-schema-evolution.md`), `rbt generate`,
     then its servicer with its rules, its demo data, its page or page
-    change, and its scenarios. Before its first `api/` edit, stop the
-    app with the `run` skill, and start it again as soon as
-    `rbt generate` has run (`run` skill, "Test runs and the running
-    app").
+    change, and its scenarios. Stop and restart the app around the
+    `api/` edits (`run` skill, "Test runs and the running app").
 14. Run the feature's own scenarios as the
     [`feature` skill](../feature/SKILL.md)'s step 4 says (in the
     foreground) and `uv run mypy backend/ tests/`, with the app up
