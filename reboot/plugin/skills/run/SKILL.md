@@ -201,13 +201,16 @@ the same machine, and `pkill -f "rbt dev run"` or the first match of
 also skips the `uv` wrapper that a signal would otherwise reach first:
 
 ```shell
-P=$(pgrep -f "$PWD/.venv/bin/rbt dev run"); kill -INT $P
-for i in $(seq 30); do kill -0 $P 2>/dev/null || break; sleep 1; done
+P=$(pgrep -f "${UV_PROJECT_ENVIRONMENT:-$PWD/.venv}/bin/rbt dev run"); kill -INT $P
+for i in $(seq 10); do kill -0 $P 2>/dev/null || break; sleep 1; done
 if kill -0 $P 2>/dev/null; then pkill -TERM -P $P; kill -TERM $P; sleep 5
   kill -0 $P 2>/dev/null && kill -KILL $P; fi
 ```
 
-The loop waits, at most 30 seconds, until it has exited: its Envoy and
+(`UV_PROJECT_ENVIRONMENT` is set when the project's path has a space,
+`python/references/lifecycle-project-setup.md`.) The loop waits, at
+most 10 seconds, until it has exited (an interrupt ends it in one or
+two): its Envoy and
 ports go with it, and a suite started while they are still up has
 failed scenarios that pass alone (hotel-211: two failed in a full run
 started three seconds after the signal, and passed in the next). One
