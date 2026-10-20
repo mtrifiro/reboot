@@ -82,13 +82,13 @@ says where things are in this project and what it has learned.
    generated code.
 4. Every servicer has a real `authorizer()`. `allow()` makes a method
    public, in production too.
-5. <Each rule this project learns the hard way, added the day it is
+5. <Each rule this project learns from a mistake, added when it is
    learned.>
 
 ## Keeping this file current
 
-When a file moves, a command changes, or a rule is learned the hard
-way, change this file in the same change.
+When a file moves, a command changes, or a mistake teaches a rule,
+change this file in the same change.
 ```
 
 Rule 5 is the one place the template leaves open: delete it until the

@@ -1,13 +1,13 @@
 ---
 title: MCP App–Specific Gotchas
 impact: CRITICAL
-impactDescription: The trip list specific to the MCP App layer. Every entry is a real failure mode the MCP App codegen, runtime, or build surfaces — most are caught at startup or at codegen rather than at write time, so they look like runtime errors but are static schema problems.
+impactDescription: Common mistakes specific to the MCP App layer. Every entry is a real failure mode the MCP App codegen, runtime, or build surfaces — most are caught at startup or at codegen rather than at write time, so they look like runtime errors but are static schema problems.
 tags: gotchas, traps, errors, mcp, ui, factory, workflow, ref, schedule, optional, react, vite, snake-camel
 ---
 
 ## MCP App–Specific Gotchas
 
-For the rest of the trip-list — pydantic APIs, not `.proto`; no `__init__.py`
+For the other common mistakes — pydantic APIs, not `.proto`; no `__init__.py`
 in `api/`, pydantic Field zero-default rule, `self.ref().state_id`
 not `self.state_id`, kwargs not Request wrappers, generated import
 paths, `Service.create(context, id)` semantics, register-all-Servicers
@@ -57,8 +57,8 @@ The list below is what's specific to the MCP App layer:
    "UI Placement" in `api-method-types.md`. Putting
    `show_person=UI(request=ShowPersonProps(person_id: str))` on
    `User` is the canonical wrong shape — it surfaces in MCPJam as
-   a tool with a leaky entity-ID input, forces props plumbing, and
-   de-co-locates the UI from every other per-entity method.
+   a tool with an entity-ID input, passes the ID through props, and
+   separates the UI from every other per-entity method.
 
 10. **Frontend request/response types are Zod** — generated from
     the Python Models.
@@ -105,7 +105,7 @@ The list below is what's specific to the MCP App layer:
     `MyType.ref().write(context, fn)` already pick the right
     semantics: `.always()` inside an `until` block,
     `.per_iteration()` inside a `context.loop`, and `.per_workflow()`
-    everywhere else. Only reach for an explicit `.per_iteration()`
+    everywhere else. Only use an explicit `.per_iteration()`
     (override the default to per-iteration when _not_ inside a loop)
     or `.always()` (re-run every time). A plain
     `MyType.ref().per_workflow().some_method(context)` adds nothing
@@ -118,8 +118,7 @@ The list below is what's specific to the MCP App layer:
     `WorkflowContext`). A foreign read like
     `OtherType.ref(other_id).read(context)` raises
     `RuntimeError: read() is currently only supported within workflows` —
-    the constraint isn't actually "must be inside a workflow" (you
-    are) but "must be the workflow's own no-argument ref." For
+    the constraint isn't "must be inside a workflow" but "must be the workflow's own no-argument ref." For
     cross-state reads, call a Reader method on the target type. The
     same rule applies to inline `.write(context, fn)`.
 
@@ -165,7 +164,7 @@ The list below is what's specific to the MCP App layer:
     the built MCP App — `<--mcp-app-dist-path>/<path>/index.html`,
     with `--mcp-app-dist-path=frontend/dist/mcp` in `.rbtrc`. Reboot's
     Vite plugin (`reboot()` from `@reboot-dev/reboot-react/vite`)
-    produces it correctly out of the box: the
+    produces it by default: the
     `RBT_BUILD_TARGET=mcp:<name>` build roots itself at `mcp/<name>/`,
     so its `index.html` lands at the nested path while
     `viteSingleFile` inlines the JS/CSS. If you see
@@ -196,7 +195,7 @@ The list below is what's specific to the MCP App layer:
     into `frontend/api/`. Vite — plus `tsc` under the
     `moduleResolution: "bundler"` the scaffolded tsconfigs use —
     resolves the generated client's relative imports without explicit
-    `.js` extensions, so the flag buys nothing here. The two cases
+    `.js` extensions, so the flag does nothing here. The two cases
     where a project _does_ need it both require something this skill
     never produces: a webpack/`ts-loader` bundler (this skill uses
     Vite), or a `--nodejs`/`--web` target sharing the React output
