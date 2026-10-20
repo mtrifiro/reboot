@@ -501,15 +501,9 @@ finished app.
     its output unpiped, and at once write the whole handoff below
     while it runs. Never wait on it: no `sleep`, no `until` loop, no
     Monitor, no reading its output file; its completion notice comes
-    on its own. Send the handoff as soon as it is written, without
-    waiting for the run: its **What it does** says the feature's own
-    scenarios pass and the whole suite is running, and in place of the
-    dialog it ends "The whole suite's result, then the question of
-    what's next, follow as soon as it finishes." End the turn there.
-    When the notice comes, one line with the result (all <n> pass; or
-    what failed, fixed before anything else), the app started again if
-    it was stopped, then the dialog (hotel-260 waited about 1:45 for
-    the suite at each handoff). Show what was built so the user can judge
+    on its own. Send the handoff once written, saying the suite is
+    running, and end the turn without the dialog. At the notice: the
+    result in one line (a failure fixed first), then the dialog. Show what was built so the user can judge
     it, not admire it, word for word in the handoff's shape in
     [`app/references/design-messages.md`](../app/references/design-messages.md),
     each rule linked to the dashboard's Features page (`dashboard`
