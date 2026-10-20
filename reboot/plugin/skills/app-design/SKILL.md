@@ -131,8 +131,7 @@ Rules for that response:
 Only when this skill runs on its own. Loaded by the `app-guided` or
 `app-whole` skill nothing is asked: each question below takes its
 recommended answer (the recommended features; anyone signed in, roles
-later; the first palette that suits the domain, or the brand the prompt
-names), each a line under **Assumed**, and the user changes any at the
+later; the palette as below), each a line under **Assumed**, and the user changes any at the
 go-ahead, with the design and the mockup in front of them (hotel-270:
 three of four questions answered with the recommendation).
 
@@ -165,9 +164,18 @@ recommendation is one answer:
   would be. Nothing is read for this question. A palette is the page,
   text, lines and accent together, a gray and an accent; the type and
   corners are always the house look's (Space Grotesk over DM Sans).
-  The palettes are house (Reboot's own: cream paper, navy ink and accent), sand-bronze, sand-brown, sand-orange, sand-gold, olive-grass, sage-teal, slate-blue, slate-iris, mauve-plum and mauve-crimson, and no other; an option's label says its
-  two colours in words ("Sage and teal"), its description why it
-  suits the domain, in a few words.
+  The palettes are house (Reboot's own: cream paper, navy ink and accent), sand-bronze, sand-brown, sand-orange, sand-gold, olive-grass, sage-teal, slate-blue, slate-iris, mauve-plum and mauve-crimson, and no other; an option's label is its
+  name and two colours ("Lagoon: sage and teal", as
+  `python3 '<the web-app skill>/assets/palette.py'` lists them), its
+  description why it suits the domain, in a few words.
+- **The palette, unasked** (loaded by the `app-guided` or `app-whole`
+  skill): a brand colour in the prompt is `palette.py --from
+  '<#rrggbb>'`, which names the nearest palette and how far off;
+  otherwise name the two or three that suit the domain and take the
+  one `python3 '<the web-app skill>/assets/palette.py' pick <them>`
+  prints from the project root. It picks by the project folder's
+  name, so two builds of one prompt differ (hotel-260 to -301, five
+  hotel builds, all took sand-bronze).
 How it is built is not asked here: the interactive build is the
 default (the `app` skill), and the go-ahead, **Ready to
 build this design?**, asks only for the yes; "build it all at once",
