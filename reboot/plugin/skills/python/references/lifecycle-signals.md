@@ -50,7 +50,7 @@ What a cleanup handler is, and is not:
   has stopped, and the process dies by it. A `try`/`finally` or
   `async with` around `await application.run()` is **not** a way to
   clean up on a signal: the process is gone before it runs.
-- Only the first signal is handled; a second Ctrl-C from an impatient
-  developer is ignored rather than interrupting the cleanup.
+- Only the first signal is handled; a second Ctrl-C is ignored rather
+  than interrupting the cleanup.
 
 `uninstall_cleanup()` removes a handler installed this way.

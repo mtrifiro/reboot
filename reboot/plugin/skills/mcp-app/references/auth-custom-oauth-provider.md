@@ -114,7 +114,7 @@ installed `reboot` package; open its source) and adapt the closest one:
 - **`GitHub`** is the model for a plain-OAuth (non-OIDC) IdP: no ID
   token, so it resolves the user id by calling the IdP's user-info API
   with the freshly exchanged access token.
-- **`Google`** shows a provider-specific refresh-token knob added in
+- **`Google`** shows a provider-specific refresh-token parameter added in
   `authorization_url` (`access_type=offline`).
 
 Your subclass differs from its model only in the endpoint URLs, the
@@ -157,7 +157,7 @@ user):
    response — `access_token`, `refresh_token`, `expires_at`, and
    `scopes`. Return `tokens=None` when it isn't — apps that don't opt
    in must never carry these secrets around.
-3. If the IdP needs a special knob to issue refresh tokens (Google's
+3. If the IdP needs a special parameter to issue refresh tokens (Google's
    `access_type=offline`, Auth0's `offline_access` scope), add it in
    `authorization_url` — only when `self._store_tokens` is set.
 

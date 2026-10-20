@@ -1,6 +1,6 @@
 ---
 name: review
-description: "The full review of a built Reboot app: its architecture, its domain model at scale, its tests and its look, each by its own review skill's method and side by side, then one report ranked by who gets hurt, one choice of what to fix, and each fix made by the skill that owns it. Use when the user asks to review the app ('/reboot:review', 'review my app', 'review everything', 'is it ready?'). For one area alone: review-architecture, review-domain, review-tests, review-ui."
+description: "The full review of a built Reboot app: its architecture, its domain model at scale, its tests and its look, each by its own review skill's method and side by side, then one report ranked by harm, one choice of what to fix, and each fix made by the skill that owns it. Use when the user asks to review the app ('/reboot:review', 'review my app', 'review everything', 'is it ready?'). For one area alone: review-architecture, review-domain, review-tests, review-ui."
 argument-hint: '[optional: what to look at, e.g. "permissions" or "is it ready to deploy?"; the whole app by default]'
 allowed-tools: Bash, Read, Write, Edit, Glob, Grep, AskUserQuestion, Agent
 ---
@@ -63,7 +63,7 @@ One message, headed **Review: <app>**, written to
 1. **Verdict,** three sentences: is it ready for the people it's
    for, what to fix first, and what is good.
 2. **Fix first,** at most eight findings across the four, ranked by
-   who gets hurt (money or a person's access, something done twice or
+   harm (money or a person's access, something done twice or
    lost, slow or down, confusing, cosmetic), then by how many people
    it reaches. Each: a title in the user's nouns, a sentence of what
    goes wrong, the area, and a link to its full text in the area's
@@ -109,5 +109,5 @@ to three) and "Stop here"; otherwise a closing line naming
   for the look) is named in **By area** with why.
 - More than one fix in flight.
 - A number not counted by an area's review or a run.
-- Never name or quote a person as the reviewer, or put words in
-  anyone's mouth: the review speaks for itself.
+- Never name or quote a person as the reviewer, or attribute
+  words to anyone: the review speaks for itself.

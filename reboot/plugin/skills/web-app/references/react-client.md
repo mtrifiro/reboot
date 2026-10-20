@@ -118,8 +118,8 @@ when the backend serves the built assets from one origin.
 `BackendCheck` (`import { BackendCheck } from "./backend-check"`,
 rendered with the starter, beside the stylesheet) says so while
 `REBOOT_URL` doesn't answer, instead of a blank page or a failed call
-per hook, and checks every few seconds; one failed check is a blip,
-two in a row mean down. In development it replaces the app with a page
+per hook, and checks every few seconds; one failed check is ignored;
+two in a row mean the backend is down. In development it replaces the app with a page
 (the backend restarting after a change, or not started and how to
 start it). In production it never takes the app down: the app renders
 at once, and a banner over it says "<name> is updating, or can't
