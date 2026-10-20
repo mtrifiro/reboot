@@ -562,13 +562,12 @@ for word: the list for the way the user chose to build.
     `http://localhost:9991`)**, the handoff for an MCP App, not the
     `/mcp` URL; MCPJam only on demand from the wizard; never a bare
     `rbt dev run` / `npm run dev`. Open
-    the wizard once at first startup, run the whole suite once in the
-    background while the handoff is written (`feature` skill, "Report
-    a full run once, at the end"), and write the handoff in the shape
-    of
-    [`app/references/design-messages.md`](../app/references/design-messages.md)
-    with the wizard's URL under **Open it**, and ask in a question
-    dialog (`AskUserQuestion` where available) **What should I build next?**
+    the wizard once at first startup, run the whole suite in the
+    background (`feature` skill, "Report a full run once, at the
+    end"), and write the handoff, shaped as
+    [`app/references/design-messages.md`](../app/references/design-messages.md),
+    with the wizard's URL under **Open it**; send it while it runs,
+    ending the turn; at its notice, its result, then the dialog **What should I build next?**
     (on the prompt-by-prompt path no dialog: **Your turn** ends with the plain
     line "Say what's next."), worded as
     [`app/references/accept-design.md`](../app/references/accept-design.md)

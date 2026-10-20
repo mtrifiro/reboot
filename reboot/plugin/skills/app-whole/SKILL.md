@@ -1,6 +1,6 @@
 ---
 name: app-whole
-description: Build a complete Reboot application in one go, asking nothing (or, with ", basic" after the prompt, one feature of it the same way). Designs every feature a real product in the domain needs, not only those the prompt names, builds the whole app with every rule and scenario without stopping, reviews its domain model and its look and fixes what the reviews find, and hands it over once, at the end. Use only when the user asks for it by name ("/reboot:app-whole", "one-shot", "one shot"); otherwise the app skill asks how to build and routes to the guided, one-shot or build skill.
+description: Build a complete Reboot application in one go, asking nothing (or, with ", basic" after the prompt, one feature of it the same way). Designs every feature a real product in the domain needs, not only those the prompt names, builds the whole app with every rule and scenario without stopping, reviews its domain model and its look and fixes what the reviews find, and hands it over once, at the end. Use only when the user asks for it by name ("/reboot:app-whole", "one-shot", "one shot"); otherwise the app skill asks how to build and routes to app-guided, app-basic or app-whole.
 argument-hint: [<app-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit, Agent, Skill
 ---
@@ -80,7 +80,8 @@ end, not the smallest app that fits the prompt:
 
 The round's other answers, taken without asking: the palette
 the app-design skill would recommend for the domain (or the brand the
-prompt names); "How should it be built? One-shot". Each answer and each
+prompt names); "How should it be built? Whole app, hands off" ("First
+feature only" for ", basic"). Each answer and each
 feature added beyond the prompt goes under **Assumed**, the feature
 with one line on why a real product needs it.
 
@@ -131,7 +132,11 @@ mobile app" is a backend only
 nothing named is a web app. Load the door with the Skill tool, never
 by reading its file, and build by its whole-app flow: for a web app,
 [`web-app/references/full-build.md`](../web-app/references/full-build.md);
-for an MCP App, its Step-by-Step Build Flow for every feature. The
+for an MCP App, its Step-by-Step Build Flow for every feature, with
+`full-build.md`'s steps 4 and 5 kept there too: only the **Before the
+API definition** references before the API, the API edited object by
+object, and the dashboard's line once it answers, with the next
+step's line. The
 door's Design Phase, scope round and dialogs are skipped: the design
 is done. Read [`app/references/conversation.md`](../app/references/conversation.md)
 once, for what the build says at each step.
@@ -159,7 +164,7 @@ which is finished and go on; never wait for an answer.
   and where the accent goes as the design's page line says
   (`ui-design.md`, "What the Eye Lands On"), and `design/comp/mockup.html`
   as the main page's target (drawn right after the design, section 1,
-  or before the go-ahead on the app-guided skill's all-at-once path). (hotel-200's
+  or before the app-guided skill's go-ahead). (hotel-200's
   sub-agent read four references by `cat` and edited by `sed -i`.)
 - **Read this plugin with the Read tool,** one call per file, several
   in one response, never `cat`, `awk` or a loop in a shell (the
@@ -171,6 +176,9 @@ which is finished and go on; never wait for an answer.
   goes on to the next feature; it is named at the handoff.
 - **Something the design got wrong:** change the design document and
   the feature, note it for the handoff, and go on.
+- **An `api/` change,** a review's fix included, stops the app before
+  its first edit there and starts it again as soon as `rbt generate`
+  has run (the `run` skill, "Test runs and the running app").
 - **The prototype's "try it" message** is said in one line with the
   URL; the build doesn't wait for it.
 
@@ -194,7 +202,8 @@ step moved to the object that owns it, a list into its area's index,
 the roster into its own `Team`; every rule and scenario unchanged, the
 suite and mypy green, one commit "Structure: <what changed>". A fix
 that would change a rule or what a user sees goes to the handoff, as
-does a long file (packages are a design decision, section 1).
+does a long file (packages are a design decision, the `app-design`
+skill's section 3).
 
 **The domain model** ([`review-domain`](../review-domain/SKILL.md)):
 
@@ -225,17 +234,20 @@ app:
    accent, the page tones, the typefaces, the corners) is never made:
    it goes to the handoff.
 
-After the fixes, the whole suite and mypy once more when anything
-changed, the result said once.
+After the fixes, mypy, and the whole suite once more in the
+background when anything changed: the final run. The handoff
+(section 6) goes out while it runs; its result follows the notice.
 
 ## 6. One handoff, at the end
 
-`design/design.md` rewritten as built, its links checked by
+`design/design.md` brought up to date by edits to what the build
+changed, never rewritten whole, its links checked by
 `scripts/design_links.py`; then the handoff in the shape of
 [`app/references/design-messages.md`](../app/references/design-messages.md),
 covering every feature (in a verbose build, asked for in the prompt,
-its **Exegesis** covers the whole app in about 400 words and links
-`design/exegesis.md`, written feature by feature as the build went:
+its **Exegesis**, the build's one exegesis in the chat, covers the
+whole app in 600 to 900 words and links `design/exegesis.md`, written
+feature by feature as the build went:
 [`app/references/exegesis.md`](../app/references/exegesis.md)), with
 under **Notes**, when the reviews ran:
 what each review fixed, in a line each with its numbers, what it found
@@ -244,7 +256,10 @@ to `design/review.md` and `design/look-review.md`. Every `@blocked`
 scenario is named with its reason, and every assumption that shaped
 the app is in **Assumed**.
 
-No dialog: **Your turn** ends with the plain line, word for word,
+The handoff is sent saying the tests are running when the final run
+is still going; at its notice, the result in one line (a failure
+fixed first), then the closing line. No dialog: **Your turn** ends
+with the plain line, word for word,
 "I built all the features you asked for. Tell me what you want to do
 next: change something, add a feature from **Not built yet**, write a
 user manual for your staff, explain how the code works, or put it
@@ -277,5 +292,6 @@ reply, is not acceptance.
 - A feature or an answer taken without its line under **Assumed**.
 - A rule, a scenario, or the app's look changed by a review fix: those
   are the user's, named at the handoff.
-- The handoff before the reviews, or before the suite and mypy are
-  green after their fixes.
+- The handoff before the reviews, or before mypy is green after their
+  fixes; the handoff held back to wait on the final run, or the
+  closing line before that run's result.

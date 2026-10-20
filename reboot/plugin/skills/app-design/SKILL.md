@@ -40,7 +40,9 @@ code, no `rbt generate`, no project scaffold, no dependency installed.
   skill loads: the Skill loads are the response's only tool calls
   before it, and the first read comes after it. Its third sentence is
   "No questions: the whole app is designed, then built, tested and
-  handed over when it is done." word for word, and the design follows
+  handed over when it is done." word for word (for ", basic", "No
+  questions: one feature is designed, then built, tested and handed
+  over when it is done."), and the design follows
   in the same response, with no dialog between them.
 - Read this plugin's files with the Read tool, one call per file and
   several in one response, never a shell command: a long shell result
@@ -143,8 +145,9 @@ recommendation is one answer:
   two colours in words ("Sage and teal"), its description why it
   suits the domain, in a few words.
 How it is built is not asked here: the user chose the guided build
-(the `app` skill's first question), and the go-ahead offers step by
-step or all at once. The choice can change: at any handoff "build
+(the `app` skill's first question), and the go-ahead, **Ready to
+build this design?**, asks only for the yes; "build it all at once",
+typed as its free answer, is still honoured. The choice can change: at any handoff "build
 the rest all at once", "step by step from here" or "prompt by prompt
 from here" switches, and the first handoff says so in one line.
 

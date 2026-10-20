@@ -35,7 +35,7 @@ API, BACKEND, TESTS = Path("api"), Path("backend/src"), Path("tests")
 MANY_METHODS = 15
 MANY_GROUPS = 3
 # A package this size is suggested for a split (accept-design.md).
-PACKAGE_SPLIT_AT = 6
+PACKAGE_SPLIT_AT = 7
 # A transaction touching this many domain objects is worth a look.
 WIDE_TRANSACTION = 3
 EXTERNAL = re.compile(r"\b(httpx|requests|aiohttp|openai|anthropic|stripe|boto3|smtplib|twilio)\b")
