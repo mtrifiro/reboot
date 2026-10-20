@@ -32,9 +32,9 @@ handoff, the rule before **Your turn** closes it.
   feature's handoff.
 - On the prompt-by-prompt path and in the `app-just` skill: after each
   part's links line.
-- In the one-shot: written feature by feature to the file as the
-  build goes; the handoff's section covers the whole app in about 400
-  words and links the file.
+- In the one-shot: each feature's text written to the file as the
+  build goes; the handoff's section, the one in the chat, covers the
+  whole app in 600 to 900 words and links the file.
 
 The same text is appended to `design/exegesis.md`, each under a
 heading with the milestone and the date, so the record outlives the
@@ -44,7 +44,8 @@ handoff's **Look closer** line beside the design.
 **What it explains.** An exegesis reads the text that was written and
 says what each part is for, in this order, 600 to 900 words a
 milestone, always in the chat as well as the file (a milestone whose
-exegesis is only in the file has none):
+exegesis is only in the file has none; in the one-shot, the
+handoff's section is the one in the chat):
 
 1. **Each object or page, as a decision.** Why it is its own object
    (what changes on its own, what runs one at a time), what its id is
