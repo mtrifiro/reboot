@@ -233,10 +233,8 @@ rendered starter (2026-10-19): with the app up and no `api/` change,
 `api/` edit, 1 of 2 failed and the app hung. A stop leaves the user's
 open page on the proxy's 502, so it gets one line first: "The app is
 stopped while the API changes, so its page shows an error for a
-minute; it comes back once the code is generated." (hotel-255 stopped
-it for every run and kept it down through each fix, 15 minutes of a
-28-minute build; hotel-260 kept it down from the API edits through the
-backend scenarios and the new demo data, 5:44.)
+minute; it comes back once the code is generated." (hotel-255 was
+down 15 minutes of 28; hotel-260, 5:44.)
 
 **A stop you made reports as a failure.** `rbt dev run` ends with exit
 code 130 when it is interrupted, and the background task that started
