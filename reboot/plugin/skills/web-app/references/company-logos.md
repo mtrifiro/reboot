@@ -35,8 +35,8 @@ A `Logo` beside the company's name, in this order:
    page (`Logos.ask` with every host), each host asked once a session:
    a page of a hundred companies sends one call.
 5. **One look again,** a few seconds later, with `&retry=1` so the
-   browser doesn't answer from its cached 404; still none, initials
-   for good.
+   browser doesn't answer from its cached 404; still none, the
+   initials stay.
 
 ## In the backend
 

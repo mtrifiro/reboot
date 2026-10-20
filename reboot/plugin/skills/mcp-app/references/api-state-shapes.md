@@ -19,12 +19,12 @@ the MCP App-specific corollaries.
 
 ## List State Patterns (for Bounded Sub-Records Only)
 
-> **Don't reach for `list[Item]` to model an entity collection.** If
+> **Don't use `list[Item]` to model an entity collection.** If
 > "Item" has its own identity, lifecycle, or methods (e.g. `Person`,
 > `Post`, `Message`, `Task`, `Account`, `Event`), it must be its own
 > `Type(state=ItemState, methods=...)`. The parent then stores IDs,
 > not full objects. Putting an entity collection in-state as
-> `list[Item]` works in a 10-row demo and falls over the moment the
+> `list[Item]` works in a 10-row demo and fails once the
 > collection grows or items need their own auth/methods — see
 > `python/references/state-collections.md`.
 
@@ -41,7 +41,7 @@ the MCP App-specific corollaries.
 > unbounded entity collection and belongs in an `OrderedMap` of
 > IDs.
 
-For application types whose state actually is a **bounded sub-record
+For application types whose state is a **bounded sub-record
 list** — line items on an Order, tags on a Post, fields in a Config
 blob, attachments on a single Message — and where the items have no
 identity of their own:
