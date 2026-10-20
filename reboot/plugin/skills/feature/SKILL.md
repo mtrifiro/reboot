@@ -55,7 +55,9 @@ feature to be, as a person would describe it, not as an API:
 
 Ask the user whether that is the feature. Iterate on the English
 until they agree; the file follows the words, so the words come
-first.
+first. In a build, a feature the user chose or asked for in their own
+words needs no question: say it in a few lines and go on; they judge
+it running at the next handoff (`app/references/accept-design.md`).
 
 ## Step 2 — Write it down, tagged `@wip`
 
@@ -146,7 +148,10 @@ id"`, then `<account id>`. Give an id only when it means something
   what is in progress) and `uv run mypy backend/ tests/`; fix what fails.
   While it runs, don't regenerate code, start another `rbt dev run` or
   edit `api/`, `backend/` or `web/`: a suite run beside those changes
-  has failed with errors that look like Reboot's.
+  has failed with errors that look like Reboot's. The full run at
+  the commit being proposed is the Flywheel's Prove evidence; a
+  `-m wip` or `-k` run is not
+  ([`app/references/flywheel.md`](../app/references/flywheel.md)).
 - **Suggest reviewing in the dashboard** after each round: the
   feature's card, its rules, the methods it uses and the ones no
   feature uses, and the recordings.
@@ -155,8 +160,36 @@ id"`, then `<account id>`. Give an id only when it means something
 
 When every scenario passes (or is `@blocked` with a reason) and the
 user has said the feature does what they meant, ask whether to
-remove the `@wip` tags. Take them off only with their agreement;
+remove the `@wip` tags (in a build, the handoff's question is that
+ask: `app/references/accept-design.md`). Take them off only with their agreement;
 `@blocked` tags stay until the blocking is resolved.
+
+## A fix, a bug report, a review finding
+
+"Fix this", or a list of review findings, is a request to change
+behavior, not permission to skip the feature. For each:
+
+1. Say in one line what the app does now and what it should do.
+2. Write that as a scenario under the rule it breaks, tagged `@wip`,
+   in the feature that owns the behavior, the ticket's id in its name
+   when there is one.
+3. Route it by the Flywheel's routing rule
+   ([`app/references/flywheel.md`](../app/references/flywheel.md));
+   `python3 scripts/model_diff.py HEAD` sorts it.
+   A new scenario under an existing rule is a code fix: it stays in
+   Prove. A new or reworded rule, a changed scenario, or a fix that
+   needs an API change or changes who may call a method is a design
+   change: say so, show the model diff, and take it through
+   [`app/references/accept-design.md`](../app/references/accept-design.md)
+   before any code.
+4. Show the user the scenario and run it red before any code.
+5. Fix, run the full suite green, and ask before taking `@wip` off.
+   Close with the **Reboot Prove · the fix is in** card
+   ([`app/references/flywheel.md`](../app/references/flywheel.md)):
+   in full the first time, one line after.
+
+Only a change no scenario could see (a typo in a comment, a rename
+inside one function) skips this, and you say so.
 
 ## Converting an existing test suite
 
