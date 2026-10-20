@@ -72,8 +72,9 @@ in <palette>."
    is opened: served, cached in the pane after its server stops, from
    disk; hotel-252's open mockup lost its styling when its server
    stopped), the top bar or, with `--sidebar` (the layout rule), the
-   sidebar, with the mark, the name and the nav, the theme toggle and
-   sign-out shown and inert, the page, the comp badge, and the note
+   sidebar, with the mark, the name and the nav, the Light / Dark toggle
+   working (the one control that does, so the user sees both schemes)
+   and sign-out shown and inert, the page, the comp badge, and the note
    every click opens instead of doing nothing. And
    `design/comp/index.html`, one line that opens it where the pane
    opens only the server's root (hotel-205 showed a directory
