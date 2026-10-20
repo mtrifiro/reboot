@@ -181,10 +181,20 @@ once (browser scenarios included) with every scenario passing or
 
 ## 5. The reviews, and their fixes
 
-Two reviews of what was built, each by its skill's own method, with
-no dialog: the build picks what to fix by the rules below. Read each
+A structure check, then two reviews of what was built, each by its
+skill's own method, with no dialog: the build picks what to fix by the rules below. Read each
 skill's file with the Read tool for its method; don't load it with
 the Skill tool, which would start its conversation.
+
+**The structure** (a minute): run
+`python3 '<the review-architecture skill>/assets/structure.py'` from
+the project root, and fix each **hub object**, **objects call each
+other** and **roster on a busy object** it lists, one at a time: the
+step moved to the object that owns it, a list into its area's index,
+the roster into its own `Team`; every rule and scenario unchanged, the
+suite and mypy green, one commit "Structure: <what changed>". A fix
+that would change a rule or what a user sees goes to the handoff, as
+does a long file (packages are a design decision, section 1).
 
 **The domain model** ([`review-domain`](../review-domain/SKILL.md)):
 
