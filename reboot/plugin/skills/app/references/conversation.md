@@ -192,6 +192,9 @@ whole task list. So:
   the plain line "Say what's next.", and the box carries the recap
   only.
 - A dialog the user skipped is not a reason to ask again in the box.
+- An answer of "[No preference]" is a skipped dialog: the recommended
+  option where the dialog has one (the features: the recommended set),
+  and at the go-ahead not a yes, so it is "Not yet".
 
 **A change to the look** (colors, typefaces, a brand, corners, the
 layout), asked for at any point after the first handoff, goes to the
