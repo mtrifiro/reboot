@@ -15,7 +15,8 @@ files are `tests/*.feature`: their features, rules and scenarios. All
 three are read at the two revisions and compared, so the list is short
 and exact where `git diff` is long and noisy.
 
-Each change is sorted by whether the user must accept it again:
+Each change is sorted by the Reboot Flywheel's routing rule
+(the plugin's `app/references/flywheel.md`):
 
 - **Design**: any change to the domain model or to who may call a
   method; a feature, rule or
@@ -633,7 +634,7 @@ def last_run_line(accepted: dict | None, last_run: dict | None) -> str:
     if not last_run or last_run.get("when", "") < accepted.get("at", ""):
         return (
             "**Scenarios run since acceptance**: none recorded (`tests/.last-run.json`); "
-            "run a new scenario red before its fix, then the full suite green."
+            "run a new scenario red before its fix, then the full test suite green."
         )
     kind = "full run" if last_run.get("full") else "partial run"
     return (
