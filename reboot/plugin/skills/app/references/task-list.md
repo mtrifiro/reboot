@@ -84,7 +84,8 @@ plan”, then its domain model".
 Each next feature, when the user asks for it (the app keeps running),
 one list, backend and frontend with no stop between them:
 
-1. Show what “<feature>” adds to the design
+1. Show what “<feature>” adds to the design (done once that message is
+   sent as text: what it adds, its rules, anything assumed)
 2. Add the rules for “<feature>”, then its domain model
 3. Build the actions for “<feature>” and test them against its rules
 4. Build the page for “<feature>”
