@@ -181,7 +181,10 @@ Once the backend logs show it is serving traffic, do two things:
 
 1. **Tell the user the wizard exists and what it's for** — e.g.
    "Setup wizard (connect an MCP client) at http://localhost:9991".
-2. **Open it once in the browser**, best-effort:
+2. **Open it once**: in the Claude app (or any host with a Browser
+   pane), in the pane, with the pane's tool (`preview_start` with its
+   URL), never in the external browser. Elsewhere, in the browser,
+   best-effort:
 
    ```sh
    "$BROWSER" http://localhost:9991 || xdg-open http://localhost:9991 || \
@@ -253,7 +256,15 @@ session or an earlier one, so stop it instead of starting a second.
 
 ## Step 6 — Hand off
 
-Confirm every process is up from its logs, then give the user:
+As soon as every process is up, during a build too and before any
+check of the page, say one line with both links, on the ports they
+started on:
+
+> App: http://localhost:5173/ · Dashboard: http://127.0.0.1:9871/
+
+(For an MCP UI, the app link is the setup wizard,
+`http://localhost:9991`.) Then confirm every process is up from its
+logs, and give the user:
 
 - the application's own inspect-page URL (and that `rbt inspect`
   inspects the same state from the CLI — see the
