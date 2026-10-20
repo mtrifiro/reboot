@@ -48,9 +48,18 @@ The task list uses the items "The whole app first" in
 2. `uv sync`.
 3. Don't start the developer dashboard yet: it starts after step 5,
    once there is an API for it to show.
-4. Edit the starter's API (`api/<pkg>/v1/<pkg>.py`) into the design's:
+4. Before it, read only the `web-app` skill's **Before the API
+   definition** group; the servicer, authorizer, `main.py` and test
+   groups wait for the steps that use them (hotel-271 and -272 read
+   26 and 28 references, about 50,000 words and 5 minutes, before
+   writing an API that needs five). Edit the starter's API
+   (`api/<pkg>/v1/<pkg>.py`) into the design's one object at a time,
+   one Edit each in the design's order, never the file written whole:
    its fields on the starter's objects, every object and method the
-   design names beside them, in the same shape. Pydantic
+   design names beside them, in the same shape. One step line as the
+   objects land ("API: Room and Hotel in; next Reservation and
+   Folio."). (hotel-271 wrote its 74 KB API in one Write: 4 minutes
+   with nothing shown, after 2 of planning.) Pydantic
    rules live in `python/references/api-pydantic.md`; method
    marker → context-type rules in
    `python/references/api-methods.md`. Every `Reader`, `Writer`,
