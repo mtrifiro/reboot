@@ -140,8 +140,7 @@ that owns the consume loop, started from `initialize` or a transaction.
 ## See Also
 
 If you're consuming from a Queue, you're writing a workflow — load the
-workflow primitives now so you don't trip on durable-execution rules
-mid-implementation:
+workflow primitives before writing the consume loop:
 
 - `servicer-workflow.md` — the single, comprehensive workflow
   reference: `@classmethod` / `WorkflowContext` declaration and

@@ -94,7 +94,7 @@ and fixes it.
   ready?") may take the good colour on its edge, so the answer shows.
   More than a third of a view coloured means the colours are the wrong
   way round (hotel-200's floor plan: 38 of 56 tiles green for "ready").
-- **The accent is spent once.** It marks the primary action and the
+- **The accent marks one thing.** It marks the primary action and the
   selected state (the current page, a selected stat or cell) and
   nothing else: never a status, never every name that opens something.
   A name that opens is `name`: ink at the title weight, the pointer, an
@@ -106,7 +106,7 @@ and fixes it.
   13 px and muted beside it. A cell of a plan or grid (`cells`, `cell`)
   is one figure and one word, its state on its left edge, a second
   fact at most a one-letter `corner` mark (K, Q, S), the rest in its
-  drawer; two lines of 13 px text in fifty tiles is a list wearing a
+  drawer; two lines of 13 px text in fifty tiles is a list drawn as a
   grid. A plan's rows are its floors or aisles (`plan`, `plan-row`, a
   `plan-label` at the left), each row's count fixed with
   `--cells-cols` so eight rooms stay on one line, never a card per
@@ -233,7 +233,7 @@ layout shift under 0.1, a tap's next paint under 200 ms.
 Every web app starts from one stylesheet, designed and tested once,
 in the house look and the palette the design names. Don't design a look
 from scratch. The house look is Reboot's own, as the Plugin Browser
-wears it: cream paper, navy ink and accent, Space Grotesk over DM Sans,
+uses it: cream paper, navy ink and accent, Space Grotesk over DM Sans,
 soft corners, for every domain; the design picks only its palette.
 
 **Not bland.** A page has one strong surface and one

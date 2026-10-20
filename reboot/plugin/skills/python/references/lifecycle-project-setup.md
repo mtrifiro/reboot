@@ -95,7 +95,7 @@ exists is kept. What the shell holds, and the rule behind each file:
   `__init__.py`** (`protoc` doesn't emit them), so `mypy_path` names
   the source roots (`tests:backend/src:backend/api:api`) with
   `explicit_package_bases`; without it `mypy backend/ tests/` fails
-  with bogus "module not found" errors. **The project-root `api/`
+  with spurious "module not found" errors. **The project-root `api/`
   entry is required:** without it `from <pkg>.v1.<name> import <X>State`
   quietly resolves to `Any`, mypy still reports "Success", and every
   annotation on a state or request model checks nothing. To confirm

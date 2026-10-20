@@ -1,6 +1,6 @@
 ---
 name: deploy
-description: Deploy a finished Reboot app to production on Reboot Cloud with `rbt cloud up` — one container that runs the backend and serves the built MCP Apps and web app from it, same-origin, so there is no second host, no cross-origin configuration and no cross-site cookie trouble. Covers the Dockerfile that builds the frontend into the image, the `.rbtrc` `serve run` lines that serve it, the OAuth and `allowed_origins` production checks, and verification; and what hosting the web app on a CDN of your own (Cloudflare Pages, Firebase, Vercel, ...) costs instead.
+description: Deploy a finished Reboot app to production on Reboot Cloud with `rbt cloud up` — one container that runs the backend and serves the built MCP Apps and web app from it, same-origin, so there is no second host, no cross-origin configuration and no cross-site cookie problems. Covers the Dockerfile that builds the frontend into the image, the `.rbtrc` `serve run` lines that serve it, the OAuth and `allowed_origins` production checks, and verification; and what hosting the web app on a CDN of your own (Cloudflare Pages, Firebase, Vercel, ...) costs instead.
 argument-hint: [<project-directory>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit, AskUserQuestion
 ---
@@ -75,7 +75,7 @@ where available): "Build Who may do what first" (recommended) or
 
 Follow `python/references/lifecycle-reboot-cloud.md` (with
 `python/references/lifecycle-secrets.md` for secrets). Checks that
-bite here:
+matter here:
 
 - **A real OAuth provider.** `Development()` is dev-only; the `prod=`
   provider must be set, and the backend's
@@ -183,7 +183,7 @@ With `URL=https://<application-id>.<cell>.rbt.cloud:9991`:
 - **The image builds locally but Cloud rejects it, or `rbt serve run`
   fails on boot:** the Dockerfile departs from the canonical layout
   (base image version, `CMD`, layer order): `lifecycle-dockerfile.md`'s
-  gotchas.
+  pitfalls.
 
 ## Hosting the web app somewhere else
 

@@ -45,7 +45,7 @@ rounded to the quarter hour: "about 45 minutes", "about an hour"):
   build**.
 - "Not yet": "I want to review or revise the design." Nothing more:
   what happens next is said after the answer.
-- "Tell me more": "What happens first, before I say go."
+- "Tell me more": "What happens first, before I decide."
 
 **On "Tell me more",** one short paragraph in the chat for each way,
 in the user's nouns, then the same dialog again. All at once:

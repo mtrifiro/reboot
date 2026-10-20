@@ -177,7 +177,7 @@ naming `design/review.md`.
 ## Never
 
 - Never a finding without its numbers or its domain reason, and never
-  a split made by habit: each one says what it buys.
+  a split made by habit: each one says what it gains.
 - Never a number that wasn't computed or measured.
 - Never change a rule, a scenario or what a user sees as part of an
   architecture change without the user's yes.
@@ -185,5 +185,5 @@ naming `design/review.md`.
   before the next starts.
 - Never read generated code, or `servicer-workflow.md` or
   `errors.md` whole: search for the section.
-- Never name or quote a person as the reviewer, or put words in
-  anyone's mouth: the review speaks for itself.
+- Never name or quote a person as the reviewer, or attribute
+  words to anyone: the review speaks for itself.

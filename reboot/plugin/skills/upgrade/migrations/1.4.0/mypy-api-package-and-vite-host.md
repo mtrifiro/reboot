@@ -5,7 +5,7 @@ subtly wrong. Neither failure is visible: the first reports success
 while checking nothing, the second starts a server the browser cannot
 reach.
 
-### 1. Make `mypy` actually check the API definition
+### 1. Make `mypy` check the API definition
 
 Look at the project-root `.mypy.ini`. Two things need to be true, and
 in older projects neither is:
@@ -25,10 +25,10 @@ model — `from <pkg>.v1.<name> import <X>State` — resolve to `Any`.
 Any annotation mentioning one checked nothing, and a misspelled field
 on `state` passed a green `mypy` run.
 
-To confirm the fix is live, temporarily add a bogus attribute access
+To confirm the fix is live, temporarily add an invalid attribute access
 on a state model (e.g. `state.no_such_field_xyz` in a servicer or
 authorizer predicate) and run `mypy` from the project root: it must
-report `has no attribute`. Remove the bogus line afterwards.
+report `has no attribute`. Remove that line afterwards.
 
 **Expect newly-reported errors.** Code that was never type-checked is
 now checked for the first time, so this can surface real mistakes.
