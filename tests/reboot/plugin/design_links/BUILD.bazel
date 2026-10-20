@@ -1,0 +1,12 @@
+load("@rules_python//python:defs.bzl", "py_test")
+
+py_test(
+    name = "design_links_test",
+    size = "small",
+    srcs = ["design_links_test.py"],
+    data = ["//reboot/plugin:model_diff"],
+    env = {
+        "MODEL_DIFF_DIR": "reboot/plugin/skills/app/assets/scripts",
+    },
+    main = "design_links_test.py",
+)
