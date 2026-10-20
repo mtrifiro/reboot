@@ -50,13 +50,36 @@ Its options, word for word, filled from the design:
 No option is marked recommended: the answer stays in the chat as the
 question and the option chosen, and a yes needs no recommendation.
 
-**On "Tell me more",** one short paragraph in the chat, in the user's
-nouns, then the same dialog again: each stop and what the user does
-there (the domain model on the dashboard, the backend's rules proven
-before its page, each feature's handoff to try); the design is in
-`design/design.md`, drawn as the page beside the chat, to read and
-change; and one line on what Reboot does for them (`conversation.md`,
-"Say what Reboot does here"). No new facts about the design.
+**On "Tell me more",** about 500 words in the chat, in the user's
+nouns, under short bold leads, then the same dialog again (a short
+paragraph left the user with questions):
+
+1. **What happens on a yes:** the first feature, step by step: its
+   rules written as scenarios, the API, the domain model shown on the
+   dashboard (a question only if it differs from the design), the
+   actions and who may do each, proven by the scenarios, then its
+   page, built from the mockup and tested in a browser; about 15
+   minutes, then the handoff.
+2. **What you do at each stop:** at the handoff, open the page and try
+   it as the accounts it names; then say what to change, or pick the
+   next feature. Nothing is accepted until you say so.
+3. **What was assumed, and how to change it:** each line under
+   **Assumed** (the features and their order, who signs in, the
+   palette by name), with the words that change it ("add guest
+   requests", "staff roles from the start", "use Harbour").
+4. **Learning mode:** what "Yes, and explain as it builds" adds: each
+   report ends with what was written and why, 600 to 900 words, kept
+   in design/exegesis.md, and a reason on each step line.
+5. **What Reboot does for you here:** three or four lines from the
+   design's own section of that name, in this app's nouns
+   (`conversation.md`, "Say what Reboot does here").
+6. **Where things are:** the design page beside the chat and
+   `design/design.md`, the mockup, the dashboard once the API exists;
+   and the other ways to go on: prompt by prompt, or the rest at once
+   at any handoff.
+
+No new facts about the design: everything is from it, said at more
+length.
 
 Nothing is built before the answer. The go-ahead adds to the first
 handoff's review: this decides the design before any code, that the
