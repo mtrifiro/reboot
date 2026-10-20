@@ -1,7 +1,7 @@
 ---
 title: The Design First, Then How to Build It
 impact: HIGH
-impactDescription: After the app-design skill's round and proposed design, the app-guided skill asks the go-ahead (Build on this design?), then, in the first feature, the domain model check and the frontend question, each with its text just above it; the prompt-by-prompt path asks none of them.
+impactDescription: After the app-design skill's round and proposed design, the app-guided skill asks the go-ahead (Ready to build this design?), then, in the first feature, the domain model check and the frontend question, each with its text just above it; the prompt-by-prompt path asks none of them.
 tags: go-ahead, domain model, frontend, dialogs, design, prompt by prompt
 ---
 
@@ -29,34 +29,28 @@ comp's line comes between them
 a mockup of the main page in the look, served and opened in the pane. Then
 one dialog (`AskUserQuestion` where available,
 else one plain line), the only question between the opening's round
-and code: the go-ahead, and the way of building. Its options,
-word for word, filled from the design (<n> the features'
-count; <time> about 10 minutes a feature, more for a hard domain, as
-whole-app builds measured,
-rounded to the quarter hour: "about 45 minutes", "about an hour"):
+and code: the go-ahead. The user chose to build interactively at the
+first question, so it asks only for the yes, never again how to build.
+Its options, word for word, filled from the design:
 
-- Title: **Build on this design?**
-- "Start building" (recommended): "<First feature>'s backend first,
-  about 15 minutes: you check its domain model on the dashboard, its
-  rules are proven by their scenarios, then its page is built."
-- "Build it all at once": "All <n> features without stopping, about
-  <time>; you see it at the end." <n> is the features under **Proposed
-  features, in build order**, never the ones under **Not in this
-  build**.
+- Title: **Ready to build this design?**
+- "Yes, start building": "<First feature>'s backend first, about 15
+  minutes: you check its domain model on the dashboard, its rules are
+  proven by their scenarios, then its page is built."
 - "Not yet": "I want to review or revise the design." Nothing more:
   what happens next is said after the answer.
 - "Tell me more": "What happens first, before I decide."
 
-**On "Tell me more",** one short paragraph in the chat for each way,
-in the user's nouns, then the same dialog again. All at once:
-the build order, pages alongside backends, one stop at the end, what
-to watch meanwhile (the task list, the dashboard filling in). Step by
-step: each stop and what the user does there (the domain model on the
-dashboard, the backend's rules proven before its page, each
-feature's handoff to try). Both: the design is in `design/design.md`,
-drawn as the page beside the chat, to read and change, and one line on what Reboot
-does for them (`conversation.md`, "Say what Reboot does here"). No
-new facts about the design.
+No option is marked recommended: the answer stays in the chat as the
+question and the option chosen, and a yes needs no recommendation.
+
+**On "Tell me more",** one short paragraph in the chat, in the user's
+nouns, then the same dialog again: each stop and what the user does
+there (the domain model on the dashboard, the backend's rules proven
+before its page, each feature's handoff to try); the design is in
+`design/design.md`, drawn as the page beside the chat, to read and
+change; and one line on what Reboot does for them (`conversation.md`,
+"Say what Reboot does here"). No new facts about the design.
 
 Nothing is built before the answer. The go-ahead adds to the first
 handoff's review: this decides the design before any code, that the
@@ -79,13 +73,13 @@ the design (an object, a rule, who may call) is a design change: the
 design document and decisions log follow it, no question first; the
 user's words are the agreement.
 
-- **All at once:** every feature under **Proposed features, in build
+- **All at once,** typed as the free answer ("build it all"): every feature under **Proposed features, in build
   order**, none from **Not in this build**, by the
   [`app-whole` skill](../../app-whole/SKILL.md)'s steps 4 and 6, from
   the design as proposed, no features added: no stops, one handoff at
   the end. The task list is the whole-app list (`task-list.md`, where
   the plugin has it), its first item done.
-- **Start building** (step by step, or the first feature named): the
+- **Yes, start building** (or the first feature named): the
   first feature's **Methods** go into `design/design.md` and the page
   is drawn again (`design-document.md`), then build it by the
   front door's one-feature flow. At the first handoff,
@@ -96,7 +90,7 @@ user's words are the agreement.
   Markdown link to the file in the
   user's project, then "Tell me to continue when you're ready, or
   what to change." Then stop: no dialog now.
-  "Continue" (or "go", "build it") asks **Build on this design?**
+  "Continue" (or "go", "build it") asks **Ready to build this design?**
   again; a change updates the design and asks again.
 - **A change,** typed as the free answer (so no option means only
   "change something"): update the document and the design, show what
@@ -236,7 +230,7 @@ unchanged, but for these questions.
 
 ## Never
 
-- "Build on this design?" without the design's page open beside the
+- "Ready to build this design?" without the design's page open beside the
   chat and its summary just above the dialog (section 3): the question
   asks the user to judge it. A sentence that the design is in
   `design/design.md` with no page drawn, or a message drafted only in

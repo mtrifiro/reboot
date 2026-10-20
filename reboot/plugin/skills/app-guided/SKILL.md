@@ -42,11 +42,10 @@ Routing). Then, for a web app, the comp
 ([`../web-app/references/comp.md`](../web-app/references/comp.md)):
 a mockup of the main page in the look, served, opened in the pane, one line
 with its link. Then, in the same response as the design, the go-ahead,
-**Build on this design?**
+**Ready to build this design?**
 ([`../app/references/design-first.md`](../app/references/design-first.md),
-section 3): "Start building" is step by step, "Build it all at once"
-the whole design without stopping, and a change to the design is its
-free answer. The prompt-by-prompt path, asked for in those words at
+section 3): a yes builds step by step (the user chose interactively),
+and a change to the design is its free answer. The prompt-by-prompt path, asked for in those words at
 the go-ahead or at any handoff, has no go-ahead dialog: the design's
 closing line says what to do, and the user's next prompt is the build.
 
