@@ -80,16 +80,15 @@ end, not the smallest app that fits the prompt:
 
 The round's other answers, taken without asking: the palette
 the app-design skill would recommend for the domain (or the brand the
-prompt names); "How should it be built? Whole app, hands off" ("First
-feature only" for ", basic"). Each answer and each
+prompt names); "How it is built: the whole app, hands off" ("one
+feature, hands off" for ", basic"). Each answer and each
 feature added beyond the prompt goes under **Assumed**, the feature
 with one line on why a real product needs it.
 
 ### Basic: one feature
 
 When the argument ends with ", basic" or ", basic, verbose" (the
-[`app-basic` skill](../app-basic/SKILL.md), the app skill's "First
-feature only"), the build is this skill with one feature in place of
+[`app-basic` skill](../app-basic/SKILL.md)), the build is this skill with one feature in place of
 six to ten, and nothing else changes: no questions, the reviews, one
 handoff. With ", verbose", the exegesis is on
 ([`app/references/exegesis.md`](../app/references/exegesis.md)): the
