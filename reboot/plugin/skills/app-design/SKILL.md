@@ -67,8 +67,8 @@ design, as a working name.
    skill, two sentences: "Next I'll write the design: what the app
    keeps track of, the rules each feature must keep, and its pages,
    opened beside the chat with a mockup of the main page. Nothing is
-   built until you approve it, and you can change any feature, who
-   signs in or the colours first." Word for word.
+   built until you approve it, and you can change any feature." Word
+   for word.
 
 Loaded by the `app-guided` skill, one line after the paragraph, word
 for word: "To build the whole app without stopping instead, use
