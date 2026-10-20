@@ -6,6 +6,9 @@ filegroup(
 
 filegroup(
     name = "model_diff",
-    srcs = ["skills/app/assets/scripts/model_diff.py"],
+    srcs = [
+        "skills/app/assets/scripts/design_links.py",
+        "skills/app/assets/scripts/model_diff.py",
+    ],
     visibility = ["//visibility:public"],
 )
