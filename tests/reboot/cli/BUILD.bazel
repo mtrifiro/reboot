@@ -41,6 +41,7 @@ py_test(
     main = "dashboard_tests.py",
     deps = [
         ":mock_exit_py",
+        "//reboot:portless_py",
         "//reboot/cli/common:cli_py",
         "//reboot/cli/common:rc_py",
         "//reboot/dashboard/backend:constants_py",
@@ -57,6 +58,16 @@ py_test(
         ":mock_exit_py",
         "//reboot/cli/common:cli_py",
         "//reboot/cli/common:rc_py",
+    ],
+)
+
+py_test(
+    name = "subprocesses_tests_py",
+    size = "small",
+    srcs = ["subprocesses_tests.py"],
+    main = "subprocesses_tests.py",
+    deps = [
+        "//reboot/cli/common:subprocesses_py",
     ],
 )
 
@@ -80,6 +91,7 @@ py_test(
     main = "serve_tests.py",
     deps = [
         ":mock_exit_py",
+        "//reboot/cli/commands:dev_py",
         "//reboot/cli/common:cli_py",
         "//reboot/cli/common:rc_py",
     ],
