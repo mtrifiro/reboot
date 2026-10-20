@@ -1,18 +1,29 @@
 #!/usr/bin/env python3
-"""A "restarting" page at the app's address while the build has it
-stopped, in place of the proxy's 404 or 502.
+"""A "restarting" page at the app's address while the app is down, in
+place of the proxy's 404 or 502.
 
+    python3 <this file> watch [--name <app>]
     python3 <this file> start [--name <app>] [--port 9991]
     python3 <this file> stop
 
-Run from the project root. `start` serves one page for every path, a
-503 that reloads itself every three seconds, so the user's open tab
-shows the app again by itself once it is back. Under portless (the
-app's address is https://<name>.localhost) it takes a free port and
-points the app's name at it with `portless alias`; the app takes its
-name back when `rbt dev run` starts, so run `stop` once the app
-answers again. On plain ports it holds --port (9991 by default),
-which the app needs back, so run `stop` just before starting the app.
+Run from the project root. The page is a 503 for every path that
+reloads itself every three seconds, so the user's open tab shows the
+app again by itself once it is back.
+
+`watch` (under portless, where the app's address is
+https://<name>.localhost): once, after the app first answers. It checks
+the app every second and, when it stops answering or its route is gone
+(a stop, a restart after a save, a hang), points the name at the page
+with `portless alias --force`; when the app answers again, or registers
+itself again on a new port, the name is the app's once more. It covers
+every stop and restart after it; it ends on `stop`, or after 20 minutes
+with the app down, removing its own route.
+
+`start` (plain ports): right after a stop, holds --port (9991 by
+default), which the app needs back, so run `stop` just before starting
+the app. Under portless, `start` points the name at the page once,
+until the app registers itself again.
+
 `<name>` defaults to the `.rbtrc`'s `--application-name`. The pid is in
 `.standby.pid`. Standard library only.
 """
@@ -28,6 +39,9 @@ import signal
 import socket
 import subprocess
 import sys
+import time
+import urllib.error
+import urllib.request
 from pathlib import Path
 
 PID = Path(".standby.pid")
@@ -88,6 +102,67 @@ def under_portless(name: str) -> bool:
     return f"https://{name}.localhost" in listed
 
 
+def route(name: str) -> int | None:
+    """The local port https://<name>.localhost points at, if any."""
+    tool = portless()
+    if not tool:
+        return None
+    listed = subprocess.run([tool, "list"], capture_output=True, text=True).stdout
+    found = re.search(rf"https://{re.escape(name)}\.localhost\s+->\s+\S*:(\d+)", listed)
+    return int(found.group(1)) if found else None
+
+
+def answers(port: int) -> bool:
+    """Whether the app on this port serves a page: any status below 500."""
+    try:
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/", timeout=2) as reply:
+            return reply.status < 500
+    except urllib.error.HTTPError as error:
+        return error.code < 500
+    except (OSError, ValueError):
+        return False
+
+
+def point(name: str, port: int) -> None:
+    subprocess.run([portless(), "alias", name, str(port), "--force"], capture_output=True, text=True)
+
+
+def watch(name: str, port: int) -> None:
+    """Serve the page on `port` and keep the name on whichever of the
+    app and the page is the one to show."""
+    import threading
+    threading.Thread(target=serve, args=(name, port), daemon=True).start()
+    app = route(name)
+    app = app if app != port else None
+    down_since: float | None = None
+    misses = 0
+    while True:
+        time.sleep(1)
+        now = route(name)
+        if now is not None and now != port:
+            app = now  # the app's own route, perhaps on a new port
+            if answers(now):
+                misses, down_since = 0, None
+                continue
+            misses += 1
+            if misses >= 2:
+                point(name, port)
+                down_since = down_since or time.time()
+            continue
+        # The route is gone (the app stopped) or is the page's.
+        if app is not None and answers(app):
+            point(name, app)
+            misses, down_since = 0, None
+            continue
+        if now is None:
+            point(name, port)
+        down_since = down_since or time.time()
+        if time.time() - down_since > 20 * 60:
+            subprocess.run([portless(), "alias", "--remove", name], capture_output=True)
+            PID.unlink(missing_ok=True)
+            return
+
+
 def free_port() -> int:
     with socket.socket() as s:
         s.bind(("127.0.0.1", 0))
@@ -114,14 +189,19 @@ def serve(name: str, port: int) -> None:
     http.server.ThreadingHTTPServer(("127.0.0.1", port), Standby).serve_forever()
 
 
-def stop() -> int:
+def stop(name: str | None = None) -> int:
     if not PID.is_file():
         return 0
+    pid, _, port = PID.read_text().strip().partition(" ")
     try:
-        os.kill(int(PID.read_text().strip()), signal.SIGTERM)
+        os.kill(int(pid), signal.SIGTERM)
     except (ProcessLookupError, ValueError):
         pass
     PID.unlink(missing_ok=True)
+    # A name left on the page's port would be the proxy's 502 now.
+    name = name or app_name()
+    if port.isdigit() and portless() and route(name) == int(port):
+        subprocess.run([portless(), "alias", "--remove", name], capture_output=True)
     print("standby: stopped")
     return 0
 
@@ -131,6 +211,23 @@ def main(argv: list[str]) -> int:
         return stop()
     if argv[:1] == ["serve"]:
         serve(argv[1], int(argv[2]))
+        return 0
+    if argv[:1] == ["watching"]:
+        watch(argv[1], int(argv[2]))
+        return 0
+    if argv[:1] == ["watch"]:
+        args = argv[1:]
+        name = args[args.index("--name") + 1] if "--name" in args else app_name()
+        if not under_portless(name):
+            print(f"standby: https://{name}.localhost isn't served through portless; use start and stop")
+            return 1
+        stop()
+        port = free_port()
+        child = subprocess.Popen([sys.executable, __file__, "watching", name, str(port)],
+                                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
+        PID.write_text(f"{child.pid} {port}")
+        print(f"standby: watching https://{name}.localhost (pid {child.pid}); "
+              "it shows a 'restarting' page whenever the app is down")
         return 0
     if argv[:1] != ["start"]:
         print(__doc__, file=sys.stderr)
@@ -142,14 +239,14 @@ def main(argv: list[str]) -> int:
         port = free_port()
         child = subprocess.Popen([sys.executable, __file__, "serve", name, str(port)],
                                  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
-        subprocess.run([portless(), "alias", name, str(port)], capture_output=True, text=True)
+        point(name, port)
         where = f"https://{name}.localhost"
     else:
         port = int(args[args.index("--port") + 1]) if "--port" in args else 9991
         child = subprocess.Popen([sys.executable, __file__, "serve", name, str(port)],
                                  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
         where = f"http://localhost:{port}"
-    PID.write_text(str(child.pid))
+    PID.write_text(f"{child.pid} {port}")
     print(f"standby: a 'restarting' page at {where} (pid {child.pid}); "
           + ("stop it once the app answers again" if under_portless(name) else "stop it just before starting the app"))
     return 0
