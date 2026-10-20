@@ -2,7 +2,7 @@
 """The browser check's measurements, for any web app in the house look.
 
     uv run python '<the web-app skill>/assets/check_page.py' URL PAGE=FIRST ... \\
-        [--tap PAGE=SELECTOR] [--open PAGE=SELECTOR] [--as Alice] [--out DIR]
+        [--tap PAGE=SELECTOR] [--open PAGE=SELECTOR] [--as Alice] [--out DIR] [--quick]
 
 Run from the project root (its venv has Playwright), with the app
 running. URL is the app's address (https://<project>.localhost, or
@@ -25,6 +25,10 @@ For each page, headless, at desktop (1440x900, light) and phone
   * touching: no text or control touches another, on the page as it
     loads, with the tap's panel open, and with each --open target open;
   * console errors.
+
+With --quick, each page loads once and is not timed: the layout,
+touching and console checks only, for a rerun after a layout fix. The
+run before the handoff is without it.
 
 Prints one line per check, PASS or FAIL with what to fix, writes
 DIR/report.json and a screenshot per page and width (DIR defaults to
@@ -179,6 +183,8 @@ def main(argv: list[str]) -> int:
     p.add_argument("--open", action="append", default=[], help="PAGE=SELECTOR: a drawer or form to open for the touching check")
     p.add_argument("--as", dest="who", default="Alice", help="the development picker's account to sign in as (default Alice)")
     p.add_argument("--sign-in", default="Sign in", help="the sign-in button's label (default: Sign in)")
+    p.add_argument("--quick", action="store_true",
+                   help="one load per page, not timed: layout, touching and console checks only")
     p.add_argument("--out", help="where the report and screenshots go (default: a new temporary folder)")
     args = p.parse_args(argv)
 
@@ -211,9 +217,12 @@ def main(argv: list[str]) -> int:
                 where = f"{path} {width}"
                 tap = taps.get(path, first)
                 runs = []
-                for _ in range(3):
+                for _ in range(1 if args.quick else 3):
                     page.goto(url + path)
                     shown = page.evaluate(FIRST, first)
+                    if args.quick:
+                        runs.append({"first": shown})
+                        break
                     page.wait_for_timeout(1000)
                     loaded = page.evaluate(READ)
                     loaded["first"] = shown
@@ -223,7 +232,9 @@ def main(argv: list[str]) -> int:
                         loaded["inp"] = page.evaluate(READ)["inp"]
                     runs.append(loaded)
                 judged = runs[1:]
-                if any(r["first"] < 0 for r in runs):
+                if args.quick and runs[0]["first"] >= 0:
+                    report.lines.append(f"note  {where}  not timed (--quick)")
+                elif any(r["first"] < 0 for r in runs):
                     report.check(where, False, "the first record appears",
                                  f"no {first!r} within 30 s: the page is empty, broken, or the selector is wrong")
                     report.data[where] = {"runs": runs}
