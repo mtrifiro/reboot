@@ -1,5 +1,7 @@
 {
  "sand-bronze": {
+  "label": "Bronze",
+  "colours": "sand and bronze",
   "source": "Radix Colors sand with bronze-11 (light), bronze-11 (dark)",
   "light": {
    "bg": "#f9f9f8",
@@ -16,7 +18,10 @@
    "accent-tint": "#f6edea",
    "bg-glow": "#fdf7f5",
    "bar": "#21201c",
-   "on-bar": "#fdfdfc"
+   "on-bar": "#fdfdfc",
+   "good": "#3f7a2e",
+   "warn": "#a8660f",
+   "bad": "#b42318"
   },
   "dark": {
    "bg": "#111110",
@@ -33,7 +38,10 @@
    "accent-tint": "#302a27",
    "bg-glow": "#1c1917",
    "bar": "#2a2a28",
-   "on-bar": "#eeeeec"
+   "on-bar": "#eeeeec",
+   "good": "#8ccb6b",
+   "warn": "#f2c784",
+   "bad": "#f07a6e"
   },
   "deep": {
    "light": {
@@ -47,6 +55,8 @@
   }
  },
  "sand-brown": {
+  "label": "Walnut",
+  "colours": "sand and brown",
   "source": "Radix Colors sand with brown-11 (light), brown-11 (dark)",
   "light": {
    "bg": "#f9f9f8",
@@ -63,7 +73,10 @@
    "accent-tint": "#f6eee7",
    "bg-glow": "#fcf9f6",
    "bar": "#21201c",
-   "on-bar": "#fdfdfc"
+   "on-bar": "#fdfdfc",
+   "good": "#3f7a2e",
+   "warn": "#a8660f",
+   "bad": "#b42318"
   },
   "dark": {
    "bg": "#111110",
@@ -80,7 +93,10 @@
    "accent-tint": "#322922",
    "bg-glow": "#1c1816",
    "bar": "#2a2a28",
-   "on-bar": "#eeeeec"
+   "on-bar": "#eeeeec",
+   "good": "#8ccb6b",
+   "warn": "#f2c784",
+   "bad": "#f07a6e"
   },
   "deep": {
    "light": {
@@ -94,6 +110,8 @@
   }
  },
  "sand-orange": {
+  "label": "Ember",
+  "colours": "sand and orange",
   "source": "Radix Colors sand with orange-11 (light), orange-11 (dark)",
   "light": {
    "bg": "#f9f9f8",
@@ -110,7 +128,10 @@
    "accent-tint": "#ffefd6",
    "bg-glow": "#fff7ed",
    "bar": "#21201c",
-   "on-bar": "#fdfdfc"
+   "on-bar": "#fdfdfc",
+   "good": "#3f7a2e",
+   "warn": "#a8660f",
+   "bad": "#b42318"
   },
   "dark": {
    "bg": "#111110",
@@ -127,7 +148,10 @@
    "accent-tint": "#462100",
    "bg-glow": "#1e160f",
    "bar": "#2a2a28",
-   "on-bar": "#eeeeec"
+   "on-bar": "#eeeeec",
+   "good": "#8ccb6b",
+   "warn": "#f2c784",
+   "bad": "#f07a6e"
   },
   "deep": {
    "light": {
@@ -141,6 +165,8 @@
   }
  },
  "sand-gold": {
+  "label": "Brass",
+  "colours": "sand and gold",
   "source": "Radix Colors sand with gold-11 (light), gold-11 (dark)",
   "light": {
    "bg": "#f9f9f8",
@@ -157,7 +183,10 @@
    "accent-tint": "#f2f0e7",
    "bg-glow": "#faf9f2",
    "bar": "#21201c",
-   "on-bar": "#fdfdfc"
+   "on-bar": "#fdfdfc",
+   "good": "#3f7a2e",
+   "warn": "#a8660f",
+   "bad": "#b42318"
   },
   "dark": {
    "bg": "#111110",
@@ -174,7 +203,10 @@
    "accent-tint": "#2d2b26",
    "bg-glow": "#1b1a17",
    "bar": "#2a2a28",
-   "on-bar": "#eeeeec"
+   "on-bar": "#eeeeec",
+   "good": "#8ccb6b",
+   "warn": "#f2c784",
+   "bad": "#f07a6e"
   },
   "deep": {
    "light": {
@@ -188,6 +220,8 @@
   }
  },
  "olive-grass": {
+  "label": "Meadow",
+  "colours": "olive and grass",
   "source": "Radix Colors olive with grass-11 (light), grass-11 (dark)",
   "light": {
    "bg": "#f8faf8",
@@ -204,7 +238,10 @@
    "accent-tint": "#e9f6e9",
    "bg-glow": "#f5fbf5",
    "bar": "#1d211c",
-   "on-bar": "#fcfdfc"
+   "on-bar": "#fcfdfc",
+   "good": "#008573",
+   "warn": "#a8660f",
+   "bad": "#b42318"
   },
   "dark": {
    "bg": "#111210",
@@ -221,7 +258,10 @@
    "accent-tint": "#1d3a24",
    "bg-glow": "#141a15",
    "bar": "#282a27",
-   "on-bar": "#eceeec"
+   "on-bar": "#eceeec",
+   "good": "#0bd8b6",
+   "warn": "#f2c784",
+   "bad": "#f07a6e"
   },
   "deep": {
    "light": {
@@ -235,6 +275,8 @@
   }
  },
  "sage-teal": {
+  "label": "Lagoon",
+  "colours": "sage and teal",
   "source": "Radix Colors sage with teal-11 (light), teal-11 (dark)",
   "light": {
    "bg": "#f7f9f8",
@@ -251,7 +293,10 @@
    "accent-tint": "#e0f8f3",
    "bg-glow": "#f3fbf9",
    "bar": "#1a211e",
-   "on-bar": "#fbfdfc"
+   "on-bar": "#fbfdfc",
+   "good": "#3f7a2e",
+   "warn": "#a8660f",
+   "bad": "#b42318"
   },
   "dark": {
    "bg": "#101211",
@@ -268,7 +313,10 @@
    "accent-tint": "#023b37",
    "bg-glow": "#111c1b",
    "bar": "#272a29",
-   "on-bar": "#eceeed"
+   "on-bar": "#eceeed",
+   "good": "#8ccb6b",
+   "warn": "#f2c784",
+   "bad": "#f07a6e"
   },
   "deep": {
    "light": {
@@ -282,6 +330,8 @@
   }
  },
  "slate-blue": {
+  "label": "Harbour",
+  "colours": "slate and blue",
   "source": "Radix Colors slate with blue-11 (light), blue-11 (dark)",
   "light": {
    "bg": "#f9f9fb",
@@ -298,7 +348,10 @@
    "accent-tint": "#e6f4fe",
    "bg-glow": "#f4faff",
    "bar": "#1c2024",
-   "on-bar": "#fcfcfd"
+   "on-bar": "#fcfcfd",
+   "good": "#3f7a2e",
+   "warn": "#a8660f",
+   "bad": "#b42318"
   },
   "dark": {
    "bg": "#111113",
@@ -315,7 +368,10 @@
    "accent-tint": "#003362",
    "bg-glow": "#111927",
    "bar": "#272a2d",
-   "on-bar": "#edeef0"
+   "on-bar": "#edeef0",
+   "good": "#8ccb6b",
+   "warn": "#f2c784",
+   "bad": "#f07a6e"
   },
   "deep": {
    "light": {
@@ -329,6 +385,8 @@
   }
  },
  "slate-iris": {
+  "label": "Iris",
+  "colours": "slate and iris",
   "source": "Radix Colors slate with iris-9 (light), iris-11 (dark)",
   "light": {
    "bg": "#f9f9fb",
@@ -345,7 +403,10 @@
    "accent-tint": "#f0f1fe",
    "bg-glow": "#f8f8ff",
    "bar": "#1c2024",
-   "on-bar": "#fcfcfd"
+   "on-bar": "#fcfcfd",
+   "good": "#3f7a2e",
+   "warn": "#a8660f",
+   "bad": "#b42318"
   },
   "dark": {
    "bg": "#111113",
@@ -362,7 +423,10 @@
    "accent-tint": "#262a65",
    "bg-glow": "#171625",
    "bar": "#272a2d",
-   "on-bar": "#edeef0"
+   "on-bar": "#edeef0",
+   "good": "#8ccb6b",
+   "warn": "#f2c784",
+   "bad": "#f07a6e"
   },
   "deep": {
    "light": {
@@ -376,6 +440,8 @@
   }
  },
  "mauve-plum": {
+  "label": "Plum",
+  "colours": "mauve and plum",
   "source": "Radix Colors mauve with plum-9 (light), plum-11 (dark)",
   "light": {
    "bg": "#faf9fb",
@@ -392,7 +458,10 @@
    "accent-tint": "#fbebfb",
    "bg-glow": "#fdf7fd",
    "bar": "#211f26",
-   "on-bar": "#fdfcfd"
+   "on-bar": "#fdfcfd",
+   "good": "#3f7a2e",
+   "warn": "#a8660f",
+   "bad": "#b42318"
   },
   "dark": {
    "bg": "#121113",
@@ -409,7 +478,10 @@
    "accent-tint": "#451d47",
    "bg-glow": "#201320",
    "bar": "#2b292d",
-   "on-bar": "#eeeef0"
+   "on-bar": "#eeeef0",
+   "good": "#8ccb6b",
+   "warn": "#f2c784",
+   "bad": "#f07a6e"
   },
   "deep": {
    "light": {
@@ -423,6 +495,8 @@
   }
  },
  "mauve-crimson": {
+  "label": "Claret",
+  "colours": "mauve and crimson",
   "source": "Radix Colors mauve with crimson-11 (light), crimson-11 (dark)",
   "light": {
    "bg": "#faf9fb",
@@ -439,7 +513,10 @@
    "accent-tint": "#ffe9f0",
    "bg-glow": "#fef7f9",
    "bar": "#211f26",
-   "on-bar": "#fdfcfd"
+   "on-bar": "#fdfcfd",
+   "good": "#3f7a2e",
+   "warn": "#a8660f",
+   "bad": "#b42318"
   },
   "dark": {
    "bg": "#121113",
@@ -456,7 +533,10 @@
    "accent-tint": "#4d122f",
    "bg-glow": "#201318",
    "bar": "#2b292d",
-   "on-bar": "#eeeef0"
+   "on-bar": "#eeeef0",
+   "good": "#8ccb6b",
+   "warn": "#f2c784",
+   "bad": "#f07a6e"
   },
   "deep": {
    "light": {
