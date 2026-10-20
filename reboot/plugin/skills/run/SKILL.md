@@ -242,16 +242,6 @@ rendered starter (2026-10-19): with the app up and no `api/` change,
 4 of 4 full runs passed and the app stayed up; started right after an
 `api/` edit, 1 of 2 failed and the app hung.
 
-**A restart that hangs** (a workaround for
-[reboot-dev/reboot#278](https://github.com/reboot-dev/reboot/issues/278)):
-when the app hasn't answered 45 seconds after `rbt dev run` began a
-restart and its log's last line hasn't changed for 30 seconds, it is
-waiting on a cancelled task and won't recover. Stop it by its pid as
-"Stopping the App" says and start it fresh, at once, never another
-wait (crm-30 waited five minutes in two loops before doing so). Once
-a Reboot release fixes #278, the restart ends or says why, and this
-paragraph goes.
-
 **A stop you made reports as a failure.** `rbt dev run` ends with exit
 code 130 when it is interrupted, and the background task that started
 it then reports that it failed. After a stop the build made itself,
