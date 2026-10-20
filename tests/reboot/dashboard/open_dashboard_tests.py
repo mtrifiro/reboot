@@ -59,7 +59,9 @@ class OpenDashboardTest(unittest.IsolatedAsyncioTestCase):
         connection it depends on exists, the same handshake
         `reboot/std/react/presence` performs in the browser.
         """
-        context = self.rbt.create_external_context(name=self.id())
+        context = self.rbt.create_external_context(
+            name=self.id(), app_internal=True
+        )
         subscriber = Subscriber.ref(subscriber_id)
         nonce = subscriber_id
 
@@ -88,14 +90,18 @@ class OpenDashboardTest(unittest.IsolatedAsyncioTestCase):
 
     async def _suppress_reopening(self, suppress: bool) -> None:
         """Makes the choice the dashboard's notice makes."""
-        context = self.rbt.create_external_context(name=self.id())
+        context = self.rbt.create_external_context(
+            name=self.id(), app_internal=True
+        )
         await Preferences.ref(PREFERENCES_ID).SetSuppressAutomaticOpen(
             context,
             suppress_automatic_open=suppress,
         )
 
     async def _viewer_ids(self) -> list[str]:
-        context = self.rbt.create_external_context(name=self.id())
+        context = self.rbt.create_external_context(
+            name=self.id(), app_internal=True
+        )
         try:
             response = await Presence.ref(PRESENCE_ID).List(context)
             return list(response.subscriber_ids)
@@ -106,7 +112,7 @@ class OpenDashboardTest(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(await self._viewer_ids(), [])
 
         with patch('webbrowser.open', return_value=True) as browser:
-            await _open_when_serving(port=self.port)
+            await _open_when_serving(origin=self.url)
 
         # The browser gets the dashboard's path; `ExternalContext` only
         # ever sees the origin, which is all it accepts.
@@ -117,7 +123,7 @@ class OpenDashboardTest(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(await self._viewer_ids(), ['a-tab-that-is-open'])
 
         with patch('webbrowser.open', return_value=True) as browser:
-            await _open_when_serving(port=self.port)
+            await _open_when_serving(origin=self.url)
 
         browser.assert_not_called()
 
@@ -137,7 +143,7 @@ class OpenDashboardTest(unittest.IsolatedAsyncioTestCase):
             await asyncio.sleep(0.1)
 
         with patch('webbrowser.open', return_value=True) as browser:
-            await _open_when_serving(port=self.port)
+            await _open_when_serving(origin=self.url)
 
         browser.assert_called_once_with(self.automatically_opened_url)
 
@@ -149,7 +155,7 @@ class OpenDashboardTest(unittest.IsolatedAsyncioTestCase):
         await self._suppress_reopening(True)
 
         with patch('webbrowser.open', return_value=True) as browser:
-            await _open_when_serving(port=self.port)
+            await _open_when_serving(origin=self.url)
 
         browser.assert_not_called()
 
@@ -158,7 +164,7 @@ class OpenDashboardTest(unittest.IsolatedAsyncioTestCase):
         await self._suppress_reopening(False)
 
         with patch('webbrowser.open', return_value=True) as browser:
-            await _open_when_serving(port=self.port)
+            await _open_when_serving(origin=self.url)
 
         browser.assert_called_once_with(self.automatically_opened_url)
 
@@ -174,7 +180,7 @@ class OpenDashboardTest(unittest.IsolatedAsyncioTestCase):
             'reboot.cli.commands.dashboard._ANSWER_WITHIN_SECONDS', 1.0
         ):
             with patch('webbrowser.open', return_value=True) as browser:
-                await _open_when_serving(port=port)
+                await _open_when_serving(origin=f'http://127.0.0.1:{port}')
 
         browser.assert_called_once_with(
             automatically_opened_url(f'http://127.0.0.1:{port}')
@@ -188,7 +194,7 @@ class OpenDashboardTest(unittest.IsolatedAsyncioTestCase):
         # was shown, so the developer is told the address instead.
         with patch('webbrowser.open', return_value=False):
             with patch('reboot.cli.common.terminal.warn') as warned:
-                await _open_when_serving(port=self.port)
+                await _open_when_serving(origin=self.url)
 
         warned.assert_called_once()
         self.assertIn(self.dashboard_url, warned.call_args.args[0])
