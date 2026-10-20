@@ -1,6 +1,6 @@
 ---
 name: app-design
-description: "Design a Reboot application from a description, without building it: one round of questions about what to build (the first features, who signs in, the palette), then the whole proposed design written once to design/design.md and drawn as a page beside the chat, its summary in the chat, where the guided and build skills pick it up; loaded by the app-whole skill, no round and a whole-app scope. Use when the user asks for a design, a proposal or a plan for an app and not yet the app, or asks for it by name (/reboot:app-design); a prompt that asks to build an app goes to the app skill, which asks how to build first and, on Interactively, runs this skill through the app-guided skill."
+description: "Design a Reboot application from a description, without building it: on its own, one round of questions about what to build (the first features, who signs in, the palette); loaded by the app-guided or app-whole skill, none (the recommended answers, under Assumed); then the whole proposed design written once to design/design.md and drawn as a page beside the chat, its summary in the chat, where the guided and build skills pick it up; loaded by the app-whole skill, a whole-app scope. Use when the user asks for a design, a proposal or a plan for an app and not yet the app, or asks for it by name (/reboot:app-design); a prompt that asks to build an app goes to the app skill, which runs this skill through the app-guided skill."
 argument-hint: [<app-description>]
 allowed-tools: Read, Write, Edit, Glob, Grep
 ---
@@ -8,7 +8,7 @@ allowed-tools: Read, Write, Edit, Glob, Grep
 # app-design — The Design, Before Any Code
 
 The Reboot Flywheel's Design stage on its own: the opening, one round
-of questions, the research, and the proposed design, written once to
+of questions (on its own only), the research, and the proposed design, written once to
 `design/design.md` and drawn as a page beside the chat. Nothing is built here: no
 code, no `rbt generate`, no project scaffold, no dependency installed.
 
@@ -24,10 +24,12 @@ code, no `rbt generate`, no project scaffold, no dependency installed.
   asks for a design, a proposal or a plan and not yet the app):
   everything below, ending with the closing line in section 4.
 - **Loaded by the [`app-guided` skill](../app-guided/SKILL.md)** (the guided
-  build): everything below but the closing line. The opening
-  goes out as text right after this skill loads: the Skill loads and the
-  `app` skill's one question are the only tool calls before it, and the round's
-  dialog is the next. The app-guided skill's go-ahead, **Ready to build this design?**, follows the design in
+  build): everything below but the round and the closing line. Nothing
+  is asked before the design: each of the round's questions takes its
+  recommended answer (section 2), listed under **Assumed**, and the
+  go-ahead is where the user changes any. The opening goes out as text
+  right after this skill loads (the Skill loads are the only tool calls
+  before it), and the design follows in the same response. The app-guided skill's go-ahead, **Ready to build this design?**, follows the design in
   the same response
   ([`app/references/design-first.md`](../app/references/design-first.md),
   section 3); on the prompt-by-prompt path, that section's closing line.
@@ -60,8 +62,10 @@ design, as a working name.
 
 1. "An app for <what it is>, used by <who>." (the rules below)
 2. "I'd start with <feature>: <its rule, in plain words>."
-3. "First, a few questions about what to build; then I'll design it,
-   starting from its rules." word for word.
+3. On its own: "First, a few questions about what to build; then I'll
+   design it, starting from its rules." Loaded by the `app-guided`
+   skill: "I'll design it first, starting from its rules, and you
+   decide on it before anything is built." Word for word.
 
 Loaded by the `app-guided` skill, one line after the paragraph, word
 for word: "To build the whole app without stopping instead, use
@@ -116,9 +120,17 @@ Rules for that response:
 
 ## 2. One round of questions, then none until the design
 
+Only when this skill runs on its own. Loaded by the `app-guided` or
+`app-whole` skill nothing is asked: each question below takes its
+recommended answer (the recommended features; anyone signed in, roles
+later; the first palette that suits the domain, or the brand the prompt
+names), each a line under **Assumed**, and the user changes any at the
+go-ahead, with the design and the mockup in front of them (hotel-270:
+three of four questions answered with the recommendation).
+
 One dialog (`AskUserQuestion`; where there is none, the same as plain
-lines), from the prompt alone, before reading any reference. Two to
-four questions, each two to four options, the simplest first and
+lines), from the prompt alone, before reading any reference. Two or
+three questions, each two to four options, the simplest first and
 marked "(Recommended)" where one is recommended, so accepting every
 recommendation is one answer:
 
@@ -148,14 +160,6 @@ recommendation is one answer:
   The palettes are house (Reboot's own: cream paper, navy ink and accent), sand-bronze, sand-brown, sand-orange, sand-gold, olive-grass, sage-teal, slate-blue, slate-iris, mauve-plum and mauve-crimson, and no other; an option's label says its
   two colours in words ("Sage and teal"), its description why it
   suits the domain, in a few words.
-- **"Explain as it builds?"**, loaded by the `app-guided` skill and
-  only when its argument doesn't already end with ", verbose": "Just
-  build it": "A line as each step starts, a report at each stop." and
-  "Explain as it builds (learning mode)": "Each report ends with what
-  was written and why, 600 to 900 words, also kept in
-  design/exegesis.md." Neither marked recommended. The second turns
-  verbose on ([`exegesis.md`](../app/references/exegesis.md)).
-
 How it is built is not asked here: the interactive build is the
 default (the `app` skill), and the go-ahead, **Ready to
 build this design?**, asks only for the yes; "build it all at once",
@@ -349,7 +353,7 @@ design, with no new facts added to it.
   says what will be built; a name before the design.
 - Any question before the design other than the round; a second
   round; a question on the prompt-by-prompt path or when loaded by
-  the `app-whole` skill.
+  the `app-guided` or `app-whole` skill.
 - An answer taken in the round without its line under **Assumed**.
 - The design drafted only in thinking, or written but not drawn and
   opened (section 3): the user judges the page beside the chat.
