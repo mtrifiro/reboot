@@ -203,15 +203,16 @@ door would, taking its recommended answer:
 - **Everything else** (what the app keeps track of, counts, layouts,
   hours): the simplest option, assumed and listed. Roles wait for Who
   may do what unless the round chose them.
-- **The app's name,** when the prompt names none: five candidates
-  that suit the domain, each of a different kind (a place, a plant or
-  a material, a term of the trade, a person's name, a plain description
-  such as "Front Desk"), past the first name the domain brings to
-  mind, then the one
-  `python3 '<this skill>/assets/pick.py' name <the five>` prints from
-  the project root: it picks by the project folder's name, so two
-  builds of one prompt differ. A working name in the design (hotel
-  builds: Larkspur nine times, Linden six, Halcyon four).
+- **The app's name,** when the prompt names none: twenty candidates
+  that suit the domain, spread across five kinds (a place, a plant or
+  a material, a term of the trade, an object of the domain, a plain
+  description such as "Room Board"), never a person's name, each one
+  the build would be glad to see picked (no filler), then the one
+  `python3 '<this skill>/assets/pick.py' name <the twenty>` prints
+  from the project root: it picks by the project folder's name, so two
+  builds of one prompt rarely share one (about one in twenty). A
+  working name in the design (hotel builds named themselves Larkspur
+  nine times, Linden six, Halcyon four).
 - Times are in the user's time zone.
 
 **Task list:** right after the answers (loaded by the `app-guided` or
