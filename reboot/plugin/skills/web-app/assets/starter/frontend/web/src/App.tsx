@@ -94,6 +94,10 @@ function SignedIn() {
           anatomy has it (styles.css): stat tiles first in main overlap it. */}
       <section className="brand-band">
         <div className="page-head">
+          {/* Live: the list's reader keeps this page current. */}
+          <p className="eyebrow">
+            <span className="live">Live</span>
+          </p>
           <h1 id="__things__-heading">__Things text__</h1>
           <p className="lede">Everyone signed in sees the same list, updated live.</p>
         </div>
