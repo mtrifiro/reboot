@@ -13,8 +13,11 @@
    (.search, .filters of field) → list-card (group-band, row with .title,
    .meta, .secondary; row-grid with --row-cols for many columns) → drawer
    over the list (drawer-backdrop, drawer-head, drawer-body, drawer-foot).
-   Other primary views: board / board-col (board-col-head, .count) of
-   cards; cells / cell (a plan or grid: .figure, .label, a .corner mark;
+   Other primary views: board / board-col (board-col-head with a
+   .stage dot, .count) of cards, board-tools above it; a card is
+   card-row: avatar.logo (or an avatar, a room number), card-body with
+   .name, .who, .when, .stale when quiet; stats.summary: one stat and
+   a .funnel (.steps of .seg, .names, .flag); cells / cell (a plan or grid: .figure, .label, a .corner mark;
    --cells-cols fixes a row's count; plan / plan-row / plan-label for
    floors or aisles, never a card per row; state as the left edge .good
    / .warn / .bad, .off hatched; a resting cell plain); feed (a dated
@@ -449,7 +452,66 @@ main > * {
   flex-wrap: wrap;
 }
 
-/* Summary: stat tiles, a label and a big number each */
+/* Summary: stat tiles, a label and a big number each. A count the
+   board already shows is never a tile: one signature stat, and the rest
+   a .funnel beside it (.stats.summary): a segment per stage (.seg,
+   data-step as on .stage, widths by count), the stage names with their
+   counts (.names), and who needs a person (.flag, the warning colour). */
+.stats.summary {
+  grid-template-columns: minmax(220px, 1fr) 3fr;
+}
+.funnel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+.funnel .label {
+  font-size: 13px;
+  color: var(--muted);
+}
+.funnel .steps,
+.funnel .names {
+  display: grid;
+  grid-template-columns: var(--funnel-cols, repeat(4, 1fr));
+  gap: 4px;
+}
+.funnel .seg {
+  height: 10px;
+  border-radius: 3px;
+  background: var(--accent);
+}
+.funnel .seg[data-step="1"] { opacity: 0.25; }
+.funnel .seg[data-step="2"] { opacity: 0.5; }
+.funnel .seg[data-step="3"] { opacity: 0.75; }
+.funnel .names {
+  font-size: 13px;
+}
+.funnel .names b {
+  font-variant-numeric: tabular-nums;
+}
+.funnel .flag {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--warn);
+}
+/* A board's tools in one row: the search, then a link to what's set aside */
+.board-tools {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.board-tools .spacer {
+  flex: 1;
+}
+@media (max-width: 640px) {
+  .stats.summary {
+    grid-template-columns: 1fr;
+  }
+}
 .stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
@@ -894,6 +956,66 @@ a.row {
   box-shadow: 0 6px 20px var(--shadow);
   transform: translateY(-1px);
 }
+/* A record's card: its identity mark at the left (a .logo tile, an
+   avatar, a room number), then its name, who it is with (.who, a small
+   avatar and a name), and its time (.when: touched when, what's next).
+   A record gone quiet is .card.stale: its time in the warning colour. */
+.card-row {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+.card-body {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+.avatar.logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+.avatar.logo img {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: contain;
+  background: var(--panel);
+}
+.who {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 13px;
+}
+.who .avatar {
+  width: 20px;
+  height: 20px;
+  font-size: 9px;
+}
+.when {
+  margin-top: 2px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.card.stale .when {
+  color: var(--warn);
+  font-weight: 600;
+}
+/* Stages that progress: a dot on each column's head, stronger as the
+   stage goes on (data-step="1" to "4"; 4 is the last, full accent) */
+.stage {
+  width: 9px;
+  height: 9px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.stage[data-step="1"] { opacity: 0.25; }
+.stage[data-step="2"] { opacity: 0.5; }
+.stage[data-step="3"] { opacity: 0.75; }
 
 /* Controls: never unstyled */
 button,
