@@ -52,7 +52,10 @@ question and the option chosen, and a yes needs no recommendation.
 
 **On "Tell me more",** about 500 words in the chat, in the user's
 nouns, under short bold leads, then the same dialog again (a short
-paragraph left the user with questions):
+paragraph left the user with questions). The words are the response's
+text, sent before the dialog's call, never drafted in thinking: the
+user sees only text (hotel-302 wrote its answer in thinking and asked
+again seven seconds later; the user saw a two-sentence paraphrase):
 
 1. **What happens on a yes:** the first feature, step by step: its
    rules written as scenarios, the API, the domain model shown on the
