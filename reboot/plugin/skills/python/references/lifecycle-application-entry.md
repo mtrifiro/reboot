@@ -59,6 +59,6 @@ one (or whose library is not used) puts its `servicers()` list into
   reference has the exact import)
 - `stdlib-pubsub.md` — `pubsub.servicers()` (transitively pulls
   `queue.servicers()`) + the stdlib map library
-- `stdlib-presence.md` — `presence.servicers()` (three Servicers; no
-  library factory)
+- `stdlib-presence.md` — `presence_library()` (brings three
+  Servicers)
 
