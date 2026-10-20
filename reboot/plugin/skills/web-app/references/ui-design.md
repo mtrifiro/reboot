@@ -42,6 +42,12 @@ snaps a refused drop back; keep a button for keyboard users. A
 record's detail opens in a drawer or on its own route, never
 reflowing the list.
 
+Every view a person can narrow (a filter, a selection, a search, an
+open drawer) shows that it is narrowed and has a visible way back: an
+"All" option or a "Clear" control beside the filter, a close button
+and Esc for a drawer. Clicking the same control again is not enough
+on its own.
+
 ### Build the Look
 
 Every web app starts from the house look: one stylesheet, designed
