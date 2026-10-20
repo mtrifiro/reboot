@@ -34,8 +34,7 @@ followed by a list of the specific incompatible changes (e.g.
 This gate is identical everywhere state persists: `rbt dev run`
 (when persistence is on via `--application-name=...`), `rbt serve`,
 and Reboot Cloud. Only the recovery options differ — see "Recovering
-From a Rejected Deploy" below. This is a safety net, not an
-obstacle: it stops a deploy that would have corrupted or orphaned
+From a Rejected Deploy" below. It stops a deploy that would have corrupted or orphaned
 live data, before any damage is done.
 
 ## What's Allowed vs. Forbidden
@@ -96,7 +95,7 @@ rejects the deploy instead.
 
 ## Evolving Safely: the Additive Playbook
 
-Plan APIs knowing that **deployment is a one-way door**: anything
+Plan APIs knowing that **deployment is irreversible for the schema**: anything
 shipped to an application with live data stays in the schema until
 the data is expunged. When you need to "change" something:
 

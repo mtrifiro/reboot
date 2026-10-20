@@ -231,7 +231,7 @@ messages nested as attributes, the `Servicer` base class, and the
 
 ## How to Use
 
-Most footguns in this skill are **distributed across reference files**
+Most mistakes this skill prevents are **covered across reference files**
 — skipping the right reference means hitting a runtime error that the
 docs would have prevented. Before writing code, load the references
 the task actually requires from the lists below. "Common gotchas"
@@ -325,7 +325,7 @@ The `Agent` runs only inside a `WorkflowContext`, so also read the
 ### Defining an API
 
 - `references/api-pydantic.md` — **always read**: the zero-default
-  rule bites at import time
+  rule fails at import time
 - `references/api-methods.md` — `Reader` / `Writer` / `Transaction` /
   `Workflow` factories and the `factory=True` constructor option
 - `references/api-errors.md` — typed error declaration
@@ -488,8 +488,8 @@ Treat a clean type-check as part of finishing, not an optional extra:
   in `references/lifecycle-project-setup.md`). It puts `backend/src`,
   `backend/api`, `tests`, and `api` on `mypy_path` with
   `explicit_package_bases = True` so the generated `*_rbt.py` modules
-  resolve. If it's missing, create it first — `mypy` is useless
-  without it.
+  resolve. If it's missing, create it first: without it,
+  `mypy` cannot resolve the generated modules.
 - After writing or editing any Python under `backend/`, run
   `uv run mypy backend/ tests/` (or `mypy backend/ tests/`) from the project root and
   fix **every** error.
@@ -497,8 +497,8 @@ Treat a clean type-check as part of finishing, not an optional extra:
 
 ### Always relevant
 
-- `references/patterns-common-gotchas.md` — the consolidated trip-list
-  including the pydantic zero-default rule, `self.state_id`
+- `references/patterns-common-gotchas.md` — the consolidated list of
+  common mistakes, including the pydantic zero-default rule, `self.state_id`
   non-existence, and `--name` vs. `--application-name`. Read it once
   per task.
 - `references/errors.md` — holding an error string, grep a

@@ -171,7 +171,7 @@ class UserServicer(User.Servicer):
             name=request.name,
             birthday=request.birthday,
         )
-        # UUIDv7 keys give time-ordered iteration for free; for
+        # UUIDv7 keys iterate in time order; for
         # name-sorted iteration, use a name-prefixed key instead.
         await OrderedMap.ref(self.state.people_index_id).insert(
             context,
