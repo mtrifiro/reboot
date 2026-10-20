@@ -44,7 +44,7 @@ a mockup of the main page in the look, served, opened in the pane, one line
 with its link. Then, in the same response as the design, the go-ahead,
 **Ready to build this design?**
 ([`../app/references/design-first.md`](../app/references/design-first.md),
-section 3): a yes builds step by step (the user chose interactively),
+section 3): a yes builds step by step (the interactive build),
 and a change to the design is its free answer. The prompt-by-prompt path, asked for in those words at
 the go-ahead or at any handoff, has no go-ahead dialog: the design's
 closing line says what to do, and the user's next prompt is the build.
@@ -108,8 +108,9 @@ steps 4 and 6 (its reviews, step 5, are the one-shot's own).
   Reading the plugin's references gets no line of its own. Before a
   slow step, one fact about Reboot said for this app
   ([`../app/references/while-you-wait.md`](../app/references/while-you-wait.md)).
-- **Verbose,** when the user asked for it in the prompt or at any
-  point ("verbose", "explain as you build", "an exegesis"): each
+- **Verbose,** when the round's "Explain as it builds?" chose it, or
+  the user asked in the prompt or at any point ("verbose", "explain as
+  you build", "an exegesis"): each
   milestone report (the model check, the backend check, each handoff)
   ends with an **Exegesis** section, what was written and why, the
   same text appended to `design/exegesis.md`
