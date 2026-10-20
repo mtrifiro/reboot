@@ -7,8 +7,8 @@
                                        # one of those that suit the domain, picked
                                        # by this folder's name: prints its name
     python3 <this file> --from '#2f6b4f'   # the palette nearest a brand colour:
-                                       # prints it and how far off; sets it in a
-                                       # project
+                                       # prints it and how far off, changing nothing
+    python3 <this file> --from '#2f6b4f' --set   # and sets it in the project
 
 `house` is Reboot's own (cream paper, navy ink and accent); the others
 pair a gray and an accent from Radix Colors (palettes.json beside this
@@ -122,7 +122,7 @@ def main(argv: list[str]) -> int:
             return 2
         print(pick(names, Path.cwd().name))
         return 0
-    if argv[:1] == ["--from"] and len(argv) == 2:
+    if argv[:1] == ["--from"] and len(argv) in (2, 3) and argv[2:] in ([], ["--set"]):
         brand = argv[1].strip()
         if not re.fullmatch(r"#[0-9a-fA-F]{6}", brand):
             print("palette: --from takes a colour as #rrggbb", file=sys.stderr)
@@ -131,9 +131,17 @@ def main(argv: list[str]) -> int:
         p = found[name]
         print(f"nearest to {brand}: {name} ({p['label']}: {p['colours']}), accent {p['light']['accent']}, "
               f"{off:.0f} degrees of hue away" + ("; close" if off <= 15 else "; the nearest of the eleven, not a match"))
-        if not STYLESHEET.is_file():
+        if argv[2:] != ["--set"]:
             return 0
         argv = [name]
+    if not argv:
+        css = STYLESHEET.read_text(encoding="utf-8") if STYLESHEET.is_file() else ""
+        accent, bg = light_value(css, "accent"), light_value(css, "bg")
+        for name, p in found.items():
+            mark = "*" if (p["light"]["accent"], p["light"]["bg"]) == (accent, bg) else " "
+            print(f"{mark} {name:<14} {p.get('label', ''):<8} {p.get('colours', ''):<18} "
+                  f"accent {p['light']['accent']} light, {p['dark']['accent']} dark")
+        return 0
     if not STYLESHEET.is_file():
         print(f"palette: no {STYLESHEET}; run from the project root", file=sys.stderr)
         return 2
