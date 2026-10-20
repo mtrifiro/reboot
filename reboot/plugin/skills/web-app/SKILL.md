@@ -477,8 +477,9 @@ finished app.
    `design/comp/mockup.html` exists
    ([`references/comp.md`](references/comp.md)), the page is the comp
    made live: the same classes and composition, its rows from the
-   reader. Write the calls from the reference and do
-   **not** open `frontend/api/**/*_rbt_react.ts`.
+   reader, keeping the eyebrow's `live` mark (counts, meters and a
+   search's `no-match`: the class list). Write the calls from the
+   reference and do **not** open `frontend/api/**/*_rbt_react.ts`.
    `cd frontend && npm run build`.
 9. Edit the starter's browser scenario (`tests/<pkg>_web.feature`,
    run by `tests/web_test.py`, which starts the frontend) into the
