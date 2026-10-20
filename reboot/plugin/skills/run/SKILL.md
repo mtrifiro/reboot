@@ -207,15 +207,15 @@ if kill -0 $P 2>/dev/null; then pkill -TERM -P $P; kill -TERM $P; sleep 5
   kill -0 $P 2>/dev/null && kill -KILL $P; fi
 ```
 
-**Every stop the build makes to start again** (an `api/` change, a
-new dependency, a hang) is followed at once by
-`python3 '<this skill>/assets/standby.py' start`: a "Restarting" page
-at the app's address, in place of the proxy's 404 or 502, that reloads
-itself until the app is back. `standby.py stop` ends it: under portless
-once the app answers, on plain ports just before the start (it holds
-9991). One line first: "The app is restarting; its page comes back by
-itself in a minute or so." (crm-30 showed the proxy's list of every app
-on the machine.)
+**A "Restarting" page while the app is down**, in place of the
+proxy's 404 or 502, reloading itself until the app is back: under
+portless, `python3 '<this skill>/assets/standby.py' watch` once, after
+the app first answers, covers every stop and restart after it, the
+app's own after a save included; on plain ports, `standby.py start`
+right after each stop and `standby.py stop` just before the start (it
+holds 9991). One line at the first stop: "The app is restarting; its
+page comes back by itself in a minute or so." (crm-30 showed the
+proxy's 502 while restarting after a save.)
 
 The loop waits, at most 10 seconds, until it has exited: its Envoy and
 ports go with it, and a suite started while they are still up has
@@ -264,7 +264,8 @@ that notice is expected: never a failure to look into or report
 the app, through the suite and the restarts, so what the user was
 shown stays open next to the real page. They are stopped only when the
 user asks to stop the app: `kill $(cat design/.design.pid
-design/.comp.pid) && rm -f design/.design.pid design/.comp.pid`.
+design/.comp.pid) && rm -f design/.design.pid design/.comp.pid`, and
+`standby.py stop`.
 
 ## Step 6 — Hand off
 
