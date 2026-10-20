@@ -138,9 +138,10 @@ is built.
 
 ### Once accepted
 
-1. Write or update `design/design.md` in the shape
+1. Update `design/design.md` in the shape
    [`design-document.md`](design-document.md) gives, status "accepted
-   on <date>". Run `python3 scripts/design_links.py` and fix what it
+   on <date>", by edits to what the part changed, never a rewrite of
+   the whole file. Run `python3 scripts/design_links.py` and fix what it
    lists until it lists nothing.
 2. Append an entry to `design/decisions.md` (below).
 3. Run `python3 scripts/model_diff.py --accept`. It writes
