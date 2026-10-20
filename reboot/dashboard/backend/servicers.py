@@ -4,6 +4,8 @@ from pathlib import Path
 from rbt.dashboard.v1.dashboard_pb2 import (
     DashboardGetRequest,
     DashboardGetResponse,
+    DashboardIndexRequest,
+    DashboardIndexResponse,
     DashboardRecordCheckRequest,
     DashboardRecordCheckResponse,
     DashboardUpdateApiRequest,
@@ -29,7 +31,11 @@ from rbt.dashboard.v1.dashboard_pb2 import (
 )
 from rbt.dashboard.v1.dashboard_rbt import Dashboard, Preferences
 from rbt.std.collections.ordered_map.v1.ordered_map_rbt import OrderedMap
-from reboot.aio.auth.authorizers import allow
+from reboot.aio.auth.authorizers import (
+    allow_if,
+    has_verified_token,
+    is_app_internal,
+)
 from reboot.aio.contexts import (
     ReaderContext,
     TransactionContext,
@@ -58,10 +64,32 @@ class DashboardServicer(Dashboard.Servicer):
     """Holds the shape the developer's API files declare."""
 
     def authorizer(self):
-        # Anyone who can reach this can already read the files it
-        # describes: it holds nothing but the shape of the developer's
-        # own API files, and only ever runs under `rbt dashboard`.
-        return allow()
+        # The dashboard's own watchers write what it holds; the
+        # signed-in developer reads it.
+        return allow_if(any=[is_app_internal, has_verified_token])
+
+    async def Index(
+        self,
+        context: ReaderContext,
+        request: DashboardIndexRequest,
+    ) -> DashboardIndexResponse:
+        return DashboardIndexResponse(
+            features=[
+                DashboardIndexResponse.Feature(
+                    id=filename,
+                    name=feature.name if feature.HasField('name') else None,
+                ) for filename, feature in sorted(self.state.features.items())
+            ],
+            state_types=[
+                DashboardIndexResponse.StateType(
+                    id=f'{api.package}.{state_type.name}',
+                    name=state_type.name,
+                    file=api.filename,
+                )
+                for _, api in sorted(self.state.apis.items())
+                for state_type in api.state_types
+            ],
+        )
 
     async def Get(
         self,
@@ -277,10 +305,9 @@ class PreferencesServicer(Preferences.Servicer):
     """
 
     def authorizer(self):
-        # Nothing here is worth keeping from anyone who can reach it:
-        # it holds what this machine's own browser was told about
-        # opening dashboards, and only ever runs under `rbt dashboard`.
-        return allow()
+        # The dashboard's `initialize` writes the default; the
+        # signed-in developer reads and writes it from the page.
+        return allow_if(any=[is_app_internal, has_verified_token])
 
     async def Get(
         self,

@@ -405,6 +405,14 @@ and called **inside a `Workflow`**):
 then
 [`python/references/auth-external-api-calls.md`](../python/references/auth-external-api-calls.md).
 
+**Files the UI fetches from the backend.** A plain HTTP route (an
+image or video the UI shows, a download) serves every request unless
+registered with `require_oauth_token=True`, which serves only a
+request carrying the client's bearer. A plain `<img src>` cannot
+carry one, so the UI obtains a short-lived signed URL with the bearer
+and gives that to `src`. Backend and page side in
+[`python/references/auth-http-routes.md`](../python/references/auth-http-routes.md).
+
 ### Declarative, Not Decorator
 
 All MCP surface is defined in the API file. `main.py` is minimal. No

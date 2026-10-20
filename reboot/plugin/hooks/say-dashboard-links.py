@@ -11,7 +11,7 @@ call, before the agent's next step, gets it said.
 It fires once per session, on the first of:
 
   * a Bash call running `rbt dashboard`: its portless address,
-    `https://dashboard.<app>.localhost`, unless the call asks for plain
+    `https://dashboard-<app>.localhost`, unless the call asks for plain
     ports (`--config=ports`, `--no-portless`) or the project's
     `.rbtrc` doesn't default it to portless; else the port from
     `--port`, the project's `.claude/launch.json`, or 9871 (crm-30's
@@ -83,7 +83,7 @@ def portless_dashboard(command: str, cwd: Path) -> str:
     except OSError:
         return ""
     if "--config=portless" in command or re.search(r"^dashboard --default-config=portless", rbtrc, re.M):
-        return f"https://dashboard.{app_name(cwd)}.localhost"
+        return f"https://dashboard-{app_name(cwd)}.localhost"
     return ""
 
 
