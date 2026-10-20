@@ -121,7 +121,8 @@ the app in one scenario.
 - **`sees "<text>"` must match one element.** It finds the text
   anywhere on the page, part of an element's text included, and fails
   ("strict mode violation") when more than one element shows it: a
-  status word that is also in a legend, a heading or a menu. Name the
+  word also in a legend, heading, menu or the page's lede (hotel-301's
+  "Ready to sell"). Name the
   element it is in, `sees "Waiting" in the "Room 204" row`, with a
   role from the list above, or check words only that element shows.
 - **Quoted text may say `<name>`** for a saved value: `sees "<alice account id>" in the "Your Accounts" table`.
