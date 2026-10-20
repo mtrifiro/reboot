@@ -8,7 +8,8 @@
    pages or a tool kept open all day, <div class="shell sidebar"> with an
    <aside class="sidebar-nav"> (.brand, nav) beside <div class="shell-main">.
    Anatomy: topbar (.brand, nav) → brand-band (a page-head on the deep
-   accent: .eyebrow, h1, .lede, .actions) → stats / stat (.label, .value,
+   accent: .eyebrow with a .live mark on every page a reader keeps
+   current, h1, .lede, .actions) → stats / stat (.label, .value,
    .meter; .selected; a <button class="stat"> filters) → filter-panel
    (.search, .filters of field) → list-card (group-band, row with .title,
    .meta, .secondary; row-grid with --row-cols for many columns) → drawer
@@ -31,7 +32,13 @@
    field-row (forms), spacer; buttons .primary / .ghost / .danger; pill;
    figure (a number read at a glance; .large); name (a name that opens,
    in ink, on <a> or <button>); dot, tally; tabs / tab; table-wrap;
-   skeleton; empty (.actions); error; mono, small, muted,
+   meters of meter-row (.label, .used "31 / 25", .meter with --used;
+   .over past the limit, the only time it is --bad); a .count on a tab
+   and on each legend item ("Checked in 12"; a legend outside a chart
+   is buttons that filter, aria-pressed); skeleton; empty (.actions;
+   .no-match for a search that found nothing: the search repeated, and
+   "Add “alex” as a guest" where the viewer may, else "Clear search");
+   error; mono, small, muted,
    visually-hidden; density-compact on any ancestor of rows.
    Interaction patterns, each with its component in web/src/patterns/:
    hover-card (HoverCard), clamped / clamp-more (Clamp), tip-wrap / tip /
@@ -443,6 +450,35 @@ main > * {
   color: var(--muted);
   margin: 0 0 var(--space-1);
 }
+/* "Live" in the eyebrow of a page its readers keep current, which is
+   every page fed by a Reboot reader: a dot and the word, in the
+   eyebrow's own colour (never --good: that is a data dimension). */
+.live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.live::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 0 currentColor;
+  animation: live-ring 2.4s ease-out infinite;
+}
+.eyebrow .live:not(:first-child) {
+  margin-left: var(--space-2);
+}
+@keyframes live-ring {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, currentColor 45%, transparent);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 6px transparent;
+  }
+}
 .page-head .lede {
   color: var(--muted);
   margin: var(--space-1) 0 0;
@@ -595,6 +631,52 @@ button.card:hover {
   display: block;
   height: 100%;
   background: var(--accent);
+}
+/* A meter row: what is used of a limit (rooms sold of 56, seats of 25).
+   The label, then "used / limit" in figures, then the bar; the bar is
+   ink on the track, and --bad only past the limit (.over), where the
+   figures turn --bad too. Set the fill with style="--used: 62%". */
+.meter-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px var(--space-3);
+  align-items: baseline;
+  font-size: 13px;
+}
+.meter-row .label {
+  color: var(--muted);
+  min-width: 0;
+}
+.meter-row .used {
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.meter-row .meter {
+  grid-column: 1 / -1;
+  display: block;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--track);
+  overflow: hidden;
+}
+.meter-row .meter::before {
+  content: "";
+  display: block;
+  height: 100%;
+  width: min(var(--used, 0%), 100%);
+  background: var(--ink);
+  border-radius: inherit;
+}
+.meter-row.over .used {
+  color: var(--bad);
+  font-weight: 600;
+}
+.meter-row.over .meter::before {
+  background: var(--bad);
+}
+.meters {
+  display: grid;
+  gap: var(--space-3);
 }
 
 /* Controls: one surface, every filter labelled above its control */
@@ -1574,6 +1656,50 @@ tr:hover td {
   color: var(--ink);
   border-bottom-color: var(--accent);
 }
+/* A count on a tab or a legend item: "Checked in 12". Muted figures,
+   never a coloured badge; the count is what the tab or item filters to. */
+.tab .count,
+.legend .count {
+  margin-left: 6px;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+.tab.active .count,
+.tab[aria-selected="true"] .count {
+  color: inherit;
+}
+/* A legend outside a chart (a plan's or a board's states): each item a
+   <button> with its swatch (a .dot or .cat-dot), its name and .count,
+   aria-pressed when it filters the view. */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.legend button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 2px 8px;
+  color: inherit;
+  font: inherit;
+}
+.legend button:hover {
+  color: var(--ink);
+}
+.legend button[aria-pressed="true"] {
+  color: var(--ink);
+  border-color: var(--line);
+  background: var(--panel);
+}
 
 /* Live data: skeletons, not "Loading…" */
 .skeleton {
@@ -1608,6 +1734,16 @@ tr:hover td {
 }
 .empty .actions {
   margin-top: var(--space-3);
+}
+/* A search that matched nothing: one sentence that repeats the search
+   ("No guest matches “alex”"), then the action that fills it:
+   button.primary "Add “alex” as a guest" where the viewer may
+   add one, else a "Clear search" button. Never a blank list. */
+.empty.no-match {
+  padding: var(--space-6) var(--space-4);
+}
+.empty.no-match q {
+  color: var(--ink);
 }
 .error {
   color: var(--bad);
