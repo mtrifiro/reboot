@@ -45,17 +45,17 @@ line said before it.
 **Links at every major turn.** Once the app has started, every
 major turn ends with one line linking both, at the addresses they
 started on (the `run` skill: under portless `https://<app>.localhost/`
-and `https://dashboard.<app>.localhost/`, on plain ports
+and `https://dashboard-<app>.localhost/`, on plain ports
 `http://localhost:9991/` and `http://127.0.0.1:9871/`; the web app is
 always the backend's address, never Vite's), so the user never
 scrolls back for them:
 
-> App: https://hotel.localhost/ · Dashboard: https://dashboard.hotel.localhost/
+> App: https://hotel.localhost/ · Dashboard: https://dashboard-hotel.localhost/
 
 Once a feature file exists, the dashboard part names its three pages
 (`dashboard` skill, "Links to an Object or a Rule"):
 
-> App: https://hotel.localhost/ · Dashboard: [Models](https://dashboard.hotel.localhost/#/models) · [Features](https://dashboard.hotel.localhost/#/features) · [Changelog](https://dashboard.hotel.localhost/#/changelog)
+> App: https://hotel.localhost/ · Dashboard: [Models](https://dashboard-hotel.localhost/#/models) · [Features](https://dashboard-hotel.localhost/#/features) · [Changelog](https://dashboard-hotel.localhost/#/changelog)
 
 The major turns: the dashboard's first start, the app's first start
 (the `run` skill), each handoff (in its **Your turn**), each feature
@@ -67,7 +67,7 @@ whatever comes next, never only "it's live on port <port>": the
 objects already written, each a link to itself on the models page,
 then the three pages:
 
-> Dashboard is up: [Hotel](https://dashboard.hotel.localhost/#/models?type=hotel.v1.Hotel) · [Room](https://dashboard.hotel.localhost/#/models?type=hotel.v1.Room) · [Stay](https://dashboard.hotel.localhost/#/models?type=hotel.v1.Stay). [Models](https://dashboard.hotel.localhost/#/models) · [Features](https://dashboard.hotel.localhost/#/features) · [Changelog](https://dashboard.hotel.localhost/#/changelog)
+> Dashboard is up: [Hotel](https://dashboard-hotel.localhost/#/models?type=hotel.v1.Hotel) · [Room](https://dashboard-hotel.localhost/#/models?type=hotel.v1.Room) · [Stay](https://dashboard-hotel.localhost/#/models?type=hotel.v1.Stay). [Models](https://dashboard-hotel.localhost/#/models) · [Features](https://dashboard-hotel.localhost/#/features) · [Changelog](https://dashboard-hotel.localhost/#/changelog)
 
 **A feature file, wherever it is named,** is two links: the file in
 the project, and its page on the dashboard once the dashboard is up,

@@ -20,5 +20,5 @@ Feature: The __things text__ in the web app
     When "ben" opens the web app in dark mode
     And "ben" clicks the "Sign in" button in the web app
     And "ben" clicks the "Ben" link in the web app
-    Then "ben" is signed in to the web app with their user id saved as "ben user id"
+    Then "ben" is signed in to the web app with their user id saved as <ben user id>
     And "ben" eventually sees "__Things text__" in the web app within 10 seconds

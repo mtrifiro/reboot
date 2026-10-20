@@ -25,7 +25,7 @@ every package, domain object, method, feature and rule in it is a
 dashboard link (`dashboard` skill, "Links to an Object or a Rule"):
 
 - an object: `<dashboard>#/models?type=<package>.<Type>`, `<dashboard>`
-  being `https://dashboard.<app>.localhost/` under portless or
+  being `https://dashboard-<app>.localhost/` under portless or
   `http://127.0.0.1:9871/` on plain ports (`design_links.py --base`
   moves every link when that changes);
   a method appends `.<method>`;
