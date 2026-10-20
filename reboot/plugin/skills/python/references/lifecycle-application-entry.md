@@ -55,7 +55,7 @@ one (or whose library is not used) puts its `servicers()` list into
 
 - `stdlib-ordered-map.md` — `ordered_map_library()` only
 - `stdlib-queue.md` — `queue.servicers()` + the stdlib map library
-  (`Queue` uses a stdlib sorted-map actor under the hood; the
+  (`Queue` uses a stdlib sorted-map actor internally; the
   reference has the exact import)
 - `stdlib-pubsub.md` — `pubsub.servicers()` (transitively pulls
   `queue.servicers()`) + the stdlib map library

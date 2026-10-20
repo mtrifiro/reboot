@@ -127,8 +127,8 @@ to try first, in a sentence: the action and the rule that holds.>
 3. **<Another part>:** <what it adds, in one line>.
 
 Or ask for a change to what's here. <When the other front door isn't
-built: "Want it in Claude and ChatGPT too? The backend is ready for an
-MCP App beside the web app.">
+built: "The backend can also serve an MCP App for Claude and ChatGPT;
+ask to add it.">
 
 ---
 ```

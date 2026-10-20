@@ -136,7 +136,7 @@ class BankServicer(Bank.Servicer):
         self, context: TransactionContext, request: SignUpRequest,
     ) -> SignUpResponse:
         # ... open the account ...
-        # UUIDv7 keys give time-ordered iteration for free.
+        # UUIDv7 keys iterate in time order.
         await OrderedMap.ref(self.state.account_ids_map_id).insert(
             context,
             key=str(uuid7()),
