@@ -33,7 +33,7 @@ reading any reference or showing a design: one question dialog
 replaces this one (the first features, who signs in, the palette; how
 to build was the `app` skill's first question), nothing else is asked
 before the design, and the
-go-ahead, **Build on this design?**, comes once, after the design
+go-ahead, **Ready to build this design?**, comes once, after the design
 ([`design-first.md`](design-first.md), section 3). Invoked directly,
 the first question is how to build it, unless the prompt already says;
 its options, the first recommended, are in the door's step 2, with
