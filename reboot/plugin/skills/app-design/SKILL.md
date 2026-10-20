@@ -144,7 +144,7 @@ recommendation is one answer:
   suits the domain, in a few words.
 How it is built is not asked here: the user chose the guided build
 (the `app` skill's first question), and the go-ahead offers step by
-step or all at once. The choice isn't for keeps: at any handoff "build
+step or all at once. The choice can change: at any handoff "build
 the rest all at once", "step by step from here" or "prompt by prompt
 from here" switches, and the first handoff says so in one line.
 
@@ -256,7 +256,7 @@ What the design holds while nothing is built:
   role rules.
 - **A `User` object in every design,** by that name: one per person
   who signs in, keyed by their sign-in ID, where both front doors sign
-  in and the per-user data hangs; the people the app is about (guests,
+  in, which holds the per-user data; the people the app is about (guests,
   clients, teammates) are their own objects when they hold more than a
   name. **A list that grows without limit** (a history, a feed,
   events) is never a field of another object: its own object or an
