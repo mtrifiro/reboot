@@ -32,7 +32,7 @@ written so far. It reads files and the process table only.
 One message, no longer than a screen:
 
 1. **Where you are,** two lines: "Fifty-Six Keys: room booking is
-   built, superman mode is in progress. The app is running; the last
+   built, early check-in is in progress. The app is running; the last
    test run passed (5 of 5)."
 2. **Links,** one line, only to what is running or exists: the app
    (its main page), the dashboard's Models, Features and Changelog
@@ -60,8 +60,8 @@ One message, no longer than a screen:
 
 ## 4. How do I, what is, where is
 
-A few plain lines in the user's nouns, and a link to see it, never a
-lecture:
+A few plain lines in the user's nouns, and a link to see it, nothing
+more:
 
 - **What is…:** a domain object ("Each room is its own object; it
   keeps its own state, and the dashboard's Models page draws it"), a

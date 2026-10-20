@@ -240,8 +240,8 @@ show_dashboard=UI(
     request=DashboardConfig,
     path="dashboard",
     title="Counter Dashboard",
-    description="Dashboard UI. Use `personalized_message` to impart "
-    "wisdom on the topic of counting things.",
+    description="Dashboard UI. Show `personalized_message` above "
+    "the count.",
 ),
 ```
 
@@ -270,7 +270,7 @@ export const DashboardApp: FC<DashboardConfig> = ({ personalizedMessage }) => {
 ### Anti-Pattern: Entity ID in `request=<Model>`
 
 Do **not** use `request=<Model>` to pass an entity ID into a
-UI. If you find yourself writing this:
+UI. This shape is wrong:
 
 ```python
 # BAD — `User` should not have a UI that operates on one Person.
@@ -289,7 +289,7 @@ User=Type(
 ),
 ```
 
-…stop, and move the UI to the entity's `Type` instead:
+Move the UI to the entity's `Type` instead:
 
 ```python
 # GOOD — UI lives on `Person`, no `request=` needed. The AI
@@ -309,10 +309,10 @@ Person=Type(
 ),
 ```
 
-The "BAD" shape forces props plumbing, leaves the entity ID
+The "BAD" shape passes the ID through props, leaves the entity ID
 sitting in a tool-input field where the AI can confuse it with
-another entity's ID, and de-co-locates per-Person operations
-(`get`, `set_bio`, etc. already live on `Person`). The "GOOD"
+another entity's ID, and separates the UI from the per-Person
+operations (`get`, `set_bio`, etc. already live on `Person`). The "GOOD"
 shape matches every other per-entity tool the AI already calls.
 
 ## `mcp=None` Example

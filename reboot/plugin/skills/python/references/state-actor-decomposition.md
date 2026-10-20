@@ -40,8 +40,8 @@ more than one concern and should be split:
   concerns, same actor, false contention.
 - **You catch yourself prefixing fields to disambiguate concerns**
   (`monitoring_active`, `monitoring_poll_interval`,
-  `monitoring_chat_ids`). The prefix is the concern asking to be its
-  own `Type`.
+  `monitoring_chat_ids`). The prefix marks a concern that should be
+  its own `Type`.
 - **The method list on the Servicer crosses ~15 and groups by
   prefix** (`start_login`, `complete_login`, `set_persona`,
   `start_monitoring`, `stop_monitoring`, `scan_once`, …). Each

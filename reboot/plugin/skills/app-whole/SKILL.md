@@ -5,9 +5,9 @@ argument-hint: [<app-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit, Agent, Skill
 ---
 
-# one-shot: a Complete Reboot Application, Asking Nothing
+# app-whole — a Complete Reboot Application, Asking Nothing
 
-From the prompt to a finished app, the proper way, with no question
+From the prompt to a finished app, with no question
 until the end: the design, every feature with its rules proven by
 scenarios, every page tested in a browser, a domain review and a look
 review with what they find fixed, and one handoff. Nothing stops the
