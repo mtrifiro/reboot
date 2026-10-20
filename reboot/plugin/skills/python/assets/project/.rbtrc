@@ -24,7 +24,7 @@ dev run --env-file=.env
 dev run --application=backend/src/main.py
 
 # The developer dashboard (`rbt dashboard`): named via portless, as
-# https://dashboard.<project-name>.localhost, when its proxy is running;
+# https://dashboard-<project-name>.localhost, when its proxy is running;
 # on the plain port, http://127.0.0.1:9871, with `--config=ports`.
 dashboard --default-config=portless
 dashboard:portless --portless
