@@ -129,8 +129,8 @@ time:
 > it, so there is no database to set up. Each rule, such as a room
 > can't be checked into until it's clean, is written first as a
 > scenario in plain words; the floor plan isn't done until every one
-> passes. The Reboot dashboard's link comes once the model is
-> written, for you to check it before the rest is built on it.
+> passes. The Reboot dashboard shows the model once it is written;
+> I'll ask about it only where it differs from the design.
 
 Never a silent start after an answer, and never only a task list
 update.
@@ -261,7 +261,8 @@ not repeated at every feature or in a wait note
 build", "an exegesis"): each milestone report ends with an
 **Exegesis** section, what was written and why, read from the code,
 the same text appended to `design/exegesis.md`
-([`exegesis.md`](exegesis.md)). Between reports nothing changes.
+([`exegesis.md`](exegesis.md)). Between reports, each step line gains
+one sentence of why, and nothing more.
 
 **Show the first feature's rules, the first time, in plain words.**
 Once the first feature file is written, list its rules in the chat,
