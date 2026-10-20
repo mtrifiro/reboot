@@ -241,6 +241,16 @@ restarting while the API changes; its page says so and comes back by
 itself in a minute or so." (hotel-255 was down 15 minutes of 28;
 hotel-260, 5:44.)
 
+**A restart that hangs** (a workaround for
+[reboot-dev/reboot#278](https://github.com/reboot-dev/reboot/issues/278)):
+when the app hasn't answered 45 seconds after `rbt dev run` began a
+restart and its log's last line hasn't changed for 30 seconds, it is
+waiting on a cancelled task and won't recover. Stop it by its pid as
+"Stopping the App" says and start it fresh, at once, never another
+wait (crm-30 waited five minutes in two loops before doing so). Once
+a Reboot release fixes #278, the restart ends or says why, and this
+paragraph goes.
+
 **A stop you made reports as a failure.** `rbt dev run` ends with exit
 code 130 when it is interrupted, and the background task that started
 it then reports that it failed. After a stop the build made itself,
