@@ -1,6 +1,6 @@
 ---
 name: app-basic
-description: "Build the basic Reboot app, asking nothing: one feature, the heart of what the user typed, designed, built, reviewed and handed over once, about half an hour. The whole-app build (app-whole) limited to one feature. Loaded by the app skill on 'First feature only', or asked for by name (/reboot:app-basic); a prompt that asks for an app in plain words goes to the app skill, which asks how to build first."
+description: "Build the basic Reboot app, asking nothing: one feature, the heart of what the user typed, designed, built, reviewed and handed over once, about half an hour. The whole-app build (app-whole) limited to one feature. Asked for by name (/reboot:app-basic), or loaded by the app skill when the prompt asks for one feature hands off; a prompt that asks for an app in plain words gets the interactive build."
 argument-hint: '[the app, e.g. "a front desk for a 56-room hotel"]'
 allowed-tools: Skill
 ---
