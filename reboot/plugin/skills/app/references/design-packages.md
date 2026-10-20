@@ -1,14 +1,14 @@
 ---
 title: Splitting the Domain Model into Packages
 impact: MEDIUM
-impactDescription: Read when `model_diff.py` lists a package under _Packages_: one with six domain objects or more, or packages that import each other in a circle. The split is a suggestion in the handoff's Notes, never done unasked.
+impactDescription: Read when `model_diff.py` lists a package under _Packages_: one with more than six domain objects, or packages that import each other in a circle. The split is a suggestion in the handoff's Notes, never done unasked.
 tags: design, packages, architecture, model diff
 ---
 
 ## Splitting the Domain Model into Packages
 
-`model_diff.py` lists, under _Packages_, a package that holds six
-domain objects or more, and packages that import each other in a
+`model_diff.py` lists, under _Packages_, a package that holds more
+than six domain objects, and packages that import each other in a
 circle. Either goes into the handoff's **Notes** as a suggestion, one
 line each, never as a question of its own and never done unasked:
 
