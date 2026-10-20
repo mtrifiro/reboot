@@ -48,15 +48,30 @@ FRAME = """<!doctype html>
 <aside class="comp-badge"><strong>Design comp</strong><span>A mockup of the {page_name}, not the running app; the real page replaces it at the frontend step.</span></aside>
 <dialog class="comp-note" id="comp-note">
   <strong>This is a design mockup</strong>
-  <p>It shows how the {page_name} will look, with sample rows. Nothing
-  on it is wired yet, so buttons and links don't do anything. The
-  real page, with your data, replaces it at the frontend step.</p>
+  <p>It shows how the {page_name} will look, with sample rows. Only the
+  Light / Dark button works, to see both schemes; nothing else is
+  wired yet. The real page, with your data, replaces it at the
+  frontend step.</p>
   <form method="dialog"><button class="primary">Got it</button></form>
 </dialog>
 <script>
+  // The one working control: Light / Dark, as the real app's ThemeToggle
+  // (data-theme on <html>); every other click opens the note.
+  const root = document.documentElement;
+  const toggle = document.querySelector("[data-theme-toggle]");
+  const dark = () => root.dataset.theme
+    ? root.dataset.theme === "dark"
+    : matchMedia("(prefers-color-scheme: dark)").matches;
+  const label = () => {{ if (toggle) toggle.textContent = dark() ? "Light" : "Dark"; }};
+  label();
   document.addEventListener("click", (event) => {{
     const note = document.getElementById("comp-note");
     if (note.contains(event.target)) return;
+    if (toggle && toggle.contains(event.target)) {{
+      root.dataset.theme = dark() ? "light" : "dark";
+      label();
+      return;
+    }}
     event.preventDefault();
     event.stopPropagation();
     note.showModal();
@@ -70,7 +85,7 @@ TOPBAR = """<header class="topbar">
   <a class="brand" href="#">{mark}{app}</a>
   <nav>{nav}</nav>
   <span class="spacer"></span>
-  <button class="ghost">Dark</button>
+  <button class="ghost" data-theme-toggle>Dark</button>
   <button class="ghost">{user} · Sign out</button>
 </header>"""
 
@@ -79,7 +94,7 @@ SIDEBAR = """<div class="shell sidebar">
   <a class="brand" href="#">{mark}{app}</a>
   <nav>{nav}</nav>
   <span class="spacer"></span>
-  <button class="ghost">Dark</button>
+  <button class="ghost" data-theme-toggle>Dark</button>
   <button class="ghost">{user} · Sign out</button>
 </aside>
 <div class="shell-main">"""
