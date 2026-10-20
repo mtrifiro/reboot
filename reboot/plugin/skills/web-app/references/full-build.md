@@ -72,8 +72,13 @@ The task list uses the items "The whole app first" in
    the developer dashboard — load the
    [`dashboard` skill](../../dashboard/SKILL.md) and follow it — so the
    user can watch the app come together, and go on without waiting
-   for it. If it fails to come up, say so in one sentence and keep
-   building; do not stop to debug it.
+   for it. As soon as it answers, its hand-over line (that skill's
+   Step 5: the URL first, then a link to each object written so far)
+   goes out with the next step's line, and in the Claude app the pane
+   opens it: the whole-app build has no model check to say it later
+   (hotel-272 started it and never showed the link). If it fails to
+   come up, say so in one sentence and keep building; do not stop to
+   debug it.
    The build reaches a working prototype first, then finishes the app
    one feature at a time. The prototype runs on the real API and the
    real generated hooks, so the user's changes and the finished app
