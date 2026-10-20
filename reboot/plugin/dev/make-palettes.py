@@ -16,7 +16,10 @@ is the first of steps 11, 10, 9 with gray-1 on it. The page head's band
 is calm: accent-4 mixed halfway with gray-6, accent-12 text (dark:
 accent-2, accent-12 text); "deep" keeps the dark band (gray-12, gray-1
 text; dark: gray-4), set with `look.py set band deep`.
-Tints are the accent's step 3 (light) and 4 (dark). The top bar is
+Tints are the accent's step 3 (light) and 4 (dark); the glow (hover,
+board columns, hatching) is the gray's step 3 (dark: 2), never the
+accent's, so a surface never takes the accent's cast (crm-30: pink
+columns with Walnut, green with Grass). The top bar is
 solid whatever the band: the deep values (gray-12 with gray-1 text;
 dark gray-4 with gray-12).
 """
@@ -76,7 +79,7 @@ for gray, acc in PAIRS:
             accent, on, step = pick(a, g, bg, [(9, "white"), (10, "white"), (11, "white"), (12, "white"), (9, "g12")])
             vals = {"bg": g[2], "bg-2": g[1], "panel": g[1], "ink": g[12], "muted": g[11], "line": g[6], "track": g[4],
                     "accent": accent, "on-accent": on, "accent-deep": mix(a[4], g[6], 0.5), "on-deep": a[12],
-                    "accent-tint": a[3], "bg-glow": a[2]}
+                    "accent-tint": a[3], "bg-glow": g[3]}
             deep["light"] = {"accent-deep": g[12], "on-deep": g[1]}
             vals.update({"bar": g[12], "on-bar": g[1]})
         else:
@@ -84,7 +87,7 @@ for gray, acc in PAIRS:
             accent, on, step = pick(a, g, bg, [(11, "g1"), (10, "g1"), (9, "g1"), (9, "white")])
             vals = {"bg": g[1], "bg-2": g[2], "panel": g[3], "ink": g[12], "muted": g[11], "line": g[6], "track": g[5],
                     "accent": accent, "on-accent": on, "accent-deep": a[2], "on-deep": a[12],
-                    "accent-tint": a[4], "bg-glow": a[2]}
+                    "accent-tint": a[4], "bg-glow": g[2]}
             deep["dark"] = {"accent-deep": g[4], "on-deep": g[12]}
             vals.update({"bar": g[4], "on-bar": g[12]})
         status = dict(STATUS["dark" if dark else "light"])
