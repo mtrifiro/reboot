@@ -31,14 +31,19 @@
    Interaction patterns, each with its component in web/src/patterns/:
    hover-card (HoverCard), clamped / clamp-more (Clamp), tip-wrap / tip /
    info-mark (InfoTip, TipWrap), copy-button (CopyButton), avatar and
-   avatar-1..8 (Avatar), pill.job with .busy / .bad (JobStatus).
+   avatar-1..8 (Avatar), pill.job with .busy / .bad (JobStatus); tag and
+   cat-dot with cat-1..8 (hue(id) from Hue.tsx), a category's colour.
 
    Color: the accent family (accent, deep, tint) carries the brand and
    is spent once a page, on the primary action and the selected state;
    neutrals carry the rest, and a resting state (ready, done) has no
    fill. --good, --warn and --bad (pill and dot .good / .warn / .bad,
    cell's edge, tally) encode ONE data dimension, such as severity;
-   every other status is a plain neutral pill. Contrast: --ink 7:1 or
+   every other status is a plain neutral pill. A second state is a
+   fill, never a hue: .tentative dashed, .faded, .off hatched (cells,
+   cards, pills). What people label (room types, tags, teams) is a
+   category: a .tag or .cat-dot in --cat-1..8, a stable one per id,
+   never a status hue nor the accent. Contrast: --ink 7:1 or
    better on --bg and --panel, --muted 4.5:1 or better.
 
    Dark mode follows prefers-color-scheme until the user picks one with
@@ -87,6 +92,16 @@
   --avatar-6: #e1ebd5;
   --avatar-7: #dee5e9;
   --avatar-8: #efe5cc;
+  /* Categories: what people label (room types, tags, teams), a hue each
+     (Radix step 9 the dot; the tag 3 with 12 on it, dark 3 with 11); never a status, never the accent */
+  --cat-1: #0090ff; --cat-1-tint: #e6f4fe; --cat-1-ink: #113264; /* blue */
+  --cat-2: #12a594; --cat-2-tint: #e0f8f3; --cat-2-ink: #0d3d38; /* teal */
+  --cat-3: #6e56cf; --cat-3-tint: #f4f0fe; --cat-3-ink: #2f265f; /* violet */
+  --cat-4: #d6409f; --cat-4-tint: #fee9f5; --cat-4-ink: #651249; /* pink */
+  --cat-5: #ad7f58; --cat-5-tint: #f6eee7; --cat-5-ink: #3e332e; /* brown */
+  --cat-6: #ab4aba; --cat-6-tint: #fbebfb; --cat-6-ink: #53195d; /* plum */
+  --cat-7: #3e63dd; --cat-7-tint: #edf2fe; --cat-7-ink: #1f2d5c; /* indigo */
+  --cat-8: #00a2c7; --cat-8-tint: #def7f9; --cat-8-ink: #0d3c48; /* cyan */
   --topbar-h: 52px;
   /* Row density: a look or density-compact sets both */
   --row-h: 48px;
@@ -128,7 +143,7 @@
     --warn: #f2c784;
     --bad: #f07a6e;
     --shadow: rgba(0, 0, 0, 0.4);
-    --elev: 0 1px 2px rgba(0, 0, 0, 0.35);
+    --elev: 0 0 0 1px var(--line); /* a hairline: a shadow is lost on near-black */
     --avatar-1: #23476e;
     --avatar-2: #1f5049;
     --avatar-3: #43356b;
@@ -137,6 +152,14 @@
     --avatar-6: #3d5a2c;
     --avatar-7: #3a4a57;
     --avatar-8: #5c4e26;
+    --cat-1-tint: #0d2847; --cat-1-ink: #70b8ff;
+    --cat-2-tint: #0d2d2a; --cat-2-ink: #0bd8b6;
+    --cat-3-tint: #291f43; --cat-3-ink: #baa7ff;
+    --cat-4-tint: #37172f; --cat-4-ink: #ff8dcc;
+    --cat-5-tint: #28211d; --cat-5-ink: #dbb594;
+    --cat-6-tint: #351a35; --cat-6-ink: #e796f3;
+    --cat-7-tint: #182449; --cat-7-ink: #9eb1ff;
+    --cat-8-tint: #082c36; --cat-8-ink: #4ccce6;
     color-scheme: dark;
   }
 }
@@ -158,7 +181,7 @@
   --warn: #f2c784;
   --bad: #f07a6e;
   --shadow: rgba(0, 0, 0, 0.4);
-  --elev: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --elev: 0 0 0 1px var(--line);
   --avatar-1: #23476e;
   --avatar-2: #1f5049;
   --avatar-3: #43356b;
@@ -167,6 +190,14 @@
   --avatar-6: #3d5a2c;
   --avatar-7: #3a4a57;
   --avatar-8: #5c4e26;
+  --cat-1-tint: #0d2847; --cat-1-ink: #70b8ff;
+  --cat-2-tint: #0d2d2a; --cat-2-ink: #0bd8b6;
+  --cat-3-tint: #291f43; --cat-3-ink: #baa7ff;
+  --cat-4-tint: #37172f; --cat-4-ink: #ff8dcc;
+  --cat-5-tint: #28211d; --cat-5-ink: #dbb594;
+  --cat-6-tint: #351a35; --cat-6-ink: #e796f3;
+  --cat-7-tint: #182449; --cat-7-ink: #9eb1ff;
+  --cat-8-tint: #082c36; --cat-8-ink: #4ccce6;
   color-scheme: dark;
 }
 
@@ -1060,6 +1091,21 @@ a.cell:hover {
     var(--panel) 6px 12px
   );
 }
+/* A second state is a fill, never another hue: solid at rest, dashed
+   when only pencilled in (held, tentative), faded when not yet or
+   past, hatched when out of use (.off). On cells, cards and pills. */
+.cell.tentative,
+.card.tentative,
+.pill.tentative {
+  border-style: dashed;
+  background: transparent;
+}
+.cell.faded,
+.card.faded,
+.pill.faded {
+  color: var(--muted);
+  background: var(--bg);
+}
 
 /* The design comp's mark (web-app/references/comp.md): a mockup, not
    the running app. Fixed at the bottom right, never on a real page. */
@@ -1231,6 +1277,34 @@ a.cell:hover {
 .avatar-6 { background: var(--avatar-6); }
 .avatar-7 { background: var(--avatar-7); }
 .avatar-8 { background: var(--avatar-8); }
+/* Categories (Hue.tsx picks one from an id): a .tag, or a .cat-dot
+   beside a name; one class .cat-1..8 on it, or on its row */
+.cat-1 { --cat: var(--cat-1); --cat-tint: var(--cat-1-tint); --cat-ink: var(--cat-1-ink); }
+.cat-2 { --cat: var(--cat-2); --cat-tint: var(--cat-2-tint); --cat-ink: var(--cat-2-ink); }
+.cat-3 { --cat: var(--cat-3); --cat-tint: var(--cat-3-tint); --cat-ink: var(--cat-3-ink); }
+.cat-4 { --cat: var(--cat-4); --cat-tint: var(--cat-4-tint); --cat-ink: var(--cat-4-ink); }
+.cat-5 { --cat: var(--cat-5); --cat-tint: var(--cat-5-tint); --cat-ink: var(--cat-5-ink); }
+.cat-6 { --cat: var(--cat-6); --cat-tint: var(--cat-6-tint); --cat-ink: var(--cat-6-ink); }
+.cat-7 { --cat: var(--cat-7); --cat-tint: var(--cat-7-tint); --cat-ink: var(--cat-7-ink); }
+.cat-8 { --cat: var(--cat-8); --cat-tint: var(--cat-8-tint); --cat-ink: var(--cat-8-ink); }
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: var(--cat-tint, var(--track));
+  color: var(--cat-ink, var(--ink));
+  white-space: nowrap;
+}
+.cat-dot {
+  display: inline-block;
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cat, var(--muted));
+}
 /* A job at work: a moving dot, never the accent */
 .pill.job.busy::before {
   content: "";
