@@ -17,7 +17,9 @@
    .stage dot, .count) of cards, board-tools above it; a card is
    card-row: avatar.logo (or an avatar, a room number), card-body with
    .name, .who, .when, .stale when quiet; stats.summary: one stat and
-   a .funnel (.steps of .seg, .names, .flag); cells / cell (a plan or grid: .figure, .label, a .corner mark;
+   a .funnel (.steps of .seg, each a bar with its count and name as its
+   text, --n its width; .names who works them; .flag); .selected only
+   on the stat whose filter is on, never for emphasis; cells / cell (a plan or grid: .figure, .label, a .corner mark;
    --cells-cols fixes a row's count; plan / plan-row / plan-label for
    floors or aisles, never a card per row; state as the left edge .good
    / .warn / .bad, .off hatched; a resting cell plain); feed (a dated
@@ -455,8 +457,8 @@ main > * {
 /* Summary: stat tiles, a label and a big number each. A count the
    board already shows is never a tile: one signature stat, and the rest
    a .funnel beside it (.stats.summary): a segment per stage (.seg,
-   data-step as on .stage, widths by count), the stage names with their
-   counts (.names), and who needs a person (.flag, the warning colour). */
+   data-step as on .stage, its count and name as its text), and who
+   needs a person (.flag, the warning colour). */
 .stats.summary {
   grid-template-columns: minmax(220px, 1fr) 3fr;
 }
@@ -473,22 +475,36 @@ main > * {
   font-size: 13px;
   color: var(--muted);
 }
-.funnel .steps,
-.funnel .names {
-  display: grid;
-  grid-template-columns: var(--funnel-cols, repeat(4, 1fr));
+/* A segment is its stage's bar with its count and name under it:
+   <span class="seg" data-step="1" style="--n: 11">11 dirty</span>,
+   widths by --n (the count). .names, under the steps, is who works
+   them; never the stage names again. */
+.funnel .steps {
+  display: flex;
   gap: 4px;
 }
 .funnel .seg {
+  flex: var(--n, 1) 1 0;
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+  align-content: start;
+  font-size: 13px;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.funnel .seg::before {
+  content: "";
   height: 10px;
   border-radius: 3px;
   background: var(--accent);
 }
-.funnel .seg[data-step="1"] { opacity: 0.25; }
-.funnel .seg[data-step="2"] { opacity: 0.5; }
-.funnel .seg[data-step="3"] { opacity: 0.75; }
+.funnel .seg[data-step="1"]::before { opacity: 0.25; }
+.funnel .seg[data-step="2"]::before { opacity: 0.5; }
+.funnel .seg[data-step="3"]::before { opacity: 0.75; }
 .funnel .names {
   font-size: 13px;
+  color: var(--muted);
 }
 .funnel .names b {
   font-variant-numeric: tabular-nums;
