@@ -394,9 +394,11 @@ full prototype first, accepted at its handoff.
    prompt gives a name, and say the same of it. Don't ask what the design can
    decide well on its own. Never ask about time zones: every date
    and time is in the user's own time zone unless they say otherwise,
-   and the design says so among what it assumed. Ask nothing more until the handoff.
-3. Read the references for the API, then show the proposed design
-   with the answers in it, before writing the API: the brief (who
+   and it goes under **Assumed** in the decisions log. Ask nothing more until the handoff.
+3. Read the references for the API, then show the proposed design,
+   word for word in the shape of
+   [`app/references/design-messages.md`](../app/references/design-messages.md),
+   with the answers in it, before writing the API. What it decides: the brief (who
    uses the app and on what screen, the task, the one question its
    main page answers, the accent); the whole domain model, one line
    per type, saying what it is and how it relates to the others; the
@@ -665,27 +667,18 @@ works as it will in the finished app.
     tool): signed in, it shows the whole demo data, its main action
     works, every filter or drawer it opens can be cleared or closed,
     no console errors.
-11. Show what was built so the user can judge it, not admire it:
-    the aim is that they understand what the app now is and can
-    decide whether it is what they want to ship. In their nouns,
-    short and plain:
-    - **What it keeps track of:** each object built so far, what it
-      holds, and why it is its own object or lives inside another,
-      its name a link to it on the dashboard (`dashboard` skill,
-      "Links to an Object or a Rule").
-    - **What it does:** each action in a sentence, who may do it,
-      and each rule it keeps, linked to its section of the
-      dashboard's Features page, with the scenario that proves it
-      (passing) and the browser recording.
-    - **How to check it:** on the page itself, one thing to try that
-      a rule refuses.
-    - **Not built yet:** the remaining features, in order.
-
-    Then the URL, with a screenshot of the page. Then ask one
-    question: accept this feature (its `@wip` comes off) and build
-    the recommended next one (name it, and why it comes next),
-    another from the list, or change something first. Last, any
-    workaround the build needed, one line each.
+11. Show what was built so the user can judge it, not admire it,
+    word for word in the handoff's shape in
+    [`app/references/design-messages.md`](../app/references/design-messages.md):
+    what it keeps track of, what it does with each rule linked to the
+    dashboard's Features page (`dashboard` skill, "Links to an Object
+    or a Rule"), how to check it, what's not built yet, and notes.
+    Last, ask one question, as
+    [`app/references/accept-design.md`](../app/references/accept-design.md)
+    says: accept this feature (its `@wip` comes off) and build the
+    recommended next one (name it, and why it comes next), another
+    from the list, or change something first. On a yes, record the
+    acceptance as it says.
 
 **Each next feature**, when the user chooses it:
 
