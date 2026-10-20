@@ -70,7 +70,7 @@ on demand (elsewhere, `curl -LsSf https://astral.sh/uv/install.sh | sh`).
 Where the dashboard serves follows the app's mode (the run skill's
 "Portless when it is ready, plain ports otherwise": `portless doctor`,
 never a question). Under portless it is
-`https://dashboard.<app>.localhost/`, `<app>` being the `.rbtrc`'s
+`https://dashboard-<app>.localhost/`, `<app>` being the `.rbtrc`'s
 `dev run --application-name`; on plain ports it is
 `http://127.0.0.1:9871/`. Call that URL `<dashboard>` below. Probe it:
 
@@ -147,11 +147,11 @@ user finds it again later), then what it is for, a link to each object
 the API declares so far and to each feature file written so far, then
 continue the build:
 
-> The developer dashboard is at https://dashboard.hotel.localhost/ (it
+> The developer dashboard is at https://dashboard-hotel.localhost/ (it
 > opens in your browser): it shows the domain model as it's written,
-> starting with [Room](https://dashboard.hotel.localhost/#/models?type=hotel.v1.Room)
-> and [Hotel](https://dashboard.hotel.localhost/#/models?type=hotel.v1.Hotel),
-> and the [Room status floor plan](https://dashboard.hotel.localhost/#/features/tests/room_status.feature)
+> starting with [Room](https://dashboard-hotel.localhost/#/models?type=hotel.v1.Room)
+> and [Hotel](https://dashboard-hotel.localhost/#/models?type=hotel.v1.Hotel),
+> and the [Room status floor plan](https://dashboard-hotel.localhost/#/features/tests/room_status.feature)
 > feature with its rules.
 
 (On plain ports the same line with `http://127.0.0.1:9871/`.)
