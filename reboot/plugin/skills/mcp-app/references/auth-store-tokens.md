@@ -102,7 +102,7 @@ async def main() -> None:
 
 **`Development()` issues no tokens.** It's a fake account picker with no
 real provider behind it, so `fetch(...)` reports nothing stored under it.
-If a feature genuinely needs the provider's API, use the real provider in
+If a feature needs the provider's API, use the real provider in
 the `dev=` arm too (as above) — you'll need real credentials in dev then.
 
 ## Reboot stores only the provider's _own_ tokens

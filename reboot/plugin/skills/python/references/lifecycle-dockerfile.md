@@ -7,7 +7,7 @@ tags: dockerfile, deploy, rbt-cloud, base-image, codegen, dockerignore
 
 ## Write a Reboot Cloud Dockerfile
 
-> **Critical:** three non-negotiables.
+> **Critical:** three requirements.
 > (1) Base image is `ghcr.io/reboot-dev/reboot-base:<version>` with
 > `<version>` matching the `reboot==<version>` pin in `pyproject.toml`
 > / `requirements.lock`. (The version literal appears in exactly one
@@ -16,7 +16,7 @@ tags: dockerfile, deploy, rbt-cloud, base-image, codegen, dockerignore
 > (2) `CMD ["rbt", "serve", "run"]` — never `rbt dev run` in a Cloud
 > image. All production flags live in `.rbtrc`'s `serve run` lines
 > (see [`lifecycle-rbtrc.md`](lifecycle-rbtrc.md)).
-> (3) Layer order is load-bearing: deps → schema + `.rbtrc` (+
+> (3) Layer order matters: deps → schema + `.rbtrc` (+
 > `frontend/`) → `rbt generate` → frontend build → `backend/src/` →
 > `CMD`.
 
@@ -83,7 +83,7 @@ RUN cd frontend && npm ci && npm run build
 `COPY frontend/` lands **before** `RUN rbt generate` on purpose: the
 generator writes fresh React bindings into `frontend/api/`, and if `frontend/`
 were copied after, any stale local `frontend/api/` from a previous run
-would clobber the freshly generated copy.
+would overwrite the freshly generated copy.
 
 ## Why the Layering Matters
 
@@ -216,7 +216,7 @@ README.md
   bakes in a specific `rbt` CLI and runtime — a mismatch surfaces as
   obscure protocol or codegen errors on first deploy.
 - Running `rbt generate` **before** `COPY frontend/`. The fresh
-  `frontend/api/` bindings get clobbered by the stale
+  `frontend/api/` bindings are overwritten by the stale
   local copy when `frontend/` is finally copied in. Follow the example's
   order.
 - Putting production flags on the `CMD` line instead of in `.rbtrc`'s
@@ -228,6 +228,6 @@ README.md
   is non-trivial. Use `ghcr.io/reboot-dev/reboot-base:<version>`.
 - Missing `--application-name=<app>` in `.rbtrc`'s `serve run` line.
   Cloud uses it to identify the app across deploys; without it the
-  first `rbt cloud up` succeeds but state-persistence semantics get
-  surprising (`--name` is the deprecated alias and still warns — see
+  first `rbt cloud up` succeeds but state may not persist under the
+  expected name across deploys (`--name` is the deprecated alias and still warns — see
   [`lifecycle-rbtrc.md`](lifecycle-rbtrc.md)).

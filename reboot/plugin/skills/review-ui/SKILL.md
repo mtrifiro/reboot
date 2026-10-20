@@ -11,7 +11,7 @@ Every Reboot web app is built in the house look: one stylesheet,
 `frontend/web/src/styles.css`, whose colors, typefaces and corners are
 tokens (`web-app/references/ui-design.md`, "Build the Look"). This
 skill first reviews how the app looks, so its advice rests on what the
-pages actually do, then changes those tokens' values with the user, one choice at a
+pages do, then changes those tokens' values with the user, one choice at a
 time, each seen before it is applied and each easy to undo. The pages
 never change for a new look: they use the tokens, so the whole app
 follows.

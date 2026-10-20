@@ -221,7 +221,7 @@ The codegen builds the **initial** state with
 without a default. The model then raises `AttributeError` the first
 time that field is read or written, typically inside the constructor.
 
-**Incorrect (no defaults — startup explodes on first access):**
+**Incorrect (no defaults: the first access raises `AttributeError`):**
 
 ```python
 class GameState(Model):

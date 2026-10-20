@@ -98,10 +98,10 @@ Once the backend logs show it is serving traffic, do two things:
 
 Open the wizard **exactly once, at first startup — never on
 reloads.** The backend runs under `--watch` and reprints its
-"serving traffic" banner on every hot reload; re-opening a tab each
-time would be hostile. Opening it as a one-shot startup step (not
-from a loop that watches for the backend coming back) satisfies
-this; just don't add a reload-driven re-open.
+"serving traffic" banner on every hot reload; re-opening on it would
+open a new tab on every reload. Opening it as a one-shot startup step
+(not from a loop that watches for the backend coming back) satisfies
+this; do not add a re-open on reload.
 
 **Skip this only for a Web App**, which serves no wizard and has
 nothing to connect. Every other app here is an MCP App, so open it
@@ -125,7 +125,7 @@ npx @mcpjam/inspector@2.23.3 --url http://localhost:9991/mcp --oauth
 Leave the launch to the wizard. Only run it yourself if the user
 explicitly asks, and then with the plugin's `mcpjam-inspector` shim
 (it pins the version and passes `--no-open`, so you surface the URL
-instead of a browser tab popping), at the app's `/mcp`
+instead of opening a browser tab), at the app's `/mcp`
 (`https://<app>.localhost/mcp` under portless):
 
 ```sh

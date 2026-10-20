@@ -49,7 +49,7 @@ Also:
 The non-React web client's `Type.ref(id).reactively().<reader>(context)`
 generator (`@reboot-dev/reboot-web`) used to yield bare responses and
 to swallow every error the reader raised, silently reconnecting
-forever, so a `for await` over it simply went quiet on a declared
+forever, so a `for await` over it yielded nothing more after a declared
 error, a denied `authorizer()`, or `StateNotConstructed`. It now
 yields a `ResponseOrAborted` object for every result: `{ response }`
 for a response, `{ aborted }` (the method's `<Type><Method>Aborted`)

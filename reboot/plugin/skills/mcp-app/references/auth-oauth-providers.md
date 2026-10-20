@@ -156,7 +156,7 @@ or one that doesn't exist yet — can `POST /__/oauth/register` and get a
 registration is the whole point: it's what lets new MCP hosts integrate
 with your app without you shipping an allow-list of every client.
 
-The flip side is that **anyone** can register a client, including an
+But **anyone** can register a client, including an
 attacker. They can register one whose `redirect_uri` points at a server
 _they_ control, then send a victim a link to your app's own
 `/__/oauth/authorize` endpoint. The victim is on your real origin —
@@ -193,15 +193,16 @@ worth knowing:
 
 ## Replace `Development` Before Production
 
-This part is obvious: `Development` is a local-development convenience.
+`Development` is a local-development convenience.
 It shows a fake account picker ("Alice", "Ben", …) and issues stable
 but fake `dev-{hash}` IDs (reset on `rbt dev expunge`). Real customers
 must never see it — swap it for a real provider (`Google` / `GitHub`)
-before you ship. The subtler, more important trap is further down.
+before you ship. The bigger risk is below: "Your Provider Choice Is
+Effectively Permanent".
 
 ## The Code Swap
 
-The recommended pattern keeps the friendly fake sign-in locally and
+The recommended pattern keeps the fake sign-in locally and
 uses your real provider everywhere else — one `main.py`, no
 environment-conditional code:
 
@@ -239,10 +240,10 @@ as well (you'll then need its credentials in dev).
 
 Note the `os.environ.get(...)` (not `os.environ[...]`): the `Google(...)`
 constructor runs even under `rbt dev`, where only the `dev=` arm is
-actually used. `.get()` returns `None` when the variable isn't set so
+used. `.get()` returns `None` when the variable isn't set so
 local dev doesn't need the production credentials; `Google` /
 `GitHub` reject a `None` `client_id` / `client_secret` only when the
-OAuth server actually mounts them, so the production deploy still
+OAuth server mounts them, so the production deploy still
 fails fast if the credentials are missing there.
 
 GitHub is the same shape — `GitHub(client_id=..., client_secret=...)`,
@@ -261,8 +262,8 @@ that up correctly, so tell them explicitly; don't assume it's done.
 
 Each provider has its own one-time registration flow. Follow the
 provider's own docs — they stay current with UI changes and cover
-edge cases (verification, scopes, callback URL formats, etc.) that
-we won't try to mirror here:
+edge cases (verification, scopes, callback URL formats, etc.) not
+repeated here:
 
 - **Google**: [Setting up OAuth 2.0](https://support.google.com/cloud/answer/6158849)
   in the Google Cloud Console. Create an OAuth client ID of type
@@ -304,7 +305,7 @@ environment-style name you pick; `REBOOT_*` and `RBT_*` are
 reserved). Use `.get()`, not `os.environ[...]`: when you only use
 `Google` in the `prod=` arm, the constructor still runs under `rbt dev`
 where the variable isn't set, and `.get()` returns `None` cleanly there
-— the provider only rejects `None` when it's actually mounted on the
+— the provider only rejects `None` when it's mounted on the
 OAuth server. Set the values:
 
 - **Locally under `rbt dev run`:** `export GOOGLE_OAUTH_CLIENT_ID=...` in the shell before launching, or
@@ -320,8 +321,8 @@ the "don't" list): `python/references/lifecycle-secrets.md`.
 
 ## Your Provider Choice Is Effectively Permanent
 
-This is the non-obvious part, and it's why the choice matters before
-launch — not just that `Development` is fake. A user's ID comes from
+The choice matters before launch, not just because `Development` is
+fake. A user's ID comes from
 the provider, and providers don't share an ID space:
 
 - `Google` issues the OIDC `sub`.
@@ -347,17 +348,17 @@ keyed on user ID is then stranded:
   set of identities — pre-switch callers can't reach post-switch state
   and vice versa.
 - **Anything stored inside `User`-typed actors, or in index actors
-  keyed on user ID.** Same story — the state ID was the user's ID at
+  keyed on user ID.** Likewise: the state ID was the user's ID at
   creation time.
 
 And the migration back is rarely viable: there's no reliable, secure
 way to prove "the data under this old ID belongs to that new account"
 without a session cookie or out-of-band proof that survived the
 switch. With `Anonymous` it's worse — the old IDs are unauthenticated
-throwaways, so any "claim your data" flow is guesswork at best and
-identity theft at worst.
+throwaways, so any "claim your data" flow cannot be verified and lets one
+user claim another's data.
 
-This is exactly why **launching on `Anonymous` "for now" is a trap**:
+So **do not launch on `Anonymous` "for now"**:
 it issues real, durable-looking IDs, so it's tempting to ship with it
 and "add real sign-in later" — but that later swap strands everything
 your early users created. The right plan:
