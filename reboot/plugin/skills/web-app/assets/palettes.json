@@ -14,7 +14,9 @@
    "accent-deep": "#e4deda",
    "on-deep": "#43302b",
    "accent-tint": "#f6edea",
-   "bg-glow": "#fdf7f5"
+   "bg-glow": "#fdf7f5",
+   "bar": "#21201c",
+   "on-bar": "#fdfdfc"
   },
   "dark": {
    "bg": "#111110",
@@ -29,7 +31,9 @@
    "accent-deep": "#1c1917",
    "on-deep": "#ede0d9",
    "accent-tint": "#302a27",
-   "bg-glow": "#1c1917"
+   "bg-glow": "#1c1917",
+   "bar": "#2a2a28",
+   "on-bar": "#eeeeec"
   },
   "deep": {
    "light": {
@@ -57,7 +61,9 @@
    "accent-deep": "#e5ded8",
    "on-deep": "#3e332e",
    "accent-tint": "#f6eee7",
-   "bg-glow": "#fcf9f6"
+   "bg-glow": "#fcf9f6",
+   "bar": "#21201c",
+   "on-bar": "#fdfdfc"
   },
   "dark": {
    "bg": "#111110",
@@ -72,7 +78,9 @@
    "accent-deep": "#1c1816",
    "on-deep": "#f2e1ca",
    "accent-tint": "#322922",
-   "bg-glow": "#1c1816"
+   "bg-glow": "#1c1816",
+   "bar": "#2a2a28",
+   "on-bar": "#eeeeec"
   },
   "deep": {
    "light": {
@@ -100,7 +108,9 @@
    "accent-deep": "#ecdcc6",
    "on-deep": "#582d1d",
    "accent-tint": "#ffefd6",
-   "bg-glow": "#fff7ed"
+   "bg-glow": "#fff7ed",
+   "bar": "#21201c",
+   "on-bar": "#fdfdfc"
   },
   "dark": {
    "bg": "#111110",
@@ -115,7 +125,9 @@
    "accent-deep": "#1e160f",
    "on-deep": "#ffe0c2",
    "accent-tint": "#462100",
-   "bg-glow": "#1e160f"
+   "bg-glow": "#1e160f",
+   "bar": "#2a2a28",
+   "on-bar": "#eeeeec"
   },
   "deep": {
    "light": {
@@ -143,7 +155,9 @@
    "accent-deep": "#e2e0d8",
    "on-deep": "#3b352b",
    "accent-tint": "#f2f0e7",
-   "bg-glow": "#faf9f2"
+   "bg-glow": "#faf9f2",
+   "bar": "#21201c",
+   "on-bar": "#fdfdfc"
   },
   "dark": {
    "bg": "#111110",
@@ -158,7 +172,9 @@
    "accent-deep": "#1b1a17",
    "on-deep": "#e8e2d9",
    "accent-tint": "#2d2b26",
-   "bg-glow": "#1b1a17"
+   "bg-glow": "#1b1a17",
+   "bar": "#2a2a28",
+   "on-bar": "#eeeeec"
   },
   "deep": {
    "light": {
@@ -186,7 +202,9 @@
    "accent-deep": "#d8e6d9",
    "on-deep": "#203c25",
    "accent-tint": "#e9f6e9",
-   "bg-glow": "#f5fbf5"
+   "bg-glow": "#f5fbf5",
+   "bar": "#1d211c",
+   "on-bar": "#fcfdfc"
   },
   "dark": {
    "bg": "#111210",
@@ -201,7 +219,9 @@
    "accent-deep": "#141a15",
    "on-deep": "#c2f0c2",
    "accent-tint": "#1d3a24",
-   "bg-glow": "#141a15"
+   "bg-glow": "#141a15",
+   "bar": "#282a27",
+   "on-bar": "#eceeec"
   },
   "deep": {
    "light": {
@@ -229,7 +249,9 @@
    "accent-deep": "#d2e6e2",
    "on-deep": "#0d3d38",
    "accent-tint": "#e0f8f3",
-   "bg-glow": "#f3fbf9"
+   "bg-glow": "#f3fbf9",
+   "bar": "#1a211e",
+   "on-bar": "#fbfdfc"
   },
   "dark": {
    "bg": "#101211",
@@ -244,7 +266,9 @@
    "accent-deep": "#111c1b",
    "on-deep": "#adf0dd",
    "accent-tint": "#023b37",
-   "bg-glow": "#111c1b"
+   "bg-glow": "#111c1b",
+   "bar": "#272a29",
+   "on-bar": "#eceeed"
   },
   "deep": {
    "light": {
@@ -272,7 +296,9 @@
    "accent-deep": "#d7e4f0",
    "on-deep": "#113264",
    "accent-tint": "#e6f4fe",
-   "bg-glow": "#f4faff"
+   "bg-glow": "#f4faff",
+   "bar": "#1c2024",
+   "on-bar": "#fcfcfd"
   },
   "dark": {
    "bg": "#111113",
@@ -287,7 +313,9 @@
    "accent-deep": "#111927",
    "on-deep": "#c2e6ff",
    "accent-tint": "#003362",
-   "bg-glow": "#111927"
+   "bg-glow": "#111927",
+   "bar": "#272a2d",
+   "on-bar": "#edeef0"
   },
   "deep": {
    "light": {
@@ -315,7 +343,9 @@
    "accent-deep": "#e0e0f0",
    "on-deep": "#272962",
    "accent-tint": "#f0f1fe",
-   "bg-glow": "#f8f8ff"
+   "bg-glow": "#f8f8ff",
+   "bar": "#1c2024",
+   "on-bar": "#fcfcfd"
   },
   "dark": {
    "bg": "#111113",
@@ -330,7 +360,9 @@
    "accent-deep": "#171625",
    "on-deep": "#e0dffe",
    "accent-tint": "#262a65",
-   "bg-glow": "#171625"
+   "bg-glow": "#171625",
+   "bar": "#272a2d",
+   "on-bar": "#edeef0"
   },
   "deep": {
    "light": {
@@ -358,7 +390,9 @@
    "accent-deep": "#e9dbec",
    "on-deep": "#53195d",
    "accent-tint": "#fbebfb",
-   "bg-glow": "#fdf7fd"
+   "bg-glow": "#fdf7fd",
+   "bar": "#211f26",
+   "on-bar": "#fdfcfd"
   },
   "dark": {
    "bg": "#121113",
@@ -373,7 +407,9 @@
    "accent-deep": "#201320",
    "on-deep": "#f4d4f4",
    "accent-tint": "#451d47",
-   "bg-glow": "#201320"
+   "bg-glow": "#201320",
+   "bar": "#2b292d",
+   "on-bar": "#eeeef0"
   },
   "deep": {
    "light": {
@@ -401,7 +437,9 @@
    "accent-deep": "#ecdae4",
    "on-deep": "#621639",
    "accent-tint": "#ffe9f0",
-   "bg-glow": "#fef7f9"
+   "bg-glow": "#fef7f9",
+   "bar": "#211f26",
+   "on-bar": "#fdfcfd"
   },
   "dark": {
    "bg": "#121113",
@@ -416,7 +454,9 @@
    "accent-deep": "#201318",
    "on-deep": "#fdd3e8",
    "accent-tint": "#4d122f",
-   "bg-glow": "#201318"
+   "bg-glow": "#201318",
+   "bar": "#2b292d",
+   "on-bar": "#eeeef0"
   },
   "deep": {
    "light": {
