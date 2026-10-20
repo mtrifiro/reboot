@@ -13,6 +13,22 @@ app in one go ("build the whole thing", "the complete app"). The
 design phase is the same, with every feature's methods and pages
 spelled out.
 
+### Two parts: the backend, then the frontend
+
+Build in two parts, each finished and tested before the next starts
+(`app/references/task-list.md`, "The whole app at once"):
+
+1. **The backend:** steps 1 to 7 (project, API, generated code,
+   servicers, `main.py`), then steps 14 to 17 for every feature (its
+   scenarios, its rules, the suite and types passing). Every rule is
+   tested before any page exists. Read only the Python references.
+2. **The frontend:** steps 8 to 13 (scaffold, pages, build, start the
+   app), then the browser tests: each feature's browser scenario,
+   the first-paint time and the layout checks. Read the React,
+   stylesheet and browser-testing references now.
+
+The steps below keep their numbers; this is the order to take them in.
+
 ### The Steps
 
 The task list uses the items "The whole app first" in
