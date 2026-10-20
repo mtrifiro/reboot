@@ -59,7 +59,7 @@ Item 2 covers the scaffold, the rules as scenarios, then the domain model
 and starting the dashboard. Item 3 covers the actions, who may do
 each, demo data and the tests (scenarios pass, types check). The
 `app-guided` skill's go-ahead after item 1 and the domain model check
-after item 2 (asked only when the model changed since the design) (`app/references/design-first.md`) are dialogs, not
+after item 2 (only on a change) (`app/references/design-first.md`) are dialogs, not
 items; after item 3 the backend's results are said and the frontend
 list takes over; a front door's skill used on its own and the
 prompt-by-prompt path (below) ask neither.
