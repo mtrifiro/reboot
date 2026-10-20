@@ -7,8 +7,8 @@ tags: deploy, cloud, rbt-cloud, scaling, secrets, dockerfile, api-key
 
 ## Deploy on Reboot Cloud
 
-> **What it is:** Reboot Cloud is the easiest place to deploy a
-> Reboot application. It takes a Dockerfile, builds and pushes the
+> **What it is:** Reboot Cloud is Reboot's hosted deployment
+> target. It takes a Dockerfile, builds and pushes the
 > image to a managed registry, then runs the app with automatic
 > partitioning across a cluster of machines — horizontal scaling
 > and high-availability failover (~seconds) come built-in,
@@ -41,7 +41,7 @@ the shortest path from `rbt dev run` to production.
 
 Sign up at [`cloud.reboot.dev`](https://cloud.reboot.dev/), and create
 an API key. Export it as `REBOOT_CLOUD_API_KEY` and run `rbt cloud up` to
-get your application running in production! Every `rbt cloud`
+deploy the application to production. Every `rbt cloud`
 subcommand reads the API key from the `REBOOT_CLOUD_API_KEY` environment
 variable, which is preferred over passing `--api-key` on the command
 line: a value passed on the command line — even via `--api-key=$VAR` —
