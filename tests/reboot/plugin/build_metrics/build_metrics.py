@@ -484,7 +484,12 @@ def events(path: Path) -> list[Event]:
     found = list(read(path))
     if not codex:
         for sub in sub_agents(path):
-            found += [replace(e, sub=True) for e in claude_events(sub)]
+            # A sub-agent's first "person" message is the prompt its
+            # session wrote for it, never the person.
+            found += [
+                replace(e, sub=True) for e in claude_events(sub)
+                if e.kind != "person"
+            ]
     found.sort(key=lambda e: e.at)
     return ([Event(start, "start")] if start else []) + found
 
