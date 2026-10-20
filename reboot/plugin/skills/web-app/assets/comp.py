@@ -124,6 +124,12 @@ def main(argv: list[str]) -> int:
     if found:
         mark, page = found.group(1) + " ", page[found.end():].strip()
     problems = []
+    # What follows the band goes in <main>, as on the real page, so the
+    # stat tiles overlap the band and the panels keep the page's width.
+    if "<main" not in page:
+        band = re.search(r"<section[^>]*\bbrand-band\b.*?</section>\s*", page, re.S)
+        if band:
+            page = page[:band.end()] + "<main>\n" + page[band.end():].rstrip() + "\n</main>\n"
     if "brand-band" not in page:
         problems.append("no brand-band: the page head sits in the band (ui-design.md, Not bland)")
     if not re.search(r'class="[^"]*\bprimary\b', page):
