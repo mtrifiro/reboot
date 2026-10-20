@@ -40,7 +40,8 @@ Its options, word for word, filled from the design:
   where it differs from the design), its rules are proven by their
   scenarios, then its page is built."
 - "Yes, and explain as it builds (learning mode)": "The same, and each
-  report ends with what was written and why, 600 to 900 words, kept in
+  report ends with an explanation of the code written: what each part
+  is for and why it is shaped that way, also kept in
   design/exegesis.md." Left out when the build is verbose already.
 - "Not yet": "I want to change something first: a feature, who signs
   in, the palette, or anything in the design." Nothing more: what
@@ -50,7 +51,8 @@ Its options, word for word, filled from the design:
 No option is marked recommended: the answer stays in the chat as the
 question and the option chosen, and a yes needs no recommendation.
 
-**On "Tell me more",** about 500 words in the chat, in the user's
+**On "Tell me more",** about 500 words in the chat (a length for the
+build, never said to the user, as no word count ever is), in the user's
 nouns, under short bold leads, then the same dialog again (a short
 paragraph left the user with questions). The words are the response's
 text, sent before the dialog's call, never drafted in thinking: the
@@ -71,8 +73,9 @@ again seven seconds later; the user saw a two-sentence paraphrase):
    palette by name), with the words that change it ("add guest
    requests", "staff roles from the start", "use Harbour").
 4. **Learning mode:** what "Yes, and explain as it builds" adds: each
-   report ends with what was written and why, 600 to 900 words, kept
-   in design/exegesis.md, and a reason on each step line.
+   report ends with an explanation of the code written and why it is
+   shaped that way, kept in design/exegesis.md, and a reason on each
+   step line.
 5. **What Reboot does for you here:** three or four lines from the
    design's own section of that name, in this app's nouns
    (`conversation.md`, "Say what Reboot does here").
