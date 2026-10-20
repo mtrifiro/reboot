@@ -78,7 +78,7 @@ DESIGN_FILE = re.compile(r"(?:^|/)design/design\.md$")
 DESIGN_HEADING = "the proposed design"
 # The question that asks for the go-ahead on a shown design, in either
 # of the skills' wordings.
-GO_AHEAD = ("Build on this design?", "Ready to build?", "How should it be built?")
+GO_AHEAD = ("Ready to build this design?", "Build on this design?", "Ready to build?", "How should it be built?")
 DESIGN_PAGE = "design_page.py"
 TEST_RUN = re.compile(r"\bpytest\b|scripts/test\.sh")
 APP_STOP = re.compile(r"kill\s+-INT\b[^\n]*|rbt dev run[^\n]*kill\s+-INT")
