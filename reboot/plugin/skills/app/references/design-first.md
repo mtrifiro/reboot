@@ -119,12 +119,10 @@ the design for <app>" is done once the design is shown.
 In the first feature only, once the front door has the dashboard up
 on the new domain model and before any servicer code: turn the
 code-style names in `design/design.md` that now exist into dashboard
-links (the rest stay plain until built). When the API holds the
-design's objects and fields unchanged, the user has said yes already:
-the lead line below, then "Building its actions next; say "walk me
-through it" for a tour," and go on. Only when an object or field was
-added, dropped or renamed, end the turn with the lead line, a line per
-difference, and one dialog:
+links (the rest stay plain until built). With the design's objects
+and fields unchanged, say the lead line below and go on. Only when one
+was added, dropped or renamed, end the turn with the lead line, a line
+per difference, and one dialog:
 
 > The room status floor plan's [domain model](<the Models page link>) is open on the dashboard
 > (on 9874, since other projects hold 9871 to 9873): the things the
