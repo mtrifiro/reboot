@@ -24,7 +24,7 @@ from reboot.bdd.fixtures import World
 @when(
     parsers.parse(
         '"{user}" does {count:d} deposits of {amount:d} on `Account` of '
-        '"<{name}>"'
+        '<{name}>'
     )
 )
 async def _makes_deposits(

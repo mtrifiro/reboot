@@ -172,16 +172,16 @@ Feature: Company logos come from the app, not from a third party
 
   Rule: Only public hosts are fetched, and only a signed-in user's asking fetches
     Scenario Outline: A host that is not a public name is refused
-      When "alice" attempts an `ask` with `hosts=["<host>"]` on `Logos` of "logos"
+      When "alice" attempts an `ask` with `hosts=[<host>]` on `Logos` of "logos"
       Then the attempt aborts with `InvalidHostError`
 
       Examples:
-        | host                     |
-        | 127.0.0.1                |
-        | localhost                |
-        | 10.0.0.5                 |
-        | metadata.google.internal |
-        | northwind.test           |
+        | host                       |
+        | "127.0.0.1"                |
+        | "localhost"                |
+        | "10.0.0.5"                 |
+        | "metadata.google.internal" |
+        | "northwind.test"           |
 
     Scenario: A bad host among good ones is skipped, and the rest fetched
       Given the company site "acme.dev" offers a 180px icon
