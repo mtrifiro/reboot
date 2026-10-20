@@ -11,71 +11,6 @@ When the release that fixes an entry becomes the oldest version the
 plugin supports, the entry is removed. "Fixed on main" means the fix is
 merged in reboot-dev/reboot but not yet in a release.
 
-## Dev loop and Envoy
-
-### Fan-out reads fail with `Unavailable: ping timeout` after a restart on an Apple Silicon Mac
-
-Affects: 1.6.0 on macOS arm64.
-
-For several minutes after every `rbt dev run` start or restart, the
-local Envoy's LuaJIT compiler keeps most of its workers busy compiling
-Reboot's Lua routing filters. Envoy stops answering HTTP/2 keepalives,
-so readers that fan out to other states fail with
-`Unavailable: ping timeout`, and writes can hang.
-
-Workaround, only once the symptom appears, never ahead of it: first
-tell the user that it edits the installed Reboot package in the
-project's `.venv` and that `uv sync` undoes it, and go on only on
-their yes (a host's auto mode blocks the edit otherwise). Until then,
-wait it out and restart less. The edit turns the JIT off in the
-routing filters: in the project's virtual environment, edit
-`reboot/routing/envoy_config.py` so that
-`_lua_any` prepends `if jit then jit.off() end` to the filter source:
-
-```python
-def _lua_any(source_code: str) -> any_pb2.Any:
-    source_code = "if jit then jit.off() end\n" + source_code
-    ...
-```
-
-Then stop `rbt dev run` and any Envoy it left running before starting
-it again, since a running Envoy keeps its old filters. `uv sync`, a
-version bump or a fresh clone reinstalls the package and undoes the
-edit, so check for it after each.
-
-Fixed on main (reboot#189), not yet released.
-
-### Stopping `rbt dev run` with SIGTERM leaves the application and Envoy running
-
-Affects: 1.6.0.
-
-`rbt dev run` cleans up its subprocesses only on Ctrl-C (SIGINT). Any
-other way of stopping it, such as SIGTERM from a tool, an agent or a
-process manager, ends `rbt` and leaves the application's processes and
-its Envoy running and holding their ports. The next start or test run
-then fails on ports or on the database lock that is still held.
-
-Workaround: stop `rbt dev run` with Ctrl-C, or send it SIGINT
-(`kill -INT <pid>`). If it was stopped any other way, find the
-project's leftover `main.py` and `envoy` processes (`ps -ax`) and stop
-them before starting again.
-
-Fixed on main, not yet released.
-
-### Ctrl-C at the `rbt dev expunge` prompt does nothing
-
-Affects: 1.6.0.
-
-`rbt dev expunge` asks for confirmation in a way that blocks its event
-loop, so Ctrl-C, and any signal after it, is ignored until the question
-is answered. A script or agent shell waiting on the prompt can't
-interrupt it.
-
-Workaround: always pass `--yes`, after stopping the application:
-`rbt dev expunge --application-name=<name> --yes`.
-
-Fixed on main, not yet released.
-
 ## Code generation
 
 ### `rbt generate` fails with `ENOBUFS` on a large API
@@ -94,58 +29,6 @@ Workaround: in the project's virtual environment, edit
 reinstall.
 
 A fix is proposed upstream (reboot#232).
-
-### A model defined in another API file breaks the generated Python
-
-Affects: 1.6.0.
-
-When a method names a model, such as an error type, that is defined in
-a different API file, the generated Python refers to it by module
-without importing that module. `rbt generate` succeeds, and importing
-the generated code then fails with
-`NameError: name '<module>' is not defined`. A file of models with no
-`api` generates no TypeScript types.
-
-Workaround: define the models each API file uses in that file.
-
-Fixed on main, not yet released.
-
-### `mypy` reports hundreds of errors in the generated `*_rbt.py`
-
-Affects: 1.6.0. Fixed on main by cb0aba22, not yet released.
-
-The generated Python for a Pydantic API fails `mypy` with hundreds of
-`arg-type`, `assignment` and `attr-defined` errors (268 for a
-three-type API), none of them in your code.
-
-Workaround: skip errors in each generated module, one section per API
-file in `.mypy.ini`. Never `<pkg>.v1.*`, which would also hide errors
-in the hand-written API module:
-
-```ini
-[mypy-<pkg>.v1.<name>_rbt]
-ignore_errors = True
-```
-
-Remove the sections after upgrading past 1.6.0.
-
-## Schema changes
-
-### Rewording a method's `description=` is refused as backwards-incompatible
-
-Affects: 1.6.0.
-
-Once an application has persisted state, any change to a method's
-`description=`, even a spelling fix, is treated as a backwards-incompatible
-schema change: `rbt dev run` stops and asks whether to expunge, and a
-deploy over existing state is refused.
-
-Workaround: write each method's description in its final form before
-the application first runs with state worth keeping. In development,
-expunge to change one. In production, leave descriptions as they are
-until a release with the fix.
-
-Fixed on main, not yet released.
 
 ## Testing
 
@@ -198,20 +81,6 @@ clause.
 
 Workaround: keep `has` and `with` out of the quoted text in web
 steps, by rewording the step or the label.
-
-### `eventually has` fails at once when the state doesn't exist yet
-
-Affects: 1.6.0.
-
-A `Then ... eventually has ...` step opens a reactive read and waits
-for its assertion. If the state hasn't been constructed yet, for
-example because a workflow will create it, the read's error ends the
-step at once instead of being treated as "not yet".
-
-Workaround: wait in a custom step that reads in a loop and treats
-`StateNotConstructed` as not yet, until the deadline.
-
-Fixed on main, not yet released.
 
 ## Auth
 
