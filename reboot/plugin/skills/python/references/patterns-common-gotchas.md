@@ -7,8 +7,7 @@ tags: patterns, gotchas, anti-patterns, mistakes
 
 ## Common Reboot Python Gotchas
 
-The shortlist of things that bite. None of these are speculative — they
-all show up in real Reboot Python code review.
+Mistakes seen in Reboot Python code review, each with its fix.
 
 ### 1. APIs Are Pydantic, Not `.proto`
 
@@ -76,7 +75,7 @@ reads are fine.
 External side effects — any call that leaves the system: SMS,
 email, payment, third-party APIs, LLM/model calls, filesystem
 writes — must **not** happen in a `Writer` or a `Transaction`,
-**even when the external call is idempotent**. Two reasons stack:
+**even when the external call is idempotent**. There are two reasons:
 
 - **Atomicity.** A `Writer` may be invoked inside a `Transaction`,
   and a transaction is all-or-nothing — if it aborts, every
@@ -162,8 +161,8 @@ Set `mcp=None` for non-tool workflows.
 ### 17. Secrets Don't Belong in Plain `str` Fields
 
 A `str`/`bytes` scalar field is plaintext at rest. Passwords, API keys,
-session tokens, and PII must **never** be stored that way — the "it's
-just a string" reflex is the trap. Encrypt with the `Ciphertext` stdlib
+session tokens, and PII must **never** be stored that way; a plain `str`
+field is the mistake. Encrypt with the `Ciphertext` stdlib
 type and store the returned `state_id` instead:
 
 ```python

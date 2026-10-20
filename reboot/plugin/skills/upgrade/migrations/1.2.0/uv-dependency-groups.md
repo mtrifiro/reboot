@@ -2,7 +2,7 @@
 
 Reboot's Python examples now declare dev dependencies in a PEP 735
 `[dependency-groups]` table in `pyproject.toml`, which `uv sync`
-installs by default so that `uv run pytest` works out of the box.
+installs by default so that `uv run pytest` works with no further setup.
 If the app's `pyproject.toml` has dev dependencies only under
 `[tool.rye]`'s `dev-dependencies`, add a mirroring table:
 

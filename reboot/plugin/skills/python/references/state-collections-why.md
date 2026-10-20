@@ -55,8 +55,8 @@ lives as a string-formatting convention inside the servicer. It also
 repeats the magic string at every callsite — every reader, writer,
 and workflow that touches the map — so renaming the suffix, sharding
 the index, or migrating to a per-concern owner actor (see
-`state-actor-decomposition.md`) becomes a grep-the-codebase
-exercise. And it silently skips the constructor allocation step: no
+`state-actor-decomposition.md`) means finding and editing every
+callsite. And it silently skips the constructor allocation step: no
 place in the code marks "this `User` owns a People index", only an
 eventual implicit construction on the first `insert`.
 
@@ -104,7 +104,7 @@ await OrderedMap.ref(
 ).insert(context, ...)
 ```
 
-Why the persisted-ID rule is load-bearing, even though the inline
+Why the persisted-ID rule matters, even though the inline
 form runs:
 
 1. **The state schema documents the actor graph.** Reading
@@ -125,8 +125,8 @@ form runs:
    IDs they're three first-class fields.
 4. **Construction is an event.** Allocating `uuid4()` in the
    constructor marks "this actor now owns that one." The inline
-   convention has no such moment; the related actor springs into
-   existence on whichever method happens to touch it first.
+   convention has no such moment; the related actor is
+   constructed by whichever method touches it first.
 
 ### The Anti-Patterns, at Length
 
@@ -138,8 +138,8 @@ form runs:
   as a state field.** The "state inside state" regression —
   `state-nested-models.md` covers the same rule from the nested-
   Models angle.
-- **`list[str]` for an unbounded collection** because "it's
-  simpler". It is, until it isn't — and the migration rewrites
+- **`list[str]` for an unbounded collection** because it is
+  simpler at first; the later migration rewrites
   every method that touches the parent. Use Shape C from the start
   if the collection can grow without bound.
 - **Inventing a size cap to qualify for Shape A or B.** Adding a
