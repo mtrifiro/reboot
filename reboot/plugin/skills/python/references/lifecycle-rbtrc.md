@@ -78,9 +78,9 @@ none is given. The configs are named the same for `dev run` and
 - `portless` (the default): named URLs through the
   [portless](https://github.com/vercel-labs/portless) proxy. The app
   is `https://<app>.localhost`, Vite (`npm run dev:portless`, which
-  runs `portless frontend.<app> vite`) is
-  `https://frontend.<app>.localhost`, the dashboard
-  `https://dashboard.<app>.localhost`, each on a free port behind its
+  runs `portless frontend-<app> vite`) is
+  `https://frontend-<app>.localhost`, the dashboard
+  `https://dashboard-<app>.localhost`, each on a free port behind its
   name, so several applications run at once. `--portless` needs
   `--application-name` (the name is the hostname), the `portless` CLI
   and its proxy running with its CA trusted (`portless doctor`).
@@ -100,7 +100,7 @@ app's: the backend serves it from Vite's dev server (`--web-app`) at
 ```sh
 dev run --default-config=portless
 dev run:portless --portless
-dev run:portless --frontend-url=https://frontend.<project-name>.localhost
+dev run:portless --frontend-url=https://frontend-<project-name>.localhost
 dev run:portless --web-app
 dev run:ports --frontend-url=http://localhost:5173
 dev run:ports --web-app

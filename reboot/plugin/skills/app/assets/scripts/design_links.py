@@ -3,7 +3,7 @@
 
     scripts/design_links.py                  # check design/design.md
     scripts/design_links.py --port 9873      # rewrite every link (and the log's) to that port, then check
-    scripts/design_links.py --base https://dashboard.hotel.localhost
+    scripts/design_links.py --base https://dashboard-hotel.localhost
                                              # rewrite every link to that dashboard, then check
 
 `design/design.md` links each package, domain object, method, feature
@@ -12,7 +12,7 @@ and rule to the developer dashboard, which draws them from the code:
     http://127.0.0.1:9871/#/models?type=<package>.<Type>[.<method>]
     http://127.0.0.1:9871/#/features/<path>.feature[/rules/<n>]
 
-or, under portless, the same routes on `https://dashboard.<app>.localhost/`.
+or, under portless, the same routes on `https://dashboard-<app>.localhost/`.
 
 A package is the folder under `api/` (`api/rooms/v1/` is `rooms.v1`);
 rules count from 1 in file order. This lists:
@@ -52,9 +52,9 @@ ENTRY_LINK = re.compile(r"\]\((?:\./)?decisions\.md#([^)\s]+)\)")
 # A dashboard link: on a plain port, or under portless by its name.
 LINK = re.compile(
     r"\[([^\]]*)\]\(((?:http://(?:127\.0\.0\.1|localhost):(\d+)"
-    r"|https://dashboard\.[a-z0-9-]+\.localhost)/#/([^)\s]*))\)"
+    r"|https://dashboard[.-][a-z0-9-]+\.localhost)/#/([^)\s]*))\)"
 )
-BASE = re.compile(r"(?:http://(?:127\.0\.0\.1|localhost):\d+|https://dashboard\.[a-z0-9-]+\.localhost)/#/")
+BASE = re.compile(r"(?:http://(?:127\.0\.0\.1|localhost):\d+|https://dashboard[.-][a-z0-9-]+\.localhost)/#/")
 
 
 def package_of(path: str) -> str:
@@ -202,7 +202,7 @@ def main(argv: list[str]) -> int:
                 path.write_text(re.sub(r"http://(127\.0\.0\.1|localhost):\d+/#/",
                                        rf"http://\1:{argv[1]}/#/", path.read_text()))
     elif argv[:1] == ["--base"] and len(argv) == 2 and re.fullmatch(
-            r"http://(?:127\.0\.0\.1|localhost):\d+|https://dashboard\.[a-z0-9-]+\.localhost",
+            r"http://(?:127\.0\.0\.1|localhost):\d+|https://dashboard[.-][a-z0-9-]+\.localhost",
             argv[1].rstrip("/")):
         # Plain ports to portless, or back: only the base changes.
         for path in (DOCUMENT, DECISIONS):

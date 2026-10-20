@@ -1,6 +1,6 @@
 {
   "name": "@reboot-dev/reboot-react",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "npm package for Reboot React",
   "main": "index.js",
   "type": "module",
@@ -16,6 +16,10 @@
     "./native": {
       "types": "./native/index.d.ts",
       "import": "./native/index.js"
+    },
+    "./vite": {
+      "types": "./vite/index.d.ts",
+      "import": "./vite/index.js"
     }
   },
   "scripts": {
@@ -24,8 +28,8 @@
   },
   "author": "reboot-dev",
   "dependencies": {
-    "@reboot-dev/reboot-api": "1.6.0",
-    "@reboot-dev/reboot-web": "1.6.0",
+    "@reboot-dev/reboot-api": "1.7.0",
+    "@reboot-dev/reboot-web": "1.7.0",
     "@types/uuid": "^9.0.4",
     "js-sha1": "0.7.0",
     "tslib": "^2.6.2",
@@ -42,6 +46,16 @@
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0",
-    "@bufbuild/protobuf": "1.10.1"
+    "@bufbuild/protobuf": "1.10.1",
+    "vite": ">=5.4.12",
+    "vite-plugin-singlefile": ">=2.0.0"
+  },
+  "peerDependenciesMeta": {
+    "vite": {
+      "optional": true
+    },
+    "vite-plugin-singlefile": {
+      "optional": true
+    }
   }
 }
