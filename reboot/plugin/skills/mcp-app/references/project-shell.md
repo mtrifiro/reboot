@@ -29,7 +29,7 @@ below. What the copy holds:
 - `.rbtrc`: the python skill's shape plus three `dev run` configs.
   `portless`, the default, serves the app at
   `https://<project-name>.localhost` with `--frontend-url` naming Vite
-  at `https://frontend.<project-name>.localhost`
+  at `https://frontend-<project-name>.localhost`
   (`cd frontend && npm run dev:portless`); `ports` is the same on plain
   ports, the app at `http://localhost:9991` and Vite at
   `http://localhost:5173` (`--config=ports`, `npm run dev:ports`);

@@ -106,7 +106,7 @@ local server a name instead of a port: the app is
 `https://<app>.localhost` (`<app>` the `.rbtrc`'s
 `--application-name`), serving the API, the web app at `/` and the
 MCP Apps, all from one origin; the dashboard is
-`https://dashboard.<app>.localhost`; several apps run at once with no
+`https://dashboard-<app>.localhost`; several apps run at once with no
 port to collide on. Its `.rbtrc` defaults to it
 (`dev run --default-config=portless`).
 
@@ -120,7 +120,7 @@ things: the proxy running on port 443, and the local CA trusted.
   project's: Reboot registers them with `--force`, so a second project
   with the same `--application-name` would take the first one's
   addresses without an error. `portless list`, then for each of
-  `https://<app>.localhost` and `https://dashboard.<app>.localhost`
+  `https://<app>.localhost` and `https://dashboard-<app>.localhost`
   that is routed to a port something listens on, the folder that
   process runs from:
 
@@ -272,7 +272,7 @@ design/.comp.pid) && rm -f design/.design.pid design/.comp.pid`, and
 As soon as every process is up, during a build too and before any
 check of the page, say one line with both links. Under portless:
 
-> App: https://<app>.localhost/ · Dashboard: https://dashboard.<app>.localhost/
+> App: https://<app>.localhost/ · Dashboard: https://dashboard-<app>.localhost/
 
 On plain ports:
 

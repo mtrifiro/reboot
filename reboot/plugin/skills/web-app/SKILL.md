@@ -52,6 +52,10 @@ session is an HttpOnly `rbt_session` cookie set by
 `/__/oauth/finish`, read as a bearer on every RPC, so user code sees
 only `context.auth.user_id`, as under MCP.
 
+A plain HTTP route the page calls (a download, an image) serves
+anyone unless registered with `require_oauth_token=True`
+([auth-http-routes.md](../python/references/auth-http-routes.md)).
+
 > **`token_verifier=` is the exception, not the default.** Only
 > for an IdP the built-in `oauth=` providers don't cover (an
 > enterprise SAML/OIDC broker no `OAuthProvider` subclass can wrap)
@@ -378,7 +382,7 @@ the Vite dev server (`--web-app`): `https://<app>.localhost/` under
 portless (`npm run dev:portless` beside `rbt dev run`), or
 `http://localhost:9991/` on plain ports (`npm run dev:ports` beside
 `rbt dev run --config=ports`), as the run skill decides. Open it
-there, never at Vite's own origin (`https://frontend.<app>.localhost`
+there, never at Vite's own origin (`https://frontend-<app>.localhost`
 or `http://localhost:5173/`), where the client would take Vite's
 origin for the backend's. Built, it lands in `frontend/dist/web/` with
 `base: "/"`, served at `/` by the backend (`--web-app-dist-path`, the
