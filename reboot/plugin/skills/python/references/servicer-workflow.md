@@ -10,8 +10,8 @@ tags: workflow, WorkflowContext, classmethod, durable, replay, decision, at_leas
 This is the single, comprehensive reference for Reboot workflows.
 Read it top to bottom before writing a workflow body — the sections
 build on each other, and the call-classification model in
-[Classify every `await`](#classify-every-await) is the spine of
-everything below it.
+[Classify every `await`](#classify-every-await) underlies every
+section below.
 
 A workflow is a long-running, durable function attached to an actor.
 The runtime persists progress so the workflow can resume after a
@@ -169,11 +169,10 @@ creates the actor and (by virtue of the schedule call) kicks off
 ## Classify Every `await`
 
 > **Critical:** which primitive to use depends first on **what you're
-> calling**, not on how it feels. Reboot-internal calls (calls to
-> another actor, calls to `Service.ref().write(context, fn)`) and
-> external-system calls (HTTP, SMS, payment, LLM) have **different
-> rule sets**. Get the category wrong and you'll pick from the wrong
-> menu.
+> calling**. Reboot-internal calls (calls to another actor, calls to
+> `Service.ref().write(context, fn)`) and external-system calls
+> (HTTP, SMS, payment, LLM) have **different rule sets**. Classify
+> the call first; each category has its own primitives.
 
 Everything a workflow does may be **re-run on replay** (after a
 restart, or after a later step fails). So the underlying question for
@@ -302,8 +301,8 @@ Prefer a nested `async def` with a return annotation over a `lambda` +
 > scheduling key, and inline writes are checkpointed with the
 > surrounding workflow step. Wrapping them adds an extra
 > memoization layer that is at best redundant and at worst (in the
-> case of `at_most_once`) introduces a poison-the-alias footgun
-> over a call that didn't need one.
+> case of `at_most_once`) risks poisoning the alias on a call that
+> needed no wrapper.
 
 The only thing left to decide for a Reboot call is **scope** — how
 often the call should run across workflow replays and loop
@@ -396,9 +395,9 @@ Picking a scope:
 - **Reactive freshness** (re-read config every wake-up; live health
   check that flips back and forth) → `always`.
 
-### `.idempotently("alias")` Is the Older Sibling
+### `.idempotently("alias")` Is the Older Form
 
-`.idempotently("alias")` is the older sibling of
+`.idempotently("alias")` is the older form of
 `.per_workflow("alias")` (same semantics by default —
 `how=PER_WORKFLOW`). It is **not deprecated**, but the scope-named
 forms are clearer for new code: the verb names the scope axis
@@ -641,7 +640,7 @@ machine crashes mid-call):
 
 `at_least_once(alias, context, callable)` runs `callable` and
 memoizes the first successful result. Wrapping a call — even an
-idempotent one — buys three things over a plain `await`:
+idempotent one — gives three things over a plain `await`:
 
 - the result is **memoized** (a stable value across workflow
   replays),
@@ -832,7 +831,7 @@ async def fetch() -> list[League]:
 leagues = await at_least_once("Fetch leagues", context, fetch)
 ```
 
-The fix is simply to drop the counter and let the step retry:
+Drop the counter and let the step retry:
 
 ```python
 async def fetch() -> list[League]:
@@ -930,7 +929,7 @@ alias every few minutes under `EffectValidation.QUIET`).
 > is running — the alias is **poisoned**: every later attempt raises
 > `AtMostOnceFailedBeforeCompleting` until the application's durable
 > state is expunged, or the workflow is cancelled. Three
-> non-negotiables: (1) wrap the callable body in `try/except` and
+> requirements: (1) wrap the callable body in `try/except` and
 > surface failures as **return values**; (2) **also** wrap the
 > `await at_most_once(...)` call itself in `try/except` for
 > `AtMostOnceFailedBeforeCompleting`, because a mid-callable machine
@@ -952,7 +951,7 @@ find yourself reaching for `at_most_once`, first re-confirm via the
 [decision tree](#decision-tree) that none of the `at_least_once`
 cases apply.
 
-**Non-negotiable 1 — wrap the callable in `try/except` and return
+**Requirement 1 — wrap the callable in `try/except` and return
 failures as data.** A raised exception from inside `callable`
 poisons the alias, so the callable must catch every exception it
 can survive and convert it into a return value the surrounding
@@ -986,7 +985,7 @@ async def send_login_sms(
         # machine reboot mid-`do_send`, which no `try/except` *inside*
         # the callable could catch. The SMS may or may not have been
         # sent; treat it as an indeterminate failure per the
-        # developer's chosen handling (see non-negotiable 3).
+        # developer's chosen handling (see requirement 3).
         outcome = SmsResult(ok=False, reason="interrupted before completing")
 
     if not outcome.ok:
@@ -1003,13 +1002,13 @@ async def send_login_sms(
 This callable returns a non-`None` value, so it **must** carry a
 return annotation (`async def do_send() -> SmsResult:`) or be given
 `type=SmsResult` — see
-[Annotate callable return types](#annotate-callable-return-types). It
-bites hardest here: a callable with no discoverable type fails the
+[Annotate callable return types](#annotate-callable-return-types). This
+matters most here: a callable with no discoverable type fails the
 runtime type check with `TypeError: Result of type '<X>' ... is not None but no type= argument was passed`, and that raise
 **itself poisons the alias** — so a missing annotation permanently
 breaks the workflow.
 
-**Non-negotiable 2 — also wrap the `at_most_once` call itself in
+**Requirement 2 — also wrap the `at_most_once` call itself in
 `try/except`.** The inner `try/except` only covers exceptions the
 callable raises _while running_. It cannot cover the case where the
 process or machine reboots **partway through** the callable: the
@@ -1023,7 +1022,7 @@ calls a mid-flight reboot and an in-callable failure collapse to the
 same thing — "it didn't complete" — and you can map both to one
 `ok=False` outcome; only split them apart when the recovery differs.
 
-**Non-negotiable 3 — stop and ask the developer how failures should
+**Requirement 3 — stop and ask the developer how failures should
 be handled.** There is no safe default for "the wire transfer
 returned `ok=False`" or "the SMS provider failed permanently".
 Possible handlings include:
@@ -1367,8 +1366,7 @@ await until("Job done", context, is_done)
 > Any **undeclared** exception (a plain `Exception`, a `ValueError`,
 > a transient HTTP error, a bug) **propagates and causes the
 > runtime to retry the workflow from its last checkpoint**.
-> The two paths exit the workflow on opposite trajectories — pick
-> deliberately.
+> One stops the workflow, the other retries it; choose deliberately.
 
 A running workflow has exactly three outcomes:
 
@@ -1484,7 +1482,7 @@ if request.amount <= 0:
 The inverse also matters: if you genuinely want the workflow to
 retry (a transient external blip), let the error propagate unwrapped
 — don't catch it and convert it to a declared abort, or you'll mark
-the workflow failed on the first transient hiccup.
+the workflow failed on the first transient error.
 
 ### Inside an `at_most_once` / `at_least_once` Callable, Never `raise` to Signal "Stop"
 
