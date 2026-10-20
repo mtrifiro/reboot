@@ -1,6 +1,6 @@
 ---
 name: app-guided
-description: "The guided build of a Reboot application: the app-design skill's round of questions (the first features, who signs in, the palette) and its proposed design, the go-ahead (Ready to build this design?), then the build with each part explained; a design already proposed in design/design.md is built on without asking again. Loaded by the app skill on Interactively, or asked for by name (/reboot:app-guided); a prompt that asks for an app in plain words goes to the app skill, which asks how to build first."
+description: "The guided build of a Reboot application: the app-design skill's proposed design, asking nothing first (the recommended features, sign-in and palette under Assumed), the go-ahead (Ready to build this design?, where any of them changes, and learning mode is chosen), then the build with each part explained; a design already proposed in design/design.md is built on without asking again. Loaded by the app skill by default, or asked for by name (/reboot:app-guided); a prompt that asks for an app in plain words goes to the app skill, which asks how to build first."
 argument-hint: [<app-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 ---
@@ -30,9 +30,8 @@ it with the Skill tool (`/reboot:app-design <the prompt>`), never by
 reading its file; when the host asks for a plan before anything, the
 plan is one item, "Propose the design for <app>", and the path's list
 comes after the go-ahead. Right after it loads, its opening goes out
-as text, before the round. It says the opening, asks the one round of
-questions (the first build's features, who signs in, the palette),
-reads what the design needs and writes the whole proposed design once,
+as text. It says the opening, asks nothing (the round's recommended
+answers go under **Assumed**), reads what the design needs and writes the whole proposed design once,
 drawn as a page beside the chat, its summary in the chat. On a free answer that refuses the design ("just build
 it") the app-design skill hands the prompt to the [`app-just`
 skill](../app-just/SKILL.md) and this skill's part is over: no design, no
@@ -108,7 +107,8 @@ steps 4 and 6 (its reviews, step 5, are the one-shot's own).
   Reading the plugin's references gets no line of its own. Before a
   slow step, one fact about Reboot said for this app
   ([`../app/references/while-you-wait.md`](../app/references/while-you-wait.md)).
-- **Verbose,** when the round's "Explain as it builds?" chose it, or
+- **Verbose,** when the go-ahead's "Yes, and explain as it builds"
+  chose it, or
   the user asked in the prompt or at any point ("verbose", "explain as
   you build", "an exegesis"): each
   milestone report (the model check, the backend check, each handoff)
