@@ -9,8 +9,16 @@ tags: design, acceptance, dashboard, links, record
 
 `design/design.md` is first written as the proposed design (the
 `app-design` skill, section 3; its **Methods** after the go-ahead),
-then rewritten at the first acceptance and each later one
-([`accept-design.md`](accept-design.md), "Once accepted"). After every
+then updated at the first acceptance and each later one
+([`accept-design.md`](accept-design.md), "Once accepted") by edits,
+never written whole again: the status line, and what the part adds,
+each where its section is (an object's bullet, a table for a new
+object's methods, a page's line, the rows it adds to the review
+table). Rows look alike from table to table, so an edit to one
+carries the line above it (the object's heading or the row before) in
+its old text, to match one place only (hotel-260 rewrote the
+12,700-character document at its first acceptance, and two of its
+later row edits matched twice and failed). After every
 write, `python3 '<the app-design skill>/assets/design_page.py'` draws
 it again as `design/design.html`, the page the user reads it in. It is the design as accepted, in the user's nouns, and
 every package, domain object, method, feature and rule in it is a
