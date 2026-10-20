@@ -24,11 +24,11 @@
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
-    "@vitejs/plugin-react": "^6.1.1",
+    "@vitejs/plugin-react": "^6.1.2",
     "portless": "^0.15.7",
     "typescript": "~6.0.2",
-    "vite": "^8.3.0",
-    "vite-plugin-singlefile": "^2.0.3"
+    "vite": "^8.3.4",
+    "vite-plugin-singlefile": "^2.3.4"
   },
   "overrides": {
     "@reboot-dev/reboot-web": "1.7.0"
