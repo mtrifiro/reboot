@@ -8,15 +8,15 @@ tags: go-ahead, domain model, frontend, dialogs, design, prompt by prompt
 # The Design First, Then How to Build It
 
 How the `app-guided` skill builds a new app, in either front door, once the
-[`app-design` skill](../../app-design/SKILL.md) has said the opening, asked
-the one round (the first build's features, who signs in, the palette)
-and shown the proposed design. It replaces the front
+[`app-design` skill](../../app-design/SKILL.md) has said the opening and
+shown the proposed design, asking nothing (the round's recommended
+answers, under **Assumed**). It replaces the front
 door's round of scope questions.
 
 ## 1–2. The opening, the round, the design
 
 The `app-design` skill's, loaded first by the `app-guided` skill. Nothing is
-asked before the design but its round, nothing is read before the
+asked before the design, nothing is read before the
 design but what it needs, and the design is shown once, in the chat,
 in the shape of [`design-messages.md`](design-messages.md).
 
@@ -28,8 +28,8 @@ comp's line comes between them
 ([`../../web-app/references/comp.md`](../../web-app/references/comp.md)):
 a mockup of the main page in the look, served and opened in the pane. Then
 one dialog (`AskUserQuestion` where available,
-else one plain line), the only question between the opening's round
-and code: the go-ahead. The interactive build is the user's (the `app`
+else one plain line), the only question between the prompt and code:
+the go-ahead, where the user changes any assumed answer. The interactive build is the user's (the `app`
 skill's default, or `/reboot:app-guided` by name), so it asks only for
 the yes, never how to build.
 Its options, word for word, filled from the design:
@@ -39,8 +39,12 @@ Its options, word for word, filled from the design:
   minutes: its domain model is shown on the dashboard (a question only
   where it differs from the design), its rules are proven by their
   scenarios, then its page is built."
-- "Not yet": "I want to review or revise the design." Nothing more:
-  what happens next is said after the answer.
+- "Yes, and explain as it builds (learning mode)": "The same, and each
+  report ends with what was written and why, 600 to 900 words, kept in
+  design/exegesis.md." Left out when the build is verbose already.
+- "Not yet": "I want to change something first: a feature, who signs
+  in, the palette, or anything in the design." Nothing more: what
+  happens next is said after the answer.
 - "Tell me more": "What happens first, before I decide."
 
 No option is marked recommended: the answer stays in the chat as the
@@ -81,6 +85,8 @@ user's words are the agreement.
   the design as proposed, no features added: no stops, one handoff at
   the end. The task list is the whole-app list (`task-list.md`, where
   the plugin has it), its first item done.
+- **Yes, and explain as it builds:** verbose on
+  ([`exegesis.md`](exegesis.md)), then as below.
 - **Yes, start building** (or the first feature named): the
   first feature's **Methods** go into `design/design.md` and the page
   is drawn again (`design-document.md`), then build it by the
@@ -248,8 +254,8 @@ unchanged, but for these questions.
 
 - Reading this plugin's files with a shell command instead of the
   file tools.
-- A second go-ahead, or a question the app-design skill's round already
-  asked: the go-ahead is asked once, after the design, and takes any
+- A second go-ahead, or any question before the design: the go-ahead
+  is asked once, after the design, and takes any
   change to the features.
 - Code, `rbt generate` or a project scaffold before the go-ahead (on
   the prompt-by-prompt path, before the user's first build prompt).
