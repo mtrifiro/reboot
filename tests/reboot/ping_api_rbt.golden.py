@@ -784,6 +784,9 @@ class PingServicerMiddleware(IMPORT_reboot_aio_internals_middleware.Middleware):
         )
 
         self._servicer = servicer
+        # An instance of the servicer's derived class for each state it
+        # has served; see `PingServicer._instance()`.
+        self._instances: dict[str, PingServicer] = {}
         self._state_manager = state_manager
         self.tasks_dispatcher = IMPORT_reboot_aio_internals_tasks_dispatcher.TasksDispatcher(
             application_id=application_id,
@@ -3445,10 +3448,12 @@ class PingServicerMiddleware(IMPORT_reboot_aio_internals_middleware.Middleware):
         headers: IMPORT_reboot_aio_headers.Headers,
         method: str,
     ) -> IMPORT_typing.Optional[IMPORT_reboot_aio_auth.Auth]:
-        """Verify the bearer token and if a token verifier is present.
+        """Verify the bearer token if a token verifier is present.
 
-        Returns the (optional) `reboot.aio.auth.Auth` object
-        produced by the token verifier if the token can be verified.
+        Returns the `reboot.aio.auth.Auth` produced by the token
+        verifier if the token can be verified, else the `Auth` that an
+        app-internal caller passed on in its caller ID, if any, else
+        `None`.
         """
         if self._token_verifier is not None:
             if headers.bearer_token == __internal_magic_token__:
@@ -3472,7 +3477,21 @@ class PingServicerMiddleware(IMPORT_reboot_aio_internals_middleware.Middleware):
                         result,
                         message=result.message or None,
                     )
-                return result
+                if result is not None:
+                    return result
+
+        # Otherwise, on an app-internal call, use the `Auth` the caller
+        # carried on behalf of whoever called it, if it carried one at
+        # all (see `CallerID.auth`).
+        caller_id = headers.caller_id
+        if (
+            headers.bearer_token is None and caller_id is not None and
+            caller_id.auth is not None and
+            IMPORT_reboot_aio_contexts.Context.is_app_internal(
+                headers, self.application_id
+            )
+        ):
+            return caller_id.auth
 
         return None
 
@@ -3506,6 +3525,9 @@ class PongServicerMiddleware(IMPORT_reboot_aio_internals_middleware.Middleware):
         )
 
         self._servicer = servicer
+        # An instance of the servicer's derived class for each state it
+        # has served; see `PongServicer._instance()`.
+        self._instances: dict[str, PongServicer] = {}
         self._state_manager = state_manager
         self.tasks_dispatcher = IMPORT_reboot_aio_internals_tasks_dispatcher.TasksDispatcher(
             application_id=application_id,
@@ -5040,10 +5062,12 @@ class PongServicerMiddleware(IMPORT_reboot_aio_internals_middleware.Middleware):
         headers: IMPORT_reboot_aio_headers.Headers,
         method: str,
     ) -> IMPORT_typing.Optional[IMPORT_reboot_aio_auth.Auth]:
-        """Verify the bearer token and if a token verifier is present.
+        """Verify the bearer token if a token verifier is present.
 
-        Returns the (optional) `reboot.aio.auth.Auth` object
-        produced by the token verifier if the token can be verified.
+        Returns the `reboot.aio.auth.Auth` produced by the token
+        verifier if the token can be verified, else the `Auth` that an
+        app-internal caller passed on in its caller ID, if any, else
+        `None`.
         """
         if self._token_verifier is not None:
             if headers.bearer_token == __internal_magic_token__:
@@ -5067,7 +5091,21 @@ class PongServicerMiddleware(IMPORT_reboot_aio_internals_middleware.Middleware):
                         result,
                         message=result.message or None,
                     )
-                return result
+                if result is not None:
+                    return result
+
+        # Otherwise, on an app-internal call, use the `Auth` the caller
+        # carried on behalf of whoever called it, if it carried one at
+        # all (see `CallerID.auth`).
+        caller_id = headers.caller_id
+        if (
+            headers.bearer_token is None and caller_id is not None and
+            caller_id.auth is not None and
+            IMPORT_reboot_aio_contexts.Context.is_app_internal(
+                headers, self.application_id
+            )
+        ):
+            return caller_id.auth
 
         return None
 
@@ -5101,6 +5139,9 @@ class UserServicerMiddleware(IMPORT_reboot_aio_internals_middleware.Middleware):
         )
 
         self._servicer = servicer
+        # An instance of the servicer's derived class for each state it
+        # has served; see `UserServicer._instance()`.
+        self._instances: dict[str, UserServicer] = {}
         self._state_manager = state_manager
         self.tasks_dispatcher = IMPORT_reboot_aio_internals_tasks_dispatcher.TasksDispatcher(
             application_id=application_id,
@@ -8618,10 +8659,12 @@ class UserServicerMiddleware(IMPORT_reboot_aio_internals_middleware.Middleware):
         headers: IMPORT_reboot_aio_headers.Headers,
         method: str,
     ) -> IMPORT_typing.Optional[IMPORT_reboot_aio_auth.Auth]:
-        """Verify the bearer token and if a token verifier is present.
+        """Verify the bearer token if a token verifier is present.
 
-        Returns the (optional) `reboot.aio.auth.Auth` object
-        produced by the token verifier if the token can be verified.
+        Returns the `reboot.aio.auth.Auth` produced by the token
+        verifier if the token can be verified, else the `Auth` that an
+        app-internal caller passed on in its caller ID, if any, else
+        `None`.
         """
         if self._token_verifier is not None:
             if headers.bearer_token == __internal_magic_token__:
@@ -8645,7 +8688,21 @@ class UserServicerMiddleware(IMPORT_reboot_aio_internals_middleware.Middleware):
                         result,
                         message=result.message or None,
                     )
-                return result
+                if result is not None:
+                    return result
+
+        # Otherwise, on an app-internal call, use the `Auth` the caller
+        # carried on behalf of whoever called it, if it carried one at
+        # all (see `CallerID.auth`).
+        caller_id = headers.caller_id
+        if (
+            headers.bearer_token is None and caller_id is not None and
+            caller_id.auth is not None and
+            IMPORT_reboot_aio_contexts.Context.is_app_internal(
+                headers, self.application_id
+            )
+        ):
+            return caller_id.auth
 
         return None
 
@@ -8679,6 +8736,9 @@ class CounterServicerMiddleware(IMPORT_reboot_aio_internals_middleware.Middlewar
         )
 
         self._servicer = servicer
+        # An instance of the servicer's derived class for each state it
+        # has served; see `CounterServicer._instance()`.
+        self._instances: dict[str, CounterServicer] = {}
         self._state_manager = state_manager
         self.tasks_dispatcher = IMPORT_reboot_aio_internals_tasks_dispatcher.TasksDispatcher(
             application_id=application_id,
@@ -11504,10 +11564,12 @@ class CounterServicerMiddleware(IMPORT_reboot_aio_internals_middleware.Middlewar
         headers: IMPORT_reboot_aio_headers.Headers,
         method: str,
     ) -> IMPORT_typing.Optional[IMPORT_reboot_aio_auth.Auth]:
-        """Verify the bearer token and if a token verifier is present.
+        """Verify the bearer token if a token verifier is present.
 
-        Returns the (optional) `reboot.aio.auth.Auth` object
-        produced by the token verifier if the token can be verified.
+        Returns the `reboot.aio.auth.Auth` produced by the token
+        verifier if the token can be verified, else the `Auth` that an
+        app-internal caller passed on in its caller ID, if any, else
+        `None`.
         """
         if self._token_verifier is not None:
             if headers.bearer_token == __internal_magic_token__:
@@ -11531,7 +11593,21 @@ class CounterServicerMiddleware(IMPORT_reboot_aio_internals_middleware.Middlewar
                         result,
                         message=result.message or None,
                     )
-                return result
+                if result is not None:
+                    return result
+
+        # Otherwise, on an app-internal call, use the `Auth` the caller
+        # carried on behalf of whoever called it, if it carried one at
+        # all (see `CallerID.auth`).
+        caller_id = headers.caller_id
+        if (
+            headers.bearer_token is None and caller_id is not None and
+            caller_id.auth is not None and
+            IMPORT_reboot_aio_contexts.Context.is_app_internal(
+                headers, self.application_id
+            )
+        ):
+            return caller_id.auth
 
         return None
 
@@ -11557,6 +11633,15 @@ class _PingStub(IMPORT_reboot_aio_stubs.Stub):
         # have security implications - we cannot simply trust any service we are calling with
         # the user's credentials. Instead, the developer can rely on the default app-internal
         # auth, or override that and set an explicit bearer token.
+        #
+        # What we do pass on, in our caller ID, is the caller's `context.auth`, i.e., who the
+        # call is made on behalf of. That is safe because an `Auth` is not a credential, it
+        # only says who the caller is, and the callee only honors it on an app-internal call,
+        # i.e., when it arrives with our own (trusted) caller ID, so it can't be used anywhere
+        # else. If there is no `context.auth` then nothing is passed on. Setting an explicit
+        # bearer token overrides it: the callee then verifies that token instead and gets no
+        # `context.auth` from us. The caller ID itself is still sent, so the call is still
+        # app-internal.
         #
         # In the case of `ExternalContext`, however, its `bearer_token` was set specifically
         # by the developer for the purpose of making these calls.
@@ -12271,6 +12356,15 @@ class _PongStub(IMPORT_reboot_aio_stubs.Stub):
         # the user's credentials. Instead, the developer can rely on the default app-internal
         # auth, or override that and set an explicit bearer token.
         #
+        # What we do pass on, in our caller ID, is the caller's `context.auth`, i.e., who the
+        # call is made on behalf of. That is safe because an `Auth` is not a credential, it
+        # only says who the caller is, and the callee only honors it on an app-internal call,
+        # i.e., when it arrives with our own (trusted) caller ID, so it can't be used anywhere
+        # else. If there is no `context.auth` then nothing is passed on. Setting an explicit
+        # bearer token overrides it: the callee then verifies that token instead and gets no
+        # `context.auth` from us. The caller ID itself is still sent, so the call is still
+        # app-internal.
+        #
         # In the case of `ExternalContext`, however, its `bearer_token` was set specifically
         # by the developer for the purpose of making these calls.
         caller_id: IMPORT_typing.Optional[IMPORT_reboot_aio_caller_id.CallerID] = None
@@ -12752,6 +12846,15 @@ class _UserStub(IMPORT_reboot_aio_stubs.Stub):
         # have security implications - we cannot simply trust any service we are calling with
         # the user's credentials. Instead, the developer can rely on the default app-internal
         # auth, or override that and set an explicit bearer token.
+        #
+        # What we do pass on, in our caller ID, is the caller's `context.auth`, i.e., who the
+        # call is made on behalf of. That is safe because an `Auth` is not a credential, it
+        # only says who the caller is, and the callee only honors it on an app-internal call,
+        # i.e., when it arrives with our own (trusted) caller ID, so it can't be used anywhere
+        # else. If there is no `context.auth` then nothing is passed on. Setting an explicit
+        # bearer token overrides it: the callee then verifies that token instead and gets no
+        # `context.auth` from us. The caller ID itself is still sent, so the call is still
+        # app-internal.
         #
         # In the case of `ExternalContext`, however, its `bearer_token` was set specifically
         # by the developer for the purpose of making these calls.
@@ -13577,6 +13680,15 @@ class _CounterStub(IMPORT_reboot_aio_stubs.Stub):
         # have security implications - we cannot simply trust any service we are calling with
         # the user's credentials. Instead, the developer can rely on the default app-internal
         # auth, or override that and set an explicit bearer token.
+        #
+        # What we do pass on, in our caller ID, is the caller's `context.auth`, i.e., who the
+        # call is made on behalf of. That is safe because an `Auth` is not a credential, it
+        # only says who the caller is, and the callee only honors it on an app-internal call,
+        # i.e., when it arrives with our own (trusted) caller ID, so it can't be used anywhere
+        # else. If there is no `context.auth` then nothing is passed on. Setting an explicit
+        # bearer token overrides it: the callee then verifies that token instead and gets no
+        # `context.auth` from us. The caller ID itself is still sent, so the call is still
+        # app-internal.
         #
         # In the case of `ExternalContext`, however, its `bearer_token` was set specifically
         # by the developer for the purpose of making these calls.
@@ -16107,16 +16219,19 @@ class PingServicer(PingBaseServicer):
         default=None,
     )
 
-    # An instance of the derived class for each state.
-    _instances: dict[str, PingServicer] = {}
-
     def _instance(self, state_id: str):
-        instances = PingServicer._instances
+        # An instance of the derived class for each state. The
+        # middleware keeps them, so that they live as long as the server
+        # it serves and not as long as the process: another server in
+        # the same process (a later `Reboot` in a test, say) may serve
+        # the same state id with another servicer class.
+        assert self._middleware is not None
+        instances = self._middleware._instances
         instance = instances.get(state_id)
         if instance is None:
             instance = self.__class__()
             instance._middleware = self._middleware
-        instances[state_id] = instance
+            instances[state_id] = instance
         return instance
 
     @property
@@ -17097,16 +17212,19 @@ class PongServicer(PongBaseServicer):
         default=None,
     )
 
-    # An instance of the derived class for each state.
-    _instances: dict[str, PongServicer] = {}
-
     def _instance(self, state_id: str):
-        instances = PongServicer._instances
+        # An instance of the derived class for each state. The
+        # middleware keeps them, so that they live as long as the server
+        # it serves and not as long as the process: another server in
+        # the same process (a later `Reboot` in a test, say) may serve
+        # the same state id with another servicer class.
+        assert self._middleware is not None
+        instances = self._middleware._instances
         instance = instances.get(state_id)
         if instance is None:
             instance = self.__class__()
             instance._middleware = self._middleware
-        instances[state_id] = instance
+            instances[state_id] = instance
         return instance
 
     @property
@@ -18318,16 +18436,19 @@ class UserServicer(UserBaseServicer):
         default=None,
     )
 
-    # An instance of the derived class for each state.
-    _instances: dict[str, UserServicer] = {}
-
     def _instance(self, state_id: str):
-        instances = UserServicer._instances
+        # An instance of the derived class for each state. The
+        # middleware keeps them, so that they live as long as the server
+        # it serves and not as long as the process: another server in
+        # the same process (a later `Reboot` in a test, say) may serve
+        # the same state id with another servicer class.
+        assert self._middleware is not None
+        instances = self._middleware._instances
         instance = instances.get(state_id)
         if instance is None:
             instance = self.__class__()
             instance._middleware = self._middleware
-        instances[state_id] = instance
+            instances[state_id] = instance
         return instance
 
     @property
@@ -19745,16 +19866,19 @@ class CounterServicer(CounterBaseServicer):
         default=None,
     )
 
-    # An instance of the derived class for each state.
-    _instances: dict[str, CounterServicer] = {}
-
     def _instance(self, state_id: str):
-        instances = CounterServicer._instances
+        # An instance of the derived class for each state. The
+        # middleware keeps them, so that they live as long as the server
+        # it serves and not as long as the process: another server in
+        # the same process (a later `Reboot` in a test, say) may serve
+        # the same state id with another servicer class.
+        assert self._middleware is not None
+        instances = self._middleware._instances
         instance = instances.get(state_id)
         if instance is None:
             instance = self.__class__()
             instance._middleware = self._middleware
-        instances[state_id] = instance
+            instances[state_id] = instance
         return instance
 
     @property
@@ -21376,6 +21500,7 @@ class Ping:
                 if isinstance(__context__, IMPORT_reboot_aio_contexts.Context):
                     __caller_id__ = IMPORT_reboot_aio_caller_id.CallerID(
                         application_id=__context__.application_id,
+                        auth=__context__.auth,
                     )
                     if __this__._application_id is None:
                         # Given our context type (inside a Reboot application) we can default to
@@ -21533,6 +21658,7 @@ class Ping:
                 if isinstance(__context__, IMPORT_reboot_aio_contexts.Context):
                     __caller_id__ = IMPORT_reboot_aio_caller_id.CallerID(
                         application_id=__context__.application_id,
+                        auth=__context__.auth,
                     )
                     if __this__._application_id is None:
                         # Given our context type (inside a Reboot application) we can default to
@@ -24293,6 +24419,7 @@ class Pong:
                 if isinstance(__context__, IMPORT_reboot_aio_contexts.Context):
                     __caller_id__ = IMPORT_reboot_aio_caller_id.CallerID(
                         application_id=__context__.application_id,
+                        auth=__context__.auth,
                     )
                     if __this__._application_id is None:
                         # Given our context type (inside a Reboot application) we can default to
@@ -27108,6 +27235,7 @@ class User:
                 if isinstance(__context__, IMPORT_reboot_aio_contexts.Context):
                     __caller_id__ = IMPORT_reboot_aio_caller_id.CallerID(
                         application_id=__context__.application_id,
+                        auth=__context__.auth,
                     )
                     if __this__._application_id is None:
                         # Given our context type (inside a Reboot application) we can default to
@@ -27265,6 +27393,7 @@ class User:
                 if isinstance(__context__, IMPORT_reboot_aio_contexts.Context):
                     __caller_id__ = IMPORT_reboot_aio_caller_id.CallerID(
                         application_id=__context__.application_id,
+                        auth=__context__.auth,
                     )
                     if __this__._application_id is None:
                         # Given our context type (inside a Reboot application) we can default to
@@ -31026,6 +31155,7 @@ class Counter:
                 if isinstance(__context__, IMPORT_reboot_aio_contexts.Context):
                     __caller_id__ = IMPORT_reboot_aio_caller_id.CallerID(
                         application_id=__context__.application_id,
+                        auth=__context__.auth,
                     )
                     if __this__._application_id is None:
                         # Given our context type (inside a Reboot application) we can default to
@@ -31183,6 +31313,7 @@ class Counter:
                 if isinstance(__context__, IMPORT_reboot_aio_contexts.Context):
                     __caller_id__ = IMPORT_reboot_aio_caller_id.CallerID(
                         application_id=__context__.application_id,
+                        auth=__context__.auth,
                     )
                     if __this__._application_id is None:
                         # Given our context type (inside a Reboot application) we can default to
