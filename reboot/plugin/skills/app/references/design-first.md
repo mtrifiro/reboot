@@ -9,8 +9,8 @@ tags: go-ahead, domain model, frontend, dialogs, design, prompt by prompt
 
 How the `app-guided` skill builds a new app, in either front door, once the
 [`app-design` skill](../../app-design/SKILL.md) has said the opening, asked
-the one round (the first build's features, who signs in, the palette,
-how to build) and shown the proposed design. It replaces the front
+the one round (the first build's features, who signs in, the palette)
+and shown the proposed design. It replaces the front
 door's round of scope questions.
 
 ## 1–2. The opening, the round, the design
@@ -35,8 +35,9 @@ Its options, word for word, filled from the design:
 
 - Title: **Ready to build this design?**
 - "Yes, start building": "<First feature>'s backend first, about 15
-  minutes: you check its domain model on the dashboard, its rules are
-  proven by their scenarios, then its page is built."
+  minutes: its domain model is shown on the dashboard (a question only
+  where it differs from the design), its rules are proven by their
+  scenarios, then its page is built."
 - "Not yet": "I want to review or revise the design." Nothing more:
   what happens next is said after the answer.
 - "Tell me more": "What happens first, before I decide."

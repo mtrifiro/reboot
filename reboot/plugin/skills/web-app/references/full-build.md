@@ -31,7 +31,7 @@ The steps below keep their numbers; this is the order to take them in. **A file 
 
 ### The Steps
 
-The task list uses the items "The whole app first" in
+The task list uses the items "The whole app at once" in
 [`app/references/task-list.md`](../../app/references/task-list.md).
 
 **All commands run from the application directory.**
@@ -205,19 +205,23 @@ feature:
 **The handoff**, when every feature is done:
 
 18. Run the whole suite once, browser scenarios included, in the
-    background, its result said once, and mypy. After a failure, fix
-    it and rerun only what failed (`--lf`); run the whole suite again
-    only when a fix changed something several features share (an
-    object's state, a method, the page shell). Then every scenario passes (or is `@blocked` with its reason) and
-    mypy is green — together they are what catches contract bugs.
-    Write the handoff in the shape of
+    background (`feature` skill, "Report a full run once, at the
+    end"), and mypy. After a failure, fix it and rerun only what
+    failed (`--lf`); run the whole suite again only when a fix changed
+    something several features share (an object's state, a method,
+    the page shell). Every scenario passes (or is `@blocked` with its
+    reason) and mypy is green: together they catch contract bugs.
+    Under the `app-whole` skill its reviews come next (its step 5),
+    and the run after their fixes is the final one. Write the handoff
+    while the final run goes on, in the shape of
     [`app/references/design-messages.md`](../../app/references/design-messages.md),
-    covering every feature. Point the user at the dashboard's Features page and at the
-    recordings of the browser scenarios, ask in a question dialog
-    (`AskUserQuestion` where available): **<The app> works. What
-    next?**, worded as `app/references/accept-design.md` says (its
-    recommended next step accepts the app as built; on acceptance, record it as
+    covering every feature, pointing at the dashboard's Features page
+    and the browser scenarios' recordings, and, unless they asked for
+    only a web app, ending with the one-line offer of an MCP App
+    (`app` skill, "At handoff"). Send it saying the tests are running
+    and end the turn: no dialog, the `app-whole` skill's step 6
+    closing line instead. At the run's notice, its result in one line
+    (a failure fixed first), then that closing line. Acceptance is
+    recorded as
     [`app/references/accept-design.md`](../../app/references/accept-design.md)
-    says), and, unless they asked
-    for only a web app, end with the one-line offer of an MCP App
-    (`app` skill, "At handoff").
+    says.
