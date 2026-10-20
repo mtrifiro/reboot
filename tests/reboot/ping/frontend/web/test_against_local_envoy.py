@@ -1,16 +1,19 @@
 """Top-level entry that spins up an in-memory Reboot backend with
 the ping servicers and runs the browser test against it.
 
-The test reuses the *real* SPA the backend serves at
-`/__/frontend/web/` (built by `//reboot/ping:web_dist`, carried in
-`ping_py`'s runfiles alongside `.rbtrc`), so we set
-`RBT_FRONTEND_DIST_PATH` to point the framework's static-file mount
-at `frontend/dist`. We drive the SPA on the `localhost` host with a
+The test reuses the *real* SPA the backend serves at `/` (built by
+`//reboot/ping:web_dist`, carried in `ping_py`'s runfiles alongside
+`.rbtrc`), so we set `RBT_WEB_APP_DIST_PATH` to point the framework's
+web app mount at `frontend/dist/web`. The ping app also declares
+`UI(...)` methods, which `rbt dev` insists are served somehow, so
+`RBT_MCP_APP_DIST_PATH` names their builds too (this test never
+loads them). We drive the SPA on the `localhost` host with a
 `?rebootUrl=http://127.0.0.1:...` query param, so the SPA document
 and the backend it calls are cross-host — the production-style
 cross-origin setup. Because the ping app is `oauth=` with no
-`allowed_origins`, Envoy's CORS filter only trusts those loopback
-origins under `rbt dev`, so we also set `RBT_DEV=true`.
+`allowed_origins`, Envoy's credentialed CORS policy on the OAuth
+server's paths trusts those loopback origins only under `rbt dev`,
+so we also set `RBT_DEV=true`.
 """
 
 import asyncio
@@ -31,7 +34,11 @@ from reboot.ping.ping import (
     PongServicer,
     UserServicer,
 )
-from reboot.settings import ENVVAR_RBT_DEV, ENVVAR_RBT_FRONTEND_DIST_PATH
+from reboot.settings import (
+    ENVVAR_RBT_DEV,
+    ENVVAR_RBT_MCP_APP_DIST_PATH,
+    ENVVAR_RBT_WEB_APP_DIST_PATH,
+)
 from tests.reboot.ping.frontend.web.test import test, test_proactive_refresh
 from urllib.error import HTTPError
 from urllib.parse import urlencode
@@ -40,7 +47,7 @@ from urllib.request import Request, urlopen
 
 def _spa_url(envoy_port: int, backend_url: str) -> str:
     """The URL the browser loads the real SPA from: the backend's
-    `/__/frontend/web/` on the `localhost` host, with the backend's
+    `/` on the `localhost` host, with the backend's
     `127.0.0.1` origin handed to the React provider via `?rebootUrl`.
     `localhost` and `127.0.0.1` both resolve to loopback and reach
     the same Envoy, but the browser treats them as distinct hosts, so
@@ -48,39 +55,32 @@ def _spa_url(envoy_port: int, backend_url: str) -> str:
     the backend's host-scoped `rbt_session` cookie is invisible to
     the SPA's `document.cookie`."""
     query = urlencode({"rebootUrl": backend_url})
-    return f'http://localhost:{envoy_port}/__/frontend/web/?{query}'
+    return f'http://localhost:{envoy_port}/?{query}'
 
 
-def _cors_preflight_status(
+def _cors_preflight(
     *,
     url: str,
     origin: str,
-) -> int:
-    """Synthetic CORS preflight (`OPTIONS`) — returns just the
-    response status code.
-
-    Envoy's CORS filter handles preflights at the filter layer.
-    For an allow-listed origin it responds `200 OK` with the
-    `Access-Control-Allow-*` headers; for an origin that *isn't*
-    trusted it doesn't intercept at all, so the listener has
-    no other `OPTIONS` handler for `/__/oauth/whoami` and Envoy
-    falls through to `405 Method Not Allowed`. That status code
-    is the tell that the CORS policy kicked in.
-    """
+) -> tuple[int, dict[str, str]]:
+    """Sends a CORS preflight (`OPTIONS`) and returns the response's
+    status code and its headers, lower-cased."""
     request = Request(
         url,
         method='OPTIONS',
         headers={
             'Origin': origin,
-            'Access-Control-Request-Method': 'GET',
-            'Access-Control-Request-Headers': 'content-type',
+            'Access-Control-Request-Method': 'POST',
+            'Access-Control-Request-Headers': 'authorization,content-type',
         },
     )
     try:
         with urlopen(request, timeout=5) as response:  # noqa: S310
-            return response.status
+            return response.status, {
+                k.lower(): v for k, v in response.headers.items()
+            }
     except HTTPError as e:
-        return e.code
+        return e.code, {k.lower(): v for k, v in e.headers.items()}
 
 
 class PingStandaloneSpaTest(unittest.IsolatedAsyncioTestCase):
@@ -88,12 +88,15 @@ class PingStandaloneSpaTest(unittest.IsolatedAsyncioTestCase):
     async def asyncSetUp(self):
         # Run the backend as `rbt dev` so Envoy's CORS filter trusts
         # the loopback origins the SPA is driven from (`localhost` /
-        # `127.0.0.1`), and so `RBT_FRONTEND_DIST_PATH` serves the
-        # built SPA over `/__/frontend/` from the backend's own HTTP
-        # server. Both must be set before the cluster comes up so the
+        # `127.0.0.1`), and so `RBT_WEB_APP_DIST_PATH` serves the built
+        # SPA at `/` from the backend's own HTTP server (with
+        # `RBT_MCP_APP_DIST_PATH` naming the MCP App builds, which an
+        # application with `UI(...)` methods must be told how to
+        # serve). All must be set before the cluster comes up so the
         # servers inherit them.
         os.environ[ENVVAR_RBT_DEV] = "true"
-        os.environ[ENVVAR_RBT_FRONTEND_DIST_PATH] = "frontend/dist"
+        os.environ[ENVVAR_RBT_MCP_APP_DIST_PATH] = "frontend/dist/mcp"
+        os.environ[ENVVAR_RBT_WEB_APP_DIST_PATH] = "frontend/dist/web"
         self.rbt = Reboot()
         await self.rbt.start()
 
@@ -127,20 +130,17 @@ class PingStandaloneSpaTest(unittest.IsolatedAsyncioTestCase):
         backend_url = f'http://127.0.0.1:{self.rbt.envoy_port()}'
         await do_health_check(application_url=backend_url)
 
-        # Security regression test for the credentialed-CORS policy:
-        # a CORS preflight from an origin that *isn't* trusted must
-        # be rejected — that's the only thing standing between a
-        # logged-in user's browser and a third-party site reading the
-        # access JWT off `/__/oauth/whoami` cross-origin.
-        #
-        # Envoy CORS rejects by *not* intercepting the preflight,
-        # which falls through to "no `OPTIONS` handler for this
-        # route" → `405 Method Not Allowed`. The trusted positive
-        # control isn't checked here — the full e2e flow below is the
-        # positive control (the SPA could not have signed in
-        # cross-origin if CORS hadn't echoed its origin).
-        evil_status = await asyncio.to_thread(
-            _cors_preflight_status,
+        # A preflight to the OAuth server's paths from an untrusted
+        # origin must fail: the credentialed CORS policy is all that
+        # keeps a third-party page in a signed-in user's browser from
+        # reading the access JWT off `/__/oauth/whoami`. Envoy rejects
+        # by not intercepting the preflight, which then reaches the
+        # OAuth server; it has no `OPTIONS` handler for `/whoami`, so
+        # the answer is 405. The e2e flow below is the positive
+        # control: the SPA could not sign in cross-origin unless CORS
+        # echoed its origin.
+        evil_status, _ = await asyncio.to_thread(
+            _cors_preflight,
             url=f'{backend_url}/__/oauth/whoami',
             origin='http://evil.example',
         )
@@ -155,6 +155,41 @@ class PingStandaloneSpaTest(unittest.IsolatedAsyncioTestCase):
                 "`Application(allowed_origins=...)`."
             ),
         )
+
+        # Every other path answers any origin, including the opaque
+        # `null` an MCP host's sandbox presents, without credentials:
+        # a page there can call RPCs with a bearer it holds, and the
+        # browser hides from it any response to a request it sent
+        # with the cookie.
+        # A well-formed state reference: the routing filter rejects a
+        # malformed one with a 400 before the CORS filter answers the
+        # preflight.
+        for origin in ('http://evil.example', 'null'):
+            rpc_status, rpc_headers = await asyncio.to_thread(
+                _cors_preflight,
+                url=(
+                    f'{backend_url}/__/reboot/rpc/reboot.ping.Counter:x'
+                    '/reboot.ping.CounterMethods/Get'
+                ),
+                origin=origin,
+            )
+            self.assertEqual(rpc_status, 200, msg=rpc_headers)
+            self.assertEqual(
+                rpc_headers.get('access-control-allow-origin'), origin
+            )
+            self.assertNotIn(
+                'access-control-allow-credentials',
+                rpc_headers,
+                msg=(
+                    "RPCs must never allow credentials from an "
+                    "untrusted origin; the session cookie would then "
+                    "authenticate a third-party page's requests."
+                ),
+            )
+            self.assertIn(
+                'authorization',
+                rpc_headers.get('access-control-allow-headers', '').lower(),
+            )
 
         await test(spa_url=_spa_url(self.rbt.envoy_port(), backend_url))
 
