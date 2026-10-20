@@ -551,7 +551,8 @@ a.row {
   grid-auto-columns: minmax(min(180px, 80vw), 1fr);
   gap: var(--space-3);
   overflow-x: auto;
-  align-items: start;
+  /* Every column as tall as the longest, so the board's edges line up. */
+  align-items: stretch;
   padding-bottom: var(--space-2);
 }
 .board-col {
@@ -560,10 +561,16 @@ a.row {
   border-radius: var(--radius);
   padding: var(--space-2);
   display: grid;
+  /* Header and cards keep their own height; spare height stays at the
+     bottom, never shared out among them. */
+  align-content: start;
+  grid-auto-rows: max-content;
   gap: var(--space-2);
   min-width: 0;
 }
 .board-col-head {
+  /* Headers line up even when one wraps. */
+  min-height: 44px;
   display: flex;
   align-items: center;
   gap: var(--space-2);
@@ -816,6 +823,16 @@ button:focus-visible {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr));
   gap: var(--space-3);
+  /* Fields side by side keep their labels on one line. */
+  align-items: start;
+}
+/* Stacked fields, rows of fields and a form's message never touch. */
+:is(.field, .field-row, .error) + :is(.field, .field-row, .error) {
+  margin-top: var(--space-4);
+}
+/* Side by side in a row, the row's gap spaces them instead. */
+.field-row > .field + .field {
+  margin-top: 0;
 }
 
 /* Status: neutral pills with text; .good / .warn / .bad for the one
