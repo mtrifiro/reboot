@@ -27,7 +27,7 @@ edited here; change the hotel in its own repository and sync).
 | Accounts | Alice (manager), Esi (front desk), Carlos and Dani (housekeeping); Ben has no role. These are the development sign-in's five built-in people |
 | Record | `design/`: the design document (every object, method and rule a dashboard link), the decisions log, and the accepted design |
 
-Keep to the stops: a tutorial that wanders teaches nothing. Each stop
+Keep to the stops: the tutorial teaches only if it keeps to them. Each stop
 ends with something the user does and says in one sentence what it
 taught, in the hotel's nouns.
 
@@ -221,7 +221,7 @@ Ask nothing before building it: no rule changes, so the scenarios are
 the proof. The dashboard's [Changelog](<dash>/#/changelog) shows
 nothing new: the API didn't change.
 
-*Taught:* a change no rule notices is just code; the same scenarios
+*Taught:* a change that touches no rule is a code change; the same scenarios
 prove every promise still holds.
 
 ## Stop 9: a rule change (about 5 minutes)

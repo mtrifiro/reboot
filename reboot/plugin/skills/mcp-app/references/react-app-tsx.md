@@ -97,7 +97,7 @@ whole list at once.
 
 The wrong fix is to flatten the model back into `list[Item]` on one
 actor so the dashboard regains a single subscription; see "When
-Correct Decomposition Fights the UI" in [`SKILL.md`](../SKILL.md). The
+Correct Decomposition Conflicts with the UI" in [`SKILL.md`](../SKILL.md). The
 right fix keeps the decomposition and gives the front-door type a
 **composing reader**: the UI still has exactly one subscription, and
 the fan-out across item actors happens server-side.
