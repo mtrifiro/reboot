@@ -9,11 +9,13 @@ notice is kept beside the output in skills/web-app/assets/palettes.LICENSE.
 Each palette is a gray and an accent. Light: the page is gray-2, panels
 gray-1, text gray-12, muted gray-11, lines gray-6; the
 accent is the first of steps 9-12 that reads on the page (3:1) with
-white on it (4.5:1). Dark: the page is gray-1, panels gray-2; the accent
+white on it (4.5:1). Dark: the page is gray-1, panels gray-3 and the
+track gray-5, so a panel stands off the page by its surface and a
+hairline, not a shadow; the accent
 is the first of steps 11, 10, 9 with gray-1 on it. The page head's band
 is calm: accent-4 mixed halfway with gray-6, accent-12 text (dark:
 accent-2, accent-12 text); "deep" keeps the dark band (gray-12, gray-1
-text; dark: gray-3), set with `look.py set band deep`.
+text; dark: gray-4), set with `look.py set band deep`.
 Tints are the accent's step 3 (light) and 4 (dark).
 """
 import json, re, sys
@@ -67,10 +69,10 @@ for gray, acc in PAIRS:
         else:
             bg = g[1]
             accent, on, step = pick(a, g, bg, [(11, "g1"), (10, "g1"), (9, "g1"), (9, "white")])
-            vals = {"bg": g[1], "bg-2": g[2], "panel": g[2], "ink": g[12], "muted": g[11], "line": g[6], "track": g[4],
+            vals = {"bg": g[1], "bg-2": g[2], "panel": g[3], "ink": g[12], "muted": g[11], "line": g[6], "track": g[5],
                     "accent": accent, "on-accent": on, "accent-deep": a[2], "on-deep": a[12],
                     "accent-tint": a[4], "bg-glow": a[2]}
-            deep["dark"] = {"accent-deep": g[3], "on-deep": g[12]}
+            deep["dark"] = {"accent-deep": g[4], "on-deep": g[12]}
         fam["dark" if dark else "light"] = vals
         steps.append(f"{acc}-{step}")
     out[f"{gray}-{acc}"] = {"source": f"Radix Colors {gray} with {steps[0]} (light), {steps[1]} (dark)", **fam,
