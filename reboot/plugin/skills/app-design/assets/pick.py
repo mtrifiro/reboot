@@ -2,7 +2,7 @@
 """One of several choices, the same for a project folder every time and
 different across folders, so two builds of one prompt differ.
 
-    python3 <this file> name Larkspur Quayside "The Ledger Room" Bellhop Fenwick
+    python3 <this file> name Courtyard Juniper Bellstand "Night Audit" "Room Board" ...
 
 The first argument says what is picked (`name`), so the pick for a name
 and for anything else in the same folder don't move together. Prints the
