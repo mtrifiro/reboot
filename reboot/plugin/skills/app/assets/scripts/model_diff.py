@@ -263,7 +263,7 @@ def model_of(sources: dict[str, str]) -> tuple[dict, dict]:
 
 # A package holding this many domain objects or more is suggested for a
 # split by area (accept-design.md, "Packages").
-PACKAGE_SPLIT_AT = 6
+PACKAGE_SPLIT_AT = 7
 
 
 def packages_of(sources: dict[str, str]) -> dict[str, dict]:
