@@ -674,10 +674,13 @@ works as it will in the finished app.
    Every feature file then runs from the one test module that
    starts the frontend. Run `uv run pytest` again.
 10. Start the app with the [`run` skill](../run/SKILL.md) and check
-    the page in a real browser (Playwright, or the agent's browser
-    tool): signed in, it shows the whole demo data, its main action
-    works, every filter or drawer it opens can be cleared or closed,
-    no console errors.
+    the page in a headless browser (Playwright; in the Claude app never
+    the Browser pane, which is for the user at the handoff): signed
+    in, it shows the whole demo data, its main action works, every
+    filter or drawer it opens can be cleared or closed, no console
+    errors, and the layout checks in
+    [`references/ui-design.md`](references/ui-design.md) ("Measure
+    what can be measured") pass at desktop and phone width.
 11. Show what was built so the user can judge it, not admire it,
     word for word in the handoff's shape in
     [`app/references/design-messages.md`](../app/references/design-messages.md):
