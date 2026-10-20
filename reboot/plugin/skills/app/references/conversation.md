@@ -105,6 +105,12 @@ for the build's own testing: the build tests the app in a headless
 browser (the browser scenarios, and the checks in
 `web-app/references/ui-design.md`, run with Playwright), never in the
 pane, so no card for an app still being tested appears in the chat.
+Each tab keeps the address it opened with: never navigate one, or set
+its `location`, to another (the dashboard's tab stays the dashboard),
+and never click, type or run a script in the user's tabs. Each address
+is its own configuration (`design`, `comp`, `dashboard`, `app`),
+started by name (crm-30 set the dashboard tab's `location` to the app,
+then tested the page in the pane; the user lost the dashboard's tab).
 The app opens in the pane once, at the handoff's **Your turn**, ready
 to try (a `launch.json` configuration named `app` with only its URL,
 the backend's address, `"url": "https://<app>.localhost"` or
