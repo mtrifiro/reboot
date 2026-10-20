@@ -524,7 +524,9 @@ finished app.
 
 **Each next feature**, when the user chooses it:
 
-12. **First, one message, before any file of it**, as
+12. **First, one message, before any file of it**, sent as the
+    response's text, never only in thinking (crm-30 planned "company
+    logos" in thinking, ticked its first item and said nothing), as
     [`accept-design.md`](../app/references/accept-design.md)'s
     "Starting a part" says: what it adds, its rules, anything assumed,
     and that saying stop keeps working on what's here. No question
