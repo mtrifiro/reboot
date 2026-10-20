@@ -16,7 +16,7 @@ and before **Ready to build this design?**. On the hands-off paths
 made right after `design/design.md`, its line said, and the build goes
 straight on, the page built from it: the user has the look within a
 few minutes instead of at the first page (hotel-271's came at 19
-minutes). The prompt-by-prompt path doesn't make one, an MCP App doesn't (its views live in a host), and a host that
+minutes). An MCP App doesn't make one (its views live in a host), and a host that
 can't run commands skips it with no line.
 
 **Make it,** about a minute, one line first: "Making a mockup of the <page>,
@@ -104,8 +104,9 @@ in <palette>."
 5. One line in the chat, then the go-ahead dialog: "**Where it is
    going:** [a mockup of the <page>](<mockup>),
    in <palette>, with no data behind it; the real page
-   replaces it at the frontend step." On the first-feature-only path
-   the line ends there, with no dialog: "Building it now." follows,
+   replaces it at the frontend step." On the hands-off paths
+   (`app-whole`, with or without ", basic") the line ends there, with
+   no dialog: "Building it now." follows,
    and the build goes on. A change to it typed as the
    go-ahead's free answer ("the waiting list on the left", "quieter")
    is a change to the design's Pages line: made, the mockup remade, the same
@@ -140,6 +141,6 @@ above when it is wanted again.
 - The go-ahead dialog before the comp's line, or a minute between the
   design and the line without "Making a mockup of the <page>".
 - The comp opened in the user's external browser in the Claude app.
-- A comp on the whole-app (hands off) or prompt-by-prompt path, for
-  an MCP App, or where commands can't run; or a stop to wait on it on
-  the first-feature-only path.
+- A comp for an MCP App or where commands can't run; or a stop to
+  wait on it on a hands-off path (`app-whole`, with or without
+  ", basic").
