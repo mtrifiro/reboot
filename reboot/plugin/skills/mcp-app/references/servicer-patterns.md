@@ -1,13 +1,13 @@
 ---
-title: Servicer Patterns — User Front Door, Workflow Magic, Scheduling
+title: Servicer Patterns — User Front Door, Workflow Self-Reference, Scheduling
 impact: CRITICAL
-impactDescription: Three MCP App-specific servicer patterns layered on top of `python`'s Servicer rules. The User-side `create_<X>` Transaction is the front door for every application-type instance; Workflow methods need `MyType.ref()` (no-arg) magic instead of `cls.ref()` or `self.ref()`; workflows kicked off from a Transaction must be `.schedule()`-d, not awaited.
+impactDescription: Three MCP App-specific servicer patterns layered on top of `python`'s Servicer rules. The User-side `create_<X>` Transaction is the front door for every application-type instance; Workflow methods need a no-argument `MyType.ref()` instead of `cls.ref()` or `self.ref()`; workflows kicked off from a Transaction must be `.schedule()`-d, not awaited.
 tags: servicer, user, transaction, workflow, ref, schedule, classmethod, inline-writer, per_workflow, per_iteration, always
 ---
 
-## Servicer Patterns — User Front Door, Workflow Magic, Scheduling
+## Servicer Patterns — User Front Door, Workflow Self-Reference, Scheduling
 
-The base Servicer pattern, context types, and core trips
+The base Servicer pattern, context types, and common mistakes
 (`self.ref().state_id` not `self.state_id`, kwargs not Request
 wrappers, raise typed `<Method>Aborted`) are in
 `python/references/servicer-*.md`, `rpc-calls.md`,
@@ -79,7 +79,7 @@ class CounterServicer(Counter.Servicer):
         return Counter.GetResponse(value=self.state.value)
 ```
 
-## Workflow Servicer (`MyType.ref()` magic)
+## Workflow Servicer (`MyType.ref()` with no arguments)
 
 Workflow methods are `@classmethod` — no `self`, no `self.state`. To
 call back into the current instance, use the **state class** imported
@@ -109,7 +109,7 @@ class MyTypeServicer(MyType.Servicer):
             "Ping periodically",
             interval=timedelta(seconds=request.period_seconds),
         ):
-            # `MyType.ref()` with no args is Workflow-only magic: it
+            # `MyType.ref()` with no args works only in a Workflow: it
             # reads `state_id` from `WorkflowContext`, returning a
             # ref to this workflow's own instance. Do NOT write
             # `cls.ref()` or `self.ref()` here — see Gotcha #11.
@@ -162,7 +162,7 @@ loop iteration), use `.always().write(context, fn)`.
 
 **Never** wrap an inline writer in `at_least_once` / `at_most_once`
 / `.idempotently("alias")`. Inline writers are Reboot-internal and
-already durable — scope is the only knob. See
+already durable — scope is the only setting. See
 `python/references/servicer-workflow.md`.
 
 The inline writer's parameter must be named **`state`** — the

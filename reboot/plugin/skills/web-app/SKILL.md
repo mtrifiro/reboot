@@ -52,7 +52,7 @@ session is an HttpOnly `rbt_session` cookie set by
 `/__/oauth/finish`, read as a bearer on every RPC, so user code sees
 only `context.auth.user_id`, as under MCP.
 
-> **`token_verifier=` is the escape hatch, not the default.** Only
+> **`token_verifier=` is the exception, not the default.** Only
 > for an IdP the built-in `oauth=` providers don't cover (an
 > enterprise SAML/OIDC broker no `OAuthProvider` subclass can wrap)
 > or for custom token semantics; Google/GitHub/Auth0/anonymous
@@ -83,8 +83,8 @@ The sequence:
    `authorizer()` on every Servicer from day one**, with
    `allow_if(...)` rules that run in dev as in production
    (`python/references/servicer-authorizer.md`,
-   `python/references/auth-rules.md`). Never paper
-   over a missing rule with `allow()`; `allow()` means "public,
+   `python/references/auth-rules.md`). Never replace
+   a missing rule with `allow()`; `allow()` means "public,
    unauthenticated internet endpoint" and survives into production.
 2. **Before `rbt serve` / Reboot Cloud:** set `prod=Google(...)`
    (or `GitHub(...)`, `Auth0(...)`, an own `OAuthProvider`
@@ -93,7 +93,7 @@ The sequence:
    sets the provider. The providers, their arguments, `scopes=`,
    `store_tokens=`, `claims=`
    ([`auth-claims.md`](../python/references/auth-claims.md)), the
-   redirect URI and why the choice is for keeps:
+   redirect URI and why the choice is permanent:
    [`auth-oauth-providers.md`](../mcp-app/references/auth-oauth-providers.md),
    read at deploy.
 
@@ -147,7 +147,7 @@ generated or installed file (`*_rbt.py`, `*_rbt_react.ts`,
 
 **Before the API definition:**
 
-- `python/references/patterns-common-gotchas.md` — recurring trips.
+- `python/references/patterns-common-gotchas.md` — recurring mistakes.
 - `python/references/api-pydantic.md` — pydantic API rules.
 - `python/references/api-methods.md` — factory → context type mapping.
 - `python/references/api-errors.md` — typed errors, when the API

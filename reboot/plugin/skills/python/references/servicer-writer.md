@@ -11,7 +11,7 @@ tags: servicer, writer, WriterContext, state, mutation
 > mutations belong in a `transaction` method (a writer may still
 > call readers on other actors — cross-actor reads are fine). **No
 > external side effects in a writer — none, not even idempotent
-> ones.** Two reasons stack: (a) a writer can be invoked inside a
+> ones.** There are two reasons: (a) a writer can be invoked inside a
 > `Transaction`, and a transaction is all-or-nothing — if it aborts,
 > every mutation rolls back but the external call already happened,
 > breaking atomicity; (b) writer bodies also re-execute under
