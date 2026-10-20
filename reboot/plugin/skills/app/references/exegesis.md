@@ -12,10 +12,12 @@ tags: verbose, exegesis, explain, teach, learning, commentary, design/exegesis.m
 work", "teach me as you go"), and off when they say so ("quiet", "no
 more exegesis"). One line says it is on: "Verbose: each milestone
 report ends with an exegesis of what was written and why, the same
-text kept in design/exegesis.md." Nothing else about the build
-changes: the task list, the step lines, the dialogs and the reports
-are as they are. The exegesis is a section of each milestone report,
-never commentary between them.
+text kept in design/exegesis.md." Two things change, and nothing
+else (the task list, the dialogs and the reports are as they are):
+each milestone report ends with its exegesis, and each step line
+between milestones gains one sentence of why ("Backend: writing the
+floor plan's rules as scenarios first, because the rules are the
+contract the code must keep."). Nothing more between reports.
 
 **Where.** The last section of each milestone report, set apart as
 its own document: a horizontal rule (`---`) on its own line, the
@@ -24,7 +26,8 @@ the text, and a closing rule, before the report's dialog; in a
 handoff, the rule before **Your turn** closes it.
 
 - In a guided build: the domain model check (the rules file and the
-  API), the backend check (the servicers, the demo data, the tests),
+  API; shown after its lead line even when the model is unchanged and
+  no question is asked), the backend check (the servicers, the demo data, the tests),
   the handoff (the page and its browser scenarios), then each later
   feature's handoff.
 - On the prompt-by-prompt path and in the `app-just` skill: after each
@@ -39,8 +42,9 @@ chat. The file is created at the first one and linked from the
 handoff's **Look closer** line beside the design.
 
 **What it explains.** An exegesis reads the text that was written and
-says what each part is for, in this order, 250 to 450 words a
-milestone:
+says what each part is for, in this order, 600 to 900 words a
+milestone, always in the chat as well as the file (a milestone whose
+exegesis is only in the file has none):
 
 1. **Each object or page, as a decision.** Why it is its own object
    (what changes on its own, what runs one at a time), what its id is
@@ -71,8 +75,8 @@ so.
 
 ## Never
 
-- Commentary between reports, or an exegesis of a reading step, a
-  typo fix or a tool call.
+- Commentary between reports beyond the step line's one sentence of
+  why, or an exegesis of a reading step, a typo fix or a tool call.
 - An exegesis in a build that did not ask for one.
 - A whole file quoted: the decisive lines only.
 - A milestone's report delayed to write it: the report, then the
