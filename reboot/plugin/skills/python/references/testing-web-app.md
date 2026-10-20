@@ -118,6 +118,10 @@ the app in one scenario.
 - **The value after `with` is JSON,** like every step value: text
   in quotes inside the backticks, `with `"Mme. Laurent"``; a number
   bare, `with `250``. Unquoted text fails with "must be JSON".
+- **Quoted text never holds the word "with" or "has"**: Reboot reads
+  either as the start of a clause and fails with "each clause goes in
+  backticks" (hotel-302's "Guest has left", hotel-304's "…wrong with
+  the room"). Quote a part without it; never drop the browser check.
 - **`sees "<text>"` must match one element.** It finds the text
   anywhere on the page, part of an element's text included, and fails
   ("strict mode violation") when more than one element shows it: a
