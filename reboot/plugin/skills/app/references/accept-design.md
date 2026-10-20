@@ -29,21 +29,35 @@ Every rule in a feature file gets a row. A rule with no owner, method
 or scenario is a gap to name in the handoff's **Notes**, not to fill
 silently, as is each interaction, rule or status the design adds to or
 changes from what the user asked for, with its reason. Then the
-close, never a question: a handoff asks nothing (no dialog, no
-next-step box question).
+close.
 
 **Every handoff** ends with its **Your turn** section
 ([`design-messages.md`](design-messages.md)): what to try first, the
 dashboard's pages and the design, and the parts to build next, the
-recommended one first with why and its time, and that the user asks
-for one when ready.
+recommended one first with why and its time. Then one multiple-choice
+dialog (`AskUserQuestion`, never the next-step box), the only tool
+call after the message:
 
-What the user says next decides: asking for a next part, or saying to
-keep this one, accepts what was reviewed, recorded as below before
+- **Question:** "What should I build next?"
+- **Options:** the parts under **Build next**, up to three, each its
+  name as the label and its one line as the description, the
+  recommended one first and marked "(Recommended)". When fewer than
+  three parts are left and the other front door isn't built, the MCP
+  UI is one. Last: "Not yet": "I want to try it first, or change
+  something."
+- The dialog's own free-text answer takes a change in the user's
+  words.
+
+On "Not yet", one line: "Tell me when you're ready, or what to
+change." Then stop, and nothing is recorded. A part chosen is built
+straight away, with no further question.
+
+What the user says next decides: choosing or asking for a next part,
+or saying to keep this one, accepts what was reviewed, recorded as below before
 the next part starts; a change goes back into the build. Nothing is
 recorded while the user only tries the app. When nothing is left to
 build, the closing line says so and that the user can ask for changes.
-No reply is not acceptance. Never put "feature", "@wip", "design" or
+No reply, or a dialog skipped, is not acceptance. Never put "feature", "@wip", "design" or
 "accept" in the closing line: the user judges what they see, and the
 build records what that means.
 
