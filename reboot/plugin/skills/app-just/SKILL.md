@@ -22,7 +22,7 @@ prompt doesn't name.
   (`app/references/backend-only.md`); nothing named is a web app.
   Load the door with the Skill tool, never by reading its file.
 - **Sign-in:** anyone signed in can do everything; every method has
-  an authorizer from day one, never `allow()`. Roles only when the
+  an authorizer from the first build, never `allow()`. Roles only when the
   prompt names them.
 - **The look:** the house look and its palette, cream and navy,
   unless the prompt names a palette from

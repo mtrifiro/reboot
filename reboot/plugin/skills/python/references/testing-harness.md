@@ -121,8 +121,8 @@ Things to know:
 
 ## Test Against the Real Authorizers — Impersonate, Don't Disable
 
-The harness runs production-mode authorization, and that's the
-point: register the **real** servicers — the exact classes `main.py`
+The harness runs production-mode authorization deliberately:
+register the **real** servicers — the exact classes `main.py`
 registers — and give each test context a real, verified identity. A
 test that only passes with authorization disabled proves nothing
 about the application the user actually runs; the agent's
@@ -281,11 +281,11 @@ handing the app off" is in the `mcp-app` and `web-app` build
 flows: the tests catch contract bugs that a manual click-through
 won't surface for several minutes.
 
-## Asserting a Typed Error — and Keeping `mypy` Happy
+## Asserting a Typed Error So `mypy` Accepts It
 
 A method that declares `errors=[QuotaExceededError, ...]` raises
 `<Type>.<Method>Aborted` whose `.error` is the typed error. Two
-things trip people up:
+details matter:
 
 1. The generated `Aborted` type is per-method:
    `TaskList.AddTaskAborted`, not a bare `Aborted`.
