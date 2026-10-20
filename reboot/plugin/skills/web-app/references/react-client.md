@@ -36,7 +36,10 @@ frontend/
     ├── .env.development # No `VITE_REBOOT_URL` in development; below
     ├── .env.production  # Written at deploy time (the `deploy` skill)
     ├── index.html       # `<div id="root">` + `<script type="module" src="./src/main.tsx">`
-    ├── public/          # Static files, copied into the build as they are; `favicon.svg`
+    ├── public/          # Static files, copied into the build as they are; `favicon.svg`.
+    │                    # An image a page shows is imported from src/ instead: in
+    │                    # development Vite serves under /__/frontend/, so /band.jpg 404s
+    │                    # (crm-30's header photo)
     └── src/
         ├── main.tsx     # The provider, below
         ├── App.tsx      # The starter page: sign-in, one reader, a form, a table; edited into the design's pages
