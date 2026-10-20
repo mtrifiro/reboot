@@ -102,6 +102,7 @@ can't happen.
 | `got an unexpected keyword argument 'request'` | `request=` wrapper passed to a scheduled call | Pass fields as kwargs | `mcp-app/references/servicer-patterns.md` |
 | `got an unexpected keyword argument 'state'` | Inline writer callback parameter not named `state` | Rename it: `async def fn(state)` | `python/references/servicer-workflow.md` |
 | `has illegal name: <Name> is reserved`, or only `protoc failed with exit status 1` | A method named `read`, `write`, `delete`, `state`, `schedule` or `spawn` | Rename it | `python/references/rpc-calls.md` |
+| `/bin/sh: /Users/<you>/<first word>: No such file or directory`, then `` `protoc` failed with exit status 127`` | The project's path has a space, and `rbt generate` runs the venv's plugins through the shell unquoted | `export UV_PROJECT_ENVIRONMENT=$HOME/.venvs/<app>` before every uv command, `uv sync` again | `python/references/lifecycle-project-setup.md` |
 | `has incompatible type "list[function]"; expected "Sequence[AuthorizerCallable[...]]"` | Unannotated predicate under `mypy` | Annotate the predicate's parameters and return type | `python/references/auth-custom-predicates.md` |
 | `has no attribute "create"` | No factory named `create` (or none at all) | Call the declared factory, or a writer on a factory-less type | `python/references/rpc-calls.md` |
 | `has previously been used by a different` (`MixedContextsError`) | One `ref()` was used with two contexts | `Type.ref(id)` per call | `python/references/testing-harness.md` |
