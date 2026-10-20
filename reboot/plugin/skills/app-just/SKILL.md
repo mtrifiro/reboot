@@ -53,7 +53,9 @@ The prompt, no more:
 - A change to a built app is made as asked (`feature` skill, "A fix,
   a bug report, a review finding", without its question): additive
   API changes (`python/references/api-schema-evolution.md`), the
-  scenario first, then the code.
+  scenario first, then the code; the app stopped before the first
+  `api/` edit and started again once `rbt generate` has run (the
+  `run` skill, "Test runs and the running app").
 - The door's Build Flow supplies the steps for the part asked, with
   its reading list (the technical references, at the step that needs
   each); its Design Phase, scope round and every dialog are skipped,
@@ -77,8 +79,8 @@ suite when the prompt says "all"); then the links line and stop:
 No handoff frame, no "what Reboot does here", no wait notes, no task
 list, no "What should I build next?". A refused scenario is said as
 the rule it breaks and the fix, in one line each. The dashboard
-starts once the API exists (`dashboard` skill), silently, and its
-links appear in the line. One exception, only when the prompt asks for
+starts once the API exists (`dashboard` skill); its line is said once
+it answers, and its links appear in each links line after. One exception, only when the prompt asks for
 it ("verbose", "explain as you build", "an exegesis"): after the links
 line, the **Exegesis** of what was written, the same text appended to
 `design/exegesis.md`
