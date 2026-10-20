@@ -57,7 +57,10 @@ in <palette>."
    no stat repeats a count the view already shows: one signature
    `stat`, the rest a `funnel` in `stats summary` naming who needs a
    person (crm-31's first mockup: identical white cards and three
-   tiles that repeated the board's own counts). What the eye lands on is as the design's Pages line says:
+   tiles that repeated the board's own counts). The eyebrow carries the
+   `live` mark; a legend's items and the tabs carry their `count`; a
+   figure with a limit (rooms sold of 56, seats of 25) is a
+   `meter-row`. What the eye lands on is as the design's Pages line says:
    the resting state plain, colour on the states that need a person,
    the accent on the primary action and the current nav item only.
    A plan is `plan` rows, one a floor or aisle with its `plan-label`
