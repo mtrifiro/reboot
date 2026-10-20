@@ -36,3 +36,5 @@ design/comp/*
 !design/comp/index.html
 design/.design.pid
 design/.comp.pid
+# The run skill's "restarting" page while the app is stopped
+.standby.pid
