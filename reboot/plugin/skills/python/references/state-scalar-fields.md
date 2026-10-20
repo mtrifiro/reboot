@@ -85,8 +85,7 @@ runtime. Mutate inside writers/transactions only.
 A `str`/`bytes` scalar field is **plaintext at rest** — anyone with the
 database (e.g. a leaked backup) can read it. Secrets must never land in
 a scalar field. This includes passwords, API keys, session tokens, and
-PII. The reflex "it's just a string, give it a `str` field" is exactly
-the trap.
+PII. A secret is never a `str` field, however simple it looks.
 
 Instead, encrypt the value with the `Ciphertext` stdlib type (envelope
 encryption + per-scope crypto-shredding) and store the returned
@@ -113,7 +112,7 @@ _other_ secret/PII field.
 
 ```python
 class IntegrationState(Model):
-    api_key: str = Field(tag=1, default="")  # plaintext at rest!
+    api_key: str = Field(tag=1, default="")  # plaintext at rest
 ```
 
 **Correct (store the `Ciphertext` id; the secret is encrypted):**
