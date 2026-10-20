@@ -119,15 +119,12 @@ the design for <app>" is done once the design is shown.
 In the first feature only, once the front door has the dashboard up
 on the new domain model and before any servicer code: turn the
 code-style names in `design/design.md` that now exist into dashboard
-links (the rest stay plain until built). Then compare the API with the
-design's **Domain model**: when it has the same objects and each holds
-what the design said, the user has already said yes to it. Say the
-lead line below with "Building its actions next; say "walk me through
-it" for a tour, object by object." in place of the dialog, and go on
-without ending the turn (hotel-260 asked again about an unchanged
-model, about 2 minutes). Only when the build added, dropped or renamed
-an object or a field the design showed, end the turn with that lead
-line, a line naming each difference, and one dialog:
+links (the rest stay plain until built). When the API holds the
+design's objects and fields unchanged, the user has said yes already:
+the lead line below, then "Building its actions next; say "walk me
+through it" for a tour," and go on. Only when an object or field was
+added, dropped or renamed, end the turn with the lead line, a line per
+difference, and one dialog:
 
 > The room status floor plan's [domain model](<the Models page link>) is open on the dashboard
 > (on 9874, since other projects hold 9871 to 9873): the things the
