@@ -1,0 +1,23 @@
+# Find API definition files in 'api/'.
+generate api/
+
+# Tell `rbt` where to output its generated files.
+generate --python=backend/api/
+generate --react=frontend/api
+
+# Watch source files during `rbt dev run`.
+dev run --watch=backend/api/**/*.py
+dev run --watch=backend/src/**/*.py
+
+# Tell `rbt` that this is a Python application.
+dev run --python
+
+# Save state between `rbt dev run` restarts.
+dev run --application-name=maison-desk
+dev expunge --application-name=maison-desk
+
+# Load secrets from a git-ignored env file.
+dev run --env-file=.env
+
+# Run the application!
+dev run --application=backend/src/main.py
