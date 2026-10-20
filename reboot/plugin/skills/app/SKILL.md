@@ -21,17 +21,17 @@ word for word:
 - Title: **How should it be built?**, none of its options marked
   recommended, in this order:
 - "Interactively": "A design to approve, your choices, each part built and
-  explained, step by step (great for learning). `/reboot:app-guided`"
+  explained, step by step (to see how each part works). `/reboot:app-guided`"
 - "Interactively (verbose)": "Interactively, plus an exegesis of the
   code at each milestone, what was written and why, kept in
-  design/exegesis.md (great for learning Reboot itself).
+  design/exegesis.md (to learn how Reboot works).
   `/reboot:app-guided`, verbose"
 - "First feature only": "One feature, the heart of what you
   typed, designed, built, reviewed and handed over once, about half an
-  hour (great for a first look). `/reboot:app-basic`"
+  hour (a quick first look). `/reboot:app-basic`"
 - "Whole app, hands off": "Every feature a real product needs, six to ten,
   designed, built, reviewed and handed over once, about an hour or two
-  (great for one-shotting a full app).
+  (a full app in one run).
   `/reboot:app-whole`"
 
 Then load the chosen skill with the Skill tool
@@ -89,8 +89,8 @@ reads `backend-only.md`, and follows it from the top: `app-guided` after
 the go-ahead, `app-whole` after its design, `app-just` at once.
 
 **At handoff,** unless "just/only/no" applied, offer the other front
-door in one line: "Want this in Claude and ChatGPT too? The backend is
-ready; it adds an MCP App beside the web app." (or the reverse). On a
+door in one line: "The backend can also serve an MCP App for Claude and
+ChatGPT; ask to add it." (or the reverse). On a
 yes, follow that front door's Update Flow.
 
 | Prompt | Builds |

@@ -49,7 +49,7 @@ strongest first.
 **Web App** — all of: no `mcp=Tool(` / `UI(` anywhere under `api/`;
 the SPA entry `frontend/web/index.html`, and no `frontend/mcp/`.
 
-If the signals genuinely conflict, or none match, ask the user
+If the signals conflict, or none match, ask the user
 ("Is this an MCP App or a standalone Web App?"). Do not guess: the
 app type decides whether the tunnel runs and the setup wizard opens.
 
@@ -212,7 +212,7 @@ ports go with it, and a suite started while they are still up has
 failed scenarios that pass alone (hotel-211: two failed in a full run
 started three seconds after the signal, and passed in the next). One
 caught mid-restart, after an `api/` change, can ignore the interrupt
-and stay up, wedged (seen on a rendered starter, 2026-10-19): the last
+and stay up, unresponsive (seen on a rendered starter, 2026-10-19): the last
 line stops that one process, and its own children, by its pid, never
 another app's.
 
@@ -227,7 +227,7 @@ the old data (`uv run rbt dev expunge --yes`) before that start, not
 after the servicers. The suite runs its own Reboot
 on its own ports; what collides is a running `rbt dev run`
 regenerating the code when `api/` changes, under the tests, which
-fails scenarios and can wedge the app mid-restart. Measured on a
+fails scenarios and can hang the app mid-restart. Measured on a
 rendered starter (2026-10-19): with the app up and no `api/` change,
 4 of 4 full runs passed and the app stayed up; started right after an
 `api/` edit, 1 of 2 failed and the app hung. A stop leaves the user's
