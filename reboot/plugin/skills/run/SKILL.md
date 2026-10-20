@@ -207,10 +207,7 @@ if kill -0 $P 2>/dev/null; then pkill -TERM -P $P; kill -TERM $P; sleep 5
   kill -0 $P 2>/dev/null && kill -KILL $P; fi
 ```
 
-(`UV_PROJECT_ENVIRONMENT` is set when the project's path has a space,
-`python/references/lifecycle-project-setup.md`.) The loop waits, at
-most 10 seconds, until it has exited (an interrupt ends it in one or
-two): its Envoy and
+The loop waits, at most 10 seconds, until it has exited: its Envoy and
 ports go with it, and a suite started while they are still up has
 failed scenarios that pass alone (hotel-211: two failed in a full run
 started three seconds after the signal, and passed in the next). One
