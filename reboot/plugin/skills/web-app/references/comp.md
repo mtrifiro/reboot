@@ -51,7 +51,13 @@ in <palette>."
    plan, `list-card` rows, a `board`, a table) with six to twelve
    believable rows in the design's own nouns and names; the side panel
    when the page has one; the primary action as the one `primary`
-   button. What the eye lands on is as the design's Pages line says:
+   button. Each record's card or row carries its identity mark (a
+   company's `avatar logo` tile, a person's avatar, a room's number)
+   and its time (touched when, what's next; `stale` when quiet), and
+   no stat repeats a count the view already shows: one signature
+   `stat`, the rest a `funnel` in `stats summary` naming who needs a
+   person (crm-31's first mockup: identical white cards and three
+   tiles that repeated the board's own counts). What the eye lands on is as the design's Pages line says:
    the resting state plain, colour on the states that need a person,
    the accent on the primary action and the current nav item only.
    A plan is `plan` rows, one a floor or aisle with its `plan-label`
