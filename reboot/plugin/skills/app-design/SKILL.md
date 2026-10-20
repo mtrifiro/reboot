@@ -63,6 +63,11 @@ design, as a working name.
 3. "First, a few questions about what to build; then I'll design it,
    starting from its rules." word for word.
 
+Loaded by the `app-guided` skill, one line after the paragraph, word
+for word: "To build the whole app without stopping instead, use
+/reboot:app-whole." (the hands-off paths are asked for, never offered
+by a dialog: the `app` skill).
+
 Example: "An app for a 56-room boutique hotel, used by its front desk
 and housekeeping. I'd start with the room status floor plan: every
 room from occupied to dirty to cleaned to inspected, and no guest put
@@ -72,8 +77,7 @@ build; then I'll design it, starting from its rules."
 Rules for that response:
 
 - Written as the response's text right after this skill loads (the
-  Skill loads and the `app` skill's question are the only tool calls
-  before it) and before any other
+  Skill loads are the only tool calls before it) and before any other
   tool call, and the same three sentences wherever it is drafted:
   never a longer or different version in thinking, since that is what
   the user may see instead.
@@ -113,8 +117,8 @@ Rules for that response:
 ## 2. One round of questions, then none until the design
 
 One dialog (`AskUserQuestion`; where there is none, the same as plain
-lines), from the prompt alone, before reading any reference. Two or
-three questions, each two to four options, the simplest first and
+lines), from the prompt alone, before reading any reference. Two to
+four questions, each two to four options, the simplest first and
 marked "(Recommended)" where one is recommended, so accepting every
 recommendation is one answer:
 
@@ -144,8 +148,16 @@ recommendation is one answer:
   The palettes are house (Reboot's own: cream paper, navy ink and accent), sand-bronze, sand-brown, sand-orange, sand-gold, olive-grass, sage-teal, slate-blue, slate-iris, mauve-plum and mauve-crimson, and no other; an option's label says its
   two colours in words ("Sage and teal"), its description why it
   suits the domain, in a few words.
-How it is built is not asked here: the user chose the guided build
-(the `app` skill's first question), and the go-ahead, **Ready to
+- **"Explain as it builds?"**, loaded by the `app-guided` skill and
+  only when its argument doesn't already end with ", verbose": "Just
+  build it": "A line as each step starts, a report at each stop." and
+  "Explain as it builds (learning mode)": "Each report ends with what
+  was written and why, 600 to 900 words, also kept in
+  design/exegesis.md." Neither marked recommended. The second turns
+  verbose on ([`exegesis.md`](../app/references/exegesis.md)).
+
+How it is built is not asked here: the interactive build is the
+default (the `app` skill), and the go-ahead, **Ready to
 build this design?**, asks only for the yes; "build it all at once",
 typed as its free answer, is still honoured. The choice can change: at any handoff "build
 the rest all at once", "step by step from here" or "prompt by prompt
