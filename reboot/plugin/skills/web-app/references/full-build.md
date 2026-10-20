@@ -77,8 +77,9 @@ yourself meanwhile: the pages then cost no time of their own (vet-1
 handed off five features at 25 m 51 s this way; crm-15, in order, had
 its first page 5.5 minutes later). Give it the proposed design with its brief, the API file,
 and this skill's frontend references; tell it to work only under
-`frontend/`, never to run `rbt generate`, change the API or start
-the app, and to report back when `npm run build` passes or when the
+`frontend/`, never to run `rbt generate`, change the API, start
+the app or touch the task list (`update_plan`, `wrap_up`: the Claude
+app refuses them from a sub-agent), and to report back when `npm run build` passes or when the
 API lacks something a page needs. Only a host without
 the Agent tool (Codex, say) does the steps in order.
 
