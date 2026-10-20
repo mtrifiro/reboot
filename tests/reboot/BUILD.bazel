@@ -286,6 +286,18 @@ py_test(
 )
 
 py_test(
+    name = "servicer_instances_tests_py",
+    srcs = [":servicer_instances_tests.py"],
+    main = "servicer_instances_tests.py",
+    deps = [
+        ":greeter_servicers_py",
+        "//reboot/aio:applications_py",
+        "//reboot/aio:contexts_py",
+        "//reboot/aio:tests_py",
+    ],
+)
+
+py_test(
     name = "invalid_header_tests_py",
     srcs = [
         ":invalid_header_tests.py",
@@ -603,9 +615,15 @@ py_test(
     srcs = [":auth_tests.py"],
     main = "auth_tests.py",
     deps = [
+        requirement("grpcio"),
         ":bank_py",
         ":test_token_verifier_py",
+        "//reboot/aio:caller_id_py",
+        "//reboot/aio:headers_py",
         "//reboot/aio:tests_py",
+        "//reboot/aio:types_py",
+        "//reboot/aio/auth:__init___py",
+        "//reboot/aio/auth:authorizers_py",
     ],
 )
 
