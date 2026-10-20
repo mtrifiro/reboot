@@ -1,7 +1,9 @@
 """The `rbt dashboard` command, which runs the developer dashboard."""
+import aiohttp
 import argparse
 import asyncio
 import os
+import reboot.portless
 import secrets
 import shutil
 import sys
@@ -15,7 +17,7 @@ from reboot.cli.commands.dev import (
     check_local_envoy_mode,
     try_and_become_child_subreaper_on_linux,
 )
-from reboot.cli.common import terminal
+from reboot.cli.common import portless, terminal
 from reboot.cli.common.dev_extra import dev_extra_installed, missing_dev_extra
 from reboot.cli.common.directories import (
     add_working_directory_options,
@@ -25,25 +27,28 @@ from reboot.cli.common.directories import (
 from reboot.cli.common.rc import ArgumentParser
 from reboot.cli.common.subprocesses import Subprocesses
 from reboot.dashboard.backend.constants import (
-    DASHBOARD_PATH,
+    DASHBOARD_DIRECTORY,
     DEFAULT_DASHBOARD_PORT,
     ENVVAR_RBT_API_DIRECTORY,
     ENVVAR_RBT_APPLICATION,
     ENVVAR_RBT_GENERATED_DIRECTORY,
+    MCP_APP_DIRECTORY,
     PREFERENCES_ID,
     PRESENCE_ID,
 )
 from reboot.settings import (
+    ENVVAR_LOCAL_ENVOY_USE_TLS,
     ENVVAR_RBT_DEV,
     ENVVAR_RBT_EFFECT_VALIDATION,
-    ENVVAR_RBT_FRONTEND_DIST_PATH,
-    ENVVAR_RBT_FRONTEND_HOST,
-    ENVVAR_RBT_FRONTEND_ROOT_PATH,
+    ENVVAR_RBT_FRONTEND_URL,
+    ENVVAR_RBT_MCP_APP_DIST_PATH,
     ENVVAR_RBT_NAME,
     ENVVAR_RBT_NODEJS,
+    ENVVAR_RBT_PORTLESS_NAME,
     ENVVAR_RBT_SERVE,
     ENVVAR_RBT_SERVERS,
     ENVVAR_RBT_STATE_DIRECTORY,
+    ENVVAR_RBT_WEB_APP_DIST_PATH,
     ENVVAR_REBOOT_CRYPTO_ROOT_KEYS,
     ENVVAR_REBOOT_EXPECTED_VERSION,
     ENVVAR_REBOOT_LOCAL_ENVOY,
@@ -71,7 +76,25 @@ def register_dashboard(parser: ArgumentParser):
         '--port',
         type=int,
         help='port on which the dashboard will serve traffic; defaults to '
-        f'{DEFAULT_DASHBOARD_PORT}',
+        f'{DEFAULT_DASHBOARD_PORT}, or under `--portless`, where the name '
+        'is the address, to a free port',
+    )
+
+    parser.subcommand('dashboard').add_argument(
+        '--portless',
+        type=bool,
+        default=False,
+        help=(
+            'serve under a named `.localhost` URL via portless '
+            '(https://github.com/vercel-labs/portless): registers '
+            'the dashboard with the running portless proxy as '
+            '`https://dashboard-<application-name>.localhost`, beside '
+            "the application's `https://<application-name>.localhost`. "
+            'The name is the '
+            "application's, from `dev run --application-name` in "
+            f'{parser.dot_rc_filename}. Requires the `portless` CLI on '
+            'PATH with its proxy started (`portless proxy start`).'
+        ),
     )
 
 
@@ -123,6 +146,21 @@ def _application(parser: ArgumentParser) -> Optional[str]:
     return None
 
 
+def _application_name(parser: ArgumentParser) -> Optional[str]:
+    """Returns the developer's application's name, which is the one
+    they tell `rbt dev run` to save state under, or `None` when they
+    name none.
+
+    Read rather than asked for again, so that `rbt dev run --portless`
+    and this agree on the name without anybody keeping them so.
+    """
+    for argument in parser.dot_rc_arguments('dev run'):
+        name, separator, value = argument.partition('=')
+        if name == '--application-name' and separator == '=':
+            return value
+    return None
+
+
 def _generated_directory(parser: ArgumentParser) -> Optional[str]:
     """Returns the directory `rbt generate` writes Python code into,
     which is where its `--python=` flag points, and `None` when it
@@ -145,11 +183,13 @@ def _dashboard_env(
     parser: ArgumentParser,
     *,
     port: int,
+    portless_name: Optional[str] = None,
     api_directory: str,
     application: Optional[str],
     generated_directory: Optional[str],
 ) -> dict[str, str]:
-    """The environment for the dashboard application.
+    """The environment for the dashboard application, serving on
+    `port`.
 
     Built from the ambient environment rather than from any
     application environment, so that nothing naming a developer's
@@ -161,14 +201,23 @@ def _dashboard_env(
     # Every other application-flavored variable is overwritten below;
     # these four have no dashboard value to overwrite them with, so a
     # developer's shell export would leak through and make the
-    # dashboard a Node.js application or serve their frontend.
+    # dashboard a Node.js application or serve their MCP Apps.
     for name in (
         ENVVAR_RBT_NODEJS,
-        ENVVAR_RBT_FRONTEND_HOST,
-        ENVVAR_RBT_FRONTEND_DIST_PATH,
-        ENVVAR_RBT_FRONTEND_ROOT_PATH,
+        ENVVAR_RBT_FRONTEND_URL,
+        ENVVAR_RBT_MCP_APP_DIST_PATH,
+        ENVVAR_RBT_WEB_APP_DIST_PATH,
     ):
         composed.pop(name, None)
+
+    # The dashboard's page is its web app, served at `/` the way
+    # `--web-app-dist-path` serves a developer's; absolute, since the
+    # dashboard has no project root for a relative path to resolve
+    # against.
+    composed[ENVVAR_RBT_WEB_APP_DIST_PATH] = str(DASHBOARD_DIRECTORY)
+    # And the page built into one file is its MCP App, served the way
+    # `--mcp-app-dist-path` serves a developer's.
+    composed[ENVVAR_RBT_MCP_APP_DIST_PATH] = str(MCP_APP_DIRECTORY)
 
     # Served with `rbt serve` defaults rather than `rbt dev` ones.
     # Popped rather than left unset, since `detect_run_environment`
@@ -183,6 +232,16 @@ def _dashboard_env(
     composed[ENVVAR_REBOOT_EXPECTED_VERSION] = REBOOT_VERSION
     composed[ENVVAR_REBOOT_LOCAL_ENVOY] = 'true'
     composed[ENVVAR_REBOOT_LOCAL_ENVOY_PORT] = str(port)
+    if portless_name is not None:
+        # The dashboard application registers this name once it is
+        # serving (see `reboot.portless.alias`).
+        composed[ENVVAR_RBT_PORTLESS_NAME] = portless_name
+
+    # Plain HTTP: the dashboard serves this machine, and a tunnel the
+    # developer runs in front of it terminates TLS. Set rather than
+    # popped, so that a developer's export for their own application
+    # does not reach this one.
+    composed[ENVVAR_LOCAL_ENVOY_USE_TLS] = 'false'
 
     # A single server, so that a subscriber's `Connect` and
     # `Toggle` always land on the same process; presence tracks its
@@ -284,18 +343,45 @@ async def _run_dashboard(
         await backoff()
 
 
-async def _viewers(dashboard_url: str) -> list[str]:
+async def _dashboard_context(dashboard_url: str) -> ExternalContext:
+    """An `ExternalContext` signed in to the dashboard at
+    `dashboard_url` the way a browser signs in.
+
+    Depends on the dashboard's OAuth provider being `Anonymous` (see
+    `application()` in `reboot/dashboard/backend/main.py`): following
+    its redirects is the whole sign-in. A provider that asks the user
+    anything would never sign in here."""
+    # The session cookies are `Secure` and the dashboard is at an IP
+    # address; a browser accepts both on `http://127.0.0.1`, and so
+    # must this jar.
+    jar = aiohttp.CookieJar(unsafe=True, treat_as_secure_origin=dashboard_url)
+    async with aiohttp.ClientSession(cookie_jar=jar) as client:
+        async with client.get(
+            f'{dashboard_url}/__/oauth/start?return_to=/'
+        ) as response:
+            response.raise_for_status()
+        async with client.get(f'{dashboard_url}/__/oauth/whoami') as response:
+            session = await response.json()
+    if not session.get('authenticated'):
+        raise RuntimeError('Dashboard sign-in left nobody signed in')
+    return ExternalContext(
+        name="open-dashboard",
+        url=dashboard_url,
+        bearer_token=session['access_token'],
+    )
+
+
+async def _viewers(context: ExternalContext) -> list[str]:
     """The subscriber ids of everyone looking at a dashboard.
 
     The dashboard constructs the `Presence` instance, empty, when it
-    initializes, so there is an answer from the moment it is up.
+    initializes, so the list exists from the moment it is up.
     """
-    context = ExternalContext(name="open-dashboard", url=dashboard_url)
     response = await Presence.ref(PRESENCE_ID).List(context)
     return list(response.subscriber_ids)
 
 
-async def _should_open_automatically(dashboard_url: str) -> bool:
+async def _should_open_automatically(context: ExternalContext) -> bool:
     """Whether the developer still wants a dashboard opened for them.
 
     The dashboard's notice writes this when they click "Don't reopen
@@ -303,25 +389,16 @@ async def _should_open_automatically(dashboard_url: str) -> bool:
     it in. The dashboard writes the default when it initializes, so
     nobody ever clicking means a dashboard opens.
     """
-    context = ExternalContext(name="open-dashboard", url=dashboard_url)
     response = await Preferences.ref(PREFERENCES_ID).Get(context)
     return not response.suppress_automatic_open
 
 
 def automatically_opened_url(dashboard_url: str) -> str:
     """The URL a dashboard is opened at, which tells the page it was
-    opened automatically, letting it offer not to be opened again.
-
-    Everything else sends people to the root, which forwards to the
-    page wherever it is served, but this passes the page's whole path:
-    the root is served by the `RootPage` servicer through Envoy's
-    gRPC-JSON transcoder, which fails a request carrying a query
-    parameter the method has no field for (with `grpc-status: 2`, "Bad
-    method header", and an empty body), so `/?opened=automatically`
-    would never reach the page. The query only ever comes from here, so
-    nobody is told to type it.
+    opened automatically, letting it offer not to be opened again. The
+    query only ever comes from here, so nobody is told to type it.
     """
-    return f'{dashboard_url}{DASHBOARD_PATH}/?opened=automatically'
+    return f'{dashboard_url}/?opened=automatically'
 
 
 # How long the dashboard application, which is still starting when
@@ -342,14 +419,19 @@ async def _should_open(dashboard_url: str) -> bool:
     """
     while True:
         try:
-            if not await _should_open_automatically(dashboard_url):
+            context = await _dashboard_context(dashboard_url)
+            if not await _should_open_automatically(context):
                 return False
-            return len(await _viewers(dashboard_url)) == 0
+            return len(await _viewers(context)) == 0
         except Exception:
             await asyncio.sleep(_ASK_EVERY_SECONDS)
 
 
-async def _open_when_serving(*, port: int) -> None:
+async def _open_when_serving(
+    *,
+    origin: str,
+    portless_name: Optional[str] = None,
+) -> None:
     """Opens a dashboard once the dashboard application is serving,
     unless the developer clicked "Don't reopen automatically" in the
     notice an automatic open shows, which is remembered until they
@@ -368,12 +450,20 @@ async def _open_when_serving(*, port: int) -> None:
     server-side socket open after the browser goes away therefore
     leaves a viewer listed who is not there, and the effect is that no
     dashboard opens; the URL this prints still reaches it.
+
+    `origin` is where the browser is sent: the loopback port, or under
+    `--portless` the dashboard's name, `portless_name`. The checks go
+    to the dashboard application's port either way, under `--portless`
+    the one the proxy routes the name to, once it is registered.
     """
-    dashboard_url = f'http://127.0.0.1:{port}'
-    # The root, which forwards to the page wherever it is served.
-    page_url = f'{dashboard_url}/'
+    page_url = f'{origin}/'
 
     try:
+        dashboard_url = origin
+        if portless_name is not None:
+            port = await portless.wait_for_port(portless_name)
+            dashboard_url = f'http://127.0.0.1:{port}'
+
         try:
             should_open = await asyncio.wait_for(
                 _should_open(dashboard_url),
@@ -389,11 +479,9 @@ async def _open_when_serving(*, port: int) -> None:
         # work in Codespaces and devcontainers, and returns `False`
         # rather than raising when there is no browser to open. The
         # page is told it was opened automatically, so it can offer
-        # not to be, at the page's whole path rather than the root,
-        # because Envoy's gRPC-JSON transcoder fails `/` with a query
-        # (see `automatically_opened_url`).
+        # not to be (see `automatically_opened_url`).
         if not await asyncio.to_thread(
-            webbrowser.open, automatically_opened_url(dashboard_url)
+            webbrowser.open, automatically_opened_url(origin)
         ):
             terminal.warn(
                 f"Could not open a browser; your dashboard is at {page_url}"
@@ -431,21 +519,74 @@ async def dashboard(
         # executable runs. Fail otherwise.
         await check_local_envoy_mode(subprocesses)
 
-        port = args.port or DEFAULT_DASHBOARD_PORT
+        # Under `--portless` the name is the address, so unless `--port`
+        # says otherwise the port behind the proxy is any free one (0),
+        # and the dashboards of several applications run at once; the
+        # dashboard application registers the name once it is serving.
+        portless_name: Optional[str] = None
+        if args.portless:
+            # The dashboard is `https://dashboard-<name>.localhost`
+            # beside the application's `https://<name>.localhost`.
+            application_name = _application_name(parser)
+            if application_name is None:
+                terminal.fail(
+                    '`--portless` needs the application\'s name, which is '
+                    'the hostname '
+                    '(`https://dashboard-<application-name>.localhost`). '
+                    '`rbt dashboard` reads it from your '
+                    f'{parser.dot_rc_filename}, where `rbt dev run` does:\n'
+                    '\n'
+                    '    dev run --application-name=<application-name>\n'
+                )
+            await portless.check('--portless')
+            portless_name = reboot.portless.dashboard_name(application_name)
+            port = args.port if args.port is not None else 0
+            origin = 'https://' + reboot.portless.hostname(portless_name)
+        else:
+            port = args.port or DEFAULT_DASHBOARD_PORT
+            origin = f'http://127.0.0.1:{port}'
 
         env = _dashboard_env(
             args,
             parser,
             port=port,
+            portless_name=portless_name,
             api_directory=_api_directory(parser),
             application=_application(parser),
             generated_directory=_generated_directory(parser),
         )
 
-        terminal.info(f'Your dashboard is at http://127.0.0.1:{port}/\n')
+        terminal.info(f'Your dashboard is at {origin}/\n')
+
+        # An MCP host in the cloud reaches the dashboard through a
+        # tunnel the developer starts; by name under portless, so it
+        # needs no port, and by port otherwise.
+        if portless_name is not None:
+            hostname = reboot.portless.hostname(portless_name)
+            proxy_port = reboot.portless.proxy_port()
+            tunnel = (
+                'cloudflared tunnel \\\n'
+                f'    --url https://127.0.0.1:{proxy_port} \\\n'
+                f'    --http-host-header {hostname} \\\n'
+                f'    --origin-server-name {hostname} \\\n'
+                f'    --origin-ca-pool {reboot.portless.CA_PATH}'
+            )
+        else:
+            tunnel = f'cloudflared tunnel --url {origin}'
+        terminal.info(
+            'To show it in Claude or ChatGPT, start a tunnel to it in '
+            'another shell:\n'
+            '\n'
+            f'{tunnel}\n'
+            '\n'
+            'and add the address it prints, with `/mcp` on the end, as a '
+            'custom MCP connector. Anyone with the address reaches your '
+            'dashboard. See https://docs.reboot.dev/develop_locally'
+            '#the-dashboard-in-claude-or-chatgpt\n'
+        )
 
         open_task = asyncio.create_task(
-            _open_when_serving(port=port),
+            _open_when_serving(origin=origin, portless_name=portless_name),
             name=f'_open_when_serving(...) in {__name__}',
         )
 
