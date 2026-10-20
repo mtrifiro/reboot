@@ -110,7 +110,7 @@ subscribe to the same shared actor. Don't mount the component until
 the id is real: guard at the parent and pass a guaranteed-real id
 down.
 
-## Live Updates Are Free
+## Reader Hooks Update Live
 
 Reader hooks are push-based subscriptions. When any session mutates
 the state, every mounted reader re-renders with the new response —

@@ -87,10 +87,10 @@ fails with `IdempotencyUncertainError`:
 > mutations we can't reliably determine whether or not the call to
 > `Y` … is due to a retry which may cause an undesired mutation
 
-It is not complaining about the call it refused — it is refusing
-because an _earlier_ call left the context uncertain.
+The refusal is caused by an _earlier_ call that left the context
+uncertain.
 
-Two consequences worth knowing before you meet them:
+Two consequences:
 
 - **Asserting a declared error is safe.** A test that does
   `with self.assertRaises(TaskList.AddTaskAborted)` on a method
