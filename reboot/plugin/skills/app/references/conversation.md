@@ -166,6 +166,12 @@ whole task list. So:
   starts it in the same turn, with its new list. On "Not yet", or a
   skipped dialog, the box gets the recap only, with no `ask` and no
   buttons: the feature is running for the user to try.
+- **Every question inside the build offers a way to learn more before
+  answering:** "Tell me more" on How should it be built? and Build the
+  frontend: the <screen>?, "Walk me through it" on the model check
+  (`design-first.md` gives each one's answer). It answers in the chat
+  and asks the same dialog again. What should I build next? describes
+  each part in its option instead, since its options are the parts.
 - A dialog the user skipped is not a reason to ask again in the box.
 
 **A change to the look** (colors, typefaces, a brand, corners, the
