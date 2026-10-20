@@ -3,6 +3,12 @@
 
     python3 <this file>                # list the palettes, the current one marked
     python3 <this file> sand-brown     # set it in the project in this directory
+    python3 <this file> pick sage-teal slate-blue sand-gold
+                                       # one of those that suit the domain, picked
+                                       # by this folder's name: prints its name
+    python3 <this file> --from '#2f6b4f'   # the palette nearest a brand colour:
+                                       # prints it and how far off; sets it in a
+                                       # project
 
 `house` is Reboot's own (cream paper, navy ink and accent); the others
 pair a gray and an accent from Radix Colors (palettes.json beside this
@@ -16,6 +22,8 @@ by hand instead. Standard library only.
 
 from __future__ import annotations
 
+import colorsys
+import hashlib
 import json
 import re
 import sys
@@ -26,15 +34,16 @@ FAVICON = Path("frontend/web/public/favicon.svg")
 PALETTES_FILE = Path(__file__).resolve().parent / "palettes.json"
 
 HOUSE = {
+    "label": "Reboot", "colours": "cream and navy",
     "source": "the house look: cream paper, navy ink and accent",
     "light": {"bg": "#f7f5ed", "bg-2": "#ffffff", "panel": "#ffffff", "ink": "#103761", "muted": "#506a85",
               "line": "#d9dfe6", "track": "#ece9df", "accent": "#103761", "on-accent": "#ffffff",
               "accent-deep": "#13294a", "on-deep": "#f7f5ed", "accent-tint": "#e6f3dc", "bg-glow": "#f1eee4",
-              "bar": "#13294a", "on-bar": "#f7f5ed"},
+              "bar": "#13294a", "on-bar": "#f7f5ed", "good": "#3f7a2e", "warn": "#a8660f", "bad": "#b42318"},
     "dark": {"bg": "#0b1f36", "bg-2": "#112a47", "panel": "#112a47", "ink": "#f7f5ed", "muted": "#9aabbf",
              "line": "#24405f", "track": "#1a3354", "accent": "#9cc4f2", "on-accent": "#0b1f36",
              "accent-deep": "#07182b", "on-deep": "#f7f5ed", "accent-tint": "#1f3d3a", "bg-glow": "#0e2440",
-             "bar": "#07182b", "on-bar": "#f7f5ed"},
+             "bar": "#07182b", "on-bar": "#f7f5ed", "good": "#8ccb6b", "warn": "#f2c784", "bad": "#f07a6e"},
 }
 
 # A :root block: its selector and its body, up to the closing brace.
@@ -82,17 +91,59 @@ def set_tokens(css: str, palette: dict[str, dict[str, str]]) -> str:
     return BLOCK.sub(block, css)
 
 
+def hue(hex_colour: str) -> float:
+    r, g, b = (int(hex_colour[i:i + 2], 16) / 255 for i in (1, 3, 5))
+    return colorsys.rgb_to_hls(r, g, b)[0] * 360
+
+
+def nearest(brand: str, found: dict[str, dict]) -> tuple[str, float]:
+    """The palette whose light accent is nearest the brand colour in hue."""
+    def off(name: str) -> float:
+        d = abs(hue(found[name]["light"]["accent"]) - hue(brand)) % 360
+        return min(d, 360 - d)
+    name = min((n for n in found if n != "house"), key=off)
+    return name, off(name)
+
+
+def pick(names: list[str], folder: str) -> str:
+    """One of the names, the same for a folder every time, different
+    across folders: two builds of one prompt don't share a palette."""
+    return names[int(hashlib.sha256(folder.encode()).hexdigest(), 16) % len(names)]
+
+
 def main(argv: list[str]) -> int:
+    found = palettes()
+    if argv[:1] == ["pick"]:
+        names = argv[1:]
+        unknown = [n for n in names if n not in found]
+        if not names or unknown:
+            print(f"palette: pick takes palette names; {', '.join(unknown) or 'none given'} not one of: "
+                  f"{', '.join(found)}", file=sys.stderr)
+            return 2
+        print(pick(names, Path.cwd().name))
+        return 0
+    if argv[:1] == ["--from"] and len(argv) == 2:
+        brand = argv[1].strip()
+        if not re.fullmatch(r"#[0-9a-fA-F]{6}", brand):
+            print("palette: --from takes a colour as #rrggbb", file=sys.stderr)
+            return 2
+        name, off = nearest(brand.lower(), found)
+        p = found[name]
+        print(f"nearest to {brand}: {name} ({p['label']}: {p['colours']}), accent {p['light']['accent']}, "
+              f"{off:.0f} degrees of hue away" + ("; close" if off <= 15 else "; the nearest of the eleven, not a match"))
+        if not STYLESHEET.is_file():
+            return 0
+        argv = [name]
     if not STYLESHEET.is_file():
         print(f"palette: no {STYLESHEET}; run from the project root", file=sys.stderr)
         return 2
     css = STYLESHEET.read_text(encoding="utf-8")
-    found = palettes()
     accent, bg = light_value(css, "accent"), light_value(css, "bg")
     if not argv:
         for name, p in found.items():
             mark = "*" if (p["light"]["accent"], p["light"]["bg"]) == (accent, bg) else " "
-            print(f"{mark} {name:<14} accent {p['light']['accent']} light, {p['dark']['accent']} dark")
+            print(f"{mark} {name:<14} {p.get('label', ''):<8} {p.get('colours', ''):<18} "
+                  f"accent {p['light']['accent']} light, {p['dark']['accent']} dark")
         return 0
     name = argv[0]
     if name not in found:
