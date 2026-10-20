@@ -22,8 +22,9 @@ word for word, with the angle brackets filled in:
 
 Every item starts with a verb. Inside an item every name is
 lowercase, as in a sentence ("Write the rules for “room status
-floor plan”"), unless it is a proper noun. Make the list after the user answers how to build, never in the
-same response as that question (before it, a list has only "Propose
+floor plan”"), unless it is a proper noun. Make the list after the go-ahead on the guided path (elsewhere, after
+the user answers how to build), never in the same response as that
+question (before it, a list has only "Propose
 the design for <app>"); mark each item done as it finishes; a step that
 fails stays in progress, never done.
 
