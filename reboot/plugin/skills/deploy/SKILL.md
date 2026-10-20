@@ -25,12 +25,25 @@ the backend allows that via `OAuth(allowed_origins=[...])`.
 > [web-app skill](../web-app/SKILL.md); to run locally, see the
 > [run skill](../run/SKILL.md).
 
+A deploy is the Reboot Flywheel's **promote** decision, and it is the
+user's ([`app/references/flywheel.md`](../app/references/flywheel.md)).
+Before Step 2, run `python3 scripts/release_record.py --dry-run` and
+open with its output under the **Reboot Prove · ready to deploy** card
+([`app/references/evidence.md`](../app/references/evidence.md)): the
+commits since the last deploy, the model diff, the last test run, and
+the accepted design. Say plainly when the run is not a clean, full,
+passing run of this commit, or when the design carries changes nobody
+accepted. Then ask in a question dialog (`AskUserQuestion` where
+available) whether to deploy now or not yet. On a branch other
+than `main`, say what isn't merged yet. Never merge, switch branches or deploy on your own.
+
 ## When to Use
 
 - A finished Web App (or the web frontend of a dual-frontend app)
   should go live at a real URL on the user's domain.
 - An MCP UI with **no** web frontend should go to production: only
-  the backend deploy applies — do Step 2 and stop. MCP UIs ship
+  the backend deploy applies — do Step 2, then Step 6's release
+  record, and stop. MCP UIs ship
   inside the backend image and are served by the backend itself;
   there is nothing to host externally.
 
@@ -218,6 +231,11 @@ and domain stay put.
    confirm signed-in data renders. Sign-in bounces through the
    backend's `/__/oauth/start` and back to the frontend; live
    data confirms the WebSocket path works cross-origin too.
+4. **The release record:** `python3 scripts/release_record.py
+   --revision <N> --api-url <url> --site <url>` from the deploy's
+   output.
+   Close with the **Reboot Observe · live** card
+   ([`app/references/flywheel.md`](../app/references/flywheel.md)).
 
 ## Troubleshooting
 
