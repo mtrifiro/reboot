@@ -421,7 +421,11 @@ finished app.
    [`agents-md` skill](../agents-md/SKILL.md), naming the API and
    servicer files it wrote.
 2. `uv sync`.
-3. Edit the starter's feature file (`tests/<things>.feature`, `@wip`)
+3. First read every reference the **Before the API definition** group
+   names, in one batch, and check the design's calls go one way
+   (`app-design` skill, section 3: no two objects call each other;
+   packages by area): hotel-304 read five more after the feature file
+   and reworked its API right after writing it. Then edit the starter's feature file (`tests/<things>.feature`, `@wip`)
    into the first feature's with the
    [`feature` skill](../feature/SKILL.md): its rules and scenarios in
    the same built-in steps, renamed for the activity when the name
