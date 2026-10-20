@@ -217,12 +217,6 @@ def main(argv: list[str]) -> int:
     for rel in written:
         print(f"  {rel}")
     print("\nNext, from that folder:\n  uv sync && uv run rbt generate && uv run pytest")
-    if " " in str(dest.resolve()):
-        venv = f"$HOME/.venvs/{t['__app_slug__']}"
-        print(f"\nThis folder's path has a space, and `rbt generate` can't run from a venv under it:"
-              f"\nput every uv command here after `export UV_PROJECT_ENVIRONMENT={venv}`, uv sync first,"
-              f"\nand write {{\"env\": {{\"UV_PROJECT_ENVIRONMENT\": \"<that path, spelled out>\"}}}}"
-              f"\ninto .claude/settings.local.json for later sessions.")
     if args.web:
         print("  (cd frontend && npm install) && uv run rbt generate && (cd frontend && npm run build)")
         print("  uv run playwright install chromium   # once, for the browser scenarios")
