@@ -29,8 +29,9 @@ comp's line comes between them
 a mockup of the main page in the look, served and opened in the pane. Then
 one dialog (`AskUserQuestion` where available,
 else one plain line), the only question between the opening's round
-and code: the go-ahead. The user chose to build interactively at the
-first question, so it asks only for the yes, never again how to build.
+and code: the go-ahead. The interactive build is the user's (the `app`
+skill's default, or `/reboot:app-guided` by name), so it asks only for
+the yes, never how to build.
 Its options, word for word, filled from the design:
 
 - Title: **Ready to build this design?**
