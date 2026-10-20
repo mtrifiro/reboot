@@ -187,8 +187,8 @@ id"`, then `<account id>`. Give an id only when it means something
   is written, after the same one line. A line per rule as each
   finishes is noise: post nothing per scenario and don't watch it
   with a monitor that reports each test. Never wait on it (`sleep`,
-  an `until` loop): write the handoff while it runs and send it
-  without waiting (`web-app` skill, step 11); its completion
+  an `until` loop): write the handoff while it runs and send it;
+  its completion
   notice comes on its own. Only if the handoff is written and the run
   is past about three minutes, check `tests/.progress.jsonl`
   (`tests/last_run.py` writes a line per scenario) and say once that
