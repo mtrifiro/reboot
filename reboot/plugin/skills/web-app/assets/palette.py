@@ -29,10 +29,12 @@ HOUSE = {
     "source": "the house look: cream paper, navy ink and accent",
     "light": {"bg": "#f7f5ed", "bg-2": "#ffffff", "panel": "#ffffff", "ink": "#103761", "muted": "#506a85",
               "line": "#d9dfe6", "track": "#ece9df", "accent": "#103761", "on-accent": "#ffffff",
-              "accent-deep": "#13294a", "on-deep": "#f7f5ed", "accent-tint": "#e6f3dc", "bg-glow": "#f1eee4"},
+              "accent-deep": "#13294a", "on-deep": "#f7f5ed", "accent-tint": "#e6f3dc", "bg-glow": "#f1eee4",
+              "bar": "#13294a", "on-bar": "#f7f5ed"},
     "dark": {"bg": "#0b1f36", "bg-2": "#112a47", "panel": "#112a47", "ink": "#f7f5ed", "muted": "#9aabbf",
              "line": "#24405f", "track": "#1a3354", "accent": "#9cc4f2", "on-accent": "#0b1f36",
-             "accent-deep": "#07182b", "on-deep": "#f7f5ed", "accent-tint": "#1f3d3a", "bg-glow": "#0e2440"},
+             "accent-deep": "#07182b", "on-deep": "#f7f5ed", "accent-tint": "#1f3d3a", "bg-glow": "#0e2440",
+             "bar": "#07182b", "on-bar": "#f7f5ed"},
 }
 
 # A :root block: its selector and its body, up to the closing brace.
