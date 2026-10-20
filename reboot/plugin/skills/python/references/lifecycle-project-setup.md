@@ -124,6 +124,11 @@ frontend/api/
 # Recordings of browser scenarios, made by running the tests.
 *.recordings/
 
+# The last test run's results, and the pid of one in progress
+# (tests/last_run.py).
+tests/.last-run.json
+tests/.suite-running
+
 # Python virtual environment and caches.
 .venv/
 __pycache__/
