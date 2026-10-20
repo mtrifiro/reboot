@@ -89,10 +89,16 @@ function SignedIn() {
   }
 
   return (
-    <main>
-      <div className="page-head">
-        <h1 id="__things__-heading">__Things text__</h1>
-      </div>
+    <>
+      {/* The page head in the brand band, outside <main>, as the page
+          anatomy has it (styles.css): stat tiles first in main overlap it. */}
+      <section className="brand-band">
+        <div className="page-head">
+          <h1 id="__things__-heading">__Things text__</h1>
+          <p className="lede">Everyone signed in sees the same list, updated live.</p>
+        </div>
+      </section>
+      <main>
       <section className="panel">
         {/* Each field's label is paired with it, so a scenario's
             `fills "Name"` finds it; the button says what it does. */}
@@ -132,7 +138,8 @@ function SignedIn() {
       ) : (
         <div className="skeleton" style={{ height: 160 }} />
       )}
-    </main>
+      </main>
+    </>
   );
 }
 
