@@ -69,7 +69,7 @@ entry relatively, `./src/main.tsx`, so the dev server can serve it at
 `/`; with `/src/main.tsx` the script is a 404 and the page is blank.
 
 `package.json` mirrors the `.rbtrc`'s configs as scripts: `dev` runs
-`dev:portless` (`portless frontend.<app> vite`, under the name the
+`dev:portless` (`portless frontend-<app> vite`, under the name the
 backend's `--frontend-url` gives), `dev:ports` is plain `vite` on
 5173, and `build` is `tsc -b && vite build`, which builds the web app
 into `dist/web/`. It pins `react`, `react-dom`, Vite, its React plugin
@@ -83,7 +83,7 @@ dev dependencies (the plugin imports the second from the project).
 
 Which script runs follows the run skill's choice (portless when it is
 ready, plain ports otherwise): under portless the dev server is
-`https://frontend.<app>.localhost` and the app `https://<app>.localhost/`;
+`https://frontend-<app>.localhost` and the app `https://<app>.localhost/`;
 on plain ports Vite is `http://localhost:5173/` and the app
 `http://localhost:9991/`.
 

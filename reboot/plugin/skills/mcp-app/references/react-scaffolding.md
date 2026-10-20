@@ -28,8 +28,8 @@ What the copy holds:
 
 - `package.json`: `npm run build` type-checks (`tsc -b`) then runs
   `build.mjs`. The `dev` scripts mirror the `.rbtrc`'s configs:
-  `npm run dev` is `dev:portless` (`portless frontend.<project-name>
-  vite`, at `https://frontend.<project-name>.localhost`) and
+  `npm run dev` is `dev:portless` (`portless frontend-<project-name>
+  vite`, at `https://frontend-<project-name>.localhost`) and
   `dev:ports` is plain `vite` on 5173; the [`run`
   skill](../../run/SKILL.md) picks one. `portless`, `vite` and
   `vite-plugin-singlefile` are dev dependencies; the two Reboot

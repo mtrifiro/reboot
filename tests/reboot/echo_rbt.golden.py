@@ -17,7 +17,7 @@ from __future__ import annotations as IMPORT_future_annotations
 # may be invalid (broken) if the generated code is mismatched with the installed
 # libraries.
 import reboot.versioning as IMPORT_reboot_versioning
-IMPORT_reboot_versioning.check_generated_code_compatible("1.6.0")
+IMPORT_reboot_versioning.check_generated_code_compatible("1.7.0")
 
 # ATTENTION: no types in this file should be imported with their unqualified
 #            name (e.g. `from typing import Any`). That would cause clashes
@@ -29451,7 +29451,6 @@ class EchoServicerNodeAdaptor(Echo.singleton.Servicer):
                         state_id=context.state_id,
                         state_type_name=context.state_type_name,
                         caller_bearer_token=context.caller_bearer_token,
-                        cookie=context.cookie,
                         app_internal=context.app_internal,
                         auth=(
                             None if context.auth is None
@@ -29576,7 +29575,6 @@ class EchoServicerNodeAdaptor(Echo.singleton.Servicer):
                 state_id=context.state_id,
                 state_type_name=context.state_type_name,
                 caller_bearer_token=context.caller_bearer_token,
-                cookie=context.cookie,
                 app_internal=context.app_internal,
                 auth=(
                     None if context.auth is None
@@ -29716,7 +29714,6 @@ class EchoServicerNodeAdaptor(Echo.singleton.Servicer):
                         state_id=context.state_id,
                         state_type_name=context.state_type_name,
                         caller_bearer_token=context.caller_bearer_token,
-                        cookie=context.cookie,
                         app_internal=context.app_internal,
                         auth=(
                             None if context.auth is None
@@ -29855,7 +29852,6 @@ class EchoServicerNodeAdaptor(Echo.singleton.Servicer):
                         state_id=context.state_id,
                         state_type_name=context.state_type_name,
                         caller_bearer_token=context.caller_bearer_token,
-                        cookie=context.cookie,
                         app_internal=context.app_internal,
                         auth=(
                             None if context.auth is None
@@ -29980,7 +29976,6 @@ class EchoServicerNodeAdaptor(Echo.singleton.Servicer):
                 state_id=context.state_id,
                 state_type_name=context.state_type_name,
                 caller_bearer_token=context.caller_bearer_token,
-                cookie=context.cookie,
                 app_internal=context.app_internal,
                 auth=(
                     None if context.auth is None
@@ -30097,7 +30092,6 @@ class EchoServicerNodeAdaptor(Echo.singleton.Servicer):
                         state_id=context.state_id,
                         state_type_name=context.state_type_name,
                         caller_bearer_token=context.caller_bearer_token,
-                        cookie=context.cookie,
                         app_internal=context.app_internal,
                         auth=(
                             None if context.auth is None
@@ -30222,7 +30216,6 @@ class EchoServicerNodeAdaptor(Echo.singleton.Servicer):
                 state_id=context.state_id,
                 state_type_name=context.state_type_name,
                 caller_bearer_token=context.caller_bearer_token,
-                cookie=context.cookie,
                 app_internal=context.app_internal,
                 auth=(
                     None if context.auth is None
@@ -30325,7 +30318,6 @@ class EchoServicerNodeAdaptor(Echo.singleton.Servicer):
                 state_id=context.state_id,
                 state_type_name=context.state_type_name,
                 caller_bearer_token=context.caller_bearer_token,
-                cookie=context.cookie,
                 app_internal=context.app_internal,
                 auth=(
                     None if context.auth is None
@@ -30428,7 +30420,6 @@ class EchoServicerNodeAdaptor(Echo.singleton.Servicer):
                 state_id=context.state_id,
                 state_type_name=context.state_type_name,
                 caller_bearer_token=context.caller_bearer_token,
-                cookie=context.cookie,
                 app_internal=context.app_internal,
                 auth=(
                     None if context.auth is None
@@ -30531,7 +30522,6 @@ class EchoServicerNodeAdaptor(Echo.singleton.Servicer):
                 state_id=context.state_id,
                 state_type_name=context.state_type_name,
                 caller_bearer_token=context.caller_bearer_token,
-                cookie=context.cookie,
                 app_internal=context.app_internal,
                 auth=(
                     None if context.auth is None
@@ -30634,7 +30624,6 @@ class EchoServicerNodeAdaptor(Echo.singleton.Servicer):
                 state_id=context.state_id,
                 state_type_name=context.state_type_name,
                 caller_bearer_token=context.caller_bearer_token,
-                cookie=context.cookie,
                 app_internal=context.app_internal,
                 auth=(
                     None if context.auth is None
@@ -30751,7 +30740,6 @@ class EchoServicerNodeAdaptor(Echo.singleton.Servicer):
                         state_id=context.state_id,
                         state_type_name=context.state_type_name,
                         caller_bearer_token=context.caller_bearer_token,
-                        cookie=context.cookie,
                         app_internal=context.app_internal,
                         auth=(
                             None if context.auth is None
@@ -30890,7 +30878,6 @@ class EchoServicerNodeAdaptor(Echo.singleton.Servicer):
                         state_id=context.state_id,
                         state_type_name=context.state_type_name,
                         caller_bearer_token=context.caller_bearer_token,
-                        cookie=context.cookie,
                         app_internal=context.app_internal,
                         auth=(
                             None if context.auth is None
@@ -31015,7 +31002,6 @@ class EchoServicerNodeAdaptor(Echo.singleton.Servicer):
                 state_id=context.state_id,
                 state_type_name=context.state_type_name,
                 caller_bearer_token=context.caller_bearer_token,
-                cookie=context.cookie,
                 app_internal=context.app_internal,
                 auth=(
                     None if context.auth is None
