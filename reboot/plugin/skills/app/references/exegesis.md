@@ -34,7 +34,7 @@ handoff, the rule before **Your turn** closes it.
   part's links line.
 - In the one-shot: each feature's text written to the file as the
   build goes; the handoff's section, the one in the chat, covers the
-  whole app in 600 to 900 words and links the file.
+  whole app, about 100 words for each feature, and links the file.
 
 The same text is appended to `design/exegesis.md`, each under a
 heading with the milestone and the date, so the record outlives the
@@ -42,8 +42,12 @@ chat. The file is created at the first one and linked from the
 handoff's **Look closer** line beside the design.
 
 **What it explains.** An exegesis reads the text that was written and
-says what each part is for, in this order, 600 to 900 words a
-milestone, always in the chat as well as the file (a milestone whose
+says what each part is for, in this order, its length scaled to what
+the milestone wrote: about 100 to 150 words for each object or page,
+its decisive lines quoted, at least 300, and past about 1,200 only
+when the milestone wrote that much (a fixed length is too short for a
+first feature's three objects and padded for a later one's single
+method), always in the chat as well as the file (a milestone whose
 exegesis is only in the file has none; in the one-shot, the
 handoff's section is the one in the chat):
 
