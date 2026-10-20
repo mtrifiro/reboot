@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """A "restarting" page at the app's address while the build has it
-stopped, in place of the proxy's 502.
+stopped, in place of the proxy's 404 or 502.
 
     python3 <this file> start [--name <app>] [--port 9991]
     python3 <this file> stop
@@ -58,9 +58,9 @@ PAGE = """<!doctype html>
 <main>
   <span class="eyebrow"><span class="dot"></span>{name}</span>
   <h1>Restarting</h1>
-  <p>The app is restarting after a change to its API. This page reloads
-  by itself and shows the app again as soon as it is back, usually within
-  a minute.</p>
+  <p>The app is restarting after a change. This page reloads by itself
+  and shows the app again as soon as it is back, usually within a
+  minute.</p>
 </main>
 </body>
 </html>
