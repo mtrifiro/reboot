@@ -29,7 +29,7 @@ chosen, and the text just above it gives the context to choose; a
 question that only makes sense after scrolling up is not ready to ask.
 
 **Say what Reboot does here, for this app.** A stage's line pairs what
-the build is doing with what Reboot takes off the developer's hands at
+the build is doing with what Reboot does for the developer at
 that step, in the app's own nouns: "Moving an account from engaged to
 opportunity is one transaction: the account and the book change
 together or not at all, with no rollback code to write", never "a
@@ -96,8 +96,8 @@ pane and for later. Never start a second dashboard for the pane.
 **Two pages side by side.** For the feature that adds a customer
 side, the handoff's **How to check it** starts with the two pages side
 by side: "Open the booking page as Carlos and the room board as Alice,
-side by side. Book a stay as Carlos and watch it land on the board,
-with no refresh." In the Claude app, both open in the Browser pane,
+side by side. Book a stay as Carlos; it appears on the board with
+no refresh." In the Claude app, both open in the Browser pane,
 one tab each.
 
 **The app, once it is ready to try.** The pane is for the user, not
@@ -221,7 +221,7 @@ the user asks for the next feature, or says to keep this one, the
 build records it as kept ([`accept-design.md`](accept-design.md)) and says
 so in a few words, as tidying up, with what it means in parentheses,
 then what's next: "Tidying up the chore board first (its rules are
-locked in, so later features won't change them without asking you).
+recorded as agreed, so later features won't change them without asking you).
 Next, recurring chores: their backend first, about 15 to 20 minutes."
 Never the mechanics: "kept", "recording", work-in-progress tags, the
 accepted design or the decisions log.

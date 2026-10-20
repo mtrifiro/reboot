@@ -6,7 +6,7 @@ Vite (or are type-checked by `tsc` under `moduleResolution: "bundler"`
 imports without explicit `.js` file extensions. The
 `generate --react-extensions` flag, which adds those extensions, is
 now only relevant to webpack + `ts-loader` setups, and `rbt generate`
-rejects it outright when a `--mobile` (React Native) client is also
+rejects it when a `--mobile` (React Native) client is also
 requested — Metro cannot resolve the `.js`-suffixed imports back to
 their `.ts` sources.
 

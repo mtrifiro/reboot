@@ -10,7 +10,7 @@ tags: patterns, errors, MethodAborted, raise, catch
 > **Critical:** raise `<Service>.<Method>Aborted(<ErrorMessage>(...))`
 > from inside the Servicer (the exception class is named after the
 > **method**, not the error). Catch the same `<Method>Aborted` at the
-> call site and inspect `.error`. Don't smuggle errors as `None`
+> call site and inspect `.error`. Don't signal errors with `None`
 > returns or `ValueError`s — the framework's typed-error contract is
 > what callers depend on.
 
@@ -20,7 +20,7 @@ on the method factory, and `raise <Service>.<Method>Aborted(<ErrorModel>(...))`
 from inside the Servicer. Callers catch the same `<Method>Aborted`
 class and inspect `.error`.
 
-**Incorrect (smuggling errors as `None` returns):**
+**Incorrect (errors returned as `None`):**
 
 ```python
 async def withdraw(self, context, request):

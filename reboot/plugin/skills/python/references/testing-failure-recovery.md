@@ -39,9 +39,9 @@ await self.rbt.down()
 await self.rbt.up(revision=revision)
 ```
 
-That is the whole API. Nothing above is yet a test worth keeping —
-it restarts an idle application, which recovers trivially. The next
-section is where the test earns its place.
+Nothing above is yet a test worth keeping: it restarts an idle
+application, which recovers trivially. The next section puts the
+crash inside a method.
 
 The rules the harness enforces:
 
