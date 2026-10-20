@@ -64,9 +64,24 @@ FRAME = """<!doctype html>
     : matchMedia("(prefers-color-scheme: dark)").matches;
   const label = () => {{ if (toggle) toggle.textContent = dark() ? "Light" : "Dark"; }};
   label();
+  const note = document.getElementById("comp-note");
+  // The note closes on a click anywhere outside its box (the backdrop
+  // is the dialog itself), on its button, and on Escape.
+  document.addEventListener("keydown", (event) => {{
+    if (event.key === "Escape" && note.open) note.close();
+  }});
   document.addEventListener("click", (event) => {{
-    const note = document.getElementById("comp-note");
-    if (note.contains(event.target)) return;
+    if (note.open) {{
+      const box = note.getBoundingClientRect();
+      const outside = event.clientX < box.left || event.clientX > box.right
+        || event.clientY < box.top || event.clientY > box.bottom;
+      if (outside) {{
+        event.preventDefault();
+        event.stopPropagation();
+        note.close();
+      }}
+      return;
+    }}
     if (toggle && toggle.contains(event.target)) {{
       root.dataset.theme = dark() ? "light" : "dark";
       label();
