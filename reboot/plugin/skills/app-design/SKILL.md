@@ -64,12 +64,20 @@ design, as a working name.
 2. "I'd start with <feature>: <its rule, in plain words>."
 3. On its own: "First, a few questions about what to build; then I'll
    design it, starting from its rules." Loaded by the `app-guided`
-   skill: "I'll design it first, starting from its rules, and you
-   decide on it before anything is built." Word for word.
+   skill, two sentences: "Next I'll write the design: what the app
+   keeps track of, the rules each feature must keep, and its pages,
+   opened beside the chat with a mockup of the main page. Nothing is
+   built until you approve it, and you can change any feature, who
+   signs in or the colours first." Word for word.
 
 Loaded by the `app-guided` skill, one line after the paragraph, word
 for word: "To build the whole app without stopping instead, use
-/reboot:app-whole." (the hands-off paths are asked for, never offered
+/reboot:app-whole." On this path nothing is asked before the design,
+so no dialog forces the opening out: it is the response's text, sent
+before the task list's update and before the first read (hotel-301
+drafted it in thinking, then updated the list and read; the user saw
+only the app's paraphrase of that thinking, one compressed sentence
+ending "confirm before I proceed"). (the hands-off paths are asked for, never offered
 by a dialog: the `app` skill).
 
 Example: "An app for a 56-room boutique hotel, used by its front desk
@@ -191,8 +199,9 @@ door would, taking its recommended answer:
   domain, a working name in the design.
 - Times are in the user's time zone.
 
-**Task list:** right after the answers, one item, "Propose the design
-for <app>"; a list that exists when this skill loads is replaced with
+**Task list:** right after the answers (loaded by the `app-guided` or
+`app-whole` skill, right after the opening's text), one item, "Propose
+the design for <app>"; a list that exists when this skill loads is replaced with
 that item first, in a response of its own. It is done when the design
 is shown. The `app-guided` skill's path list follows the go-ahead.
 
