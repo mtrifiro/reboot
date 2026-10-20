@@ -130,8 +130,9 @@ named only when it isn't 9871) and the Models · Features · Changelog
 line: no separate "the developer dashboard is at …" line, no second
 list of the objects. Both are message text just above the dialog,
 never drafted only in thinking; in a verbose build, the **Exegesis**
-of the rules file and the API comes between them and the dialog
-([`exegesis.md`](exegesis.md)). The dialog says on its own what it
+of the rules file and the API comes between them and the dialog, and
+after the lead line when no dialog is asked: the model unchanged skips
+the question, never the exegesis ([`exegesis.md`](exegesis.md)). The dialog says on its own what it
 asks about:
 
 - Title: **Build on this domain model?**
