@@ -195,14 +195,15 @@ class ModelDiffTest(unittest.TestCase):
         )
 
     def test_a_package_big_enough_to_split(self) -> None:
-        types = ", ".join(f"T{i}=Type(state=S, methods=M, description='x')" for i in range(6))
+        # More than six (app-design skill, section 3).
+        types = ", ".join(f"T{i}=Type(state=S, methods=M, description='x')" for i in range(7))
         api = {"api/hotel/v1/hotel.py": f"api = API({types})\n"}
         lines = model_diff.package_lines(api)
         self.assertEqual(len(lines), 1)
-        self.assertIn("`hotel.v1` holds 6 domain objects", lines[0])
-        five = {"api/hotel/v1/hotel.py": "api = API(" + ", ".join(
-            f"T{i}=Type(state=S, methods=M, description='x')" for i in range(5)) + ")\n"}
-        self.assertEqual(model_diff.package_lines(five), [])
+        self.assertIn("`hotel.v1` holds 7 domain objects", lines[0])
+        six = {"api/hotel/v1/hotel.py": "api = API(" + ", ".join(
+            f"T{i}=Type(state=S, methods=M, description='x')" for i in range(6)) + ")\n"}
+        self.assertEqual(model_diff.package_lines(six), [])
 
     def test_packages_in_a_circle(self) -> None:
         api = {
