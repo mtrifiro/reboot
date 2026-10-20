@@ -10,8 +10,8 @@ tags: servicer, authorizer, allow, allow_if, auth, authorizers, production, oaut
 > **Critical:** authorizer rules are evaluated against the caller's
 > **identity**. Whether identity exists during development depends on
 > how the `Application(...)` is wired. The right "when to write
-> authorizers" rule follows from that — don't sprinkle `allow()`
-> everywhere to paper over the difference.
+> authorizers" rule follows from that — don't add `allow()`
+> everywhere to hide the difference.
 
 A Reboot Servicer may define `def authorizer(self)` returning a rule
 instance (e.g. `allow_if(all=[has_verified_token])`). Reboot evaluates

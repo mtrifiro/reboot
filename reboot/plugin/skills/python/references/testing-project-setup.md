@@ -121,7 +121,7 @@ two commented lines, `playwright` and `pytest-playwright` (and
 loop, `IsolatedAsyncioTestCase` handles its own, and `pytest-asyncio`
 conflicts with both. `uv sync` installs the `dev` group by default,
 so `uv run pytest`, `uv run mypy backend/ tests/` and
-`uv run rbt dashboard` just work; an application packaged for
+`uv run rbt dashboard` run without further setup; an application packaged for
 `rbt serve` installs plain `reboot`.
 
 Running a scenario that opens the web app records a video and
@@ -146,7 +146,7 @@ so it shows in the summary without failing the suite.
 
 ## Don't Construct Servicer Instances Directly
 
-The #1 trap for new Reboot test authors is calling
+The most common mistake in Reboot tests is calling
 `ChatRoomServicer().send(...)` directly, in a custom step or a harness
 test. That bypasses identity, context, persistence, and authorization:
 it tests nothing the framework does. The built-in steps call through

@@ -67,7 +67,7 @@ bounded hard:
 
 **Before the API definition:**
 
-- `python/references/patterns-common-gotchas.md` — recurring trips.
+- `python/references/patterns-common-gotchas.md` — recurring mistakes.
 - `python/references/api-pydantic.md` — pydantic API rules.
 - `python/references/api-methods.md` — factory → context type mapping.
 - `python/references/api-errors.md` — typed errors, when the API
@@ -83,8 +83,8 @@ bounded hard:
   — the MCP App's API file: `User`, `mcp=`, `UI()`, `factory=True`.
 - [`references/api-state-shapes.md`](references/api-state-shapes.md)
   — two recurring state shapes; composing actors by ID.
-- [`references/gotchas.md`](references/gotchas.md) — the MCP App trip
-  list.
+- [`references/gotchas.md`](references/gotchas.md) — the MCP App's
+  common mistakes.
 
 **Before the servicer:**
 
@@ -263,12 +263,12 @@ Before writing code, analyze the request:
     key: [`front-door-common.md`](../app/references/front-door-common.md),
     "Names".
 
-## When Correct Decomposition Fights the UI
+## When Correct Decomposition Conflicts with the UI
 
 This skill's React references show **one `use<Type>()` subscription
 per UI**, which pressures the model to flatten an entity collection
 into `list[Item]` on one actor. **Resolve the tension the other way:
-the data model wins.** A collection that is its own entity type
+keep the data model.** A collection that is its own entity type
 (Assessment step 1) or unbounded (step 2) stays decomposed, one actor
 per item with an `OrderedMap` index on the parent; never collapse it
 to fit the pattern. The UI still gets one subscription, from
@@ -395,7 +395,7 @@ Consequences for authorizers:
   when it is shared.
 
 Predicate composition, custom predicates and the function-vs-instance
-footgun: `python/references/auth-*.md` and
+mistake: `python/references/auth-*.md` and
 `python/references/servicer-authorizer.md`.
 
 **Acting on the user's behalf at the provider** (extra OAuth
