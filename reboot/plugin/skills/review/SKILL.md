@@ -43,7 +43,8 @@ Each prompt says, in these words: "Read `<the skill>/SKILL.md` with
 the Read tool for its method; don't load it with the Skill tool. Do
 its sections up to and including the review: read the facts, judge,
 and write the review to `<its file>`. Ask nothing, change nothing in
-the project but that file, and stop before its dialog. For
+the project but that file, never call the task list or wrap-up tools
+(`update_plan`, `wrap_up`), and stop before its dialog. For
 review-domain, take the scale from `design/design.md`'s own counts
 (its scale dialog's recommended answer, never asked). Reply with the
 verdict in two lines and each finding as one line: its title, its

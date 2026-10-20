@@ -144,7 +144,10 @@ which is finished and go on; never wait for an answer.
 
 - **The frontend by a sub-agent** (the Agent tool, where the host has
   it) builds the pages beside the backend. It loads no skill, so its
-  prompt carries the rules it would never see, word for word: read
+  prompt carries the rules it would never see, word for word: never
+  call the task list or wrap-up tools (`update_plan`, `wrap_up`: the
+  app shows only the main conversation's, and refuses a sub-agent's,
+  as hotel-272's did); read
   each plugin file with the Read tool, one call per file, never `cat`
   or `sed`; change a file that exists with the Edit tool, never a
   script or `sed -i`; the references to read, by path,
