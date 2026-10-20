@@ -78,9 +78,9 @@ end, not the smallest app that fits the prompt:
   what it leads with, which states carry colour and where the accent
   goes.
 
-The round's other answers, taken without asking: the palette
-the app-design skill would recommend for the domain (or the brand the
-prompt names); "How it is built: the whole app, hands off" ("one
+The round's other answers, taken without asking: the palette as the
+app-design skill's "The palette, unasked" says (`palette.py pick`
+among the ones that suit the domain, or `--from` the brand's colour); "How it is built: the whole app, hands off" ("one
 feature, hands off" for ", basic"). Each answer and each
 feature added beyond the prompt goes under **Assumed**, the feature
 with one line on why a real product needs it.
