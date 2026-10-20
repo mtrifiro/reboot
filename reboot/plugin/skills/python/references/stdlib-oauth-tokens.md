@@ -58,7 +58,7 @@ async def main():
     ).run()
 ```
 
-### The easy path: `store_tokens=True`
+### The built-in path: `store_tokens=True`
 
 If the tokens you want are the **identity provider's own** (the provider
 the user logs in with) **and** you're an MCP App using
@@ -66,7 +66,7 @@ the user logs in with) **and** you're an MCP App using
 `OAuthProvider` with `store_tokens=True` and the OAuth server captures
 the access/refresh tokens during the code exchange and persists them
 encrypted under the matching `OAuthTokenManager` automatically. Your code
-only ever `fetch`es. The end-to-end recipe — this easy path, the custom
+only ever `fetch`es. The end-to-end recipe — this built-in path, the custom
 endpoints for any other service, and the in-`Workflow` call — is
 `auth-external-api-calls.md`.
 

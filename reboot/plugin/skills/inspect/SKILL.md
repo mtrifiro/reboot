@@ -12,7 +12,7 @@ allowed-tools: Bash, Read
 `rbt inspect` reads the persisted state of a **running** Reboot
 application — what the `/__/inspect` page (linked from `rbt dev run`
 and `rbt cloud up` output) shows beside recent calls, but from the
-terminal, scriptable and pipeable. Reach for it when the question is
+terminal, scriptable and pipeable. Use it when the question is
 about _runtime state_ rather than code: "did `create` actually persist
 this field?", "which account IDs exist?", "what does actor `alice`
 look like right now?". It only reads.

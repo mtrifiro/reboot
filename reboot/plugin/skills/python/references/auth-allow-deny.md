@@ -7,8 +7,8 @@ tags: auth, allow, deny, authorizer, rule
 
 ## `allow()` and `deny()` — Narrow Uses, Not Defaults
 
-> **Critical:** `allow()` is **not** the "default" authorizer to slap
-> on every Servicer. In `rbt dev` you can omit `authorizer()` entirely;
+> **Critical:** `allow()` is **not** a default authorizer for
+> every Servicer. In `rbt dev` you can omit `authorizer()` entirely;
 > the runtime allows the call and logs a warning that flags real
 > production work. See `servicer-authorizer.md` for the dev-vs-prod
 > rules.
@@ -28,7 +28,7 @@ method, anonymously." There is exactly one legitimate use:
   unauthenticated catalog read, a public sign-up endpoint. Open access
   is the product, not an accident.
 
-That's it. In particular, `allow()` is **not** appropriate for:
+`allow()` is **not** appropriate for:
 
 - **"Methods only called from inside the app."** Every Reboot method
   is reachable from the internet by default — there is no network

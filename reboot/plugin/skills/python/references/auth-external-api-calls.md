@@ -53,7 +53,7 @@ under `rbt dev run` (and on Reboot Cloud), so local dev needs no setup.
 
 ## Capturing tokens
 
-### Path A — the built-in easy path
+### Path A — the built-in path
 
 If the API belongs to the **identity provider you already sign in with**
 via `Application(oauth=...)` (`Google` / `GitHub` / `Auth0`), the OAuth
@@ -155,8 +155,8 @@ API key, personal access token, or webhook secret into your UI instead.
 > deliver it as an application secret via environment variables /
 > `rbt cloud secret` (`lifecycle-secrets.md`).
 
-`OAuthTokenManager` is purpose-built for OAuth tokens; don't shoehorn an
-API key into it. The key is still a secret at rest, so the rule from
+`OAuthTokenManager` is purpose-built for OAuth tokens; don't store an
+API key in it. The key is still a secret at rest, so the rule from
 `state-scalar-fields.md` applies: **never a plain `str` field** — encrypt
 it with the `Ciphertext` stdlib type and keep the returned `state_id` (a
 harmless `str`) in your state as the reference to the encrypted value.

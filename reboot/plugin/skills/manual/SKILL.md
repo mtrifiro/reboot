@@ -87,7 +87,7 @@ its main action is. From Pages and design/screens.>
 
 ## Good to know
 
-<The Assumed lines a user would trip on, as plain facts: "A booking is
+<The Assumed lines a user could misread, as plain facts: "A booking is
 for a specific room, not a room type.">
 ```
 
