@@ -1,9 +1,19 @@
+// React Flow's stylesheet first; `dashboard.css` overrides it.
+import "@xyflow/react/dist/style.css";
+import "../dashboard.css";
+import logo from "./reboot-logo.svg";
 import {
   useDashboard,
   usePreferences,
 } from "../../../../rbt/dashboard/v1/dashboard_rbt_react";
 import { useOrderedMap } from "@reboot-dev/reboot-std-api/collections/ordered_map/v1/ordered_map_rbt_react";
-import { RebootClientProvider } from "@reboot-dev/reboot-react";
+import {
+  RebootClientProvider,
+  useMcpApp,
+  useMcpToolData,
+  useRebootClient,
+  useSignIn,
+} from "@reboot-dev/reboot-react";
 import { Presence } from "@reboot-dev/reboot-std-react/presence";
 import {
   type CSSProperties,
@@ -26,6 +36,7 @@ import { Group, Panel, Separator, usePanelRef } from "react-resizable-panels";
 import {
   HashRouter,
   Link,
+  MemoryRouter,
   NavLink,
   Navigate,
   Route,
@@ -40,15 +51,19 @@ import { v4 as uuidv4 } from "uuid";
 import {
   DASHBOARD_ID,
   CHANGELOG_ID,
+  IN_MCP_HOST,
+  MCP_CARD,
   PREFERENCES_ID,
   PRESENCE_ID,
 } from "./constants";
+import { Recording, RecordingButton } from "./recordings";
 import type * as api_pb from "../../../../rbt/v1alpha1/api/api_pb";
 import type * as dashboard_pb from "../../../../rbt/dashboard/v1/dashboard_pb";
 import type { Timestamp } from "@bufbuild/protobuf";
 import type {
   FeatureEntry,
   Features,
+  Known,
   Printed,
   Span,
   StepLinks,
@@ -58,10 +73,11 @@ import {
   hueKeyOfSpan,
   hueKeyOfVariable,
   huesOfScenario,
+  knownOfSteps,
   linkOfCodeSpan,
   linkOfMethod,
   printBuiltInSyntax,
-  recordingUrl,
+  printedWithKnownVariables,
   type FeatureFilter,
   BLOCKED_TAG,
   WIP_TAG,
@@ -78,6 +94,7 @@ import {
   webAppScenarioCount,
   spansOfPrinted,
   spansOfText,
+  withKnownVariables,
   stepLinks,
 } from "./feature_files";
 import type {
@@ -663,9 +680,129 @@ const Checks: FC<{
   </div>
 );
 
+// Session storage: the page has sent this tab to sign in once.
+const SIGN_IN_ATTEMPT_KEY = "dashboard.signIn.attempted";
+
+const WHOAMI_RETRY_MS = 2_000;
+
+// In a browser, sends a tab with no session to the OAuth server, which
+// returns it to this address signed in: the dashboard's provider asks
+// the developer nothing. Sends a tab once only, so a browser that
+// refuses cookies does not loop. In an MCP host the host supplies the
+// token.
+const useSignInWhenSignedOut = (): void => {
+  const client = useRebootClient();
+  const signIn = useSignIn();
+  // Keyed on the token too: a refresh that finds the session over
+  // clears it, and the check then runs again.
+  useEffect(() => {
+    if (IN_MCP_HOST || client.bearerToken !== undefined) {
+      return;
+    }
+    let cancelled = false;
+    let retry: ReturnType<typeof setTimeout> | undefined;
+    const ask = async (): Promise<void> => {
+      let authenticated: boolean;
+      try {
+        const response = await fetch(
+          new URL("/__/oauth/whoami", client.url).toString(),
+          { credentials: "include" }
+        );
+        if (!response.ok) {
+          throw new Error(`${response.status}`);
+        }
+        authenticated =
+          ((await response.json()) as { authenticated?: boolean })
+            .authenticated === true;
+      } catch {
+        if (!cancelled) {
+          retry = setTimeout(() => void ask(), WHOAMI_RETRY_MS);
+        }
+        return;
+      }
+      if (cancelled) {
+        return;
+      }
+      if (authenticated) {
+        window.sessionStorage.removeItem(SIGN_IN_ATTEMPT_KEY);
+        return;
+      }
+      if (window.sessionStorage.getItem(SIGN_IN_ATTEMPT_KEY) !== null) {
+        console.warn("Signing in did not sign the dashboard in.");
+        return;
+      }
+      window.sessionStorage.setItem(SIGN_IN_ATTEMPT_KEY, "1");
+      void signIn();
+    };
+    void ask();
+    return () => {
+      cancelled = true;
+      if (retry !== undefined) {
+        clearTimeout(retry);
+      }
+    };
+  }, [client.url, client.bearerToken, signIn]);
+};
+
+// Mounts `children` only once the client holds a token. `Presence`
+// calls the backend as soon as it mounts, and it does not recover if
+// that call fails for lack of a token.
+const WithToken: FC<{ children: ReactNode }> = ({ children }) => {
+  const client = useRebootClient();
+  useSignInWhenSignedOut();
+  if (client.bearerToken === undefined) {
+    return <div className="loading-token">Loading...</div>;
+  }
+  return <>{children}</>;
+};
+
+// How an MCP host shows the page: in the conversation, over its whole
+// window, or in a small window of its own.
+type DisplayMode = "inline" | "fullscreen" | "pip";
+
+// Asks an MCP host for fullscreen: an inline frame is small for a whole
+// page. Keeps the `mcp-host-sized` class on `html`, which
+// `dashboard.css` reads, equal to whether the host gives the frame its
+// height.
+const useFullscreenInHost = (): void => {
+  const mcpApp = useMcpApp();
+  useEffect(() => {
+    if (mcpApp === null || MCP_CARD !== undefined) {
+      return;
+    }
+    const sized = (mode: DisplayMode | undefined): void => {
+      document.documentElement.classList.toggle(
+        "mcp-host-sized",
+        mode === "fullscreen" || mode === "pip"
+      );
+    };
+    // The host sends the whole context on connecting and only what
+    // changed afterwards.
+    const changed = (context: { displayMode?: DisplayMode }): void => {
+      if (context.displayMode !== undefined) {
+        sized(context.displayMode);
+      }
+    };
+    const context: {
+      displayMode?: DisplayMode;
+      availableDisplayModes?: DisplayMode[];
+    } = mcpApp.getHostContext() ?? {};
+    changed(context);
+    mcpApp.addEventListener("hostcontextchanged", changed);
+    // A host that does not list its modes may still offer fullscreen.
+    if (context.availableDisplayModes?.includes("fullscreen") ?? true) {
+      mcpApp.requestDisplayMode({ mode: "fullscreen" }).then(
+        (result) => sized(result.mode),
+        (error) => console.warn("The host refused fullscreen:", error)
+      );
+    }
+    return () => mcpApp.removeEventListener("hostcontextchanged", changed);
+  }, [mcpApp]);
+};
+
 const RebootBrand: FC<{ live: boolean }> = ({ live }) => (
   <div className="brand">
-    <img className="brand-logo" src="./reboot-logo.svg" alt="Reboot logo" />
+    <img className="brand-logo" src={logo} alt="Reboot logo" />
     <Connection live={live} />
   </div>
 );
@@ -1391,13 +1528,13 @@ const MethodPane: FC<{
 };
 
 // Whether the CLI just opened this page by itself, said by the
-// query parameter it opens the page with. Read once and stripped,
-// so a reload or a copied URL says nothing.
-const openedAutomatically = ((): boolean => {
+// query parameter it opens the page with. Read once here; `App` strips
+// it, so a reload or a copied URL does not carry it.
+const openedAutomatically =
+  new URLSearchParams(window.location.search).get("opened") === "automatically";
+
+const stripOpenedAutomatically = (): void => {
   const params = new URLSearchParams(window.location.search);
-  if (params.get("opened") !== "automatically") {
-    return false;
-  }
   params.delete("opened");
   const search = params.toString();
   window.history.replaceState(
@@ -1407,8 +1544,7 @@ const openedAutomatically = ((): boolean => {
       window.location.hash
     }`
   );
-  return true;
-})();
+};
 
 // Says the CLI opened this page by itself, and offers not to be
 // reopened; either button dismisses it.
@@ -1935,9 +2071,10 @@ const TypesPane: FC<{
 // to it in the types pane, and each `<variable>` set in its hue.
 const CustomStep: FC<{
   text: string;
+  known: Known;
   links: StepLinks;
   related: Related;
-}> = ({ text, links, related }) => {
+}> = ({ text, known, links, related }) => {
   const parts = text.split("`");
   return (
     <>
@@ -1958,17 +2095,18 @@ const CustomStep: FC<{
         }
         return (
           <Fragment key={index}>
-            {spansOfText(unclosed ? "`" + part : part, "text").map(
-              (span, spanIndex) => (
-                <SpanText
-                  span={span}
-                  stateType={undefined}
-                  links={links}
-                  related={related}
-                  key={spanIndex}
-                />
-              )
-            )}
+            {withKnownVariables(
+              spansOfText(unclosed ? "`" + part : part, "text"),
+              known
+            ).map((span, spanIndex) => (
+              <SpanText
+                span={span}
+                stateType={undefined}
+                links={links}
+                related={related}
+                key={spanIndex}
+              />
+            ))}
           </Fragment>
         );
       })}
@@ -2114,10 +2252,14 @@ const Spans: FC<{
 // means.
 const BuiltInStep: FC<{
   syntax: grammar_pb.BuiltInSyntax;
+  known: Known;
   links: StepLinks;
   related: Related;
-}> = ({ syntax, links, related }) => {
-  const printed: Printed = printBuiltInSyntax(syntax);
+}> = ({ syntax, known, links, related }) => {
+  const printed: Printed = printedWithKnownVariables(
+    printBuiltInSyntax(syntax),
+    known
+  );
   // A call names its state after its clauses, in the tail; a read
   // names it in the head.
   const stateType = spansOfPrinted(printed).find(
@@ -2163,10 +2305,11 @@ const BuiltInStep: FC<{
 // when shown as part of the scenario they run before.
 const StepRow: FC<{
   step: feature_pb.Step;
+  known: Known;
   links: StepLinks;
   related: Related;
   background?: boolean;
-}> = ({ step, links, related, background }) => {
+}> = ({ step, known, links, related, background }) => {
   const continuation = step.keyword === "And" || step.keyword === "But";
   return (
     <div className={background ? "step step-background" : "step"}>
@@ -2179,20 +2322,32 @@ const StepRow: FC<{
       </span>
       <div className="step-text">
         {step.screenshot !== undefined && (
-          <a
-            className="step-screenshot"
-            href={recordingUrl(step.screenshot)}
-            target="_blank"
-            rel="noreferrer"
-            title="The browser after this step, in the scenario's last run"
-          >
-            <img src={recordingUrl(step.screenshot)} alt="" />
-          </a>
+          <Recording path={step.screenshot}>
+            {(url, onError) => (
+              <RecordingButton
+                className="step-screenshot"
+                recording={{ path: step.screenshot }}
+                title="The browser after this step, in the scenario's last run"
+              >
+                <img src={url} alt="" onError={onError} />
+              </RecordingButton>
+            )}
+          </Recording>
         )}
         {step.builtIn !== undefined ? (
-          <BuiltInStep syntax={step.builtIn} links={links} related={related} />
+          <BuiltInStep
+            syntax={step.builtIn}
+            known={known}
+            links={links}
+            related={related}
+          />
         ) : (
-          <CustomStep text={step.text} links={links} related={related} />
+          <CustomStep
+            text={step.text}
+            known={known}
+            links={links}
+            related={related}
+          />
         )}
         {step.docString !== undefined && (
           <pre className="type-block">
@@ -2305,15 +2460,26 @@ const ScenarioRow: FC<{
   // starts out open, since it has nothing to be opened from.
   const target = useTarget();
   const targeted = id !== undefined && target === id;
-  const [expanded, setExpanded] = useState(targeted);
+  const [expanded, setExpanded] = useState(targeted || MCP_CARD !== undefined);
   const [relatedKey, setRelatedKey] = useState<string | null>(null);
+  const backgroundSteps = useMemo(
+    () => backgrounds.flatMap((background) => background.steps),
+    [backgrounds]
+  );
   const hues = useMemo(
     () =>
       huesOfScenario(columnsOfExamples(examples), [
-        ...backgrounds.flatMap((background) => background.steps),
+        ...backgroundSteps,
         ...steps,
       ]),
-    [backgrounds, steps, examples]
+    [backgroundSteps, steps, examples]
+  );
+  // What each step may say as `<name>`, its backgrounds' steps first:
+  // any other `<...>` it says is text.
+  const known = useMemo(
+    () =>
+      knownOfSteps(columnsOfExamples(examples), [...backgroundSteps, ...steps]),
+    [backgroundSteps, steps, examples]
   );
   const related: Related = {
     hues,
@@ -2422,21 +2588,18 @@ const ScenarioRow: FC<{
           </span>
         )}
         {videos.map((video) => (
-          <a
-            className="scenario-video"
-            href={recordingUrl(video.path)}
-            target="_blank"
-            rel="noreferrer"
-            title={`"${video.user}"'s browser in the scenario's last run`}
-            // A click here opens the video, not the scenario.
-            onClick={(event) => event.stopPropagation()}
+          <RecordingButton
             key={video.user}
+            className="scenario-video"
+            recording={{ path: video.path }}
+            video
+            title={`"${video.user}"'s browser in the scenario's last run`}
           >
             <svg viewBox="0 0 10 10" width="8" height="8" aria-hidden="true">
               <path d="M1.5 1 L9 5 L1.5 9 Z" fill="currentColor" />
             </svg>
             {videos.length > 1 ? `video · ${video.user}` : "video"}
-          </a>
+          </RecordingButton>
         ))}
         {recordingsStale && (
           <span
@@ -2503,20 +2666,20 @@ const ScenarioRow: FC<{
             <Description className="method-description" text={description} />
           )}
           <div className="steps">
-            {backgrounds.flatMap((background, backgroundIndex) =>
-              background.steps.map((step, index) => (
-                <StepRow
-                  step={step}
-                  links={links}
-                  related={related}
-                  background={true}
-                  key={`background-${backgroundIndex}-${index}`}
-                />
-              ))
-            )}
+            {backgroundSteps.map((step, index) => (
+              <StepRow
+                step={step}
+                known={known[index]}
+                links={links}
+                related={related}
+                background={true}
+                key={`background-${index}`}
+              />
+            ))}
             {steps.map((step, index) => (
               <StepRow
                 step={step}
+                known={known[backgroundSteps.length + index]}
                 links={links}
                 related={related}
                 key={index}
@@ -3299,7 +3462,9 @@ const FeatureGallery: FC<{ filename: string; feature: feature_pb.Feature }> = ({
           to={pathOfTypeOnPage("features", scenarioId(filename, scenario.line))}
           key={scenario.line}
         >
-          <img src={recordingUrl(screenshot)} alt="" />
+          <Recording path={screenshot}>
+            {(url, onError) => <img src={url} alt="" onError={onError} />}
+          </Recording>
           <span>{scenario.name}</span>
         </PageLink>
       ))}
@@ -4248,6 +4413,11 @@ const StateTypeRedirect: FC = () => {
   );
 };
 
+// In a browser the URL's hash holds the route, so a page can be linked
+// to and reloaded. An MCP host's frame has no URL of its own, so there
+// memory holds it.
+const Router = IN_MCP_HOST ? MemoryRouter : HashRouter;
+
 // The preferences are the dashboard application's state: every tab
 // reads the same ones, and they persist after the tab that set them
 // closes.
@@ -4263,6 +4433,8 @@ const App: FC = () => {
     id: PREFERENCES_ID,
   });
   const { response } = useGet();
+
+  useFullscreenInHost();
 
   const onSeen = useCallback(
     (seen: Seen): void => {
@@ -4295,6 +4467,13 @@ const App: FC = () => {
   );
 
   const [openedNotice, setOpenedNotice] = useState(openedAutomatically);
+  // Strip it only once the page shows: the sign-in redirect returns to
+  // the page's URL and needs the parameter still there.
+  useEffect(() => {
+    if (openedAutomatically) {
+      stripOpenedAutomatically();
+    }
+  }, []);
 
   const navWidth = response?.navWidth ?? NAV_WIDTH.default;
   const resizing = useRef(navWidth);
@@ -4329,7 +4508,7 @@ const App: FC = () => {
           onClose={() => setOpenedNotice(false)}
         />
       )}
-      <HashRouter>
+      <Router>
         <Routes>
           {PAGES.map((page) => (
             <Route
@@ -4361,33 +4540,193 @@ const App: FC = () => {
             />
           ))}
           {/* The state page is the types pane now; its old URLs land
-              on the models page with the pane open on what they
-              named. A data type has no URL of its own anymore. */}
+            on the models page with the pane open on what they
+            named. A data type has no URL of its own anymore. */}
           <Route path="/state/:id?" element={<StateTypeRedirect />} />
           <Route
             path="/data/:id?"
             element={<Navigate to="/models" replace />}
           />
           {/* A developer returning to the dashboard starts at the
-              application's model. */}
+            application's model. */}
           <Route path="*" element={<Navigate to="/models" replace />} />
         </Routes>
-      </HashRouter>
+      </Router>
+    </div>
+  );
+};
+
+// The feature `asked` names: by its file path, as `dashboard_list`
+// gives it, by the path's last part, or by its name.
+const featureNamed = (
+  features: Features,
+  asked: string
+): FeatureEntry | undefined => {
+  const entries = sortedFeatures(features);
+  const wanted = asked.trim().toLowerCase();
+  return (
+    entries.find(({ filename }) => filename === asked) ??
+    entries.find(
+      ({ filename }) =>
+        filename.toLowerCase() === wanted ||
+        filename.toLowerCase().endsWith(`/${wanted}`)
+    ) ??
+    entries.find(({ feature }) => feature.name?.toLowerCase() === wanted)
+  );
+};
+
+// The state type `asked` names: by its qualified name, as
+// `dashboard_list` gives it, or by its name, when one type has it.
+const stateTypeNamed = (
+  declarations: Map<string, StateTypeDeclaration>,
+  asked: string
+): StateTypeDeclaration | undefined => {
+  const exact = declarations.get(asked);
+  if (exact !== undefined) {
+    return exact;
+  }
+  const wanted = asked.trim().toLowerCase();
+  const matches = [...declarations.entries()].filter(
+    ([id, { stateType }]) =>
+      id.toLowerCase() === wanted || stateType.name.toLowerCase() === wanted
+  );
+  return matches.length === 1 ? matches[0][1] : undefined;
+};
+
+// What a card shows when the tool named nothing it has: what there
+// is, by the ids the tool takes.
+const CardMissing: FC<{
+  what: string;
+  asked: string | undefined;
+  names: { id: string; name?: string }[];
+}> = ({ what, asked, names }) => (
+  <div className="card">
+    <div className="error">
+      {asked === undefined || asked === ""
+        ? `No ${what} was named.`
+        : `No ${what} named "${asked}".`}
+    </div>
+    {names.length === 0 ? (
+      <p>The dashboard has read no {what} yet.</p>
+    ) : (
+      <>
+        <p>The {what}s the dashboard has, by id:</p>
+        <ul>
+          {names.map(({ id, name }) => (
+            <li key={id}>
+              <code>{id}</code>
+              {name !== undefined && name !== id && `: ${name}`}
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+  </div>
+);
+
+// One feature on its own: named the way the features page names a
+// chosen feature, then the whole feature.
+const FeatureCardAlone: FC<{ entry: FeatureEntry; links: StepLinks }> = ({
+  entry: { filename, feature },
+  links,
+}) => (
+  <div className="card">
+    <div className="state-type-head">
+      <div className="state-type-heading">
+        <h2>{feature.name ?? filename}</h2>
+        <span className="summary-line">
+          {countWithNoun(scenariosOfFeature(feature).length, "scenario")}
+          {feature.rules.length > 0 &&
+            ` · ${countWithNoun(feature.rules.length, "rule")}`}
+        </span>
+      </div>
+    </div>
+    <div className="file">{filename}</div>
+    {feature.description !== undefined && (
+      <Description
+        className="state-type-description"
+        text={feature.description}
+      />
+    )}
+    <FeatureCard filename={filename} feature={feature} links={links} />
+  </div>
+);
+
+// The page as a card in an MCP host's inline frame: the one feature
+// or state type the tool call named, from the same state the whole
+// dashboard reads, so it changes as the files do. Nothing in it is
+// clickable and no recording is shown; `dashboard.css` sees to both
+// by the `mcp-card` class.
+const Card: FC = () => {
+  const { useGet } = useDashboard({ id: DASHBOARD_ID });
+  const { response } = useGet();
+  const request = (useMcpToolData()?.request ?? {}) as {
+    feature?: string;
+    stateType?: string;
+  };
+  const apis: APIs = useMemo(() => response?.apis ?? {}, [response?.apis]);
+  const links = useMemo(() => stepLinks(apis), [apis]);
+  const declarations = useMemo(() => stateTypeDeclarationsById(apis), [apis]);
+  if (response === undefined) {
+    return <div className="loading-token">Loading...</div>;
+  }
+  if (MCP_CARD === "feature") {
+    const entry = featureNamed(response.features, request.feature ?? "");
+    return entry === undefined ? (
+      <CardMissing
+        what="feature"
+        asked={request.feature}
+        names={sortedFeatures(response.features).map(
+          ({ filename, feature }) => ({ id: filename, name: feature.name })
+        )}
+      />
+    ) : (
+      <FeatureCardAlone entry={entry} links={links} />
+    );
+  }
+  const declaration = stateTypeNamed(declarations, request.stateType ?? "");
+  return declaration === undefined ? (
+    <CardMissing
+      what="state type"
+      asked={request.stateType}
+      names={[...declarations.keys()].map((id) => ({ id }))}
+    />
+  ) : (
+    <div className="card">
+      <StateType api={declaration.api} stateType={declaration.stateType} />
     </div>
   );
 };
 
 const root = document.getElementById("root");
 
+// `dashboard.css` sizes the page by this class in an MCP host.
+if (IN_MCP_HOST) {
+  document.documentElement.classList.add("mcp-host");
+}
+if (MCP_CARD !== undefined) {
+  document.documentElement.classList.add("mcp-card");
+}
+
 if (root !== null) {
   createRoot(root).render(
     <StrictMode>
-      {/* No `url`: the application that serves this page also serves
-          Presence, so the client defaults to this page's origin. */}
+      {/* No `url`: in a browser the application that serves this page
+          also serves its RPCs, so the client defaults to this page's
+          origin; in an MCP host the client reads `window.REBOOT_URL`,
+          which the application writes into the page. */}
       <RebootClientProvider offlineCacheEnabled={true}>
-        <Presence id={PRESENCE_ID} subscriberId={SUBSCRIBER_ID}>
-          <App />
-        </Presence>
+        <WithToken>
+          {MCP_CARD === undefined ? (
+            <Presence id={PRESENCE_ID} subscriberId={SUBSCRIBER_ID}>
+              <App />
+            </Presence>
+          ) : (
+            <MemoryRouter>
+              <Card />
+            </MemoryRouter>
+          )}
+        </WithToken>
       </RebootClientProvider>
     </StrictMode>
   );

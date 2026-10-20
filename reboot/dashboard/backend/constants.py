@@ -4,9 +4,22 @@ Kept apart from `main.py` so that reading them does not drag in the
 application and everything it serves with.
 """
 
-# Where the dashboard application serves its page, relative to its
-# own address.
-DASHBOARD_PATH = '/dashboard'
+from pathlib import Path
+from rbt.dashboard.v1 import dashboard_rbt
+
+# The dashboard's built page, beside the application's module, which
+# is the same arrangement `InspectServicer` uses for its own assets.
+# The CLI serves it at `/` the way `--web-app-dist-path` would, by
+# naming it (absolute, since no project root is involved) in the
+# application's environment.
+DASHBOARD_DIRECTORY = Path(__file__).parent / 'dashboard'
+
+# Where the page built into one file for an MCP host is, as
+# `dashboard/ui/index.html`: beside the generated code, whose `.rbtrc`
+# makes that directory the project root the MCP App runtime resolves
+# against; see `rbt/dashboard/v1/BUILD.bazel`.
+assert dashboard_rbt.__file__ is not None
+MCP_APP_DIRECTORY = Path(dashboard_rbt.__file__).parent
 
 # The dashboard application's port. Deliberately not adjacent to
 # `rbt dev run`'s default port of 9991: VS Code forwards a port
@@ -18,7 +31,9 @@ DASHBOARD_PATH = '/dashboard'
 # forwarding never reaches it, outside the 999x band (9990 k3d and
 # WildFly, 9993 ZeroTier, 9997 Splunk), clear of
 # 9000/9090/9200/9222/9229, hard to confuse with 9991 when reading
-# logs, and outside the Linux ephemeral range.
+# logs, and outside the Linux ephemeral range. Under `--portless` the
+# dashboard's address is its name, `https://dashboard-<app>.localhost`,
+# and the port behind the proxy is a free one.
 DEFAULT_DASHBOARD_PORT = 9871
 
 # The `Dashboard` state holding everything the dashboard shows, as
