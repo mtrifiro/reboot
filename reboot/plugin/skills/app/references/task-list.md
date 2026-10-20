@@ -21,8 +21,8 @@ word for word, with the angle brackets filled in:
 - `<page>` is the page's name in the user's nouns.
 
 Every item starts with a verb. Inside an item every name is
-lowercase, as in a sentence ("Build the domain model for “room
-status floor plan”"), unless it is a proper noun. Make the list after the user answers how to build, never in the
+lowercase, as in a sentence ("Write the rules for “room status
+floor plan”"), unless it is a proper noun. Make the list after the user answers how to build, never in the
 same response as that question (before it, a list has only "Propose
 the design for <app>"); mark each item done as it finishes; a step that
 fails stays in progress, never done.
@@ -53,15 +53,15 @@ The first feature's backend:
 
 1. Propose the design for <app>
 2. Get your go-ahead on the design
-3. Build the domain model and rules for “<feature>”
+3. Write the rules for “<feature>”, then its domain model
 4. Your turn: check the domain model on the dashboard
 5. Build the actions for “<feature>” and test them against its rules
 6. Your turn: check the backend, then say to build the frontend (<screen>)
 
-Item 3 covers the scaffold, the rules as scenarios, the domain model
+Item 3 covers the scaffold, the rules as scenarios, then the domain model
 and starting the dashboard. Item 5 covers the actions, who may do
 each, demo data and the tests (scenarios pass, types check). Items 2,
-4 and 6 are the `app` skill's questions
+4 and 6 are the `new-app` skill's questions
 (`app/references/design-first.md`); a front door's skill used on its
 own, which doesn't ask them, leaves them off.
 
@@ -76,7 +76,7 @@ Item 2 covers the browser scenario, the first-paint time
 (`web-app/references/first-paint.md`) and the layout checks
 (`web-app/references/ui-design.md`, "Measure what can be measured"),
 at desktop and phone width; it ends with the line linking the app and
-the dashboard. A first feature seen from both sides (`app` skill,
+the dashboard. A first feature seen from both sides (`new-app` skill,
 step 1) has "Build the two pages for “<feature>”, <the customers'>
 and <the staff's>" and "Test them side by side in a browser".
 
@@ -84,7 +84,7 @@ For the hotel's first feature, the two lists read:
 
 1. Propose the design for Maison Desk
 2. Get your go-ahead on the design
-3. Build the domain model and rules for “room status floor plan”
+3. Write the rules for “room status floor plan”, then its domain model
 4. Your turn: check the domain model on the dashboard
 5. Build the actions for “room status floor plan” and test them against its rules
 6. Your turn: check the backend, then say to build the floor plan
@@ -97,7 +97,7 @@ Each next feature, when the user asks for it (the app keeps running),
 one list, backend and frontend with no stop between them:
 
 1. Show what “<feature>” adds to the design
-2. Add the domain model and rules for “<feature>”
+2. Add the rules for “<feature>”, then its domain model
 3. Build the actions for “<feature>” and test them against its rules
 4. Build the page for “<feature>”
 5. Test it in a browser
@@ -111,7 +111,7 @@ backend:
 
 1. Propose the design for <app>
 2. Get your go-ahead on the design
-3. Build the domain model and rules
+3. Write the rules, then the domain model
 4. Start every page of the design in parallel (a sub-agent)
 5. Build every feature's actions and test them against its rules
 
