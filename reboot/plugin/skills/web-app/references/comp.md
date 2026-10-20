@@ -11,7 +11,7 @@ A comp is a mockup of the main page, made once as a static page in the look the
 design names, with believable rows and no data behind it: where the
 frontend is going, shown with the design so the go-ahead judges both.
 The `app-guided` skill makes it for a web app after the proposed design
-and before **Build on this design?**. On the first-feature-only path
+and before **Ready to build this design?**. On the first-feature-only path
 (`app-basic`, `app-whole` with ", basic") it is a preview with no stop:
 made right after `design/design.md`, its line said, and the build goes
 straight on, the page built from it. The whole app, hands off, and the

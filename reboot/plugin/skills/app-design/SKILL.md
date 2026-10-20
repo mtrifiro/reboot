@@ -27,7 +27,7 @@ code, no `rbt generate`, no project scaffold, no dependency installed.
   build): everything below but the closing line. The opening
   goes out as text right after this skill loads: the Skill loads and the
   `app` skill's one question are the only tool calls before it, and the round's
-  dialog is the next. The app-guided skill's go-ahead, **Build on this design?**, follows the design in
+  dialog is the next. The app-guided skill's go-ahead, **Ready to build this design?**, follows the design in
   the same response
   ([`app/references/design-first.md`](../app/references/design-first.md),
   section 3); on the prompt-by-prompt path, that section's closing line.
