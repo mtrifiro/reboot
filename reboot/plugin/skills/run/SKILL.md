@@ -207,6 +207,16 @@ if kill -0 $P 2>/dev/null; then pkill -TERM -P $P; kill -TERM $P; sleep 5
   kill -0 $P 2>/dev/null && kill -KILL $P; fi
 ```
 
+**Every stop the build makes to start again** (an `api/` change, a
+new dependency, a hang) is followed at once by
+`python3 '<this skill>/assets/standby.py' start`: a "Restarting" page
+at the app's address, in place of the proxy's 404 or 502, that reloads
+itself until the app is back. `standby.py stop` ends it: under portless
+once the app answers, on plain ports just before the start (it holds
+9991). One line first: "The app is restarting; its page comes back by
+itself in a minute or so." (crm-30 showed the proxy's list of every app
+on the machine.)
+
 The loop waits, at most 10 seconds, until it has exited: its Envoy and
 ports go with it, and a suite started while they are still up has
 failed scenarios that pass alone (hotel-211: two failed in a full run
@@ -230,16 +240,7 @@ regenerating the code when `api/` changes, under the tests, which
 fails scenarios and can hang the app mid-restart. Measured on a
 rendered starter (2026-10-19): with the app up and no `api/` change,
 4 of 4 full runs passed and the app stayed up; started right after an
-`api/` edit, 1 of 2 failed and the app hung. Right after that
-stop, `python3 '<this skill>/assets/standby.py' start` puts a
-"Restarting" page at the app's address in place of the proxy's 502;
-it reloads itself, so the user's open tab shows the app again once
-it is back. `standby.py stop` ends it: under portless once the app
-answers again (the app takes its name back), on plain ports just
-before the start (it holds 9991). One line first: "The app is
-restarting while the API changes; its page says so and comes back by
-itself in a minute or so." (hotel-255 was down 15 minutes of 28;
-hotel-260, 5:44.)
+`api/` edit, 1 of 2 failed and the app hung.
 
 **A restart that hangs** (a workaround for
 [reboot-dev/reboot#278](https://github.com/reboot-dev/reboot/issues/278)):
