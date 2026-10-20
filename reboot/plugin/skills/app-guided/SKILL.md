@@ -1,6 +1,6 @@
 ---
 name: app-guided
-description: "The guided build of a Reboot application: the app-design skill's round of questions (the first features, who signs in, the palette) and its proposed design, the go-ahead (step by step, or all at once), then the build with each part explained; a design already proposed in design/design.md is built on without asking again. Loaded by the app skill on Interactively, or asked for by name (/reboot:app-guided); a prompt that asks for an app in plain words goes to the app skill, which asks how to build first."
+description: "The guided build of a Reboot application: the app-design skill's round of questions (the first features, who signs in, the palette) and its proposed design, the go-ahead (Ready to build this design?), then the build with each part explained; a design already proposed in design/design.md is built on without asking again. Loaded by the app skill on Interactively, or asked for by name (/reboot:app-guided); a prompt that asks for an app in plain words goes to the app skill, which asks how to build first."
 argument-hint: [<app-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 ---
@@ -66,8 +66,9 @@ under "What to expect:", filled in from the design:
 
 - **Step by step:** each feature in two parts, its backend tested
   against its rules, then its frontend tested in a browser ·
-  <first feature>'s backend, with the dashboard's link to check its
-  domain model, then its actions tested against every rule · then its
+  <first feature>'s backend, its domain model shown on the dashboard
+  (a question only where it differs from the design), then its
+  actions tested against every rule · then its
   frontend (<its page>), about 15 minutes in all · then
   each next feature as you choose it, 15 to 20 minutes.
 - **All at once:** every feature in the design, the pages built in
@@ -113,7 +114,8 @@ steps 4 and 6 (its reviews, step 5, are the one-shot's own).
   ends with an **Exegesis** section, what was written and why, the
   same text appended to `design/exegesis.md`
   ([`../app/references/exegesis.md`](../app/references/exegesis.md)).
-  Nothing between reports changes.
+  Between reports, each step line gains one sentence of why, and
+  nothing more.
 - **Files a part at a time** with the Write tool, never every file in
   one shell command.
 - **Read this plugin with the Read tool,** one call per file, several
