@@ -245,7 +245,7 @@ changed, never rewritten whole, its links checked by
 [`app/references/design-messages.md`](../app/references/design-messages.md),
 covering every feature (in a verbose build, asked for in the prompt,
 its **Exegesis**, the build's one exegesis in the chat, covers the
-whole app in 600 to 900 words and links `design/exegesis.md`, written
+whole app, about 100 words for each feature, and links `design/exegesis.md`, written
 feature by feature as the build went:
 [`app/references/exegesis.md`](../app/references/exegesis.md)), with
 under **Notes**, when the reviews ran:
