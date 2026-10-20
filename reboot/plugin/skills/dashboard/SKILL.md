@@ -21,8 +21,7 @@ for the dashboard while an app is being built.
 > This skill **starts the dashboard**, nothing else. It does not run
 > the application — that is the [run skill](../run/SKILL.md).
 > The dashboard is optional: if any step below fails, tell the user
-> the dashboard is not available and carry on with whatever you were
-> building. Do not stop the build to debug it.
+> the dashboard is not available and continue the build. Do not stop the build to debug it.
 
 ## Step 1 — Locate the project
 
@@ -120,10 +119,6 @@ BROWSER=true uv run rbt dashboard                  # under portless
 BROWSER=true uv run rbt dashboard --config=ports   # on plain ports
 ```
 
-It prints `Your dashboard is at <URL>` at once and keeps running;
-wait until the probe from Step 3 answers before showing it. It stays
-up for the session and never needs a restart when code changes.
-
 It takes the API directory from the `generate <dir>` line in
 `.rbtrc`, spelled relative to the project root, which is how file
 names are shown. It prints `Your dashboard is at http://127.0.0.1:9871/`
@@ -149,8 +144,8 @@ Tell the user the dashboard is up, in one line that always starts
 with its URL (`<dashboard>`, as it started, even when the browser opened
 it: a terminal session may have no window, and the line is where the
 user finds it again later), then what it is for, a link to each object
-the API declares so far and to each feature file written so far, and
-get on with the build:
+the API declares so far and to each feature file written so far, then
+continue the build:
 
 > The developer dashboard is at https://dashboard.hotel.localhost/ (it
 > opens in your browser): it shows the domain model as it's written,
