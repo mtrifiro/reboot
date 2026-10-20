@@ -7,7 +7,7 @@ grows over the frontend-serving commits.
 
 The `rbt dev run` / `rbt serve run` frontend dev-proxy is no longer
 MCP-specific — it fronts web apps too — so its flag `--mcp-frontend-host`
-is now just `--frontend-host`, and the `RBT_MCP_FRONTEND_HOST` env var is
+is now `--frontend-host`, and the `RBT_MCP_FRONTEND_HOST` env var is
 now `RBT_FRONTEND_HOST`.
 
 In your `.rbtrc`, rename every `--mcp-frontend-host` to `--frontend-host`.
