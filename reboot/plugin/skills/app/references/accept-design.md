@@ -194,7 +194,7 @@ by the build** for the rest; the user's choices are the firm ones.
 **Set aside** only for alternatives raised. **Assumed** lists what the
 build made up without asking: counts, names, times and time zones,
 units, the name of the app and its look. It is where a wrong guess
-hides, so it is never folded into Decided. **Left open** lists what was
+is found, so it is never folded into Decided. **Left open** lists what was
 put off on purpose: a deploy setting, a provider, a feature skipped or
 not built yet. **The user's words** quotes every answer the user gave
 since the last entry, the scope questions included in the first, as

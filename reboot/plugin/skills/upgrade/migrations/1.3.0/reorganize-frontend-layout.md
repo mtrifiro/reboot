@@ -21,7 +21,7 @@ shim that types `*.module.css` imports and `import.meta.env` — to the
 `frontend/` root (a sibling of `mcp/`, `web/`, and `api/`), not under
 `frontend/web/src/`, and list it in each `tsconfig.app.json`'s
 `include` alongside your UI directories
-(`["mcp", "web", "vite-env.d.ts"]`). Otherwise the shim falls off the
+(`["mcp", "web", "vite-env.d.ts"]`). Otherwise the shim is outside the
 type-check path and MCP UIs fail `tsc` with `TS2307: Cannot find module './App.module.css'`.
 
 Adopt the new `frontend/vite.config.ts`: it auto-discovers your MCP UIs
@@ -37,7 +37,7 @@ commentary.
 
 Add `frontend/build.mjs` too (also from
 `references/react-scaffolding.md`): it discovers and builds every UI in
-one shot, so `npm run build` keeps working as UIs come and go. Set
+one run, so `npm run build` keeps working as UIs come and go. Set
 `frontend/package.json`'s build script to
 `"build": "tsc -b && node build.mjs"`, dropping any per-UI
 `build:<name>` scripts and the `concurrently` devDependency.

@@ -142,7 +142,7 @@ Annotate it `Any` and narrow with `isinstance`, or spell out the
 union of the request models it actually distinguishes.
 
 **Check that the annotation is actually doing something.** These
-types only bite if mypy can resolve the API package: `mypy_path`
+annotations are checked only if mypy can resolve the API package: `mypy_path`
 must include the project-root `api/`, and the "don't check generated
 code" stanza must name `<pkg>.v1.<name>_rbt` rather than
 `<pkg>.v1.*` — a blanket ignore silences your own API module, and
