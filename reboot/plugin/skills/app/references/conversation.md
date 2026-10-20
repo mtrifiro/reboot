@@ -163,7 +163,7 @@ ends a working turn with a next-step box of its own (`wrap_up`: a
 recap, one question, reply buttons), and that box also checks off the
 whole task list. So:
 
-- **Questions inside the build** (Build on this design?, after the design; Build on
+- **Questions inside the build** (Ready to build this design?, after the design; Build on
   this domain model? (the model check), What
   should I build next?) are dialogs (`AskUserQuestion`) asked while the
   turn goes on, never the box: the box would tick every item on the
@@ -176,7 +176,7 @@ whole task list. So:
   skipped dialog, the box gets the recap only, with no `ask` and no
   buttons: the feature is running for the user to try.
 - **Every question inside the build offers a way to learn more before
-  answering:** "Tell me more" on Build on this design?, "Walk me
+  answering:** "Tell me more" on Ready to build this design?, "Walk me
   through it" on the model check
   (`design-first.md` gives each one's answer). It answers in the chat
   and asks the same dialog again. What should I build next? describes
