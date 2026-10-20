@@ -150,7 +150,7 @@ NEUTRALS: dict[str, dict[str, dict[str, str]]] = {
 # only. `house` is cream and navy, the house look's own.
 PALETTES_FILE = Path(__file__).resolve().parents[2] / "web-app" / "assets" / "palettes.json"
 PALETTE_TOKENS = ("bg", "bg-2", "panel", "ink", "muted", "line", "track", "accent", "on-accent",
-                  "accent-deep", "on-deep", "accent-tint", "bg-glow", "bar", "on-bar")
+                  "accent-deep", "on-deep", "accent-tint", "bg-glow", "bar", "on-bar", "good", "warn", "bad")
 
 
 def palettes() -> dict[str, dict]:
