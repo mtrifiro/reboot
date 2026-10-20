@@ -27,6 +27,16 @@ RADIX = Path(sys.argv[1])
 PAIRS = [("sand", "bronze"), ("sand", "brown"), ("sand", "orange"), ("sand", "gold"),
          ("olive", "grass"), ("sage", "teal"), ("slate", "blue"), ("slate", "iris"),
          ("mauve", "plum"), ("mauve", "crimson")]
+# A name a person can say, beside the two colours in words.
+LABELS = {"sand-bronze": "Bronze", "sand-brown": "Walnut", "sand-orange": "Ember", "sand-gold": "Brass",
+          "olive-grass": "Meadow", "sage-teal": "Lagoon", "slate-blue": "Harbour", "slate-iris": "Iris",
+          "mauve-plum": "Plum", "mauve-crimson": "Claret"}
+# The house good/warn/bad, written by every palette so a switch resets
+# them; a palette whose accent is green takes Radix teal for good, so
+# "good" never reads as the accent.
+STATUS = {"light": {"good": "#3f7a2e", "warn": "#a8660f", "bad": "#b42318"},
+          "dark": {"good": "#8ccb6b", "warn": "#f2c784", "bad": "#f07a6e"}}
+GREEN_ACCENTS = {"grass"}
 
 def scale(name, dark):
     text = (RADIX / f"{name}{'-dark' if dark else ''}.css").read_text().split("@supports")[0]
@@ -77,9 +87,14 @@ for gray, acc in PAIRS:
                     "accent-tint": a[4], "bg-glow": a[2]}
             deep["dark"] = {"accent-deep": g[4], "on-deep": g[12]}
             vals.update({"bar": g[4], "on-bar": g[12]})
+        status = dict(STATUS["dark" if dark else "light"])
+        if acc in GREEN_ACCENTS:
+            status["good"] = scale("teal", dark)[11]
+        vals.update(status)
         fam["dark" if dark else "light"] = vals
         steps.append(f"{acc}-{step}")
-    out[f"{gray}-{acc}"] = {"source": f"Radix Colors {gray} with {steps[0]} (light), {steps[1]} (dark)", **fam,
+    out[f"{gray}-{acc}"] = {"label": LABELS[f"{gray}-{acc}"], "colours": f"{gray} and {acc}",
+                            "source": f"Radix Colors {gray} with {steps[0]} (light), {steps[1]} (dark)", **fam,
                             "deep": deep}
 json.dump(out, sys.stdout, indent=1)
 print()
