@@ -197,6 +197,22 @@ archived or deleted, as the domain says). "Edit" is the part builds
 miss most. A part left for later is named under **Not in this
 build**, never silently absent.
 
+Then the domain model's shape, before it is written down:
+
+- **The hub keeps only its own job** (the hotel's name and settings),
+  never every list: each list a page reads is an index object of its
+  area (`FrontDeskBoard`, `ConciergeQueue`), so no object is called by
+  more than four others and no two objects call each other.
+- **The roster is its own object** (`Team`,
+  `python/references/auth-roles.md`), never the hub: every authorized
+  call reads it.
+- **More than six objects: packages by area** (rooms, stays, guest
+  services, staff), in `design-document.md`'s **Architecture**,
+  layered so none imports another in a circle.
+
+(hotel-271: one `Hotel` with 33 methods held the roster and every
+index; three objects and it called each other.)
+
 Then the proposed design, **written once, as a page**, one line
 before it only when research ran long (what it found that the design
 uses). Never a minute without a line: the opening, the round, then the
