@@ -180,8 +180,9 @@ never holds up the cadence:
   `servicer-writer.md`, `servicer-transaction.md`).
 - **Pause the recurrence while a `run()` can't complete.** The shape
   above never skips an occurrence — a failed `run()` doesn't interrupt
-  the `tick()` chain. That's the safe default: most recurring jobs are
-  "better late than never" (granting interest, sending a report). If a
+  the `tick()` chain. That's the safe default: for most recurring jobs a
+  late run is better than a skipped one (granting interest, sending a
+  report). If a
   job should instead wait for each run to succeed before scheduling the
   next, drop `tick()` and have `run()` re-schedule the next `run()` as
   its **last** step. The next occurrence is then scheduled only once the

@@ -45,7 +45,7 @@ feature to be, as a person would describe it, not as an API:
   invariant of the whole system, the kind one would want to verify
   formally: money is conserved by a transfer; a balance never goes
   below zero; a customer sees only their own accounts. Most features
-  have one or two; many have none. Do not dress up "the button
+  have one or two; many have none. Do not state "the button
   works" as a rule.
 - **The job, start to finish:** who does it and what they are
   trying to get done (the user story), then each step from the job's
@@ -184,8 +184,8 @@ id"`, then `<account id>`. Give an id only when it means something
 - **Report a full run once, at the end.** The whole suite
   (`scripts/test.sh full`, or `uv run pytest`) runs once, at a
   handoff or the whole-app end, in the background while the handoff
-  is written, after the same one line. A line per rule as each
-  finishes is noise: post nothing per scenario and don't watch it
+  is written, after the same one line. Do not report each rule
+  as it finishes: post nothing per scenario and don't watch it
   with a monitor that reports each test. Never wait on it (`sleep`,
   an `until` loop): write the handoff while it runs and send it;
   its completion
