@@ -72,9 +72,8 @@ Alice is the manager, Ben is front desk, …> <Any browser caveat.>
 - …
 
 **What it does.** All <n> scenarios pass, including <n> that drive the
-real page in a browser, and mypy is clean. <Sent while the whole suite
-runs (`web-app` skill, step 11): "The feature's <n> scenarios pass,
-including <n> in a browser, and mypy is clean; the whole suite is
+real page in a browser, and mypy is clean. <While the whole suite
+still runs: "The feature's <n> scenarios pass …; the whole suite is
 running."> The <main page> shows its
 first record <n> ms after it opens.
 - **<Action>** (<who may do it>). [Rule: <the rule's words>](<link to
