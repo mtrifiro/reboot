@@ -111,6 +111,11 @@ ACCENTS: dict[str, dict[str, dict[str, str]]] = {
         "dark": {"accent": "#f295ba", "on-accent": "#37051e", "accent-deep": "#240312", "on-deep": "#f3e9ec", "accent-tint": "#421b2c", "bg-glow": "#24181c"},
     },
 }
+# An accent alone: the top bar takes its deep shade.
+for _accent in ACCENTS.values():
+    for _w in _accent.values():
+        _w.setdefault("bar", _w["accent-deep"])
+        _w.setdefault("on-bar", _w["on-deep"])
 
 # The page, panels, text and lines: cream is the house default (Reboot's own:
 # cream page, navy ink).
@@ -145,7 +150,7 @@ NEUTRALS: dict[str, dict[str, dict[str, str]]] = {
 # only. `house` is cream and navy, the house look's own.
 PALETTES_FILE = Path(__file__).resolve().parents[2] / "web-app" / "assets" / "palettes.json"
 PALETTE_TOKENS = ("bg", "bg-2", "panel", "ink", "muted", "line", "track", "accent", "on-accent",
-                  "accent-deep", "on-deep", "accent-tint", "bg-glow")
+                  "accent-deep", "on-deep", "accent-tint", "bg-glow", "bar", "on-bar")
 
 
 def palettes() -> dict[str, dict]:
