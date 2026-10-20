@@ -52,6 +52,8 @@ LONG_FILE = 400
 LONG_FUNCTION = 60
 # A servicer with this many methods may hold more than one concern.
 MANY_METHODS = 15
+# An object more than this many others call is a hub: every request waits on it.
+HUB_CALLERS = 4
 # Repeated bodies shorter than this many statements are noise.
 REPEAT_MIN_STATEMENTS = 5
 RAW_COLOUR = re.compile(r"#[0-9a-fA-F]{3,8}\b|\brgba?\(|\bhsla?\(")
@@ -260,6 +262,42 @@ def facts() -> dict:
         if n >= MANY_METHODS:
             signal("big servicer", f"`{t}`'s servicer has {n} methods and helpers", [s["file"]],
                    "Do they serve one domain object's job, or does a second object hide in them?")
+    # Who calls whom, from each servicer's own calls. A roster read by the
+    # authorizers' helper module is the house pattern
+    # (python/references/auth-roles.md), so it is not a call here; a roster
+    # kept on an object that also does other work is its own signal.
+    calls = defaultdict(set)
+    files = {s["file"]: t for t, s in servicers.items()}
+    for t, s in servicers.items():
+        for mi in s["methods"].values():
+            for c in mi["calls"]:
+                if c["to"] != t:
+                    calls[t].add(c["to"])
+    callers = defaultdict(set)
+    for a, bs in calls.items():
+        for b in bs:
+            callers[b].add(a)
+    for t, who in sorted(callers.items()):
+        if len(who) > HUB_CALLERS:
+            signal("hub object", f"`{t}` is called by {len(who)} other objects", sorted(who),
+                   "Is it one object's job, or an index each area could own? Every caller waits on it, "
+                   "one call at a time (app-design skill, section 3, the domain model's shape).")
+    for a, b in sorted({tuple(sorted((a, b))) for a, bs in calls.items() for b in bs if a in calls.get(b, ())}):
+        signal("objects call each other", f"`{a}` and `{b}` call each other", [a, b],
+               "Which one owns the step? The other is told by its caller, or reads, never calls back.")
+    for path, source in backend.items():
+        # A helper module whose predicates decide who may call.
+        if path in files or "Authorizer.Decision" not in source:
+            continue
+        for t in sorted({m.group(1) for m in re.finditer(r"\b([A-Z]\w*)\.ref\(", source) if m.group(1) in types}):
+            n = len(servicers.get(t, {}).get("methods", {}))
+            if callers.get(t) or n >= MANY_METHODS:
+                signal("roster on a busy object",
+                       f"the authorizers in `{path}` read roles from `{t}`, which also has {n} methods"
+                       + (f" and {len(callers[t])} caller(s)" if callers.get(t) else ""),
+                       [path, servicers.get(t, {}).get("file", "")],
+                       "Every authorized call in the app waits on it. Give the roster its own object "
+                       "(python/references/auth-roles.md), so the hub keeps only its own job.")
     for where in repeated:
         signal("repeated code", f"the same body in {len(where)} places", where,
                "Is this one idea that belongs in one helper, or two that only look alike today?")
