@@ -82,8 +82,8 @@ They mean nothing outside this skill:
 - `Shape A` / `Shape B` / `Shape C` — name the actual data
   structure: `list[Sub]` of inline sub-records, `list[str]` of
   foreign state IDs, `OrderedMap` of foreign state IDs.
-- "non-state `Model`" — say "a flat sub-record that lives and
-  dies with the parent" or "no identity of its own", in domain
+- "non-state `Model`" — say "a flat sub-record created and
+  deleted with its parent" or "no identity of its own", in domain
   terms.
 - `Gotcha #N` and filenames like `state-collections.md` /
   `api-pydantic.md` —
@@ -126,7 +126,7 @@ Nested model — GOOD:
 > state actors because they have no lifecycle, methods, or auth
 > independent of the Document they belong to.
 
-**Escape hatch.** When the precise type name _is_ what the reader
+**Exception.** When the precise type name _is_ what the reader
 needs to see ("I'm proposing `OrderedMap` here, not `list[str]`"),
 name the type — but pair it with the plain-English reason in the
 same sentence. The rule is "no bare jargon", not "no technical
@@ -149,13 +149,13 @@ and codegen templates run to tens of thousands of lines. Every one
 you open is re-sent on every remaining turn, which makes reading
 them the most expensive way in the system to learn a fact.
 
-The generated surfaces you actually need are written out in these
+The generated surfaces you need are written out in these
 references: the generated client in the front door's own references
 (`web-app/references/react-client.md`,
 `python/references/react-generated-client.md` for an MCP App) and the
 backend shapes in `python/references/`. Use them.
 
-If something genuinely isn't covered, bound the output hard: a
+If something isn't covered, bound the output hard: a
 targeted `grep -n … | head -40`, or `sed -n '<start>,<end>p'` over
 a known range. Never a whole generated file, never an unbounded
 recursive grep.
