@@ -111,9 +111,9 @@ takes it: `REBOOT_URL` is
 and `<ReloadPrompt>`; the copied `web/src/vite-env.d.ts` gives
 `import.meta.env` its types (without it `npm run build` fails with
 `Property 'env' does not exist on type 'ImportMeta'`). The browser
-scenarios still open Vite directly, with `VITE_REBOOT_URL` set by the
-test harness (`reboot.bdd`'s `frontend` fixture), so they need
-nothing from this file.
+scenarios open the app at the backend's origin too (the harness routes
+the backend's Envoy to the Vite dev server), so they need nothing
+from this file.
 
 The `?? window.location.origin` keeps the production build working
 when the backend serves the built assets from one origin.
