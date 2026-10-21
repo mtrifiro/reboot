@@ -1,6 +1,5 @@
 import enum
 import math
-import os
 import rbt.v1alpha1.database_pb2 as database_pb2
 import reboot.portless
 from dataclasses import dataclass
@@ -49,12 +48,9 @@ from reboot.routing.filters.lua import (
     load_lua,
     render_lua_template,
 )
-from reboot.run_environments import is_in_test, on_cloud, running_rbt_dev
+from reboot.run_environments import on_cloud, running_rbt_dev
 from reboot.settings import (
     ENVOY_PER_CONNECTION_BUFFER_LIMIT_BYTES,
-    ENVVAR_RBT_DEV,
-    ENVVAR_RBT_FRONTEND_URL,
-    ENVVAR_RBT_WEB_APP,
     EVERY_LOCAL_NETWORK_ADDRESS,
     LocalEnvoyMode,
 )
@@ -107,22 +103,12 @@ class FrontendConfig:
     tls: bool
 
 
-def _get_frontend_config() -> FrontendConfig | None:
-    """Get frontend host configuration from environment.
-
-    Parses `RBT_FRONTEND_URL` (e.g., "http://localhost:5173", or
-    "https://frontend-<name>.localhost" under `--portless`): the dev server
-    serving the MCP Apps, the web app, or both, which Envoy routes
-    `/__/frontend/**` to.
-
-    Returns None if not configured or not in dev mode.
-    """
-    if os.environ.get(ENVVAR_RBT_DEV) != "true":
-        return None
-    frontend_url = os.environ.get(ENVVAR_RBT_FRONTEND_URL)
-    if not frontend_url:
-        return None
-
+def frontend_config(frontend_url: str, *, web_app: bool) -> FrontendConfig:
+    """The frontend host configuration for a dev server at the given
+    URL (e.g., "http://localhost:5173", or
+    "https://frontend-<name>.localhost" under `--portless`), serving
+    the MCP Apps, the web app (`web_app`), or both, which Envoy routes
+    `/__/frontend/**` to."""
     parsed = urlparse(frontend_url)
     if parsed.scheme not in ("http", "https"):
         raise ValueError(
@@ -139,7 +125,7 @@ def _get_frontend_config() -> FrontendConfig | None:
         host=parsed.hostname,
         port=parsed.port or default_port,
         original_url=frontend_url,
-        web_app=os.environ.get(ENVVAR_RBT_WEB_APP) == "true",
+        web_app=web_app,
         tls=tls,
     )
 
@@ -208,12 +194,13 @@ def _cors_origin_matchers(
     allowed_origins: list[str],
 ) -> list[string_pb2.StringMatcher]:
     """Build the CORS `allow_origin_string_match` list — every entry
-    in `allowed_origins` as an exact match, plus (under `rbt dev run`
-    or in tests) the shared local-development origin regexes, so a
-    normal `vite`/`webpack` workflow works without the developer
-    enumerating every Vite-defaulted port (5173, 5174, …) in
-    `Application(allowed_origins=...)`. Production and Reboot Cloud
-    apply the exact-match allow-list verbatim.
+    in `allowed_origins` as an exact match, plus (under `rbt dev run`)
+    the shared local-development origin regexes, so a normal
+    `vite`/`webpack` workflow works without the developer enumerating
+    every Vite-defaulted port (5173, 5174, …) in
+    `Application(allowed_origins=...)`. Everywhere else, tests
+    included, the exact-match allow-list applies verbatim, so a test
+    exercises the allow-list a deployment will run with.
     """
     # Exact-match only — never a wildcard — because this list is paired
     # with `Access-Control-Allow-Credentials: true`. A signed-in user's
@@ -237,7 +224,7 @@ def _cors_origin_matchers(
     matchers = [
         string_pb2.StringMatcher(exact=origin) for origin in allowed_origins
     ]
-    if running_rbt_dev() or is_in_test():
+    if running_rbt_dev():
         # RE2 syntax. Envoy's `SafeRegex` matches against the whole
         # origin string (a full-string match, not a substring search).
         matchers.extend(
@@ -752,7 +739,9 @@ def _frontend_route(
     )
 
 
-def _frontend_routes() -> list[route_components_pb2.Route]:
+def _frontend_routes(
+    config: FrontendConfig | None,
+) -> list[route_components_pb2.Route]:
     """Routes for web dev server assets ("/__/frontend/**").
 
     MCP Apps use a double iframe: the outer `srcdoc` contains an inner
@@ -761,7 +750,6 @@ def _frontend_routes() -> list[route_components_pb2.Route]:
 
     Returns empty list if the frontend is not configured.
     """
-    config = _get_frontend_config()
     if config is None:
         return []
 
@@ -775,7 +763,9 @@ def _frontend_routes() -> list[route_components_pb2.Route]:
     ]
 
 
-def _frontend_catch_all_routes() -> list[route_components_pb2.Route]:
+def _frontend_catch_all_routes(
+    config: FrontendConfig | None,
+) -> list[route_components_pb2.Route]:
     """With `--web-app`, the dev server serves the web app at `/`, so
     it gets `/` and every path nothing else claimed: this comes last,
     after the application's own paths and the MCP, OAuth and Reboot
@@ -784,7 +774,6 @@ def _frontend_catch_all_routes() -> list[route_components_pb2.Route]:
     Returns empty list if the frontend is not configured or isn't
     serving the web app.
     """
-    config = _get_frontend_config()
     if config is None or not config.web_app:
         return []
     return [
@@ -794,12 +783,12 @@ def _frontend_catch_all_routes() -> list[route_components_pb2.Route]:
 
 def _frontend_cluster(
     local_envoy_mode: LocalEnvoyMode,
+    config: FrontendConfig | None,
 ) -> cluster_pb2.Cluster | None:
     """Cluster for the frontend host (Vite in HMR, static server in dist).
 
     Returns None if the frontend is not configured.
     """
-    config = _get_frontend_config()
     if config is None:
         return None
 
@@ -881,13 +870,14 @@ def _frontend_cluster(
     )
 
 
-def _frontend_error_filters() -> list[http_connection_manager_pb2.HttpFilter]:
+def _frontend_error_filters(
+    config: FrontendConfig | None,
+) -> list[http_connection_manager_pb2.HttpFilter]:
     """Lua filter that replaces envoy's raw 503 for the
     `/__/frontend/` dev-server route with a friendly HTML page.
 
     Returns an empty list if the frontend is not configured.
     """
-    config = _get_frontend_config()
     if config is None:
         return []
 
@@ -958,10 +948,10 @@ def _filter_http_connection_manager(
     trust_caller_id: bool,
     allowed_origins: Optional[list[str]],
     route_matches: list[route_components_pb2.RouteMatch],
+    frontend: FrontendConfig | None,
 ) -> listener_components_pb2.Filter:
     # With `--web-app` the frontend's dev server, not the HTTP port,
     # answers whatever is left; see `_frontend_catch_all_routes`.
-    frontend = _get_frontend_config()
     web_app = frontend is not None and frontend.web_app
 
     http_connection_manager = http_connection_manager_pb2.HttpConnectionManager(
@@ -997,7 +987,7 @@ def _filter_http_connection_manager(
                     routes=_without_cookies(
                         # Frontend routes (if configured) must come
                         # first since they match specific prefixes.
-                        _frontend_routes() + [
+                        _frontend_routes(frontend) + [
                             route for server in servers for kind in [
                                 # Always list the route for the websocket
                                 # first, since its matching is more specific.
@@ -1014,7 +1004,7 @@ def _filter_http_connection_manager(
                                 route_matches=route_matches,
                                 catch_all=not web_app,
                             )
-                        ] + _frontend_catch_all_routes()
+                        ] + _frontend_catch_all_routes(frontend)
                     ),
                 ),
             ],
@@ -1043,7 +1033,7 @@ def _filter_http_connection_manager(
         ] +
         # Friendly error page when the frontend dev server
         # is unreachable (only active when configured).
-        _frontend_error_filters() + [
+        _frontend_error_filters(frontend) + [
             _http_filter_router(),
         ]
     )
@@ -1096,6 +1086,8 @@ def listeners(
     key_path: Path,
     allowed_origins: Optional[list[str]],
     route_matches: list[route_components_pb2.RouteMatch],
+    # The frontend dev server Envoy routes to, if any.
+    frontend: FrontendConfig | None,
 ) -> list[listener_pb2.Listener]:
 
     @dataclass
@@ -1151,6 +1143,7 @@ def listeners(
                             trust_caller_id=listener.trust_caller_id,
                             allowed_origins=allowed_origins,
                             route_matches=route_matches,
+                            frontend=frontend,
                         ),
                     ],
                     transport_socket=_tls_socket(certificate_path, key_path)
@@ -1274,11 +1267,13 @@ def clusters(
     application_id: ApplicationId,
     servers: list[ServerInfo],
     local_envoy_mode: LocalEnvoyMode,
+    # The frontend dev server Envoy routes to, if any.
+    frontend: FrontendConfig | None,
 ) -> list[cluster_pb2.Cluster]:
     result: list[cluster_pb2.Cluster] = []
 
     # Add frontend cluster if configured.
-    frontend_cluster = _frontend_cluster(local_envoy_mode)
+    frontend_cluster = _frontend_cluster(local_envoy_mode, frontend)
     if frontend_cluster is not None:
         result.append(frontend_cluster)
 
