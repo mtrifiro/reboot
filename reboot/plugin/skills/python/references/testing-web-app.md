@@ -67,20 +67,23 @@ scenario; without them the backend steps still work.
 Each scenario serves the web app fresh, once its backend is up. The
 starter's `tests/web_test.py` (rendered with `--web`) defines both
 fixtures: `frontend`, from `reboot.bdd.vite.vite` with the directory
-`frontend`; and `application`, which takes `frontend`, passes
-`SERVICERS` and `initialize` from `main`, names the Development picker
-for both `dev` and `prod` (the harness is neither `rbt dev run` nor
-`rbt serve`), and sets `allowed_origins=[frontend.origin]`: the app's
-origin is the only one Envoy lets read `/whoami` cross-origin, as a
-deployment lists its host. Its `scenarios(...)` names the web feature
-files; every one runs from this module.
+`frontend`; and `application`, which passes `SERVICERS` and
+`initialize` from `main`, names the Development picker for both `dev`
+and `prod` (the harness is neither `rbt dev run` nor `rbt serve`), and
+sets `allowed_origins=[]`: the web app is served at the backend's own
+origin, so no other origin may act on its session cookie. Its
+`scenarios(...)` names the web feature files; every one runs from this
+module.
 
-The app is served the way it is deployed: from its own origin (a
-Vite dev server on `localhost`), calling the backend cross-origin at
-its `127.0.0.1` address, so the session cookie, the `whoami` probe,
-and Envoy's CORS allow-list are exercised the way production
-exercises them. The `application` fixture takes `frontend` so the
-app can allow that origin.
+The app is served the way it is deployed: at the backend's own origin,
+from which it calls the backend. 'Given the application is up' starts
+the Vite dev server on a free port of the OS's choosing (which needs
+Vite 8 or later in the frontend; `vite(...)` refuses an older one) and
+brings the backend up routing to it, the way `rbt dev run --web-app`
+does, so the session cookie and the `whoami` probe are exercised the
+way a deployment exercises them. The app finds the backend at the
+page's origin; `VITE_REBOOT_URL` is only for a web app served from
+another origin, in `.env.production`.
 
 A project that serves its web app some other way defines
 `frontend` against its own `Frontend` subclass. A mobile app or an
