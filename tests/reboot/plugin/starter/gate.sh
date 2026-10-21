@@ -47,6 +47,21 @@ fi
 
 cd "$DEST"
 step() { echo; echo "starter: $*"; "$@"; }
+if [ -n "$web" ]; then
+  # The dev server's portless name must be the one the backend sends
+  # the page to (.rbtrc's --frontend-url): the tests start their own
+  # servers, so only this catches a rename (hotel-310: frontend.<app>
+  # against frontend-<app> after 1.7.0, six minutes lost).
+  step python3 - <<'EOF'
+import json, re, sys
+dev = json.load(open("frontend/package.json"))["scripts"]["dev:portless"]
+name = re.search(r"portless (\S+)", dev).group(1)
+urls = re.findall(r"--frontend-url=https://([^\s/]+)", open(".rbtrc").read())
+if not urls or any(u != f"{name}.localhost" for u in urls):
+    sys.exit(f"dev:portless serves {name}.localhost; .rbtrc sends the page to {urls}")
+print(f"frontend name: {name}.localhost in both")
+EOF
+fi
 step uv sync
 step uv run rbt generate
 step uv run mypy backend/ tests/
