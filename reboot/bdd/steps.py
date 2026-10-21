@@ -147,7 +147,7 @@ from reboot.bdd.fixtures import (
 from reboot.bdd.fixtures import rbt as rbt
 from reboot.bdd.fixtures import reboot_event_loop as reboot_event_loop
 from reboot.bdd.fixtures import world as world
-from reboot.bdd.frontend import Frontend, backend_url
+from reboot.bdd.frontend import Frontend
 from reboot.bdd.grammar import (
     ABORTS_WITH,
     APPLICATION_IS_UP,
@@ -180,6 +180,7 @@ from reboot.bdd.grammar import (
     SAVE_PATTERN,
     SEPARATOR,
     SHARED_CONTEXT,
+    STRING,
     VALUE,
     VARIABLE,
 )
@@ -863,24 +864,29 @@ async def _the_application_is_up(
             f"Expecting the `{fixture}` fixture to return an "
             f"`Application`, but it returned {application!r}"
         )
-    await rbt.up(application)
-    world.client_types = client_types_by_name(application)
-    world.rbt = rbt
-    world.name = request.node.name
-
-    # A scenario with a frontend has it served against the backend
-    # from here, so that it comes up while the steps before the one
-    # that opens it run.
+    # A scenario with a frontend has it served first, so that the
+    # backend's Envoy can route to it, the way `rbt dev run
+    # --frontend-url=... --web-app` does.
+    frontend: Optional[Frontend] = None
     try:
         frontend = request.getfixturevalue('frontend')
     except pytest.FixtureLookupError:
-        return
-    if not isinstance(frontend, Frontend):
-        raise ValueError(
-            "Expecting the `frontend` fixture to return a `Frontend`, "
-            f"but it returned {frontend!r}"
-        )
-    await frontend.serve(backend_url=backend_url(rbt))
+        pass
+    if frontend is not None:
+        if not isinstance(frontend, Frontend):
+            raise ValueError(
+                "Expecting the `frontend` fixture to return a "
+                f"`Frontend`, but it returned {frontend!r}"
+            )
+        await frontend.serve()
+        await frontend.ready()
+        await rbt.up(application, frontend_url=frontend.url, web_app=True)
+        world.web_app_url = f'http://localhost:{rbt.envoy_port()}'
+    else:
+        await rbt.up(application)
+    world.client_types = client_types_by_name(application)
+    world.rbt = rbt
+    world.name = request.node.name
 
 
 @given(parsers.re(IS_AN_AUTHENTICATED_USER))
@@ -1601,15 +1607,26 @@ def _almost_predicate_in_call_with() -> None:
 # two steps whose 'has' or 'with' is followed by a quoted string and
 # no clauses, '"admin" has the bearer token "..."' and 'is signed in
 # to the web app with their user id saved as <...>', are left out.
+#
+# The 'with' or 'has' that opens the list is a word of the step, so
+# what comes before it skips over whole quoted strings, variables and
+# backticked clauses rather than looking inside them: a step whose
+# text says the word, '"alice" sees "Guest has left" in the web app'
+# or 'saved as <total with tax>', is not a clause list.
 _UNBACKTICKED_CLAUSES = (
     r'(?!the bearer token ")(?!their user id saved as <)[^`]+'
 )
 _UNCLOSED_CLAUSES = r'`[^`]*(?:`[^`]*`[^`]*)*'
+_BEFORE_KEYWORD = rf'(?:[^"`<]|{STRING}|`[^`]*`|{VARIABLE})*?'
+_MISSING_BACKTICKS = (
+    rf'{_BEFORE_KEYWORD} (?:with|has) {_UNBACKTICKED_CLAUSES}$'
+)
+_UNCLOSED_BACKTICK = rf'{_BEFORE_KEYWORD} (?:with|has) {_UNCLOSED_CLAUSES}$'
 
 
-@given(parsers.re(rf'.+ (?:with|has) {_UNBACKTICKED_CLAUSES}$'))
-@when(parsers.re(rf'.+ (?:with|has) {_UNBACKTICKED_CLAUSES}$'))
-@then(parsers.re(rf'.+ (?:with|has) {_UNBACKTICKED_CLAUSES}$'))
+@given(parsers.re(_MISSING_BACKTICKS))
+@when(parsers.re(_MISSING_BACKTICKS))
+@then(parsers.re(_MISSING_BACKTICKS))
 def _almost_missing_backticks() -> None:
     raise ValueError(
         "Almost: each clause goes in backticks, e.g. `amount=50` "
@@ -1617,8 +1634,8 @@ def _almost_missing_backticks() -> None:
     )
 
 
-@given(parsers.re(rf'.+ (?:with|has) {_UNCLOSED_CLAUSES}$'))
-@when(parsers.re(rf'.+ (?:with|has) {_UNCLOSED_CLAUSES}$'))
-@then(parsers.re(rf'.+ (?:with|has) {_UNCLOSED_CLAUSES}$'))
+@given(parsers.re(_UNCLOSED_BACKTICK))
+@when(parsers.re(_UNCLOSED_BACKTICK))
+@then(parsers.re(_UNCLOSED_BACKTICK))
 def _almost_unclosed_backtick() -> None:
     raise ValueError("Almost: a backtick is unclosed")
