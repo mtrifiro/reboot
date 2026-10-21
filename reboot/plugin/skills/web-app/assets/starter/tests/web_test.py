@@ -22,9 +22,7 @@ def frontend() -> Iterator[Frontend]:
 
 
 @pytest.fixture
-def application(frontend: Frontend) -> Application:
-    # A web app calls the backend from its own origin.
-    assert frontend.origin is not None
+def application() -> Application:
     development = Development()
     return Application(
         servicers=SERVICERS,
@@ -36,7 +34,9 @@ def application(frontend: Frontend) -> Application:
                 dev=development,
                 prod=development,
             ),
-            allowed_origins=[frontend.origin],
+            # The web app is served at the backend's own origin, so
+            # no other origin may act on its session cookie.
+            allowed_origins=[],
         ),
     )
 
