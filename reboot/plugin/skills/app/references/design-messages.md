@@ -100,6 +100,13 @@ refuses it. <A second thing to try, when there is one.>
 - <A workaround, one line: what it is and what undoes it.>
 - <What waits for deploy: the sign-in provider, who may sign in.>
 
+**In Claude or ChatGPT**
+<At the first handoff of a build that started the developer dashboard:
+the `dashboard` skill's step 6, required, as it says there: installing
+`cloudflared`, the tunnel command `rbt dashboard` printed, verbatim,
+adding the address with `/mcp` as a connector in Claude and in ChatGPT,
+and its two reminders.>
+
 ---
 
 ### Exegesis · <the part>
