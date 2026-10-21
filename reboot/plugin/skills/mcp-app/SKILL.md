@@ -582,6 +582,16 @@ for word: the list for the way the user chose to build.
     says, which also records the acceptance. Unless the user asked for
     only an MCP App, end the handoff with the one-line offer of a web
     app (`app` skill, "At handoff").
+    Required final hand-over: if you started the developer
+    dashboard, include the `cloudflared` command and the Claude and
+    ChatGPT connector instructions in your final response. This
+    applies even when the user asked only for a standalone web app and
+    never mentioned MCP. Do not omit them for brevity or perceived
+    relevance. A dashboard URL, or instructions saved in a README, do
+    not satisfy this requirement.
+    The steps are the [`dashboard` skill](../dashboard/SKILL.md)'s
+    step 6; in the handoff they are its **In Claude or ChatGPT**
+    section.
 
 ## Update Flow
 
