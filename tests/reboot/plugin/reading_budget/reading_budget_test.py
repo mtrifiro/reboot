@@ -26,8 +26,10 @@ CEILINGS = {
     # Raised from 39,000 when reboot main #262 was absorbed (2026-10-19):
     # portless and plain ports, the `reboot()` Vite plugin and the web app
     # served at the backend's origin added about 1,100 words to the path
-    # (39,526 then).
-    "web-app": 40_000,  # 37,248 when this test was written
+    # (39,526 then). Raised to 40,600 for Reboot 1.7.0's required
+    # connector hand-over (the dashboard skill's step 6, read at the
+    # handoff): 516 words (40,516 then).
+    "web-app": 40_600,  # 37,248 when this test was written
     "mcp-app": 52_000,  # 49,907 when this test was written
 }
 
