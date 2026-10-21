@@ -19,7 +19,9 @@
    card-row: avatar.logo (or an avatar, a room number), card-body with
    .name, .who, .when, .stale when quiet; stats.summary: one stat and
    a .funnel (.steps of .seg, each a bar with its count and name as its
-   text, --n its width; .names who works them; .flag); .selected only
+   text, --n its width; a stage that needs a person .warn / .bad, the
+   rest grey; .names who works them; .flag; a meter-row of the same
+   subject inside the .stat, never a third child); .selected only
    on the stat whose filter is on, never for emphasis; cells / cell (a plan or grid: .figure, .label, a .corner mark;
    --cells-cols fixes a row's count; plan / plan-row / plan-label for
    floors or aisles, never a card per row; state as the left edge .good
@@ -513,8 +515,12 @@ main > * {
 }
 /* A segment is its stage's bar with its count and name under it:
    <span class="seg" data-step="1" style="--n: 11">11 dirty</span>,
-   widths by --n (the count). .names, under the steps, is who works
-   them; never the stage names again. */
+   widths by --n (the count). A stage that needs a person takes its
+   state's colour instead, as its cells and tab dots do (.seg.bad,
+   .seg.warn, .seg.good), and then the stages without one are grey,
+   never the accent (hotel-310: three plum bars beside red and amber
+   tabs). .names, under the steps, is who works them; never the stage
+   names again. */
 .funnel .steps {
   display: flex;
   gap: 4px;
@@ -538,6 +544,13 @@ main > * {
 .funnel .seg[data-step="1"]::before { opacity: 0.25; }
 .funnel .seg[data-step="2"]::before { opacity: 0.5; }
 .funnel .seg[data-step="3"]::before { opacity: 0.75; }
+.funnel .seg.good::before { background: var(--good); }
+.funnel .seg.warn::before { background: var(--warn); }
+.funnel .seg.bad::before { background: var(--bad); }
+.funnel .steps:has(.seg.good, .seg.warn, .seg.bad)
+  .seg:not(.good, .warn, .bad)::before {
+  background: color-mix(in srgb, var(--ink) 22%, var(--panel));
+}
 .funnel .names {
   font-size: 13px;
   color: var(--muted);
@@ -677,6 +690,13 @@ button.card:hover {
 .meters {
   display: grid;
   gap: var(--space-3);
+}
+/* A meter of the stat's own subject (rooms occupied of 56 under rooms
+   ready) sits in the stat, under its value: a third child of
+   .stats.summary wraps to a row of its own and leaves the stat empty
+   (hotel-310). */
+.stat .meter-row {
+  margin-top: var(--space-3);
 }
 
 /* Controls: one surface, every filter labelled above its control */
@@ -1300,7 +1320,7 @@ button.name:hover {
   display: block;
   position: relative;
   min-width: 0;
-  padding: 6px var(--space-2) 6px 10px;
+  padding: 6px 6px 6px 8px;
   background: var(--panel);
   border: 1px solid var(--line);
   border-left: 4px solid var(--line);
@@ -1335,6 +1355,17 @@ a.cell:hover {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+/* Fourteen to a row leaves a cell about 72 to 80px: a tighter edge and
+   a smaller word keep "Inspected" and "Occupied" whole (hotel-310 cut
+   them to "Inspecte…"). */
+.cell {
+  container-type: inline-size;
+}
+@container (max-width: 88px) {
+  .cell .label {
+    font-size: 11px;
+  }
 }
 /* A state that needs a person: its edge in the hue, and a wash of it
    behind, so the plan reads from across the room. */
