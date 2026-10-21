@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "npm run dev:portless",
-    "dev:portless": "portless frontend.__app_slug__ vite",
+    "dev:portless": "portless frontend-__app_slug__ vite",
     "dev:ports": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview"
