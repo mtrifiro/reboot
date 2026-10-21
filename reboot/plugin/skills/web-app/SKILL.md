@@ -106,8 +106,8 @@ The sequence:
    `rbt dev run`: the same servicers and authorizers, identity wired
    per `python/references/testing-harness.md` ("Identity Wiring in
    Tests") — no `oauth=` for backend scenarios; `Development()` for
-   both arms plus `allowed_origins=[frontend.origin]` for scenarios
-   that open the web app, as `python/references/testing-web-app.md`
+   both arms plus `allowed_origins=[]` for scenarios that open the
+   web app, as `python/references/testing-web-app.md`
    shows.
 
 3. **Public, unauthenticated endpoints** (health checks, public
