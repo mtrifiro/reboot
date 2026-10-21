@@ -526,6 +526,16 @@ finished app.
     this one, accepts it (its `@wip`: the
     [`feature` skill](../feature/SKILL.md)); each acceptance is
     recorded as `accept-design.md` says.
+    Required final hand-over: if you started the developer
+    dashboard, include the `cloudflared` command and the Claude and
+    ChatGPT connector instructions in your final response. This
+    applies even when the user asked only for a standalone web app and
+    never mentioned MCP. Do not omit them for brevity or perceived
+    relevance. A dashboard URL, or instructions saved in a README, do
+    not satisfy this requirement.
+    The steps are the [`dashboard` skill](../dashboard/SKILL.md)'s
+    step 6; in the handoff they are its **In Claude or ChatGPT**
+    section.
 
 **Each next feature**, when the user chooses it:
 
