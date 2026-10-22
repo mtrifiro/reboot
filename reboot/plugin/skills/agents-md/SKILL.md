@@ -121,13 +121,19 @@ Reboot behaves.
    (`create_external_context_as`) or as the app itself
    (`create_external_context(..., app_internal=True)`), as the Reboot
    plugin's `python` skill says in `references/testing-harness.md`.
-5. <A rule this project learned from a mistake.>
+5. Never edit the design comp, `design/comp/`, even when the page no
+   longer matches it: it is the design the user approved at the
+   go-ahead, a record, not a copy to keep in step. A change to the
+   page goes in the page and in `design/design.md`; where the two
+   differ, say so.
+6. <A rule this project learned from a mistake.>
 
 When a file moves, a command changes, or a rule is learned, update
 this file in the same change.
 ```
 
-Leave rule 5 out until the project has a rule of its own.
+Rule 5 only when `design/comp/` exists; leave rule 6 out until the
+project has a rule of its own.
 
 ## Step 3 — Keep it current
 
