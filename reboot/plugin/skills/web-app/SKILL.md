@@ -491,9 +491,14 @@ finished app.
    (`uv run playwright install chromium` once); every web feature
    file runs from that one module. Run `scripts/test.sh tests/web_test.py` in the foreground, its whole output read, never piped through `grep` or `tail`.
 10. Start the app with the [`run` skill](../run/SKILL.md) (the comp's
-    server keeps running) and check
-    the page in a headless browser (Playwright; in the Claude app never
-    the Browser pane, which is for the user at the handoff): signed
+    server keeps running). The moment it answers, before any check,
+    the `run` skill's one line with the app's and the dashboard's
+    addresses, ending "try it while I check it at three widths and run
+    the suite", and in the Claude app the app opened in the Browser
+    pane then (`app/references/conversation.md`, "The app, once it is
+    ready to try"): the user has the app while the checks run. Then
+    check the page in a headless browser (Playwright; never the
+    Browser pane, which is the user's): signed
     in, it shows all the demo data, its main action works, every
     filter or drawer it opens can be cleared or closed; then the
     plugin's page check, `assets/check_page.py`, on every page the
