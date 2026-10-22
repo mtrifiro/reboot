@@ -881,9 +881,21 @@ a.row {
 .drawer-body :is(h2, h3) {
   margin: 0;
 }
-/* A section heading after anything else in a panel or card has room above it. */
-:is(.panel, .card) > * + :is(h2, h3) {
+/* A section heading, a row of actions or a form after anything else in
+   a panel or card has room above it (hotel-332: a kv list then its
+   buttons, 0px apart, in a panel beside the plan). */
+:is(.panel, .card) > * + :is(h2, h3, .actions, form, .kv) {
   margin-top: var(--space-4);
+}
+/* A panel's body, when its head is separate: sections a step apart, as
+   a drawer's. */
+.panel-body {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+}
+.panel-body :is(h2, h3) {
+  margin: 0;
 }
 .drawer-foot {
   display: flex;
