@@ -3,9 +3,10 @@
 
     python3 <this file>                # list the palettes, the current one marked
     python3 <this file> sand-brown     # set it in the project in this directory
+    python3 <this file> pick           # one of the ten, picked by this folder's
+                                       # name: prints its name
     python3 <this file> pick sage-teal slate-blue sand-gold
-                                       # one of those that suit the domain, picked
-                                       # by this folder's name: prints its name
+                                       # one of those, the same way
     python3 <this file> --from '#2f6b4f'   # the palette nearest a brand colour:
                                        # prints it and how far off, changing nothing
     python3 <this file> --from '#2f6b4f' --set   # and sets it in the project
@@ -107,17 +108,29 @@ def nearest(brand: str, found: dict[str, dict]) -> tuple[str, float]:
 
 def pick(names: list[str], folder: str) -> str:
     """One of the names, the same for a folder every time, different
-    across folders: two builds of one prompt don't share a palette."""
-    return names[int(hashlib.sha256(folder.encode()).hexdigest(), 16) % len(names)]
+    across folders: two builds of one prompt don't share a palette.
+    With no names, the ten (never house, which is asked for by name):
+    a build's own nomination repeats (hotel-330 to -332 each put
+    sand-bronze first for a hotel), the folder's hash doesn't. The gray
+    family (the part before the hyphen) is picked first, then the
+    accent within it: four of the ten are sand, and a flat pick put
+    four hotels in a row on warm paper."""
+    def at(key: str, n: int) -> int:
+        return int(hashlib.sha256(key.encode()).hexdigest(), 16) % n
+    families: dict[str, list[str]] = {}
+    for name in names:
+        families.setdefault(name.split("-")[0], []).append(name)
+    family = sorted(families)[at(folder, len(families))]
+    return families[family][at(folder + "/" + family, len(families[family]))]
 
 
 def main(argv: list[str]) -> int:
     found = palettes()
     if argv[:1] == ["pick"]:
-        names = argv[1:]
+        names = argv[1:] or [n for n in found if n != "house"]
         unknown = [n for n in names if n not in found]
-        if not names or unknown:
-            print(f"palette: pick takes palette names; {', '.join(unknown) or 'none given'} not one of: "
+        if unknown:
+            print(f"palette: pick takes palette names; {', '.join(unknown)} not one of: "
                   f"{', '.join(found)}", file=sys.stderr)
             return 2
         print(pick(names, Path.cwd().name))
