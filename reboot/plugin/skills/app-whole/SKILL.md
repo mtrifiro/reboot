@@ -79,8 +79,8 @@ end, not the smallest app that fits the prompt:
   goes.
 
 The round's other answers, taken without asking: the palette as the
-app-design skill's "The palette, unasked" says (`palette.py pick`
-among the ones that suit the domain, or `--from` the brand's colour); "How it is built: the whole app, hands off" ("one
+app-design skill's "The palette, unasked" says (`palette.py pick`,
+one of the ten by the folder's name, or `--from` the brand's colour); "How it is built: the whole app, hands off" ("one
 feature, hands off" for ", basic"). Each answer and each
 feature added beyond the prompt goes under **Assumed**, the feature
 with one line on why a real product needs it.
