@@ -172,9 +172,14 @@ recommendation is one answer:
   skill): a brand colour in the prompt is `palette.py --from
   '<#rrggbb>'`, which names the nearest palette and how far off;
   otherwise `python3 '<the web-app skill>/assets/palette.py' pick`,
-  no names, from the project root, and the one it prints: one of the
-  ten by the project folder's name, so two builds of one prompt
-  differ. Nothing is nominated first: a nomination "that suits the
+  no names, from the project root, and the line it prints, a palette
+  with its band and its paper ("olive-grass --band deep --paper
+  tinted"): one of the ten, one of three bands (calm, a tint of the
+  accent; deep, the gray's ink; hue, the accent's darkest step) and
+  one of two papers (white; tinted, the gray one step up), all by the
+  project folder's name, so two builds of one prompt differ and sixty
+  pages come from ten palettes. The Brief says all three ("Meadow:
+  olive and grass, a deep band on tinted paper"). Nothing is nominated first: a nomination "that suits the
   domain" repeats (hotel-260 to -301 took sand-bronze five times
   straight; hotel-330 to -332 each put it first), and a hotel is as
   well served by slate or sage as by sand.
