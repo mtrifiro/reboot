@@ -63,6 +63,8 @@
    Dark mode follows prefers-color-scheme until the user picks one with
    ThemeToggle (theme.tsx), which sets data-theme="light|dark" on <html>.
    Type scale: 12 / 13 / 15 / 18 / 28 px, and 32 for the band's title; one radius, one shadow.
+   Spacing: siblings never touch (check_page.py: 8px side by side, 4px
+   stacked); the classes keep it, so a page needs no spacing of its own.
    The house look is Reboot's own, as the Plugin Browser: cream paper,
    navy ink and accent, Space Grotesk over DM Sans, soft corners; the
    palette is set with palette.py; --row-h / --row-pad set row density. Every page keeps
@@ -486,7 +488,9 @@ main > * {
   margin: var(--space-1) 0 0;
   max-width: 70ch;
 }
-.page-head .actions {
+/* A row of buttons, anywhere: in the page head, under a form's fields,
+   in a drawer's section, in an empty state. */
+.actions {
   display: flex;
   gap: var(--space-2);
   flex-wrap: wrap;
@@ -523,7 +527,7 @@ main > * {
    names again. */
 .funnel .steps {
   display: flex;
-  gap: 4px;
+  gap: var(--space-2); /* each segment is text: a full step apart (hotel-330: 4px, "touching") */
 }
 .funnel .seg {
   flex: var(--n, 1) 1 0;
@@ -623,6 +627,7 @@ button.card:hover {
 }
 .stat .value {
   display: block;
+  margin-top: var(--space-1); /* a label's line and the figure's never touch (a div stat; a button's children aren't measured) */
   font-family: var(--font-display);
   font-size: 28px;
   font-weight: 500;
@@ -867,6 +872,18 @@ a.row {
   flex: 1;
   overflow-y: auto;
   padding: var(--space-4) var(--space-6);
+  /* Its sections (a kv, an h3, a form, actions) a step apart, whatever
+     their order; the headings' own margin would double it. */
+  display: grid;
+  align-content: start;
+  gap: var(--space-4);
+}
+.drawer-body :is(h2, h3) {
+  margin: 0;
+}
+/* A section heading after anything else in a panel or card has room above it. */
+:is(.panel, .card) > * + :is(h2, h3) {
+  margin-top: var(--space-4);
 }
 .drawer-foot {
   display: flex;
@@ -1219,8 +1236,9 @@ button:focus-visible {
   /* Fields side by side keep their labels on one line. */
   align-items: start;
 }
-/* Stacked fields, rows of fields and a form's message never touch. */
-:is(.field, .field-row, .error) + :is(.field, .field-row, .error) {
+/* Stacked fields, rows of fields, a form's message and the buttons under
+   them never touch (hotel-330: an input and "Save details" 0px apart). */
+:is(.field, .field-row, .error) + :is(.field, .field-row, .error, .actions, button) {
   margin-top: var(--space-4);
 }
 /* Side by side in a row, the row's gap spaces them instead. */
@@ -1664,7 +1682,7 @@ tr:hover td {
 /* Tabs scroll inside their own row, so a long set never widens the page. */
 .tabs {
   display: flex;
-  gap: 2px;
+  gap: var(--space-2); /* tabs are controls: a full step apart */
   border-bottom: 1px solid var(--line);
   overflow-x: auto;
   scrollbar-width: none;
@@ -1808,12 +1826,17 @@ tr:hover td {
   .row.row-grid {
     display: flex;
   } /* the app's columns don't fit; the title takes the room */
+  /* Two columns still, the label narrower: stacked label and value 2px
+     apart read as touching. */
   .kv {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 2px;
+    grid-template-columns: minmax(80px, max-content) minmax(0, 1fr);
+    gap: var(--space-2) var(--space-3);
   }
-  .kv dd {
-    margin-bottom: var(--space-2);
+  /* A plan's row of eight becomes two rows of four (--cells-cols-phone
+     for another count): fixed at eight, each cell spills and the page
+     scrolls sideways (hotel-330). */
+  .plan .cells {
+    grid-template-columns: repeat(var(--cells-cols-phone, 4), minmax(0, 1fr));
   }
   .drawer-head,
   .drawer-body,
