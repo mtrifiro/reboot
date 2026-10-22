@@ -61,7 +61,8 @@ From the project root: if `.venv/` is missing, run `uv sync`. If
 `pyproject.toml` (`../python/references/lifecycle-project-setup.md`)
 and `uv sync` again; the extra is what the tests and the dashboard's
 Features page run on. If `frontend/node_modules/` is missing, run
-`npm install` in `frontend/`.
+`npm install --prefer-offline --no-audit --no-fund` in `frontend/`
+(the lockfile is there; npm asks the registry nothing).
 
 ## Step 4 — Secrets: the git-ignored env file
 
