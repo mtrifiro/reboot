@@ -1315,16 +1315,29 @@ button.name:hover {
 .cells {
   display: grid;
   /* --cells-cols is the row's count where the row has the room (eight
-     rooms on one line); where it hasn't (the Claude app's Browser pane
-     is ~800px, hotel-331's fourteen rooms spilled off it), the cells
-     keep 72px and wrap. A track's minimum is the row's width shared
-     by the count, or 72px, whichever is larger. */
+     rooms on one line). Where it hasn't (the Claude app's Browser pane
+     is ~800px: hotel-331's fourteen rooms spilled off it, hotel-332's
+     comp wrapped them eleven and three), the row is two equal lines,
+     each stretched to the width: the track's minimum is the width
+     shared by the count, or, when that is under --cells-min, by half
+     the count; under --cells-min again, --cells-min itself. The
+     "when" is arithmetic: (min - full) * 1e5 is a large length only
+     when the full count doesn't fit, so min(half, it) is then the
+     half track and otherwise nothing. */
   --cells-gap: var(--space-2);
   --cells-min: 72px;
+  --cells-half: round(up, var(--cells-cols, 1) / 2);
+  --cells-full-track: calc((100% - (var(--cells-cols, 1) - 1) * var(--cells-gap)) / var(--cells-cols, 1));
+  --cells-half-track: calc((100% - (var(--cells-half) - 1) * var(--cells-gap)) / var(--cells-half));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--cells-min)), 1fr));
   grid-template-columns: repeat(
     auto-fit,
     minmax(
-      max(min(100%, var(--cells-min)), calc((100% - (var(--cells-cols, 1) - 1) * var(--cells-gap)) / var(--cells-cols, 1))),
+      max(
+        min(100%, var(--cells-min)),
+        var(--cells-full-track),
+        min(var(--cells-half-track), (var(--cells-min) - var(--cells-full-track)) * 100000)
+      ),
       1fr
     )
   );
