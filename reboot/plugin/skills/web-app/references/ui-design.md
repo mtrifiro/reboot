@@ -336,8 +336,9 @@ uv run python '<this skill>/assets/check_page.py' <app URL> '/=.cell' '/guests=.
 Each `PAGE=SELECTOR` is a page's path and one record of its main view;
 `--tap` names the page's main action when it isn't opening the first
 record, `--open` each drawer or form beyond it, `--as` the development
-picker's account (Alice by default). Headless, at desktop (light) and
-phone width (dark), signed in, it times the page
+picker's account (Alice by default). Headless, at desktop (light), the
+Claude app's Browser pane width (800, layout only) and phone width
+(dark), signed in, it times the page
 ([`vitals.md`](vitals.md)), and checks that nothing spills out of its
 container or is cut off, nothing scrolls sideways, a board's columns
 and headers and a plan's rows and cells are each one height, the plan
