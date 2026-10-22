@@ -1,6 +1,6 @@
 ---
 name: app
-description: Build a Reboot application from a user description. Every backend is designed ready for both front doors, an MCP UI (ChatGPT, Claude, VSCode, Goose) and a standalone web app, with one `User` per identity via `oauth=...`. Builds the front door the prompt names (MCP/Claude/ChatGPT → `mcp-ui`; a URL/SPA/"website" → `web-app`; both named → both; an API or backend for the user's own frontend, mobile app or service → a backend only, with a generated client); otherwise builds the web app first without asking, and offers the other front door at handoff.
+description: Build a Reboot application from a user description. Every backend is designed ready for both front doors, an MCP UI (ChatGPT, Claude, VSCode, Goose) and a standalone web app, with one `User` per identity via `oauth=...`. Builds the front door the prompt names (MCP/Claude/ChatGPT → `mcp-ui`; a URL/SPA/"website" → `web-app`; both named → both; an API or backend for the user's own frontend, mobile app or service → a backend only, with a generated client); otherwise builds the web app first without asking, and offers the other front door at handoff. Load it as the very first step of any request to build an app, before a task list, a plan or any other tool call: it says what to show first.
 argument-hint: [<app-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 ---
@@ -10,84 +10,192 @@ allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 Decide which front door to build first and defer to the matching
 skill. The backend is always ready for both.
 
-**A new app asks nothing until its design document is written.** It
-is built one feature at a time, without asking how: say what will be
-built in one paragraph, take the recommended answer to every scope
-question, write the whole proposed design to `design/design.md`, then
-ask one thing, build the first feature or change something first, as
-[`references/design-first.md`](references/design-first.md) says. It
-overrides the front door's round of scope questions. For the whole app
-at once, with every feature, the user asks for the
-[`one-shot` skill](../one-shot/SKILL.md) by name.
+**A new app asks one thing before its design: how to build it,**
+then follows [`references/design-first.md`](references/design-first.md),
+which overrides the front door's round of scope questions.
+
+> **The user sees only message text. Say every status the way these
+> skills give it, as the response's own visible text.**
+>
+> Thinking is never shown as a message. The Claude app shows at most a
+> summary of it, which drops and rewords what you wrote: builds that
+> drafted the opening in thinking showed the user a paraphrase that
+> promised "feature by feature" before they had chosen, and lost
+> "(working name)". So everything this plugin tells you to say (the
+> opening, What to expect, what the research found, "Writing the
+> design", each part's line, each result, each handoff) goes out as
+> text in the response, **in the skills' words, before that response's
+> tool calls**. Drafting it in thinking is not saying it. Before every
+> tool call, ask: is there something the user should read first? Then
+> write it, word for word, before the call.
 
 ## First, Before Reading Anything
 
-**1. Say what will be built, and what to expect.** The first text of
-the build, before any tool call and before the front door's skill, in
-the user's nouns and in the build's voice, never "I". It replaces the
-decision flow's one sentence. No heading and no question.
+**1. Say what will be built, ask how, then say what to expect.** The
+first text of the build, before any tool call and before the front
+door's skill, in the user's nouns.
+It replaces the decision flow's one sentence. No heading.
 
-- **One paragraph** of at most three sentences, from the prompt alone:
-  what the app is and who uses it, what it will keep track of, the
-  first feature it will build, and which front door. A name the build
-  picked, because the prompt gave none, says so the first time it
-  appears: "Partner Loop (working name)".
-- **What to expect,** a list of four lines, word for word but for the
-  angle brackets, with the time estimates below:
+- **What will be built,** a paragraph of three sentences, one for
+  each, from the prompt alone: (1) what the app is, its name, and who
+  uses it; (2) what it will keep track of, as the user's nouns, three
+  to five of them; (3) the first feature it will build and the rule
+  that makes it worth building first, and which front door (a web app,
+  an MCP UI, or both). A name the build picked, because the prompt
+  gave none, says so the first time it appears: "Chore Chart (working
+  name)". Not one sentence that runs the three together, and not a
+  description of the method: that is the next paragraph's job.
+- **A first feature seen from both sides.** When the app has a staff
+  side and a customer side (a hotel and its guests, an airline and its
+  passengers, a theater and its patrons, a restaurant and its diners,
+  a clinic and its patients), the first feature is the business's core
+  transaction, the thing it sells, from both sides: the customer acts
+  on a page of their own and the staff see it land on theirs, live,
+  under the same rules. A hotel's guest books a room and the front desk
+  sees the reservation on the room board (never an amenity first); an
+  airline's passenger books a seat; a theater's patron buys a ticket; a
+  diner reserves a table; a patient books an appointment. One domain
+  model, two pages. An app with one side (an internal tool, a chore
+  chart, a CRM) keeps a one-page first feature. Its handoff starts with
+  the two pages side by side (`references/conversation.md`).
+- **How it will be built, the user's choice,** a second paragraph of its own, the same for
+  every app and either path, these words exactly, as plain text like
+  the first paragraph (never merged into it, never paraphrased, never
+  a quote block, never broken across lines): "I'll build it with Reboot,
+  starting from its domain model: the objects it keeps and the rules
+  they follow, each rule proved by a scenario. You choose how: a
+  feature at a time, trying each one before the next, or the whole app
+  at once, without stopping."
 
-For the hotel:
+- **Then one dialog,** only once the two paragraphs are out as text of
+  their own: the user reads the intent and how it's built first, then answers. Never the
+  paragraph inside the dialog, and never the dialog alone. The response
+  that asks is, in this order: the first paragraph, the second, then
+  the dialog's tool call. Both paragraphs are that response's own
+  text: written only in thinking, the user never gets them (the
+  Claude app may show a thought's summary, but it is not the message),
+  and the dialog then arrives alone. Never a word about how it will be
+  built (feature by feature, all at once) before the answer: the
+  second paragraph names both ways and the dialog asks. The dialog
+  (`AskUserQuestion` where available; otherwise the same as one plain
+  line), word for word but for the angle brackets:
+  - Title: **How should it be built?**
+  - "Interactively", first, with no "(Recommended)": "A feature at a
+    time, about 15 minutes each (25 to 30 for the first, seen from both
+    sides). You check each part." (For a one-sided app: "A feature at a
+    time, about 15 minutes each. You check each part.")
+  - "Automatically": "You approve the design; then the whole app is
+    built and tested without stopping: an hour or more."
+  - "Hands-off": "No stops at all, not even for the design: every
+    feature a real product needs, built and tested, an hour or more.
+    You see it at the end."
 
-> Maison Desk (working name) will run a 56-room boutique hotel for its staff: the
-> rooms and their status, the guests' stays, and who on the staff may
-> do what. The first feature is a floor plan of every room, where a
-> room can't be checked into until it's clean, in a web app with the
+  On "Hands-off", hand the build to the [`one-shot`
+  skill](../one-shot/SKILL.md) from its step 1 (its ambitious scope,
+  no questions, one handoff), after its "What to expect"; the opening
+  already said what will be built, so its step 0 is skipped.
+
+  No option is marked recommended: they are equal choices, each giving
+  up more of the user's involvement for speed, and their times say
+  what each trades. Interactively is listed first only so it is the
+  one preselected.
+- **What to expect,** right after the answer and before any other
+  tool call (research, reading references, writing files), the list
+  for that path, word
+  for word but for the angle brackets: a list, never folded into a
+  paragraph.
+
+For the hotel (the `>` marks the example here; the build writes plain
+text):
+
+> Maison Desk (working name) is an app for a 56-room boutique hotel,
+> used by its staff (the front desk, housekeeping and the manager) and
+> by its guests. It keeps track of the rooms and their status, the
+> guests and their stays, the amenities they book, and who on the
+> staff may do what. The first feature is booking a room, from both
+> sides: guests book a stay on their own page, and the front desk sees
+> each reservation land on the room board, which refuses a room
+> already taken for any of those nights; built as a web app with the
 > backend ready for an MCP UI too.
 >
+> I'll build it with Reboot, starting from its domain model: the
+> objects it keeps and the rules they follow, each rule proved by a
+> scenario. You choose how: a feature at a time, trying each one
+> before the next, or the whole app at once, without stopping.
+
+Then the dialog. On **Interactively**:
+
 > What to expect:
 > - The proposed design, in a few minutes. Nothing to answer until
 >   then.
-> - After your go-ahead, once the domain model is written, the Reboot
->   dashboard opens with its link: the app's domain model and rules,
->   updated as they're built.
-> - The floor plan, working, in about 15 minutes, with its rules
->   proven by scenarios, for you to try.
-> - Then each next feature, about 15 to 20 minutes, as you choose it.
+> - Each feature in two parts: first its backend, tested against its
+>   rules, then its frontend, tested in a browser.
+> - After your go-ahead, room booking's backend: its rules written as
+>   scenarios and its domain model built, with the Reboot dashboard's
+>   link to check the model; then its actions, tested against every
+>   rule, for you to check.
+> - Once you say so, its frontend: the guests' booking page and the
+>   front desk's room board, tested side by side in a browser. About
+>   25 to 30 minutes in all, for you to try.
+> - Then each next feature, as you choose it, about 15 to 20 minutes.
 
-**2. Make the task list,** where the agent keeps one, with every item
-now, filled in from the paragraph (`references/task-list.md` has the
-rules, where the plugin has it). For one feature at a time:
+On **Automatically**:
 
-1. Propose the design for <app>
-2. Wait for your go-ahead on the design
-3. Scaffold the project
-4. Write the <feature>'s rules as scenarios
-5. Build the <feature>'s domain model
-6. Start the Reboot dashboard to show the domain model
-7. Build the <feature>'s actions, who may do each, and demo data
-8. Prove the <feature>'s rules (scenarios pass, types check)
-9. Build the <feature>'s page, with a browser scenario
-10. Start the app for you to see, and check it in a browser
-11. Your turn: review the <feature>
+> What to expect:
+> - The proposed design, in a few minutes. Nothing to answer until
+>   then.
+> - After your go-ahead, in two parts without stopping: the whole
+>   backend, every feature tested against its rules, then the whole
+>   frontend, every page tested in a browser. An hour or more; nothing
+>   to answer until it's done, then the whole app to try.
 
-Every item starts with a verb; `<feature>` is the first feature's full
-name ("the room status floor plan"), lowercase inside an item.
+On **Hands-off**:
 
-**3. Time estimates,** from measured builds, always "about", only in
-the opening's list, never a guess of the build's own: the proposed
-design, a few minutes; the first feature after the go-ahead, about 15
-minutes; each next feature, about 15 to 20 minutes; the whole app at
-once (`one-shot`), an hour or more.
+> What to expect:
+> - No questions from here on, not even about the design.
+> - The design, with every feature a real hotel app needs, written to
+>   design/design.md for you to read whenever you like.
+> - Then, in two parts without stopping: the whole backend, every
+>   feature tested against its rules, then the whole frontend, every
+>   page tested in a browser. An hour or more; the whole app to try at
+>   the end.
 
-**4. Links at every major turn.** Once the app has started, every
-major turn ends with one line linking both, on the ports they started
-on, so the user never scrolls back for them:
+**2. Then read [`references/conversation.md`](references/conversation.md)**
+once, right after saying what to expect: what the build says, links,
+opens and asks at every stage from here on (links at every turn, the
+Browser pane, a line after every answer, research, backend and
+frontend named apart, the questions inside the build, narration, the
+first feature's rules in plain words). Each path's further steps are
+read when they start: the design ([`references/design-first.md`](references/design-first.md)),
+the task list (`references/task-list.md`, where the plugin has it),
+and, for Automatically and Hands-off, the [`one-shot` skill](../one-shot/SKILL.md).
 
-> App: http://localhost:5173/ · Dashboard: http://127.0.0.1:9871/
+**3. The task list** is made after the answer, never beside the
+question: the question is the only tool call in its response. A list
+made before the answer at all has one item, "Propose the design for
+<app>". A list that already exists when this skill loads (the host
+may have planned before loading it) is replaced first, in a response
+of its own, with that one item, so the opening and its dialog still
+come alone. The lists, one per part (the backend, then the frontend), are
+in `references/task-list.md`, where the plugin has it.
 
-The major turns: the app's first start (the `run` skill), each
-handoff (in its **In short**), each feature finished, each change
-made, and the build's last message. Before the app runs, the line has
-the dashboard alone, once it is up.
+**4. Time estimates,** from measured builds, always "about", only in
+the opening's dialog and list: the design, a few minutes; the first
+feature, about 15 minutes, or 25 to 30 seen from both sides (an
+estimate until a build measures it); each next feature, 15 to 20
+minutes; the whole app, an hour or more.
+
+**While a slow step runs,** a short true fact about Reboot that fits
+it goes out first, once per build each:
+[`references/while-you-wait.md`](references/while-you-wait.md).
+And the user never waits more than about a minute without a line, at
+every stage, the design included: in the design, one when the research
+ends, saying what it found, and one before each of the design's three
+parts (`references/design-first.md`); in
+the build, one before the references a stage reads, and one as each
+part starts (the API, the servicers, the tests, the page). Files are written one
+part at a time with the Write tool, never every file in one shell
+command: a single call that runs for minutes shows nothing.
 
 **5. Read with the file tools.** This plugin's skills and references
 are read with the Read, Grep and Glob tools, never `cat`, `grep`,
