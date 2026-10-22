@@ -1,0 +1,1 @@
+{"type": "assistant", "timestamp": "2026-10-20T10:12:00Z", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "t12", "name": "Read", "input": {"file_path": "/Users/dev/.claude/plugins/cache/reboot/reboot/plugin/skills/python/references/state-collections.md"}}]}}

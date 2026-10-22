@@ -1,0 +1,35 @@
+load("@rules_python//python:defs.bzl", "py_binary", "py_test")
+
+# What real builds read of the reading path, from their Claude Code
+# transcripts: a report for judging the reading lists. It lives under
+# `tests/`, so it never ships with the plugin.
+py_binary(
+    name = "read_marks",
+    srcs = ["read_marks.py"],
+    main = "read_marks.py",
+    deps = [
+        "//tests/reboot/plugin/build_metrics",
+        "//tests/reboot/plugin/reading_budget",
+    ],
+)
+
+py_test(
+    name = "read_marks_test",
+    size = "small",
+    srcs = [
+        "read_marks.py",
+        "read_marks_test.py",
+    ],
+    data = ["//reboot/plugin:skills"] + glob(["testdata/**/*.jsonl"]),
+    # Tests run from the main repository's runfiles root, where the
+    # skills sit at the same path as in the source tree.
+    env = {
+        "READ_MARKS_TESTDATA": "tests/reboot/plugin/read_marks/testdata",
+        "REBOOT_PLUGIN_SKILLS": "reboot/plugin/skills",
+    },
+    main = "read_marks_test.py",
+    deps = [
+        "//tests/reboot/plugin/build_metrics",
+        "//tests/reboot/plugin/reading_budget",
+    ],
+)

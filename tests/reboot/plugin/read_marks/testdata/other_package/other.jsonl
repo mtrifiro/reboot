@@ -1,0 +1,4 @@
+{"type": "assistant", "timestamp": "2026-10-20T10:13:00Z", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "t13", "name": "Skill", "input": {"skill": "reboot:build"}}]}}
+{"type": "user", "timestamp": "2026-10-20T10:14:00Z", "message": {"role": "user", "content": [{"type": "text", "text": "Base directory for this skill: /Users/dev/.claude/plugins/cache/reboot/reboot/plugin/skills/build\n\n# build\n..."}]}}
+{"type": "assistant", "timestamp": "2026-10-20T10:15:00Z", "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "t15", "name": "Skill", "input": {"skill": "reboot:web-app"}}]}}
+{"type": "user", "timestamp": "2026-10-20T10:16:00Z", "message": {"role": "user", "content": [{"type": "text", "text": "Base directory for this skill: /Users/dev/.claude/plugins/cache/reboot/reboot/plugin/skills/web-app\n\n# web-app\n..."}]}}

@@ -1,4 +1,11 @@
-load("@rules_python//python:defs.bzl", "py_test")
+load("@rules_python//python:defs.bzl", "py_library", "py_test")
+
+# The reading path, for `read_marks` to compare real builds against.
+py_library(
+    name = "reading_budget",
+    srcs = ["reading_budget.py"],
+    visibility = ["//tests/reboot/plugin:__subpackages__"],
+)
 
 py_test(
     name = "reading_budget_test",
