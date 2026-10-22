@@ -3,17 +3,30 @@
 
     python3 <this file>                # list the palettes, the current one marked
     python3 <this file> sand-brown     # set it in the project in this directory
-    python3 <this file> pick           # one of the ten, picked by this folder's
-                                       # name: prints its name
+    python3 <this file> sand-brown --band deep --paper tinted
+                                       # with its band (calm, deep or hue) and
+                                       # paper (white or tinted); calm and white
+                                       # when not given
+    python3 <this file> pick           # one of the ten with a band and a paper,
+                                       # picked by this folder's name: prints
+                                       # "sand-brown --band deep --paper tinted"
     python3 <this file> pick sage-teal slate-blue sand-gold
                                        # one of those, the same way
+    python3 <this file> --css design/comp/comp.css sand-brown --band hue
+                                       # on a copy of the stylesheet (the comp)
     python3 <this file> --from '#2f6b4f'   # the palette nearest a brand colour:
                                        # prints it and how far off, changing nothing
     python3 <this file> --from '#2f6b4f' --set   # and sets it in the project
 
 `house` is Reboot's own (cream paper, navy ink and accent); the others
 pair a gray and an accent from Radix Colors (palettes.json beside this
-file; its MIT notice is palettes.LICENSE). Rewrites the colour tokens in
+file; its MIT notice is palettes.LICENSE). A Radix palette has a band
+and a paper as well, so ten palettes make sixty pages, not ten hues of
+one: the band (the page head) is calm, a light tint of the accent; deep,
+the gray's darkest step, as the top bar; or hue, the accent's darkest
+step, as the house look's navy. The paper is white, the gray's second
+step, or tinted, its third, the panels lifting off it as they do off the
+house look's cream. `house` keeps its own. Rewrites the colour tokens in
 the light and both dark blocks of frontend/web/src/styles.css, names a
 Radix palette's source in a comment at the stylesheet's top, and puts the
 new accent in frontend/web/public/favicon.svg. Everything else in the
@@ -31,6 +44,8 @@ import sys
 from pathlib import Path
 
 STYLESHEET = Path("frontend/web/src/styles.css")
+BANDS = ("calm", "deep", "hue")
+PAPERS = ("white", "tinted")
 FAVICON = Path("frontend/web/public/favicon.svg")
 PALETTES_FILE = Path(__file__).resolve().parent / "palettes.json"
 
@@ -92,6 +107,26 @@ def set_tokens(css: str, palette: dict[str, dict[str, str]]) -> str:
     return BLOCK.sub(block, css)
 
 
+def band_paper(name: str, found: dict[str, dict], band: str, paper: str) -> dict[str, dict[str, str]]:
+    """The tokens a band and a paper change on a Radix palette, per scheme:
+    calm leaves the band as the palette has it; deep takes the palette's
+    own deep entry (the gray's darkest step); hue makes the band the
+    accent's darkest step with the tint on it (light), a dark wash of the
+    hue with the ink on it (dark). Tinted paper moves the page one gray
+    step up and the glow with it; the panels keep their step and lift."""
+    p = found[name]
+    out: dict[str, dict[str, str]] = {"light": {}, "dark": {}}
+    if band == "deep":
+        out = {w: dict(p["deep"][w]) for w in ("light", "dark")}
+    elif band == "hue":
+        out["light"] = {"accent-deep": p["light"]["on-deep"], "on-deep": p["light"]["accent-deep"]}
+        out["dark"] = {"accent-deep": p["dark"]["accent-tint"], "on-deep": p["dark"]["ink"]}
+    if paper == "tinted":
+        out["light"].update({"bg": p["light"]["bg-glow"], "bg-glow": p["light"]["track"]})
+        out["dark"].update({"bg": p["dark"]["bg-2"], "bg-glow": p["dark"]["panel"]})
+    return out
+
+
 def hue(hex_colour: str) -> float:
     r, g, b = (int(hex_colour[i:i + 2], 16) / 255 for i in (1, 3, 5))
     return colorsys.rgb_to_hls(r, g, b)[0] * 360
@@ -104,6 +139,13 @@ def nearest(brand: str, found: dict[str, dict]) -> tuple[str, float]:
         return min(d, 360 - d)
     name = min((n for n in found if n != "house"), key=off)
     return name, off(name)
+
+
+def pick_feel(folder: str) -> tuple[str, str]:
+    """The band and the paper for a folder, as `pick` does the palette."""
+    def at(key: str, n: int) -> int:
+        return int(hashlib.sha256(key.encode()).hexdigest(), 16) % n
+    return BANDS[at(folder + "/band", len(BANDS))], PAPERS[at(folder + "/paper", len(PAPERS))]
 
 
 def pick(names: list[str], folder: str) -> str:
@@ -125,7 +167,27 @@ def pick(names: list[str], folder: str) -> str:
 
 
 def main(argv: list[str]) -> int:
+    global STYLESHEET
     found = palettes()
+    band, paper = "calm", "white"
+    rest: list[str] = []
+    i = 0
+    while i < len(argv):
+        if argv[i] in ("--band", "--paper", "--css") and i + 1 < len(argv):
+            if argv[i] == "--band":
+                band = argv[i + 1]
+            elif argv[i] == "--paper":
+                paper = argv[i + 1]
+            else:
+                STYLESHEET = Path(argv[i + 1])
+            i += 2
+        else:
+            rest.append(argv[i])
+            i += 1
+    argv = rest
+    if band not in BANDS or paper not in PAPERS:
+        print(f"palette: --band takes {', '.join(BANDS)}; --paper takes {', '.join(PAPERS)}", file=sys.stderr)
+        return 2
     if argv[:1] == ["pick"]:
         names = argv[1:] or [n for n in found if n != "house"]
         unknown = [n for n in names if n not in found]
@@ -133,7 +195,9 @@ def main(argv: list[str]) -> int:
             print(f"palette: pick takes palette names; {', '.join(unknown)} not one of: "
                   f"{', '.join(found)}", file=sys.stderr)
             return 2
-        print(pick(names, Path.cwd().name))
+        folder = Path.cwd().name
+        band, paper = pick_feel(folder)
+        print(f"{pick(names, folder)} --band {band} --paper {paper}")
         return 0
     if argv[:1] == ["--from"] and len(argv) in (2, 3) and argv[2:] in ([], ["--set"]):
         brand = argv[1].strip()
@@ -149,9 +213,9 @@ def main(argv: list[str]) -> int:
         argv = [name]
     if not argv:
         css = STYLESHEET.read_text(encoding="utf-8") if STYLESHEET.is_file() else ""
-        accent, bg = light_value(css, "accent"), light_value(css, "bg")
+        accent, ink = light_value(css, "accent"), light_value(css, "ink")
         for name, p in found.items():
-            mark = "*" if (p["light"]["accent"], p["light"]["bg"]) == (accent, bg) else " "
+            mark = "*" if (p["light"]["accent"], p["light"]["ink"]) == (accent, ink) else " "
             print(f"{mark} {name:<14} {p.get('label', ''):<8} {p.get('colours', ''):<18} "
                   f"accent {p['light']['accent']} light, {p['dark']['accent']} dark")
         return 0
@@ -159,10 +223,10 @@ def main(argv: list[str]) -> int:
         print(f"palette: no {STYLESHEET}; run from the project root", file=sys.stderr)
         return 2
     css = STYLESHEET.read_text(encoding="utf-8")
-    accent, bg = light_value(css, "accent"), light_value(css, "bg")
+    accent, ink = light_value(css, "accent"), light_value(css, "ink")
     if not argv:
         for name, p in found.items():
-            mark = "*" if (p["light"]["accent"], p["light"]["bg"]) == (accent, bg) else " "
+            mark = "*" if (p["light"]["accent"], p["light"]["ink"]) == (accent, ink) else " "
             print(f"{mark} {name:<14} {p.get('label', ''):<8} {p.get('colours', ''):<18} "
                   f"accent {p['light']['accent']} light, {p['dark']['accent']} dark")
         return 0
@@ -171,15 +235,20 @@ def main(argv: list[str]) -> int:
         print(f"palette: no palette '{name}'; one of: {', '.join(found)}", file=sys.stderr)
         return 2
     palette = found[name]
-    css = CREDIT.sub("", set_tokens(css, palette))
+    css = set_tokens(css, palette)
+    feel = ""
     if name != "house":
-        css = (f"/* Palette: {name}, colors from Radix Colors (https://github.com/radix-ui/colors), "
+        css = set_tokens(css, band_paper(name, found, band, paper))
+        feel = f", {band} band, {paper} paper"
+    css = CREDIT.sub("", css)
+    if name != "house":
+        css = (f"/* Palette: {name}{feel}, colors from Radix Colors (https://github.com/radix-ui/colors), "
                f"Copyright (c) 2021 Radix, MIT License. */\n") + css
     STYLESHEET.write_text(css, encoding="utf-8")
-    if FAVICON.is_file() and accent:
+    if STYLESHEET == Path("frontend/web/src/styles.css") and FAVICON.is_file() and accent:
         svg = FAVICON.read_text(encoding="utf-8")
         FAVICON.write_text(re.sub(re.escape(accent), palette["light"]["accent"], svg, flags=re.I), encoding="utf-8")
-    print(f"Palette: {name} ({palette['source']})")
+    print(f"Palette: {name}{feel} ({palette['source']})")
     return 0
 
 
