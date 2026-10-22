@@ -111,11 +111,18 @@ and never click, type or run a script in the user's tabs. Each address
 is its own configuration (`design`, `comp`, `dashboard`, `app`),
 started by name (crm-30 set the dashboard tab's `location` to the app,
 then tested the page in the pane; the user lost the dashboard's tab).
-The app opens in the pane once, at the handoff's **Your turn**, ready
-to try (a `launch.json` configuration named `app` with only its URL,
-the backend's address, `"url": "https://<app>.localhost"` or
-`"http://localhost:9991"`, started by name), and for the
-feature that adds a customer side, in two tabs, one per side. In the Claude app
+The app opens in the pane once, the moment it answers and before the
+build's own checks, so the user tries it while the build checks it (a
+`launch.json` configuration named `app` with only its URL, the
+backend's address, `"url": "https://<app>.localhost"` or
+`"http://localhost:9991"`, started by name), with the `run` skill's
+one line of addresses and nothing more: "App: … · Dashboard: … — try
+it while I check it at three widths and run the suite." The page the
+user sees then is unchecked; a spacing the check fixes a minute later
+may catch their eye first, and that is the trade. The handoff says it
+is already open there (hotel-330 and 331: up at 22:01 and 17:43 of
+the build, opened with the handoff at 24:49 and 23:09). For the
+feature that adds a customer side, two tabs, one per side. In the Claude app
 nothing opens in the user's external browser: not the app, not the
 dashboard (`dashboard` skill, Step 4, starts it with `BROWSER=true`),
 not an MCP App's setup wizard. Outside the Claude app, the skills'
