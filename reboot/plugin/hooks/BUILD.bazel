@@ -9,3 +9,9 @@ filegroup(
     srcs = ["say-dashboard-links.py"],
     visibility = ["//visibility:public"],
 )
+
+filegroup(
+    name = "skill_gate_py",
+    srcs = ["skill-gate.py"],
+    visibility = ["//visibility:public"],
+)
