@@ -18,12 +18,12 @@ and exact where `git diff` is long and noisy.
 Each change is sorted by the Reboot Flywheel's routing rule
 (the plugin's `app/references/flywheel.md`):
 
-- **Design**: any change to the domain model or to who may call a
-  method; a feature, rule or
-  feature description added, removed or reworded; a scenario removed,
-  or its steps changed. These go back to Design for acceptance.
-- **Prove**: a new scenario under a rule that already existed, and
-  `@wip` coming off a scenario. These stay in Prove.
+- **Needs your yes** (`design`): any change to the domain model or to
+  who may call a method; a feature, rule or feature description added,
+  removed or reworded; a scenario removed, or its steps changed. The
+  user accepts these again.
+- **Code only** (`prove`): a new scenario under a rule that already
+  existed, and `@wip` coming off a scenario. The suite proves these.
 
 It also names every servicer with no `authorizer()`, which `rbt dev`
 allows with a warning and Reboot Cloud denies.
@@ -57,6 +57,7 @@ ROOT = Path(__file__).resolve().parent.parent
 ACCEPTED = "design/accepted.json"
 # The accepted design's files, copied at acceptance, so a diff can
 # measure from it with or without git. Named as a base by this word.
+LABEL = {"design": "needs your yes", "prove": "code only"}
 SNAPSHOT = "design/accepted"
 AT_ACCEPTANCE = "accepted"
 
@@ -671,10 +672,10 @@ def markdown(
         if design:
             lines.append(
                 f"**{len(design)} design change{'s' if len(design) != 1 else ''}**: "
-                "these go back to Design for acceptance."
+                "these need the user's yes again."
             )
         else:
-            lines.append("**No design change**: this stays in Prove.")
+            lines.append("**No design change**: code only; the suite proves it.")
         for area, heading in (
             ("model", "Domain model"),
             ("auth", "Who may call"),
@@ -683,7 +684,7 @@ def markdown(
             group = [c for c in changes if c.area == area]
             if group:
                 lines += ["", f"_{heading}_", ""]
-                lines += [f"- [{c.stage}] {c.what}" for c in group]
+                lines += [f"- [{LABEL[c.stage]}] {c.what}" for c in group]
     if unauthorized:
         lines += [
             "",
