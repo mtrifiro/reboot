@@ -209,13 +209,16 @@ the house exists to avoid (hotel-203's comp).
    it lists them). The palettes: house (Reboot's own: cream paper, navy ink and accent), sand-bronze, sand-brown, sand-orange, sand-gold, olive-grass, sage-teal, slate-blue, slate-iris, mauve-plum and mauve-crimson. Each but house is a gray and
    an accent from Radix Colors: the page, text and lines from the
    gray, the page head's band a soft tint of the accent with the
-   accent's darkest step for its text (calm; a dark band, `look.py set
-   band deep`, only when the user asks for one), the accent kept for
-   the primary action and the selected state. It rewrites those
-   tokens in the light and dark blocks and names the palette's source
-   at the stylesheet's top (keep that line: it is the colors' license
-   notice). That is the whole of the look's change: one of the eleven
-   palettes. Every
+   accent's darkest step for its text, the accent kept for the primary
+   action and the selected state. The design's band and paper come
+   with it (`palette.py sage-teal --band deep --paper tinted`): the
+   band calm (that tint), deep (the gray's ink) or hue (the accent's
+   darkest step, with the tint on it); the paper white or tinted (the
+   gray one step up, the panels lifting off it). It rewrites those
+   tokens in the light and dark blocks and names the palette, band
+   and paper at the stylesheet's top (keep that line: it is the
+   colors' license notice). That is the whole of the look's change:
+   one of the eleven palettes with a band and a paper. Every
    other token keeps its value unless the user supplied a brand (a
    site or tokens to read); a theme the build invents for the domain
    ("newsprint", "ink on warm paper") is not a brand. Tokens a page
