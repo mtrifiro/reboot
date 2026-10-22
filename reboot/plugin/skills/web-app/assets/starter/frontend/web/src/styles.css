@@ -1314,8 +1314,21 @@ button.name:hover {
    row, and fifty cells fit the first screen. */
 .cells {
   display: grid;
-  grid-template-columns: repeat(var(--cells-cols, auto-fill), minmax(min(100%, 72px), 1fr));
-  gap: var(--space-2);
+  /* --cells-cols is the row's count where the row has the room (eight
+     rooms on one line); where it hasn't (the Claude app's Browser pane
+     is ~800px, hotel-331's fourteen rooms spilled off it), the cells
+     keep 72px and wrap. A track's minimum is the row's width shared
+     by the count, or 72px, whichever is larger. */
+  --cells-gap: var(--space-2);
+  --cells-min: 72px;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(
+      max(min(100%, var(--cells-min)), calc((100% - (var(--cells-cols, 1) - 1) * var(--cells-gap)) / var(--cells-cols, 1))),
+      1fr
+    )
+  );
+  gap: var(--cells-gap);
 }
 .plan {
   display: grid;
@@ -1832,11 +1845,11 @@ tr:hover td {
     grid-template-columns: minmax(80px, max-content) minmax(0, 1fr);
     gap: var(--space-2) var(--space-3);
   }
-  /* A plan's row of eight becomes two rows of four (--cells-cols-phone
-     for another count): fixed at eight, each cell spills and the page
-     scrolls sideways (hotel-330). */
+  /* A plan's row is four cells (--cells-cols-phone for another count),
+     whatever its count at desktop. */
   .plan .cells {
-    grid-template-columns: repeat(var(--cells-cols-phone, 4), minmax(0, 1fr));
+    --cells-cols: var(--cells-cols-phone, 4);
+    --cells-min: 56px; /* four fit a 300px row only below the 72px floor */
   }
   .drawer-head,
   .drawer-body,
