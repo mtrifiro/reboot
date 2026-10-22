@@ -420,7 +420,15 @@ finished app.
    is the app's first working version in the design's own names,
    never a "starter" or a "template": "Backend: Hotel, Room and User
    as Reboot objects, already running and tested; next, the floor
-   plan's rules." Then give the
+   plan's rules." At once start the frontend's install in the
+   background, where nothing waits on it until step 7: `cd frontend &&
+   npm install --prefer-offline --no-audit --no-fund` with the Bash
+   tool's `run_in_background`, its notice to come on its own (never
+   `sleep` or read its output). The starter ships `package-lock.json`,
+   so npm asks the registry about none of the 124 packages and the
+   cache answers; without the lockfile and in the foreground the same
+   install held hotel-334 for 3½ minutes and hotel-330 for 5 (the
+   registry's speed that minute). Then give the
    project `AGENTS.md` and `CLAUDE.md` with the
    [`agents-md` skill](../agents-md/SKILL.md), naming the API and
    servicer files it wrote.
@@ -468,7 +476,9 @@ finished app.
    fails before any page.
 7. The frontend is in place from step 1
    ([`references/react-client.md`](references/react-client.md) says
-   what each file is for): `cd frontend && npm install`, then
+   what each file is for), its packages installed by step 1's
+   background install (if its notice hasn't come, it comes before
+   anything else is needed here; never start a second install). Then
    `uv run rbt generate` again for the React bindings, and
    `cd frontend && npm run build` to prove the starter's page compiles
    against them.
