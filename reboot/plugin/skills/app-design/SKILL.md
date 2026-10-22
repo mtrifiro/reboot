@@ -171,11 +171,13 @@ recommendation is one answer:
 - **The palette, unasked** (loaded by the `app-guided` or `app-whole`
   skill): a brand colour in the prompt is `palette.py --from
   '<#rrggbb>'`, which names the nearest palette and how far off;
-  otherwise name the two or three that suit the domain and take the
-  one `python3 '<the web-app skill>/assets/palette.py' pick <them>`
-  prints from the project root. It picks by the project folder's
-  name, so two builds of one prompt differ (hotel-260 to -301, five
-  hotel builds, all took sand-bronze).
+  otherwise `python3 '<the web-app skill>/assets/palette.py' pick`,
+  no names, from the project root, and the one it prints: one of the
+  ten by the project folder's name, so two builds of one prompt
+  differ. Nothing is nominated first: a nomination "that suits the
+  domain" repeats (hotel-260 to -301 took sand-bronze five times
+  straight; hotel-330 to -332 each put it first), and a hotel is as
+  well served by slate or sage as by sand.
 How it is built is not asked here: the interactive build is the
 default (the `app` skill), and the go-ahead, **Ready to
 build this design?**, asks only for the yes; "build it all at once",
