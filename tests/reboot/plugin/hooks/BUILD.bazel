@@ -32,3 +32,14 @@ py_test(
     },
     main = "remind_test.py",
 )
+
+py_test(
+    name = "skill_gate_test",
+    size = "small",
+    srcs = ["skill_gate_test.py"],
+    data = ["//reboot/plugin/hooks:skill_gate_py"],
+    env = {
+        "SKILL_GATE_PY": "$(location //reboot/plugin/hooks:skill_gate_py)",
+    },
+    main = "skill_gate_test.py",
+)
