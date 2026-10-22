@@ -10,8 +10,10 @@ http://localhost:9991 on plain ports). Each PAGE=FIRST is a page's
 path and a selector for one record of its main view: `/=.cell`,
 `/accounts=.list-card .row`, `/board=.board-card`.
 
-For each page, headless, at desktop (1440x900, light) and phone
-(375x812, dark), signed in through the development picker as --as:
+For each page, headless, at desktop (1440x900, light), the Claude
+app's Browser pane (800 wide, light: the layout and touching checks
+only, not timed) and phone (375x812, dark), signed in through the
+development picker as --as:
 
   * timing, three loads (web-app/references/vitals.md): the first
     record, FCP, LCP, CLS, and INP for a tap on the page's main action
@@ -45,7 +47,10 @@ import tempfile
 from pathlib import Path
 
 BUDGET = {"first": 2000, "lcp": 2500, "cls": 0.1, "inp": 200, "fcp": 1800}
-WIDTHS = (("desktop", 1440, 900, "light"), ("phone", 375, 812, "dark"))
+# name, width, height, scheme, timed. The pane is where the user first
+# sees the page in the Claude app (hotel-331: fourteen rooms a row spilled
+# off it while desktop and phone passed); its layout is checked, not its timing.
+WIDTHS = (("desktop", 1440, 900, "light", True), ("pane", 800, 900, "light", False), ("phone", 375, 812, "dark", True))
 
 VITALS = """
 window.__vitals = { lcp: 0, cls: 0, inp: 0 };
@@ -216,7 +221,7 @@ def main(argv: list[str]) -> int:
 
     with sync_playwright() as pw:
         browser = pw.chromium.launch()
-        for width, w, h, scheme in WIDTHS:
+        for width, w, h, scheme, timed in WIDTHS:
             ctx = browser.new_context(viewport={"width": w, "height": h}, color_scheme=scheme, ignore_https_errors=True)
             page = ctx.new_page()
             errors: list[str] = []
@@ -228,10 +233,10 @@ def main(argv: list[str]) -> int:
                 where = f"{path} {width}"
                 tap = taps.get(path, first)
                 runs = []
-                for _ in range(1 if args.quick else 3):
+                for _ in range(1 if args.quick or not timed else 3):
                     page.goto(url + path)
                     shown = page.evaluate(FIRST, first)
-                    if args.quick:
+                    if args.quick or not timed:
                         runs.append({"first": shown})
                         break
                     page.wait_for_timeout(1000)
@@ -243,8 +248,8 @@ def main(argv: list[str]) -> int:
                         loaded["inp"] = page.evaluate(READ)["inp"]
                     runs.append(loaded)
                 judged = runs[1:]
-                if args.quick and runs[0]["first"] >= 0:
-                    report.lines.append(f"note  {where}  not timed (--quick)")
+                if (args.quick or not timed) and runs[0]["first"] >= 0:
+                    report.lines.append(f"note  {where}  not timed ({'--quick' if args.quick else 'the pane'})")
                 elif any(r["first"] < 0 for r in runs):
                     report.check(where, False, "the first record appears",
                                  f"no {first!r} within 30 s: the page is empty, broken, or the selector is wrong")
