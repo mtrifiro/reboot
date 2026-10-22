@@ -27,7 +27,7 @@ in <palette>."
 
    ```shell
    mkdir -p design/comp && cp '<the web-app skill>/assets/starter/frontend/web/src/styles.css' design/comp/comp.css
-   python3 '<the review-ui skill>/assets/look.py' --css design/comp/comp.css set palette <palette>
+   python3 '<the web-app skill>/assets/palette.py' --css design/comp/comp.css <palette> --band <band> --paper <paper>
    sed -n "/The app's one stylesheet/,/\*\//p" design/comp/comp.css
    ```
 
