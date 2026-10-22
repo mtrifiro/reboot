@@ -44,10 +44,11 @@ app keeps track of. Give each question two to four options, the
 simplest first and marked as recommended, so accepting every
 recommendation is one answer. Never an option that only means "say
 what": every dialog has its own free answer. Don't ask about the look:
-when the user named no brand, pick the palette that suits
-the domain from the ones [`ui-design.md`](../../web-app/references/ui-design.md)
-lists ("Build the Look"), and say in the brief that it was picked
-for them and is easy to change later, to another color or to
+when the user named no brand, take the palette `palette.py pick`
+prints (one of the ten [`ui-design.md`](../../web-app/references/ui-design.md)
+lists under "Build the Look", by the project's folder name), and say
+in the brief that it was picked for them and is easy to change later,
+to another color or to
 their brand. Name the app too,
 unless the prompt gives a name, and say the same of it. Don't ask what
 the design can decide well on its own. Never ask about time zones:
