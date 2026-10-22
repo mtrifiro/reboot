@@ -77,7 +77,7 @@ exists is kept. What the shell holds, and the rule behind each file:
   `[build-system]` table**, which tells `uv` this is a virtual
   project: the dependencies go into `.venv`, the app itself is never
   built. An LLM provider SDK for `reboot.agents` is an extra of
-  `reboot` (`reboot[anthropic]==1.7.1` in `dependencies`), so it
+  `reboot` (`reboot[anthropic]==1.7.2` in `dependencies`), so it
   resolves at the version that works with the Pydantic AI release
   `reboot` pins (`agent-pydantic-ai.md`). An older project's
   `[tool.rye]` table migrates to this shape: its dev dependencies into
