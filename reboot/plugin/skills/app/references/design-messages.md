@@ -32,7 +32,8 @@ brief, the features and their rules, the domain model, the pages and
 sign-in, and what Reboot does for you here.
 
 **Brief.** <Who uses <app name> (working name), and the one question
-the main page answers.> The palette is **<palette, in words>**.
+the main page answers.> The palette is **<palette, in words, with its
+band and paper>**.
 
 **Features, in build order:** 1. **<First feature> (first)**, <why it
 comes first, in a clause>; 2. <feature>; 3. …
