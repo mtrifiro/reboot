@@ -119,7 +119,10 @@ the Agent tool (Codex, say) does the steps in order.
    file is for: the SPA under `frontend/web/`, the config with its
    `dedupe` and `server.host` entries, the Reboot packages in
    `package.json`, no `VITE_REBOOT_URL` in development).
-9. `cd frontend && npm install`.
+9. The frontend's packages: installed in the background since the
+   render (web-app step 1, `npm install --prefer-offline --no-audit
+   --no-fund` with `run_in_background`); wait for its notice only now,
+   if it hasn't come.
 10. `uv run rbt generate` again — the React bindings need
     `node_modules` to resolve types correctly. (A frontend sub-agent
     asks the main agent to run it.)
