@@ -137,7 +137,13 @@ the direction, whole on its own since it holds its stylesheet, linked from the m
 (`app/references/design-document.md`); `comp.css` and `.look-history/` beside it and
 `design/.design.pid` and `design/.comp.pid` are
 git-ignored by the starter, and the comp is remade from the steps
-above when it is wanted again.
+above when it is wanted again. The comp is never edited after the
+go-ahead, even when the page no longer matches it: it is the design
+the user approved, not a copy to keep in step. A change to the page
+goes in the page and in `design/design.md`; where the two differ, say
+so (crm-30 kept its comp in step with the page for a day before the
+rule). The `agents-md` skill's rule 5 says the same to the next
+session.
 
 ## Never
 
