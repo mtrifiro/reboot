@@ -285,13 +285,22 @@ All four factories require an explicit `mcp=` keyword. Use
 use `mcp=Tool(...)` in MCP Apps projects. See `api-pydantic.md` for
 the full rule.
 
-## Six Method Names Are Reserved
+## Seven Method Names Are Off Limits
 
 Don't name a method `read`, `write`, `delete`, `state`, `schedule` or
 `spawn`. Reboot uses those names on every state type, and
 `rbt generate` refuses the API with
 `has illegal name: <Name> is reserved`. Pick the name before the API
 is written: `schedule_cleaning`, `delete_booking`.
+
+Nor the API package's own name: a method `rooms` in
+`api/rooms/v1/rooms.py` becomes an attribute `rooms` on the generated
+class, and from there every annotation `rooms.v1.rooms_pb2.…` in
+`rooms_rbt.py` resolves to the method, not the module. `rbt generate`
+and the tests pass; `mypy` then fails with
+`Name "rooms.v1.rooms_pb2.FloorPlanAddRoomRequest" is not defined` on
+every method declared after it (hotel-330: 1 min 20 s to find). Name
+it for what it returns: `list_rooms`.
 
 ## See Also
 
