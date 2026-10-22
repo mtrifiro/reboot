@@ -37,13 +37,6 @@ picked for you; either is easy to change.">
 counts, layouts and names the brief left open, in one paragraph:
 floors 2–8 with 8 rooms each, numbered 201–808, …>
 
-**Domain model (proposed)**
-- **<Object>:** one per <what>, keyed by <id>. It holds <fields, in
-  plain words>. It is its own object because <why: what changes on
-  its own, what runs one at a time, what that prevents>.
-- **<Object>:** …
-- *Later features add* <objects, comma-separated>.
-
 **Proposed features, in build order**
 Only the first is built next; the rest, and their order, are yours to
 change at any point.
@@ -53,6 +46,13 @@ change at any point.
    - …
 2. <Feature>
 3. …
+
+**Domain model (proposed)**
+- **<Object>:** one per <what>, keyed by <id>. It holds <fields, in
+  plain words>. It is its own object because <why: what changes on
+  its own, what runs one at a time, what that prevents>.
+- **<Object>:** …
+- *Later features add* <objects, comma-separated>.
 
 **Pages**
 - `<route>`: <the page's primary view, worked on directly>, <what a
