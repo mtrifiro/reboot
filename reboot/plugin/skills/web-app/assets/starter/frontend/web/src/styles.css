@@ -17,8 +17,8 @@
    Other primary views: board / board-col (board-col-head with a
    .stage dot, .count) of cards, board-tools above it; a card is
    card-row: avatar.logo (or an avatar, a room number), card-body with
-   .name, .who, .when, .stale when quiet; stats.summary: one stat and
-   a .funnel (.steps of .seg, each a bar with its count and name as its
+   .name, .who, .when, .stale when quiet; stats.summary, on a board's
+   page only: one stat and a .funnel (.steps of .seg, each a bar with its count and name as its
    text, --n its width; a stage that needs a person .warn / .bad, the
    rest grey; .names who works them; .flag; a meter-row of the same
    subject inside the .stat, never a third child); .selected only
@@ -496,11 +496,12 @@ main > * {
   flex-wrap: wrap;
 }
 
-/* Summary: stat tiles, a label and a big number each. A count the
-   board already shows is never a tile: one signature stat, and the rest
-   a .funnel beside it (.stats.summary): a segment per stage (.seg,
-   data-step as on .stage, its count and name as its text), and who
-   needs a person (.flag, the warning colour). */
+/* Summary: stat tiles, a label and a big number each, three or four
+   across the page. On a board's page, whose columns count their cards
+   already, the row is .stats.summary instead: one signature stat and a
+   .funnel beside it, a segment per stage (.seg, data-step as on
+   .stage, its count and name as its text), and who needs a person
+   (.flag, the warning colour). Every other page keeps its tiles. */
 .stats.summary {
   grid-template-columns: minmax(220px, 1fr) 3fr;
 }
