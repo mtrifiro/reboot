@@ -53,7 +53,9 @@ and fixes it.
 - **One figure leads.** The page's question has a number, and it is
   the largest thing on the page after the title: a `stat` tile, or a
   `figure` in the heading's line ("38 ready · 4 waiting"). One a page,
-  two when the question has two sides. Counts in 13 px pills or column
+  two when the question has two sides; it is the first tile of the
+  `stats` row, and the row's other tiles (three or four in all) are
+  the counts a person acts on today. Counts in 13 px pills or column
   heads lead nothing.
 - **The resting state is plain.** In a view that colours status, the
   normal state (ready, done, in stock, on time) has no fill: the panel
