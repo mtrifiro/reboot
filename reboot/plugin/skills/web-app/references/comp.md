@@ -43,8 +43,12 @@ in <palette>."
    bar, the badge, the note and the head are step 3's. First the brand
    mark, an inline `<svg data-mark ...>` from the domain; then the page
    head with its eyebrow, title and lede inside the
-   `brand-band`; the leading figure as a `stat` in
-   the `stats` row that overlaps the band's lower edge, or a `figure`;
+   `brand-band`; the `stats` row overlapping the band's lower edge:
+   three or four `stat` tiles across the page, the leading figure
+   first and the counts a person acts on today after it (dirty,
+   arriving, overdue), each a label and a value; a figure with a limit
+   (rooms sold of 56, seats of 25) is a `meter-row` inside the tile
+   whose subject it measures;
    the signature view the design's main page line names
    (`ui-design.md`, "One Signature View"), drawn with believable
    numbers; the primary view in the domain's shape (`cells` for a
@@ -53,18 +57,19 @@ in <palette>."
    when the page has one; the primary action as the one `primary`
    button. Each record's card or row carries its identity mark (a
    company's `avatar logo` tile, a person's avatar, a room's number)
-   and its time (touched when, what's next; `stale` when quiet), and
-   no stat repeats a count the view already shows: one signature
-   `stat`, the rest a `funnel` in `stats summary` naming who needs a
-   person (crm-31's first mockup: identical white cards and three
-   tiles that repeated the board's own counts). The eyebrow carries the
-   `live` mark; a legend's items and the tabs carry their `count`; a
-   figure with a limit (rooms sold of 56, seats of 25) is a
-   `meter-row`, inside the `stat` when it measures the stat's subject,
-   never a third child of `stats summary`; a funnel stage that needs a
-   person carries its state (`seg bad`, `seg warn`), as its cells do
-   (hotel-310: the meter wrapped under an empty stat, three plum
-   bars). What the eye lands on is as the design's Pages line says:
+   and its time (touched when, what's next; `stale` when quiet). Only
+   a page whose records move through stages in order (a board of
+   leads, orders, applications) has `stats summary` instead of the
+   row: the one signature `stat` beside a `funnel` of the stages, its
+   `flag` naming who needs a person, a stage that needs one in its
+   state (`seg bad`, `seg warn`) as its cards are, the meter-row
+   inside the stat and never a third child (crm-31's first mockup:
+   three tiles that repeated the board's own column counts; hotel-310:
+   the meter wrapped under an empty stat, three plum bars). A plan's
+   or a list's page keeps its row of tiles: one tile and a funnel of
+   the plan's states is the summary of a board nobody drew (hotel-330
+   to 334). The eyebrow carries the `live` mark; a legend's items and
+   the tabs carry their `count`. What the eye lands on is as the design's Pages line says:
    the resting state plain, colour on the states that need a person,
    the accent on the primary action and the current nav item only.
    A plan is `plan` rows, one a floor or aisle with its `plan-label`
