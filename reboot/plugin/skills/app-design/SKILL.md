@@ -70,9 +70,16 @@ design, as a working name.
    built until you approve it, and you can change any feature." Word
    for word.
 
-Loaded by the `app-guided` skill, one line after the paragraph, word
-for word: "To build the whole app without stopping instead, use
-/reboot:app-whole." On this path nothing is asked before the design,
+Loaded by the `app-guided` skill, two lines after the paragraph, word
+for word: "This allows you to build an app at the level of the domain
+model: what the app does and the rules it keeps, for you to approve or
+change. To brainstorm its
+architecture with me first, use /reboot:brainstorm; to build the whole
+app without stopping, /reboot:app-whole." After a brainstorm (the
+argument ends ", from the brainstorm", or this conversation wrote
+`design/architecture.md`), instead: "This builds on the architecture we
+brainstormed (design/architecture.md): its objects and decisions, for
+you to approve or change." On this path nothing is asked before the design,
 so no dialog forces the opening out: it is the response's text, sent
 before the task list's update and before the first read (hotel-301
 drafted it in thinking, then updated the list and read; the user saw
@@ -235,7 +242,10 @@ Before the design, read only what it needs: the domain model's shape
 rules (`python/references/state-collections.md`, `api-methods.md`)
 and [`design-messages.md`](../app/references/design-messages.md)'s
 "The proposed design". Nothing else: the build's references are read
-by the build, after the answer.
+by the build, after the answer. When `design/architecture.md` exists
+(the [`brainstorm` skill](../brainstorm/SKILL.md)'s notes), read it
+first: the domain model follows its objects and decisions, each
+listed under **Decisions** as from the brainstorm.
 
 First, in thought, walk every workflow: each person who uses the app,
 the jobs they come to do (user stories: "as the front desk, I move a
