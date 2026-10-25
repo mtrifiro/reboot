@@ -109,6 +109,15 @@ in `web/public/favicon.svg` in the accent's light hex (`accent.py`
 updates it), linked from `index.html` in place of Vite's. Set the
 page `<title>` to the product name.
 
+The mark and the name together are always a link to the home page,
+`/`, on every page, in the top bar or the sidebar:
+`<a href="/" className="brand" aria-label="<Product> home">`, never a
+plain `<span>` or `<div>`. It goes home the way the nav links do: with
+a router, its `<Link to="/">`; with the path kept in state, an
+`onClick` that calls `preventDefault()` and the app's own navigation
+to `/`. People click the logo to get back to where they started, so a
+logo that does nothing reads as a broken page.
+
 **Check it running.** Look at every page at desktop and phone
 (375×812) width, in light and dark. The web app scenarios record
 screenshots and open either scheme
