@@ -1,48 +1,66 @@
 ---
 name: app
-description: "Build a Reboot application from a description: the interactive build (the app-guided skill: a design to approve, each part built and explained), learning mode asked in its first round; a prompt that asks for the whole app at once loads the app-whole skill, one feature hands off the app-basic skill. Holds the front-door routing every build uses: an MCP App (ChatGPT, Claude, VSCode, Goose) or a standalone web app by the prompt's own words, otherwise the web app, the other offered at handoff. Use for any prompt that asks to build an app and names no skill."
+description: "Build a Reboot application from a description, asking first how: Guided (a high-level design to approve, then each part built), Learn Reboot as it builds (the guide skill), Shape the architecture (the build skill) or Hands off (the vibe skill); a prompt that already says how goes straight to that skill. Holds the front-door routing every build uses: an MCP App (ChatGPT, Claude, VSCode, Goose) or a standalone web app by the prompt's own words, otherwise the web app, the other offered at handoff. Use for any prompt that asks to build an app and names no skill."
 argument-hint: '[<app-description>, or <Name>: <app-description>]'
-allowed-tools: Bash, Read, Write, Glob, Grep, Edit
+allowed-tools: Bash, Read, Write, Glob, Grep, Edit, AskUserQuestion
 ---
 
-# app — The Interactive Build, Unless the Prompt Asks Otherwise
+# app — Choose How to Build, Then Build
 
-This skill says nothing of its own and asks nothing: it hands the
-prompt to the skill that builds it. The user sees only message text;
+This skill chooses how the app is built, then hands the prompt to the
+skill that builds it. The user sees only message text and dialogs;
 nothing here is said in thinking.
 
-## First: the skill for the prompt
+## First: how to build it
 
-The response's first act (loading this skill was the first) is to
-load one skill with the Skill tool, its argument the prompt as typed,
-never by reading its file:
+When the prompt already says how, load that skill at once with the
+Skill tool, its argument the prompt as typed, never by reading its
+file, and ask nothing:
 
-- **[`/reboot:app-whole`](../app-whole/SKILL.md)** when the prompt
-  asks for the whole app at once, in so many words ("the whole app",
-  "one shot", "in one go", "no questions", "hands off").
-- **[`/reboot:app-basic`](../app-basic/SKILL.md)** when it asks for
-  one feature hands off ("just one feature", "something small, no
-  questions").
-- **[`/reboot:app-just`](../app-just/SKILL.md)** when it asks for no
-  design ("just build it", "exactly what I typed").
-- **[`/reboot:brainstorm`](../brainstorm/SKILL.md)** when it asks to
-  talk through or brainstorm the architecture first.
-- **[`/reboot:build`](../build/SKILL.md)** when it asks to control the
-  architecture of the app it builds; **[`/reboot:guide`](../guide/SKILL.md)**
-  when it asks to be taught Reboot as it builds. `/reboot:vibe` is
-  the `app-whole` skill by its short name.
-- **[`/reboot:app-guided`](../app-guided/SKILL.md)** otherwise: the
-  interactive build, whose first round asks whether to explain as it
-  builds (learning mode, [`references/exegesis.md`](references/exegesis.md)).
-  A prompt that already says so ("explain as you build", "verbose",
-  "teach me") is followed by ", verbose" in the argument, and the
-  round doesn't ask.
+- **[`/reboot:app-whole`](../app-whole/SKILL.md)** (`/reboot:vibe`):
+  the whole app at once ("the whole app", "one shot", "in one go", "no
+  questions", "hands off").
+- **[`/reboot:app-basic`](../app-basic/SKILL.md)**: one feature hands
+  off ("just one feature", "something small, no questions").
+- **[`/reboot:app-just`](../app-just/SKILL.md)**: no design ("just
+  build it", "exactly what I typed").
+- **[`/reboot:brainstorm`](../brainstorm/SKILL.md)**: talk through or
+  brainstorm the architecture first.
+- **[`/reboot:build`](../build/SKILL.md)**: control the architecture
+  of the app it builds.
+- **[`/reboot:guide`](../guide/SKILL.md)**: be taught Reboot as it
+  builds ("explain as you build", "verbose", "teach me").
 
-Nothing is read, no folder is listed and no plan is made first. The
-hands-off paths are asked for, never offered by a dialog: the
-interactive build's opening names them in one line (the `app-design`
-skill, section 1), and `/reboot:help` lists them. A skill named in the
-prompt (`/reboot:app-whole …`) never comes here.
+Otherwise the response's first act (loading this skill was the first)
+is one dialog (AskUserQuestion), before any text, read or plan, header
+"How to build", question **How do you want to build <the app, in the
+prompt's nouns>?**, these options word for word:
+
+- **Guided (Recommended):** "A high-level design of what the app does
+  and the rules it keeps, for you to approve; then each part built,
+  and you can change any feature."
+- **Learn Reboot as it builds:** "The same, with each step explained:
+  the domain objects, the kinds of method, the rules and the scenarios
+  that prove them."
+- **Shape the architecture:** "Talk through the objects and the calls
+  between them first, then approve the API before any code is
+  written."
+- **Hands off:** "The whole app a real product needs, designed, built
+  and reviewed with no questions, handed over at the end."
+
+The dialog carries the explanation, since text at the start of a
+build is not reliably shown (hotel-300 to hotel-338 wrote the opening
+only in thinking; every dialog was shown). Then load, its argument the
+prompt followed by ", chosen": Guided, the
+[`app-guided` skill](../app-guided/SKILL.md); Learn, the
+[`guide` skill](../guide/SKILL.md); Shape, the
+[`build` skill](../build/SKILL.md); Hands off, the
+[`vibe` skill](../vibe/SKILL.md). A free answer is matched to the
+nearest (one feature only: `app-basic`; no design: `app-just`).
+
+Nothing is read, no folder is listed and no plan is made before the
+dialog. A skill named in the prompt (`/reboot:app-whole …`) never
+comes here.
 
 ## Routing
 
