@@ -33,7 +33,7 @@ the prompt alone, in the user's nouns:
 <its rule>; built as <a web app | an MCP UI | both>, with the backend
 ready for the other front door too.
 
-I'll build it with Reboot, starting from its domain model: the objects it keeps and the rules they follow, each rule proved by a scenario. You choose how: the first feature with you, then the rest without stopping; a feature at a time; or the whole app at once.
+I'll build it with Reboot, starting from its rules: what must always hold, each proved by a scenario, and the domain model that keeps them. You choose how: the first feature with you, then the rest without stopping; a feature at a time; or the whole app at once.
 ```
 
 Then the dialog **How should it be built?** (`AskUserQuestion`; where
