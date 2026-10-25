@@ -25,6 +25,8 @@ never by reading its file:
   questions").
 - **[`/reboot:app-just`](../app-just/SKILL.md)** when it asks for no
   design ("just build it", "exactly what I typed").
+- **[`/reboot:brainstorm`](../brainstorm/SKILL.md)** when it asks to
+  talk through or brainstorm the architecture first.
 - **[`/reboot:app-guided`](../app-guided/SKILL.md)** otherwise: the
   interactive build, whose first round asks whether to explain as it
   builds (learning mode, [`references/exegesis.md`](references/exegesis.md)).
