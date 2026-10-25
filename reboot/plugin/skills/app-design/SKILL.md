@@ -74,9 +74,12 @@ design, as a working name.
 Loaded by the `app-guided` skill, two lines after the paragraph, word
 for word: "This allows you to build an app at the level of the domain
 model: what the app does and the rules it keeps, for you to approve or
-change. To brainstorm its
-architecture with me first, use /reboot:brainstorm; to build the whole
-app without stopping, /reboot:app-whole." After a brainstorm (the
+change. To have it built hands off, use /reboot:vibe; to learn Reboot
+as it builds, /reboot:guide; to shape the architecture yourself,
+/reboot:build." (Its second sentence leaves out the path already
+taken: none on ", verbose" names /reboot:guide; on ", architect" it is
+instead "You'll approve the design, then the API before any servicer
+is written.") After a brainstorm (the
 argument ends ", from the brainstorm", or this conversation wrote
 `design/architecture.md`), instead: "This builds on the architecture we
 brainstormed (design/architecture.md): its objects and decisions, for
