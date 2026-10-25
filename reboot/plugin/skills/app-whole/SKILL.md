@@ -1,6 +1,6 @@
 ---
 name: app-whole
-description: Build a complete Reboot application in one go, asking nothing (or, with ", basic" after the prompt, one feature of it the same way). Designs every feature a real product in the domain needs, not only those the prompt names, builds the whole app with every rule and scenario without stopping, reviews its domain model and its look and fixes what the reviews find, and hands it over once, at the end. Use only when the user asks for it by name ("/reboot:app-whole", "one-shot", "one shot"); otherwise the app skill asks how to build and routes to app-guided, app-basic or app-whole.
+description: Build a complete Reboot application in one go, asking nothing (or, with ", basic" after the prompt, one feature of it the same way). Designs every feature a real product in the domain needs, not only those the prompt names, builds the whole app with every rule and scenario without stopping, reviews its domain model and its look and fixes what the reviews find, and hands it over once, at the end. Use only when the user asks for it by name ("/reboot:app-whole", "/reboot:vibe", "one-shot", "one shot"); otherwise the app skill asks how to build and routes to app-guided, app-basic or app-whole.
 argument-hint: [<app-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit, Agent, Skill
 ---
