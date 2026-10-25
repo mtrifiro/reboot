@@ -24,7 +24,10 @@ servicer is written." Then the dialog (AskUserQuestion), header
   design and I'll change it there."
 
 With no description, the line asks what the app is for and who uses
-it, and the dialog waits for the answer.
+it, and the dialog waits for the answer. After the `app` skill's
+dialog (", chosen" in the argument: its Shape option promised the
+talk first), neither the line nor the dialog: go straight to the
+brainstorm.
 
 ## 2. Then
 
