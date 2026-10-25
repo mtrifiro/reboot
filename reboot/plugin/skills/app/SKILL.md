@@ -27,6 +27,10 @@ never by reading its file:
   design ("just build it", "exactly what I typed").
 - **[`/reboot:brainstorm`](../brainstorm/SKILL.md)** when it asks to
   talk through or brainstorm the architecture first.
+- **[`/reboot:build`](../build/SKILL.md)** when it asks to control the
+  architecture of the app it builds; **[`/reboot:guide`](../guide/SKILL.md)**
+  when it asks to be taught Reboot as it builds. `/reboot:vibe` is
+  the `app-whole` skill by its short name.
 - **[`/reboot:app-guided`](../app-guided/SKILL.md)** otherwise: the
   interactive build, whose first round asks whether to explain as it
   builds (learning mode, [`references/exegesis.md`](references/exegesis.md)).
