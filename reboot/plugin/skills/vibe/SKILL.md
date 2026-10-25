@@ -9,5 +9,6 @@ allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 
 The response's first act is to load the
 [`app-whole` skill](../app-whole/SKILL.md) with the Skill tool, its
-argument the prompt as typed (", basic" kept when the user wrote it),
+argument the prompt as typed (", basic" kept when the user wrote it,
+", chosen" from the `app` skill's dialog dropped),
 and to follow it from the top. Nothing is said, read or asked first.
