@@ -24,7 +24,7 @@ nothing beyond what the line says.
 | --- | --- |
 | Installing dependencies (`uv sync`, `npm install`) | One package brings the whole backend: Reboot runs the servers, the routing between them and the storage itself, so there's nothing else to install or run. |
 | Generating code (`rbt generate`) | The API is written once, in Python. Reboot generates the typed server code, the React hooks and the MCP tools from it. |
-| Writing the design (`design/design.md`), with the line before its first part | The design comes before any code, and it stays true after: once the app runs, every object, rule and method in it links to the dashboard, which draws them from the code. In Reboot each object keeps its own state, so the domain model is also the storage: there's no database schema to design beside it. |
+| Writing the design, with the line before it when research ran long | The design comes before any code, and it stays true after: once the app runs, every object, rule and method in it links to the dashboard, which draws them from the code. In Reboot each object keeps its own state, so the domain model is also the storage: there's no database schema to design beside it. |
 | Writing the rules as a feature file (`tests/<feature>.feature`) | Each feature is one file, `tests/<feature>.feature`: its rules in plain words, and under each rule its scenarios, written Given, When, Then ("Given room 204 is booked for Friday, when Carlos books it for Friday, then he's told it's taken"). That is behavior-driven development (BDD): the spec, written before the code, in words you can check. |
 | Starting the dashboard | The dashboard draws the domain model and its rules from the code itself, so what you check there is what runs. Its Features page reads the feature files: each rule, its scenarios and their last run. |
 | Running the scenarios | The feature file is also the test suite: each scenario runs against the real backend, so the spec can't drift from the code. A rule the code breaks shows up as a failing scenario, in the rule's own words, not as a bug report. |
@@ -72,10 +72,9 @@ starting its research and showing the design. So:
 
 - In the design: when the research ends, one line on what it found
   that the design uses ("Kenmore Air flies Beavers, Otters and a
-  Caravan from Lake Union and Kenmore; the design uses those."), and
-  one before each of the design's three parts, which are written one
-  at a time (`design-first.md`, "The design document"); the first of
-  them carries the table's fact for writing the design.
+  Caravan from Lake Union and Kenmore; the design uses those."),
+  carrying the table's fact for writing the design; the design itself
+  follows as one message (`design-first.md`, section 2).
 
 - The go-ahead's line goes out before the references are read, and
   the reading gets no line of its own: when it is long, the next
