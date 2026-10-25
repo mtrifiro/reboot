@@ -126,7 +126,9 @@ design starts from it.", and in the same response the dialog
 On the first, load the [`app-guided` skill](../app-guided/SKILL.md)
 with the Skill tool; on the second, the
 [`app-design` skill](../app-design/SKILL.md); either's argument is the
-app's description followed by ", from the brainstorm". A free answer
+app's description followed by ", from the brainstorm" (and ",
+architect" when this skill's argument ended with it: the `build`
+skill's path). A free answer
 that asks to build or design it is the same. On the third, or a free
 answer about the architecture, the conversation goes on and the notes
 are rewritten when it next ends.
