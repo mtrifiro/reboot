@@ -38,14 +38,16 @@ counts, layouts and names the brief left open, in one paragraph:
 floors 2–8 with 8 rooms each, numbered 201–808, …>
 
 **Proposed features, in build order**
-Only the first is built next; the rest, and their order, are yours to
-change at any point.
+Four or five, in the order they would be built; yours to change.
 1. **<First feature> (first).** <Why it comes first: the central
    object and a rule the user can see it keep.> Rules:
    - <A rule, one line, the key words in bold.>
    - …
 2. <Feature>
 3. …
+
+**Not in this build:** <what else a real app in the domain needs, one
+line each, Who may do what among them>. Built only when you ask.
 
 **Domain model (proposed)**
 - **<Object>:** one per <what>, keyed by <id>. It holds <fields, in
