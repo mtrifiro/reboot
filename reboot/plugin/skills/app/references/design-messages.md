@@ -31,7 +31,8 @@ hotel; keep the shape, not the nouns.
 brief, the features and their rules, the domain model, the pages and
 sign-in, and what Reboot does for you here.
 
-**Brief.** <Who uses <app name> (working name), and the one question
+**Brief.** <Who uses <app name> ("(working name)" after it unless the
+user named the app), and the one question
 the main page answers.> The palette is **<palette, in words, with its
 band and paper>**.
 
