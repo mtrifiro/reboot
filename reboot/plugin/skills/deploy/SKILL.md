@@ -233,7 +233,8 @@ and domain stay put.
    data confirms the WebSocket path works cross-origin too.
 4. **The release record:** `python3 scripts/release_record.py
    --revision <N> --api-url <url> --site <url>` from the deploy's
-   output.
+   output. It appends a row to `deploy/ledger.jsonl`: what shipped,
+   and the tests and design it rests on.
    Close with the **Reboot Observe · live** card
    ([`app/references/flywheel.md`](../app/references/flywheel.md)).
 
