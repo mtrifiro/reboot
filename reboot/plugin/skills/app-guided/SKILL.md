@@ -117,6 +117,11 @@ steps 4 and 6 (its reviews, step 5, are the one-shot's own).
   ([`../app/references/exegesis.md`](../app/references/exegesis.md)).
   Between reports, each step line gains one sentence of why, and
   nothing more.
+- **Architect,** when the argument carries ", architect" (the `build`
+  skill): read [`../app/references/architect.md`](../app/references/architect.md)
+  first; the API is approved before any servicer, the first handoff
+  shows the structure, and a short architecture review comes before
+  the second feature.
 - **Files a part at a time** with the Write tool, never every file in
   one shell command.
 - **Read this plugin with the Read tool,** one call per file, several
