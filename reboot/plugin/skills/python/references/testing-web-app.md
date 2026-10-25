@@ -136,6 +136,7 @@ the app in one scenario.
 | `"alice" opens the web app in light mode`                                     | Opens the app's origin in alice's browser, in that color scheme (`light` or `dark`; `at "/path"` before the mode for another page) |
 | `"alice" clicks the "Open Account" button in the web app`                     | Clicks the element of that role and accessible name                                                                                |
 | `"alice" fills "Amount ($)" in the web app with `250``                        | Fills the field with that label                                                                                                    |
+| `"alice" fills "Guest name" in the web app with `"Mme. Laurent"``             | The same, with text: a JSON string, quoted inside the backticks                                                                    |
 | `"alice" selects "<first account id>" in "From Account" in the web app`       | Picks an option in the select with that label                                                                                      |
 | `"alice" checks "Remember me" in the web app` / `unchecks`                    | Sets the checkbox with that label                                                                                                  |
 | `"alice" presses "Enter" in the web app`                                      | Presses a key in the focused element                                                                                               |
@@ -153,6 +154,15 @@ the app in one scenario.
   `link`, `tab`, `checkbox`, `radio`, `menuitem`, `option`, `row`,
   `table`. The name is the element's accessible name, matched
   exactly.
+- **The value after `with` is JSON,** like every step value: text
+  in quotes inside the backticks, `with `"Mme. Laurent"``; a number
+  bare, `with `250``. Unquoted text fails with "must be JSON".
+- **`sees "<text>"` must match one element.** It finds the text
+  anywhere on the page, part of an element's text included, and fails
+  ("strict mode violation") when more than one element shows it: a
+  status word that is also in a legend, a heading or a menu. Name the
+  element it is in, `sees "Waiting" in the "Room 204" row`, with a
+  role from the list above, or check words only that element shows.
 - **Quoted text may say `<name>`** for a saved value: `sees "<alice account id>" in the "Your Accounts" table`.
 - `eventually sees` takes `within`; `sees` looks now and takes
   none. A backend change the page shows after a reactive read is
