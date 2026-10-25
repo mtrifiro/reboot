@@ -1819,7 +1819,9 @@ tr:hover td {
 .empty :is(h1, h2, h3) {
   color: var(--ink);
 }
+/* .actions is a flex row, which text-align doesn't reach. */
 .empty .actions {
+  justify-content: center;
   margin-top: var(--space-3);
 }
 /* A search that matched nothing: one sentence that repeats the search
