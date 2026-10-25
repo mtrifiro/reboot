@@ -208,7 +208,7 @@ the house exists to avoid (hotel-203's comp).
 
 2. Set the palette the design names, from the project root:
    `python3 '<this skill>/assets/palette.py' sage-teal` (with no name
-   it lists them). The palettes: house (Reboot's own: cream paper, navy ink and accent), sand-bronze, sand-brown, sand-orange, sand-gold, olive-grass, sage-teal, slate-blue, slate-iris, mauve-plum and mauve-crimson. Each but house is a gray and
+   it lists them). The palettes: house (Reboot's own: cream paper, navy ink and accent), sand-bronze, sand-brown, sand-orange, sand-gold, olive-grass, sage-teal, sage-jade, slate-blue, slate-iris, slate-indigo, mauve-plum, mauve-crimson, mauve-violet, mauve-pink and gray-gray. Each but house is a gray and
    an accent from Radix Colors: the page, text and lines from the
    gray, the page head's band a soft tint of the accent with the
    accent's darkest step for its text, the accent kept for the primary
@@ -220,7 +220,7 @@ the house exists to avoid (hotel-203's comp).
    tokens in the light and dark blocks and names the palette, band
    and paper at the stylesheet's top (keep that line: it is the
    colors' license notice). That is the whole of the look's change:
-   one of the eleven palettes with a band and a paper. Every
+   one of the sixteen palettes with a band and a paper. Every
    other token keeps its value unless the user supplied a brand (a
    site or tokens to read); a theme the build invents for the domain
    ("newsprint", "ink on warm paper") is not a brand. Tokens a page
