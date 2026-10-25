@@ -191,7 +191,10 @@ soft corners, for every domain; the design picks only its palette.
 
 **Not bland.** A page has one strong surface and one
 voice: the page head sits in the `brand-band` (`--accent-deep`), with
-the stats row overlapping its lower edge (the stylesheet's anatomy);
+the stats row overlapping its lower edge (the stylesheet's anatomy),
+and the band's first child is `<BandArt name="<the app's name>" />`
+(`patterns/BandArt.tsx`), on every page: the app's own pattern of
+shapes, decoration only, never drawn or recoloured by hand;
 a brand mark in the accent stands beside the name; the display face
 carries the title and every figure; a state that needs a person is
 tinted as well as edged. White boxes on a grey field, the page head
