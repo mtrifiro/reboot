@@ -76,8 +76,9 @@ for word: "This allows you to build an app at the level of the domain
 model: what the app does and the rules it keeps, for you to approve or
 change. To have it built hands off, use /reboot:vibe; to learn Reboot
 as it builds, /reboot:guide; to shape the architecture yourself,
-/reboot:build." (Its second sentence leaves out the path already
-taken: none on ", verbose" names /reboot:guide; on ", architect" it is
+/reboot:build." (After the `app` skill's dialog, ", chosen" in the argument, only
+its first sentence: the dialog already named the paths. Its second
+sentence leaves out the path already taken: none on ", verbose" names /reboot:guide; on ", architect" it is
 instead "You'll approve the design, then the API before any servicer
 is written.") After a brainstorm (the
 argument ends ", from the brainstorm", or this conversation wrote
