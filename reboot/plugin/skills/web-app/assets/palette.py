@@ -7,7 +7,7 @@
                                        # with its band (calm, deep or hue) and
                                        # paper (white or tinted); calm and white
                                        # when not given
-    python3 <this file> pick           # one of the ten with a band and a paper,
+    python3 <this file> pick           # one of the fifteen with a band and a paper,
                                        # picked by this folder's name: prints
                                        # "sand-brown --band deep --paper tinted"
     python3 <this file> pick sage-teal slate-blue sand-gold
@@ -21,8 +21,8 @@
 `house` is Reboot's own (cream paper, navy ink and accent); the others
 pair a gray and an accent from Radix Colors (palettes.json beside this
 file; its MIT notice is palettes.LICENSE). A Radix palette has a band
-and a paper as well, so ten palettes make sixty pages, not ten hues of
-one: the band (the page head) is calm, a light tint of the accent; deep,
+and a paper as well, so fifteen palettes make ninety pages, not fifteen
+hues of one: the band (the page head) is calm, a light tint of the accent; deep,
 the gray's darkest step, as the top bar; or hue, the accent's darkest
 step, as the house look's navy. The paper is white, the gray's second
 step, or tinted, its third, the panels lifting off it as they do off the
@@ -151,19 +151,15 @@ def pick_feel(folder: str) -> tuple[str, str]:
 def pick(names: list[str], folder: str) -> str:
     """One of the names, the same for a folder every time, different
     across folders: two builds of one prompt don't share a palette.
-    With no names, the ten (never house, which is asked for by name):
-    a build's own nomination repeats (hotel-330 to -332 each put
-    sand-bronze first for a hotel), the folder's hash doesn't. The gray
-    family (the part before the hyphen) is picked first, then the
-    accent within it: four of the ten are sand, and a flat pick put
-    four hotels in a row on warm paper."""
+    With no names, the fifteen (never house, which is asked for by
+    name): a build's own nomination repeats (hotel-330 to -332 each put
+    sand-bronze first for a hotel), the folder's hash doesn't. Each is
+    as likely as the next: picking the gray family first (10-23) gave
+    olive-grass, alone in its family, one build in five (hotel-335 and
+    -337 both Meadow)."""
     def at(key: str, n: int) -> int:
         return int(hashlib.sha256(key.encode()).hexdigest(), 16) % n
-    families: dict[str, list[str]] = {}
-    for name in names:
-        families.setdefault(name.split("-")[0], []).append(name)
-    family = sorted(families)[at(folder, len(families))]
-    return families[family][at(folder + "/" + family, len(families[family]))]
+    return sorted(names)[at(folder, len(names))]
 
 
 def main(argv: list[str]) -> int:
@@ -207,7 +203,7 @@ def main(argv: list[str]) -> int:
         name, off = nearest(brand.lower(), found)
         p = found[name]
         print(f"nearest to {brand}: {name} ({p['label']}: {p['colours']}), accent {p['light']['accent']}, "
-              f"{off:.0f} degrees of hue away" + ("; close" if off <= 15 else "; the nearest of the eleven, not a match"))
+              f"{off:.0f} degrees of hue away" + ("; close" if off <= 15 else "; the nearest of the sixteen, not a match"))
         if argv[2:] != ["--set"]:
             return 0
         argv = [name]
@@ -216,7 +212,7 @@ def main(argv: list[str]) -> int:
         accent, ink = light_value(css, "accent"), light_value(css, "ink")
         for name, p in found.items():
             mark = "*" if (p["light"]["accent"], p["light"]["ink"]) == (accent, ink) else " "
-            print(f"{mark} {name:<14} {p.get('label', ''):<8} {p.get('colours', ''):<18} "
+            print(f"{mark} {name:<14} {p.get('label', ''):<9} {p.get('colours', ''):<18} "
                   f"accent {p['light']['accent']} light, {p['dark']['accent']} dark")
         return 0
     if not STYLESHEET.is_file():
@@ -227,7 +223,7 @@ def main(argv: list[str]) -> int:
     if not argv:
         for name, p in found.items():
             mark = "*" if (p["light"]["accent"], p["light"]["ink"]) == (accent, ink) else " "
-            print(f"{mark} {name:<14} {p.get('label', ''):<8} {p.get('colours', ''):<18} "
+            print(f"{mark} {name:<14} {p.get('label', ''):<9} {p.get('colours', ''):<18} "
                   f"accent {p['light']['accent']} light, {p['dark']['accent']} dark")
         return 0
     name = argv[0]
