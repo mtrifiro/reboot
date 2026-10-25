@@ -30,6 +30,9 @@ import re
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import band_art  # noqa: E402  (beside this file)
+
 FRAME = """<!doctype html>
 <html lang="en">
 <head>
@@ -160,6 +163,9 @@ def main(argv: list[str]) -> int:
         band = re.search(r"<section[^>]*\bbrand-band\b.*?</section>\s*", page, re.S)
         if band:
             page = page[:band.end()] + "<main>\n" + page[band.end():].rstrip() + "\n</main>\n"
+    # The band's art, the app's own pattern (band_art.py, BandArt.tsx)
+    if "band-art" not in page:
+        page = re.sub(r"(<section[^>]*\bbrand-band\b[^>]*>)", lambda m: m.group(1) + band_art.svg(args.app), page, count=1)
     if "brand-band" not in page:
         problems.append("no brand-band: the page head sits in the band (ui-design.md, Not bland)")
     if not re.search(r'class="[^"]*\bprimary\b', page):
