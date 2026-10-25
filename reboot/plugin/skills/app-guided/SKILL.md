@@ -29,8 +29,8 @@ response's first act, before any text or other tool call, is to load
 it with the Skill tool (`/reboot:app-design <the prompt>`), never by
 reading its file; when the host asks for a plan before anything, the
 plan is one item, "Propose the design for <app>", and the path's list
-comes after the go-ahead. Right after it loads, its opening goes out
-as text. It says the opening, asks nothing (the round's recommended
+comes after the go-ahead. Its opening goes out as text right after
+that item (its **Where the opening goes**). It says the opening, asks nothing (the round's recommended
 answers go under **Assumed**), reads what the design needs and writes the whole proposed design once,
 drawn as a page beside the chat, its summary in the chat. On a free answer that refuses the design ("just build
 it") the app-design skill hands the prompt to the [`app-just`

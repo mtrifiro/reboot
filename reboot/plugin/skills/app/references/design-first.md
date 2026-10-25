@@ -23,8 +23,9 @@ in the shape of [`design-messages.md`](design-messages.md).
 ## 3. The go-ahead
 
 The proposed design (section 2) is open as a page beside the chat and
-its summary sits just above the dialog, in the same response; for a web app built by the `app-guided` skill, the
-comp's line comes between them
+its summary went out as text when the page opened (the `app-design`
+skill, section 3, step 4), in the same response; for a web app built by the `app-guided` skill, the
+comp's lines come after it
 ([`../../web-app/references/comp.md`](../../web-app/references/comp.md)):
 a mockup of the main page in the look, served and opened in the pane. Then
 one dialog (`AskUserQuestion` where available,
@@ -269,7 +270,7 @@ unchanged, but for these questions.
 ## Never
 
 - "Ready to build this design?" without the design's page open beside the
-  chat and its summary just above the dialog (section 3): the question
+  chat and its summary sent as text above the dialog (section 3): the question
   asks the user to judge it. A sentence that the design is in
   `design/design.md` with no page drawn, or a message drafted only in
   thinking, is not it.

@@ -25,9 +25,9 @@ questions and its go-ahead are what this skill leaves out.
 The response's first act is to load the [`app-design`
 skill](../app-design/SKILL.md) with the Skill tool (`/reboot:app-design <the
 prompt>`), never by reading its file. Loaded by this skill it asks
-nothing. Right after it loads, its opening goes out as text (the two
-Skill loads are the response's only tool calls before it; hotel-200
-said nothing for 69 seconds and its first text was the design), its
+nothing. Its opening goes out as text where that skill's **Where the opening
+goes** says (hotel-200 said nothing for 69 seconds and its first text
+was the design), its
 third sentence "No questions: the whole app is designed, then built,
 tested and handed over when it is done." word for word. Then it reads
 what the design needs, and writes the whole proposed design with the
