@@ -57,7 +57,8 @@ The build's first words: one short paragraph of three sentences, in
 the user's nouns, sent as text. When nothing is sent, the Claude app
 shows a paraphrase of the build's thinking in its place (hotel-200 saw
 one sentence and never the opening), so it is sent, and it carries
-everything that matters on its own, the most important first. No name yet: the app is named in the
+everything that matters on its own, the most important first. No name yet, unless the prompt gives
+one (**The name the user gives**, below): the app is named in the
 design, as a working name.
 
 1. "An app for <what it is>, used by <who>." (the rules below)
@@ -105,7 +106,16 @@ Rules for that response:
   response's next tool call.
 - Nothing about how it will be built beyond the dialog's own options:
   **What to expect** is the `app-guided` skill's, after the go-ahead.
-- **No name before the design.** The design proposes one, with the
+- **The name the user gives.** A name the prompt gives the app is
+  its name, final: "called Compass", "named Compass", or a name and a
+  colon starting the prompt ("Compass: a CRM for my design partners").
+  The opening starts with it ("Compass, an app for …, used by …"), no
+  candidates are drawn, the design never adds "(working name)", and it
+  is the name shown in the top bar, the title and the band. It is
+  never read as a brand's colours: the palette is chosen as for a
+  prompt that names none. A brand is named as one ("our brand", a
+  site, a colour).
+- **No name before the design** otherwise. The design proposes one, with the
   palette, under what the build assumed. Its first mention in the
   Brief, the Brief's first sentence, in the chat and in
   `design/design.md`, is followed by "(working name)": "**Brief.**
