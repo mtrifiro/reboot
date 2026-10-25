@@ -264,10 +264,6 @@ tests/opening_accounts.recordings/
   whatever the developer's OS theme, so the recording shows what the
   scenario says, and an app that follows the OS theme is asserted on
   in the theme the step names.
-- **At Reboot 1.6.0 the step has no color scheme**: write
-  `"alice" opens the web app` (optionally `at "/path"`); 1.6.0 refuses
-  `in light mode`, and the release after it requires it. Check the
-  version with `uv run rbt --version`.
 
 ## Running
 
