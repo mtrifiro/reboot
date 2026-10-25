@@ -72,6 +72,15 @@ round, or one message), so no later step stalls:
 Export the secrets as environment variables; never pass them as
 command-line flags (they would be visible in the process listing).
 
+**Before the first deploy, who may do what.** An app built without
+its **Who may do what** feature (`design/design.md`'s Sign-in says
+"Everyone signed in can do everything for now") lets anyone who signs
+in do everything, and with a real provider that is anyone with, say, a
+Google account. Say so in one line and ask in a question dialog
+(`AskUserQuestion` where available): "Build Who may do what first"
+(recommended) or "Deploy anyway". Never deploy such an app without
+that answer.
+
 ## Step 2 — Deploy the backend to Reboot Cloud
 
 The canonical backend-deploy procedure is
