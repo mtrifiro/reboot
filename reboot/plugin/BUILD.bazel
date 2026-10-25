@@ -3,3 +3,9 @@ filegroup(
     srcs = ["install.sh"],
     visibility = ["//visibility:public"],
 )
+
+filegroup(
+    name = "model_diff",
+    srcs = ["skills/app/assets/scripts/model_diff.py"],
+    visibility = ["//visibility:public"],
+)

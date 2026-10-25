@@ -145,8 +145,12 @@ feature:
 
 18. Every scenario passes (or is `@blocked` with its reason) and
     mypy is green — together they are what catches contract bugs.
-    Point the user at the dashboard's Features page and at the
+    Write the handoff in the shape of
+    [`app/references/design-messages.md`](../../app/references/design-messages.md),
+    covering every feature. Point the user at the dashboard's Features page and at the
     recordings of the browser scenarios, ask them to accept the
-    design as built or say what to change, and, unless they asked
+    design as built or say what to change (on a yes, record it as
+    [`app/references/accept-design.md`](../../app/references/accept-design.md)
+    says), and, unless they asked
     for only a web app, end with the one-line offer of an MCP UI
     (`app` skill, "At handoff").
