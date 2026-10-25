@@ -1,7 +1,7 @@
 ---
 name: app
 description: "Build a Reboot application from a description: the interactive build (the app-guided skill: a design to approve, each part built and explained), learning mode asked in its first round; a prompt that asks for the whole app at once loads the app-whole skill, one feature hands off the app-basic skill. Holds the front-door routing every build uses: an MCP App (ChatGPT, Claude, VSCode, Goose) or a standalone web app by the prompt's own words, otherwise the web app, the other offered at handoff. Use for any prompt that asks to build an app and names no skill."
-argument-hint: [<app-description>]
+argument-hint: '[<app-description>, or <Name>: <app-description>]'
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 ---
 
