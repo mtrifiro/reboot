@@ -28,8 +28,8 @@ code, no `rbt generate`, no project scaffold, no dependency installed.
   is asked before the design: each of the round's questions takes its
   recommended answer (section 2), listed under **Assumed**, and the
   go-ahead is where the user changes any. The opening goes out as text
-  right after this skill loads (the Skill loads are the only tool calls
-  before it), and the design follows in the same response. The app-guided skill's go-ahead, **Ready to build this design?**, follows the design in
+  where section 1's **Where the opening goes** says, and the design
+  follows in the same response. The app-guided skill's go-ahead, **Ready to build this design?**, follows the design in
   the same response
   ([`app/references/design-first.md`](../app/references/design-first.md),
   section 3); on the prompt-by-prompt path, that section's closing line.
@@ -38,9 +38,8 @@ code, no `rbt generate`, no project scaffold, no dependency installed.
   the scope (every feature a real product in the domain needs, every
   role) and the answers the round would have asked, and overrides
   "Four or five features" and "No roles first" below; everything
-  else below holds. The opening goes out as text right after this
-  skill loads: the Skill loads are the response's only tool calls
-  before it, and the first read comes after it. Its third sentence is
+  else below holds. The opening goes out as text where section 1's
+  **Where the opening goes** says, before the first read. Its third sentence is
   "No questions: the whole app is designed, then built, tested and
   handed over when it is done." word for word (for ", basic", "No
   questions: one feature is designed, then built, tested and handed
@@ -80,13 +79,20 @@ app without stopping, /reboot:app-whole." After a brainstorm (the
 argument ends ", from the brainstorm", or this conversation wrote
 `design/architecture.md`), instead: "This builds on the architecture we
 brainstormed (design/architecture.md): its objects and decisions, for
-you to approve or change." On this path nothing is asked before the design,
-so no dialog forces the opening out: it is the response's text, sent
-before the task list's update and before the first read (hotel-301
-drafted it in thinking, then updated the list and read; the user saw
-only the app's paraphrase of that thinking, one compressed sentence
-ending "confirm before I proceed"). (the hands-off paths are asked for, never offered
-by a dialog: the `app` skill).
+you to approve or change." (the hands-off paths are asked for, never offered by a dialog: the
+`app` skill).
+
+**Where the opening goes.** As text right after the response's first
+tool call other than the Skill loads returns, before the first read:
+that call is the plan's or task list's one item, "Propose the design
+for <app>", on every path, on its own before the round's dialog too;
+with neither tool, the opening is the text right after the Skill
+loads. Never as the
+response's first words before every tool call: in all eleven builds
+from hotel-300 to hotel-336 an opening due there was written only in
+thinking, and the user saw the app's paraphrase of it and never the
+lines after it, while every short line that followed a tool result
+("Writing the design.") was sent.
 
 Example: "An app for a 56-room boutique hotel, used by its front desk
 and housekeeping. I'd start with the room status floor plan: every
@@ -96,9 +102,8 @@ build; then I'll design it, starting from its rules."
 
 Rules for that response:
 
-- Written as the response's text right after this skill loads (the
-  Skill loads are the only tool calls before it) and before any other
-  tool call, and the same three sentences wherever it is drafted:
+- Written as the response's text where **Where the opening goes**
+  says, and the same three sentences wherever it is drafted:
   never a longer or different version in thinking, since that is what
   the user may see instead.
 - Nothing more in it: what the app keeps track of, the front door and
@@ -317,8 +322,12 @@ design; reading the references gets no line of its own.
    a path, hotel-256); elsewhere, the link. The pane keeps one tab per
    address, so nothing else is ever opened at this one: the mockup has
    its own server and address (`web-app/references/comp.md`).
-4. In the chat, the design's summary, in the shape of
+4. In the chat, as text right after the page opens (the tool result
+   that opened it), the design's summary, in the shape of
    `design-messages.md`, "The proposed design", its link to the page.
+   Never held back to go with the go-ahead's dialog: hotel-306 and
+   hotel-335 held it there and wrote it only in thinking, so the
+   dialog asked about a design the chat never showed.
 
 Where commands can't run (a planning-only session), the whole design
 goes in the chat instead, in `design.md`'s shape without its methods.
