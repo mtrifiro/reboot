@@ -548,5 +548,280 @@
     "on-deep": "#eeeef0"
    }
   }
+ },
+ "slate-indigo": {
+  "label": "Midnight",
+  "colours": "slate and indigo",
+  "source": "Radix Colors slate with indigo-9 (light), indigo-11 (dark)",
+  "light": {
+   "bg": "#f9f9fb",
+   "bg-2": "#fcfcfd",
+   "panel": "#fcfcfd",
+   "ink": "#1c2024",
+   "muted": "#60646c",
+   "line": "#d9d9e0",
+   "track": "#e8e8ec",
+   "accent": "#3e63dd",
+   "on-accent": "#ffffff",
+   "accent-deep": "#dde1f0",
+   "on-deep": "#1f2d5c",
+   "accent-tint": "#edf2fe",
+   "bg-glow": "#f0f0f3",
+   "bar": "#1c2024",
+   "on-bar": "#fcfcfd",
+   "good": "#3f7a2e",
+   "warn": "#a8660f",
+   "bad": "#b42318"
+  },
+  "dark": {
+   "bg": "#111113",
+   "bg-2": "#18191b",
+   "panel": "#212225",
+   "ink": "#edeef0",
+   "muted": "#b0b4ba",
+   "line": "#363a3f",
+   "track": "#2e3135",
+   "accent": "#9eb1ff",
+   "on-accent": "#111113",
+   "accent-deep": "#141726",
+   "on-deep": "#d6e1ff",
+   "accent-tint": "#1d2e62",
+   "bg-glow": "#18191b",
+   "bar": "#272a2d",
+   "on-bar": "#edeef0",
+   "good": "#8ccb6b",
+   "warn": "#f2c784",
+   "bad": "#f07a6e"
+  },
+  "deep": {
+   "light": {
+    "accent-deep": "#1c2024",
+    "on-deep": "#fcfcfd"
+   },
+   "dark": {
+    "accent-deep": "#272a2d",
+    "on-deep": "#edeef0"
+   }
+  }
+ },
+ "mauve-violet": {
+  "label": "Amethyst",
+  "colours": "mauve and violet",
+  "source": "Radix Colors mauve with violet-9 (light), violet-11 (dark)",
+  "light": {
+   "bg": "#faf9fb",
+   "bg-2": "#fdfcfd",
+   "panel": "#fdfcfd",
+   "ink": "#211f26",
+   "muted": "#65636d",
+   "line": "#dbd8e0",
+   "track": "#eae7ec",
+   "accent": "#6e56cf",
+   "on-accent": "#ffffff",
+   "accent-deep": "#e3def0",
+   "on-deep": "#2f265f",
+   "accent-tint": "#f4f0fe",
+   "bg-glow": "#f2eff3",
+   "bar": "#211f26",
+   "on-bar": "#fdfcfd",
+   "good": "#3f7a2e",
+   "warn": "#a8660f",
+   "bad": "#b42318"
+  },
+  "dark": {
+   "bg": "#121113",
+   "bg-2": "#1a191b",
+   "panel": "#232225",
+   "ink": "#eeeef0",
+   "muted": "#b5b2bc",
+   "line": "#3c393f",
+   "track": "#323035",
+   "accent": "#baa7ff",
+   "on-accent": "#121113",
+   "accent-deep": "#1b1525",
+   "on-deep": "#e2ddfe",
+   "accent-tint": "#33255b",
+   "bg-glow": "#1a191b",
+   "bar": "#2b292d",
+   "on-bar": "#eeeef0",
+   "good": "#8ccb6b",
+   "warn": "#f2c784",
+   "bad": "#f07a6e"
+  },
+  "deep": {
+   "light": {
+    "accent-deep": "#211f26",
+    "on-deep": "#fdfcfd"
+   },
+   "dark": {
+    "accent-deep": "#2b292d",
+    "on-deep": "#eeeef0"
+   }
+  }
+ },
+ "sage-jade": {
+  "label": "Evergreen",
+  "colours": "sage and jade",
+  "source": "Radix Colors sage with jade-11 (light), jade-11 (dark)",
+  "light": {
+   "bg": "#f7f9f8",
+   "bg-2": "#fbfdfc",
+   "panel": "#fbfdfc",
+   "ink": "#1a211e",
+   "muted": "#5f6563",
+   "line": "#d7dad9",
+   "track": "#e6e9e8",
+   "accent": "#208368",
+   "on-accent": "#ffffff",
+   "accent-deep": "#d6e6de",
+   "on-deep": "#1d3b31",
+   "accent-tint": "#e6f7ed",
+   "bg-glow": "#eef1f0",
+   "bar": "#1a211e",
+   "on-bar": "#fbfdfc",
+   "good": "#3f7a2e",
+   "warn": "#a8660f",
+   "bad": "#b42318"
+  },
+  "dark": {
+   "bg": "#101211",
+   "bg-2": "#171918",
+   "panel": "#202221",
+   "ink": "#eceeed",
+   "muted": "#adb5b2",
+   "line": "#373b39",
+   "track": "#2e3130",
+   "accent": "#1fd8a4",
+   "on-accent": "#101211",
+   "accent-deep": "#121c18",
+   "on-deep": "#adf0d4",
+   "accent-tint": "#0b3b2c",
+   "bg-glow": "#171918",
+   "bar": "#272a29",
+   "on-bar": "#eceeed",
+   "good": "#8ccb6b",
+   "warn": "#f2c784",
+   "bad": "#f07a6e"
+  },
+  "deep": {
+   "light": {
+    "accent-deep": "#1a211e",
+    "on-deep": "#fbfdfc"
+   },
+   "dark": {
+    "accent-deep": "#272a29",
+    "on-deep": "#eceeed"
+   }
+  }
+ },
+ "gray-gray": {
+  "label": "Graphite",
+  "colours": "black and white",
+  "source": "Radix Colors gray with gray-12 (light), gray-12 (dark)",
+  "light": {
+   "bg": "#f9f9f9",
+   "bg-2": "#fcfcfc",
+   "panel": "#fcfcfc",
+   "ink": "#202020",
+   "muted": "#646464",
+   "line": "#d9d9d9",
+   "track": "#e8e8e8",
+   "accent": "#202020",
+   "on-accent": "#ffffff",
+   "accent-deep": "#e0e0e0",
+   "on-deep": "#202020",
+   "accent-tint": "#f0f0f0",
+   "bg-glow": "#f0f0f0",
+   "bar": "#202020",
+   "on-bar": "#fcfcfc",
+   "good": "#3f7a2e",
+   "warn": "#a8660f",
+   "bad": "#b42318"
+  },
+  "dark": {
+   "bg": "#111111",
+   "bg-2": "#191919",
+   "panel": "#222222",
+   "ink": "#eeeeee",
+   "muted": "#b4b4b4",
+   "line": "#3a3a3a",
+   "track": "#313131",
+   "accent": "#eeeeee",
+   "on-accent": "#111111",
+   "accent-deep": "#191919",
+   "on-deep": "#eeeeee",
+   "accent-tint": "#2a2a2a",
+   "bg-glow": "#191919",
+   "bar": "#2a2a2a",
+   "on-bar": "#eeeeee",
+   "good": "#8ccb6b",
+   "warn": "#f2c784",
+   "bad": "#f07a6e"
+  },
+  "deep": {
+   "light": {
+    "accent-deep": "#202020",
+    "on-deep": "#fcfcfc"
+   },
+   "dark": {
+    "accent-deep": "#2a2a2a",
+    "on-deep": "#eeeeee"
+   }
+  }
+ },
+ "mauve-pink": {
+  "label": "Rose",
+  "colours": "mauve and pink",
+  "source": "Radix Colors mauve with pink-10 (light), pink-11 (dark)",
+  "light": {
+   "bg": "#faf9fb",
+   "bg-2": "#fdfcfd",
+   "panel": "#fdfcfd",
+   "ink": "#211f26",
+   "muted": "#65636d",
+   "line": "#dbd8e0",
+   "track": "#eae7ec",
+   "accent": "#cf3897",
+   "on-accent": "#ffffff",
+   "accent-deep": "#ebdae8",
+   "on-deep": "#651249",
+   "accent-tint": "#fee9f5",
+   "bg-glow": "#f2eff3",
+   "bar": "#211f26",
+   "on-bar": "#fdfcfd",
+   "good": "#3f7a2e",
+   "warn": "#a8660f",
+   "bad": "#b42318"
+  },
+  "dark": {
+   "bg": "#121113",
+   "bg-2": "#1a191b",
+   "panel": "#232225",
+   "ink": "#eeeef0",
+   "muted": "#b5b2bc",
+   "line": "#3c393f",
+   "track": "#323035",
+   "accent": "#ff8dcc",
+   "on-accent": "#121113",
+   "accent-deep": "#21121d",
+   "on-deep": "#fdd1ea",
+   "accent-tint": "#4b143d",
+   "bg-glow": "#1a191b",
+   "bar": "#2b292d",
+   "on-bar": "#eeeef0",
+   "good": "#8ccb6b",
+   "warn": "#f2c784",
+   "bad": "#f07a6e"
+  },
+  "deep": {
+   "light": {
+    "accent-deep": "#211f26",
+    "on-deep": "#fdfcfd"
+   },
+   "dark": {
+    "accent-deep": "#2b292d",
+    "on-deep": "#eeeef0"
+   }
+  }
  }
 }
