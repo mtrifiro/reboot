@@ -92,8 +92,10 @@ line each, with its link: "`book` is a Transaction ([decided](…))".>
 ## Sign-in
 
 <Who signs in, how in development (the development sign-in's five
-built-in accounts, Alice, Ben, Carlos, Dani and Esi, and the role each
-plays) and at deploy, and what someone with no role sees.>
+built-in accounts, Alice, Ben, Carlos, Dani and Esi) and at deploy.
+Before Who may do what is built, one line: "Everyone signed in can do
+everything for now; roles come with Who may do what." After it, the
+role each account plays and what someone with no role sees.>
 
 ## Review table
 
