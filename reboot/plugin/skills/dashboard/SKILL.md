@@ -86,12 +86,26 @@ wherever its page is. Probe it:
 curl -sf -o /dev/null --max-time 2 http://127.0.0.1:9871/
 ```
 
-If that succeeds, a dashboard is already up — do not start a second
-one. Surface the URL and stop.
+If that succeeds, something is serving there, but it may be another
+project's dashboard: a project built earlier on the same machine keeps
+its dashboard running, and its links then show that project's model,
+not this one's. Check which folder it runs from, from the project
+root:
 
-(If port 9871 is held by something that is _not_ this project's
-dashboard — rare — start on another port with `--port=<port>` and
-surface that port instead.)
+```sh
+pid=$(lsof -nP -iTCP:9871 -sTCP:LISTEN -t | head -1)
+ps -o command= -p "$(ps -o ppid= -p "$pid")" | grep -F "$PWD/" \
+  && echo "this project's" || echo "another project's"
+```
+
+- **This project's:** do not start a second one. Surface the URL and
+  stop.
+- **Another project's** (or nothing named in the command): leave it
+  running, since it isn't this build's to stop, and start this
+  project's own on the first free port from 9872 up (`lsof -nP
+  -iTCP:<port> -sTCP:LISTEN` prints nothing for a free one), with
+  `--port=<port>` in Step 4. Every dashboard link from then on uses
+  that port, and the hand-over says why it isn't 9871.
 
 ## Step 4 — Start the dashboard
 
@@ -101,13 +115,27 @@ From the project root, in its own background shell:
 uv run rbt dashboard
 ```
 
+**In the Claude app** (or any host with a Browser pane, such as the
+app's `preview_start` tool), start it so it opens nothing outside the
+app, and show it in the pane instead (`app` skill, "Open the dashboard
+in the app's Browser pane"):
+
+```sh
+BROWSER=true uv run rbt dashboard
+```
+
+`rbt dashboard` opens its page through Python's `webbrowser`, which
+runs `$BROWSER` when it is set; `true` does nothing and succeeds, so
+no tab opens in the user's own browser.
+
 It takes the API directory from the `generate <dir>` line in
 `.rbtrc` (Step 2), spelled relative to the project root — that is how
 file names are shown in the dashboard.
 
-It prints `Your dashboard is at http://127.0.0.1:9871/`
-immediately and keeps running; wait until the probe from Step 3
-succeeds before calling it up. It stays running for the life of the
+It prints `Your dashboard is at http://127.0.0.1:9871/` (or the port
+given) immediately and keeps running, even when it can't take the
+port: wait until the probe from Step 3 succeeds and the check there
+names this project before calling it up. It stays running for the life of the
 session — leave it alone afterwards; it never needs a restart when
 code changes.
 
@@ -117,16 +145,36 @@ the user in one sentence and continue the build without it.
 
 ## Step 5 — Hand over the URL
 
-Do not open the page yourself. `rbt dashboard` opens it in the
-browser once it is serving, unless a tab is already showing it or
+In the Claude app, the pane is where it opens (Step 4); never also
+in the external browser. Elsewhere, do not open the page yourself:
+`rbt dashboard` opens it in the browser once it is serving, unless a tab is already showing it or
 the developer chose "Don't reopen automatically"; opening it as well
 gives the developer two tabs.
 
-Tell the user the dashboard is up and what it is for, with a link to
-each object the API declares so far, and get on with the build.
+Tell the user the dashboard is up, in one line that always starts
+with its URL, then what it is for, a link to each object the API
+declares so far and to each feature file written so far, and get on
+with the build:
 
-If the developer expected a window and none appeared, give them the
-URL; that always works.
+> The developer dashboard is at http://127.0.0.1:9871/ (it opens in
+> your browser): it shows the domain model as it's written, starting
+> with [Room](http://127.0.0.1:9871/#/models?type=hotel.v1.Room) and
+> [Hotel](http://127.0.0.1:9871/#/models?type=hotel.v1.Hotel), and the
+> [Room status floor plan](http://127.0.0.1:9871/#/features/tests/room_status.feature)
+> feature with its rules.
+
+The URL is in that line every time, with the port it started on, even
+when the browser opened it: a terminal session may have no window,
+and the line is where the user finds it again later.
+
+**In a build that checks the model next** (the `app` skill's "Does
+this look right?", `app/references/design-first.md`), this line is
+not written on its own: the model check's lead line is the hand-over,
+and the dashboard is named once. A port other than 9871 is said there
+in a few words ("on 9874, since other projects hold 9871 to 9873").
+Never a second line listing the same objects, and never the URL line,
+the objects line and the Models · Features · Changelog line one after
+another.
 
 ### Links to an Object or a Rule
 
@@ -139,3 +187,16 @@ object and rule wherever you name it, on the port it started on:
 - A feature: `#/features/<path from the project root>`, such as
   `#/features/tests/room_status.feature`; its rules add `/rules/<n>`,
   counted from 1 in file order.
+- The dashboard's three pages: `#/models` (the domain model),
+  `#/features` (each feature with its rules and scenarios) and
+  `#/changelog` (every change to the model and the rules, newest
+  first). Once a feature file exists, every line that links the
+  dashboard links all three, as "Dashboard: Models · Features ·
+  Changelog", each word a link to its page on the port the dashboard
+  started on.
+- **When the call graph appears.** The models page draws lines
+  between methods for the Reboot calls it finds in the servicers'
+  code (one object's method calling another's). Those lines appear
+  only once servicer code exists, so the first time a servicer calling
+  another object is written, link the models page again in one line:
+  the call graph now shows which actions reach which objects.
