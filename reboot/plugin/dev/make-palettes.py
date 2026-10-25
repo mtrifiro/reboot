@@ -29,17 +29,25 @@ from pathlib import Path
 RADIX = Path(sys.argv[1])
 PAIRS = [("sand", "bronze"), ("sand", "brown"), ("sand", "orange"), ("sand", "gold"),
          ("olive", "grass"), ("sage", "teal"), ("slate", "blue"), ("slate", "iris"),
-         ("mauve", "plum"), ("mauve", "crimson")]
+         ("mauve", "plum"), ("mauve", "crimson"),
+         # From real apps on Mobbin, 2026-10-25: indigo on white (Deputy,
+         # Motion, 7shifts), violet (Fresha, Turo), a dark forest green
+         # (Jobber, Clockwise), black and white (Square, Cal.com), pink
+         # (Felt, Sweatpals).
+         ("slate", "indigo"), ("mauve", "violet"), ("sage", "jade"), ("gray", "gray"),
+         ("mauve", "pink")]
 # A name a person can say, beside the two colours in words.
 LABELS = {"sand-bronze": "Bronze", "sand-brown": "Walnut", "sand-orange": "Ember", "sand-gold": "Brass",
           "olive-grass": "Meadow", "sage-teal": "Lagoon", "slate-blue": "Harbour", "slate-iris": "Iris",
-          "mauve-plum": "Plum", "mauve-crimson": "Claret"}
+          "mauve-plum": "Plum", "mauve-crimson": "Claret",
+          "slate-indigo": "Midnight", "mauve-violet": "Amethyst", "sage-jade": "Evergreen",
+          "gray-gray": "Graphite", "mauve-pink": "Rose"}
 # The house good/warn/bad, written by every palette so a switch resets
 # them; a palette whose accent is green takes Radix teal for good, so
 # "good" never reads as the accent.
 STATUS = {"light": {"good": "#3f7a2e", "warn": "#a8660f", "bad": "#b42318"},
           "dark": {"good": "#8ccb6b", "warn": "#f2c784", "bad": "#f07a6e"}}
-GREEN_ACCENTS = {"grass"}
+GREEN_ACCENTS = {"grass"}  # jade keeps the house good: teal sits on jade
 
 def scale(name, dark):
     text = (RADIX / f"{name}{'-dark' if dark else ''}.css").read_text().split("@supports")[0]
@@ -76,7 +84,10 @@ for gray, acc in PAIRS:
         g, a = scale(gray, dark), scale(acc, dark)
         if not dark:
             bg = g[2]
-            accent, on, step = pick(a, g, bg, [(9, "white"), (10, "white"), (11, "white"), (12, "white"), (9, "g12")])
+            order = [(9, "white"), (10, "white"), (11, "white"), (12, "white"), (9, "g12")]
+            if acc == gray:  # black and white: the ink is the accent
+                order = [(12, "white")]
+            accent, on, step = pick(a, g, bg, order)
             vals = {"bg": g[2], "bg-2": g[1], "panel": g[1], "ink": g[12], "muted": g[11], "line": g[6], "track": g[4],
                     "accent": accent, "on-accent": on, "accent-deep": mix(a[4], g[6], 0.5), "on-deep": a[12],
                     "accent-tint": a[3], "bg-glow": g[3]}
@@ -84,7 +95,10 @@ for gray, acc in PAIRS:
             vals.update({"bar": g[12], "on-bar": g[1]})
         else:
             bg = g[1]
-            accent, on, step = pick(a, g, bg, [(11, "g1"), (10, "g1"), (9, "g1"), (9, "white")])
+            order = [(11, "g1"), (10, "g1"), (9, "g1"), (9, "white")]
+            if acc == gray:
+                order = [(12, "g1")]
+            accent, on, step = pick(a, g, bg, order)
             vals = {"bg": g[1], "bg-2": g[2], "panel": g[3], "ink": g[12], "muted": g[11], "line": g[6], "track": g[5],
                     "accent": accent, "on-accent": on, "accent-deep": a[2], "on-deep": a[12],
                     "accent-tint": a[4], "bg-glow": g[2]}
@@ -96,7 +110,7 @@ for gray, acc in PAIRS:
         vals.update(status)
         fam["dark" if dark else "light"] = vals
         steps.append(f"{acc}-{step}")
-    out[f"{gray}-{acc}"] = {"label": LABELS[f"{gray}-{acc}"], "colours": f"{gray} and {acc}",
+    out[f"{gray}-{acc}"] = {"label": LABELS[f"{gray}-{acc}"], "colours": "black and white" if acc == gray else f"{gray} and {acc}",
                             "source": f"Radix Colors {gray} with {steps[0]} (light), {steps[1]} (dark)", **fam,
                             "deep": deep}
 json.dump(out, sys.stdout, indent=1)

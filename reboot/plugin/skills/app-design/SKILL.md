@@ -181,7 +181,7 @@ recommendation is one answer:
   would be. Nothing is read for this question. A palette is the page,
   text, lines and accent together, a gray and an accent; the type and
   corners are always the house look's (Space Grotesk over DM Sans).
-  The palettes are house (Reboot's own: cream paper, navy ink and accent), sand-bronze, sand-brown, sand-orange, sand-gold, olive-grass, sage-teal, slate-blue, slate-iris, mauve-plum and mauve-crimson, and no other; an option's label is its
+  The palettes are house (Reboot's own: cream paper, navy ink and accent), sand-bronze, sand-brown, sand-orange, sand-gold, olive-grass, sage-teal, sage-jade, slate-blue, slate-iris, slate-indigo, mauve-plum, mauve-crimson, mauve-violet, mauve-pink and gray-gray, and no other; an option's label is its
   name and two colours ("Lagoon: sage and teal", as
   `python3 '<the web-app skill>/assets/palette.py'` lists them), its
   description why it suits the domain, in a few words.
@@ -191,11 +191,11 @@ recommendation is one answer:
   otherwise `python3 '<the web-app skill>/assets/palette.py' pick`,
   no names, from the project root, and the line it prints, a palette
   with its band and its paper ("olive-grass --band deep --paper
-  tinted"): one of the ten, one of three bands (calm, a tint of the
+  tinted"): one of the fifteen, each as likely, one of three bands (calm, a tint of the
   accent; deep, the gray's ink; hue, the accent's darkest step) and
   one of two papers (white; tinted, the gray one step up), all by the
-  project folder's name, so two builds of one prompt differ and sixty
-  pages come from ten palettes. The Brief says all three ("Meadow:
+  project folder's name, so two builds of one prompt differ and ninety
+  pages come from fifteen palettes. The Brief says all three ("Meadow:
   olive and grass, a deep band on tinted paper"). Nothing is nominated first: a nomination "that suits the
   domain" repeats (hotel-260 to -301 took sand-bronze five times
   straight; hotel-330 to -332 each put it first), and a hotel is as
