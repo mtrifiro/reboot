@@ -178,8 +178,8 @@ recommendation is one answer:
   the start", naming the roles in the user's nouns ("front desk, vets
   and techs"). Roles chosen are in the first build; otherwise they are
   **Who may do what**, before any deploy.
-- **"Which palette?"**, only when the prompt names no brand: two or
-  three that suit the domain, the first recommended, and no "Use my
+- **"Which palette?"**, only when the prompt names no brand: house
+  first, recommended, then one or two that suit the domain, and no "Use my
   brand" option: a brand typed in the dialog's own free answer (a
   site, a colour, a name) is taken as a brand named in the prompt
   would be. Nothing is read for this question. A palette is the page,
@@ -191,19 +191,14 @@ recommendation is one answer:
   description why it suits the domain, in a few words.
 - **The palette, unasked** (loaded by the `app-guided` or `app-whole`
   skill): a brand colour in the prompt is `palette.py --from
-  '<#rrggbb>'`, which names the nearest palette and how far off;
-  otherwise `python3 '<the web-app skill>/assets/palette.py' pick`,
-  no names, from the project root, and the line it prints, a palette
-  with its band and its paper ("olive-grass --band deep --paper
-  tinted"): one of the fifteen, each as likely, one of three bands (calm, a tint of the
-  accent; deep, the gray's ink; hue, the accent's darkest step) and
-  one of two papers (white; tinted, the gray one step up), all by the
-  project folder's name, so two builds of one prompt differ and ninety
-  pages come from fifteen palettes. The Brief says all three ("Meadow:
-  olive and grass, a deep band on tinted paper"). Nothing is nominated first: a nomination "that suits the
-  domain" repeats (hotel-260 to -301 took sand-bronze five times
-  straight; hotel-330 to -332 each put it first), and a hotel is as
-  well served by slate or sage as by sand.
+  '<#rrggbb>'`, which names the nearest palette and how far off; a
+  palette or colours the prompt asks for ("in green", "something
+  warm") is the nearest of the sixteen; otherwise house, Reboot's own,
+  as the Plugin Browser wears it: cream paper, navy ink and accent,
+  the navy band (`palette.py house`). The Brief names it ("House:
+  cream and navy") and says another is a word away. Never a palette
+  picked by the folder's name (asked for on 2026-10-26: builds had
+  drifted from the house look).
 How it is built is not asked here: the interactive build is the
 default (the `app` skill), and the go-ahead, **Ready to
 build this design?**, asks only for the yes; "build it all at once",

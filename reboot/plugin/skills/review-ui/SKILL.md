@@ -246,8 +246,8 @@ These change the pages, not the tokens, so `look.py` doesn't do them.
 Say the change in one line, make it as
 `web-app/references/ui-design.md` says, and show it in the pane:
 
-- **Layout:** the top bar, or the sidebar for seven or more pages or
-  a tool kept open all day ("Layout" in `ui-design.md`).
+- **Layout:** the top bar, never a sidebar ("Layout" in
+  `ui-design.md`).
 - **Density:** `density-compact` on a list or a page, for rows watched
   all day.
 - **Logo and name:** the inline SVG mark and the product name, the
