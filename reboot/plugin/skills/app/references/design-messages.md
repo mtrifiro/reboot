@@ -34,7 +34,8 @@ sign-in, and what Reboot does for you here.
 **Brief.** <Who uses <app name> ("(working name)" after it unless the
 user named the app), and the one question
 the main page answers.> The palette is **<palette, in words, with its
-band and paper>**.
+band and paper>**<, or, when the mockup comes in four palettes: "House,
+cream and navy, unless you pick another of the four in the mockup">.
 
 **Features, in build order:** 1. **<First feature> (first)**, <why it
 comes first, in a clause>; 2. <feature>; 3. …

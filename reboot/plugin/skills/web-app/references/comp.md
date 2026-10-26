@@ -21,7 +21,10 @@ can't run commands skips it with no line.
 
 **Make it,** about a minute, after the design's summary is sent (the
 user reads it meanwhile), one line first: "Making a mockup of the <page>,
-in <palette>."
+in <palette>." Built by the `app-guided` skill with no brand and no
+palette in the prompt, it is made in four palettes for the user to
+pick from (step 3's `--gallery`), and the line says so: "Making a
+mockup of the <page>, in four palettes to pick from."
 
 1. The stylesheet, copied unread, the palette set on the copy, and its
    class list, the opening comment and nothing more, printed once:
@@ -83,8 +86,15 @@ in <palette>."
 3. The comp, framed and made one file:
 
    ```shell
-   python3 '<the web-app skill>/assets/comp.py' --app '<name>' --page '<page, in words>' --nav '<every page, this one first>'
+   python3 '<the web-app skill>/assets/comp.py' --app '<name>' --page '<page, in words>' --nav '<every page, this one first>' [--gallery]
    ```
+
+   With `--gallery` (the four palettes, above) it also writes the
+   page in house and three palettes of different families, picked by
+   the folder's name, and `design/comp/palettes.html`, the four side
+   by side, numbered and named, which the root then opens. It prints
+   the four, one a line: the palette as `palette.py` takes it, a tab,
+   its name and colours ("Reboot: cream and navy"), for the dialog.
 
    It writes `design/comp/mockup.html`: the head with the typefaces'
    link, `comp.css` inside it (so the mockup keeps its look however it
@@ -123,7 +133,23 @@ in <palette>."
 5. One line in the chat, then the go-ahead dialog: "**Where it is
    going:** [a mockup of the <page>](<mockup>),
    in <palette>, with no data behind it; the real page
-   replaces it at the frontend step." On the hands-off paths
+   replaces it at the frontend step." With the four palettes: "[a
+   mockup of the <page> in four palettes](<mockup>), with no data
+   behind it; pick one with the go-ahead, and the real page replaces
+   the mockup at the frontend step." The dialog then asks **Which
+   palette?** beside **Ready to build this design?**
+   ([`design-first.md`](../../app/references/design-first.md),
+   section 3). **On the pick:** set it on the comp and frame it alone,
+   so `mockup.html`, the record, is in the palette chosen and the root
+   opens it again:
+
+   ```shell
+   python3 '<the web-app skill>/assets/palette.py' --css design/comp/comp.css <the palette's line>
+   python3 '<the web-app skill>/assets/comp.py' --app '<name>' --page '<page, in words>' --nav '<every page, this one first>'
+   ```
+
+   then the palette in `design/design.md`'s Brief, and the starter
+   gets it as `ui-design.md` says ("Build the Look", step 2). On the hands-off paths
    (`app-whole`, with or without ", basic") the line ends there, with
    no dialog: "Building it now." follows,
    and the build goes on. A change to it typed as the
@@ -152,7 +178,8 @@ session.
 
 ## Never
 
-- A comp of any page but the main one, or more than one comp.
+- A comp of any page but the main one, or more than one comp (the
+  four palettes are one comp in four palettes).
 - A card or a heading per row of a plan, or a plan whose rows wrap:
   the page's first screen holds the whole view.
 - The page head loose on the grey page instead of in the brand band,

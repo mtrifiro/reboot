@@ -51,6 +51,16 @@ Its options, word for word, filled from the design:
 No option is marked recommended: the answer stays in the chat as the
 question and the option chosen, and a yes needs no recommendation.
 
+**Which palette?**, in the same dialog as its second question, when
+the mockup was made in four palettes (`comp.md`, step 3): one option
+per palette, in the gallery's order, its label the number and name
+`comp.py` printed ("1. Reboot: cream and navy (Recommended)", "2.
+Brass: sand and gold"), its description a few words on how it reads
+for this app; house first and the one recommended. Its answer is set
+as `comp.md`, step 5 says, whatever the go-ahead's answer; a palette
+typed as the free answer (one of the sixteen by name, or a brand) is
+taken the same way.
+
 **On "Tell me more",** about 500 words in the chat (a length for the
 build, never said to the user, as no word count ever is), in the user's
 nouns, under short bold leads, then the same dialog again (a short
