@@ -4,7 +4,6 @@ import { use__Hub__, useUser } from "@api/__pkg__/v1/__pkg___rbt_react";
 import type { __Thing__View } from "@api/__pkg__/v1/__pkg___rbt_types";
 import { friendlyError } from "./errors";
 import { ThemeToggle } from "./theme";
-import { BandArt } from "./patterns/BandArt";
 
 // The one __hub text__; its id is fixed by the backend
 // (`backend/src/servicers/__hub__.py`).
@@ -94,7 +93,6 @@ function SignedIn() {
       {/* The page head in the brand band, outside <main>, as the page
           anatomy has it (styles.css): stat tiles first in main overlap it. */}
       <section className="brand-band">
-        <BandArt name="__APP_NAME__" />
         <div className="page-head">
           {/* Live: the list's reader keeps this page current. */}
           <p className="eyebrow">
