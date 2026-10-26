@@ -196,7 +196,10 @@ recommendation is one answer:
   warm") is the nearest of the sixteen; otherwise house, Reboot's own,
   as the Plugin Browser wears it: cream paper, navy ink and accent,
   the navy band (`palette.py house`). The Brief names it ("House:
-  cream and navy") and says another is a word away. Never a palette
+  cream and navy") and says another is a word away. A web app built
+  by the `app-guided` skill shows it beside three others at the
+  go-ahead (`web-app/references/comp.md`, the four palettes), and the
+  user's pick replaces it. Never a palette
   picked by the folder's name (asked for on 2026-10-26: builds had
   drifted from the house look).
 How it is built is not asked here: the interactive build is the
