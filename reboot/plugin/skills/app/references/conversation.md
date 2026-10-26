@@ -82,8 +82,10 @@ Object or a Rule").
 **Open the dashboard in the app's Browser pane** where the host has
 one (the Claude app's `preview_start`), the first time it is up and
 whenever the build links into it at a turn the user acts on (the
-model check, each review). The dashboard is already running, so
-attach to it: a configuration in `.claude/launch.json` named
+model check, each review). Only once it answers: `for i in $(seq 60);
+do curl -sf -o /dev/null --max-time 2 <dashboard> && break; sleep 1;
+done` (the pane shows a 404 opened too early and never reloads;
+theater-100 opened it 9 s after the start). It is running, so attach to it: a configuration in `.claude/launch.json` named
 `dashboard` with only `"url": "http://127.0.0.1:<port>"`, the port it
 started on, and no command (the origin only, no path); start it by
 name, then navigate to the page the turn is about, as a whole: the
