@@ -48,8 +48,9 @@ that shape the app most>.
 Where commands can't run, the whole design goes here instead, in
 `design.md`'s shape without its methods, between the same two rules.
 
-Then the go-ahead's dialog (`design-first.md`, section 3); nothing
-between them but, in a guided web app build, the comp's one line
+Sent the moment the page opens. Then the go-ahead's dialog
+(`design-first.md`, section 3); nothing between them but, in a guided
+web app build, the mockup, made while the user reads, and its one line
 (`web-app/references/comp.md`).
 
 ### The handoff
