@@ -83,15 +83,14 @@ in <palette>."
 3. The comp, framed and made one file:
 
    ```shell
-   python3 '<the web-app skill>/assets/comp.py' --app '<name>' --page '<page, in words>' --nav '<every page, this one first>' [--sidebar]
+   python3 '<the web-app skill>/assets/comp.py' --app '<name>' --page '<page, in words>' --nav '<every page, this one first>'
    ```
 
    It writes `design/comp/mockup.html`: the head with the typefaces'
    link, `comp.css` inside it (so the mockup keeps its look however it
    is opened: served, cached in the pane after its server stops, from
    disk; hotel-252's open mockup lost its styling when its server
-   stopped), the top bar or, with `--sidebar` (the layout rule), the
-   sidebar, with the mark, the name and the nav, the Light / Dark toggle
+   stopped), the top bar with the mark, the name and the nav, the Light / Dark toggle
    working (the one control that does, so the user sees both schemes)
    and sign-out shown and inert, the page, the comp badge, and the note
    every click opens instead of doing nothing. And
