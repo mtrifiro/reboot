@@ -57,9 +57,9 @@ below links to the developer dashboard, which draws them from the code.
 ## Brief
 
 <Who uses <app name>, on what screen, the task, the one question the
-main page answers, and the palette, one of the sixteen by its
-name and colours, with its band and paper ("Lagoon: sage and teal, a
-hue band on white paper"). While the name is one the build picked, its first mention
+main page answers, and the palette by its name and colours ("House:
+cream and navy"; another with its band and paper, "Lagoon: sage and
+teal, a hue band on white paper"). While the name is one the build picked, its first mention
 here, in the first sentence, is followed by "(working name)".>
 
 ## Features and their rules
