@@ -2,7 +2,7 @@
 """The design's comp: the page the build drew, in the frame every comp shares.
 
     python3 '<the web-app skill>/assets/comp.py' --app 'Linden' --page 'floor plan' \\
-        --nav 'Floor plan,Guests,Housekeeping' [--sidebar] [--user 'Esi'] [DIR]
+        --nav 'Floor plan,Guests,Housekeeping' [--user 'Esi'] [DIR]
 
 Run from the project root. DIR (default design/comp) holds comp.css,
 the house stylesheet with the design's palette set (comp.md, step 1),
@@ -14,7 +14,7 @@ the app's name.
 
 Writes DIR/mockup.html, one file that keeps its look however it is
 opened: the head (title, the typefaces' Google Fonts link), comp.css
-inside it, the top bar (or, with --sidebar, the sidebar) with the mark,
+inside it, the top bar with the mark,
 the name and --nav (the first current), the theme and sign-out buttons,
 the page, the comp badge, and the note every click opens instead of
 doing nothing. And DIR/index.html, one line that opens mockup.html, for
@@ -107,15 +107,6 @@ TOPBAR = """<header class="topbar">
   <button class="ghost">{user} · Sign out</button>
 </header>"""
 
-SIDEBAR = """<div class="shell sidebar">
-<aside class="sidebar-nav">
-  <a class="brand" href="#">{mark}{app}</a>
-  <nav>{nav}</nav>
-  <span class="spacer"></span>
-  <button class="ghost" data-theme-toggle>Dark</button>
-  <button class="ghost">{user} · Sign out</button>
-</aside>
-<div class="shell-main">"""
 
 MARK = re.compile(r"^\s*(<svg\b[^>]*\bdata-mark\b.*?</svg>)", re.S)
 
@@ -138,7 +129,6 @@ def main(argv: list[str]) -> int:
     p.add_argument("--app", required=True, help="the app's name as shown: Linden")
     p.add_argument("--page", required=True, help="the page in words, lower case: floor plan")
     p.add_argument("--nav", required=True, help="every page in the design, comma-separated, this one first")
-    p.add_argument("--sidebar", action="store_true", help="the sidebar layout (seven or more pages, or a tool kept open all day)")
     p.add_argument("--user", default="Alice", help="the signed-in person's name in the bar (default Alice)")
     p.add_argument("dir", nargs="?", default="design/comp", help="the comp's folder (default design/comp)")
     args = p.parse_args(argv)
@@ -181,8 +171,8 @@ def main(argv: list[str]) -> int:
         f'<a{active if i == 0 else ""} href="#">{html.escape(n)}</a>' for i, n in enumerate(names)
     )
     fill = {"mark": mark, "app": html.escape(args.app), "nav": nav, "user": html.escape(args.user)}
-    shell_open = (SIDEBAR if args.sidebar else TOPBAR).format(**fill)
-    shell_close = "</div>\n</div>" if args.sidebar else ""
+    shell_open = TOPBAR.format(**fill)
+    shell_close = ""
     page_name = html.escape(args.page)
     out = FRAME.format(
         app=html.escape(args.app), Page=page_name[:1].upper() + page_name[1:], fonts=fonts_link(css), css=css,
