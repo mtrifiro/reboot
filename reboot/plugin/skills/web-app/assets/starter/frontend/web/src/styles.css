@@ -4,9 +4,7 @@
    dark blocks; never append a later block that re-pins them. Keep the
    names. Components never carry raw hex.
 
-   Layout: a topbar (.brand, nav) above the page, or, for seven or more
-   pages or a tool kept open all day, <div class="shell sidebar"> with an
-   <aside class="sidebar-nav"> (.brand, nav) beside <div class="shell-main">.
+   Layout: a topbar (.brand, nav) above the page, always; its links wrap.
    Anatomy: topbar (.brand, nav) → brand-band (a page-head on the deep
    accent: .eyebrow with a .live mark on every page a reader keeps
    current, h1, .lede, .actions) → stats / stat (.label, .value,
@@ -274,7 +272,6 @@ a:hover {
   text-decoration-color: currentColor;
 }
 .topbar a,
-.sidebar-nav a,
 a.row,
 a.cell,
 a.card,
@@ -1941,95 +1938,5 @@ tr:hover td {
   }
   .filter-panel .filters {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-/* Sidebar layout: the navigation in a column on the deep accent, the
-   page beside it; below 900 px it folds back into a top bar */
-.shell.sidebar {
-  display: grid;
-  grid-template-columns: 232px minmax(0, 1fr);
-  min-height: 100vh;
-}
-.sidebar-nav {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  padding: var(--space-4);
-  --accent-deep: var(--bar);
-  --on-deep: var(--on-bar);
-  background: var(--bar);
-  color: var(--on-bar);
-}
-.sidebar-nav .brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-display);
-  font-weight: 600;
-  padding: 6px 10px;
-  color: inherit;
-  text-decoration: none;
-}
-.sidebar-nav nav {
-  display: grid;
-  gap: 2px;
-}
-.sidebar-nav nav a {
-  color: color-mix(in srgb, var(--on-deep) 78%, transparent);
-  padding: 8px 10px;
-  border-radius: var(--radius-sm);
-}
-.sidebar-nav nav a:hover {
-  text-decoration: none;
-  color: var(--on-deep);
-}
-.sidebar-nav nav a.active {
-  color: var(--on-deep);
-  background: color-mix(in srgb, var(--on-deep) 14%, transparent);
-}
-.sidebar-nav .sidebar-foot {
-  margin-top: auto;
-  display: flex;
-  gap: var(--space-2);
-  align-items: center;
-}
-.sidebar-nav button {
-  background: transparent;
-  color: var(--on-deep);
-  border-color: color-mix(in srgb, var(--on-deep) 35%, transparent);
-}
-.shell-main {
-  min-width: 0;
-  --topbar-h: 0px;
-} /* no bar above the page: sticky headers sit at the top */
-@media (max-width: 899px) {
-  .shell.sidebar {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .shell-main {
-    --topbar-h: 52px;
-  }
-  .sidebar-nav {
-    position: sticky;
-    z-index: 10;
-    height: auto;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 4px var(--space-4);
-    padding: 8px var(--space-4);
-  }
-  .sidebar-nav nav {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  .sidebar-nav .sidebar-foot {
-    margin-top: 0;
-    margin-left: auto;
   }
 }
