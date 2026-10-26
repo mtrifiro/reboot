@@ -39,11 +39,14 @@ proposed design to `design/design.md`, in the shape of
 own write, each after its own line to the user** (message text, before
 the write):
 
-1. "Writing the design: first the domain model." Then write the title,
-   status, **Brief** and **Domain model**.
-2. "Domain model written: <the objects>. Now the features and their
-   rules." Then add **Proposed features, in build order**.
-3. "<N> features, the first <feature>. Now the methods, pages and
+1. "Writing the design: first the features and their rules." Then
+   write the title, status, **Brief** and **Proposed features, in build
+   order**.
+2. "<N> features, the first <feature>. Now the domain model that keeps
+   its rules." Then add **Domain model**, each object introduced by the
+   rule it keeps ("`Room` holds its own bookings, so no night is booked
+   twice").
+3. "Domain model written: <the objects>. Now the methods, pages and
    sign-in." Then add the rest: the first feature's methods, **Pages**,
    **Sign-in** and **Assumed**.
 
@@ -95,7 +98,8 @@ counts, hours), in the user's nouns.
 First the proposed design, as text in the same response, just above
 the dialog: the message in [`design-messages.md`](design-messages.md),
 "The proposed design", the whole design but its methods, every
-heading filled, about 500 words. Then end with one dialog
+heading filled, its features and rules before its domain model, about
+500 words. Then end with one dialog
 (`AskUserQuestion` where available; otherwise the same as one plain
 line), the build's second and last question before any code:
 
