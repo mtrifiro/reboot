@@ -209,7 +209,8 @@ the house exists to avoid (hotel-203's comp).
    render. Don't read the stylesheet: it is over 4,000 words, and
    every word read is sent again on every later turn.
 
-2. Set the palette the design names, from the project root:
+2. Set the palette the design names (house unless the user asked for
+   another or named a brand), from the project root:
    `python3 '<this skill>/assets/palette.py' sage-teal` (with no name
    it lists them). The palettes: house (Reboot's own: cream paper, navy ink and accent), sand-bronze, sand-brown, sand-orange, sand-gold, olive-grass, sage-teal, sage-jade, slate-blue, slate-iris, slate-indigo, mauve-plum, mauve-crimson, mauve-violet, mauve-pink and gray-gray. Each but house is a gray and
    an accent from Radix Colors: the page, text and lines from the
@@ -238,15 +239,17 @@ the house exists to avoid (hotel-203's comp).
    tokens, never raw hex. Extend the stylesheet when a page needs
    something new, in the same tokens.
 
-**Layout.** A top bar by default. For seven or more pages, or a tool
-people keep open all day, use the sidebar layout: `<div class="shell
-sidebar">` holding an `<aside class="sidebar-nav">` and a
-`<div class="shell-main">`; it folds into a top bar on narrow screens.
-For dense tables watched all day, add `density-compact` to the list or
-the page.
+**Layout.** The top bar, whatever the page count, as the Plugin
+Browser wears it: the mark and the name, every page a link in the
+bar (they wrap onto a second line when they don't fit), the theme
+toggle and sign-out at the right; the brand band runs on beneath it
+and the page sits in the centred column. Never a sidebar (asked for on
+2026-10-26: builds of seven or more pages had taken one). For dense
+tables watched all day, add `density-compact` to the list or the
+page.
 
 **Theme toggle.** `ThemeToggle` from `theme.tsx`: a small sun or moon
-icon in the bar or the sidebar, with an accessible label. In a menu,
+icon in the bar, with an accessible label. In a menu,
 spell it out as "Dark mode" or "Light mode" instead.
 
 **A brand** replaces the house look: set its colors in the accent's
