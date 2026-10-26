@@ -165,13 +165,17 @@ generated or installed file (`*_rbt.py`, `*_rbt_react.ts`,
 `.mypy.ini`, `main.py`):
 
 - `python/references/lifecycle-{project-setup,rbtrc,application-entry}.md`
-  — the layout, the CLI flags, `Application(...)`.
+  — the layout, the CLI flags, `Application(...)`; only when changing
+  them beyond what the starter renders.
 
-**Before the servicer:**
+**Before the servicer:** the starter's servicers show a reader, a
+writer, a transaction, a constructor and the calls between them
+(`create` with kwargs, `forall`); edit them.
 
-- `python/references/servicer-{reader,writer,transaction,constructor}.md` — one per context type declared.
+- `python/references/servicer-{reader,writer,transaction,constructor}.md` — only for a kind the starter doesn't show, or when one fails.
 - `python/references/rpc-calls.md` — kwargs, not Request wrappers;
-  `Service.create(context, id)`.
+  `Service.create(context, id)`; only for a call the starter doesn't
+  show, or when one fails.
 - `python/references/servicer-workflow.md` — only when a `Workflow`
   is declared, then top to bottom.
 
@@ -197,7 +201,8 @@ Apps" above):
 
 **Before the tests:**
 
-- `python/references/testing-project-setup.md` — always.
+- `python/references/testing-project-setup.md` — only when changing
+  the starter's `pytest.ini`, `conftest.py` or test layout.
 - `python/references/testing-features.md` — the built-in steps'
   spelling; always.
 - `python/references/lifecycle-seeding-troubleshooting.md` — only
