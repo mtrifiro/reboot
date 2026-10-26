@@ -23,8 +23,8 @@ in the shape of [`design-messages.md`](design-messages.md).
 ## 3. The go-ahead
 
 The proposed design (section 2) is open as a page beside the chat and
-its summary sits just above the dialog, in the same response; for a web app built by the `app-guided` skill, the
-comp's line comes between them
+its summary went out as text when the page opened, in the same response; for a web app built by the `app-guided` skill, the
+mockup is made while the user reads it, and its line comes after
 ([`../../web-app/references/comp.md`](../../web-app/references/comp.md)):
 a mockup of the main page in the look, served and opened in the pane. Then
 one dialog (`AskUserQuestion` where available,
