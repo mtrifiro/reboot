@@ -19,7 +19,8 @@ few minutes instead of at the first page (hotel-271's came at 19
 minutes). An MCP App doesn't make one (its views live in a host), and a host that
 can't run commands skips it with no line.
 
-**Make it,** about a minute, one line first: "Making a mockup of the <page>,
+**Make it,** about a minute, after the design's summary is sent (the
+user reads it meanwhile), one line first: "Making a mockup of the <page>,
 in <palette>."
 
 1. The stylesheet, copied unread, the palette set on the copy, and its
