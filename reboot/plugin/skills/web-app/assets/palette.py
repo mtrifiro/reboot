@@ -12,6 +12,10 @@
                                        # "sand-brown --band deep --paper tinted"
     python3 <this file> pick sage-teal slate-blue sand-gold
                                        # one of those, the same way
+    python3 <this file> gallery        # the four the go-ahead offers: house,
+                                       # then three of different families,
+                                       # each with a hue band on tinted paper,
+                                       # picked by this folder's name
     python3 <this file> --css design/comp/comp.css sand-brown --band hue
                                        # on a copy of the stylesheet (the comp)
     python3 <this file> --from '#2f6b4f'   # the palette nearest a brand colour:
@@ -24,7 +28,7 @@ file; its MIT notice is palettes.LICENSE). A Radix palette has a band
 and a paper as well, so fifteen palettes make ninety pages, not fifteen
 hues of one: the band (the page head) is calm, a light tint of the accent; deep,
 the gray's darkest step, as the top bar; or hue, the accent's darkest
-step, as the house look's navy. The paper is white, the gray's second
+step, as the house look's navy, the top bar with it. The paper is white, the gray's second
 step, or tinted, its third, the panels lifting off it as they do off the
 house look's cream. `house` keeps its own. Rewrites the colour tokens in
 the light and both dark blocks of frontend/web/src/styles.css, names a
@@ -119,12 +123,59 @@ def band_paper(name: str, found: dict[str, dict], band: str, paper: str) -> dict
     if band == "deep":
         out = {w: dict(p["deep"][w]) for w in ("light", "dark")}
     elif band == "hue":
-        out["light"] = {"accent-deep": p["light"]["on-deep"], "on-deep": p["light"]["accent-deep"]}
-        out["dark"] = {"accent-deep": p["dark"]["accent-tint"], "on-deep": p["dark"]["ink"]}
+        # The bar takes the band's colour too, so bar and band are one
+        # block, as house's navy (2026-10-26: the gray's near-black bar
+        # over a coloured band read as two)
+        light = {"accent-deep": p["light"]["on-deep"], "on-deep": p["light"]["accent-deep"]}
+        dark = {"accent-deep": p["dark"]["accent-tint"], "on-deep": p["dark"]["ink"]}
+        out["light"] = {**light, "bar": light["accent-deep"], "on-bar": light["on-deep"]}
+        out["dark"] = {**dark, "bar": dark["accent-deep"], "on-bar": dark["on-deep"]}
     if paper == "tinted":
         out["light"].update({"bg": p["light"]["bg-glow"], "bg-glow": p["light"]["track"]})
         out["dark"].update({"bg": p["dark"]["bg-2"], "bg-glow": p["dark"]["panel"]})
     return out
+
+
+def styled(css: str, name: str, band: str, paper: str, found: dict[str, dict]) -> str:
+    """The stylesheet with a palette, its band and its paper set, and the
+    Radix credit at its top (house has its own band and paper, and no
+    credit)."""
+    css = set_tokens(css, found[name])
+    if name != "house":
+        css = set_tokens(css, band_paper(name, found, band, paper))
+    css = CREDIT.sub("", css)
+    if name != "house":
+        css = (f"/* Palette: {name}, {band} band, {paper} paper, colors from Radix Colors "
+               f"(https://github.com/radix-ui/colors), Copyright (c) 2021 Radix, MIT License. */\n") + css
+    return css
+
+
+def family(name: str) -> str:
+    """A palette's family, its gray: sand, olive, sage, slate, mauve, gray."""
+    return name.split("-")[0]
+
+
+def gallery(folder: str, found: dict[str, dict]) -> list[tuple[str, str, str]]:
+    """The four palettes the go-ahead offers, as (name, band, paper):
+    house first, then three of three different families, so the four
+    differ at a glance: the fifteen in an order set by the folder's
+    name, as `pick` does, the first three of different families, so
+    builds of one prompt differ and each palette is about as likely. Each
+    a hue band (the accent's darkest step, as house's navy) on tinted
+    paper (lifted panels, as house's cream)."""
+    def at(key: str) -> int:
+        return int(hashlib.sha256(key.encode()).hexdigest(), 16)
+    chosen: list[tuple[str, str, str]] = []
+    for name in sorted((n for n in found if n != "house"), key=lambda n: at(folder + "/" + n)):
+        if len(chosen) < 3 and family(name) not in {family(c[0]) for c in chosen}:
+            chosen.append((name, "hue", "tinted"))
+    return [("house", "calm", "white")] + chosen
+
+
+def describe(name: str, found: dict[str, dict]) -> str:
+    """'Lagoon: sage and teal', a palette as a dialog option names it."""
+    p = found[name]
+    return f"{p.get('label', name)}: {p.get('colours', '')}"
 
 
 def hue(hex_colour: str) -> float:
@@ -195,6 +246,11 @@ def main(argv: list[str]) -> int:
         band, paper = pick_feel(folder)
         print(f"{pick(names, folder)} --band {band} --paper {paper}")
         return 0
+    if argv == ["gallery"]:
+        for name, band, paper in gallery(Path.cwd().name, found):
+            spec = name if name == "house" else f"{name} --band {band} --paper {paper}"
+            print(f"{spec}\t{describe(name, found)}")
+        return 0
     if argv[:1] == ["--from"] and len(argv) in (2, 3) and argv[2:] in ([], ["--set"]):
         brand = argv[1].strip()
         if not re.fullmatch(r"#[0-9a-fA-F]{6}", brand):
@@ -231,15 +287,8 @@ def main(argv: list[str]) -> int:
         print(f"palette: no palette '{name}'; one of: {', '.join(found)}", file=sys.stderr)
         return 2
     palette = found[name]
-    css = set_tokens(css, palette)
-    feel = ""
-    if name != "house":
-        css = set_tokens(css, band_paper(name, found, band, paper))
-        feel = f", {band} band, {paper} paper"
-    css = CREDIT.sub("", css)
-    if name != "house":
-        css = (f"/* Palette: {name}{feel}, colors from Radix Colors (https://github.com/radix-ui/colors), "
-               f"Copyright (c) 2021 Radix, MIT License. */\n") + css
+    css = styled(css, name, band, paper, found)
+    feel = "" if name == "house" else f", {band} band, {paper} paper"
     STYLESHEET.write_text(css, encoding="utf-8")
     if STYLESHEET == Path("frontend/web/src/styles.css") and FAVICON.is_file() and accent:
         svg = FAVICON.read_text(encoding="utf-8")
