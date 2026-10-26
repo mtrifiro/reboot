@@ -321,8 +321,11 @@ design; reading the references gets no line of its own.
    a path, hotel-256); elsewhere, the link. The pane keeps one tab per
    address, so nothing else is ever opened at this one: the mockup has
    its own server and address (`web-app/references/comp.md`).
-4. In the chat, the design's summary, in the shape of
-   `design-messages.md`, "The proposed design", its link to the page.
+4. In the chat, as text the moment the page opens and before any
+   other call, the design's summary, in the shape of
+   `design-messages.md`, "The proposed design", its link to the page:
+   the user reads it while the mockup is made (hotel-338 left it out
+   and made the mockup first: 90 s with nothing to read).
 
 Where commands can't run (a planning-only session), the whole design
 goes in the chat instead, in `design.md`'s shape without its methods.
