@@ -377,44 +377,6 @@ button:not(:disabled):active {
   max-width: 1248px;
   margin-inline: auto;
 }
-/* The band's art (patterns/BandArt.tsx; the comp's from band_art.py):
-   shapes at the band's right, fading out toward the title. Decoration
-   only: five tones of the band and the accent mixed, so every palette,
-   band and dark mode recolours it, and none reads as good, warn or bad.
-   The buttons over it take the band's colour, so they stay legible. */
-.brand-band {
-  position: relative;
-  overflow: hidden;
-}
-.brand-band > :not(.band-art),
-.brand-band + main {
-  position: relative; /* over the band, which is positioned for its art */
-}
-.brand-band > .band-art {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: min(62%, 820px);
-  height: 100%;
-  max-width: none;
-  margin: 0;
-  pointer-events: none;
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 45%);
-  mask-image: linear-gradient(to right, transparent, #000 45%);
-}
-.band-art .t1 { fill: color-mix(in srgb, var(--accent) 22%, var(--band)); }
-.band-art .t2 { fill: color-mix(in srgb, var(--accent) 50%, var(--band)); }
-.band-art .t3 { fill: color-mix(in srgb, var(--accent) 75%, var(--band)); }
-.band-art .t4 { fill: color-mix(in srgb, var(--accent) 55%, var(--on-deep)); }
-.band-art .t5 { fill: color-mix(in srgb, var(--on-deep) 12%, var(--band)); }
-.brand-band .actions button:not(.primary) {
-  background: var(--band);
-}
-@media (max-width: 640px) {
-  .brand-band > .band-art {
-    display: none;
-  }
-}
 /* The band's title a step up from the page h1: its presence without
    more height */
 .brand-band .page-head h1 {
