@@ -2,7 +2,7 @@
 """The design's comp: the page the build drew, in the frame every comp shares.
 
     python3 '<the web-app skill>/assets/comp.py' --app 'Linden' --page 'floor plan' \\
-        --nav 'Floor plan,Guests,Housekeeping' [--user 'Esi'] [DIR]
+        --nav 'Floor plan,Guests,Housekeeping' [--user 'Esi'] [--gallery] [DIR]
 
 Run from the project root. DIR (default design/comp) holds comp.css,
 the house stylesheet with the design's palette set (comp.md, step 1),
@@ -20,6 +20,15 @@ the page, the comp badge, and the note every click opens instead of
 doing nothing. And DIR/index.html, one line that opens mockup.html, for
 a pane that opens only the server's root. Run it again after any change
 to page.part or comp.css. Standard library only.
+
+With --gallery, also the same page in the four palettes the go-ahead
+offers (palette.py's `gallery`: house, then three of different
+families, by the project folder's name), each DIR/palettes/<name>.html,
+and DIR/palettes.html showing the four side by side, numbered and named;
+index.html opens the gallery instead. It prints the four, one a line:
+the palette as palette.py takes it, a tab, its name and colours. Once
+one is picked, set it on comp.css and run this again without --gallery:
+mockup.html is then in that palette and index.html opens it again.
 """
 
 from __future__ import annotations
@@ -29,6 +38,9 @@ import html
 import re
 import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import palette  # noqa: E402  (beside this file)
 
 FRAME = """<!doctype html>
 <html lang="en">
@@ -105,6 +117,57 @@ TOPBAR = """<header class="topbar">
 </header>"""
 
 
+GALLERY = """<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{app} · four palettes (design comp)</title>
+<style>
+  :root {{ color-scheme: light; --ink: #1d2433; --muted: #5b6475; --line: #d9dde4; }}
+  body {{ margin: 0; background: #f4f4f2; color: var(--ink);
+         font: 15px/1.45 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }}
+  header {{ max-width: 1280px; margin: 0 auto; padding: 20px 16px 4px; }}
+  h1 {{ font-size: 20px; margin: 0 0 4px; }}
+  header p {{ margin: 0; color: var(--muted); }}
+  .grid {{ max-width: 1280px; margin: 0 auto; padding: 12px 16px 32px;
+          display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }}
+  figure {{ margin: 0; }}
+  figcaption {{ display: flex; justify-content: space-between; gap: 12px; margin-bottom: 6px; }}
+  figcaption strong {{ font-size: 16px; }}
+  figcaption a {{ color: var(--muted); white-space: nowrap; }}
+  .frame {{ position: relative; aspect-ratio: 16 / 10; overflow: hidden; border: 1px solid var(--line);
+           border-radius: 8px; background: #fff; }}
+  .frame iframe {{ position: absolute; top: 0; left: 0; width: 1440px; height: 900px; border: 0;
+                  transform-origin: 0 0; pointer-events: none; }}
+  @media (max-width: 720px) {{ .grid {{ grid-template-columns: minmax(0, 1fr); }} }}
+</style>
+</head>
+<body>
+<header>
+  <h1>{app}: the {page_name} in four palettes</h1>
+  <p>The same mockup in each. Pick one in the chat; any can change later.</p>
+</header>
+<main class="grid">
+{figures}
+</main>
+<script>
+  // Each mockup is drawn at 1440 x 900 and scaled to its frame.
+  const fit = () => document.querySelectorAll(".frame").forEach((frame) => {{
+    frame.querySelector("iframe").style.transform = `scale(${{frame.clientWidth / 1440}})`;
+  }});
+  addEventListener("resize", fit);
+  fit();
+</script>
+</body>
+</html>
+"""
+
+FIGURE = """<figure>
+  <figcaption><strong>{n}. {label}</strong><a href="{href}">Open full size</a></figcaption>
+  <div class="frame"><iframe src="{href}" title="{label}" loading="eager" tabindex="-1"></iframe></div>
+</figure>"""
+
 MARK = re.compile(r"^\s*(<svg\b[^>]*\bdata-mark\b.*?</svg>)", re.S)
 
 
@@ -127,6 +190,7 @@ def main(argv: list[str]) -> int:
     p.add_argument("--page", required=True, help="the page in words, lower case: floor plan")
     p.add_argument("--nav", required=True, help="every page in the design, comma-separated, this one first")
     p.add_argument("--user", default="Alice", help="the signed-in person's name in the bar (default Alice)")
+    p.add_argument("--gallery", action="store_true", help="also the page in the four palettes the go-ahead offers, and the page that shows them")
     p.add_argument("dir", nargs="?", default="design/comp", help="the comp's folder (default design/comp)")
     args = p.parse_args(argv)
 
@@ -168,14 +232,35 @@ def main(argv: list[str]) -> int:
     shell_open = TOPBAR.format(**fill)
     shell_close = ""
     page_name = html.escape(args.page)
-    out = FRAME.format(
-        app=html.escape(args.app), Page=page_name[:1].upper() + page_name[1:], fonts=fonts_link(css), css=css,
-        shell_open=shell_open, page=page, shell_close=shell_close, page_name=page_name,
-    )
-    (folder / "mockup.html").write_text(out, encoding="utf-8")
-    (folder / "index.html").write_text('<!doctype html><meta http-equiv="refresh" content="0; url=mockup.html">\n',
+
+    def framed(css: str) -> str:
+        return FRAME.format(
+            app=html.escape(args.app), Page=page_name[:1].upper() + page_name[1:], fonts=fonts_link(css), css=css,
+            shell_open=shell_open, page=page, shell_close=shell_close, page_name=page_name,
+        )
+
+    (folder / "mockup.html").write_text(framed(css), encoding="utf-8")
+    opens = "mockup.html"
+    if args.gallery:
+        found = palette.palettes()
+        (folder / "palettes").mkdir(exist_ok=True)
+        figures = []
+        for n, (name, band, paper) in enumerate(palette.gallery(Path.cwd().name, found), 1):
+            href = f"palettes/{name}.html"
+            (folder / href).write_text(framed(palette.styled(css, name, band, paper, found)), encoding="utf-8")
+            label = html.escape(palette.describe(name, found))
+            figures.append(FIGURE.format(n=n, label=label, href=href))
+            spec = name if name == "house" else f"{name} --band {band} --paper {paper}"
+            print(f"{spec}\t{palette.describe(name, found)}")
+        (folder / "palettes.html").write_text(
+            GALLERY.format(app=html.escape(args.app), page_name=page_name, figures="\n".join(figures)),
+            encoding="utf-8")
+        opens = "palettes.html"
+    (folder / "index.html").write_text(f'<!doctype html><meta http-equiv="refresh" content="0; url={opens}">\n',
                                        encoding="utf-8")
-    print(f"wrote {folder / 'mockup.html'} (one file, its stylesheet inside) and {folder / 'index.html'}")
+    print(f"wrote {folder / 'mockup.html'} (one file, its stylesheet inside)"
+          + (", the four palettes and palettes.html" if args.gallery else "")
+          + f", and {folder / 'index.html'}, which opens {opens}", file=sys.stderr if args.gallery else sys.stdout)
     for problem in problems:
         print(f"comp: {problem}", file=sys.stderr)
     return 3 if problems else 0
