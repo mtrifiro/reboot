@@ -85,7 +85,10 @@ const spill = [...document.querySelectorAll("main *")].filter((e) => {
   return p && r.width > 0 && (r.right > p.right + 1 || r.left < p.left - 1) &&
     getComputedStyle(e.parentElement).overflowX === "visible";
 }).map(label).slice(0, 5);
+// A 1px box is hidden on purpose (.visually-hidden, screen readers only;
+// hotel-335 failed four checks on it), not text cut off.
 const clipped = [...document.querySelectorAll("main *")].filter((e) =>
+  e.clientWidth > 1 && e.clientHeight > 1 &&
   e.scrollWidth > e.clientWidth + 1 && getComputedStyle(e).overflow === "hidden" &&
   getComputedStyle(e).textOverflow !== "ellipsis").map(label).slice(0, 5);
 const cols = [...document.querySelectorAll(".board-col")];
@@ -118,7 +121,16 @@ const boxes = [...document.querySelectorAll("main *, [role=dialog] *")]
     const top = document.elementFromPoint(x, y);
     return !top || e.contains(top) || top.contains(e);
   })
-  .map((e) => ({ e, r: e.getBoundingClientRect() }));
+  // A table's cells always meet, their padding inside the box: a cell
+  // is measured by its text (hotel-335: three rounds on "TH "Room" /
+  // TH "Guest" side by side, 0px apart" in a table with room to spare).
+  .map((e) => {
+    if (!e.matches("td, th")) return { e, r: e.getBoundingClientRect() };
+    const range = document.createRange();
+    range.selectNodeContents(e);
+    return { e, r: range.getBoundingClientRect() };
+  })
+  .filter(({ r }) => r.width > 0 && r.height > 0);
 const inline = (e) => getComputedStyle(e).display === "inline";
 const name = (e) => `${e.tagName} "${e.textContent?.trim().slice(0, 20)}"`;
 const touching = [];
