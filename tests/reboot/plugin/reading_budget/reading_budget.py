@@ -52,6 +52,26 @@ CONDITIONAL = {
                 "custom steps",
             "web-app/references/company-logos.md":
                 "only when the design's objects are companies",
+            # The starter renders the project shell, the servicers and
+            # the test layout; these are read only to go beyond it.
+            "python/references/lifecycle-project-setup.md":
+                "beyond what the starter renders",
+            "python/references/lifecycle-rbtrc.md":
+                "beyond what the starter renders",
+            "python/references/lifecycle-application-entry.md":
+                "beyond what the starter renders",
+            "python/references/servicer-reader.md":
+                "a kind the starter doesn't show",
+            "python/references/servicer-writer.md":
+                "a kind the starter doesn't show",
+            "python/references/servicer-transaction.md":
+                "a kind the starter doesn't show",
+            "python/references/servicer-constructor.md":
+                "a kind the starter doesn't show",
+            "python/references/rpc-calls.md":
+                "a call the starter doesn't",
+            "python/references/testing-project-setup.md":
+                "only when changing",
         },
     "mcp-app":
         {
