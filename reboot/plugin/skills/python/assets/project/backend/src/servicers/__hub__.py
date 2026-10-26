@@ -25,7 +25,12 @@ class __Hub__Servicer(__Hub__.Servicer):
             # Opened by the application at start, never by a user.
             open=allow_if(all=[is_app_internal]),
             # Anyone signed in can do everything; roles come with
-            # "Who may do what".
+            # "Who may do what". Never `any=[has_verified_token,
+            # is_app_internal]` here: `is_app_internal` denies, so a
+            # caller not signed in gets `PermissionDenied`, not the
+            # `Unauthenticated` its scenario expects (9 of 14 builds,
+            # hotel-300 to 338). Another servicer that calls this one
+            # gets its own method rule with `is_app_internal`.
             _default=allow_if(all=[has_verified_token]),
         )
 
