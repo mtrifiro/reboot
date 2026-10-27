@@ -39,10 +39,6 @@ Its options, word for word, filled from the design:
   minutes: its domain model is shown on the dashboard (a question only
   where it differs from the design), its rules are proven by their
   scenarios, then its page is built."
-- "Yes, and explain as it builds (learning mode)": "The same, and each
-  report ends with an explanation of the code written: what each part
-  is for and why it is shaped that way, also kept in
-  design/exegesis.md." Left out when the build is verbose already.
 - "Not yet": "I want to change something first: a feature, who signs
   in, the palette, or anything in the design." Nothing more: what
   happens next is said after the answer.
@@ -50,6 +46,10 @@ Its options, word for word, filled from the design:
 
 No option is marked recommended: the answer stays in the chat as the
 question and the option chosen, and a yes needs no recommendation.
+No option for learning mode: the `app` skill's opening question
+offered it ("Learn Reboot as it builds", the `guide` skill), so the
+build is verbose already or the user chose not to be; "explain as you
+build" typed at any point still turns it on.
 
 **Which palette?**, in the same dialog as its second question, when
 the mockup was made in four palettes (`comp.md`, step 3): one option
@@ -82,14 +82,10 @@ again seven seconds later; the user saw a two-sentence paraphrase):
    **Assumed** (the features and their order, who signs in, the
    palette by name), with the words that change it ("add guest
    requests", "staff roles from the start", "use Harbour").
-4. **Learning mode:** what "Yes, and explain as it builds" adds: each
-   report ends with an explanation of the code written and why it is
-   shaped that way, kept in design/exegesis.md, and a reason on each
-   step line.
-5. **What Reboot does for you here:** three or four lines from the
+4. **What Reboot does for you here:** three or four lines from the
    design's own section of that name, in this app's nouns
    (`conversation.md`, "Say what Reboot does here").
-6. **Where things are:** the design page beside the chat and
+5. **Where things are:** the design page beside the chat and
    `design/design.md`, the mockup, the dashboard once the API exists;
    and the other ways to go on: prompt by prompt, or the rest at once
    at any handoff.
@@ -124,8 +120,6 @@ user's words are the agreement.
   the design as proposed, no features added: no stops, one handoff at
   the end. The task list is the whole-app list (`task-list.md`, where
   the plugin has it), its first item done.
-- **Yes, and explain as it builds:** verbose on
-  ([`exegesis.md`](exegesis.md)), then as below.
 - **Yes, start building** (or the first feature named): the
   first feature's **Methods** go into `design/design.md` and the page
   is drawn again (`design-document.md`), then build it by the
