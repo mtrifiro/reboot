@@ -2,13 +2,13 @@
 title: Accept the Design
 impact: HIGH
 impactDescription: Without a recorded acceptance there is nothing to measure a later change from, and the reasons for the design are lost with the conversation
-tags: design, accept, review table, decisions log, model diff
+tags: flywheel, design, accept, review table, decisions log, model diff
 ---
 
 ## Accept the Design
 
-Acceptance is the user's yes to the design, recorded so a later
-change can be measured from it. It happens at each handoff that asks
+Acceptance ends the Reboot Flywheel's Design stage
+([`flywheel.md`](flywheel.md)). It happens at each handoff that asks
 for it: each feature built one at a time, or the full prototype. The
 user decides from the running app; this is what to put in front of
 them, and what to record once they say yes.
@@ -28,13 +28,31 @@ record of the same rules, one row per rule, written to
 Every rule in a feature file gets a row. A rule with no owner, method
 or scenario is a gap to name in the handoff's **Notes**, not to fill
 silently, as is each interaction, rule or status the design adds to or
-changes from what the user asked for, with its reason.
+changes from what the user asked for, with its reason. Then the
+close, never a question: a handoff asks nothing (no dialog, no
+next-step box question).
 
-The handoff ends with one question, in plain text: accept what was
-just shown and build the recommended next part (named, with why it
-comes next), build another from the list, or change something first.
-A yes, or the next part named, is the acceptance. A change is made,
-shown, and the question asked again. No answer is not acceptance.
+**Every handoff** ends with its **Your turn** section
+([`design-messages.md`](design-messages.md)): what to try first, the
+dashboard's pages and the design, and the parts to build next, the
+recommended one first with why and its time, and that the user asks
+for one when ready.
+
+What the user says next decides: asking for a next part, or saying to
+keep this one, accepts what was reviewed, recorded as below before
+the next part starts; a change goes back into the build. Nothing is
+recorded while the user only tries the app. When nothing is left to
+build, the closing line says so and that the user can ask for changes.
+No reply is not acceptance. Never put "feature", "@wip", "design" or
+"accept" in the closing line: the user judges what they see, and the
+build records what that means.
+
+**No question before building** a part the user chose, or a change
+they asked for in their own words: the choice is the agreement. Say in
+a few lines what it adds, its rules, and anything assumed, then build
+it; the user judges it running at the next handoff. The one question
+before code is a design change the user didn't ask for
+([`flywheel.md`](flywheel.md), the routing rule).
 
 Later handoffs show only the slice the feature adds, under the same
 headings, and `design/design.md` gains its objects, methods, rules
@@ -44,10 +62,11 @@ and rows of the table, each a link.
 
 A change goes back to its slice, through the `feature` skill or the
 proposed design, then here again. A later part waits for the user's
-answer to the handoff's question unless they said up front to build
-on; then the record says which slices were not accepted. No answer is
-not acceptance. The acceptance is recorded when the user says yes,
-before the next part is built.
+reply to the closing line unless they said up front to build on; then
+the record says which slices were not accepted. No answer is not
+acceptance. The acceptance is recorded when the user chooses the next
+part, in the dialog or in reply to the closing line, before that part
+is built.
 
 ### Once accepted
 
@@ -64,11 +83,10 @@ before the next part is built.
    the base every later `model_diff.py` measures from, with or without
    git.
 
-The first handoff copies `scripts/model_diff.py` and
-`scripts/design_links.py` from this skill's `assets/`. After acceptance, `python3 scripts/model_diff.py` lists
-what has changed in the domain model, who may call each method and
-the feature files since then: read it before a change, and say which
-of its lines the user has not yet accepted.
+The first handoff copies `scripts/model_diff.py`,
+`scripts/design_links.py` and `tests/last_run.py` from this skill's
+`assets/` (`python/references/testing-project-setup.md`), and the
+evidence files with them ([`evidence.md`](evidence.md)).
 
 ### The decisions log
 
