@@ -10,5 +10,4 @@ allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 The response's first act is to load the
 [`app-guided` skill](../app-guided/SKILL.md) with the Skill tool, its
 argument the prompt as typed followed by ", verbose", and to follow it
-from the top: learning mode is on, so the go-ahead asks only for the
-yes. Nothing is said, read or asked first.
+from the top: learning mode is on. Nothing is said, read or asked first.
