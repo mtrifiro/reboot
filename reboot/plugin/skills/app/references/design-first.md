@@ -35,10 +35,8 @@ the yes, never how to build.
 Its options, word for word, filled from the design:
 
 - Title: **Ready to build this design?**
-- "Yes, start building": "<First feature>'s backend first, about 15
-  minutes: its domain model is shown on the dashboard (a question only
-  where it differs from the design), its rules are proven by their
-  scenarios, then its page is built."
+- "Yes, start building": "Build <first feature> first, about 15
+  minutes."
 - "Not yet": "I want to change something first: a feature, who signs
   in, the palette, or anything in the design." Nothing more: what
   happens next is said after the answer.
