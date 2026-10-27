@@ -655,7 +655,7 @@ works as it will in the finished app.
    `initialize`, only under `rbt dev run`, seeded as
    `python/references/lifecycle-seeding.md` says. Then write the
    feature's scenarios in the built-in steps of
-   `python/references/testing-features.md`, run `uv run pytest` and
+   `python/references/testing-features.md`, run `uv run pytest` as [`feature/SKILL.md`](../feature/SKILL.md)'s "Report a full run once, at the end" says (in the background, its result said once) and
    `uv run mypy backend/ tests/` with `rbt dev run` stopped (`run`
    skill, "Stopping the App"), and fix what fails before any page.
 7. Scaffold the frontend at `frontend/`
@@ -672,7 +672,7 @@ works as it will in the finished app.
 9. Add one web app scenario for the page per
    `python/references/testing-web-app.md` (it installs Playwright).
    Every feature file then runs from the one test module that
-   starts the frontend. Run `uv run pytest` again.
+   starts the frontend. Run `uv run pytest` again, as [`feature/SKILL.md`](../feature/SKILL.md)'s "Report a full run once, at the end" says (in the background, its result said once).
 10. Start the app with the [`run` skill](../run/SKILL.md) and check
     the page in a headless browser (Playwright; in the Claude app never
     the Browser pane, which is for the user at the handoff): signed
@@ -689,10 +689,11 @@ works as it will in the finished app.
     or a Rule"), how to check it, what's not built yet, and notes.
     Last, close as
     [`app/references/accept-design.md`](../app/references/accept-design.md)
-    says, with no question: it ends with the **Your turn** section of
+    says: it ends with the **Your turn** section of
     [`app/references/design-messages.md`](../app/references/design-messages.md),
     what to try, where to look, and the features to ask for next, the
-    recommended one first. No dialog, at any handoff. The user's asking for a next
+    recommended one first, then the dialog **What should I build next?**
+    with those features as its options. The user's choosing or asking for a next
     feature (or saying to keep this one) accepts this one, and its
     `@wip` comes off then. Open it with the
     Flywheel heading **Reboot Design · ready for your review**; the
@@ -714,7 +715,7 @@ works as it will in the finished app.
     that isn't additive, stop the app with the `run` skill; start it
     again once the scenarios pass.
 14. Stop `rbt dev run` (`run` skill, "Stopping the App"), run
-    `uv run pytest` and `uv run mypy backend/ tests/`, start it again, check the
+    `uv run pytest` as [`feature/SKILL.md`](../feature/SKILL.md)'s "Report a full run once, at the end" says (in the background, its result said once) and `uv run mypy backend/ tests/`, start it again, check the
     page in the browser as in step 10, and show what this feature
     changed as in step 11, with the same links: the objects it added
     or changed, its actions and rules with their scenarios, what
