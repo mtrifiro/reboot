@@ -1,5 +1,5 @@
 {
-  "description": "SessionStart prepends the plugin's bin/ to the agent's PATH so our shims take precedence over system-installed binaries, and injects a reminder to consult the plugin's skills instead of guessing Reboot behavior. UserPromptSubmit re-injects that reminder once it has scrolled out of the transcript's recent tail. PreToolUse auto-approves this plugin's own skills, read-only calls on its files, and the run skill's Reboot dev commands when they run inside a Reboot project.",
+  "description": "SessionStart prepends the plugin's bin/ to the agent's PATH so our shims take precedence over system-installed binaries, and injects a reminder to consult the plugin's skills instead of guessing Reboot behavior. UserPromptSubmit re-injects that reminder once it has scrolled out of the transcript's recent tail. PreToolUse auto-approves this plugin's own skills, read-only calls on its files, and the run skill's Reboot dev commands when they run inside a Reboot project. PostToolUse, once a session, reminds the agent to give the user the dashboard's links as message text when it starts or opens the dashboard.",
   "hooks": {
     "SessionStart": [
       {
@@ -77,6 +77,26 @@
           {
             "type": "command",
             "command": "${CLAUDE_PLUGIN_ROOT}/hooks/auto-approve.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/say-dashboard-links.py\""
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__.*preview_start",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/say-dashboard-links.py\""
           }
         ]
       }
