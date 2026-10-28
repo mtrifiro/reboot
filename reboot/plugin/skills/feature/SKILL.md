@@ -77,7 +77,7 @@ it anyway, with `@wip` on the whole feature:
 
 ```gherkin
 @wip
-Feature: Customers can transfer money between accounts
+Feature: A transfer never creates or loses money
   A customer moves money from one of their accounts to another
   account of the bank in one step.
 
@@ -88,6 +88,17 @@ Feature: Customers can transfer money between accounts
 
 (The full shape, with `Background:` and scenarios, is in
 `testing-features.md`.)
+
+**The `Feature:` line is the promise the feature keeps:** what is
+always true once it is built, in a short sentence the user would say,
+under ten words ("Only inspected rooms take guests", "A transfer never
+creates or loses money", "No two bookings share a room on a night").
+Never who uses it ("The front desk and housekeeping work the room
+board"), what they can do ("Customers can transfer
+money"), or the page's name ("Room board"): who, how and on which
+page is the description's, and the page's name is the design's. Each
+`Rule:` under it is one of the ways the promise is kept, so none
+repeats the title.
 
 Add the file to the `scenarios(...)` call of the test module whose
 application it runs against, or create the module

@@ -72,7 +72,7 @@ application is up` runs what a `proxy_application` fixture returns.
 ## The Shape of a Feature
 
 ```gherkin
-Feature: Customers can transfer money between accounts
+Feature: A transfer never creates or loses money
   A customer moves money from one of their accounts to another
   account of the bank in one step, which is how they pay someone
   without a withdrawal and a deposit that could come apart.
@@ -267,7 +267,7 @@ saved and awaited the same way.
 
 ```gherkin
 @wip
-Feature: Users can sign in
+Feature: Each person signs up once and signs in as themselves
   ...
 
   Rule: A user signs up once
