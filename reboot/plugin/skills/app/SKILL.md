@@ -1,6 +1,6 @@
 ---
 name: app
-description: "Build a Reboot application from a description, asking first how: Guided (a high-level design to approve, then each part built), Learn Reboot as it builds (the guide skill), Shape the architecture (the build skill) or Hands off (the vibe skill); a prompt that already says how goes straight to that skill. Holds the front-door routing every build uses: an MCP App (ChatGPT, Claude, VSCode, Goose) or a standalone web app by the prompt's own words, otherwise the web app, the other offered at handoff. Use for any prompt that asks to build an app and names no skill."
+description: "Build a Reboot application from a description, asking first how: Guided (a high-level design to approve, then each part built), Learn Reboot as it builds (the guide skill), Shape the architecture (the build skill) or Hands off (the vibe skill), and whether to ask questions before the design (up to 20, only when the user says yes); a prompt that already says how goes straight to that skill. Holds the front-door routing every build uses: an MCP App (ChatGPT, Claude, VSCode, Goose) or a standalone web app by the prompt's own words, otherwise the web app, the other offered at handoff. Use for any prompt that asks to build an app and names no skill."
 argument-hint: '[<app-description>, or <Name>: <app-description>]'
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit, AskUserQuestion
 ---
@@ -48,6 +48,20 @@ prompt's nouns>?**, these options word for word:
 - **Hands off:** "The whole app a real product needs, designed, built
   and reviewed with no questions, handed over at the end."
 
+In the same dialog, a second question, header "Questions", **Should I
+ask you questions before the design?**, these options word for word:
+
+- **No, assume and show me (Recommended):** "The design comes in a few
+  minutes, with what it assumed listed; any of it is a word away."
+- **Yes, ask me first:** "Up to 20 questions, four at a time, until
+  there is enough to design it well; the design follows your
+  answers."
+
+On **Yes** (or a prompt that asks for questions first: "ask me
+questions", "interview me"), the questions of
+[`references/interview.md`](references/interview.md) come next, their
+answers in `design/interview.md`, and only then the skill below.
+
 The dialog carries the explanation, since text at the start of a
 build is not reliably shown (hotel-300 to hotel-338 wrote the opening
 only in thinking; every dialog was shown). Then load, its argument the
@@ -59,7 +73,7 @@ prompt followed by ", chosen": Guided, the
 nearest (one feature only: `app-basic`; no design: `app-just`).
 
 Nothing is read, no folder is listed and no plan is made before the
-dialog. A skill named in the prompt (`/reboot:app-whole …`) never
+dialog (the interview reference is read after it, and only on Yes). A skill named in the prompt (`/reboot:app-whole …`) never
 comes here.
 
 ## Routing
