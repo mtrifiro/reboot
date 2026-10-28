@@ -386,11 +386,15 @@ full prototype first, accepted at its handoff.
    left open and an answer would change most, such as who signs in
    with which roles and what the app keeps track of. Give each question two to four options, the simplest
    first and marked as recommended, so accepting every
-   recommendation is one answer. When the user named no brand, one of
-   them is the accent: two or three of teal, cyan, blue, indigo,
-   violet, purple, plum and rose that suit the domain, plus "use my
-   brand" for a site or tokens to read. Don't ask what the design can
-   decide well on its own. Ask nothing more until the handoff.
+   recommendation is one answer. Don't ask about the look: when the
+   user named no brand, pick the accent that suits the domain from
+   teal, cyan, blue, indigo, violet, purple, plum and rose, and say in
+   the brief that it was picked for them and is easy to change later,
+   to another color or to their brand. Name the app too, unless the
+   prompt gives a name, and say the same of it. Don't ask what the design can
+   decide well on its own. Never ask about time zones: every date
+   and time is in the user's own time zone unless they say otherwise,
+   and the design says so among what it assumed. Ask nothing more until the handoff.
 3. Read the references for the API, then show the proposed design
    with the answers in it, before writing the API: the brief (who
    uses the app and on what screen, the task, the one question its
@@ -639,7 +643,8 @@ works as it will in the finished app.
    `python/references/lifecycle-seeding.md` says. Then write the
    feature's scenarios in the built-in steps of
    `python/references/testing-features.md`, run `uv run pytest` and
-   `uv run mypy backend/ tests/`, and fix what fails before any page.
+   `uv run mypy backend/ tests/` with `rbt dev run` stopped (`run`
+   skill, "Stopping the App"), and fix what fails before any page.
 7. Scaffold the frontend at `frontend/`
    (`npm create vite@latest frontend -- --template react-ts`), shape
    it as [`references/react-client.md`](references/react-client.md)
@@ -658,7 +663,8 @@ works as it will in the finished app.
 10. Start the app with the [`run` skill](../run/SKILL.md) and check
     the page in a real browser (Playwright, or the agent's browser
     tool): signed in, it shows the whole demo data, its main action
-    works, no console errors.
+    works, every filter or drawer it opens can be cleared or closed,
+    no console errors.
 11. Show what was built so the user can judge it, not admire it:
     the aim is that they understand what the app now is and can
     decide whether it is what they want to ship. In their nouns,
@@ -693,7 +699,8 @@ works as it will in the finished app.
     change to an existing page, and its scenarios. Before a change
     that isn't additive, stop the app with the `run` skill; start it
     again once the scenarios pass.
-14. Run `uv run pytest` and `uv run mypy backend/ tests/`, check the
+14. Stop `rbt dev run` (`run` skill, "Stopping the App"), run
+    `uv run pytest` and `uv run mypy backend/ tests/`, start it again, check the
     page in the browser as in step 10, and show what this feature
     changed as in step 11, with the same links: the objects it added
     or changed, its actions and rules with their scenarios, what

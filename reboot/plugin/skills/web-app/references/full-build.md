@@ -101,7 +101,8 @@ order.
       page shows the whole set, not part of it;
     - every page of the design opens as a signed-in user and shows
       the demo data, with no errors in the browser console;
-    - the main action of each page works once.
+    - the main action of each page works once, and every filter or
+      drawer it opens can be cleared or closed.
 
     That is the whole check: don't test flows end to end by hand, and
     don't check phone width or the dark scheme yet. The scenarios
