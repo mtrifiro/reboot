@@ -110,9 +110,8 @@ Feature: A transfer never creates or loses money
 an example.**
 
 - The **feature** is one thing a user can do, named for the promise
-  it keeps, with a description that explains it (what the promise
-  means, why it matters, who does what, how it plays out: the
-  `feature` skill, Step 2); it
+  it keeps, with a short description of what the promise means and why
+  it matters (the `feature` skill, Step 2); it
   is the right size when its rules all serve one user goal and read
   like a specification someone could implement from.
 - A **rule** is a business invariant someone would verify formally
