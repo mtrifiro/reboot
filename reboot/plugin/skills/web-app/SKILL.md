@@ -465,8 +465,9 @@ finished app.
    [`dashboard` skill](../dashboard/SKILL.md) without waiting for
    it; if it fails to come up, say so in one sentence and keep
    building. Built from the `app-guided` skill, the first
-   feature instead waits for it and asks "Build on this domain model?" only on a change (the model check;
-   not on the prompt-by-prompt path, which asks nothing)
+   feature instead says the domain model's line once it answers,
+   with a line per change from the design, and goes on, asking
+   nothing
    ([`app/references/design-first.md`](../app/references/design-first.md),
    "The domain model, once") before step 5.
 5. Edit the starter's servicers into the feature's: its rules, its

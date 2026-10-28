@@ -58,9 +58,8 @@ The first feature's backend:
 Item 2 covers the scaffold, the rules as scenarios, then the domain model
 and starting the dashboard. Item 3 covers the actions, who may do
 each, demo data and the tests (scenarios pass, types check). The
-domain model check
-after item 2 (only on a change) (`app/references/design-first.md`) are dialogs, not
-items; after item 3 the backend's results are said and the frontend
+domain model's line after item 2 (`app/references/design-first.md`)
+is not an item; after item 3 the backend's results are said and the frontend
 list takes over; a front door's skill used on its own and the
 prompt-by-prompt path (below) ask neither.
 
