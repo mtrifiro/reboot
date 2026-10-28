@@ -168,6 +168,22 @@ whole task list. So:
   buttons: the feature is running for the user to try.
 - A dialog the user skipped is not a reason to ask again in the box.
 
+**A change to the look** (colors, typefaces, a brand, corners, the
+layout), asked for at any point after the first handoff, goes to the
+[`design-review` skill](../../design-review/SKILL.md): it reviews the look first, then the user picks from previews
+and each change can be undone. It isn't a feature, so nothing is
+recorded as kept for it.
+
+**A review of the domain model or the architecture** ("will this
+scale?", "review the data model") goes to the
+[`domain-review` skill](../../domain-review/SKILL.md): it reviews from numbers and
+makes the changes the user picks, every rule still passing.
+
+**What to build next, for a roadmap or "what's missing"** goes to the
+[`what-next` skill](../../what-next/SKILL.md): it weighs
+what's built, the design's gaps and original research, and suggests
+four to six features with their evidence.
+
 **Keeping a feature is recorded when the user asks for more.** When
 the user asks for the next feature, or says to keep this one, the
 build records it as kept ([`accept-design.md`](accept-design.md)) and says
