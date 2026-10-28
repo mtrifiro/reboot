@@ -261,6 +261,71 @@ def model_of(sources: dict[str, str]) -> tuple[dict, dict]:
     return types, models
 
 
+# A package holding this many domain objects or more is suggested for a
+# split by area (accept-design.md, "Packages").
+PACKAGE_SPLIT_AT = 6
+
+
+def packages_of(sources: dict[str, str]) -> dict[str, dict]:
+    """{package: {"objects": [Type, ...], "imports": {package, ...}}}.
+
+    A package is the folder under `api/` (`api/rooms/v1/rooms.py` is
+    `rooms.v1`); it imports another when a file in it does
+    `from <other package>.<module> import ...`."""
+    packages: dict[str, dict] = {}
+    for path, source in sources.items():
+        parts = Path(path).parent.parts
+        name = ".".join(parts[1:]) if parts[:1] == ("api",) else ".".join(parts)
+        entry = packages.setdefault(name, {"objects": [], "imports": set()})
+        types, _ = model_of({path: source})
+        entry["objects"] += sorted(types)
+        entry["imports"] |= set(re.findall(r"^from\s+([\w.]+?)\.\w+\s+import", source, re.M))
+    for entry in packages.values():
+        entry["imports"] &= set(packages)
+    return packages
+
+
+def import_circles(packages: dict[str, dict]) -> list[list[str]]:
+    """Each circle of packages importing one another, once, as a path."""
+    circles: list[list[str]] = []
+    seen: set[frozenset[str]] = set()
+
+    def walk(start: str, here: str, path: list[str]) -> None:
+        for nxt in sorted(packages[here]["imports"] - {here}):
+            if nxt == start:
+                key = frozenset(path)
+                if key not in seen:
+                    seen.add(key)
+                    circles.append(path + [start])
+            elif nxt not in path and nxt > start:
+                walk(start, nxt, path + [nxt])
+
+    for name in sorted(packages):
+        walk(name, name, [name])
+    return circles
+
+
+def package_lines(sources: dict[str, str]) -> list[str]:
+    """What to say about the API's packages: circles, and a package big
+    enough to split by area. Empty when there is nothing to say."""
+    packages = packages_of(sources)
+    lines = []
+    for circle in import_circles(packages):
+        lines.append(
+            "- **Packages import each other in a circle**: "
+            + " → ".join(f"`{p}`" for p in circle)
+            + ". Layer them, so one on top joins the others (`accept-design.md`, \"Packages\")."
+        )
+    for name, entry in sorted(packages.items()):
+        if len(entry["objects"]) >= PACKAGE_SPLIT_AT:
+            lines.append(
+                f"- `{name}` holds {len(entry['objects'])} domain objects "
+                f"({', '.join(entry['objects'])}): suggest one package per area, before "
+                "the first deploy (`accept-design.md`, \"Packages\")."
+            )
+    return lines
+
+
 def model_changes(before: dict[str, str], after: dict[str, str]) -> list[Change]:
     old_types, old_models = model_of(before)
     new_types, new_models = model_of(after)
@@ -660,6 +725,7 @@ def markdown(
     accepted: dict | None = None,
     tickets: list[str] | None = None,
     last_run: dict | None = None,
+    packages: list[str] | None = None,
 ) -> str:
     if not changes:
         lines = [
@@ -693,6 +759,8 @@ def markdown(
             "",
         ]
         lines += [f"- `{name}`" for name in unauthorized]
+    if packages:
+        lines += ["", "_Packages_", ""] + packages
     if tickets:
         lines += ["", "_Tickets_: " + ", ".join(tickets)]
     design_count = sum(1 for c in changes if c.stage == "design")
@@ -747,6 +815,7 @@ def main() -> int:
     ) + feature_changes(features_before, features_after)
     tickets = tickets_of(features_before, features_after)
     unauthorized = servicers_without_authorizer(backend_files_at(head))
+    packages = package_lines(files_at(head, "api", ".py"))
     head_label = head or "working tree"
     if accepted and accepted.get("is_base") and base != AT_ACCEPTANCE:
         base = base[:7]
@@ -763,9 +832,11 @@ def main() -> int:
             "accepted": accepted,
             "tickets": tickets,
             "last_run": last_run,
+            "packages": packages,
         }, indent=2))
     else:
-        print(markdown(base, head_label, changes, unauthorized, accepted, tickets, last_run), end="")
+        print(markdown(base, head_label, changes, unauthorized, accepted, tickets, last_run,
+                       packages), end="")
     return 0
 
 
