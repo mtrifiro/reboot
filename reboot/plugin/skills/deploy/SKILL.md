@@ -49,6 +49,11 @@ than `main`, say what isn't merged yet. Never merge, switch branches or deploy o
 
 ## Step 1 — Gather inputs (ask early, in one pass)
 
+Before the first deploy, when `scripts/model_diff.py` lists a package
+under _Packages_, say so in one line with the rest of the inputs: the
+split is cheap now and a schema change after
+(`app/references/accept-design.md`, "Packages").
+
 Ask the user for everything below up front (one `AskUserQuestion`
 round, or one message), so no later step stalls:
 
