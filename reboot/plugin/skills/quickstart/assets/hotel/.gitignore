@@ -1,0 +1,27 @@
+# Reboot dev-server state.
+.rbt/
+
+# Generated code; recreated by `rbt generate`.
+backend/api/
+frontend/api/
+
+# Secrets.
+.env
+
+# Recordings of browser scenarios, made by running the tests.
+*.recordings/
+
+# The last test run's results.
+tests/.last-run.json
+tests/.suite-running
+
+# Python virtual environment and caches.
+.venv/
+__pycache__/
+*.py[cod]
+.mypy_cache/
+.pytest_cache/
+
+# Frontend dependencies and build output.
+node_modules/
+frontend/dist/
