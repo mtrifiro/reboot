@@ -5,6 +5,7 @@ import reboot.aio.tracing
 import tempfile
 import uuid
 from dataclasses import dataclass
+from datetime import timedelta
 from log.log import get_logger
 from pathlib import Path
 from rbt.v1alpha1 import database_pb2
@@ -17,7 +18,7 @@ from reboot.aio.http import WebFramework
 from reboot.aio.internals.application_metadata import ApplicationMetadata
 from reboot.aio.internals.channel_manager import _ChannelManager
 from reboot.aio.libraries import AbstractLibrary
-from reboot.aio.monitoring import monitor_event_loop
+from reboot.aio.monitoring import monitor_event_loop, warn_when_slow
 from reboot.aio.placement import PlanOnlyPlacementClient
 from reboot.aio.resolvers import StaticResolver
 from reboot.aio.servers import run_application_initializer
@@ -40,6 +41,7 @@ from reboot.server.database import DatabaseServer, DatabaseServerFailed
 from reboot.settings import (
     ENVVAR_LOCAL_ENVOY_USE_TLS,
     ENVVAR_REBOOT_CLOUD_DATABASE_ADDRESS,
+    ONLY_LOCALHOST_NETWORK_ADDRESS,
 )
 from reboot.wait_for_tasks import wait_for_tasks
 from typing import Awaitable, Callable, Optional, Sequence, overload
@@ -193,8 +195,17 @@ class Reboot:
             # Let the PlacementPlanner choose its own port locally, in
             # case we are running multiple PlacementPlanners on the
             # same host (for example, running multiple unit tests in
-            # parallel).
-            '127.0.0.1:0'
+            # parallel). Only connections from this machine are expected, so we
+            # use only the loopback, and we couldn't use
+            # `EVERY_LOCAL_NETWORK_ADDRESS` anyway on macOS because gRPC binds
+            # IPv6 as well (one dual-stack socket) and macOS has a bug where
+            # its IPv6 ephemeral-port allocator doesn't check ports held by
+            # IPv4 sockets, so the server can be handed a port that an IPv4
+            # listener (e.g., an orphaned Envoy) already holds and connections
+            # to `ONLY_LOCALHOST_NETWORK_ADDRESS` (`127.0.0.1`) reach that
+            # listener instead; see
+            # https://github.com/reboot-dev/reboot/pull/234.
+            f'{ONLY_LOCALHOST_NETWORK_ADDRESS}:0'
         )
 
     async def start(self):
@@ -502,17 +513,29 @@ class Reboot:
                 servers=servers,
                 allowed_origins=allowed_origins,
             )
-            await self._application_metadata.validate_schema_backwards_compatibility(
-                config
-            )
+            # This step makes the application metadata calls, which
+            # carry a deadline of their own; expect it to finish well
+            # within that deadline so the log names the step we are
+            # stuck on before the deadline fails the process.
+            async with warn_when_slow(
+                "Validate the application's schema against the database",
+                expected=timedelta(seconds=10),
+            ):
+                await self._application_metadata.validate_schema_backwards_compatibility(
+                    config
+                )
             revision = ApplicationRevision(config=config)
 
         assert revision is not None
 
         # This addition will trigger a new plan being made: then, wait for it
         # to have been observed.
-        await self._config_tracker.add_config(revision.config)
-        await self._wait_for_local_plan_sync()
+        async with warn_when_slow(
+            "Start the application's servers",
+            expected=timedelta(seconds=30),
+        ):
+            await self._config_tracker.add_config(revision.config)
+            await self._wait_for_local_plan_sync()
 
         trusted_address: Optional[str] = None
         if local_envoy:
