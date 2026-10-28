@@ -250,6 +250,14 @@ genuinely isn't covered, bound the output hard (a targeted
 `grep -n … | head -40`, or `sed -n '<start>,<end>p'` over a known
 range), never a whole generated file.
 
+Read this plugin's own skills and references with the agent's file
+tools (Read, Grep, Glob), not `cat`, `grep` or `cd` in a shell: a
+host's auto mode can take a shell command in the plugin's install
+folder for a change and block it, and after a few blocks it asks the
+user about every action. Never edit installed packages (`.venv/`,
+`site-packages/`, `node_modules/`) unless the user agreed to it, as a
+known issue's workaround may ask.
+
 ### Building a workflow
 
 - `references/servicer-workflow.md` — **the** single, comprehensive
