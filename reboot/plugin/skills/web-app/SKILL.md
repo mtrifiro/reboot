@@ -367,6 +367,12 @@ where after each the user sees it running, understands it and
 chooses the next, so the design is accepted piece by piece; or a
 full prototype first, accepted at its handoff.
 
+This is the first stage of the **Reboot Flywheel**: Design, then
+Prove, then Observe, each ending in a decision that is the user's.
+[`app/references/flywheel.md`](../app/references/flywheel.md) has
+the stages, the heading each decision opens with, and the routing
+rule that sends a change to the design back to Design.
+
 ### Design Phase
 
 0. List the app's features, one sentence each, in the order they
@@ -386,7 +392,8 @@ full prototype first, accepted at its handoff.
    left open and an answer would change most, such as who signs in
    with which roles and what the app keeps track of. Give each question two to four options, the simplest
    first and marked as recommended, so accepting every
-   recommendation is one answer. Don't ask about the look: when the
+   recommendation is one answer. Never an option that only
+   means "say what": every dialog has its own free answer. Don't ask about the look: when the
    user named no brand, pick the accent that suits the domain from
    teal, cyan, blue, indigo, violet, purple, plum and rose, and say in
    the brief that it was picked for them and is easy to change later,
@@ -673,18 +680,25 @@ works as it will in the finished app.
     what it keeps track of, what it does with each rule linked to the
     dashboard's Features page (`dashboard` skill, "Links to an Object
     or a Rule"), how to check it, what's not built yet, and notes.
-    Last, ask one question, as
+    Last, close as
     [`app/references/accept-design.md`](../app/references/accept-design.md)
-    says: accept this feature (its `@wip` comes off) and build the
-    recommended next one (name it, and why it comes next), another
-    from the list, or change something first. On a yes, record the
-    acceptance as it says.
+    says, with no question: it ends with the **Your turn** section of
+    [`app/references/design-messages.md`](../app/references/design-messages.md),
+    what to try, where to look, and the features to ask for next, the
+    recommended one first. No dialog, at any handoff. The user's asking for a next
+    feature (or saying to keep this one) accepts this one, and its
+    `@wip` comes off then. Open it with the
+    Flywheel heading **Reboot Design · ready for your review**; the
+    first time, record it as `app/references/accept-design.md` says; each
+    acceptance is recorded the same way
+    ([`app/references/accept-design.md`](../app/references/accept-design.md)).
 
 **Each next feature**, when the user chooses it:
 
-12. Agree it in plain English and write its `@wip` feature file
-    ([`feature` skill](../feature/SKILL.md)), and show the part of
-    the domain model it adds. If it changes the shape of existing
+12. Say it in plain English in a few lines, with no question (the
+    user chose it), and write its `@wip` feature file
+    ([`feature` skill](../feature/SKILL.md)); show the part of the
+    domain model it adds. If it changes the shape of existing
     data, say the demo data will be reset, and why.
 13. Add its types and methods to the API (additive only, per
     `python/references/api-schema-evolution.md`), `rbt generate`,
@@ -707,7 +721,15 @@ When the user says the app is done, offer an MCP UI in one line
 ## Update Flow
 
 To change an existing app, read `.rbtrc`, the API, the servicers,
-`main.py` and `frontend/web/src/App.tsx`, then follow steps 12 to 14.
+`main.py` and `frontend/web/src/App.tsx`, then route the change by
+the Flywheel's routing rule (`app/references/flywheel.md`;
+`python3 scripts/model_diff.py` sorts it): a change
+to a domain object, a rule or who may call goes back to Design;
+anything else stays in Prove. A design change the user asked for is
+built and judged at the next handoff; one they didn't ask for is shown
+and asked about before code
+([`app/references/accept-design.md`](../app/references/accept-design.md)). Then follow
+steps 12 to 14.
 An app with persisted or deployed state follows
 `python/references/api-schema-evolution.md`. Under `rbt dev run`,
 edits (and `.env`) reload it; no restart.
