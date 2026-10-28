@@ -1,6 +1,6 @@
 ---
 name: app-guided
-description: "The guided build of a Reboot application: the app-design skill's proposed design, asking nothing first (the recommended features, sign-in and palette under Assumed), no go-ahead (the build starts after the design; any of them changes at any point), then the build with each part explained; a design already proposed in design/design.md is built on without asking again. Loaded by the app skill by default, or asked for by name (/reboot:app-guided); a prompt that asks for an app in plain words goes to the app skill, which asks its questions first."
+description: "The guided build of a Reboot application: the app-design skill's proposed design, asking nothing first (the recommended features, sign-in and palette under Assumed), no go-ahead (the build starts after the design; any of them changes at any point), then the build with each part explained; a design already proposed in design/decisions.md is built on without asking again. Loaded by the app skill by default, or asked for by name (/reboot:app-guided); a prompt that asks for an app in plain words goes to the app skill, which asks its questions first."
 argument-hint: [<app-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 ---
