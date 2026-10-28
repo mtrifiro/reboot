@@ -1,6 +1,6 @@
 ---
 name: app-design
-description: "Design a Reboot application from a description, without building it: on its own, one round of questions about what to build (the first features, who signs in, the palette); loaded by the app-guided or app-whole skill, none (the recommended answers, under Assumed); then the whole proposed design written once to design/design.md and drawn as a page beside the chat, its summary in the chat, where the guided and build skills pick it up; loaded by the app-whole skill, a whole-app scope. Use when the user asks for a design, a proposal or a plan for an app and not yet the app, or asks for it by name (/reboot:app-design); a prompt that asks to build an app goes to the app skill, which runs this skill through the app-guided skill."
+description: "Design a Reboot application from a description, without building it: on its own, one round of questions about what to build (the first features, who signs in, the palette); loaded by the app-guided or app-whole skill, none (the recommended answers, under Assumed); then the whole proposed design written once to design/design.md and its summary in the chat, where the guided and build skills pick it up; loaded by the app-whole skill, a whole-app scope. Use when the user asks for a design, a proposal or a plan for an app and not yet the app, or asks for it by name (/reboot:app-design); a prompt that asks to build an app goes to the app skill, which runs this skill through the app-guided skill."
 argument-hint: [<app-description>]
 allowed-tools: Read, Write, Edit, Glob, Grep
 ---
@@ -9,7 +9,7 @@ allowed-tools: Read, Write, Edit, Glob, Grep
 
 The Reboot Flywheel's Design stage on its own: the opening, one round
 of questions (on its own only), the research, and the proposed design, written once to
-`design/design.md` and drawn as a page beside the chat. Nothing is built here: no
+`design/design.md`, its summary in the chat. Nothing is built here: no
 code, no `rbt generate`, no project scaffold, no dependency installed.
 
 > **The user sees only message text.** Thinking is shown at most as a
@@ -78,7 +78,7 @@ design, as a working name.
    design it, starting from its rules." Loaded by the `app-guided`
    skill, two sentences: "Next I'll write the design: what the app
    keeps track of, the rules each feature must keep, and its pages,
-   opened beside the chat with a mockup of the main page. Nothing is
+   with a mockup of the main page opened beside the chat. Nothing is
    built until you approve it, and you can change any feature." Word
    for word.
 
@@ -308,32 +308,11 @@ design; reading the references gets no line of its own.
    [`design-document.md`](../app/references/design-document.md), all
    of it but **Methods**, which go in after the go-ahead, before any
    code: the user decides on the rest.
-2. The page, with no model output: `python3 '<this
-   skill>/assets/design_page.py'` from the project root writes
-   `design/design.html`, in the developer dashboard's look, and
-   `design/index.html`, which opens it.
-3. Serve `design/` in the background, its pid in `design/.design.pid`,
-   the mode by `portless doctor` as the
-   [`run` skill](../run/SKILL.md) says, never asked. Under portless,
-   `<project>` the project folder's name:
-
-   ```sh
-   portless design.<project> sh -c 'exec python3 -m http.server "$PORT" --bind 127.0.0.1 --directory design' &
-   echo $! > design/.design.pid
-   ```
-
-   at `https://design.<project>.localhost/`; on plain ports,
-   `python3 -m http.server <port> --directory design`, the first free
-   port from 9860, at `http://localhost:<port>/`. The root opens the
-   page (`design/index.html`). In the Claude app, open it in the
-   Browser pane: a `launch.json` configuration named `design` whose
-   `url` is that address alone, with no path (the app refuses one with
-   a path, hotel-256); elsewhere, the link. The pane keeps one tab per
-   address, so nothing else is ever opened at this one: the mockup has
-   its own server and address (`web-app/references/comp.md`).
-4. In the chat, as text the moment the page opens and before any
-   other call, the design's summary, in the shape of
-   `design-messages.md`, "The proposed design", its link to the page:
+2. In the chat, as text the moment `design.md` is written and before
+   any other call, the design's summary, in the shape of
+   `design-messages.md`, "The proposed design", its link to
+   `design/design.md`. No page is drawn, served or opened for the
+   design (tried 2026-10-28: the summary and the mockup carry it):
    the user reads it while the mockup is made (hotel-338 left it out
    and made the mockup first: 90 s with nothing to read).
 
@@ -398,10 +377,10 @@ skill goes straight on to the build in the same turn.
 follows the design in the same response (`design-first.md`, section
 3), and the app-guided skill takes it from there.
 
-**On its own:** the design and its page (section 3), then one line,
+**On its own:** the design (section 3), then one line,
 the path a Markdown link to the file in the user's project:
 
-> The design is open beside the chat and in design/design.md. Say
+> The whole design is in design/design.md. Say
 > "build it" to build it step by step, "build it all at once", or what
 > to change.
 
@@ -413,7 +392,7 @@ design as its own and starts at **What to expect**; the words were the
 go-ahead. A change ("add a waiting list", "two confirmed gigs a night
 is fine") updates the design and the file, shows what changed (the
 changed lines, not the whole design again), and ends with the same
-line; `design_page.py` draws the page again after every change. A
+line. A
 question about the design is answered in the chat, from the
 design, with no new facts added to it.
 
@@ -425,8 +404,8 @@ design, with no new facts added to it.
   round; a question on the prompt-by-prompt path or when loaded by
   the `app-guided` or `app-whole` skill.
 - An answer taken in the round without its line under **Assumed**.
-- The design drafted only in thinking, or written but not drawn and
-  opened (section 3): the user judges the page beside the chat.
+- The design drafted only in thinking (section 3): the user judges
+  the summary in the chat and the file it links.
 - Dashboard links, a review table or a Decisions section in a
   proposed design.
 - Code, `rbt generate`, a project scaffold or a dependency installed:
