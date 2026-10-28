@@ -108,7 +108,7 @@ steps 4 and 6 (its reviews, step 5, are the one-shot's own).
   slow step, one fact about Reboot said for this app
   ([`../app/references/while-you-wait.md`](../app/references/while-you-wait.md)).
 - **Verbose,** when the argument carries ", verbose" (the `guide`
-  skill, or "Yes, learning mode" in the `app` skill's questions), or
+  skill), or
   the user asked in the prompt or at any point ("verbose", "explain as
   you build", "an exegesis"): each
   milestone report (the model check, the backend check, each handoff)
