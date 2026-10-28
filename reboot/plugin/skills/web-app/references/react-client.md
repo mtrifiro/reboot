@@ -228,6 +228,10 @@ subscribes once, to a reader on their parent that returns them all.
 One subscription per tile, card or row paints the page one record at a
 time, and its totals change until the last arrives
 ([`patterns-cross-actor-reads.md`](../../python/references/patterns-cross-actor-reads.md)).
+A handle costs a connection too: `use<Type>({ id })` opens one when it
+mounts, even with no reader called on it, so a list doesn't call it per
+item. Mount one for the record being acted on: the open drawer, the
+card being dragged, the row being edited.
 
 ## Surfacing a Typed Error to the User
 
