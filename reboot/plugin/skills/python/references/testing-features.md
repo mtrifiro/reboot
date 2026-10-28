@@ -249,6 +249,19 @@ reactive read with a bound, never a sleep:
 Then as "anonymous", `balance` on the `Account` for "<account id>" eventually has `amount=1.0` within 10 seconds
 ```
 
+`eventually has` is only a `Then`. A `Given` or `When ... has` saves
+what it reads *now*, so `eventually has` there is refused ("Almost: a
+Given or When 'has' saves what it reads now; 'eventually has' asserts,
+under a Then"). To wait for something before acting on it (a brief a
+workflow writes, then edited), write the wait as a `Then` and go on
+with `When` steps after it:
+
+```gherkin
+When as "alice", does a `research` on the `Account` for "<account id>"
+Then as "alice", `brief` on the `Account` for "<account id>" eventually has `ready=true` within 30 seconds
+When as "alice", does an `edit_brief` on the `Account` for "<account id>" with `summary="Expanding to EMEA"`
+```
+
 ## Attempts, Aborts, and Tasks
 
 ```gherkin
