@@ -612,6 +612,10 @@ MCP frontend keeps this tree, adds `frontend/mcp/<name>/` beside
 
 ## Step-by-Step Build Flow
 
+The build's task list, where the agent keeps one, uses the items in
+[`app/references/task-list.md`](../app/references/task-list.md), word
+for word.
+
 **All commands run from the application directory.** The build
 finishes one feature, with one page, and shows it; then the user
 chooses the next feature, and the loop below adds it. Each feature is
