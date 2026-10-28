@@ -24,6 +24,8 @@ differences:
   `--mobile=<dir>` for React Native, `--nodejs=<dir>` for Node.js, or
   `--web=<dir>` for a plain web page. `<dir>` is in their project
   when they gave one.
+- **The task list:** as [`task-list.md`](task-list.md) says for a
+  backend only.
 - **No pages:** skip the frontend steps and the web app scenario. The
   scenarios in the built-in steps prove every action and rule.
 - **Auth:** keep `User` and `oauth=` as the front doors do; their

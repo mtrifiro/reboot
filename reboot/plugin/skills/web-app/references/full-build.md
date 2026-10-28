@@ -15,6 +15,9 @@ spelled out.
 
 ### The Steps
 
+The task list uses the items "The whole app first" in
+[`app/references/task-list.md`](../../app/references/task-list.md).
+
 **All commands run from the application directory.**
 
 1. Create `.python-version`, `pyproject.toml`, `.rbtrc`, and
