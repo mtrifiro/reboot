@@ -37,10 +37,10 @@ skill's references; read them at the step that needs them:
 Before any file changes, tell the user what you understand the
 feature to be, as a person would describe it, not as an API:
 
-- **Its name**, the promise it keeps (Step 2): "A transfer never
-  creates or loses money".
-- **What it is for**, as Step 2's description says: what the promise
-  means and why it matters, in two or three sentences.
+- **Its name**, an overview of what it lets the user do (Step 2):
+  "Transfers between accounts".
+- **What it is for**, as Step 2's description says: what it is for
+  and the promise that matters most, in two or three sentences.
 - **Its rules**, only where there is a clear business rule or an
   invariant of the whole system, the kind one would want to verify
   formally: money is conserved by a transfer; a balance never goes
@@ -77,7 +77,7 @@ it anyway, with `@wip` on the whole feature:
 
 ```gherkin
 @wip
-Feature: A transfer never creates or loses money
+Feature: Transfers between accounts
   A customer moves money between accounts, and both balances change
   together or not at all. Otherwise a failure halfway could take money
   out of one account without putting it in the other.
@@ -90,20 +90,20 @@ Feature: A transfer never creates or loses money
 (The full shape, with `Background:` and scenarios, is in
 `testing-features.md`.)
 
-**The `Feature:` line is the promise the feature keeps:** what is
-always true once it is built, in a short sentence the user would say,
-under ten words ("Only inspected rooms take guests", "A transfer never
-creates or loses money", "No two bookings share a room on a night").
-Never who uses it ("The front desk and housekeeping work the room
-board"), what they can do ("Customers can transfer
-money"), or the page's name ("Room board"): who, how and on which
-page is the description's, and the page's name is the design's. Each
-`Rule:` under it is one of the ways the promise is kept, so none
-repeats the title.
+**The `Feature:` line is an overview:** what the feature lets the user
+do, the whole of it, in a short phrase in the user's nouns, under
+eight words ("Checking guests in and out", "Transfers between
+accounts", "Booking a table"). It names everything the feature
+covers, so a feature with check-in, charges and check-out is never
+named for one of them. The promises are the `Rule:` lines, one each
+("Only an inspected room takes a guest"), never the title: a promise
+as the name hides the feature's other rules. Never a sentence, a
+role ("The front desk works the floor plan") or the page's name
+("Floor plan"): the page's name is the design's.
 
 **The description is concise:** one paragraph of two or three short
 sentences, in the user's nouns and plain words, no code names. What
-the promise means, with the domain word that carries it defined if it
+the feature is for and the promise that matters most, with the domain word that carries it defined if it
 needs one ("inspected, which is what ready means here"), and why it
 matters: what goes wrong without it. Who does what, and each step of
 the job, are the rules' and the scenarios'; the description never

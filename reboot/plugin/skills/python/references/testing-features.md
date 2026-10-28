@@ -72,7 +72,7 @@ application is up` runs what a `proxy_application` fixture returns.
 ## The Shape of a Feature
 
 ```gherkin
-Feature: A transfer never creates or loses money
+Feature: Transfers between accounts
   A customer moves money from one of their accounts to another
   account of the bank in one step, which is how they pay someone
   without a withdrawal and a deposit that could come apart.
@@ -109,9 +109,9 @@ Feature: A transfer never creates or loses money
 **A feature is a capability, a rule is an invariant, a scenario is
 an example.**
 
-- The **feature** is one thing a user can do, named for the promise
-  it keeps, with a short description of what the promise means and why
-  it matters (the `feature` skill, Step 2); it
+- The **feature** is one thing a user can do, named as an overview of
+  it ("Transfers between accounts"), with a short description of what
+  it is for and its main promise (the `feature` skill, Step 2); it
   is the right size when its rules all serve one user goal and read
   like a specification someone could implement from.
 - A **rule** is a business invariant someone would verify formally
@@ -268,7 +268,7 @@ saved and awaited the same way.
 
 ```gherkin
 @wip
-Feature: Each person signs up once and signs in as themselves
+Feature: Signing up and signing in
   ...
 
   Rule: A user signs up once
