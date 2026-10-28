@@ -1,6 +1,6 @@
 ---
 name: app-guided
-description: "The guided build of a Reboot application: the app-design skill's proposed design, asking nothing first (the recommended features, sign-in and palette under Assumed), the go-ahead (Ready to build this design?, where any of them changes), then the build with each part explained; a design already proposed in design/design.md is built on without asking again. Loaded by the app skill by default, or asked for by name (/reboot:app-guided); a prompt that asks for an app in plain words goes to the app skill, which asks its questions first."
+description: "The guided build of a Reboot application: the app-design skill's proposed design, asking nothing first (the recommended features, sign-in and palette under Assumed), no go-ahead (the build starts after the design; any of them changes at any point), then the build with each part explained; a design already proposed in design/design.md is built on without asking again. Loaded by the app skill by default, or asked for by name (/reboot:app-guided); a prompt that asks for an app in plain words goes to the app skill, which asks its questions first."
 argument-hint: [<app-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 ---
@@ -29,7 +29,7 @@ response's first act, before any text or other tool call, is to load
 it with the Skill tool (`/reboot:app-design <the prompt>`), never by
 reading its file; when the host asks for a plan before anything, the
 plan is one item, "Propose the design for <app>", and the path's list
-comes after the go-ahead. Right after it loads, its opening goes out
+comes after the design. Right after it loads, its opening goes out
 as text. It says the opening, asks nothing (the round's recommended
 answers go under **Assumed**), reads what the design needs and writes the whole proposed design once,
 its summary in the chat. On a free answer that refuses the design ("just build
@@ -40,13 +40,13 @@ The front door is never asked (the [`app` skill](../app/SKILL.md),
 Routing). Then, for a web app, the comp
 ([`../web-app/references/comp.md`](../web-app/references/comp.md)):
 a mockup of the main page in the look, served, opened in the pane, one line
-with its link. Then, in the same response as the design, the go-ahead,
-**Ready to build this design?**
+with its link, ending "Building it now.". Then, in the same response,
+the build, step by step, with no go-ahead
 ([`../app/references/design-first.md`](../app/references/design-first.md),
-section 3): a yes builds step by step (the interactive build),
-and a change to the design is its free answer. The prompt-by-prompt path, asked for in those words at
-the go-ahead or at any handoff, has no go-ahead dialog: the design's
-closing line says what to do, and the user's next prompt is the build.
+section 3): a change to the design is said at any point, or at the
+first handoff. The prompt-by-prompt path, asked for in those words in
+the prompt or at any handoff: the design's closing line says what to
+do, and the user's next prompt is the build.
 
 **A design already proposed:** when `design/design.md` is in the
 project with the status "proposed" and the prompt asks to build it
@@ -58,7 +58,7 @@ step by step), and **Assumed** gets its line. Start at **What to
 expect**. A prompt that changes it first is a design change, made by
 the `app-design` skill's rules, then the same.
 
-**What to expect,** right after the go-ahead (after the design; on the
+**What to expect,** right after the mockup's line (after the design; on the
 prompt-by-prompt path, right after the design's closing line), before any
 other tool call: the chosen path's items, each its own line of a list
 under "What to expect:", filled in from the design:
@@ -80,8 +80,7 @@ under "What to expect:", filled in from the design:
   `design/design.md`, yours to change at any prompt.
 
 **2. Before the design, nothing** beyond what the `app-design` skill
-reads. **After the go-ahead (on the prompt-by-prompt path, after the
-design), read
+reads. **After the design (the mockup's line, on a web app), read
 [`../app/references/conversation.md`](../app/references/conversation.md)**
 once: what the build says, links, opens and asks at every stage from
 there on. Each path's next steps are read when they start: the build's
@@ -93,9 +92,9 @@ steps 4 and 6 (its reviews, step 5, are the one-shot's own).
 
 **3. Throughout the build:**
 
-- **Task list:** until the go-ahead it has the `app-design` skill's one
-  item, "Propose the design for <app>". The chosen path's list follows
-  the go-ahead (on the prompt-by-prompt path, the design).
+- **Task list:** until the design is shown it has the `app-design`
+  skill's one item, "Propose the design for <app>". The chosen path's
+  list follows the design.
 - **Times,** always "about", only in the opening's dialog and in
   **What to expect**: the design, a few minutes; the first feature,
   15; each next feature, 15 to 20; the whole app, about 10 a feature, more for a hard domain.
@@ -134,7 +133,7 @@ steps 4 and 6 (its reviews, step 5, are the one-shot's own).
 ## The front door
 
 By the [`app` skill](../app/SKILL.md)'s Routing: the one the prompt
-names, otherwise the web app, never asked. After the go-ahead, load it
+names, otherwise the web app, never asked. After the design, load it
 with the Skill tool (`/reboot:web-app`, `/reboot:mcp-app`), never by
 reading its `SKILL.md`, or read `../app/references/backend-only.md`,
 and follow it from the top; at handoff, the other door is offered in
