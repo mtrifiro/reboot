@@ -1,6 +1,6 @@
 """`scripts/model_diff.py` sorts each change by the Reboot Flywheel's
 routing rule: a domain-model change or a new or reworded rule goes back
-to Design; a new scenario under an existing rule stays in Prove.
+for the user's yes again; a new scenario under an existing rule is code only.
 
 Run against a throwaway git repository with two revisions of a small
 API and feature file. These are the plugin's own tests: the script is
@@ -294,7 +294,7 @@ class ModelDiffTest(unittest.TestCase):
         assert accepted is not None
         self.assertIsNone(accepted["commit"])
         self.assertIn("**Design accepted**: yes, on ", model_diff.accepted_line({**accepted, "is_base": True}, 0))
-        # A servicer-only change stays in Prove; a reworded rule goes to Design.
+        # A servicer-only change is code only; a reworded rule needs a yes.
         self.servicer.write_text(SERVICER_BEFORE + "\n# a code fix\n")
         before = lambda folder, suffix: model_diff.files_at(model_diff.AT_ACCEPTANCE, folder, suffix)
         self.assertEqual(model_diff.feature_changes(before("tests", ".feature"),
