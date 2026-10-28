@@ -1,6 +1,6 @@
 """Tests for reading a build's numbers from its transcript.
 
-`testdata/` holds seven small transcripts written for these tests:
+`testdata/` holds eight small transcripts written for these tests:
 
 * `baseline.jsonl`: one question answered after a 60 s wait, the design
   shown at 90 s, the API file written at 160 s, 3 scenarios passing at
@@ -22,6 +22,9 @@
   roots, an `AGENTS.md` taken in, code-mode scripts (one with
   JavaScript arrows, one reading a file, one writing a patch), then
   shell calls with a traceback and a passing run;
+* `no_go_ahead.jsonl`: `design_first.jsonl` with no go-ahead and no
+  design message, as a build with no go-ahead that never sent the
+  summary (hotel-350, 2026-10-28);
 * `turn_end.jsonl`: the build ends its turn with the Claude app's
   `wrap_up` at 10 s, the person prompts again at 600 s, and the API
   file is written at 620 s.
@@ -97,8 +100,13 @@ class TheDesignMessage(unittest.TestCase):
         m = read("design_first.jsonl")
         self.assertEqual((m.green_s, m.passed), (151, 4))
 
-    def test_a_build_without_a_design_heading_still_reads(self) -> None:
-        # No heading and no go-ahead: the long message.
+    def test_with_no_go_ahead_or_summary_the_design_is_design_md(self) -> None:
+        # Not the long handoff: design.md written at 50 s, less 30 s
+        # waited on the first question.
+        self.assertEqual(read("no_go_ahead.jsonl").design_s, 20)
+
+    def test_a_build_before_the_design_document_still_reads(self) -> None:
+        # No design.md: the long message, as before.
         self.assertEqual(read("baseline.jsonl").design_s, 30)
 
 

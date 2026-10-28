@@ -40,8 +40,10 @@ What each moment is taken to be:
 * the design: the go-ahead question (`GO_AHEAD`) asked once the
   design has been shown in a message, the moment it is shown for a
   decision; failing that, the first message headed "the proposed
-  design"; failing that, the first message of `DESIGN_WORDS` words or
-  more;
+  design"; failing that, the first write of `design/design.md` (a
+  build with no go-ahead that never sent the summary); failing that,
+  the first message of `DESIGN_WORDS` words or more (a build from
+  before the design document);
 * an edit: the first tool call that writes a file;
 * the feature file: the first write of a `.feature` file;
 * the API file: the first write of a Python file under `api/`;
@@ -62,6 +64,7 @@ from datetime import datetime
 from pathlib import Path
 
 DESIGN_WORDS = 200
+DESIGN_FILE = re.compile(r"(?:^|/)design/design\.md$")
 DESIGN_HEADING = "the proposed design"
 # The question that asks for the go-ahead on a shown design, in either
 # of the skills' wordings.
@@ -465,7 +468,7 @@ def measure(stream: Iterable[Event], agent: str = "") -> Metrics:
     # its own (a working-directory notice) seconds after the turn ends.
     turn_ended: datetime | None = None
     # The design's three readings, best first (the module's docstring).
-    go_ahead_s = heading_s = long_s = -1
+    go_ahead_s = heading_s = file_s = long_s = -1
     for event in stream:
         clock = clock or _Clock(event.at)
         api_written = metrics.api_s >= 0
@@ -509,6 +512,9 @@ def measure(stream: Iterable[Event], agent: str = "") -> Metrics:
                     any(q in event.text for q in GO_AHEAD)
                 ):
                     go_ahead_s = clock.active(event.at)
+            if any(DESIGN_FILE.search(path) for path in event.writes):
+                if file_s < 0:
+                    file_s = clock.active(event.at)
             if event.writes and metrics.edit_s < 0:
                 metrics.edit_s = clock.active(event.at)
             if metrics.edit_s < 0 and not event.sub:
@@ -532,7 +538,7 @@ def measure(stream: Iterable[Event], agent: str = "") -> Metrics:
             if not api_written and not event.sub:
                 metrics.words_before_api += len(event.text.split())
     metrics.design_s = next(
-        (s for s in (go_ahead_s, heading_s, long_s) if s >= 0), -1
+        (s for s in (go_ahead_s, heading_s, file_s, long_s) if s >= 0), -1
     )
     return metrics
 
