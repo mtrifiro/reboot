@@ -69,7 +69,7 @@ scenario makes happen and whether a refusal is shown, each rule with
 its scenarios, the state values the servicers set and those never
 checked, the pages, and **signals** (T1, T2, ...), each with its
 evidence and the question that decides it. A signal is where to look,
-not a finding. Read `design/design.md` (who uses the app, the roles,
+not a finding. Read the proposal (`design/decisions.md`'s first entry) (who uses the app, the roles,
 the rules), every feature file with the Read tool, one call per file,
 and `tests/.last-run.json` for the last run. Read a servicer only
 where a signal points; never generated code.

@@ -1,6 +1,6 @@
 ---
 name: app-design
-description: "Design a Reboot application from a description, without building it: on its own, one round of questions about what to build (the first features, who signs in, the palette); loaded by the app-guided or app-whole skill, none (the recommended answers, under Assumed); then the whole proposed design written once to design/design.md and its summary in the chat, where the guided and build skills pick it up; loaded by the app-whole skill, a whole-app scope. Use when the user asks for a design, a proposal or a plan for an app and not yet the app, or asks for it by name (/reboot:app-design); a prompt that asks to build an app goes to the app skill, which runs this skill through the app-guided skill."
+description: "Design a Reboot application from a description, without building it: on its own, one round of questions about what to build (the first features, who signs in, the palette); loaded by the app-guided or app-whole skill, none (the recommended answers, under Assumed); then the proposed design sent in the chat and saved once as the first entry of design/decisions.md, never edited, where the guided and build skills pick it up (from then on the code is the design); loaded by the app-whole skill, a whole-app scope. Use when the user asks for a design, a proposal or a plan for an app and not yet the app, or asks for it by name (/reboot:app-design); a prompt that asks to build an app goes to the app skill, which runs this skill through the app-guided skill."
 argument-hint: [<app-description>]
 allowed-tools: Read, Write, Edit, Glob, Grep
 ---
@@ -8,8 +8,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep
 # app-design — The Design, Before Any Code
 
 The Reboot Flywheel's Design stage on its own: the opening, one round
-of questions (on its own only), the research, and the proposed design, written once to
-`design/design.md`, its summary in the chat. Nothing is built here: no
+of questions (on its own only), the research, and the proposed design, sent in the chat and saved
+once as the first entry of `design/decisions.md`. Nothing is built here: no
 code, no `rbt generate`, no project scaffold, no dependency installed.
 
 > **The user sees only message text.** Thinking is shown at most as a
@@ -129,8 +129,8 @@ Rules for that response:
   site, a colour).
 - **No name before the design** otherwise. The design proposes one, with the
   palette, under what the build assumed. Its first mention in the
-  Brief, the Brief's first sentence, in the chat and in
-  `design/design.md`, is followed by "(working name)": "**Brief.**
+  Brief, the Brief's first sentence, in the chat and in the saved
+  entry, is followed by "(working name)": "**Brief.**
   Halftime (working name) is used by …", never only a later "The name
   is Halftime (working name)". It stays until the user names the app
   or keeps the name.
@@ -292,33 +292,32 @@ Then the domain model's shape, before it is written down:
 (hotel-271: one `Hotel` with 33 methods held the roster and every
 index; three objects and it called each other.)
 
-Then the proposed design, **written once, as a page**, one line
-before it only when research ran long (what it found that the design
-uses). Never a minute without a line: the opening, the round, then the
-design; reading the references gets no line of its own.
+Then the proposed design, one line before it only when research ran
+long (what it found that the design uses). Never a minute without a
+line: the opening, the round, then the design; reading the references
+gets no line of its own. In this order, one response:
 
-1. `design/design.md`, in one write, in the shape of
-   [`design-document.md`](../app/references/design-document.md), all
-   of it but **Methods**, which go in as the build starts, before any
-   code.
-2. In the chat, as text the moment `design.md` is written and before
-   any other call, the design's summary, in the shape of
-   `design-messages.md`, "The proposed design", its link to
-   `design/design.md`. No page is drawn, served or opened for the
-   design (tried 2026-10-28: the summary and the mockup carry it):
-   the user reads it while the mockup is made (hotel-338 left it out
-   and made the mockup first: 90 s with nothing to read).
+1. **In the chat, first:** the design, as the response's own text
+   before any tool call, in the shape of `design-messages.md`, "The
+   proposed design". This message is the design: no document is
+   written before it, and no page is drawn, served or opened for it
+   (hotel-350 and hotel-351 wrote `design/design.md` first, then went
+   straight to the mockup, and the summary was never sent).
+2. **Then saved:** the first entry of `design/decisions.md`, in one
+   Write, in the shape of
+   [`design-document.md`](../app/references/design-document.md),
+   written from the message just sent. It is never edited after: from
+   here the code is the design (`api/` and the feature files, on the
+   dashboard).
 
-Where commands can't run (a planning-only session), the whole design
-goes in the chat instead, in `design.md`'s shape without its methods.
+Where commands can't run (a planning-only session), the whole entry
+goes in the chat instead, in `design-document.md`'s shape.
 Writing the design twice, in parts then for the chat, made the user
 wait (crm-15 showed its design at 1 m 58 s; hotel-7, writing it once,
 at 47 s).
 
-What the design holds while nothing is built:
+What the design holds:
 
-- **Status:** "proposed on <date>; nothing is built yet. Names become
-  links to the developer dashboard once it shows them."
 - **Four or five features** under **Proposed features, in build
   order**: the first marked, with why; each a job for a named person,
   walked start to finish (user story in one line, then what it lets
@@ -338,13 +337,9 @@ What the design holds while nothing is built:
   name. **A list that grows without limit** (a history, a feed,
   events) is never a field of another object: its own object or an
   `OrderedMap` (`state-collections.md`), said in the design.
-- **No links yet.** Packages, domain objects, methods, features and
-  rules are named in code style (`Room`, `Room.check_in`), never as
-  dashboard links: a link to nothing reads as broken. Links come once
-  the dashboard shows them (`design-first.md`, section 4);
-  `scripts/design_links.py` checks them from then on.
-- **No review table** and **no Decisions** section yet: both come at
-  the first acceptance.
+- **No links, ever.** Packages, domain objects, methods, features and
+  rules are named in code style (`Room`, `Room.check_in`): the entry
+  is never edited, and the dashboard links to what was built.
 - **Assumed**, after **Sign-in**: every answer taken in the round, one
   line each, question then answer, so the user sees what to change,
   and the build that picks the design up reads how to build there
@@ -373,7 +368,7 @@ follows the design in the same response, with no dialog (`design-first.md`, sect
 **On its own:** the design (section 3), then one line,
 the path a Markdown link to the file in the user's project:
 
-> The whole design is in design/design.md. Say
+> The design is saved in design/decisions.md. Say
 > "build it" to build it step by step, "build it all at once", or what
 > to change.
 
@@ -383,9 +378,10 @@ skill](../app-guided/SKILL.md) with the Skill tool (`/reboot:app-guided`),
 never by reading its file: it takes the proposed
 design as its own and starts at **What to expect**; the words were the
 go-ahead. A change ("add a waiting list", "two confirmed gigs a night
-is fine") updates the design and the file, shows what changed (the
-changed lines, not the whole design again), and ends with the same
-line. A
+is fine"), before anything is built, shows what changed (the changed
+lines, not the whole design again), appends an entry "## <date>:
+Design changed: <what>" to `design/decisions.md`, and ends with the
+same line. A
 question about the design is answered in the chat, from the
 design, with no new facts added to it.
 
@@ -397,9 +393,8 @@ design, with no new facts added to it.
   round; a question on the prompt-by-prompt path or when loaded by
   the `app-guided` or `app-whole` skill.
 - An answer taken in the round without its line under **Assumed**.
-- The design drafted only in thinking (section 3): the user judges
-  the summary in the chat and the file it links.
-- Dashboard links, a review table or a Decisions section in a
-  proposed design.
+- The design drafted only in thinking, or written to a file before
+  it is sent (section 3): the user judges the message in the chat.
+- `design/design.md`; a dashboard link in the saved entry.
 - Code, `rbt generate`, a project scaffold or a dependency installed:
   the design is the whole of this skill.

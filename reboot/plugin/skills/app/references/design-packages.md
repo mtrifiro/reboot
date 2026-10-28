@@ -20,8 +20,7 @@ line each, never as a question of its own and never done unasked:
 - **A circle:** layer the packages so the one on top imports the
   others and none imports back.
 - **What it costs,** said with it: each package needs its own
-  `.mypy.ini` entry; the dashboard links and `design.md` move to the
-  new names.
+  `.mypy.ini` entry; the dashboard links move to the new names.
 - **Errors cross packages as they are.** A method declares another
   package's error by importing it (`from rooms.v1.rooms import
   RoomNotReadyError`, then `errors=[RoomNotReadyError]`), and passes
@@ -43,5 +42,5 @@ makes the same cut when it splits a file that holds several areas: the
 API, the servicers and the pages by the same packages.
 
 On the user's yes it is a design change like any other: the split,
-`design.md` with the new names, a decisions entry, and acceptance
+a decisions entry naming the new packages, and acceptance
 ([`accept-design.md`](accept-design.md)).

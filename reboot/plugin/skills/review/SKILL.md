@@ -45,7 +45,7 @@ its sections up to and including the review: read the facts, judge,
 and write the review to `<its file>`. Ask nothing, change nothing in
 the project but that file, never call the task list or wrap-up tools
 (`update_plan`, `wrap_up`), and stop before its dialog. For
-review-domain, take the scale from `design/design.md`'s own counts
+review-domain, take the scale from the proposal (`design/decisions.md`'s first entry)'s own counts
 (its scale dialog's recommended answer, never asked). Reply with the
 verdict in two lines and each finding as one line: its title, its
 harm (money or access, done twice or lost, slow or down, confusing,

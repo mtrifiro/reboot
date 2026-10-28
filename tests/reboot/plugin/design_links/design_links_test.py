@@ -143,8 +143,9 @@ class DesignLinks(unittest.TestCase):
         self.assertNotIn(":9871/", text)
         self.assertEqual(text.count(":9873/#/"), 6)
 
-    def test_no_document(self) -> None:
+    def test_no_document_and_no_log(self) -> None:
         (self.root / "design/design.md").unlink()
+        (self.root / "design/decisions.md").unlink(missing_ok=True)
         self.assertEqual(self.run_it().returncode, 2)
 
 
@@ -173,6 +174,19 @@ class TheDecisionsLog(DesignLinks):
         super().setUp()
         self.write("design/decisions.md", LOG)
         self.write("design/design.md", DOCUMENT + ENTRIES)
+
+    def test_no_document_checks_the_log_alone(self) -> None:
+        # The design is the code; only the newest entry's links are checked.
+        (self.root / "design/design.md").unlink()
+        r = self.run_it()
+        self.assertEqual(r.returncode, 0, r.stdout)
+        self.assertIn("design/decisions.md's newest entry", r.stdout)
+        log = self.root / "design/decisions.md"
+        log.write_text(log.read_text() + f"\n## 2026-10-16: Design accepted: Rules\n\n"
+                       f"- [the rule]({D}features/tests/booking.feature/rules/1)\n")
+        r = self.run_it()
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn("not rule 1", r.stdout)
 
     def test_every_entry_linked(self) -> None:
         r = self.run_it()
