@@ -9,7 +9,9 @@ tags: conversation, links, browser pane, narration, questions, research, handoff
 
 **Every line below is message text, in these words, before the
 response's tool calls: never only in thinking, which the user never
-gets as a message** (`app-guided` skill, top).
+gets as a message** (`app-guided` skill, top). **Each message starts
+with `reboot:`**, on a line of its own above a heading, a list or a
+quote.
 
 Read once, after the design and the build has said what to expect (`app-guided` skill, step 1). It covers the
 rest of the build: links, the Browser pane, what is said after each

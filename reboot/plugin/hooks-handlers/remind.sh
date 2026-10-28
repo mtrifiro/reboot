@@ -132,5 +132,8 @@ references in the `python` skill.
 or restarts to discover how Reboot behaves. After two failed attempts
 at the same goal, stop, read the relevant skill reference, and explain
 the constraint before trying again.
+- Every text message to the user starts with `reboot:`, on a line of
+its own above a heading, a list or a quote; dialogs and tool calls
+take no prefix.
 EOF
 printf '"}}\n'
