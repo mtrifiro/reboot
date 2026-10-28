@@ -130,8 +130,7 @@ not an MCP App's setup wizard. Outside the Claude app, the skills'
 usual behaviour stands.
 
 **After every answer, say what comes next.** Whenever the user
-answers a dialog or asks for something (how to build, the go-ahead,
-the model check, the next feature), the first thing after
+answers a dialog or asks for something (how to build, the next feature), the first thing after
 it, before any tool call, is one or two sentences in plain words: what
 will be done now, in the user's nouns, and what they'll see next, with
 the time when the opening's estimates give one. Short: no list of
@@ -177,8 +176,7 @@ ends a working turn with a next-step box of its own (`wrap_up`: a
 recap, one question, reply buttons), and that box also checks off the
 whole task list. So:
 
-- **Questions inside the build** (Build on
-  this domain model? (the model check), What
+- **Questions inside the build** (What
   should I build next?) are dialogs (`AskUserQuestion`) asked while the
   turn goes on, never the box: the box would tick every item on the
   list before anything is built, and the list would then have to be
@@ -190,10 +188,7 @@ whole task list. So:
   skipped dialog, the box gets the recap only, with no `ask` and no
   buttons: the feature is running for the user to try.
 - **Every question inside the build offers a way to learn more before
-  answering:** "Walk me
-  through it" on the model check
-  (`design-first.md` gives each one's answer). It answers in the chat
-  and asks the same dialog again. What should I build next? describes
+  answering.** What should I build next? describes
   each part in its option instead, since its options are the parts.
 - **On the prompt-by-prompt path none of these is asked** (`design-first.md`,
   section 3): each prompt is built as asked, **Your turn** ends with

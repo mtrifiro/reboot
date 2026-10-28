@@ -1,7 +1,7 @@
 ---
 title: The Design First, Then How to Build It
 impact: HIGH
-impactDescription: After the app-design skill's round and proposed design, the app-guided skill builds with no go-ahead; in the first feature, the domain model check and the frontend question, each with its text just above it; the prompt-by-prompt path asks none of them.
+impactDescription: After the app-design skill's round and proposed design, the app-guided skill builds with no go-ahead; in the first feature, the domain model said in a line with what changed, nothing asked; the prompt-by-prompt path asks none of them.
 tags: go-ahead, domain model, frontend, dialogs, design, prompt by prompt
 ---
 
@@ -75,19 +75,23 @@ plugin has it), its first item done.
 change, a question): do it or answer it, say so in a line, then ask
 the same dialog again, its text above it. It is never a yes, nor a no:
 only an answer that says to go on ("go", "build it", "looks good") is
-a yes. This holds for **Build on this domain model?** below
-(hotel-214, 2026-10-19: a banner photo sent in place of the domain
-model's answer was taken as "Build on it").
+a yes (hotel-214, 2026-10-19: a banner photo sent in place of a
+dialog's answer was taken as a yes).
 
 ## 4. The domain model, once
 
 In the first feature only, once the front door has the dashboard up
 on the new domain model and before any servicer code: compare
 `api/` with the proposal's **Domain model** (`design/decisions.md`'s
-first entry, never edited). With the design's objects
-and fields unchanged, say the lead line below and go on. Only when one
-was added, dropped or renamed, end the turn with the lead line, a line
-per difference, and one dialog:
+first entry, never edited). Say the lead line below, then, when an
+object was added, dropped or renamed, one line per difference with its
+reason, in the user's nouns ("`Hotel` is gone: check-in needs none of
+the hotel's settings"), and go on to the servicers in the same
+response. Nothing is asked: a change the build made is the build's to
+make, the next handoff's **Notes** list it again, and the user can
+say "change it" or "walk me through it" at any point (hotel-355 asked
+**Build on this domain model?** with no word of what had changed, and
+the stop cost the build its pace):
 
 > The room status floor plan's [domain model](<the Models page link>) is open on the dashboard
 > (on 9874, since other projects hold 9871 to 9873): the things the
@@ -99,24 +103,12 @@ per difference, and one dialog:
 That is the dashboard's whole hand-over here, the lead line (the port
 named only when it isn't 9871) and the Models · Features · Changelog
 line: no separate "the developer dashboard is at …" line, no second
-list of the objects. Both are message text just above the dialog,
-never drafted only in thinking; in a verbose build, the **Exegesis**
-of the rules file and the API comes between them and the dialog, and
-after the lead line when no dialog is asked: the model unchanged skips
-the question, never the exegesis ([`exegesis.md`](exegesis.md)). The dialog says on its own what it
-asks about:
+list of the objects. Both are message text, never drafted only in
+thinking; in a verbose build, the **Exegesis** of the rules file and
+the API follows them ([`exegesis.md`](exegesis.md)).
 
-- Title: **Build on this domain model?**
-- "Build on it" (recommended): "Next: the actions for “<feature>”,
-  tested against its rules."
-- "Walk me through it": "A tour, one object at a time, each opened on
-  the dashboard: what it holds, what it does, who may do it, and the
-  rule it keeps."
-
-It serves whoever reads it, dashboard opened or not, and neither is
-asked which they are.
-
-**The tour,** on "Walk me through it": the domain model one object at
+**The tour,** only when the user asks for it ("walk me through it",
+"explain the model"), at any point: the domain model one object at
 a time, at the user's pace. Never one paragraph for all of them, and
 never a recap of what the chat already said: a tour shows each thing
 where it lives. For each object, in build order, one message:
@@ -136,7 +128,7 @@ where it lives. For each object, in build order, one message:
 3. One dialog, **Next on the tour?**: "Next: <the next object>"
    (recommended), "How they connect": "One moment of the day, followed
    through every object it touches.", "Stop the tour": "Back to the
-   model."
+   build."
 
 **How they connect** is a stop of its own, as long as an object's, never
 a line or a paragraph, whether chosen or reached after the last
@@ -149,26 +141,18 @@ the rule behind it, who sees the result and how (the floor plan
 updates on everyone's screen through its reader). Then what does not
 connect, and why: what each object never touches. After it, the tour
 goes on where it was (the next object not yet shown, with the same
-dialog); once every object and the connections are shown, **Build on
-this domain model?** again, without "Walk me through it": its second
-option is "Change something": "Say what to change about <the objects>,
-in your own words." A tour stopped early keeps "Walk me through it",
-which resumes at the next object not yet shown. Three objects and their connections are
+dialog); once every object and the connections are shown, the build
+goes on where it stopped. Three objects and their connections are
 four stops; a message that sums any of them up in a paragraph is not
 a tour (hotel-203 and hotel-204, 2026-10-18: "How they connect"
 answered in four lines, and the tour ended there with two objects
 unshown).
 
-When the model differs from the proposed design, one line before the
-dialog says how, in the user's nouns. A change goes in the free
-answer ("a stay should also hold the guest's room"): change the API,
-`rbt generate`, say what changed, ask again. A message about
-something else is done and the dialog asked again, as for the
-dialogs later in the build (section 3). No task item marks the
-wait: the dialog is the signal. If the dashboard didn't come up, don't ask: say so in
-one sentence and go on; the model is checked at the first handoff.
-Later features don't ask; `app-whole` and the prompt-by-prompt path never
-do.
+A change the user asks for ("a stay should also hold the guest's
+room"): change the API, `rbt generate`, say what changed, go on. If
+the dashboard didn't come up, say so in one sentence and go on; the
+model is shown at the first handoff. Later features say nothing here;
+`app-whole` and the prompt-by-prompt path say the lead line only.
 
 ## 5. The backend, then the page
 
@@ -208,9 +192,8 @@ unchanged, but for these questions.
   text.
 - A dialog on the prompt-by-prompt path: the user chose to be asked
   nothing.
-- "Build on this domain model?" without its lead line and the
-  dashboard's links as text just above it (section 4): nothing says
-  what "this" is.
+- A question about the domain model (section 4): the build says what
+  it built and what changed, and goes on.
 - A question between the backend and the page (section 5): the page
   is part of the feature the user already chose.
 
