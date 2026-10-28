@@ -43,3 +43,14 @@ py_test(
     },
     main = "skill_gate_test.py",
 )
+
+py_test(
+    name = "say_design_first_test",
+    size = "small",
+    srcs = ["say_design_first_test.py"],
+    data = ["//reboot/plugin/hooks:say_design_first_py"],
+    env = {
+        "SAY_DESIGN_FIRST_PY": "$(location //reboot/plugin/hooks:say_design_first_py)",
+    },
+    main = "say_design_first_test.py",
+)
