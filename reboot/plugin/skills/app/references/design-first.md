@@ -44,8 +44,9 @@ Its options, word for word, filled from the design:
 
 No option is marked recommended: the answer stays in the chat as the
 question and the option chosen, and a yes needs no recommendation.
-No option for learning mode: the `app` skill's opening question
-offered it ("Learn Reboot as it builds", the `guide` skill), so the
+No option for learning mode: the `app` skill's first round of
+questions asked it ("Explain the code as it builds?"), or the `guide`
+skill set it, so the
 build is verbose already or the user chose not to be; "explain as you
 build" typed at any point still turns it on.
 

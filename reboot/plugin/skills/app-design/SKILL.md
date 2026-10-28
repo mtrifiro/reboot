@@ -20,8 +20,8 @@ code, no `rbt generate`, no project scaffold, no dependency installed.
 
 ## How this skill runs
 
-- **After the questions** (`design/interview.md` exists: the `app`
-  skill's opening was answered "Yes, ask me first"): read it first.
+- **After the questions** (`design/interview.md` exists, ", interviewed"
+  in the argument: the `app` skill's questions): read it first.
   Its answers are the user's, taken as given: the features, the
   roles, the rules, the data and the palette it settles are in the
   design as decided, never under **Assumed**, which lists only what
@@ -83,7 +83,9 @@ for word: "This allows you to build an app at the level of the domain
 model: what the app does and the rules it keeps, for you to approve or
 change. To have it built hands off, use /reboot:vibe; to learn Reboot
 as it builds, /reboot:guide; to shape the architecture yourself,
-/reboot:build." (After the `app` skill's dialog, ", chosen" in the argument, only
+/reboot:build." (After the `app` skill's questions, ", interviewed", both
+sentences in full: the questions named no other path. After a
+dialog that named the paths, ", chosen" in the argument, only
 its first sentence: the dialog already named the paths. Its second
 sentence leaves out the path already taken: none on ", verbose" names /reboot:guide; on ", architect" it is
 instead "You'll approve the design, then the API before any servicer
