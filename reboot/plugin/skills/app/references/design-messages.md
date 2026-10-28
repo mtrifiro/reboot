@@ -43,15 +43,26 @@ comes first, in a clause>; 2. <feature>; 3. …
 that shape the app most>.
 
 ---
+
+Making a mockup of the <page>, in <palette>.
 ```
+
+In a guided web app build its last line is the mockup's first
+(`web-app/references/comp.md`, "Make it"): one message carries the
+summary and that line, so the mockup never starts without the design
+having been shown (hotel-350 wrote `design.md`, sent only "Making a
+mockup of the floor plan, in Lagoon." and built; the user never saw
+the design). Elsewhere the message ends at the rule.
 
 Where commands can't run, the whole design goes here instead, in
 `design.md`'s shape without its methods, between the same two rules.
 
 Sent the moment the page opens. Then the build, with no go-ahead
 (`design-first.md`, section 3); nothing between them but, in a guided
-web app build, the mockup, made while the user reads, and its one line
-(`web-app/references/comp.md`).
+web app build, the mockup, made while the user reads, and its one
+"Where it is going" line (`web-app/references/comp.md`). The summary is
+the response's text, never drafted in thinking and never skipped: with
+no go-ahead it is the only time the user sees the design.
 
 ### The handoff
 

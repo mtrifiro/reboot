@@ -22,7 +22,10 @@ can't run commands skips it with no line.
 
 **Make it,** about a minute, after the design's summary is sent (the
 user reads it meanwhile), one line first: "Making a mockup of the <page>,
-in <palette>."
+in <palette>.", the last line of the summary's own message
+(`app/references/design-messages.md`, "The proposed design"), never a
+message of its own: a mockup line with no summary above it means the
+design was never shown (hotel-350).
 
 1. The stylesheet, copied unread, the palette set on the copy, and its
    class list, the opening comment and nothing more, printed once:
