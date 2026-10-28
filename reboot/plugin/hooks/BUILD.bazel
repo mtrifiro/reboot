@@ -3,3 +3,9 @@ filegroup(
     srcs = ["auto-approve.sh"],
     visibility = ["//visibility:public"],
 )
+
+filegroup(
+    name = "say_dashboard_links_py",
+    srcs = ["say-dashboard-links.py"],
+    visibility = ["//visibility:public"],
+)
