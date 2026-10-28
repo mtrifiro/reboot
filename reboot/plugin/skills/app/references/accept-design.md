@@ -37,7 +37,8 @@ A yes, or the next part named, is the acceptance. A change is made,
 shown, and the question asked again. No answer is not acceptance.
 
 Later handoffs show only the slice the feature adds, under the same
-headings, and `design/design.md` gains its rows of the table.
+headings, and `design/design.md` gains its objects, methods, rules
+and rows of the table, each a link.
 
 ### After the review
 
@@ -50,9 +51,12 @@ before the next part is built.
 
 ### Once accepted
 
-1. Write or update `design/design.md`: the design as accepted, with the
-   review table, its status
-   "accepted on <date>".
+1. Write or update `design/design.md`, the design document, in the
+   shape [`design-document.md`](design-document.md) gives: the design
+   as accepted, with the review table, its status "accepted on
+   <date>", and every package, domain object, method, feature and rule
+   a dashboard link. Run `python3 scripts/design_links.py` and fix
+   what it lists until it lists nothing.
 2. Append an entry to `design/decisions.md` (below).
 3. Run `python3 scripts/model_diff.py --accept`. It writes
    `design/accepted.json` (the date and a fingerprint of `api/` and the
@@ -60,8 +64,8 @@ before the next part is built.
    the base every later `model_diff.py` measures from, with or without
    git.
 
-The first handoff copies `scripts/model_diff.py` from this skill's
-`assets/`. After acceptance, `python3 scripts/model_diff.py` lists
+The first handoff copies `scripts/model_diff.py` and
+`scripts/design_links.py` from this skill's `assets/`. After acceptance, `python3 scripts/model_diff.py` lists
 what has changed in the domain model, who may call each method and
 the feature files since then: read it before a change, and say which
 of its lines the user has not yet accepted.
@@ -78,8 +82,11 @@ overturns one adds its own entry naming it.
 
 - **Decided by you:** staff only, one role.
 - **Why:** "Staff only, one role" (scope question: who signs in).
-- **Decided by the build:** each Room is its own domain object, keyed
-  by hotel and room number; `book` is a Writer on Room.
+- **Decided by the build:** each
+  [Room](http://127.0.0.1:9871/#/models?type=hotel.v1.Room) is its own
+  domain object, keyed by hotel and room number;
+  [`book`](http://127.0.0.1:9871/#/models?type=hotel.v1.Room.book) is a
+  Writer on Room.
 - **Why:** a room is booked at most once per night, and one Room's
   Writer is the lock that keeps it so.
 - **Set aside:** rooms as a list on Hotel: every booking would lock
@@ -110,6 +117,13 @@ the question and the answer, or "accepted without comment". **Replaces**
 names the entries overturned, by heading, or "nothing". A build the
 user told to go on without stopping gets its entry, headed "Design not
 accepted: <title>".
+
+Each domain object or method an entry names is its dashboard link,
+as in `design.md`; a rule is its words, linked to its feature file
+(`#/features/<path>.feature`), never to its number: the log is never
+edited, and a rule added later renumbers the rules below it. The
+headings are the anchors `design.md` links to, so each is unique.
+`python3 scripts/design_links.py` checks the newest entry's links.
 
 Before a change, read the log: a change against an entry says so to
 the user first, naming the entry and its why.
