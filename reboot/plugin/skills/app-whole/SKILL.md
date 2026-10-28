@@ -152,7 +152,10 @@ which is finished and go on; never wait for an answer.
   as hotel-272's did); read
   each plugin file with the Read tool, one call per file, never `cat`
   or `sed`; change a file that exists with the Edit tool, never a
-  script or `sed -i`; the references to read, by path,
+  script or `sed -i`; the references to read, by path, every one
+  before the page is written (`ui-design.md` above all: the /vibe
+  builds 339, 340 and theater-100 skipped it, and took the longest
+  from page to handoff),
   `web-app/references/react-client.md`,
   `web-app/references/ui-design.md`,
   `python/references/react-generated-client.md` and
