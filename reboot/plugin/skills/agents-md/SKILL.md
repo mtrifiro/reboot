@@ -124,8 +124,9 @@ Reboot behaves.
 5. Never edit the design comp, `design/comp/`, even when the page no
    longer matches it: it is the design the user approved at the
    go-ahead, a record, not a copy to keep in step. A change to the
-   page goes in the page and in `design/design.md`; where the two
-   differ, say so.
+   page goes in the page; where it differs from the comp, say so. The
+   design is the code: `design/decisions.md` records why, never
+   edited, and no document of the design is kept beside the code.
 6. <A rule this project learned from a mistake.>
 
 When a file moves, a command changes, or a rule is learned, update

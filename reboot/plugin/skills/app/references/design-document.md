@@ -1,186 +1,124 @@
 ---
-title: The Design Document
+title: The Proposed Design, Saved
 impact: HIGH
-impactDescription: design/design.md is where the user, and anyone after them, reads the accepted design. Each package, domain object, method, feature and rule in it is a link that opens that thing on the developer dashboard, drawn from the code, so the document can be checked against what was built.
-tags: design, acceptance, dashboard, links, record
+impactDescription: The design is shown once, in the chat, and saved once, as the first entry of design/decisions.md, never edited after; from then on the code is the design (api/ and the feature files, drawn live by the developer dashboard), so nothing can drift from it, and the handoff says where the build departed from the proposal
+tags: design, proposal, decisions log, dashboard, drift
 ---
 
-# The Design Document
+# The Proposed Design, Saved
 
-`design/design.md` is first written as the proposed design (the
-`app-design` skill, section 3; its **Methods** after the go-ahead),
-then updated at the first acceptance and each later one
-([`accept-design.md`](accept-design.md), "Once accepted") by edits,
-never written whole again: the status line, and what the part adds,
-each where its section is (an object's bullet, a table for a new
-object's methods, a page's line, the rows it adds to the review
-table). Rows look alike from table to table, so an edit to one
-carries the line above it (the object's heading or the row before) in
-its old text, to match one place only (hotel-260 rewrote the
-12,700-character document at its first acceptance, and two of its
-later row edits matched twice and failed). After every
-write it is the file the user reads. It is the design as accepted, in the user's nouns, and
-every package, domain object, method, feature and rule in it is a
-dashboard link (`dashboard` skill, "Links to an Object or a Rule"):
+There is no `design/design.md`. The design is:
 
-- an object: `<dashboard>#/models?type=<package>.<Type>`, `<dashboard>`
-  being `https://dashboard-<app>.localhost/` under portless or
-  `http://127.0.0.1:9871/` on plain ports (`design_links.py --base`
-  moves every link when that changes);
-  a method appends `.<method>`;
-- a feature: `#/features/<path>.feature`; a rule appends `/rules/<n>`,
-  counted from 1 in file order.
+- **Shown** once, in the chat: the summary
+  ([`design-messages.md`](design-messages.md), "The proposed design"),
+  the response's own text, before any tool call of that response.
+- **Saved** once, right after it, in the same response: the first
+  entry of `design/decisions.md`, headed `## <date>: Design proposed:
+  <App name>`, written with the Write tool (`mkdir -p design` first).
+  Like every entry in the log it is never edited: it records what was
+  proposed that day, and later entries say what changed.
+- **Then the code.** The domain objects go into `api/` and the
+  features into `tests/*.feature` (tagged `@wip`) as the build starts;
+  from then on they are the design. The developer dashboard draws both
+  live (**Models**, **Features**), so the design on screen is never out
+  of date, and no document is kept up to date beside them (hotel-300
+  to hotel-351: 23 of 24 `design.md` files still said "proposed",
+  most with 5 to 21 code and test files newer than the document).
 
-The package is the folder under `api/`: `api/hotel/v1/` is `hotel.v1`.
-Use the port the dashboard started on. A design proposed before anything
-is built names these in code style instead, with no links, since the
-dashboard has nothing to show yet; they become links once it does.
+The summary is sent first and the entry written from it, never the
+other way round: a build that wrote the whole design to a file then
+went straight to the mockup, and the user never saw it (hotel-350,
+hotel-351).
 
-Each choice the decisions log explains links to its entry there,
-`decisions.md#<anchor>`. The anchor is the entry's heading in
-lowercase, with each space a hyphen and other punctuation dropped:
-"## 2026-10-14: Design accepted: Front desk" is
-`#2026-10-14-design-accepted-front-desk`.
+## The entry
 
-## The shape
-
-The headings in this order, word for word: the rules before the domain model that keeps them. Leave out **Architecture**
-when there is one package and **Pages** for a backend only.
+The headings in this order, word for word, in the user's nouns, every
+object, method, feature and rule named in code style (`Room`,
+`Room.check_in`), never as a link: the entry is never edited, and a
+link would break as the code moves.
 
 ```markdown
-# <App name>: the design
+# <App name>: decisions
 
-Status: accepted on <date>. Every object, method, feature and rule
-below links to the developer dashboard, which draws them from the code.
+Why <app name> is what it is, one entry per decision, newest last. No
+entry is edited: a later one that changes an earlier one names it. What
+the app is now is the code, on the developer dashboard.
 
-## Brief
+## <date>: Design proposed: <App name>
 
-<Who uses <app name>, on what screen, the task, the one question the
+**Brief.** <Who uses <app name> ("(working name)" after it unless the
+user named the app), on what screen, the task, the one question the
 main page answers, and the palette by its name and colours ("House:
-cream and navy"; another with its band and paper, "Lagoon: sage and
-teal, a hue band on white paper"). While the name is one the build picked, its first mention
-here, in the first sentence, is followed by "(working name)".>
+cream and navy").>
 
-## Features and their rules
+**Features, in build order**
+1. **<First feature> (first)**: <user story in one line; what it lets
+   them do, with the lifecycle of what it adds>. Rules: <each in plain
+   words, as its feature file will say it>.
+2. …
 
-[<Feature title>](<feature link>)
-- [<the rule's words, exactly as in the file>](<rule link>)
+**Not in this build:** <what else a real app in the domain needs, one
+line each; **Who may do what** among them until it is built>.
+
+**Domain model**
+- `<Type>`: one per <what>, keyed by <id>. It holds <fields>. It is its
+  own object because <the rule it keeps, or why>.
 - …
+<More than six objects: the packages by area, and how they layer
+(`design-packages.md`).>
 
-Each rule's scenarios run as the test suite: <n> in all, <n> of them
-driving the real page in a browser, with videos on the dashboard.
+**Pages**
+- `<path>`: <what it shows and what the viewer can do there; the main
+  page's line names its signature view and the question it answers
+  (`web-app/references/ui-design.md`, "One Signature View"), and ends
+  with "([mockup](comp/mockup.html))" once the comp is drawn.>
 
-## Architecture: <n> packages
+**Sign-in:** <who signs in, how in development (the development
+sign-in's accounts Alice, Ben, Carlos, Dani and Esi). Before Who may
+do what is built: "Everyone signed in can do everything for now; roles
+come with Who may do what.">
 
-<Why it is split, and how the packages layer so none imports another
-in a circle, linked to the entry that decided it.> ([see them on the dashboard](<#/models link>))
+**What Reboot does for you here:** <three or four clauses, in this
+design's nouns: each object keeps its own state (no database); the
+rule spanning objects is one transaction; the page is live; the
+scenarios are the tests.>
 
-| Package | Objects | Imports from |
-| --- | --- | --- |
-| `<package>` | [<Type>](<link>), … | <packages, or nothing> |
-
-## Domain model
-
-- **[<Type>](<link>):** one per <what>, keyed by <id>. It holds
-  <fields>. It is its own object because <the rule it keeps, or why>
-  ([decided](decisions.md#<anchor of the entry that decided it>)).
-- …
-
-Each `<Type>` is named for what it holds, never for its key or its
-time period: `AmenitySchedule` (one amenity's bookings for a day), not
-`AmenityDay`; `DispatchBoard`, not `DispatchDay`
-([`front-door-common.md`](front-door-common.md), "Names").
-
-## Methods
-
-Kinds: a **Reader** changes nothing; a **Writer** changes its own
-object, one change at a time; a **Transaction** changes several
-objects, all or nothing. <A **Workflow** runs until it is done, if any.>
-
-**[<Type>](<link>)**
-
-| Method | Kind | Who may call |
-| --- | --- | --- |
-| [`<method>`](<method link>) | <Kind> | <roles, in the user's words; "the app" for calls only the app makes> |
-
-<Below each table, any kind or caller a decisions entry explains, one
-line each, with its link: "`book` is a Transaction ([decided](…))".>
-
-## Pages
-
-- `<path>`: <what it shows and what the viewer can do there, naming
-  what they drag where when something moves; what it leads with, which
-  states carry colour and where the accent goes>. The main page's line
-  names the app's signature view and the question it answers
-  (`web-app/references/ui-design.md`, "One Signature View").
-
-<When the build drew a comp (`web-app/references/comp.md`), the main
-page's line ends with "([mockup](comp/mockup.html))", a link to the mockup
-it is built to.>
-
-## Sign-in
-
-<Who signs in, how in development (the development sign-in's five
-built-in accounts, Alice, Ben, Carlos, Dani and Esi) and at deploy.
-Before Who may do what is built, one line: "Everyone signed in can do
-everything for now; roles come with Who may do what." After it, the
-role each account plays and what someone with no role sees.>
-
-## What Reboot does for you here
-
-<Three or four bullets, each said for this design, in its nouns,
-naming what the developer doesn't write: each <Object> is a durable
-object holding its own state (no database, tables or migrations); <the
-rule that spans objects> is one transaction, all or nothing (no
-rollback code); <the page> updates live when anyone changes it (no
-polling or websocket code); each rule's scenarios are the tests (no
-separate test harness); the same backend serves an MCP App for Claude
-or ChatGPT (no second API).>
-
-## Review table
-
-<The review table from accept-design.md, one row per rule, the object,
-rule and method cells links.>
-
-## Decisions
-
-Why the design is what it is, and what was assumed, is in
-[`decisions.md`](decisions.md), one entry per acceptance:
-
-- [<entry heading>](decisions.md#<anchor>): <one line, what it settled>.
-- …
-The design as accepted is copied to `accepted/`;
-`python3 scripts/model_diff.py` lists anything changed since.
+- **Decided by you:** <every answer the user gave before the design
+  (`design/interview.md`), the question and the answer, or "nothing
+  asked">.
+- **Assumed:** <every answer the build took without asking: the name,
+  the palette, counts, hours, time zone; at most the five that shape
+  the app most first>.
+- **How:** <step by step | all at once | prompt by prompt | not chosen
+  yet>.
 ```
 
-## Checking it
+The file's opening paragraph is written with the first entry only; a
+later entry is appended under the last one.
 
-After writing it, run `python3 scripts/design_links.py` (copied from
-this skill's `assets/scripts/`, beside `model_diff.py`) and fix what it
-lists until it lists nothing:
+## The mockup
 
-- **Broken:** a link to an object, method, feature file or rule
-  number the code doesn't have.
-- **Renumbered:** a rule link whose words are no longer that rule's;
-  a rule added above others renumbers them, so a later acceptance
-  rewrites their links.
-- **Not linked:** something in the code the document doesn't link,
-  or a decisions entry it doesn't list.
-- **Decisions:** a link to an entry `decisions.md` doesn't have, and
-  in the newest entry, a link to nothing in the code or to a rule by
-  its number.
+The comp's line ("([mockup](comp/mockup.html))") is the one addition
+the entry may get after it is written, in the same build, before the
+first handoff: the mockup is made right after the entry.
 
-When the dashboard runs on another port, `python3
-scripts/design_links.py --port <port>` rewrites every link to it, in
-`decisions.md` too (only the port changes).
+## Where the build departed from it
+
+At each handoff, **Notes** says in a line each what the build changed
+from the proposal ("`Room` gained `inspected_at`"; "Check-in's rule
+became two: inspected, and not already occupied"; "`Stay` is new: a
+guest's nights in one room"), read from the entry beside `api/` and the
+feature files. Nothing changed: no line. The acceptance entry that
+follows ([`accept-design.md`](accept-design.md), "The decisions log")
+records the same, and `python3 scripts/model_diff.py` measures any
+later change from that acceptance.
 
 ## Never
 
-- A name of an object, method, feature or rule in the document without
-  its link.
-- A choice the log explains, left without its link to the entry.
-- A comp made and the main page's line without its link.
-- A rule in other words than the feature file's: the link text is the
-  rule's own words, so the check can see a renumbering.
-- The document pasted into the chat: once written, say in one line
-  where it is, as a link.
+- `design/design.md`, or a document of the design kept beside the code
+  and edited to match it.
+- The entry written before the summary is sent, or in place of it.
+- The proposal entry edited after the first handoff: a change is a
+  new entry, or the code.
+- The entry pasted into the chat: say in one line where it is, as a
+  link.

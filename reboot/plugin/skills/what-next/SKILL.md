@@ -21,12 +21,12 @@ One line first: "Looking at what <app> does today, then at how
 From the project root, run
 `python3 <this skill>/assets/features.py`. It lists every feature,
 its rules and how many scenarios each has, with their tags (`@wip`,
-`@blocked`; the [`feature` skill](../feature/SKILL.md)), and from `design/design.md` the
+`@blocked`; the [`feature` skill](../feature/SKILL.md)), and from the proposal (`design/decisions.md`'s first entry) the
 people the brief names, the cycles it names (*booked → checked in →
 checked out*) and every name still in code style, which the design
 uses for what isn't built yet. It also lists what
 `design/decisions.md` records as ruled out. Then read
-`design/design.md` itself, and any `design/review.md` or
+`design/decisions.md` itself, and any `design/review.md` or
 `design/look-review.md`. Never read generated code.
 
 ## 2. Find the gaps

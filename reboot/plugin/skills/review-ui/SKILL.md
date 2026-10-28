@@ -93,7 +93,7 @@ every page at desktop and phone width, light and dark."
    both schemes; each FAIL is a finding with its number. Search the pages for raw colors
    (`#` followed by hex, `rgb(`) outside `styles.css`.
 3. **Judge,** against `ui-design.md` and the app's users from
-   `design/design.md`:
+   the proposal (`design/decisions.md`'s first entry):
    - Does each page's primary view fit its task (a board, a floor
      plan, a calendar), and does the eye land first on the page's main
      question: the figure the design's page line says it leads with
@@ -226,15 +226,15 @@ undo.
    read the page's visible text, so a shortened label or a moved
    button can break a rule's proof. A scenario that relied on the old
    text means the change isn't done, never that the scenario changes.
-2. Update the palette's sentence in `design/design.md` (its opening
-   names the palette), and the look's other choices beside it, in a
-   few words.
+2. Append an entry to `design/decisions.md`, "## <date>: Look
+   changed: <palette>", the look's choices in a few words (the
+   proposal's entry is never edited).
 3. Make sure `.gitignore` has `frontend/web/.look-history/` and
    `frontend/web/public/look-preview.html` and
    `frontend/web/.look-review/`.
 4. When the project is a git repository, commit only the files the
    change touched (`styles.css`, `main.tsx`, `favicon.svg`,
-   `package.json` and its lock file, `design/design.md`,
+   `package.json` and its lock file, `design/decisions.md`,
    `.gitignore`), with the message "Look: <what changed>". Undo after
    this is `git revert` of that commit, said in words.
 5. One closing line: what the app looks like now and that any of it

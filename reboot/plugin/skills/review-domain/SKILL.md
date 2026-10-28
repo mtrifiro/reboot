@@ -70,7 +70,7 @@ From the project root, `python3 <this skill>/assets/review.py` prints
 the domain objects (methods by kind, collections and their shape), the
 calls between them from the servicers, the packages, and **signals**,
 each with its evidence and the question that decides it. A signal is
-where to look, not a finding. Read `design/design.md`'s opening for
+where to look, not a finding. Read the proposal (`design/decisions.md`'s first entry)'s **Brief** for
 who uses the app and how much; check whether it is deployed
 (`deploy/ledger.jsonl`, or the user's words). Read a servicer only
 where a signal points, never generated code (`*_rbt.py`,

@@ -7,9 +7,10 @@
 Reads only files and the process table; starts and changes nothing:
 
 - the stage: no project, design only, backend built, frontend built,
-  deployed (from api/, backend/, frontend/web/, design/design.md,
+  deployed (from api/, backend/, frontend/web/, design/decisions.md or design/design.md,
   tests/*.feature, deploy/ledger.jsonl);
-- the app's name (design.md's title, else .rbtrc's application name);
+- the app's name (the log's "Design proposed: <name>" entry, or design.md's
+  title, else .rbtrc's application name);
 - the features, their rule counts and which are @wip;
 - what is running in this project (`rbt dev run`, `rbt dashboard`,
   the Vite dev server) and the ports it listens on;
@@ -42,6 +43,12 @@ def run(*cmd: str) -> str:
 
 
 def app_name() -> str:
+    log = ROOT / "design/decisions.md"
+    if log.is_file():
+        found = re.search(r"^## [^\n]*?Design proposed:\s*(.+?)\s*$",
+                          log.read_text(encoding="utf-8", errors="replace"), re.M)
+        if found:
+            return found.group(1)
     design = ROOT / "design/design.md"
     if design.is_file():
         first = design.read_text(encoding="utf-8", errors="replace").splitlines()[:1]
@@ -79,7 +86,7 @@ def stage(fs: list[dict]) -> str:
         return "frontend built"
     if has_api and fs:
         return "backend built"
-    if (ROOT / "design/design.md").is_file():
+    if (ROOT / "design/design.md").is_file() or (ROOT / "design/decisions.md").is_file():
         return "design only"
     return "no project"
 
@@ -152,7 +159,7 @@ def status() -> dict:
         "reviews": [str(p.relative_to(ROOT)) for p in sorted((ROOT / "design").glob("*.md"))
                     if p.name in ("review.md", "look-review.md", "what-next.md")]
                    if (ROOT / "design").is_dir() else [],
-        "design": (ROOT / "design/design.md").is_file(),
+        "design": (ROOT / "design/design.md").is_file() or (ROOT / "design/decisions.md").is_file(),
     }
 
 
