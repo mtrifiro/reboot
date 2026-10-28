@@ -136,7 +136,9 @@ feature:
     `patterns-common-gotchas.md` before reading `site-packages`.
 16. Fold in what the user asked to change, if anything: a change to
     the design goes back to the proposed design, then into the
-    feature it touches.
+    feature it touches. The Flywheel's routing rule
+    ([`app/references/flywheel.md`](../../app/references/flywheel.md))
+    says which changes are design.
 17. Run `uv run pytest` and `uv run mypy backend/ tests/` from the
     project root and fix what fails, then say in one line which
     feature is now finished.
@@ -148,8 +150,10 @@ feature:
     Write the handoff in the shape of
     [`app/references/design-messages.md`](../../app/references/design-messages.md),
     covering every feature. Point the user at the dashboard's Features page and at the
-    recordings of the browser scenarios, ask them to accept the
-    design as built or say what to change (on a yes, record it as
+    recordings of the browser scenarios, ask in a question dialog
+    (`AskUserQuestion` where available): **<The app> works. What
+    next?**, worded as `app/references/accept-design.md` says (its
+    recommended next step accepts the app as built; on acceptance, record it as
     [`app/references/accept-design.md`](../../app/references/accept-design.md)
     says), and, unless they asked
     for only a web app, end with the one-line offer of an MCP UI

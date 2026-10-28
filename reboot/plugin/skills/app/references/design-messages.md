@@ -2,24 +2,29 @@
 title: The Proposed Design and the Handoff, Word for Word
 impact: HIGH
 impactDescription: Without a fixed shape each build presents its design differently, and the user has to learn a new layout before judging the app
-tags: design, proposed design, handoff, template, review
+tags: flywheel, design, proposed design, handoff, template, review
 ---
 
 ## The Proposed Design and the Handoff
 
-Two messages carry the design to the user: the proposed design,
-before any code, and the handoff, when a part is running. Write each in exactly this
+Two messages carry the Reboot Flywheel's Design stage
+([`flywheel.md`](flywheel.md)): the proposed design, before any code,
+and the handoff, when a part is running. Write each in exactly this
 shape: the same headings, in this order, with nothing before the
 heading. Fill the `<…>` from the design, in the user's nouns. A
 heading with nothing to say is left out, never filled.
 
 ### The proposed design
 
-About 600 words. The example is a hotel; keep the shape, not the
+The whole design but its methods, about 500 words: this is what the
+user signs off on with the question after it, so it shows the design
+itself, not a pointer to `design/design.md`. The methods stay in the
+file only: they are the build's detail, not what the user decides. Writing it takes about a minute, and the
+go-ahead is worth it. The example is a hotel; keep the shape, not the
 nouns.
 
 ```markdown
-## <App name>: the proposed design
+## Reboot Design · <App name>, the proposed design
 
 **Brief.** <Who uses <app name> and on what screen.> <Their main job, as a
 cycle or flow when there is one: *occupied → dirty → cleaned →
@@ -49,12 +54,6 @@ change at any point.
 2. <Feature>
 3. …
 
-**<First feature>: methods.** <One line on who calls them.>
-
-| Object | Method | Kind | Role for an AI caller |
-|---|---|---|---|
-| <Object> | `<method>` (<what it does, when not obvious>) | <Reader, Writer, Transaction or Workflow; constructor> | <tool, `UI()` view, app only, or people only> |
-
 **Pages**
 - `<route>`: <the page's primary view, worked on directly>, <what a
   click opens>. <The one reader that feeds it.>
@@ -64,11 +63,21 @@ what an anonymous visitor sees.> <In development, the picker's five
 accounts and the role each plays: "Alice is the founder, Ben the CTO,
 …".>
 
-Building <first feature> now.
+**What Reboot does for you here.** <Three or four bullets, each one of
+these said for this design, in its nouns, naming what the developer
+doesn't write: each <Object> is a durable object holding its own state
+(no database, tables or migrations); <the rule that spans objects> is
+one transaction, all or nothing (no rollback code); <the page> updates
+live when anyone changes it (no polling or websocket code); each rule's
+scenarios are the tests (no separate test harness); the same backend
+serves an MCP UI for Claude or ChatGPT (no second API).>
+
+The whole design, with its methods, is in
+[design/design.md](design/design.md).
 ```
 
-With a full prototype chosen, the methods table covers every feature,
-and the last line is "Building the whole prototype now."
+Then the go-ahead's dialog (`design-first.md`, section 3);
+nothing between them.
 
 ### The handoff
 
@@ -76,7 +85,7 @@ About 500 words. The first handoff shows everything built; a later one
 shows only what that part adds, under the same headings.
 
 ```markdown
-**Ready for your review**
+**Reboot Design · ready for your review**
 
 <One sentence: what is running, in the user's nouns.>
 
@@ -98,6 +107,13 @@ real page in a browser, and mypy is clean.
 - The browser scenarios' videos and screenshots are on the [Features
   page](<link>).
 
+**What Reboot did for you.** <Two or three lines, for what was just
+built, naming what isn't in the code because Reboot does it: "There is
+no database schema, migration, API layer or websocket code in this
+app: <Object>'s state is kept by Reboot, <the action> is one
+transaction, and <the page> is live through its reader."> Said once,
+at the first handoff; later handoffs name only what is new.
+
 **How to check it:** <sign in as whom, open what, try what>. The rule
 refuses it. <A second thing to try, when there is one.>
 
@@ -110,18 +126,34 @@ refuses it. <A second thing to try, when there is one.>
 - <A workaround, one line: what it is and what undoes it.>
 - <What waits for deploy: the sign-in provider, who may sign in.>
 
-**In short:** <one or two sentences: what now runs and what the
-question below decides>. [Open the app](<URL>) ·
-[the dashboard](<dashboard URL>) · [the design](design/design.md)
+---
+
+## Your turn
+
+**Try it:** [open the app](<URL>) and sign in as <who>. <The one thing
+to try first, in a sentence: the action and the rule that holds.>
+
+**Look closer:** dashboard [Models](<URL>/#/models) ·
+[Features](<URL>/#/features) · [Changelog](<URL>/#/changelog) ·
+[the design](design/design.md)
+
+**Build next, when you're ready** (ask for one):
+1. **<The recommended part>:** <what it adds, and why it comes next>.
+   About 15 to 20 minutes.
+2. **<Another part>:** <what it adds, in one line>.
+3. **<Another part>:** <what it adds, in one line>.
+
+Or ask for a change to what's here. <When the other front door isn't
+built: "Want it in Claude and ChatGPT too? The backend is ready for an
+MCP UI beside the web app.">
 ```
 
-**In short** is always last, right above the question: the message is
-long, and the user reads its end while answering, after **Open it**
-has scrolled away. Its links are the same as above.
-
-Then the one question, as [`accept-design.md`](accept-design.md) says:
-accept this and build the next part (named, with why), another, or
-change something first.
+**Your turn** is always last, set apart by the rule and its heading:
+the message is long, and it is what the user acts on, after **Open
+it** has scrolled away. It asks nothing, as
+[`accept-design.md`](accept-design.md) says: it lists, and the user
+asks. Nothing follows it but the link line (`app` skill, step 4) when
+the turn has one to give, and no other line repeats what it says.
 The full review table goes to `design/design.md`, not into this
 message.
 
