@@ -74,6 +74,18 @@ hotel-338 wrote the opening only in thinking; every dialog was shown).
      a room be booked while it is being cleaned?").
   4. What it connects to: payments, email, a calendar, another system.
 
+  **The answers shape the design, never the size of the first
+  build.** The first build is the picked part's core job on one page
+  and the rules that job keeps: three or four objects, one sign-in
+  for everyone. What the other answers settle (roles, billing or
+  payments, a connection, a second job on the same page such as
+  check-out after check-in) is each its own next feature in the
+  build order, built as answered when it comes, offered at the
+  handoff's **What should I build next?** (hotel-351: "Front desk",
+  "Staff with roles" and "Folio at check-out" made a first build of
+  eight servicers, a stay drawer and 28 scenarios, handed off at 23
+  minutes).
+
   Never asked: the demo data. The build always seeds believable rows
   sized from the prompt (56 rooms for a 56-room hotel), disposable in
   development; real data comes in later, when the user asks (hotel-346
