@@ -56,8 +56,13 @@ hotel-338 wrote the opening only in thinking; every dialog was shown).
   a question whose recommended answer any builder would pick. Each
   round is written from the answers before it. The most
   consequential first:
-  1. What the first build does: the features, a multi-select, in the
-     user's nouns ("Nothing ticked builds the recommended set.").
+  1. **Which part should it start with?**, single-select, up to four
+     parts in the user's nouns, the recommended one first: one feature
+     is built and handed off first, about 15 minutes, never several
+     (hotel-350's multi-select recommended three). The parts not
+     picked are the design's next features, in order, offered at the
+     handoff's **What should I build next?**; "build it all", typed,
+     is the whole app at once.
   2. Who uses it: who signs in, and the roles if any.
   3. The rules the domain turns on, where the prompt is ambiguous ("Can
      a room be booked while it is being cleaned?").
