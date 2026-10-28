@@ -98,7 +98,7 @@ later entry is appended under the last one.
 
 ## The mockup
 
-The comp's line (`([mockup](comp/mockup.html))`) is the one addition
+The main page's link to the mockup, `comp/mockup.html`, is the one addition
 the entry may get after it is written, in the same build, before the
 first handoff: the mockup is made right after the entry.
 
