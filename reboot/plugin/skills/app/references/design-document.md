@@ -31,7 +31,7 @@ lowercase, with each space a hyphen and other punctuation dropped:
 
 ## The shape
 
-The headings in this order, word for word. Leave out **Architecture**
+The headings in this order, word for word: the rules before the domain model that keeps them. Leave out **Architecture**
 when there is one package and **Pages** for a backend only.
 
 ```markdown
@@ -45,6 +45,15 @@ below links to the developer dashboard, which draws them from the code.
 <Who uses it, on what screen, the task, the one question the main page
 answers, and the accent.>
 
+## Features and their rules
+
+[<Feature title>](<feature link>)
+- [<the rule's words, exactly as in the file>](<rule link>)
+- …
+
+Each rule's scenarios run as the test suite: <n> in all, <n> of them
+driving the real page in a browser, with videos on the dashboard.
+
 ## Architecture: <n> packages
 
 <Why it is split, and how the packages layer so none imports another
@@ -57,18 +66,9 @@ in a circle, linked to the entry that decided it.> ([see them on the dashboard](
 ## Domain model
 
 - **[<Type>](<link>):** one per <what>, keyed by <id>. It holds
-  <fields>. It is its own object because <why>
+  <fields>. It is its own object because <the rule it keeps, or why>
   ([decided](decisions.md#<anchor of the entry that decided it>)).
 - …
-
-## Features and their rules
-
-[<Feature title>](<feature link>)
-- [<the rule's words, exactly as in the file>](<rule link>)
-- …
-
-Each rule's scenarios run as the test suite: <n> in all, <n> of them
-driving the real page in a browser, with videos on the dashboard.
 
 ## Methods
 
