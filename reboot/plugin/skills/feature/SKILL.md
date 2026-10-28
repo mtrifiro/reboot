@@ -93,9 +93,21 @@ no test suite yet, set one up per `testing-project-setup.md`, which
 includes `reboot[dev]` in the dev dependencies and `*.recordings/`
 in `.gitignore`.
 
-If the dashboard is running (the `dashboard` skill), the feature
-shows up on its Features page at once, marked as work in progress.
-Tell the user it is there.
+Once the file is written, give the user a direct link to inspect it,
+in one line. After that, every message that names a feature file or
+one of its rules (a summary, a status line, the handoff) links it,
+on the dashboard once it runs (a rule adds `/rules/<n>`, `dashboard`
+skill, "Links to an Object or a Rule"), never as a bare path in code:
+
+- **The dashboard is running** (the `dashboard` skill): the feature
+  shows up on its Features page at once, marked as work in progress.
+  Link it there, on the port the dashboard started on:
+  "[Room status floor plan](http://127.0.0.1:9871/#/features/tests/room_status.feature)
+  is written: its rules, as scenarios, ready to read."
+- **Not yet** (the first feature is written before the dashboard
+  starts): link the file itself, `tests/<name>.feature`, and say the
+  dashboard shows it once it is up; the dashboard's first line then
+  links it again.
 
 ## Step 3 — Build the feature
 
