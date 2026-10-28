@@ -525,8 +525,9 @@ for word: the list for the way the user chose to build.
    on without waiting for it. If it fails to come up, say so in one
    sentence and keep
    building; don't stop to debug it. Built from the `app-guided` skill, the
-   first feature instead waits for it and shows the domain model, asking "Build on this domain model?" only when it differs from the design's (the model check;
-   not on the prompt-by-prompt path, which asks nothing)
+   first feature instead says the domain model's line once it
+   answers, with a line per change from the design, and goes on,
+   asking nothing
    ([`app/references/design-first.md`](../app/references/design-first.md),
    "The domain model, once") before step 6.
 6. Write the servicer (`backend/src/servicers/<name>.py`) per
