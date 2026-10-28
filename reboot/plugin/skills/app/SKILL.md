@@ -1,17 +1,17 @@
 ---
 name: app
-description: "Build a Reboot application from a description, asking first how: Guided (a high-level design to approve, then each part built), Learn Reboot as it builds (the guide skill), Shape the architecture (the build skill) or Hands off (the vibe skill), and whether to ask questions before the design (up to 20, only when the user says yes); a prompt that already says how goes straight to that skill. Holds the front-door routing every build uses: an MCP App (ChatGPT, Claude, VSCode, Goose) or a standalone web app by the prompt's own words, otherwise the web app, the other offered at handoff. Use for any prompt that asks to build an app and names no skill."
+description: "Build a Reboot application from a description: up to 20 questions first, in rounds of four, on what the prompt leaves open (features, who signs in, the rules, data, connections, the look, learning mode), then the guided build on the answers (the app-guided skill: the design to approve, then each part built); a prompt that names another way (hands off, the architecture first, no design) goes straight to that skill. Holds the front-door routing every build uses: an MCP App (ChatGPT, Claude, VSCode, Goose) or a standalone web app by the prompt's own words, otherwise the web app, the other offered at handoff. Use for any prompt that asks to build an app and names no skill."
 argument-hint: '[<app-description>, or <Name>: <app-description>]'
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit, AskUserQuestion
 ---
 
-# app — Choose How to Build, Then Build
+# app — Questions, Then the Guided Build
 
-This skill chooses how the app is built, then hands the prompt to the
-skill that builds it. The user sees only message text and dialogs;
+This skill asks what the prompt leaves open, then hands the prompt and
+the answers to the guided build, or to the skill the prompt names. The user sees only message text and dialogs;
 nothing here is said in thinking.
 
-## First: how to build it
+## First: a path the prompt names
 
 When the prompt already says how, load that skill at once with the
 Skill tool, its argument the prompt as typed, never by reading its
@@ -31,50 +31,58 @@ file, and ask nothing:
 - **[`/reboot:guide`](../guide/SKILL.md)**: be taught Reboot as it
   builds ("explain as you build", "verbose", "teach me").
 
-Otherwise the response's first act (loading this skill was the first)
-is one dialog (AskUserQuestion), before any text, read or plan, header
-"How to build", question **How do you want to build <the app, in the
-prompt's nouns>?**, these options word for word:
+Otherwise the build is the guided one, and it starts with questions.
 
-- **Guided (Recommended):** "A high-level design of what the app does
-  and the rules it keeps, for you to approve; then each part built,
-  and you can change any feature."
-- **Learn Reboot as it builds:** "The same, with each step explained:
-  the domain objects, the kinds of method, the rules and the scenarios
-  that prove them."
-- **Shape the architecture:** "Talk through the objects and the calls
-  between them first, then approve the API before any code is
-  written."
-- **Hands off:** "The whole app a real product needs, designed, built
-  and reviewed with no questions, handed over at the end."
+## Then: questions, before the design
 
-In the same dialog, a second question, header "Questions", **Should I
-ask you questions before the design?**, these options word for word:
+The response's first act (loading this skill was the first) is the
+first round of questions, one dialog (`AskUserQuestion`; where there
+is none, the same as plain lines), before any text, read or plan,
+from the prompt alone. The dialogs carry the build's start, since
+text at the start of a build is not reliably shown (hotel-300 to
+hotel-338 wrote the opening only in thinking; every dialog was shown).
 
-- **No, assume and show me (Recommended):** "The design comes in a few
-  minutes, with what it assumed listed; any of it is a word away."
-- **Yes, ask me first:** "Up to 20 questions, four at a time, until
-  there is enough to design it well; the design follows your
-  answers."
+- **Rounds of up to four questions, 20 in all,** each two to four
+  options, the recommended one first and marked "(Recommended)", so
+  accepting every recommendation is one answer; the free answer is
+  always there. Stop the moment nothing left would change the design:
+  20 is a ceiling, never a target.
+- **The first round, always,** unless the prompt leaves nothing open.
+  It ends with **Explain the code as it builds?**: "No, just build it
+  (Recommended)", "Yes, learning mode" ("Each report ends with what
+  was written and why, also kept in design/exegesis.md.").
+- **Only what the prompt leaves open,** never what it says, and never
+  a question whose recommended answer any builder would pick. Each
+  round is written from the answers before it. The most
+  consequential first:
+  1. What the first build does: the features, a multi-select, in the
+     user's nouns ("Nothing ticked builds the recommended set.").
+  2. Who uses it: who signs in, and the roles if any.
+  3. The rules the domain turns on, where the prompt is ambiguous ("Can
+     a room be booked while it is being cleaned?").
+  4. The data: how much, and where it comes from.
+  5. What it connects to: payments, email, a calendar, another system.
+  6. The look: a brand, or a palette (house first; the `app-design`
+     skill, "Which palette?").
+  7. The name, when the prompt gives none.
+- **Every question explains itself:** it says what its answer changes
+  when that isn't obvious ("Roles add rules on who may do what.").
+- **"That's enough", Skip, or "just build it"** ends the questions at
+  once: every question not asked takes its recommended answer ("just
+  build it" with no design is the `app-just` skill).
 
-On **Yes** (or a prompt that asks for questions first: "ask me
-questions", "interview me"), the questions of
-[`references/interview.md`](references/interview.md) come next, their
-answers in `design/interview.md`, and only then the skill below.
-
-The dialog carries the explanation, since text at the start of a
-build is not reliably shown (hotel-300 to hotel-338 wrote the opening
-only in thinking; every dialog was shown). Then load, its argument the
-prompt followed by ", chosen": Guided, the
-[`app-guided` skill](../app-guided/SKILL.md); Learn, the
-[`guide` skill](../guide/SKILL.md); Shape, the
-[`build` skill](../build/SKILL.md); Hands off, the
-[`vibe` skill](../vibe/SKILL.md). A free answer is matched to the
-nearest (one feature only: `app-basic`; no design: `app-just`).
+After the last round, `design/interview.md` with the Write tool
+(`mkdir -p design` first): every question and its answer, one line
+each, in the order asked, under `# Questions before the design`, the
+learning answer last. Then load the
+[`app-guided` skill](../app-guided/SKILL.md) with the Skill tool, its
+argument the prompt followed by ", interviewed" (and ", verbose" on
+"Yes, learning mode"). The `app-design` skill takes the file's answers
+as given.
 
 Nothing is read, no folder is listed and no plan is made before the
-dialog (the interview reference is read after it, and only on Yes). A skill named in the prompt (`/reboot:app-whole …`) never
-comes here.
+first round. A skill named in the prompt (`/reboot:app-whole …`) never
+comes here, and asks none of these questions.
 
 ## Routing
 

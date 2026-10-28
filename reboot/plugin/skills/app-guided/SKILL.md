@@ -1,6 +1,6 @@
 ---
 name: app-guided
-description: "The guided build of a Reboot application: the app-design skill's proposed design, asking nothing first (the recommended features, sign-in and palette under Assumed), the go-ahead (Ready to build this design?, where any of them changes), then the build with each part explained; a design already proposed in design/design.md is built on without asking again. Loaded by the app skill by default, or asked for by name (/reboot:app-guided); a prompt that asks for an app in plain words goes to the app skill, which asks how to build first."
+description: "The guided build of a Reboot application: the app-design skill's proposed design, asking nothing first (the recommended features, sign-in and palette under Assumed), the go-ahead (Ready to build this design?, where any of them changes), then the build with each part explained; a design already proposed in design/design.md is built on without asking again. Loaded by the app skill by default, or asked for by name (/reboot:app-guided); a prompt that asks for an app in plain words goes to the app skill, which asks its questions first."
 argument-hint: [<app-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 ---
@@ -108,7 +108,7 @@ steps 4 and 6 (its reviews, step 5, are the one-shot's own).
   slow step, one fact about Reboot said for this app
   ([`../app/references/while-you-wait.md`](../app/references/while-you-wait.md)).
 - **Verbose,** when the argument carries ", verbose" (the `guide`
-  skill, or "Learn Reboot as it builds" in the opening), or
+  skill, or "Yes, learning mode" in the `app` skill's questions), or
   the user asked in the prompt or at any point ("verbose", "explain as
   you build", "an exegesis"): each
   milestone report (the model check, the backend check, each handoff)
