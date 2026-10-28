@@ -17,9 +17,10 @@ them, and what to record once they say yes.
 
 The handoff, written as
 [`design-messages.md`](design-messages.md) shows, puts the running app
-and its rules in front of the user. The **review table** is the
-record of the same rules, one row per rule, written to
-`design/design.md` at acceptance, not shown in the chat.
+and its rules in front of the user. The **review table** below is the
+check the build makes of the same rules before the handoff, one row
+per rule, never written to a file or shown in the chat: the
+dashboard's **Features** page is their record.
 
 | Domain object | ID | Rule | Method | Kind | Who may call | Scenario |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -80,7 +81,7 @@ the sentence allows:
 
 > Accepting it changes nothing in the app. It records what you've
 > seen as the agreed version: its rules are marked finished on the
-> dashboard, `design/design.md` and the decisions log say so, and it
+> dashboard, the decisions log says so, and it
 > is saved as the point later changes are compared to. After that, a
 > change to one of these rules, or to what the app keeps, comes back to
 > you for a yes before it is built. You can still change anything.
@@ -122,9 +123,9 @@ before code is a design change the user didn't ask for
 ([`flywheel.md`](flywheel.md), the routing rule).
 
 Later handoffs show only the slice the feature adds, under the same
-headings, and `design/design.md` gains its objects, methods, rules
-and rows of the table, as [`design-document.md`](design-document.md)
-says.
+headings; its objects and rules are in the code, on the dashboard,
+and nothing else is updated for them
+([`design-document.md`](design-document.md)).
 
 ### After the review
 
@@ -138,13 +139,11 @@ is built.
 
 ### Once accepted
 
-1. Update `design/design.md` in the shape
-   [`design-document.md`](design-document.md) gives, status "accepted
-   on <date>", by edits to what the part changed, never a rewrite of
-   the whole file. Run `python3 scripts/design_links.py` and fix what it
-   lists until it lists nothing.
-2. Append an entry to `design/decisions.md` (below).
-3. Run `python3 scripts/model_diff.py --accept`. It writes
+1. Append an entry to `design/decisions.md` (below), its
+   **Changed from the proposal** line the handoff's (`design-document.md`,
+   "Where the build departed from it"). Run `python3
+   scripts/design_links.py` and fix what it lists until it lists nothing.
+2. Run `python3 scripts/model_diff.py --accept`. It writes
    `design/accepted.json` (the date and a fingerprint of `api/` and the
    feature files) and copies the accepted design to `design/accepted/`:
    the base every later `model_diff.py` measures from, with or without
@@ -183,6 +182,7 @@ overturns one adds its own entry naming it.
 - **The user's words:** "One feature at a time" (how to build); "Staff
   only, one role" (who signs in); "housekeeping never sees guest
   names."
+- **Changed from the proposal:** `Room` gained `inspected_at`.
 - **Replaces:** nothing (first design).
 ```
 
@@ -203,11 +203,11 @@ names the entries overturned, by heading, or "nothing". A build the
 user told to go on without stopping gets its entry, headed "Design not
 accepted: <title>".
 
-Each domain object or method an entry names is its dashboard link,
-as in `design.md`; a rule is its words, linked to its feature file
+Each domain object or method an acceptance entry names is its
+dashboard link (the proposal's entry names them in code style); a rule is its words, linked to its feature file
 (`#/features/<path>.feature`), never to its number: the log is never
-edited, and a rule added later renumbers the rules below it. The
-headings are the anchors `design.md` links to, so each is unique.
+edited, and a rule added later renumbers the rules below it. Each
+heading is unique, so each is its own anchor.
 `python3 scripts/design_links.py` checks the newest entry's links.
 
 Before a change, read the log: a change against an entry says so to
@@ -218,7 +218,7 @@ the user first, naming the entry and its why.
 When `model_diff.py` lists a domain object under _Names_ (named for
 its time period, `AmenityDay`), rename it before the handoff, while it
 is the build's own name and nothing is deployed: the API, the
-servicers, the pages, the scenarios and `design.md`, the suite green,
+servicers, the pages and the scenarios, the suite green,
 and one line in the handoff's **Notes** with the old and the new name.
 A name the user chose is theirs: say it in **Notes** instead.
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Check the design document's dashboard links against the code.
 
-    scripts/design_links.py                  # check design/design.md
+    scripts/design_links.py                  # check design/design.md, else the decisions log
     scripts/design_links.py --port 9873      # rewrite every link (and the log's) to that port, then check
     scripts/design_links.py --base https://dashboard-hotel.localhost
                                              # rewrite every link to that dashboard, then check
@@ -31,8 +31,12 @@ rules count from 1 in file order. This lists:
   in the code, or to a rule by its number, which a later rule would
   shift.
 
-It exits 0 when there is nothing to list, 1 otherwise, and 2 with no
-`design/design.md`.
+With no `design/design.md` (the design is the code, and the log its
+record: `design-document.md`), only the **Decisions** check runs, on
+`design/decisions.md`'s newest entry.
+
+It exits 0 when there is nothing to list, 1 otherwise, and 2 with
+neither file.
 """
 
 from __future__ import annotations
@@ -191,9 +195,21 @@ def check(document: str) -> dict[str, list[str]]:
     return found
 
 
+def check_log() -> int:
+    """Only the newest decisions entry's links, when no design document exists."""
+    objects, features = code()
+    problems, _ = check_decisions("", objects, features)
+    if not problems:
+        print("Every dashboard link in design/decisions.md's newest entry names something in the code.")
+        return 0
+    print(f"**Decisions** ({len(problems)})")
+    print("\n".join(f"- {i}" for i in problems))
+    return 1
+
+
 def main(argv: list[str]) -> int:
-    if not DOCUMENT.exists():
-        print(f"No {DOCUMENT.relative_to(ROOT)} to check.")
+    if not DOCUMENT.exists() and not DECISIONS.exists():
+        print(f"No {DOCUMENT.relative_to(ROOT)} or {DECISIONS.relative_to(ROOT)} to check.")
         return 2
     if argv[:1] == ["--port"] and len(argv) == 2 and argv[1].isdigit():
         # The log too: only the port changes, never an entry's words.
@@ -211,6 +227,8 @@ def main(argv: list[str]) -> int:
     elif argv:
         print(__doc__)
         return 2
+    if not DOCUMENT.exists():
+        return check_log()
     found = check(DOCUMENT.read_text())
     if not any(found.values()):
         print("Every dashboard link in design/design.md names something in the code, "

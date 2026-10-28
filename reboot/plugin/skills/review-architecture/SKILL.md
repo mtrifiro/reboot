@@ -106,7 +106,7 @@ From the project root:
   domain model's facts and its signals (S1, S2, ...), for the scale
   line only.
 
-A signal is where to look, not a finding. Read `design/design.md` for
+A signal is where to look, not a finding. Read the proposal (`design/decisions.md`'s first entry) for
 who uses the app and what it is for, and `design/decisions.md` for
 choices already made on purpose: a choice the log explains is not a
 finding unless its reason no longer holds. Then read the files the
@@ -169,7 +169,7 @@ For each finding chosen, in the review's order:
    why, and ask before going on.
 3. **Change it,** as the [`feature` skill](../feature/SKILL.md) makes
    any change (a split into packages one package at a time, the suite
-   green after each, `design.md`'s names and links moved with it): the API (additive only once deployed), `rbt generate`,
+   green after each): the API (additive only once deployed), `rbt generate`,
    the servicers, the seed, the pages that call what moved, each file
    changed with the Edit tool. Before the first deploy, reset the demo
    data with the `run` skill's expunge when the state's shape changed.

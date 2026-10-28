@@ -18,17 +18,16 @@ heading with nothing to say is left out, never filled.
 
 ### The proposed design
 
-The design itself is `design/design.md` (the `app-design` skill,
-section 3), linked from the summary; no page is drawn for it. The chat carries its summary, about 120 words. The example is a
-hotel; keep the shape, not the nouns.
+This message is the design: no page is drawn for it and no document
+is written before it. It is the response's text, before that
+response's first tool call; the Write of `design/decisions.md`'s first
+entry, its saved copy ([`design-document.md`](design-document.md)),
+follows it in the same response, written from it. About 150 words. The
+example is a hotel; keep the shape, not the nouns.
 
 ```markdown
 ---
 ## Reboot Design · <App name>, the proposed design
-
-**[The whole design](design/design.md)** is in design/design.md: the
-brief, the features and their rules, the domain model, the pages and
-sign-in, and what Reboot does for you here.
 
 **Brief.** <Who uses <app name> ("(working name)" after it unless the
 user named the app), and the one question
@@ -38,8 +37,14 @@ band and paper>**.
 **Features, in build order:** 1. **<First feature> (first)**, <why it
 comes first, in a clause>; 2. <feature>; 3. …
 
+**What it keeps track of:** `<Type>` (<one per what>), `<Type>` (…), …
+<each object the first feature needs, a few words each>.
+
 **Assumed, all easy to change:** <the name, counts, hours: the few
 that shape the app most>.
+
+Saved as the first entry of [the decisions log](design/decisions.md);
+from here the code is the design, live on the developer dashboard.
 
 ---
 
@@ -49,14 +54,14 @@ Making a mockup of the <page>, in <palette>.
 In a guided web app build its last line is the mockup's first
 (`web-app/references/comp.md`, "Make it"): one message carries the
 summary and that line, so the mockup never starts without the design
-having been shown (hotel-350 wrote `design.md`, sent only "Making a
-mockup of the floor plan, in Lagoon." and built; the user never saw
-the design). Elsewhere the message ends at the rule.
+having been shown (hotel-350 and hotel-351 wrote `design.md`, then
+sent only a mockup line and built; the user never saw the design).
+Elsewhere the message ends at the rule.
 
-Where commands can't run, the whole design goes here instead, in
-`design.md`'s shape without its methods, between the same two rules.
+Where commands can't run, the whole entry goes here instead, in
+`design-document.md`'s shape, between the same two rules.
 
-Sent the moment the page opens. Then the build, with no go-ahead
+Then the build, with no go-ahead
 (`design-first.md`, section 3); nothing between them but, in a guided
 web app build, the mockup, made while the user reads, and its one
 "Where it is going" line (`web-app/references/comp.md`). The summary is
@@ -109,6 +114,9 @@ refuses it. <A second thing to try, when there is one.>
 …
 
 **Notes**
+- <Changed from the proposed design, a line each: an object added,
+  renamed or dropped, a field, a rule split or reworded
+  (`design-document.md`, "Where the build departed from it").>
 - <What the build added beyond the brief, and why.>
 - <A workaround, one line: what it is and what undoes it.>
 - <What waits for deploy: the sign-in provider, who may sign in.>
@@ -137,7 +145,7 @@ to try first, in a sentence: the action and the rule that holds.>
 
 **Look closer:** dashboard [Models](<URL>/#/models) ·
 [Features](<URL>/#/features) · [Changelog](<URL>/#/changelog) ·
-[the design](design/design.md)<in a verbose build: " ·
+[the decisions](design/decisions.md)<in a verbose build: " ·
 [the exegesis](design/exegesis.md)">
 
 **Build next, when you're ready:**
@@ -161,8 +169,8 @@ parts listed under **Build next**, so the user picks one with a click
 instead of typing its number. Nothing follows it but the link line
 (`app-guided` skill, step 4) when the turn has one to give, and no other line
 repeats what it says.
-The full review table goes to `design/design.md`, not into this
-message.
+No review table is written: the dashboard's **Features** page is the
+record of the rules.
 
 The development sign-in's five accounts are built into Reboot and
 always the same: Alice, Ben, Carlos, Dani and Esi
