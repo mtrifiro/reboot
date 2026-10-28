@@ -499,6 +499,16 @@ Before writing code, analyze the user's request:
    wrap the calls.
 7. **Auth**: Anonymous-only, public-read + authed-write, fully
    locked down, …? See `python/references/auth-*.md`.
+8. **Names**: Name each type for what it holds and is for, in
+   the domain's own words, never for its key or its time period.
+   A type keyed by a gate and a date is `GateSchedule` (one gate's
+   flights and closures for a day), not `GateDay`; a type keyed by
+   a date is `DispatchBoard` (the day's flights, and the rule that
+   no aircraft or pilot is double-booked), not `DispatchDay` or
+   `Day`. The key says how an instance is found; the name says
+   what it is. Test each name: would someone in the domain know
+   what it holds without being told its id? If not, rename it
+   before the API is written, when a rename costs one line.
 
 ## Project Layout
 
