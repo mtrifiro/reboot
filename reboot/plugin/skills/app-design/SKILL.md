@@ -20,6 +20,13 @@ code, no `rbt generate`, no project scaffold, no dependency installed.
 
 ## How this skill runs
 
+- **After the questions** (`design/interview.md` exists: the `app`
+  skill's opening was answered "Yes, ask me first"): read it first.
+  Its answers are the user's, taken as given: the features, the
+  roles, the rules, the data and the palette it settles are in the
+  design as decided, never under **Assumed**, which lists only what
+  was not asked. Nothing it answered is asked again, here or at the
+  go-ahead.
 - **On its own** (`/reboot:app-design <description>`, or a prompt that
   asks for a design, a proposal or a plan and not yet the app):
   everything below, ending with the closing line in section 4.
