@@ -1,11 +1,11 @@
 ---
 name: app
-description: Build a Reboot application from a user description. Every backend is designed ready for both front doors, an MCP UI (ChatGPT, Claude, VSCode, Goose) and a standalone web app, with one `User` per identity via `oauth=...`. Builds the front door the prompt names (MCP/Claude/ChatGPT → `mcp-ui`; a URL/SPA/"website" → `web-app`; both named → both; an API or backend for the user's own frontend, mobile app or service → a backend only, with a generated client); otherwise builds the web app first without asking, and offers the other front door at handoff. Load it as the very first step of any request to build an app, before a task list, a plan or any other tool call: it says what to show first.
+description: "Build a Reboot application from a user description, design first: no questions before the design, the whole proposed design shown in the chat, then one question, How should it be built? (the whole app, or step by step). Every backend is ready for both front doors, an MCP UI (ChatGPT, Claude, VSCode, Goose) and a standalone web app; builds the front door the prompt names, otherwise the web app, and offers the other at handoff."
 argument-hint: [<app-description>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 ---
 
-# app — Build a Reboot Application
+# app — Build a Reboot Application, Design First
 
 > **The user sees only message text. Say every status the way these
 > skills give it, as the response's own visible text.**
@@ -32,27 +32,46 @@ yet: the app is named in the design, as a working name.
 
 1. "An app for <what it is>, used by <who>." (the rules below)
 2. "I'd start with <feature>: <its rule, in plain words>."
-3. "I'll design it now, starting from its rules; you'll see it in a
-   few minutes, then choose how to build it." word for word.
+3. "First, a few questions about what to build; then I'll design it,
+   starting from its rules, and you'll choose how to build it." word
+   for word.
 
-**No question follows it:** the build goes straight on to the design,
-which picks the features itself:
+**Then one round of questions, what to build,** as the front door's
+scope round asks it: one dialog (`AskUserQuestion`; where there is none, the same as
+plain lines), from the prompt alone, before reading any reference.
+One to three questions, each two to four options, the simplest first
+and marked "(Recommended)", so accepting every recommendation is one
+answer:
 
-- **Four or five features**, in build order: the one sentence 2 names
-  first, then the staff's other features, and last, only when the
-  prompt implies customers who use the app themselves ("a hotel where
-  guests book online"), a feature for them, built right after the
-  first and saying who it is for. "Manage a hotel" gets no guest page.
-- **Everything else** a real app in the domain needs (and Who may do
-  what) goes in a separate list, **Not in this build**, never built
-  unless the user asks.
-- **The design is the review:** a change ("drop billing", "add an
-  owner page") is typed at **How should it be built?**, the one
-  question, asked once after the design is shown
-  ([`references/design-first.md`](references/design-first.md),
-  section 3); the design is updated and the question asked again. The
-  name, the front door, sign-in and the rest are assumed and listed
-  under **Assumed**.
+- **"Which features should the first build include?"** (multi-select):
+  four features worked out from the prompt, each its name in the
+  user's nouns as the label and its rule in a few words as the
+  description, in this order: the one sentence 2 names, first, marked
+  "(Recommended)" (a multi-select starts with nothing ticked, so it
+  leads); then the staff's other features; last, only when the prompt
+  implies customers who use the app themselves ("a hotel where guests
+  book online"), a feature for them, its description starting with who
+  it is for. The features ticked are the build, in that order.
+- **"Who signs in?"**, when the prompt leaves it open: "Anyone signed
+  in can do everything; roles later (Recommended)" or "Staff roles from
+  the start", naming the roles in the user's nouns ("front desk, vets
+  and techs"). Roles chosen are in the first build; otherwise they are
+  **Who may do what**, before any deploy.
+- **"Which accent?"**, only when the prompt names no brand: two or
+  three accents that suit the domain, the first recommended, plus
+  "Use my brand" (a site or tokens to read).
+
+The front door is never asked (Routing, below): the one
+the prompt names, otherwise the web app, with the backend ready for an
+MCP UI, offered at handoff. The answers are the design's scope: the features chosen, in build
+order, and nothing else; what else a real app in the domain needs goes
+under **Not in this build**, never built unless the user asks. A free
+answer is taken as written. Nothing else is asked before the design,
+and how to build is not asked here: **How should it be built?** comes
+once, after the design is shown
+([`../app/references/design-first.md`](../app/references/design-first.md),
+section 3), and takes a change to the design as its free answer. The
+name and the rest are assumed and listed under **Assumed**.
 
 Rules for that response:
 
@@ -60,7 +79,8 @@ Rules for that response:
   three sentences wherever it is drafted: never a longer or different
   version in thinking, since that is what the user may see instead.
 - Nothing more in it: what the app keeps track of, the front door and
-  the rest are in the design, minutes later.
+  the rest are in the design, minutes later. Then the dialog, the
+  response's only tool call.
 - Nothing about how it will be built: that is asked after the design.
 - **No name before the design.** The design proposes one, marked
   "(working name)" the first time it appears, with the accent, under
@@ -80,17 +100,19 @@ Rules for that response:
   staff's tool ("an operations app", "a back office", "a dispatch
   tool") offers no customer feature; its customers use someone else's
   system.
-- **No roles first:** the first feature has sign-in (the development
-  accounts) and an authorizer on every method, "anyone signed in",
-  never `allow()`; no roles, roster or role rules. Who may do what is
+- **No roles first,** unless "Who signs in?" chose them: the first
+  feature has sign-in (the development accounts) and an authorizer on
+  every method, "anyone signed in", never `allow()`; no roles, roster
+  or role rules. Who may do what is
   its own feature, **Who may do what**, in the build order before
   any deploy.
 
 Example: "An app for a 56-room boutique hotel, used by its front desk
 and housekeeping. I'd start with the room status floor plan: every
 room from occupied to dirty to cleaned to inspected, and no guest put
-in a room that isn't inspected. I'll design it now, starting from its rules;
-you'll see it in a few minutes, then choose how to build it."
+in a room that isn't inspected. First, a few questions about what to
+build; then I'll design it, starting from its rules, and you'll choose
+how to build it."
 
 **What to expect,** right after the answer to **How should it be
 built?** (after the design), before any other tool call: the chosen
@@ -103,33 +125,38 @@ filled in from the design:
   domain model, then its actions tested against every rule · once you
   say so, its frontend (<its page>), about 15 minutes in all · then
   each next feature as you choose it, 15 to 20 minutes.
-- **The whole app:** every feature in the design, the whole backend
-  and then the whole frontend, tested, without stopping, about <time>
-  · then the whole app to try.
+- **All at once:** every feature in the design, the pages built in
+  parallel with the backend, then everything tested together, without
+  stopping, about <time> · then the whole app to try.
 
-**2. Then read [`references/conversation.md`](references/conversation.md)**
+**2. Before the design, read only what it needs** (`../app/references/design-first.md`,
+section 2). **After the answer to How should it be built?, read
+[`../app/references/conversation.md`](../app/references/conversation.md)**
 once: what the build says, links, opens and asks at every stage from
-here on. Each path's next steps are read when they start: the design
-([`references/design-first.md`](references/design-first.md)), the task
-list (`references/task-list.md`), and for the whole app, the
+there on. Each path's next steps are read when they start: the design
+([`../app/references/design-first.md`](../app/references/design-first.md)), the task
+list (`../app/references/task-list.md`), and for the whole app, the
 [`one-shot` skill](../one-shot/SKILL.md)'s steps 4 and 5.
 
 **3. Throughout the build:**
 
 - **Task list:** until the answer to **How should it be built?** it
   has one item, "Propose the design for <app>", made right after the
-  opening; a list that exists when this skill loads is replaced with
+  answers to the opening's questions; a list that exists when this skill loads is replaced with
   that item first, in a response of its own. The chosen path's list
   follows the answer.
 - **Times,** always "about", only in the opening and in **How should
   it be built?**: the design, a few minutes; the first feature, 15; each next feature, 15 to 20; the
   whole app, about 7 a feature.
 - **Never a minute without a line,** at every stage: in the design,
-  one when the research ends (what it found) and one before each of
-  the design's three parts (`references/design-first.md`); in the build, one before the references a stage reads
-  and one as each part starts (the API, the servicers, the tests, the
-  page). Before a slow step, one fact about Reboot that fits it
-  ([`references/while-you-wait.md`](references/while-you-wait.md)).
+  one when the research ends (what it found), then the design itself,
+  one message (`../app/references/design-first.md`, section 2); in
+  the build, one as each part starts (the API, the servicers, the
+  tests, the page), saying what Reboot does for this app at that step
+  (`../app/references/conversation.md`, "Say what Reboot does here").
+  Reading the plugin's references gets no line of its own. Before a
+  slow step, one fact about Reboot said for this app
+  ([`../app/references/while-you-wait.md`](../app/references/while-you-wait.md)).
 - **Files a part at a time** with the Write tool, never every file in
   one shell command.
 - **Read this plugin with Read, Grep and Glob,** never `cat`, `ls` or
@@ -148,7 +175,7 @@ the prompt, verbatim, never inferred:
 | --- | --- |
 | [`mcp-ui`](../mcp-ui/SKILL.md) | MCP, MCP host/server/app/tool, `mcp=Tool`, `UI()`; ChatGPT, Claude, VSCode, Goose, Cursor **named as where it runs** ("use this from Claude"); "AI tool", "tool for an LLM/agent", "expose to an LLM/agent" |
 | [`web-app`](../web-app/SKILL.md) | a URL (`https://…`, `localhost:`); a route (`/login`, `/dashboard`); "website", "web app", "SPA", "in the browser", "served at"; "log in via email", "OAuth login", "sign up form" |
-| A backend only ([`references/backend-only.md`](references/backend-only.md)) | "an API", "a backend", "API only", "headless"; "for my mobile app", "React Native", "for my existing app", "for my frontend" |
+| A backend only ([`../app/references/backend-only.md`](../app/references/backend-only.md)) | "an API", "a backend", "API only", "headless"; "for my mobile app", "React Native", "for my existing app", "for my frontend" |
 
 - **Not triggers:** "app", domain words (CRM, store, dashboard,
   tracker), "users", "login", "frontend" or "UI" alone.
