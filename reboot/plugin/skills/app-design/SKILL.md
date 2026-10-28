@@ -17,6 +17,11 @@ code, no `rbt generate`, no project scaffold, no dependency installed.
 > the research found and the design itself go out as the response's
 > own text, in these words, before that response's tool calls.
 > Drafting them in thinking is not saying them.
+>
+> **Every text message starts with `reboot:`**, then the message:
+> "reboot: The dashboard is up…". A message that opens with a heading,
+> a list or a quote has `reboot:` on a line of its own above it.
+> Dialogs and tool calls take no prefix.
 
 ## How this skill runs
 

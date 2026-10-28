@@ -21,6 +21,11 @@ allowed-tools: Bash, Read, Write, Glob, Grep, Edit
 > tool calls**. Drafting it in thinking is not saying it. Before every
 > tool call, ask: is there something the user should read first? Then
 > write it, word for word, before the call.
+>
+> **Every text message starts with `reboot:`**, then the message:
+> "reboot: The dashboard is up…". A message that opens with a heading,
+> a list or a quote has `reboot:` on a line of its own above it.
+> Dialogs and tool calls take no prefix.
 
 ## First, Before Reading Anything
 

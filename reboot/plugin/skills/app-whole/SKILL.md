@@ -19,6 +19,11 @@ questions and its go-ahead are what this skill leaves out.
 > each review, the handoff) goes out as the response's own text,
 > before that response's tool calls. Drafting it in thinking is not
 > saying it.
+>
+> **Every text message starts with `reboot:`**, then the message:
+> "reboot: The dashboard is up…". A message that opens with a heading,
+> a list or a quote has `reboot:` on a line of its own above it.
+> Dialogs and tool calls take no prefix.
 
 ## 1. The design, by the `app-design` skill
 

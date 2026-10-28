@@ -11,6 +11,12 @@ This skill asks what the prompt leaves open, then hands the prompt and
 the answers to the guided build, or to the skill the prompt names. The user sees only message text and dialogs;
 nothing here is said in thinking.
 
+**Every text message starts with `reboot:`**, then the message:
+"reboot: The dashboard is up…". A message that opens with a heading, a
+list or a quote has `reboot:` on a line of its own above it. Dialogs
+and tool calls take no prefix. This holds for every skill the build
+loads.
+
 ## First: a path the prompt names
 
 When the prompt already says how, load that skill at once with the
