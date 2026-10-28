@@ -1,7 +1,7 @@
 ---
 title: Ask Nothing Until the Design Document
 impact: HIGH
-impactDescription: A new app asks one question first, a feature at a time or the whole app at once, each with its time. The user reads what will be built at once, then the whole proposed design in design/design.md, and gives the go-ahead or changes something before any code; a round of scope questions first only delays the design they could react to.
+impactDescription: A new app asks one question first, Mixed (the first feature with the user, then the rest without stopping), a feature at a time, or the whole app at once, each with its time. The user reads what will be built at once, then the whole proposed design in design/design.md, and gives the go-ahead or changes something before any code; a round of scope questions first only delays the design they could react to.
 tags: questions, scope, design, design document, first feature, go-ahead
 ---
 
@@ -22,8 +22,8 @@ questions, ask none. Work out the questions as it says, then take the
 answer it would mark as recommended for each:
 
 - **How to build:** one feature at a time, always.
-- **Everything else** (who signs in and with which roles, what the
-  app keeps track of): the recommended, simplest option.
+- **Everything else** (who signs in, what the app keeps track of):
+  the recommended, simplest option. Roles wait for Who may do what.
 - **The accent and the app's name,** when the prompt names none:
   picked to suit the domain.
 
@@ -57,12 +57,14 @@ while nothing is built:
 - **Every feature** is in it, under **Proposed features, in build
   order**, with the line "Only the first is built next; the rest, and
   their order, are yours to change at any point.": the first marked
-  and why it comes first, each with its rules in plain words. For an
-  app with two sides, the first is one interaction from both sides
-  (`app` skill, step 1), and **Pages** lists both of its pages; **Sign-in**
-  gives the development accounts to both sides, for example Alice and
-  Ben as staff and Carlos as a customer, and the scenarios prove each
-  side sees and does only its own.
+  and why it comes first, each with its rules in plain words. The
+  first is one page for one side (`app` skill, step 1); an app with a
+  customer side lists that side's page as its own feature, right
+  after the first. **Who may do what** is a feature of its own, before
+  any deploy; until it is built, **Sign-in** says in one line
+  "Everyone signed in can do everything for now; roles come with Who
+  may do what.", and the first feature has no roles, roster or role
+  rules.
 - **No links yet.** Packages, domain objects, methods, features and
   rules are named in code style (`Room`, `Room.check_in`), never as
   dashboard links: nothing exists on the dashboard before it is built,
@@ -83,23 +85,25 @@ summary that points to `design/design.md` is not enough. Its
 assumptions name what the build picked, so nothing feels hidden:
 
 > Assumed, all easy to change: the name Groom Room, opening hours
-> 9:00 to 17:00, and three roles (owner, groomer, front desk). The
-> rest is in design/design.md.
+> 9:00 to 17:00, and an hour per appointment.
 
 At most five assumptions, the ones that shape the app most (its name,
-counts, hours, roles), in the user's nouns; the path a link to the
-file.
+counts, hours), in the user's nouns.
 
 ## 3. One question
 
-End with one dialog (`AskUserQuestion` where available; otherwise the
-same as one plain line), the build's second and last question before any code:
+First the proposed design, as text in the same response, just above
+the dialog: the message in [`design-messages.md`](design-messages.md),
+"The proposed design", the whole design but its methods, every
+heading filled, about 500 words. Then end with one dialog
+(`AskUserQuestion` where available; otherwise the same as one plain
+line), the build's second and last question before any code:
 
 - Title: **Ready to build?**
 - "Build it" (recommended): on a feature at a time, "Build a first
   working version of <the first feature> to try, then change what you
-  like."; on the whole app at once, "Build every feature in the design
-  without stopping, an hour or more, then review the whole app."
+  like."; on Mixed, "Build <the first feature> for you to try, then
+  the rest of the design without stopping."
 - "Not yet": "I want to review or revise the design." Nothing more:
   what happens next is said after the answer.
 
@@ -110,12 +114,22 @@ typed as the dialog's own free answer, so no option only means
 addition to the first handoff's review: this one decides the design
 before any code, that one the feature as built.
 
-- **A yes, on the whole app at once:** build every feature in the
+- **A yes, on Mixed:** build the first feature by the front door's
+  one-feature flow, its backend and then its frontend with no stop
+  between them (no "Build on this domain model?", no "Build the frontend: the <screen>?"),
+  to its first handoff. That handoff's dialog, in place of "What
+  should I build next?", is **Build the rest?**: "Build the rest"
+  (recommended), "<the other features, in the user's nouns>, built and
+  tested without stopping, an hour or more", then "Not yet": "I want
+  to try it first, or change something." A change typed as its free
+  answer goes into the first feature, and the same dialog follows. On
+  its yes, build every other feature in the
   design by the [`one-shot` skill](../../one-shot/SKILL.md)'s steps 4
   and 5, from the design already proposed (no features added to it):
-  the whole-app flow, no stops, one handoff at the end. The task list
-  is the whole-app list (`task-list.md`, where the plugin has it), its
-  first two items done.
+  no stops, one handoff at the end. The task lists are the first
+  feature's (`task-list.md`, where the plugin has it) without their
+  "Your turn" items but the last, then the whole-app lists for the
+  rest.
 - **A yes, on a feature at a time** (or the first feature named): build
   it by the front door's one-feature flow. At the first handoff,
   `design/design.md` becomes the accepted design as `accept-design.md`
@@ -188,7 +202,7 @@ changed, and ask again. The task list's "Your turn: check the domain
 model on the dashboard" stays in progress until the yes. If the
 dashboard didn't come up, don't ask: say so in one sentence and go on;
 the model is checked at the first handoff. Each next feature doesn't
-ask, and `one-shot` never does.
+ask, Mixed doesn't, and `one-shot` never does.
 
 ## 5. The backend, before the page
 
@@ -218,10 +232,7 @@ Then one dialog:
   appear on the floor plan as they come in. About 10 minutes." Written
   to a person, not as a spec: no paths (`/stay`), no parts of the page
   by their build names (tile, drawer, modal), no "frontend" or
-  "backend" beyond the title. For a first feature seen from both sides,
-  the title is **Build both pages?**, the option "Build both pages",
-  and its description names them: "The booking page for passengers
-  and the flight board for dispatchers, ..."
+  "backend" beyond the title.
 - "Not yet": "I want to look at the backend first."
 
 Each next feature goes from its backend straight on to its page, with
@@ -236,13 +247,19 @@ tested again, and the same dialog follows. "Not yet" does nothing
 more: one line says the dashboard stays up and what to say to go on.
 The task list's "Your turn: check the backend, then say to build the
 frontend (<screen>)" stays in progress until
-the answer. A backend only (no front door) and `one-shot` skip it.
+the answer. A backend only (no front door), Mixed and `one-shot` skip
+it.
 
 From the first feature on, the build follows the front door
 unchanged, but for these questions.
 
 ## Never
 
+- "Ready to build?" without the proposed design written just above
+  it, as text (section 3): the question asks the user to judge it. A
+  sentence that the design is in `design/design.md`, or the message
+  drafted only in thinking, is not it; one build asked with nothing
+  shown but a line of its thinking.
 - "Build on this domain model?" without its lead line and the
   dashboard's links written just above it, as text (section 4). One
   build drafted the line in thinking and asked "Does this look right?"
