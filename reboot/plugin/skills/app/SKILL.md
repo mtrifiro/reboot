@@ -1,6 +1,6 @@
 ---
 name: app
-description: "Build a Reboot application from a description: up to 20 questions first, in rounds of four, on what the prompt leaves open (the part to start with, who signs in, the rules, connections; never the data, the name or the look), then the guided build on the answers (the app-guided skill: the design to approve, then each part built); a prompt that names another way (hands off, the architecture first, no design) goes straight to that skill. Holds the front-door routing every build uses: an MCP App (ChatGPT, Claude, VSCode, Goose) or a standalone web app by the prompt's own words, otherwise the web app, the other offered at handoff. Use for any prompt that asks to build an app and names no skill."
+description: "Build a Reboot application from a description: up to 20 questions first, in rounds of four, on what the prompt leaves open (the part to start with, who signs in, the rules, connections, the palette; never the data or the name), then the guided build on the answers (the app-guided skill: the design to approve, then each part built); a prompt that names another way (hands off, the architecture first, no design) goes straight to that skill. Holds the front-door routing every build uses: an MCP App (ChatGPT, Claude, VSCode, Goose) or a standalone web app by the prompt's own words, otherwise the web app, the other offered at handoff. Use for any prompt that asks to build an app and names no skill."
 argument-hint: '[<app-description>, or <Name>: <app-description>]'
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit, AskUserQuestion
 ---
@@ -73,6 +73,18 @@ hotel-338 wrote the opening only in thinking; every dialog was shown).
   3. The rules the domain turns on, where the prompt is ambiguous ("Can
      a room be booked while it is being cleaned?").
   4. What it connects to: payments, email, a calendar, another system.
+  5. **Which palette?**, only when the prompt names no brand: house
+     first and recommended ("House: cream and navy"), then two that
+     suit the domain, each one of these and no other, its label the
+     name and two colours: Bronze (sand and bronze), Walnut (sand and
+     brown), Ember (sand and orange), Brass (sand and gold), Meadow
+     (olive and grass), Lagoon (sage and teal), Harbour (slate and
+     blue), Iris (slate and iris), Plum (mauve and plum), Claret
+     (mauve and crimson), Midnight (slate and indigo), Amethyst (mauve
+     and violet), Evergreen (sage and jade), Graphite (black and
+     white), Rose (mauve and pink). Its description says why it suits
+     the domain, in a few words. Nothing is read for it (hotel-351
+     offered "Luxury dark" and "Coastal light", which don't exist).
 
   **The answers shape the design, never the size of the first
   build.** The first build is the picked part's core job on one page
@@ -89,12 +101,10 @@ hotel-338 wrote the opening only in thinking; every dialog was shown).
   Never asked: the demo data. The build always seeds believable rows
   sized from the prompt (56 rooms for a 56-room hotel), disposable in
   development; real data comes in later, when the user asks (hotel-346
-  asked how to seed the hotel). Never asked either: the name and the
-  look. The design names the app when the prompt doesn't, and the look
-  is the house palette unless the prompt names a brand; both are
-  listed under Assumed, and either changes when the user asks
-  (hotel-351 asked "The Larkspur (Recommended)", and offered two
-  palettes that don't exist).
+  asked how to seed the hotel). Never asked either: the name. The
+  design names the app when the prompt doesn't, listed under Assumed,
+  and it changes when the user asks (hotel-351 asked "The Larkspur
+  (Recommended)").
 - **Every question explains itself:** it says what its answer changes
   when that isn't obvious ("Roles add rules on who may do what.").
 - **"That's enough", Skip, or "just build it"** ends the questions at
