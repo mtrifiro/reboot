@@ -25,7 +25,11 @@ code, no `rbt generate`, no project scaffold, no dependency installed.
   Its answers are the user's, taken as given: the features, the
   roles, the rules, the data and the palette it settles are in the
   design as decided, never under **Assumed**, which lists only what
-  was not asked. Nothing it answered is asked again, here or at the
+  was not asked. They shape the design, not the first build: the
+  first feature is the picked part's core job on one page, and roles,
+  billing, connections and the part's other jobs are each a next
+  feature in the build order (the `app` skill, "The answers shape the
+  design"). Nothing it answered is asked again, here or at the
   go-ahead.
 - **On its own** (`/reboot:app-design <description>`, or a prompt that
   asks for a design, a proposal or a plan and not yet the app):
@@ -150,7 +154,9 @@ Rules for that response:
   staff's tool ("an operations app", "a back office", "a dispatch
   tool") offers no customer feature; its customers use someone else's
   system.
-- **No roles first,** unless "Who signs in?" chose them: the first
+- **No roles first,** even when "Who signs in?" or the `app` skill's
+  questions chose them (then **Who may do what** is the second
+  feature): the first
   feature has sign-in (the development accounts) and an authorizer on
   every method, "anyone signed in", never `allow()`; no roles, roster
   or role rules. Who may do what is its own feature, **Who may do
@@ -185,8 +191,8 @@ recommendation is one answer:
 - **"Who signs in?"**, when the prompt leaves it open: "Anyone signed
   in can do everything; roles later (Recommended)" or "Staff roles from
   the start", naming the roles in the user's nouns ("front desk, vets
-  and techs"). Roles chosen are in the first build; otherwise they are
-  **Who may do what**, before any deploy.
+  and techs"). Roles chosen are **Who may do what**, the second feature;
+  otherwise it waits, before any deploy.
 - **"Which palette?"**, only when the prompt names no brand: house
   first, recommended, then one or two that suit the domain, and no "Use my
   brand" option: a brand typed in the dialog's own free answer (a
@@ -234,7 +240,7 @@ door would, taking its recommended answer:
 
 - **Everything else** (what the app keeps track of, counts, layouts,
   hours): the simplest option, assumed and listed. Roles wait for Who
-  may do what unless the round chose them.
+  may do what.
 - **The app's name,** when the prompt names none: thirty candidates
   that suit the domain, spread across five kinds (a place, a plant or
   a material, a term of the trade, an object of the domain, a plain
