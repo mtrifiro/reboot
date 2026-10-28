@@ -62,7 +62,13 @@ hotel-338 wrote the opening only in thinking; every dialog was shown).
      (hotel-350's multi-select recommended three). The parts not
      picked are the design's next features, in order, offered at the
      handoff's **What should I build next?**; "build it all", typed,
-     is the whole app at once.
+     is the whole app at once. A later question never adds a part to
+     the first build: when the part picked needs another's data
+     (arriving guests for the front desk), the build seeds that data,
+     as it seeds the demo rooms, and the other part stays next
+     (hotel-350's second round asked "Without the Reservations
+     feature, where do arriving guests come from?", and both were
+     built before the first handoff).
   2. Who uses it: who signs in, and the roles if any.
   3. The rules the domain turns on, where the prompt is ambiguous ("Can
      a room be booked while it is being cleaned?").
