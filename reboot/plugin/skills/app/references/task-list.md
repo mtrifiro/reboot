@@ -22,7 +22,7 @@ word for word, with the angle brackets filled in:
 
 Every item starts with a verb. Inside an item every name is
 lowercase, as in a sentence ("Write the rules for “room status
-floor plan”"), unless it is a proper noun. Make the list after the go-ahead on the guided path (elsewhere, after
+floor plan”"), unless it is a proper noun. Make the list after the design on the guided path (elsewhere, after
 the user answers how to build), never in the same response as that
 question (before it, a list has only "Propose
 the design for <app>"); mark each item done as it finishes; a step that
@@ -31,8 +31,7 @@ fails stays in progress, never done.
 **Short.** The list says where the build is, not every step inside
 it: scaffolding, scenarios, tests, pages and the browser checks all
 sit inside the items of the two parts below. Every item stays on the
-list, in order: none is dropped. The user's turns (the go-ahead on the
-design, the checks on the dashboard and in the app, the handoff's
+list, in order: none is dropped. The user's turns (the checks on the dashboard and in the app, the handoff's
 question) are not items: each
 is a dialog, asked when every item before it is done (a step that
 couldn't be is named in the handoff's **Notes**), never while an
@@ -59,7 +58,7 @@ The first feature's backend:
 Item 2 covers the scaffold, the rules as scenarios, then the domain model
 and starting the dashboard. Item 3 covers the actions, who may do
 each, demo data and the tests (scenarios pass, types check). The
-`app-guided` skill's go-ahead after item 1 and the domain model check
+domain model check
 after item 2 (only on a change) (`app/references/design-first.md`) are dialogs, not
 items; after item 3 the backend's results are said and the frontend
 list takes over; a front door's skill used on its own and the

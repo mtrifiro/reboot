@@ -32,7 +32,7 @@ reading any reference or showing a design: one question dialog
 [`app-guided` skill](../../app-guided/SKILL.md), nothing is asked before the
 design (the `app-design` skill takes the round's recommended answers,
 under **Assumed**), and the
-go-ahead, **Ready to build this design?**, comes once, after the design
+build starts right after the design, with no go-ahead
 ([`design-first.md`](design-first.md), section 3). Invoked directly,
 the first question is how to build it, unless the prompt already says;
 its options, the first recommended, are in the door's step 2, with
