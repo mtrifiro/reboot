@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-15T05:51:34-05:00",
+  "fingerprint": "fbb074e13bf718737a76ea392890b59d0f80f2db3ff21c8b556de8ebc45e13b3",
+  "api": [
+    "api/hotel/v1/hotel.py",
+    "api/reservations/v1/reservations.py",
+    "api/rooms/v1/rooms.py",
+    "api/staff/v1/staff.py"
+  ],
+  "features": [
+    "tests/reservations.feature",
+    "tests/room_status.feature",
+    "tests/staff_roles.feature"
+  ]
+}
