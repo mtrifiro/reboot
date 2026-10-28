@@ -575,6 +575,9 @@ works as it will in the finished app.
    ```sh
    generate --react=frontend/api
    ```
+   Then give the project its `AGENTS.md` and `CLAUDE.md` with the
+   [`agents-md` skill](../agents-md/SKILL.md), naming the API and
+   servicer files the design settled on.
 2. `uv sync`.
 3. Write the first feature's `@wip` feature file with the
    [`feature` skill](../feature/SKILL.md), then the API for that
@@ -677,7 +680,7 @@ When the user says the app is done, offer an MCP UI in one line
 
 ## Update Flow
 
-To change an existing app, read `.rbtrc`, the API, the servicers,
+To change an existing app, read `AGENTS.md`, `.rbtrc`, the API, the servicers,
 `main.py` and `frontend/web/src/App.tsx`, then route the change by
 the Flywheel's routing rule (`app/references/flywheel.md`;
 `python3 scripts/model_diff.py` sorts it): a change
@@ -690,3 +693,6 @@ steps 12 to 14.
 An app with persisted or deployed state follows
 `python/references/api-schema-evolution.md`. Under `rbt dev run`,
 edits (and `.env`) reload it; no restart.
+If the change moved a file, added a state type or a page, changed a
+command, or taught a rule, update `AGENTS.md` in the same change
+([`agents-md` skill](../agents-md/SKILL.md)).
