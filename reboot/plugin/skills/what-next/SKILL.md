@@ -114,12 +114,14 @@ sources. Change no other file.
 
 Then one dialog:
 
-- **What should I build next?** The top three or four suggestions,
-  each its name as the label and its one-line reason as the
-  description, the first marked "(Recommended)". The free answer
-  takes another, or none.
+- **What should I build next? Pick one or more.** Multi-select, the
+  top three or four suggestions, each its name as the label and its
+  one-line reason as the description, the first marked
+  "(Recommended)". The free answer takes another, or none.
 
-A feature chosen is built as the app's front door builds each next
+Several chosen are built one after another, in the order listed, with
+one handoff for them all (`app/references/accept-design.md`). A
+feature chosen is built as the app's front door builds each next
 feature (the `web-app` or `mcp-app` skill's Update Flow, through the
 [`feature` skill](../feature/SKILL.md)), and choosing it accepts the
 current one, as `app/references/accept-design.md` says.
