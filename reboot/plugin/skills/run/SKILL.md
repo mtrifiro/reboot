@@ -247,9 +247,7 @@ kill -INT $(pgrep -f "$PWD/.venv/bin/rbt dev run")
 **Stop it before running the test suite**, and start it again once
 the suite passes. The suite runs its own Reboot over the same
 generated code; a running `rbt dev run` regenerates that code when
-`api/` changes, under the tests, and the run hangs. At 1.6.0 any other signal leaves the application's processes
-and Envoy running and holding their ports
-([`KNOWN-ISSUES.md`](../../KNOWN-ISSUES.md)). Before starting the
+`api/` changes, under the tests, and the run hangs. Before starting the
 backend, check that its port is free (`lsof -i :9991`, or the port
 `.rbtrc` sets): a process there is a copy left running, by this
 session or an earlier one, so stop it instead of starting a second.
