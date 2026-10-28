@@ -258,11 +258,9 @@ unchanged, but for these questions.
 
 ## Never
 
-- "Ready to build this design?" without the design's page open beside the
-  chat and its summary just above the dialog (section 3): the question
-  asks the user to judge it. A sentence that the design is in
-  `design/design.md` with no page drawn, or a message drafted only in
-  thinking, is not it.
+- "Ready to build this design?" without the design's summary just
+  above the dialog (section 3): the question asks the user to judge
+  it. A message drafted only in thinking is not it.
 - A dialog on the prompt-by-prompt path: the user chose to be asked
   nothing.
 - "Build on this domain model?" without its lead line and the
