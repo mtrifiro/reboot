@@ -1,6 +1,6 @@
 ---
 name: app
-description: "Build a Reboot application from a description: up to 20 questions first, in rounds of four, on what the prompt leaves open (features, who signs in, the rules, data, connections, the look, learning mode), then the guided build on the answers (the app-guided skill: the design to approve, then each part built); a prompt that names another way (hands off, the architecture first, no design) goes straight to that skill. Holds the front-door routing every build uses: an MCP App (ChatGPT, Claude, VSCode, Goose) or a standalone web app by the prompt's own words, otherwise the web app, the other offered at handoff. Use for any prompt that asks to build an app and names no skill."
+description: "Build a Reboot application from a description: up to 20 questions first, in rounds of four, on what the prompt leaves open (features, who signs in, the rules, data, connections, the look), then the guided build on the answers (the app-guided skill: the design to approve, then each part built); a prompt that names another way (hands off, the architecture first, no design) goes straight to that skill. Holds the front-door routing every build uses: an MCP App (ChatGPT, Claude, VSCode, Goose) or a standalone web app by the prompt's own words, otherwise the web app, the other offered at handoff. Use for any prompt that asks to build an app and names no skill."
 argument-hint: '[<app-description>, or <Name>: <app-description>]'
 allowed-tools: Bash, Read, Write, Glob, Grep, Edit, AskUserQuestion
 ---
@@ -48,9 +48,10 @@ hotel-338 wrote the opening only in thinking; every dialog was shown).
   always there. Stop the moment nothing left would change the design:
   20 is a ceiling, never a target.
 - **The first round, always,** unless the prompt leaves nothing open.
-  It ends with **Explain the code as it builds?**: "No, just build it
-  (Recommended)", "Yes, learning mode" ("Each report ends with what
-  was written and why, also kept in design/exegesis.md.").
+- **Every question is about the app,** never about how the build
+  reports: learning mode is `/reboot:guide`, or "explain as you build"
+  at any point, and the design's opening names it (hotel-346 was asked
+  "Explain the code as it builds?" beside its features).
 - **Only what the prompt leaves open,** never what it says, and never
   a question whose recommended answer any builder would pick. Each
   round is written from the answers before it. The most
@@ -73,11 +74,10 @@ hotel-338 wrote the opening only in thinking; every dialog was shown).
 
 After the last round, `design/interview.md` with the Write tool
 (`mkdir -p design` first): every question and its answer, one line
-each, in the order asked, under `# Questions before the design`, the
-learning answer last. Then load the
+each, in the order asked, under `# Questions before the design`. Then load the
 [`app-guided` skill](../app-guided/SKILL.md) with the Skill tool, its
-argument the prompt followed by ", interviewed" (and ", verbose" on
-"Yes, learning mode"). The `app-design` skill takes the file's answers
+argument the prompt followed by ", interviewed" (and ", verbose" when
+the prompt asks to learn as it builds). The `app-design` skill takes the file's answers
 as given.
 
 Nothing is read, no folder is listed and no plan is made before the
