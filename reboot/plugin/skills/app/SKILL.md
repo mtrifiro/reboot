@@ -140,7 +140,7 @@ The skill chosen above loads the front door with the Skill tool
 (`/reboot:web-app`, `/reboot:mcp-app`), never by reading its
 `SKILL.md` (the tool loads it whole and marks the route taken), or
 reads `backend-only.md`, and follows it from the top: `app-guided` after
-the go-ahead, `app-whole` after its design, `app-just` at once.
+the design, `app-whole` after its design, `app-just` at once.
 
 **At handoff,** unless "just/only/no" applied, offer the other front
 door in one line: "The backend can also serve an MCP App for Claude and
