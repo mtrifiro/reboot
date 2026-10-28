@@ -32,16 +32,16 @@ ending "Building it now."; then the build, in the same response, with
 no dialog and no stop between the design and the first code. The
 `app-guided` skill's **What to expect** for step by step comes first.
 
-- **The build:** the first feature's **Methods** go into
-  `design/design.md` (`design-document.md`), then build it by the
-  front door's one-feature flow. At the first handoff,
-  `design/design.md` becomes the accepted design (`accept-design.md`),
-  and **Assumed** moves into the first decisions entry. The first
+- **The build:** the first feature by the front door's one-feature
+  flow; its objects in `api/` and its feature file are the design from
+  here (`design-document.md`), and nothing else is kept up to date
+  with them. At the first handoff, the acceptance appends its entry to
+  `design/decisions.md` (`accept-design.md`). The first
   handoff's review is the design's review too: what to change in the
   design is said there, or at any point.
 - **A change typed while it builds** ("roles from the start", "use
   Harbour"): a design change, made by the `app-design` skill's rules,
-  the design document following it; work already done that it changes
+  the code following it and a line in the next handoff's **Notes**; work already done that it changes
   is redone, said in a line.
 - **Learning mode:** the `guide` skill sets it, and the design's
   opening names that skill; "explain as you build" typed at any point
@@ -49,8 +49,8 @@ no dialog and no stop between the design and the first code. The
 
 **The prompt-by-prompt path** (asked for in those words, in the
 prompt or at a handoff) **asks nothing,** here or later: the design's
-closing line is "The design is in design/design.md (linked). Say what
-to build first.", `design.md` written just before it, and the build
+closing line is "The design is saved in design/decisions.md (linked).
+Say what to build first.", the entry written just before it, and the build
 stops; no model check (section 4), no frontend question (section 5),
 no **What should I build next?**. Each prompt is built as asked by the
 front door's flow for that part, tested against its rules, and handed
@@ -59,7 +59,7 @@ off in the handoff's shape with its links (`design-messages.md`),
 next-step box carrying only the recap. The acceptance is recorded when
 the user asks for the next thing (`accept-design.md`). A prompt that
 changes the design (an object, a rule, who may call) is a design
-change: the design document and decisions log follow it, no question
+change: the code follows it, and the next handoff's **Notes** says so, no question
 first; the user's words are the agreement.
 
 **All at once** (asked for in the prompt or at a handoff, "build it
@@ -82,9 +82,9 @@ model's answer was taken as "Build on it").
 ## 4. The domain model, once
 
 In the first feature only, once the front door has the dashboard up
-on the new domain model and before any servicer code: turn the
-code-style names in `design/design.md` that now exist into dashboard
-links (the rest stay plain until built). With the design's objects
+on the new domain model and before any servicer code: compare
+`api/` with the proposal's **Domain model** (`design/decisions.md`'s
+first entry, never edited). With the design's objects
 and fields unchanged, say the lead line below and go on. Only when one
 was added, dropped or renamed, end the turn with the lead line, a line
 per difference, and one dialog:

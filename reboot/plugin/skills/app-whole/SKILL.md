@@ -30,9 +30,9 @@ Skill loads are the response's only tool calls before it; hotel-200
 said nothing for 69 seconds and its first text was the design), its
 third sentence "No questions: the whole app is designed, then built,
 tested and handed over when it is done." word for word. Then it reads
-what the design needs, and writes the whole proposed design with the
-scope of section 2 to `design/design.md`, drawn as a page beside the
-chat with its summary in the chat (the `app-design` skill, section 3).
+what the design needs, and sends the whole proposed design with the
+scope of section 2 in the chat, then saves it as the first entry of
+`design/decisions.md` (the `app-design` skill, section 3).
 For a web app, the mockup next, in the same turn
 ([`web-app/references/comp.md`](../web-app/references/comp.md)): its
 line said and no stop; the main page and the frontend sub-agent build
@@ -116,7 +116,7 @@ Ask nothing, from start to finish: no round, no go-ahead on the
 design, no acceptance between features, no dialog from a review.
 Where a skill this one loads would ask, take the answer it marks as
 recommended, or decide the same way: the simplest choice that fits
-the scope, listed under **Assumed** in `design/design.md` and named at
+the scope, listed under **Assumed** in the saved proposal and named at
 the handoff. Times are in the user's own time zone.
 
 ## 4. The build, without stopping
@@ -242,9 +242,7 @@ background when anything changed: the final run. The handoff
 
 ## 6. One handoff, at the end
 
-`design/design.md` brought up to date by edits to what the build
-changed, never rewritten whole, its links checked by
-`scripts/design_links.py`; then the handoff in the shape of
+The handoff in the shape of
 [`app/references/design-messages.md`](../app/references/design-messages.md),
 covering every feature (in a verbose build, asked for in the prompt,
 its **Exegesis**, the build's one exegesis in the chat, covers the
