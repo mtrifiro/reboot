@@ -9,10 +9,11 @@ tags: comp, mockup, preview, main page, go-ahead, look, design/comp/mockup.html
 
 A comp is a mockup of the main page, made once as a static page in the look the
 design names, with believable rows and no data behind it: where the
-frontend is going, shown with the design so the go-ahead judges both.
-The `app-guided` skill makes it for a web app after the proposed design
-and before **Ready to build this design?**. On the hands-off paths
-(`app-whole`, with or without ", basic", and `app-basic`) it is a preview with no stop:
+frontend is going, shown with the design so the user judges both.
+The `app-guided` skill makes it for a web app after the proposed design,
+and the build goes on after its line, with no go-ahead
+(`app/references/design-first.md`, section 3). On every path
+(`app-guided`, `app-whole` with or without ", basic", and `app-basic`) it is a preview with no stop:
 made right after `design/design.md`, its line said, and the build goes
 straight on, the page built from it: the user has the look within a
 few minutes instead of at the first page (hotel-271's came at 19
@@ -120,18 +121,15 @@ in <palette>."
    a `launch.json` configuration named `comp` whose `url` is that
    address alone, with no path; elsewhere the link alone, never the
    user's external browser.
-5. One line in the chat, then the go-ahead dialog: "**Where it is
+5. One line in the chat, with no dialog: "**Where it is
    going:** [a mockup of the <page>](<mockup>),
    in <palette>, with no data behind it; the real page
-   replaces it at the frontend step." On the hands-off paths
-   (`app-whole`, with or without ", basic") the line ends there, with
-   no dialog: "Building it now." follows,
-   and the build goes on. A change to it typed as the
-   go-ahead's free answer ("the waiting list on the left", "quieter")
-   is a change to the design's Pages line: made, the mockup remade, the same
-   dialog again.
+   replaces it at the frontend step. Building it now.", and the build
+   goes on. A change to it typed while the backend is built ("the
+   waiting list on the left", "quieter") is a change to the design's
+   Pages line: made, and the mockup remade before the page is.
 
-**After the go-ahead** the comp is the page's target: the web-app
+**After its line** the comp is the page's target: the web-app
 skill's step 8 builds the page as the comp shows, the same classes and
 composition, its rows from the reader, and the look review reads the
 main page's screenshot against it. Both servers, the design's and the
@@ -163,7 +161,7 @@ session.
 - A comp without its `comp-badge`, or the badge on a real page.
 - A mockup written whole instead of `page.part` framed by `comp.py`
   (step 3), or named anything but `mockup.html`.
-- The go-ahead dialog before the comp's line, or a minute between the
+- A dialog after the comp's line, or a minute between the
   design and the line without "Making a mockup of the <page>".
 - The comp opened in the user's external browser in the Claude app.
 - A comp for an MCP App or where commands can't run; or a stop to
