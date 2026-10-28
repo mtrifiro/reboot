@@ -37,10 +37,11 @@ skill's references; read them at the step that needs them:
 Before any file changes, tell the user what you understand the
 feature to be, as a person would describe it, not as an API:
 
-- **Its name**, a sentence about the activity: "Customers can
-  transfer money between accounts".
-- **What it is for**, a short paragraph: who does it, why, what
-  they see when it worked.
+- **Its name**, the promise it keeps (Step 2): "A transfer never
+  creates or loses money".
+- **What it is for**, explained as Step 2's description says: what
+  the promise means, why it matters, who does what, and how it plays
+  out.
 - **Its rules**, only where there is a clear business rule or an
   invariant of the whole system, the kind one would want to verify
   formally: money is conserved by a transfer; a balance never goes
@@ -78,8 +79,21 @@ it anyway, with `@wip` on the whole feature:
 ```gherkin
 @wip
 Feature: A transfer never creates or loses money
-  A customer moves money from one of their accounts to another
-  account of the bank in one step.
+  A transfer moves money from one of a customer's accounts to any
+  other account in the bank, and the two balances change together or
+  not at all.
+
+  Without it, a failure halfway through could take the money out of
+  one account and never put it in the other, and the bank's books
+  would no longer add up.
+
+  A customer transfers from their own accounts and sees each balance
+  change at once; no one sees an account that isn't theirs.
+
+  A customer picks the account to pay from, the account to pay into
+  and the amount; the transfer either goes through, both balances
+  updated, or is refused with the reason, nothing changed. Undoing
+  a transfer is a transfer back; scheduled transfers come later.
 
   Rule: A transfer that would overdraw the source leaves both accounts unchanged
     A transfer is one transaction, so money is never created by a
@@ -99,6 +113,28 @@ money"), or the page's name ("Room board"): who, how and on which
 page is the description's, and the page's name is the design's. Each
 `Rule:` under it is one of the ways the promise is kept, so none
 repeats the title.
+
+**The description explains the feature** to someone who has never seen
+the app: a reviewer, a new developer, the user a month later. Short
+paragraphs, a blank line between them, in the user's nouns and plain
+words, no code names, in this order:
+
+1. **What the promise means:** what the feature is about and what is
+   always true, with each word of the domain that carries the rule
+   defined once ("inspected, which is what ready means here").
+2. **Why it matters:** what goes wrong without it, in the domain ("a
+   guest is sent to a room still being cleaned").
+3. **Who does what:** each kind of user and what they may do; who
+   may only look; who sees nothing.
+4. **How it plays out:** the job from start to end, as the user does
+   it (Step 1's job), with what they see when it worked, how a
+   mistake is put right, and what is left for later, by name.
+
+Each paragraph says something the title and the rules don't; one
+that would only restate them is left out. (The description a build
+wrote as one long block, "The room board is the page the
+staff keep open all day...", had all four parts, unseparated, and
+opened with the page rather than the promise.)
 
 Add the file to the `scenarios(...)` call of the test module whose
 application it runs against, or create the module
