@@ -1,7 +1,7 @@
 ---
 title: The Design First, Then How to Build It
 impact: HIGH
-impactDescription: After the app-design skill's round and proposed design, the app-guided skill asks the go-ahead (Ready to build this design?), then, in the first feature, the domain model check and the frontend question, each with its text just above it; the prompt-by-prompt path asks none of them.
+impactDescription: After the app-design skill's round and proposed design, the app-guided skill builds with no go-ahead; in the first feature, the domain model check and the frontend question, each with its text just above it; the prompt-by-prompt path asks none of them.
 tags: go-ahead, domain model, frontend, dialogs, design, prompt by prompt
 ---
 
@@ -20,120 +20,64 @@ asked before the design, nothing is read before the
 design but what it needs, and the design is shown once, in the chat,
 in the shape of [`design-messages.md`](design-messages.md).
 
-## 3. The go-ahead
+## 3. The start, with no go-ahead
 
-The proposed design (section 2) is in `design/design.md` and its
-summary went out as text when the file was written, in the same response; for a web app built by the `app-guided` skill, the
-mockup is made while the user reads it, and its line comes after
-([`../../web-app/references/comp.md`](../../web-app/references/comp.md)):
-a mockup of the main page in the look, served and opened in the pane. Then
-one dialog (`AskUserQuestion` where available,
-else one plain line), the only question between the prompt and code:
-the go-ahead, where the user changes any assumed answer. The interactive build is the user's (the `app`
-skill's default, or `/reboot:app-guided` by name), so it asks only for
-the yes, never how to build.
-Its options, word for word, filled from the design:
+No **Ready to build this design?** (tried 2026-10-28: the `app`
+skill's questions settle before the design what the go-ahead used to
+ask). The design's summary goes out as text (section 2); for a web app
+built by the `app-guided` skill, the mockup is made while the user
+reads it and its line comes after
+([`../../web-app/references/comp.md`](../../web-app/references/comp.md)),
+ending "Building it now."; then the build, in the same response, with
+no dialog and no stop between the design and the first code. The
+`app-guided` skill's **What to expect** for step by step comes first.
 
-- Title: **Ready to build this design?**
-- "Yes, start building": "Build <first feature> first, about 15
-  minutes."
-- "Not yet": "I want to change something first: a feature, who signs
-  in, the palette, or anything in the design." Nothing more: what
-  happens next is said after the answer.
-- "Tell me more": "What happens first, before I decide."
-
-No option is marked recommended: the answer stays in the chat as the
-question and the option chosen, and a yes needs no recommendation.
-No option for learning mode: the `guide` skill sets it, and the
-design's opening names that skill; "explain as you
-build" typed at any point still turns it on.
-
-**On "Tell me more",** about 500 words in the chat (a length for the
-build, never said to the user, as no word count ever is), in the user's
-nouns, under short bold leads, then the same dialog again (a short
-paragraph left the user with questions). The words are the response's
-text, sent before the dialog's call, never drafted in thinking: the
-user sees only text (hotel-302 wrote its answer in thinking and asked
-again seven seconds later; the user saw a two-sentence paraphrase):
-
-1. **What happens on a yes:** the first feature, step by step: its
-   rules written as scenarios, the API, the domain model shown on the
-   dashboard (a question only if it differs from the design), the
-   actions and who may do each, proven by the scenarios, then its
-   page, built from the mockup and tested in a browser; about 15
-   minutes, then the handoff.
-2. **What you do at each stop:** at the handoff, open the page and try
-   it as the accounts it names; then say what to change, or pick the
-   next feature. Nothing is accepted until you say so.
-3. **What was assumed, and how to change it:** each line under
-   **Assumed** (the features and their order, who signs in, the
-   palette by name), with the words that change it ("add guest
-   requests", "staff roles from the start", "use Harbour").
-4. **What Reboot does for you here:** three or four lines from the
-   design's own section of that name, in this app's nouns
-   (`conversation.md`, "Say what Reboot does here").
-5. **Where things are:** `design/design.md`, the mockup, the dashboard once the API exists;
-   and the other ways to go on: prompt by prompt, or the rest at once
-   at any handoff.
-
-No new facts about the design: everything is from it, said at more
-length.
-
-Nothing is built before the answer. The go-ahead adds to the first
-handoff's review: this decides the design before any code, that the
-feature as built. After the answer, the `app-guided` skill's **What to
-expect** for the chosen path, then the build.
-
-**The prompt-by-prompt path** (asked for in those words, at the
-go-ahead or at a handoff) **asks nothing,** here or later: no go-ahead
-dialog (the design's closing line is "The design is in
-design/design.md (linked). Say what to build first.", `design.md`
-written just before it, and the build stops), no model check (section
-4), no frontend question (section 5), no **What should
-I build next?**. Each prompt is built as asked by the front door's
-flow for that part, tested against its rules, and handed off in the
-handoff's shape with its links (`design-messages.md`), **Your turn**
-ending in the plain line "Say what's next.", the next-step box
-carrying only the recap. The acceptance is recorded when the user
-asks for the next thing (`accept-design.md`). A prompt that changes
-the design (an object, a rule, who may call) is a design change: the
-design document and decisions log follow it, no question first; the
-user's words are the agreement.
-
-- **All at once,** typed as the free answer ("build it all"): every feature under **Proposed features, in build
-  order**, none from **Not in this build**, by the
-  [`app-whole` skill](../../app-whole/SKILL.md)'s steps 4 and 6, from
-  the design as proposed, no features added: no stops, one handoff at
-  the end. The task list is the whole-app list (`task-list.md`, where
-  the plugin has it), its first item done.
-- **Yes, start building** (or the first feature named): the
-  first feature's **Methods** go into `design/design.md`
-  (`design-document.md`), then build it by the
+- **The build:** the first feature's **Methods** go into
+  `design/design.md` (`design-document.md`), then build it by the
   front door's one-feature flow. At the first handoff,
   `design/design.md` becomes the accepted design (`accept-design.md`),
-  and **Assumed** moves into the first decisions entry.
-- **Not yet, or the dialog skipped:** one short reply: "The whole
-  design is in design/design.md.", the path a
-  Markdown link to the file in the
-  user's project, then "Tell me to continue when you're ready, or
-  what to change." Then stop: no dialog now.
-  "Continue" (or "go", "build it") asks **Ready to build this design?**
-  again; a change updates the design and asks again.
-- **A change,** typed as the free answer (so no option means only
-  "change something"): update the document and the design, show what
-  changed, and ask the same dialog again.
-- **No answer** is not a yes.
-- **A message about something else** in place of the answer (the host
-  says the user "sent a message instead": a photo, a look change, a
-  question): do it or answer it, say so in a line, then ask the same
-  dialog again, its text above it. It is never a yes, nor a no: only
-  an answer that says to go on ("go", "build it", "looks good") is a
-  yes. The same holds for **Build on this domain model?** below
-  (hotel-214, 2026-10-19: a banner photo sent in place of the domain
-  model's answer was taken as "Build on it").
+  and **Assumed** moves into the first decisions entry. The first
+  handoff's review is the design's review too: what to change in the
+  design is said there, or at any point.
+- **A change typed while it builds** ("roles from the start", "use
+  Harbour"): a design change, made by the `app-design` skill's rules,
+  the design document following it; work already done that it changes
+  is redone, said in a line.
+- **Learning mode:** the `guide` skill sets it, and the design's
+  opening names that skill; "explain as you build" typed at any point
+  turns it on.
 
-No task item marks the wait: the dialog is the signal, and "Propose
-the design for <app>" is done once the design is shown.
+**The prompt-by-prompt path** (asked for in those words, in the
+prompt or at a handoff) **asks nothing,** here or later: the design's
+closing line is "The design is in design/design.md (linked). Say what
+to build first.", `design.md` written just before it, and the build
+stops; no model check (section 4), no frontend question (section 5),
+no **What should I build next?**. Each prompt is built as asked by the
+front door's flow for that part, tested against its rules, and handed
+off in the handoff's shape with its links (`design-messages.md`),
+**Your turn** ending in the plain line "Say what's next.", the
+next-step box carrying only the recap. The acceptance is recorded when
+the user asks for the next thing (`accept-design.md`). A prompt that
+changes the design (an object, a rule, who may call) is a design
+change: the design document and decisions log follow it, no question
+first; the user's words are the agreement.
+
+**All at once** (asked for in the prompt or at a handoff, "build it
+all"): every feature under **Proposed features, in build order**, none
+from **Not in this build**, by the
+[`app-whole` skill](../../app-whole/SKILL.md)'s steps 4 and 6, from the
+design as proposed, no features added: no stops, one handoff at the
+end. The task list is the whole-app list (`task-list.md`, where the
+plugin has it), its first item done.
+
+**A message about something else** at a dialog later in the build
+(the host says the user "sent a message instead": a photo, a look
+change, a question): do it or answer it, say so in a line, then ask
+the same dialog again, its text above it. It is never a yes, nor a no:
+only an answer that says to go on ("go", "build it", "looks good") is
+a yes. This holds for **Build on this domain model?** below
+(hotel-214, 2026-10-19: a banner photo sent in place of the domain
+model's answer was taken as "Build on it").
 
 ## 4. The domain model, once
 
@@ -220,7 +164,7 @@ dialog says how, in the user's nouns. A change goes in the free
 answer ("a stay should also hold the guest's room"): change the API,
 `rbt generate`, say what changed, ask again. A message about
 something else is done and the dialog asked again, as for the
-go-ahead (section 3). No task item marks the
+dialogs later in the build (section 3). No task item marks the
 wait: the dialog is the signal. If the dashboard didn't come up, don't ask: say so in
 one sentence and go on; the model is checked at the first handoff.
 Later features don't ask; `app-whole` and the prompt-by-prompt path never
@@ -258,9 +202,10 @@ unchanged, but for these questions.
 
 ## Never
 
-- "Ready to build this design?" without the design's summary just
-  above the dialog (section 3): the question asks the user to judge
-  it. A message drafted only in thinking is not it.
+- "Ready to build this design?", or any stop between the design and
+  the first code (section 3).
+- The design's summary drafted only in thinking: the user sees only
+  text.
 - A dialog on the prompt-by-prompt path: the user chose to be asked
   nothing.
 - "Build on this domain model?" without its lead line and the
@@ -271,8 +216,7 @@ unchanged, but for these questions.
 
 - Reading this plugin's files with a shell command instead of the
   file tools.
-- A second go-ahead, or any question before the design: the go-ahead
-  is asked once, after the design, and takes any
-  change to the features.
-- Code, `rbt generate` or a project scaffold before the go-ahead (on
-  the prompt-by-prompt path, before the user's first build prompt).
+- A question before the design other than the `app` skill's.
+- Code, `rbt generate` or a project scaffold before the design's
+  summary and the mockup's line (on the prompt-by-prompt path, before
+  the user's first build prompt).

@@ -29,8 +29,7 @@ code, no `rbt generate`, no project scaffold, no dependency installed.
   first feature is the picked part's core job on one page, and roles,
   billing, connections and the part's other jobs are each a next
   feature in the build order (the `app` skill, "The answers shape the
-  design"). Nothing it answered is asked again, here or at the
-  go-ahead.
+  design"). Nothing it answered is asked again.
 - **On its own** (`/reboot:app-design <description>`, or a prompt that
   asks for a design, a proposal or a plan and not yet the app):
   everything below, ending with the closing line in section 4.
@@ -38,10 +37,10 @@ code, no `rbt generate`, no project scaffold, no dependency installed.
   build): everything below but the round and the closing line. Nothing
   is asked before the design: each of the round's questions takes its
   recommended answer (section 2), listed under **Assumed**, and the
-  go-ahead is where the user changes any. The opening goes out as text
+  user changes any at any point or at the first handoff. The opening goes out as text
   right after this skill loads (the Skill loads are the only tool calls
-  before it), and the design follows in the same response. The app-guided skill's go-ahead, **Ready to build this design?**, follows the design in
-  the same response
+  before it), and the design follows in the same response. The app-guided skill's build follows the design in
+  the same response, with no go-ahead
   ([`app/references/design-first.md`](../app/references/design-first.md),
   section 3); on the prompt-by-prompt path, that section's closing line.
 - **Loaded by the [`app-whole` skill](../app-whole/SKILL.md)** (it
@@ -78,9 +77,9 @@ design, as a working name.
    design it, starting from its rules." Loaded by the `app-guided`
    skill, two sentences: "Next I'll write the design: what the app
    keeps track of, the rules each feature must keep, and its pages,
-   with a mockup of the main page opened beside the chat. Nothing is
-   built until you approve it, and you can change any feature." Word
-   for word.
+   with a mockup of the main page opened beside the chat. Then I'll
+   build it, a feature at a time, and you can change any of it as it
+   goes." Word for word.
 
 Loaded by the `app-guided` skill, two lines after the paragraph, word
 for word: "This allows you to build an app at the level of the domain
@@ -122,7 +121,7 @@ Rules for that response:
   the rest are in the design, minutes later. Then the dialog, the
   response's next tool call.
 - Nothing about how it will be built beyond the dialog's own options:
-  **What to expect** is the `app-guided` skill's, after the go-ahead.
+  **What to expect** is the `app-guided` skill's, after the design.
 - **The name the user gives.** A name the prompt gives the app is
   its name, final: "called Compass", "named Compass", or a name and a
   colon starting the prompt ("Compass: a CRM for my design partners").
@@ -167,8 +166,8 @@ Rules for that response:
 Only when this skill runs on its own. Loaded by the `app-guided` or
 `app-whole` skill nothing is asked: each question below takes its
 recommended answer (the recommended features; anyone signed in, roles
-later; the palette as below), each a line under **Assumed**, and the user changes any at the
-go-ahead, with the design and the mockup in front of them (hotel-270:
+later; the palette as below), each a line under **Assumed**, and the user changes any as it
+builds, with the design and the mockup in front of them (hotel-270:
 three of four questions answered with the recommendation).
 
 One dialog (`AskUserQuestion`; where there is none, the same as plain
@@ -215,9 +214,9 @@ recommendation is one answer:
   picked by the folder's name (asked for on 2026-10-26: builds had
   drifted from the house look).
 How it is built is not asked here: the interactive build is the
-default (the `app` skill), and the go-ahead, **Ready to
-build this design?**, asks only for the yes; "build it all at once",
-typed as its free answer, is still honoured. The choice can change: at any handoff "build
+default (the `app` skill), and it starts after the design with no
+go-ahead; "build it all at once", said in the prompt or at a handoff,
+is still honoured. The choice can change: at any handoff "build
 the rest all at once", "step by step from here" or "prompt by prompt
 from here" switches, and the first handoff says so in one line.
 
@@ -258,7 +257,7 @@ door would, taking its recommended answer:
 `app-whole` skill, right after the opening's text), one item, "Propose
 the design for <app>"; a list that exists when this skill loads is replaced with
 that item first, in a response of its own. It is done when the design
-is shown. The `app-guided` skill's path list follows the go-ahead.
+is shown. The `app-guided` skill's path list follows the design.
 
 ## 3. The research, then the design
 
@@ -306,8 +305,8 @@ design; reading the references gets no line of its own.
 
 1. `design/design.md`, in one write, in the shape of
    [`design-document.md`](../app/references/design-document.md), all
-   of it but **Methods**, which go in after the go-ahead, before any
-   code: the user decides on the rest.
+   of it but **Methods**, which go in as the build starts, before any
+   code.
 2. In the chat, as text the moment `design.md` is written and before
    any other call, the design's summary, in the shape of
    `design-messages.md`, "The proposed design", its link to
@@ -355,7 +354,7 @@ What the design holds while nothing is built:
 - **Assumed**, after **Sign-in**: every answer taken in the round, one
   line each, question then answer, so the user sees what to change,
   and the build that picks the design up reads how to build there
-  ("How: step by step", from the go-ahead's answer; on its own, "How:
+  ("How: step by step", the guided build's; on its own, "How:
   not chosen yet").
 
 The user signs off on what they see, so the assumptions say what the
@@ -373,8 +372,8 @@ hours), in the user's nouns.
 section 3 says, with no closing line and no dialog; the one-shot
 skill goes straight on to the build in the same turn.
 
-**Loaded by the `app-guided` skill:** no closing line. The go-ahead dialog
-follows the design in the same response (`design-first.md`, section
+**Loaded by the `app-guided` skill:** no closing line. The build
+follows the design in the same response, with no dialog (`design-first.md`, section
 3), and the app-guided skill takes it from there.
 
 **On its own:** the design (section 3), then one line,

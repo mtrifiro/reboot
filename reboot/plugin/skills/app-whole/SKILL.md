@@ -166,7 +166,7 @@ which is finished and go on; never wait for an answer.
   and where the accent goes as the design's page line says
   (`ui-design.md`, "What the Eye Lands On"), and `design/comp/mockup.html`
   as the main page's target (drawn right after the design, section 1,
-  or before the app-guided skill's go-ahead). (hotel-200's
+  or right after the design on the app-guided path). (hotel-200's
   sub-agent read four references by `cat` and edited by `sed -i`.)
 - **Read this plugin with the Read tool,** one call per file, several
   in one response, never `cat`, `awk` or a loop in a shell (the
