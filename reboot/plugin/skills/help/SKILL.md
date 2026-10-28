@@ -36,7 +36,7 @@ One message, no longer than a screen:
    test run passed (5 of 5)."
 2. **Links,** one line, only to what is running or exists: the app
    (its main page), the dashboard's Models, Features and Changelog
-   pages, `design/design.md` and any review.
+   pages, `design/decisions.md` and any review.
 3. **What you can ask for,** four to eight items for this stage, each
    an example of the words to use and what happens, in one line:
 

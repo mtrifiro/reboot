@@ -14,7 +14,7 @@ The `app-guided` skill makes it for a web app after the proposed design,
 and the build goes on after its line, with no go-ahead
 (`app/references/design-first.md`, section 3). On every path
 (`app-guided`, `app-whole` with or without ", basic", and `app-basic`) it is a preview with no stop:
-made right after `design/design.md`, its line said, and the build goes
+made right after the design is sent and saved, its line said, and the build goes
 straight on, the page built from it: the user has the look within a
 few minutes instead of at the first page (hotel-271's came at 19
 minutes). An MCP App doesn't make one (its views live in a host), and a host that
@@ -139,14 +139,14 @@ main page's screenshot against it. Both servers, the design's and the
 mockup's, keep running through the build, so what is open in the pane
 stays there beside the real page; they are stopped only when the user
 asks to stop the app (the `run` skill). `design/comp/mockup.html` stays as the record of
-the direction, whole on its own since it holds its stylesheet, linked from the main page's line in `design/design.md`
+the direction, whole on its own since it holds its stylesheet, linked from the main page's line in the saved proposal
 (`app/references/design-document.md`); `comp.css` and `.look-history/` beside it and
 `design/.design.pid` and `design/.comp.pid` are
 git-ignored by the starter, and the comp is remade from the steps
 above when it is wanted again. The comp is never edited after the
 go-ahead, even when the page no longer matches it: it is the design
 the user approved, not a copy to keep in step. A change to the page
-goes in the page and in `design/design.md`; where the two differ, say
+goes in the page, and in the next handoff's **Notes**; where the two differ, say
 so (crm-30 kept its comp in step with the page for a day before the
 rule). The `agents-md` skill's rule 5 says the same to the next
 session.

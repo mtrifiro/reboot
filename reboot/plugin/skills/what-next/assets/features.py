@@ -5,10 +5,11 @@
     python3 features.py --json
 
 Reads `tests/**/*.feature` (each feature, its rules, how many scenarios
-each rule has, and its tags: @wip, @browser, @blocked), and from
-`design/design.md` the people the brief names, the cycles it names
-(written as *a → b → c*), and every name still in code style (`like
-this`), which the design uses for what isn't built yet. Also lists
+each rule has, and its tags: @wip, @browser, @blocked), and from the
+proposed design (`design/decisions.md`'s "Design proposed" entry, or an
+older project's `design/design.md`) the people the brief names, the
+cycles it names (written as *a → b → c*), and every name in code style
+(`like this`) that nothing under `api/` defines yet: what isn't built. Also lists
 what `design/decisions.md` records as ruled out. Standard library only.
 """
 
@@ -54,11 +55,22 @@ def features() -> list[dict]:
     return out
 
 
+def proposal() -> str:
+    """The proposed design: the log's "Design proposed" entry, else design.md."""
+    log = DESIGN / "decisions.md"
+    if log.is_file():
+        text = log.read_text(encoding="utf-8", errors="replace")
+        found = re.search(r"^## [^\n]*Design proposed:.*?(?=^## |\Z)", text, re.M | re.S)
+        if found:
+            return found.group(0)
+    doc = DESIGN / "design.md"
+    return doc.read_text(encoding="utf-8", errors="replace") if doc.is_file() else ""
+
+
 def design() -> dict:
     found: dict = {"people": [], "cycles": [], "not_built": [], "ruled_out": []}
-    doc = DESIGN / "design.md"
-    if doc.is_file():
-        text = doc.read_text(encoding="utf-8", errors="replace")
+    text = proposal()
+    if text:
         brief = text.split("## ", 2)[1] if text.count("## ") >= 1 else text
         found["cycles"] = [" ".join(c.split()) for c in re.findall(r"\*([^*]*→[^*]*)\*", text)]
         people = re.findall(
@@ -66,8 +78,11 @@ def design() -> dict:
             r"members?|owners?|drivers?|patients?|doctors?|nurses?|teachers?|students?|buyers?|sellers?)\b",
             brief, re.I)
         found["people"] = sorted({p.lower().rstrip("s") if p.lower() != "staff" else "staff" for p in people})
-        # Names in code style that aren't links: the design's "not built yet".
-        found["not_built"] = sorted({m for m in re.findall(r"(?<!\[)`([A-Za-z_][\w.]*)`(?!\])", text)})
+        # Names in code style the API doesn't define yet: the design's "not built yet".
+        api = "\n".join(p.read_text(encoding="utf-8", errors="replace")
+                        for p in (DESIGN.parent / "api").rglob("*.py")) if (DESIGN.parent / "api").is_dir() else ""
+        found["not_built"] = sorted({m for m in re.findall(r"(?<!\[)`([A-Za-z_][\w.]*)`(?!\])", text)
+                                     if not re.search(r"\b" + re.escape(m.split(".")[-1]) + r"\b", api)})
     log = DESIGN / "decisions.md"
     if log.is_file():
         for line in log.read_text(encoding="utf-8", errors="replace").splitlines():

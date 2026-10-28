@@ -48,13 +48,13 @@ first handoff. The prompt-by-prompt path, asked for in those words in
 the prompt or at any handoff: the design's closing line says what to
 do, and the user's next prompt is the build.
 
-**A design already proposed:** when `design/design.md` is in the
-project with the status "proposed" and the prompt asks to build it
+**A design already proposed:** when `design/decisions.md` is in the
+project with a "Design proposed" entry and no `api/` yet, and the prompt asks to build it
 ("build it", "build it all at once", "build the gig calendar", or the
 `app-design` skill handing over), it is the design and the words are the
-go-ahead: no round, no proposal, no dialog. **Assumed** holds the
+go-ahead: no round, no proposal, no dialog. Its **Assumed** holds the
 round's answers; the way of building is the prompt's ("build it" is
-step by step), and **Assumed** gets its line. Start at **What to
+step by step), said in the first handoff's **Notes**. Start at **What to
 expect**. A prompt that changes it first is a design change, made by
 the `app-design` skill's rules, then the same.
 
@@ -76,8 +76,8 @@ under "What to expect:", filled in from the design:
   rest step by step" at any handoff switches.
 - **Prompt by prompt:** each thing you ask for at the prompt, built and
   tested against its rules, then handed off with its links · the build
-  asks nothing and waits for your next prompt · the design is in
-  `design/design.md`, yours to change at any prompt.
+  asks nothing and waits for your next prompt · the design is
+  saved in `design/decisions.md`, yours to change at any prompt.
 
 **2. Before the design, nothing** beyond what the `app-design` skill
 reads. **After the design (the mockup's line, on a web app), read
