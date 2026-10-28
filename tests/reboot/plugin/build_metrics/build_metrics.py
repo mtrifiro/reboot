@@ -40,8 +40,9 @@ What each moment is taken to be:
 * the design: the go-ahead question (`GO_AHEAD`) asked once
   `design/design.md` is written, the moment the design is shown for a
   decision; failing that, the first message headed "the proposed
-  design"; failing that, the first write of `design/design.md` (a
-  build with no go-ahead that never sent the summary); failing that,
+  design"; failing that, the first write of `design/design.md` or of
+  `design/decisions.md` (a build with no go-ahead that never sent the
+  summary); failing that,
   the first message of `DESIGN_WORDS` words or more (a build from
   before the design document);
 * an edit: the first tool call that writes a file;
@@ -64,7 +65,7 @@ from datetime import datetime
 from pathlib import Path
 
 DESIGN_WORDS = 200
-DESIGN_FILE = re.compile(r"(?:^|/)design/design\.md$")
+DESIGN_FILE = re.compile(r"(?:^|/)design/(?:design|decisions)\.md$")
 DESIGN_HEADING = "the proposed design"
 # The question that asks for the go-ahead on a shown design, in either
 # of the skills' wordings.

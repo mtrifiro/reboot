@@ -19,8 +19,9 @@ objects, actions, rules and who may do what."
 
 Read, with the Read tool, one call per file:
 
-- `design/design.md` (the features, the rules, who uses the app) and
-  `design/decisions.md` (why it is shaped so);
+- `design/decisions.md` (its first entry, the proposal: the features,
+  the rules, who uses the app; the rest, why it is shaped so, newest
+  last);
 - the API files under `api/`, every servicer under
   `backend/src/servicers/`, `backend/src/main.py`;
 - every feature file under `tests/`;

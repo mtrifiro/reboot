@@ -21,7 +21,7 @@ each job step by step, from the scenarios that test it."
 
 Read, with the Read tool, one call per file:
 
-- `design/design.md`: **Brief** (who uses it, for what), **Pages**,
+- the proposal (`design/decisions.md`'s first entry): **Brief** (who uses it, for what), **Pages**,
   **Sign-in** (the roles, and who each development account is),
   **Features and their rules**, **Assumed**.
 - Every browser feature file (`tests/*_web.feature`): each scenario is

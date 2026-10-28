@@ -45,8 +45,8 @@ The prompt, no more:
   prompt as typed plus any answers given (the features chosen, in that order;
   who signs in; the palette) are the spec, built as written; the
   features are the only ones built.
-- A `design/design.md` already in the project (the `app-design` skill's,
-  proposed or accepted) is the spec: the prompt names the part of it
+- A design already in the project (`design/decisions.md`'s "Design
+  proposed" entry, the `app-design` skill's) is the spec: the prompt names the part of it
   to build ("the gig calendar"), or "the design" for all of it, built
   as it reads, nothing added; its **Assumed** lines are taken as
   decided.
@@ -88,11 +88,9 @@ line, the **Exegesis** of what was written, the same text appended to
 
 ## The record
 
-`design/design.md`, when none exists, is written silently, in the shape of
-[`app/references/design-document.md`](../app/references/design-document.md),
-once a domain model exists, and updated when it changes; one line
-says where it is the first time. Nothing else of the design record
-(no proposal, no review table, no decisions log) unless the user asks
+No design record is written: the code is the design, on the
+dashboard ([`app/references/design-document.md`](../app/references/design-document.md)).
+Nothing of the Flywheel's record (no proposal, no decisions log) unless the user asks
 for the Flywheel's record, which the `app` skill's
 `accept-design.md` gives.
 

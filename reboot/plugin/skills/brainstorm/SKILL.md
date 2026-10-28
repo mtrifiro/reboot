@@ -13,7 +13,7 @@ domain model drawn from them. This skill is for a user who wants to
 shape the architecture underneath first, out loud: the objects, their
 boundaries, the calls between them and what must never half-happen.
 Nothing is built here: no code, no scaffold, no `rbt`, no
-`design/design.md`. The user leads; the architect proposes, weighs and
+proposed design. The user leads; the architect proposes, weighs and
 asks.
 
 > **The user sees only message text.** What the brainstorm proposes and
@@ -135,6 +135,6 @@ are rewritten when it next ends.
 
 ## Never
 
-- Code, a project scaffold, `rbt`, a dependency, or `design/design.md`.
+- Code, a project scaffold, `rbt`, a dependency, or the proposed design.
 - A long lecture: a turn the user must scroll is too long.
 - A decision taken for the user without saying so.

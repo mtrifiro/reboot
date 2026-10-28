@@ -64,8 +64,8 @@ Export the secrets as environment variables; never pass them as
 command-line flags (visible in the process listing).
 
 **Before the first deploy, who may do what.** An app built without
-its **Who may do what** feature (`design/design.md`'s Sign-in says
-"Everyone signed in can do everything for now") lets anyone who signs
+its **Who may do what** feature (the proposal's **Sign-in**, in `design/decisions.md`,
+says "Everyone signed in can do everything for now") lets anyone who signs
 in do everything — with a real provider, anyone with a Google account.
 Say so in one line and ask in a question dialog (`AskUserQuestion`
 where available): "Build Who may do what first" (recommended) or
