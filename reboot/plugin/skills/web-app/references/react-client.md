@@ -172,14 +172,39 @@ const REBOOT_URL =
   window.location.origin;
 
 createRoot(document.getElementById("root")!).render(
-  <RebootClientProvider url={REBOOT_URL}>
-    <App />
-  </RebootClientProvider>
+  <BackendCheck url={REBOOT_URL} name="Maison Desk">
+    <RebootClientProvider url={REBOOT_URL}>
+      <App />
+      <ReloadPrompt name="Maison Desk" />
+    </RebootClientProvider>
+  </BackendCheck>
 );
 ```
 
 The `?? window.location.origin` keeps the production build working
 when the backend serves the built assets from one origin.
+
+`BackendCheck` (`import { BackendCheck } from "./backend-check"`,
+copied from the skill's `assets/` with the stylesheet) says so while
+`REBOOT_URL` doesn't answer, instead of a blank page or a failed call
+per hook, and checks every few seconds; one failed check is a blip,
+two in a row mean down. In development it replaces the app with a page
+(the backend restarting after a change, or not started and how to
+start it). In production it never takes the app down: the app renders
+at once, and a banner over it says "<name> is updating, or can't
+reach its server right now. Reconnecting…" until the backend answers
+(a backend deploy is the usual reason), so nothing a person was in the
+middle of is lost.
+
+`ReloadPrompt` (`import { ReloadPrompt } from "./reload-prompt"`,
+copied with it) tells an open tab, in production, that a newer version
+of the frontend has been published: a card in the bottom corner,
+"<name> has been updated. Reload to get the new version.", with Reload
+and Later. It never reloads by itself, so nothing half done is lost.
+It compares the script the tab loaded with the one the site serves
+now, so it needs no build id; it checks when the tab comes back into
+view and every five minutes. Pass the app's name as `name`. A
+web app scenario starts the backend first, so it never sees either.
 
 ## The Generated Client
 
