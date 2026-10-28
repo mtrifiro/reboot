@@ -11,6 +11,12 @@ filegroup(
 )
 
 filegroup(
+    name = "say_design_first_py",
+    srcs = ["say-design-first.py"],
+    visibility = ["//visibility:public"],
+)
+
+filegroup(
     name = "skill_gate_py",
     srcs = ["skill-gate.py"],
     visibility = ["//visibility:public"],

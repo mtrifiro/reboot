@@ -313,7 +313,9 @@ gets no line of its own. In this order, one response:
    proposed design". This message is the design: no document is
    written before it, and no page is drawn, served or opened for it
    (hotel-350 and hotel-351 wrote `design/design.md` first, then went
-   straight to the mockup, and the summary was never sent).
+   straight to the mockup, and the summary was never sent). The
+   plugin refuses the first write of `design/decisions.md` once, its
+   reason saying so; send the design and write it again.
 2. **Then saved:** the first entry of `design/decisions.md`, in one
    Write, in the shape of
    [`design-document.md`](../app/references/design-document.md),
