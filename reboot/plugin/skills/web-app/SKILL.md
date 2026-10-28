@@ -225,7 +225,11 @@ all when the user stops after the backend.
 **Before the frontend:**
 
 - [`references/ui-design.md`](references/ui-design.md) — the primary
-  view and the house look.
+  view and the house look. Never skipped, on any path: the page check
+  measures its rules, and a build that hadn't read it fixed the page
+  check by check (hotel-344 ran it ten times, against four for
+  hotel-342 and 343; the three /vibe builds 339, 340 and theater-100
+  skipped it too).
 - [`references/react-client.md`](references/react-client.md) — the
   `frontend/` shell, the backend's origin, sign-in, typed errors.
 - `python/references/react-generated-client.md` — what
@@ -487,7 +491,10 @@ finished app.
    `uv run rbt generate` again for the React bindings, and
    `cd frontend && npm run build` to prove the starter's page compiles
    against them.
-8. Edit the starter's page (`frontend/web/src/App.tsx`: sign-in, one
+8. Read [`references/ui-design.md`](references/ui-design.md) with the
+   Read tool, the whole file, unless this session has read it already
+   (never skipped). Then edit the starter's page
+   (`frontend/web/src/App.tsx`: sign-in, one
    reader, a form, a table) into the feature's one page from
    [`references/react-client.md`](references/react-client.md) and
    [`references/ui-design.md`](references/ui-design.md): its primary
