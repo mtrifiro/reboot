@@ -20,7 +20,17 @@ like any other); `blocked` counts `@blocked` ones, which are skipped
 with their reason; `skipped` counts every other skip.
 
 While a run is on, `tests/.suite-running` holds the pytest process's
-pid, removed when the run ends."""
+pid, removed when the run ends, and `tests/.progress.jsonl` gains one
+line per scenario as it finishes, so the build can report the run rule
+by rule while it goes on:
+
+    {"feature": "tests/room_status.feature", "rule": "Check-out always
+     sends the room back to dirty", "scenario": "A guest checks out",
+     "outcome": "passed", "seconds": 1.2}
+
+`outcome` is passed, failed, blocked (with its `reason`) or skipped;
+`rule` is "" for a scenario under no rule. The file starts empty at
+each run."""
 
 import json
 import os
@@ -31,6 +41,9 @@ from pathlib import Path
 
 PATH = Path(__file__).resolve().parent / ".last-run.json"
 RUNNING = Path(__file__).resolve().parent / ".suite-running"
+PROGRESS = Path(__file__).resolve().parent / ".progress.jsonl"
+_SESSION = None
+_SCENARIOS: dict = {}
 
 
 def _git(*args: str, env: dict | None = None, cwd: str | Path | None = None) -> str:
@@ -81,11 +94,55 @@ def _narrowed(args: list[str]) -> bool:
 
 
 def pytest_sessionstart(session) -> None:  # type: ignore[no-untyped-def]
+    global _SESSION
+    _SESSION = session
+    _SCENARIOS.clear()
+    try:
+        PROGRESS.write_text("")
+    except OSError:
+        pass
     try:
         RUNNING.write_text(json.dumps({
             "pid": os.getpid(),
             "started": datetime.now().astimezone().isoformat(timespec="seconds"),
         }) + "\n")
+    except OSError:
+        pass
+
+
+def _scenario(nodeid: str) -> dict:
+    """The feature file, rule and scenario of a collected test, from
+    pytest-bdd's `__scenario__`; {} for a test that isn't a scenario."""
+    if not _SCENARIOS and _SESSION is not None:
+        for item in getattr(_SESSION, "items", []):
+            template = getattr(getattr(item, "obj", None), "__scenario__", None)
+            if template is None:
+                continue
+            feature = template.feature
+            path = getattr(feature, "rel_filename", None) or getattr(feature, "filename", "")
+            _SCENARIOS[item.nodeid] = {
+                "feature": str(path),
+                "rule": template.rule.name if template.rule is not None else "",
+                "scenario": template.name,
+            }
+    return _SCENARIOS.get(nodeid, {})
+
+
+def pytest_runtest_logreport(report) -> None:  # type: ignore[no-untyped-def]
+    # One line per scenario: its call's result, or a skip or an error
+    # before the call.
+    if report.when != "call" and not (report.when == "setup" and report.outcome != "passed"):
+        return
+    entry = _scenario(report.nodeid) or {"feature": "", "rule": "", "scenario": report.nodeid}
+    outcome = report.outcome
+    if outcome == "skipped" and "blocked" in report.keywords:
+        outcome = "blocked"
+    entry = {**entry, "outcome": outcome, "seconds": round(report.duration, 1)}
+    if outcome in ("blocked", "skipped") and isinstance(report.longrepr, tuple):
+        entry["reason"] = str(report.longrepr[-1]).removeprefix("Skipped: ")
+    try:
+        with PROGRESS.open("a") as out:
+            out.write(json.dumps(entry) + "\n")
     except OSError:
         pass
 
