@@ -183,8 +183,9 @@ whole task list. So:
   made again.
 - **The end of a feature asks one dialog,** What should I build
   next?, its options the next parts, the recommended one first, and
-  "Not yet" ([`accept-design.md`](accept-design.md)). A part chosen
-  starts it in the same turn, with its new list. On "Not yet", or a
+  "Not yet" ([`accept-design.md`](accept-design.md)), more than one
+  part allowed. The parts chosen start in the same turn, one after
+  another, with one new list holding them all. On "Not yet", or a
   skipped dialog, the box gets the recap only, with no `ask` and no
   buttons: the feature is running for the user to try.
 - **Every question inside the build offers a way to learn more before

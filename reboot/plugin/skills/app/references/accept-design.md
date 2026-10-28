@@ -35,17 +35,17 @@ close.
 **Every handoff** ends with its **Your turn** section
 ([`design-messages.md`](design-messages.md)): what to try first, the
 dashboard's pages and the design, and the parts to build next, the
-recommended one first with why and its time. Then one multiple-choice
-dialog (`AskUserQuestion`, never the next-step box), the only tool
-call after the message:
+recommended one first with why and its time. Then one multi-select
+dialog (`AskUserQuestion`, `multiSelect: true`, never the next-step
+box), the only tool call after the message:
 
-- **Question:** "What should I build next?"
+- **Question:** "What should I build next? Pick one or more."
 - **Options:** the parts under **Build next**, up to three, each its
   name as the label and its one line as the description, the
-  recommended one first and marked "(Recommended)". When fewer than
-  three parts are left and the other front door isn't built, the MCP
-  UI is one. Last: "Not yet": "I want to try it first, or change
-  something."
+  recommended one first and marked "(Recommended)" (a multi-select
+  starts with nothing ticked). When fewer than three parts are left
+  and the other front door isn't built, the MCP UI is one. Last:
+  "Not yet": "I want to try it first, or change something."
 - The dialog's own free-text answer takes a change in the user's
   words.
 
@@ -55,8 +55,13 @@ changes nothing in the app: it records these rules as the agreed
 version, so a later change to them comes back to you first."
 
 On "Not yet", one line: "Tell me when you're ready, or what to
-change." Then stop, and nothing is recorded. A part chosen is built
-straight away, with no further question. On the prompt-by-prompt path there
+change." Then stop, and nothing is recorded; "Not yet" ticked with
+parts is ignored. A part chosen is built straight away, with no
+further question. Several chosen are built one after another in the
+order listed, each its own feature with its own rules, scenarios and
+acceptance, with no stop or handoff between them, then one handoff
+for them all: **What it does** a short section per part, **Build
+next** what is still left. On the prompt-by-prompt path there
 is no dialog: **Your turn** ends with the plain line "Say what's
 next.", and the acceptance is recorded the same way, when the user
 asks for the next thing.
