@@ -232,7 +232,19 @@ Either way the inspector binds the fixed port 6274.
 ## Stopping the App
 
 Stop `rbt dev run` with Ctrl-C, or `kill -INT <pid>` from another
-shell. At 1.6.0 any other signal leaves the application's processes
+shell. Stop only this project's: other Reboot apps may be running on
+the same machine, and `pkill -f "rbt dev run"` or the first match of
+`pgrep` stops theirs. Find its pid by this project's own path, which
+also skips the `uv` wrapper that a signal would otherwise reach first:
+
+```shell
+kill -INT $(pgrep -f "$PWD/.venv/bin/rbt dev run")
+```
+
+**Stop it before running the test suite**, and start it again once
+the suite passes. The suite runs its own Reboot over the same
+generated code; a running `rbt dev run` regenerates that code when
+`api/` changes, under the tests, and the run hangs. At 1.6.0 any other signal leaves the application's processes
 and Envoy running and holding their ports
 ([`KNOWN-ISSUES.md`](../../KNOWN-ISSUES.md)). Before starting the
 backend, check that its port is free (`lsof -i :9991`, or the port
