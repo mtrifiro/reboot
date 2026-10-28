@@ -22,8 +22,8 @@ in the shape of [`design-messages.md`](design-messages.md).
 
 ## 3. The go-ahead
 
-The proposed design (section 2) is open as a page beside the chat and
-its summary went out as text when the page opened, in the same response; for a web app built by the `app-guided` skill, the
+The proposed design (section 2) is in `design/design.md` and its
+summary went out as text when the file was written, in the same response; for a web app built by the `app-guided` skill, the
 mockup is made while the user reads it, and its line comes after
 ([`../../web-app/references/comp.md`](../../web-app/references/comp.md)):
 a mockup of the main page in the look, served and opened in the pane. Then
@@ -72,8 +72,7 @@ again seven seconds later; the user saw a two-sentence paraphrase):
 4. **What Reboot does for you here:** three or four lines from the
    design's own section of that name, in this app's nouns
    (`conversation.md`, "Say what Reboot does here").
-5. **Where things are:** the design page beside the chat and
-   `design/design.md`, the mockup, the dashboard once the API exists;
+5. **Where things are:** `design/design.md`, the mockup, the dashboard once the API exists;
    and the other ways to go on: prompt by prompt, or the rest at once
    at any handoff.
 
@@ -108,13 +107,13 @@ user's words are the agreement.
   the end. The task list is the whole-app list (`task-list.md`, where
   the plugin has it), its first item done.
 - **Yes, start building** (or the first feature named): the
-  first feature's **Methods** go into `design/design.md` and the page
-  is drawn again (`design-document.md`), then build it by the
+  first feature's **Methods** go into `design/design.md`
+  (`design-document.md`), then build it by the
   front door's one-feature flow. At the first handoff,
   `design/design.md` becomes the accepted design (`accept-design.md`),
   and **Assumed** moves into the first decisions entry.
 - **Not yet, or the dialog skipped:** one short reply: "The whole
-  design is open beside the chat and in design/design.md.", the path a
+  design is in design/design.md.", the path a
   Markdown link to the file in the
   user's project, then "Tell me to continue when you're ready, or
   what to change." Then stop: no dialog now.

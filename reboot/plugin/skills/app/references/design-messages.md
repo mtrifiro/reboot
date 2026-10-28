@@ -18,16 +18,15 @@ heading with nothing to say is left out, never filled.
 
 ### The proposed design
 
-The design itself is `design/design.md`, drawn as a page and open
-beside the chat (the `app-design` skill, section 3); the user reads it
-there. The chat carries its summary, about 120 words. The example is a
+The design itself is `design/design.md` (the `app-design` skill,
+section 3), linked from the summary; no page is drawn for it. The chat carries its summary, about 120 words. The example is a
 hotel; keep the shape, not the nouns.
 
 ```markdown
 ---
 ## Reboot Design · <App name>, the proposed design
 
-**[The whole design](<the page's URL>)** is open beside the chat: the
+**[The whole design](design/design.md)** is in design/design.md: the
 brief, the features and their rules, the domain model, the pages and
 sign-in, and what Reboot does for you here.
 

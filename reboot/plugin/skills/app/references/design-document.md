@@ -19,8 +19,7 @@ carries the line above it (the object's heading or the row before) in
 its old text, to match one place only (hotel-260 rewrote the
 12,700-character document at its first acceptance, and two of its
 later row edits matched twice and failed). After every
-write, `python3 '<the app-design skill>/assets/design_page.py'` draws
-it again as `design/design.html`, the page the user reads it in. It is the design as accepted, in the user's nouns, and
+write it is the file the user reads. It is the design as accepted, in the user's nouns, and
 every package, domain object, method, feature and rule in it is a
 dashboard link (`dashboard` skill, "Links to an Object or a Rule"):
 
