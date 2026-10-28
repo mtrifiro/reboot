@@ -61,11 +61,15 @@ hotel-338 wrote the opening only in thinking; every dialog was shown).
   2. Who uses it: who signs in, and the roles if any.
   3. The rules the domain turns on, where the prompt is ambiguous ("Can
      a room be booked while it is being cleaned?").
-  4. The data: how much, and where it comes from.
-  5. What it connects to: payments, email, a calendar, another system.
-  6. The look: a brand, or a palette (house first; the `app-design`
+  4. What it connects to: payments, email, a calendar, another system.
+  5. The look: a brand, or a palette (house first; the `app-design`
      skill, "Which palette?").
-  7. The name, when the prompt gives none.
+  6. The name, when the prompt gives none.
+
+  Never asked: the demo data. The build always seeds believable rows
+  sized from the prompt (56 rooms for a 56-room hotel), disposable in
+  development; real data comes in later, when the user asks (hotel-346
+  asked how to seed the hotel).
 - **Every question explains itself:** it says what its answer changes
   when that isn't obvious ("Roles add rules on who may do what.").
 - **"That's enough", Skip, or "just build it"** ends the questions at
