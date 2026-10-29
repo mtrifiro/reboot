@@ -81,6 +81,7 @@ pythonpath =
   backend/src
   backend/api
   api
+  scripts
 ```
 
 **Three entries, not two.** `backend/src` and `backend/api` cover
@@ -90,12 +91,29 @@ models — as `from <pkg>.v1.<name> import QuotaExceededError`, and
 that module lives in the project-root `api/` directory. Leave `api`
 out and the suite fails at import with
 `ModuleNotFoundError: No module named '<pkg>.v1.<name>'`, which
-looks like a codegen failure but is a path problem.
+looks like a codegen failure but is a path problem. `scripts` lets
+the test of `scripts/model_diff.py` import it (below).
 
-## `conftest.py` — Only When Needed
+## `conftest.py` — The Test Record, Then Only What's Needed
 
-Most Reboot apps don't need a `conftest.py`. Add one only when a
-module imported by tests **eagerly** instantiates something that
+Every app built with the Reboot Flywheel
+(`app/references/flywheel.md`) records each test run as evidence:
+copy `tests/last_run.py`, `scripts/model_diff.py`, `scripts/test.sh`
+and `scripts/release_record.py` from the `app` skill's `assets/`
+(`chmod +x scripts/test.sh`), and start
+`tests/conftest.py` with:
+
+```python
+# tests/conftest.py
+# The last run's results, in tests/.last-run.json (tests/last_run.py).
+from last_run import (  # noqa: F401
+    pytest_sessionstart,
+    pytest_terminal_summary,
+    pytest_unconfigure,
+)
+```
+
+Add anything else only when a module imported by tests **eagerly** instantiates something that
 requires an environment variable — typically an LLM provider that
 constructs a client at import time. Set a placeholder so the import
 succeeds; tests must still mock the real call before any RPC fires:

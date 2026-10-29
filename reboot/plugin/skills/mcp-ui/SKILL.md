@@ -294,6 +294,12 @@ understands it and chooses the next, so the design is accepted piece
 by piece; or the whole app first, accepted at its handoff, with the
 running app in front of them.
 
+This is the first stage of the **Reboot Flywheel**: Design, then
+Prove, then Observe, each ending in a decision that is the user's.
+[`app/references/flywheel.md`](../app/references/flywheel.md) has
+the stages, the heading each decision opens with, and the routing
+rule that sends a change to the design back to Design.
+
 ### Design Phase
 
 1. Analyze the user's description using the State Model Assessment
@@ -308,7 +314,8 @@ running app in front of them.
    open and an answer would change most, such as who signs in with which roles and what the app keeps
    track of. Give each question two to four options, the simplest
    first and marked as recommended, so accepting every
-   recommendation is one answer. Don't ask about the look: when the
+   recommendation is one answer. Never an option that only
+   means "say what": every dialog has its own free answer. Don't ask about the look: when the
    user named no brand, pick the accent that suits the domain from
    teal, cyan, blue, indigo, violet, purple, plum and rose, and say in
    the brief that it was picked for them and is easy to change later,
@@ -848,7 +855,8 @@ a worked set are in
     page that connects an MCP client (Claude, ChatGPT, MCPJam, …)
     and completes OAuth. As the run skill directs, surface that
     URL to the user and open it once at first startup, and ask
-    the user to accept the design as built or say what to change.
+    in a question dialog (`AskUserQuestion` where available): **How
+    are we doing?**, worded as `app/references/accept-design.md` says.
     Write the handoff in the shape of
     [`app/references/design-messages.md`](../app/references/design-messages.md),
     with the wizard's URL under **Open it**; acceptance is recorded as
@@ -866,7 +874,15 @@ a worked set are in
 
 When modifying an existing app:
 
-1. Read `.rbtrc`, API definition, servicer, `main.py`.
+1. Read `.rbtrc`, API definition, servicer, `main.py`. Route the
+   change by the Flywheel's routing rule
+   (`app/references/flywheel.md`; `python3 scripts/model_diff.py`
+   sorts it): a change to a domain object, a
+   rule or who may call goes back to Design; anything else stays in
+   Prove. A design change the user asked for is built and judged at
+   the next handoff; one they didn't ask for is shown and asked about
+   before code
+   ([`app/references/accept-design.md`](../app/references/accept-design.md)).
 2. Assess state model changes. If the app has persisted state or
    has been deployed, read
    `python/references/api-schema-evolution.md` to understand the
