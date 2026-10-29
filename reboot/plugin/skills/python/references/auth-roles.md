@@ -87,6 +87,14 @@ def is_on_the_team(
     return errors.PermissionDenied()
 
 
+def is_this_user(*, context: ReaderContext, **kwargs: Any) -> Authorizer.Decision:
+    # `state_id_is_user_id` alone answers `Unauthenticated` to the
+    # OAuth server's app-internal calls at sign-in, and `all=` stops there.
+    if context.app_internal:
+        return errors.Ok()
+    return state_id_is_user_id(context=context, **kwargs)
+
+
 async def is_manager(
     *,
     context: ReaderContext,
@@ -107,7 +115,7 @@ async def is_manager(
 class UserServicer(User.Servicer):
 
     def authorizer(self):
-        return allow_if(all=[state_id_is_user_id, is_on_the_team])
+        return allow_if(all=[is_this_user, is_on_the_team])
 
 
 class CheckServicer(Check.Servicer):
@@ -124,10 +132,12 @@ class CheckServicer(Check.Servicer):
 `<Type>.Authorizer(...)` takes one rule per method, by its snake_case
 or PascalCase name, and `_default=` for the rest.
 
-Both predicates return `Ok` for `context.app_internal` first. A
+Every predicate returns `Ok` for `context.app_internal` first. A
 method that fans out to other actors checks its own caller; what it
-calls arrives app-internal, with no `context.auth` to check, so a
-predicate that asks for a user there would refuse its own app.
+calls arrives app-internal. Since 1.7.0 such a call carries the
+caller's `context.auth`, but calls from `initialize`, a workflow or
+the OAuth server at sign-in carry none, so a predicate that asks for a
+user there would refuse the app's own calls.
 
 On the roster type itself, a predicate reads its `state` argument, the
 roster it is guarding, instead of calling `role_of` on it.

@@ -100,8 +100,9 @@ time.
 
 - **Only at sign-in.** Claims are delivered when the provider's
   authorization code is exchanged. A token refresh delivers none and
-  clears none. Access tokens last 24 hours by default
-  (`access_token_ttl_seconds=` on the provider).
+  clears none. Access tokens last 24 hours, set with
+  `access_token_ttl_seconds=` on `Development()` and `Anonymous()`
+  and fixed for the registered providers.
 - **`Ory` can also deliver between sign-ins**: with
   `webhook_secret=` (which requires `claims=`), a change made in an
   Ory settings flow reaches users who have already signed in. See
