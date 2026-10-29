@@ -733,7 +733,10 @@ for word: the list for the way the user chose to build.
    `.mypy.ini` — see
    [`references/project-shell.md`](references/project-shell.md);
    the `.mypy.ini` template lives in
-   `python/references/lifecycle-project-setup.md`.
+   `python/references/lifecycle-project-setup.md`. Then give the
+   project its `AGENTS.md` and `CLAUDE.md` with the
+   [`agents-md` skill](../agents-md/SKILL.md), naming the API and
+   servicer files the design settled on.
 2. `uv sync`.
 3. Don't start the developer dashboard yet: it starts after step 5,
    once there is an API for it to show.
@@ -824,7 +827,7 @@ for word: the list for the way the user chose to build.
 
 When modifying an existing app:
 
-1. Read `.rbtrc`, API definition, servicer, `main.py`. Route the
+1. Read `AGENTS.md`, `.rbtrc`, API definition, servicer, `main.py`. Route the
    change by the Flywheel's routing rule
    (`app/references/flywheel.md`; `python3 scripts/model_diff.py`
    sorts it): a change to a domain object, a
@@ -852,6 +855,9 @@ When modifying an existing app:
    restart needed. Editing `.env` likewise triggers a restart, so
    a new or changed secret is re-read by `--env-file` without a
    manual relaunch.
+9. If the change moved a file, added a state type or a UI, changed
+   a command, or taught a rule, update `AGENTS.md` in the same
+   change ([`agents-md` skill](../agents-md/SKILL.md)).
 
 Specific patterns and file shapes live in the references above —
 read them on demand based on what's changing.
