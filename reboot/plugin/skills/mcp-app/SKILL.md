@@ -277,6 +277,11 @@ wrong means regenerating everything across 12+ files.
 
 ### Design Phase
 
+0. Name each capability the app has as the
+   [`feature` skill](../feature/SKILL.md) describes a feature: its
+   name, a description, its rules and a few example situations, in
+   plain English. The features are part of the design below and
+   are agreed with it.
 1. Analyze the user's description using the State Model Assessment
    below.
 2. State the design you are about to build:
@@ -291,7 +296,33 @@ wrong means regenerating everything across 12+ files.
      main user story — and most of them ending on a turn that
      renders a `UI()` component, not just a tool call (see
      "Example Prompts" under Key Framework Concepts).
-3. Then execute the Step-by-Step Build Flow.
+3. Send the design as a message, then ask one question about its
+   scope: "Does this design match the app you want?" It has three
+   options:
+   - **Build it as proposed**, with the design in a few words
+     ("All 6 features, 3 UIs, staff roster auth. About 15 minutes.").
+   - **Trim to a core MVP**, always this label, naming what the core
+     keeps and what comes later ("Rooms, reservations, check-in/out
+     and the front desk dashboard only; guests and amenities later.
+     About 10 minutes.").
+   - **Build the first feature only**, always this label, naming the
+     feature: the one the others build on ("Reservations, with the
+     56 rooms they book; the rest after you've tried it. About 10
+     minutes."). Leave this option out when the core MVP is already
+     one feature.
+
+   Each ends with how long it takes to build, not counting time
+   waiting on the user, rounded to five minutes: about 2½ minutes
+   a feature plus 2; the first feature alone, about 10.
+
+   Build what they choose. An answer of their own is the change to
+   make before building. This is the question the feature skill asks
+   ("whether that is the feature"), for every feature at once. When
+   part of the design waits (the core MVP or the first feature), the
+   handoff offers the features left as the next thing to build.
+4. Write each agreed feature down as a `@wip` feature file (the
+   feature skill's step 2) before the API exists.
+5. Then execute the Step-by-Step Build Flow.
 
 For updates to existing apps, still work the design first: read
 current state, state the changes, then modify.
