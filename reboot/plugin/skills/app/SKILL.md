@@ -72,6 +72,12 @@ exactly one of them — the step that needs it. Each front end adds
 pages of its own at some steps; "Each Front End's Pages" says where
 they are listed.
 
+**When verbose mode is asked for** ("verbose", "explain as you
+build", "teach me as you go"): read
+[`references/verbose.md`](references/verbose.md) then, once. The steps
+marked "Verbose:" below end their report with the section it
+describes; without verbose mode, skip those marks.
+
 **Before the project shell** (`.python-version`, `pyproject.toml`,
 `.rbtrc`, `.mypy.ini`, `main.py`):
 
@@ -303,6 +309,7 @@ wrong means regenerating everything across 12+ files.
    alone takes sample data. Send the design and go on. A question that
    comes back with no choice (nobody there, or the dialog was not
    delivered) takes its first option: say so in one line and go on.
+   Verbose: end this step's report with its **Explained** section.
 3. Then execute the Step-by-Step Build Flow.
 
 For updates to existing apps, still work the design first: read
@@ -537,12 +544,14 @@ also do what your front end adds to it ("Each Front End's Pages").
 5. `uv run rbt generate`. Don't read what it wrote: the signature
    your servicer must match is in `python/references/api-methods.md`
    ("The Servicer Signature Each Declaration Obliges").
+   Verbose: end this step's report with its **Explained** section.
 6. Write the servicer (`backend/src/servicers/<name>.py`) —
    context-type patterns in `python/references/servicer-*.md`.
 7. Write `main.py` — `python/references/lifecycle-application-entry.md`.
    With sample data, also write `backend/src/seed.py` now, as
    [`python/references/lifecycle-sample-data.md`](../python/references/lifecycle-sample-data.md)
    says.
+   Verbose: end the servicers' report with its **Explained** section.
 8. Scaffold the frontend at `frontend/`, as the
    [`frontend` skill](../frontend/SKILL.md) says for your front end.
 9. `cd frontend && npm install`.
@@ -554,6 +563,7 @@ also do what your front end adds to it ("Each Front End's Pages").
     them — it is tens of thousands of lines that then ride along on
     every later turn.
 12. `cd frontend && npm run build` (sanity check the bundle).
+    Verbose: end the frontend's report with its **Explained** section.
 13. **Write and run the scenarios of every feature before handing
     the app off.** Each feature file from the design phase (the
     [`feature` skill](../feature/SKILL.md)) gets its scenarios now:
@@ -576,6 +586,7 @@ also do what your front end adds to it ("Each Front End's Pages").
     `@blocked` with a reason) and mypy is green — together they
     are what catches contract bugs before the user sees them. Point
     the user at the dashboard's Features page to review the features.
+    Verbose: end this step's report with its **Explained** section.
 14. Review what the user will see, as the
     [`frontend` skill](../frontend/SKILL.md) says for your front end
     ("Reviewing a web app's pages"), and carry the result into the
@@ -596,6 +607,7 @@ also do what your front end adds to it ("Each Front End's Pages").
     step 6. What to hand over for each front end is the run skill's
     Step 6.
     Offer the features a smaller scope left out as the next build.
+    Verbose: end the handoff with its **Explained** section.
     With sample data, name in one line what was added, that it is
     test data that never reaches production, and where to
     see it.

@@ -112,6 +112,9 @@ rules of theirs matter most here:
 
 ## Step 4 — Iterate on the scenarios with the user
 
+In verbose mode (the app skill's `references/verbose.md`), the report
+after the scenarios first pass ends with its **Explained** section.
+
 After the API and code change, turn the example situations into
 scenarios and run them; then keep going with the user: show them
 each scenario, ask what else the feature must do, write that down,
