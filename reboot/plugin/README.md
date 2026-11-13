@@ -18,6 +18,8 @@ agent. The same skills work in both **Claude Code** and **Codex**.
 | [`inspect`](skills/inspect/)     | Inspect a running Reboot app's persisted state from the CLI with `rbt inspect` — list state types, list state IDs, dump one actor as JSON |
 | [`python`](skills/python/)       | Reboot Python framework reference: proto- or pydantic-defined APIs, Servicers, contexts, refs, scheduling, and testing                    |
 | [`upgrade`](skills/upgrade/)     | Upgrade an existing Reboot app to this plugin's Reboot version — applies migration steps, bumps pins, regenerates                         |
+| [`look`](skills/look/)            | Change how a web app looks — its colours, tones, typefaces or corners — with previews and one-step undo, after reviewing every page |
+| [`review`](skills/review/)        | Review the app's architecture, domain model at scale and tests, one area or all of them with the look in one ranked report, then make the fixes the user picks |
 
 The skill files are tool-agnostic. Claude Code invokes skills by
 plugin-namespaced name (e.g. `/reboot:mcp-app`); Codex selects a
