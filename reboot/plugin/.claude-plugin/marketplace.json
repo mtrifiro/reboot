@@ -27,7 +27,8 @@
         "./skills/inspect",
         "./skills/python",
         "./skills/upgrade",
-        "./skills/look"
+        "./skills/look",
+        "./skills/review"
       ]
     }
   ]
