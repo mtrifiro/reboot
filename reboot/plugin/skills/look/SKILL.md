@@ -1,6 +1,6 @@
 ---
 name: look
-description: "Change how a built Reboot web app looks: the action colour ('make it teal'), the page's tones, typefaces, corners, status colours, a brand to match ('match acme.com'), or a page's layout, each previewed first, with an undo; and review the look first (every page, from its browser scenarios' screenshots and at phone width, judged against the frontend skill's rules and measured for contrast). Use when the user asks to change or review the look, colours, fonts, brand or style ('/reboot:look'). Not for the structure, the domain model or the tests (the review skill)."
+description: "Change how a built Reboot web app looks: the action colour ('make it teal'), the page's tones, a whole palette, a dark mode, typefaces, corners, status colours, a brand to match ('match acme.com'), or a page's layout, each previewed first, with an undo; and review the look first (every page, from its browser scenarios' screenshots and at phone width, judged against the frontend skill's rules and measured for contrast). Use when the user asks to change or review the look, colours, fonts, brand or style ('/reboot:look'). Not for the structure, the domain model or the tests (the review skill)."
 argument-hint: '[optional: what to change, e.g. "make it teal" or "match acme.com"; every page by default]'
 allowed-tools: Bash, Read, Write, Edit, Glob, Grep, AskUserQuestion
 ---
@@ -24,16 +24,26 @@ only and runs from the project root; `<look>` below is its path:
 | Command | Does |
 | --- | --- |
 | `python3 <look> show` | The look now, and the choices |
-| `python3 <look> check` | The contrast of every pair the pages draw text on, status colours included |
-| `python3 <look> preview <kind> <a,b,c>` | Writes `frontend/web/public/look-preview.html`: each choice lettered and drawn as a piece of the app, with the app's own tokens |
-| `python3 <look> set <kind> <choice>` | Applies one, after saving the files it touches; removes the preview; checks contrast (exit 3 on a failure) |
-| `python3 <look> undo` | Puts back the files from before the last `set` |
+| `python3 <look> check` | The contrast of every pair the pages draw text on, status colours included, in both schemes |
+| `python3 <look> preview <kind> <a,b,c> [--page /path]` | Writes `frontend/web/public/look-preview.html`: each choice lettered, the app's own page (`/` unless `--page` says) shown with its tokens, light and dark; a piece of the app stands in where a frame can't show the page. Prints the address it is served at |
+| `python3 <look> set <kind> <choice>` | Applies one, after saving the file; keeps the dark scheme in step; removes the preview; checks contrast (exit 3 on a failure) |
+| `python3 <look> dark` | Adds a dark scheme derived from the light one, for an app that has none |
+| `python3 <look> undo` | Puts back the file from before the last `set` or `dark` |
 
 The kinds: **action** (a named colour, or a brand's hex, darkened until
 its label reads), **neutrals** (warm, cream, cool, grey, white),
+**palette** (the page, the cards, the text and the action colour
+together: cherry, crimson, studio, ocean, parchment, cabin, almond,
+harbour, lavender, midnight),
 **type** (system, serif headings, rounded, humanist, book; system faces,
 nothing to install), **corners** (sharp, soft, round). A status colour
 is changed by hand, in place, in `tokens.css` (step 5).
+
+**Light and dark.** The frontend skill's `tokens.css` has a dark
+scheme that follows the system. `set` derives the dark values from the
+new light ones, so the two never drift, and `check` covers both. An app
+built before it, with no dark scheme, gets one from `<look> dark` when
+the user wants it ("Add a dark mode").
 
 ## The Conversation
 
@@ -72,7 +82,8 @@ No advice, and no choices offered, before the review. One line first:
    pane) that signs in as the scenarios do
    ([`testing-web-app.md`](../frontend/references/testing-web-app.md))
    and screenshots each page of the navigation (at 1440×900 when there
-   were no recordings, and at 375×812) into
+   were no recordings, and at 375×812, and in dark mode when the app
+   has a dark scheme and no scenario recorded it) into
    `frontend/web/.look-review/`. Look at each.
 2. **Measure.** `<look> check` for contrast. Search the pages for raw
    colours and sizes (`#` and hex, `rgb(`, a `px` value) outside the
@@ -114,16 +125,18 @@ One dialog, several answers allowed:
 
 - **What should I change?** The top findings (up to three), each its
   title as the label and its fix as the description, the first marked
-  "(Recommended)", and "The look another way": "Colour, page tones,
-  typefaces or corners, from previews." No "None" option: ticking
+  "(Recommended)", and "The look another way": "A palette, colour, page
+  tones, typefaces or corners, from previews." No "None" option: ticking
   nothing is none. When nothing is chosen, one line pointing to
   `design/look-review.md`, then stop.
 
 "The look another way" gets one more dialog, **What would you like to
-change about the look?** (several allowed): "Colour" (buttons, links,
-the selected thing), "Page and text" (a cooler, warmer or plainer
-page), "Typefaces", "Corners". The free answer takes anything else: a
-brand, a layout, a page.
+change about the look?** (several allowed): "A whole palette" (the page,
+the cards, the text and the action colour together), "Colour" (buttons,
+links, the selected thing), "Page and text" (a cooler, warmer or plainer
+page), "Typefaces", "Corners", and "Add a dark mode" when `show` says
+there is none. The free answer takes anything else: a brand, a layout, a
+page.
 
 **Never while a build is working in the project.** Before changing a
 file, check that nothing else is: no `pytest` process running in the
@@ -137,14 +150,16 @@ For each thing to change, in the order picked:
    domain, the one now first when it is a fair choice (a calm blue or
    teal for a clinic, a warm page and a serif for a bookshop). A
    brand's colour is a choice of its own, beside the nearest named one.
-2. Run `<look> preview <kind> <choices>`, then **always show it and
-   give its link** before the dialog: open
-   `<web address>/look-preview.html` where the user sees it, and in the
-   same message one line with the link: "Three action colours on a
-   piece of the app: [the previews](<web address>/look-preview.html)."
-   A dialog about previews the user hasn't been shown is never sent.
-3. One dialog: **Which <action colour / page tone / typefaces /
-   corners>?**, each option its letter and name ("A: teal") with what
+2. Run `<look> preview <kind> <choices>`, with `--page` for the page
+   the change matters most on (the board, not the sign-in), then
+   **always show it and give its link** before the dialog: open the
+   app's web address plus the path the script prints where the user
+   sees it, signed in as the review was, and in the same message one
+   line with the link: "Three palettes on your board, light and dark:
+   [the previews](<that address>)." A dialog about previews the user
+   hasn't been shown is never sent.
+3. One dialog: **Which <palette / action colour / page tone / typefaces
+   / corners>?**, each option its letter and name ("A: teal") with what
    it is like, last "Keep it as it is". A choice described in the free
    answer gets a new preview.
 
@@ -160,8 +175,10 @@ in words ("the 'blocked' label on its grey tint"), never leave it
 so, and fix it: for the action colour, the nearest shade that passes;
 for a status colour, its value or its tint darkened or lightened in
 place in `tokens.css` with the Edit tool (one token at a time, `check`
-after each) until it passes. When `show` notes a dark scheme, change
-its block to match by hand.
+after each) until it passes, in the scheme that failed: a dark
+value in the `prefers-color-scheme: dark` block. When `show` notes
+that the app switches schemes another way, change the other scheme by
+hand.
 
 Then one dialog: **Keep this look?** "Keep it" / "Undo it": "Put back
 how it was." On "Undo it", `<look> undo`, reload, and back to step 4.
@@ -201,8 +218,9 @@ line, make it as the [`frontend` skill](../frontend/SKILL.md) and
 
 ## Never
 
-- Never rename a token, add a second `:root` block, or put a raw hex
-  or pixel size in a page: change the token's value in place.
+- Never rename a token, add a `:root` block beyond the light one and
+  the dark scheme's, or put a raw hex or pixel size in a page: change
+  the token's value in place.
 - Never ship text that fails the contrast check.
 - Never change a scenario to fit a look change.
 - Never open the preview or the app in the user's own browser in the
