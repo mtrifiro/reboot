@@ -277,7 +277,11 @@ Read the screenshots the browser scenarios recorded
 (`tests/*.recordings/**/*.png`, the Read tool, a feature's in
 parallel in one turn). Every page of the page map ("The page map" above) is in them;
 a page no scenario reaches gets a browser scenario that opens it,
-with something in it, and sees its heading. Each page passes when:
+with something in it, and sees its heading. The scenarios open the
+app `in light mode`; one more, **Every page in dark mode**, opens
+each page of the page map `in dark mode` with something in it and
+sees its heading, so both schemes are in the screenshots. Each page
+passes when:
 
 - **it is the approved design**: the page map's page, inside the
   shell (masthead, nav, the working context);
@@ -289,7 +293,10 @@ with something in it, and sees its heading. Each page passes when:
   name or a date belongs, empty state that says nothing, loading
   line that never goes, error shown as a stack or a JSON blob;
 - **it reads as one app** with the other pages: the same spacing,
-  type sizes, buttons, tables and status colours.
+  type sizes, buttons, tables and status colours;
+- **it holds in dark mode**: no white card or black text left over
+  from the light scheme, every status still told apart, the action
+  colour still the first thing the eye finds.
 
 What fails is fixed in the page, in the tokens (never by
 changing a scenario's assertions), then the browser scenarios run

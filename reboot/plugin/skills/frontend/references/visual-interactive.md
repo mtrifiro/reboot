@@ -23,13 +23,36 @@ Write, every value a variable on `:root`:
   `--color-on-action`), `--color-danger`, and **one
   `--color-status-<name>` per state the domain's things move through,
   named in its words** (`--color-status-blocked`), each distinct at a
-  glance and legible on the canvas;
+  glance and legible on the canvas in both schemes;
 - shape and space: `--radius-sm`, `--radius-md`, `--radius-lg`, and
   `--space-xs` to `--space-xl`;
 - type: `--font-body` and `--font-display` (system faces), and
   `--text-sm` to `--text-xl`.
 
 Plain and neutral: one action colour, and no theme beyond these.
+
+**Light and dark, following the system.** `:root` declares
+`color-scheme: light dark` (so form controls and scrollbars follow),
+and a second block, `@media (prefers-color-scheme: dark) { :root {
+… } }`, gives every colour token its dark value under the same name.
+Shape, space and type are not repeated there. The dark scheme is the
+same app at night, not a second look:
+
+- the canvas a near-black with the light canvas's hue, the surface a
+  step lighter than the canvas (cards rise by being lighter), the
+  line a step lighter again;
+- the ink near-white, never pure `#fff`; the soft ink still reads at
+  4.5:1 on the surface;
+- the action colour lightened until it reads on the surface, and
+  `--color-on-action` whichever of near-black or near-white reads on
+  it;
+- each status colour, and its tint where it has one, given its own
+  dark value: lighter text on a darker tint, still distinct at a
+  glance.
+
+No toggle in the app: the system setting decides. Because pages use
+only tokens, no page changes for dark.
+
 `tokens.css` is imported first in `main.tsx`. **Pages use only its
 variables**: no hex code, no pixel size of their own.
 
